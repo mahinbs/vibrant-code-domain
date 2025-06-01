@@ -1,10 +1,11 @@
 
 import { Code, Smartphone, Cloud, Brain, Zap, ChevronDown, Clock, DollarSign } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 
 const Services = () => {
   const [expandedService, setExpandedService] = useState<string | null>(null);
+  const [hoverTimeout, setHoverTimeout] = useState<NodeJS.Timeout | null>(null);
 
   const services = [
     {
@@ -41,7 +42,7 @@ const Services = () => {
       title: 'Mobile Applications',
       description: 'Native and cross-platform mobile apps with intuitive user experiences.',
       detailedDescription: 'iOS and Android applications built with React Native or native technologies. Focus on performance, user experience, and app store optimization.',
-      image: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      image: 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
       features: ['iOS & Android', 'Cross-platform', 'App Store Optimization', 'Push Notifications'],
       technologies: ['React Native', 'Swift', 'Kotlin', 'Firebase'],
       startingPrice: '$10,000',
@@ -55,7 +56,7 @@ const Services = () => {
       title: 'AI Calling Agency',
       description: 'Intelligent call automation systems with natural language processing capabilities.',
       detailedDescription: 'Advanced AI-powered calling systems for lead generation, customer support, and sales automation. Featuring voice AI, sentiment analysis, and CRM integration.',
-      image: 'https://images.unsplash.com/photo-1581090464777-f3220bbe1b8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
       features: ['Voice AI', 'Call Analytics', 'Lead Generation', 'CRM Integration'],
       technologies: ['OpenAI', 'Twilio', 'Python', 'TensorFlow'],
       startingPrice: '$8,000',
@@ -122,9 +123,30 @@ const Services = () => {
     },
   };
 
-  const toggleExpanded = (serviceId: string) => {
-    setExpandedService(expandedService === serviceId ? null : serviceId);
-  };
+  const handleMouseEnter = useCallback((serviceId: string) => {
+    if (hoverTimeout) {
+      clearTimeout(hoverTimeout);
+    }
+    
+    const timeout = setTimeout(() => {
+      setExpandedService(serviceId);
+    }, 300);
+    
+    setHoverTimeout(timeout);
+  }, [hoverTimeout]);
+
+  const handleMouseLeave = useCallback(() => {
+    if (hoverTimeout) {
+      clearTimeout(hoverTimeout);
+      setHoverTimeout(null);
+    }
+    
+    const timeout = setTimeout(() => {
+      setExpandedService(null);
+    }, 200);
+    
+    setHoverTimeout(timeout);
+  }, [hoverTimeout]);
 
   return (
     <section id="services" className="py-20 bg-gradient-to-b from-gray-900 to-black relative overflow-hidden">
@@ -149,20 +171,27 @@ const Services = () => {
               <div
                 key={service.id}
                 className={`group relative rounded-2xl bg-gray-900/80 backdrop-blur-sm border ${colors.border} hover:bg-gray-800/90 transition-all duration-500 overflow-hidden`}
+                onMouseEnter={() => handleMouseEnter(service.id)}
+                onMouseLeave={handleMouseLeave}
               >
                 {/* Main Card Content */}
-                <div
-                  className="p-8 cursor-pointer"
-                  onClick={() => toggleExpanded(service.id)}
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-6 flex-1">
-                      {/* Icon */}
-                      <div className={`w-16 h-16 rounded-xl ${colors.icon} border flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
-                        <service.icon className="h-8 w-8" />
-                      </div>
+                <div className="flex items-center">
+                  {/* Service Image */}
+                  <div className="relative w-48 h-32 flex-shrink-0 overflow-hidden rounded-l-2xl">
+                    <img 
+                      src={service.image} 
+                      alt={service.title}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
+                    <div className={`absolute inset-0 bg-gradient-to-r ${colors.gradient} opacity-60`}></div>
+                    <div className={`absolute top-4 left-4 w-12 h-12 rounded-xl ${colors.icon} border flex items-center justify-center`}>
+                      <service.icon className="h-6 w-6" />
+                    </div>
+                  </div>
 
-                      {/* Content */}
+                  {/* Content Section */}
+                  <div className="flex-1 p-8">
+                    <div className="flex items-center justify-between">
                       <div className="flex-1">
                         <h3 className={`text-2xl font-bold text-white mb-2 group-hover:${colors.text} transition-colors duration-300`}>
                           {service.title}
@@ -173,7 +202,7 @@ const Services = () => {
                       </div>
 
                       {/* Price and Timeline Badges */}
-                      <div className="hidden md:flex flex-col space-y-2">
+                      <div className="hidden md:flex flex-col space-y-2 mr-6">
                         <div className={`px-4 py-2 rounded-lg ${colors.button} border text-sm font-medium flex items-center space-x-2`}>
                           <DollarSign className="h-4 w-4" />
                           <span>{service.startingPrice}</span>
@@ -183,34 +212,25 @@ const Services = () => {
                           <span>{service.timeline}</span>
                         </div>
                       </div>
-                    </div>
 
-                    {/* Expand Icon */}
-                    <ChevronDown 
-                      className={`h-6 w-6 ${colors.text} transform transition-transform duration-300 ml-4 ${
-                        isExpanded ? 'rotate-180' : ''
-                      }`}
-                    />
+                      {/* Expand Icon */}
+                      <ChevronDown 
+                        className={`h-6 w-6 ${colors.text} transform transition-transform duration-300 ${
+                          isExpanded ? 'rotate-180' : ''
+                        }`}
+                      />
+                    </div>
                   </div>
                 </div>
 
                 {/* Expanded Content */}
                 <div className={`overflow-hidden transition-all duration-500 ${
-                  isExpanded ? 'max-h-[800px] opacity-100' : 'max-h-0 opacity-0'
+                  isExpanded ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0'
                 }`}>
                   <div className="px-8 pb-8 border-t border-gray-700/50">
                     <div className="grid md:grid-cols-2 gap-8 mt-8">
                       {/* Left Column */}
                       <div className="space-y-6">
-                        {/* Background Image */}
-                        <div className="rounded-xl overflow-hidden">
-                          <img 
-                            src={service.image} 
-                            alt={service.title}
-                            className="w-full h-48 object-cover opacity-80 hover:opacity-100 transition-opacity duration-300"
-                          />
-                        </div>
-
                         {/* Detailed Description */}
                         <div>
                           <h4 className="text-lg font-semibold text-white mb-3">About This Service</h4>
