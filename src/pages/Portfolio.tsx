@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '@/components/Header';
@@ -380,7 +379,17 @@ const Portfolio = () => {
 
       {/* Portfolio Grid */}
       <section className="py-20 bg-gradient-to-b from-black to-gray-900 relative">
-        <div className="container mx-auto px-6">
+        {/* Background Image */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src="/lovable-uploads/d0fa4f38-5951-4a69-9df8-13d4faa03aaa.png"
+            alt="Portfolio Background"
+            className="w-full h-full object-cover opacity-20"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-gray-900/80"></div>
+        </div>
+
+        <div className="container mx-auto px-6 relative z-10">
           {/* Service Categories */}
           <div className="mb-16">
             <div className="flex flex-wrap justify-center gap-4 mb-12">
