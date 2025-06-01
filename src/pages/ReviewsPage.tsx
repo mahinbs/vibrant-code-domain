@@ -4,7 +4,6 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import ReviewCard from '@/components/ReviewCard';
-import { usePerformance } from '@/hooks/usePerformance';
 
 interface Review {
   id: number;
@@ -18,7 +17,6 @@ interface Review {
 }
 
 const reviews: Review[] = [
-  // Web Applications
   {
     id: 1,
     name: "Jason M.",
@@ -161,143 +159,106 @@ const services = ["All", "Web Applications", "SaaS Solutions", "Mobile Applicati
 
 const ReviewsPage = () => {
   const [selectedService, setSelectedService] = useState("All");
-  const { optimizeScrollPerformance } = usePerformance();
 
-  // Memoize filtered reviews for better performance
   const filteredReviews = useMemo(() => {
     return selectedService === "All" ? reviews : reviews.filter(review => review.service === selectedService);
   }, [selectedService]);
 
-  // Memoize service color function
   const getServiceColor = useMemo(() => {
     return (service: string) => {
       const colors = {
-        "Web Applications": "bg-gradient-to-r from-cyan-500/20 to-cyan-300/20 text-cyan-300 border-cyan-400/50 shadow-cyan-400/20",
-        "SaaS Solutions": "bg-gradient-to-r from-blue-500/20 to-blue-300/20 text-blue-300 border-blue-400/50 shadow-blue-400/20",
-        "Mobile Applications": "bg-gradient-to-r from-purple-500/20 to-purple-300/20 text-purple-300 border-purple-400/50 shadow-purple-400/20",
-        "AI Calling Agency": "bg-gradient-to-r from-pink-500/20 to-pink-300/20 text-pink-300 border-pink-400/50 shadow-pink-400/20",
-        "AI Automation": "bg-gradient-to-r from-green-500/20 to-green-300/20 text-green-300 border-green-400/50 shadow-green-400/20"
+        "Web Applications": "bg-cyan-500/10 text-cyan-300 border-cyan-400/30",
+        "SaaS Solutions": "bg-blue-500/10 text-blue-300 border-blue-400/30",
+        "Mobile Applications": "bg-purple-500/10 text-purple-300 border-purple-400/30",
+        "AI Calling Agency": "bg-pink-500/10 text-pink-300 border-pink-400/30",
+        "AI Automation": "bg-green-500/10 text-green-300 border-green-400/30"
       };
-      return colors[service as keyof typeof colors] || "bg-gray-500/20 text-gray-300 border-gray-400/50";
+      return colors[service as keyof typeof colors] || "bg-gray-500/10 text-gray-300 border-gray-400/30";
     };
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black relative overflow-hidden">
-      {/* Optimized Background Elements */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(0,255,255,0.03),transparent_50%)] gpu-accelerate"></div>
-      <div className="absolute top-0 left-0 w-full h-full gpu-accelerate">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl animate-pulse animation-delay-1000"></div>
-      </div>
+    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black">
+      {/* Simplified Background */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(0,255,255,0.02),transparent_50%)]"></div>
       
       <Header />
       
-      {/* Hero Section with optimized effects */}
-      <section className="pt-20 pb-12 px-6 relative prevent-layout-shift">
-        <div className="container mx-auto text-center relative z-10">
-          {/* Holographic Title */}
-          <div className="relative mb-8">
-            <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 relative">
-              <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent animate-pulse">Boostmysites</span>
-              <span className="text-white mx-4">Reviews</span>
-              <span className="bg-gradient-to-r from-pink-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent animate-pulse">
-                Matrix
-              </span>
-              {/* Holographic overlay */}
-              <div className="absolute inset-0 bg-gradient-to-r from-cyan-400/20 to-blue-600/20 blur-xl -z-10 animate-glow"></div>
-            </h1>
-          </div>
+      {/* Hero Section */}
+      <section className="pt-20 pb-12 px-6 relative">
+        <div className="container mx-auto text-center">
+          <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
+            <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Boostmysites</span>
+            {' '}Reviews
+          </h1>
 
-          <p className="text-xl text-gray-300 mb-12 max-w-4xl mx-auto leading-relaxed">
-            Experience testimonials from the <span className="text-cyan-400 font-semibold">digital frontier</span> - 
+          <p className="text-xl text-gray-300 mb-12 max-w-4xl mx-auto">
+            Experience testimonials from the digital frontier - 
             authentic feedback from clients who've ventured into the future with Boostmysites
           </p>
 
-          {/* Optimized Stats with 3D Effect */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 max-w-5xl mx-auto">
+          {/* Simplified Stats */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
             {[{
               icon: Star,
               value: "4.9/5",
-              label: "Neural Rating",
+              label: "Rating",
               color: "text-yellow-400"
             }, {
               icon: Zap,
               value: "500+",
-              label: "Projects Deployed",
+              label: "Projects",
               color: "text-cyan-400"
             }, {
               icon: Shield,
               value: "98%",
-              label: "Client Retention",
+              label: "Retention",
               color: "text-green-400"
             }, {
               icon: Users,
               value: "15",
-              label: "Success Stories",
+              label: "Stories",
               color: "text-purple-400"
             }].map((stat, index) => (
-              <div 
-                key={index} 
-                className="group relative transform hover:scale-105 transition-all duration-500 gpu-accelerate prevent-layout-shift" 
-                style={{
-                  animationDelay: `${index * 0.2}s`,
-                  contain: 'layout style paint'
-                }}
-              >
-                <div className="relative bg-black/40 backdrop-blur-md rounded-2xl p-6 border border-cyan-500/30 hover:border-cyan-400/60 transition-all duration-500 hover:shadow-2xl hover:shadow-cyan-400/20">
-                  {/* 3D Border Effect */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-blue-600/10 rounded-2xl blur-sm group-hover:blur-none transition-all duration-500"></div>
-                  <div className="relative z-10">
-                    <stat.icon className={`h-8 w-8 ${stat.color} mx-auto mb-3 animate-pulse`} />
-                    <div className="text-3xl font-bold text-white mb-2">{stat.value}</div>
-                    <div className="text-gray-400 text-sm font-medium">{stat.label}</div>
-                  </div>
-                  {/* Holographic shine */}
-                  <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/5 to-transparent skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
-                </div>
+              <div key={index} className="bg-black/30 rounded-xl p-4 border border-cyan-500/20">
+                <stat.icon className={`h-6 w-6 ${stat.color} mx-auto mb-2`} />
+                <div className="text-2xl font-bold text-white mb-1">{stat.value}</div>
+                <div className="text-gray-400 text-sm">{stat.label}</div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Filter Section with optimized neon effects */}
-      <section className="px-6 mb-12 relative z-10 prevent-layout-shift">
+      {/* Filter Section */}
+      <section className="px-6 mb-12">
         <div className="container mx-auto">
-          <div className="flex flex-wrap justify-center gap-4 mb-8 relative">
-            <div className="flex items-center gap-4 bg-black/30 backdrop-blur-md rounded-full px-6 py-3 border border-cyan-500/30">
-              <Filter className="h-5 w-5 text-cyan-400" />
-              <span className="text-cyan-300 font-medium">Neural Filter:</span>
+          <div className="flex flex-wrap justify-center gap-3 mb-8">
+            <div className="flex items-center gap-3 bg-black/20 rounded-full px-4 py-2 border border-cyan-500/20">
+              <Filter className="h-4 w-4 text-cyan-400" />
+              <span className="text-cyan-300 text-sm">Filter:</span>
             </div>
             {services.map(service => (
               <Button 
                 key={service} 
                 onClick={() => setSelectedService(service)} 
-                className={`relative overflow-hidden transition-all duration-500 transform hover:scale-105 gpu-accelerate ${
+                className={`transition-all duration-200 ${
                   selectedService === service 
-                    ? "bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg shadow-cyan-500/30 border-cyan-400/50" 
-                    : "bg-black/30 backdrop-blur-md border-cyan-500/30 text-gray-300 hover:bg-cyan-500/10 hover:border-cyan-400/50 hover:text-cyan-300"
-                } rounded-full px-6 py-3 font-medium border`}
-                style={{ contain: 'layout style paint' }}
+                    ? "bg-gradient-to-r from-cyan-500 to-blue-600 text-white" 
+                    : "bg-black/20 border-cyan-500/20 text-gray-300 hover:bg-cyan-500/10"
+                } rounded-full px-4 py-2 text-sm border`}
               >
-                {selectedService === service && (
-                  <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 to-blue-600/20 animate-pulse"></div>
-                )}
-                <span className="relative z-10">{service}</span>
-                {selectedService === service && (
-                  <div className="absolute inset-0 bg-cyan-400/20 blur-xl rounded-full animate-pulse"></div>
-                )}
+                {service}
               </Button>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Optimized Reviews Grid */}
-      <section className="px-6 pb-20 relative z-10 prevent-layout-shift">
+      {/* Reviews Grid */}
+      <section className="px-6 pb-20">
         <div className="container mx-auto">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8" style={{ contentVisibility: 'auto' }}>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredReviews.map((review, index) => (
               <ReviewCard
                 key={review.id}
@@ -310,37 +271,24 @@ const ReviewsPage = () => {
         </div>
       </section>
 
-      {/* CTA Section with optimized holographic design */}
-      <section className="px-6 pb-20 relative z-10 prevent-layout-shift">
+      {/* CTA Section */}
+      <section className="px-6 pb-20">
         <div className="container mx-auto text-center">
-          <div className="relative bg-black/40 backdrop-blur-md rounded-3xl p-12 border border-cyan-500/30 overflow-hidden gpu-accelerate">
-            {/* Animated Background Pattern */}
-            <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/5 via-blue-600/5 to-purple-600/5 animate-pulse"></div>
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_25%,rgba(0,255,255,0.1),transparent_50%)]"></div>
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_75%,rgba(0,128,255,0.1),transparent_50%)]"></div>
-            
-            <div className="relative z-10">
-              <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-                Ready to Join Our{' '}
-                <span className="bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">
-                  Success Matrix
-                </span>
-                ?
-              </h2>
-              <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
-                Enter the future of digital innovation. Let's architect your next breakthrough together.
-              </p>
-              <Button className="relative overflow-hidden bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-12 py-4 rounded-full hover:from-cyan-400 hover:to-blue-500 transition-all duration-500 font-bold text-lg shadow-2xl shadow-cyan-500/30 transform hover:scale-105 border border-cyan-400/50">
-                <span className="relative z-10 flex items-center gap-2">
-                  <Zap className="h-5 w-5" />
-                  Initialize Project
-                </span>
-                {/* Button glow effect */}
-                <div className="absolute inset-0 bg-gradient-to-r from-cyan-400/20 to-blue-600/20 blur-xl animate-pulse"></div>
-                {/* Scan line */}
-                <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12 -translate-x-full hover:translate-x-full transition-transform duration-1000"></div>
-              </Button>
-            </div>
+          <div className="bg-black/30 rounded-2xl p-8 border border-cyan-500/20">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+              Ready to Join Our{' '}
+              <span className="bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">
+                Success Stories
+              </span>
+              ?
+            </h2>
+            <p className="text-lg text-gray-300 mb-6 max-w-2xl mx-auto">
+              Enter the future of digital innovation. Let's architect your next breakthrough together.
+            </p>
+            <Button className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-8 py-3 rounded-full hover:from-cyan-400 hover:to-blue-500 transition-all duration-300 font-semibold">
+              <Zap className="h-4 w-4 mr-2" />
+              Start Your Project
+            </Button>
           </div>
         </div>
       </section>
