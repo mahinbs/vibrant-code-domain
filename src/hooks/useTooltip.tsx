@@ -1,3 +1,4 @@
+
 import { useState, useRef, useEffect } from 'react';
 
 interface Position {
@@ -42,8 +43,8 @@ export const useTooltip = () => {
     // Adjust y position to keep tooltip in viewport
     y = Math.max(padding, Math.min(y, viewport.height - tooltipHeight - padding));
     
-    // Always use 'top' direction since we're centering
-    const direction = 'top';
+    // Always use 'top' direction since we're centering - explicitly type as literal
+    const direction: 'top' | 'bottom' | 'left' | 'right' = 'top';
     
     return { x, y, direction };
   };
