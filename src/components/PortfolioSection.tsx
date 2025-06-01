@@ -15,7 +15,7 @@ const PortfolioSection = () => {
           setIsVisible(true);
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0.1, rootMargin: '50px' }
     );
 
     const section = document.getElementById('portfolio');
@@ -149,20 +149,20 @@ const PortfolioSection = () => {
       id="portfolio"
       className="py-20 bg-gradient-to-b from-black to-gray-900 relative overflow-hidden"
       style={{
-        backgroundImage: `url('/lovable-uploads/d0fa4f38-5951-4a69-9df8-13d4faa03aaa.png')`,
+        backgroundImage: `url('https://res.cloudinary.com/dknafpppp/image/upload/v1748805837/representation-user-experience-interface-design_1_halzwq.jpg')`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
-        backgroundAttachment: 'fixed'
+        backgroundAttachment: 'scroll'
       }}
     >
-      {/* Enhanced Background Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/60 to-gray-900/75"></div>
-      <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-transparent to-black/20"></div>
+      {/* Optimized Background Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/70 to-gray-900/80"></div>
+      <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-black/30"></div>
 
       <div className="container mx-auto px-6 relative z-10">
         {/* Section Header */}
-        <div className={`text-center mb-16 transition-all duration-1000 ${isVisible ? 'animate-fade-in opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+        <div className={`text-center mb-16 transition-all duration-700 ${isVisible ? 'animate-fade-in opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
             Our Latest <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Projects</span>
           </h2>
@@ -172,7 +172,7 @@ const PortfolioSection = () => {
         </div>
 
         {/* Service Categories */}
-        <div className={`mb-12 transition-all duration-1000 delay-200 ${isVisible ? 'animate-fade-in opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+        <div className={`mb-12 transition-all duration-700 delay-200 ${isVisible ? 'animate-fade-in opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <div className="flex flex-wrap justify-center gap-4">
             <button
               onClick={() => setSelectedService(null)}
@@ -214,7 +214,7 @@ const PortfolioSection = () => {
               
               return (
                 <div key={service.id} className="space-y-8">
-                  <div className={`flex items-center space-x-4 mb-8 transition-all duration-1000 ${isVisible ? 'animate-fade-in opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} style={{ animationDelay: `${serviceIndex * 200 + 400}ms` }}>
+                  <div className={`flex items-center space-x-4 mb-8 transition-all duration-700 ${isVisible ? 'animate-fade-in opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} style={{ animationDelay: `${serviceIndex * 200 + 400}ms` }}>
                     <div className={`w-12 h-12 rounded-xl ${colors.icon} border flex items-center justify-center`}>
                       <service.icon className="h-6 w-6" />
                     </div>
@@ -228,17 +228,21 @@ const PortfolioSection = () => {
                     {service.projects.map((project, projectIndex) => (
                       <div
                         key={project.id}
-                        className={`group relative rounded-2xl bg-gray-900/80 backdrop-blur-sm border ${colors.border} hover:bg-gray-800/90 transition-all duration-500 overflow-hidden cursor-pointer hover:transform hover:scale-105 hover:shadow-2xl ${isVisible ? 'animate-fade-in opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+                        className={`group relative rounded-2xl bg-gray-900/80 backdrop-blur-sm border ${colors.border} hover:bg-gray-800/90 transition-all duration-400 overflow-hidden cursor-pointer hover:transform hover:scale-102 hover:shadow-lg will-change-auto ${isVisible ? 'animate-fade-in opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
                         onClick={() => handleProjectClick(project.id)}
-                        style={{ animationDelay: `${serviceIndex * 200 + projectIndex * 150 + 600}ms` }}
+                        style={{ 
+                          animationDelay: `${serviceIndex * 200 + projectIndex * 150 + 600}ms`,
+                          contentVisibility: 'auto'
+                        }}
                       >
-                        {/* Project Image */}
+                        {/* Project Image - Optimized */}
                         <div className="relative h-48 overflow-hidden rounded-t-2xl">
                           <img 
                             src={project.image} 
                             alt={project.title}
-                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                            className="w-full h-full object-cover transition-transform duration-400 group-hover:scale-105"
                             loading="lazy"
+                            decoding="async"
                           />
                           <div className={`absolute inset-0 bg-gradient-to-t ${colors.gradient} opacity-60`}></div>
                           <div className={`absolute top-4 left-4 w-10 h-10 rounded-lg ${colors.icon} border flex items-center justify-center`}>
@@ -278,8 +282,8 @@ const PortfolioSection = () => {
                             ))}
                           </div>
 
-                          {/* Expanded Content */}
-                          <div className={`overflow-hidden transition-all duration-500 ${
+                          {/* Expanded Content - Simplified animations */}
+                          <div className={`overflow-hidden transition-all duration-400 ${
                             selectedProject === project.id ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0'
                           }`}>
                             <div className="pt-4 border-t border-gray-700/50 space-y-4">
@@ -289,6 +293,8 @@ const PortfolioSection = () => {
                                   src={project.clientLogo} 
                                   alt={project.client}
                                   className="w-10 h-10 rounded-full object-cover border-2 border-gray-700"
+                                  loading="lazy"
+                                  decoding="async"
                                 />
                                 <div>
                                   <p className="text-white font-medium text-sm">{project.client}</p>
@@ -340,7 +346,7 @@ const PortfolioSection = () => {
         </div>
 
         {/* CTA Section */}
-        <div className={`text-center mt-16 transition-all duration-1000 delay-700 ${isVisible ? 'animate-fade-in opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+        <div className={`text-center mt-16 transition-all duration-700 delay-700 ${isVisible ? 'animate-fade-in opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <div className="bg-gradient-to-r from-gray-900/50 to-black/50 rounded-3xl p-8 border border-gray-700/30">
             <h3 className="text-3xl font-bold text-white mb-4">
               Explore More <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Projects</span>

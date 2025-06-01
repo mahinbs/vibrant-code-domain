@@ -1,3 +1,4 @@
+
 import { Code, Smartphone, Cloud, Brain, Zap, ChevronDown, Clock, DollarSign } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useState, useCallback } from 'react';
@@ -149,26 +150,27 @@ const Services = () => {
 
   return (
     <section id="services" className="py-20 bg-gradient-to-b from-gray-900 to-black relative overflow-hidden">
-      {/* Image Background */}
+      {/* Updated Background Image */}
       <div className="absolute inset-0 z-0">
         <div 
-          className="w-full h-full bg-cover bg-center bg-no-repeat"
+          className="w-full h-full bg-cover bg-center bg-no-repeat will-change-auto"
           style={{
-            backgroundImage: `url('https://res.cloudinary.com/dknafpppp/image/upload/v1748804520/108518_y7q2re.jpg')`,
-            transform: 'translate(-50%, -50%) scale(1.2)',
+            backgroundImage: `url('https://res.cloudinary.com/dknafpppp/image/upload/v1748805697/108518_1_rnyk78.jpg')`,
+            transform: 'translate(-50%, -50%) scale(1.1)',
             position: 'absolute',
             top: '50%',
             left: '50%',
             minWidth: '100vw',
             minHeight: '100vh',
+            contentVisibility: 'auto',
           }}
         />
-        {/* Dark overlay for better text readability */}
-        <div className="absolute inset-0 bg-black/70"></div>
+        {/* Optimized overlay for better performance */}
+        <div className="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
       </div>
 
-      {/* Existing gradient overlay */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,255,255,0.1),transparent_50%)] z-10"></div>
+      {/* Simplified gradient overlay */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,255,255,0.08),transparent_60%)] z-10"></div>
       
       <div className="container mx-auto px-6 relative z-20">
         <div className="text-center mb-16">
@@ -188,18 +190,21 @@ const Services = () => {
             return (
               <div
                 key={service.id}
-                className={`group relative rounded-2xl bg-gray-900/80 backdrop-blur-sm border ${colors.border} hover:bg-gray-800/90 transition-all duration-500 overflow-hidden`}
+                className={`group relative rounded-2xl bg-gray-900/80 backdrop-blur-sm border ${colors.border} hover:bg-gray-800/90 transition-all duration-300 overflow-hidden will-change-auto`}
                 onMouseEnter={() => handleMouseEnter(service.id)}
                 onMouseLeave={handleMouseLeave}
+                style={{ contentVisibility: 'auto' }}
               >
                 {/* Main Card Content */}
                 <div className="flex items-center">
-                  {/* Service Image */}
+                  {/* Service Image - Optimized */}
                   <div className="relative w-48 h-32 flex-shrink-0 overflow-hidden rounded-l-2xl">
                     <img 
                       src={service.image} 
                       alt={service.title}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      loading="lazy"
+                      decoding="async"
                     />
                     <div className={`absolute inset-0 bg-gradient-to-r ${colors.gradient} opacity-60`}></div>
                     <div className={`absolute top-4 left-4 w-12 h-12 rounded-xl ${colors.icon} border flex items-center justify-center`}>
@@ -241,8 +246,8 @@ const Services = () => {
                   </div>
                 </div>
 
-                {/* Expanded Content */}
-                <div className={`overflow-hidden transition-all duration-500 ${
+                {/* Expanded Content - Simplified animations */}
+                <div className={`overflow-hidden transition-all duration-400 ${
                   isExpanded ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0'
                 }`}>
                   <div className="px-8 pb-8 border-t border-gray-700/50">
