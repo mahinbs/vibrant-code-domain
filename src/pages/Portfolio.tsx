@@ -378,16 +378,19 @@ const Portfolio = () => {
       </section>
 
       {/* Portfolio Grid */}
-      <section className="py-20 bg-gradient-to-b from-black to-gray-900 relative">
-        {/* Background Image */}
-        <div className="absolute inset-0 z-0">
-          <img
-            src="/lovable-uploads/d0fa4f38-5951-4a69-9df8-13d4faa03aaa.png"
-            alt="Portfolio Background"
-            className="w-full h-full object-cover opacity-20"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-gray-900/80"></div>
-        </div>
+      <section 
+        className="py-20 bg-gradient-to-b from-black to-gray-900 relative"
+        style={{
+          backgroundImage: `url('/lovable-uploads/d0fa4f38-5951-4a69-9df8-13d4faa03aaa.png')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          backgroundAttachment: 'fixed'
+        }}
+      >
+        {/* Enhanced Background Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/60 to-gray-900/75"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-transparent to-black/20"></div>
 
         <div className="container mx-auto px-6 relative z-10">
           {/* Service Categories */}
