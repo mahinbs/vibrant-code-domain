@@ -1,7 +1,7 @@
-
 import { Code, Smartphone, Cloud, Brain, Zap } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
+import { useTooltip } from '@/hooks/useTooltip';
+import CustomTooltip from './CustomTooltip';
 
 const Services = () => {
   const services = [
@@ -107,11 +107,17 @@ const Services = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 relative">
-          {services.map((service, index) => (
-            <HoverCard key={service.id} openDelay={300} closeDelay={100}>
-              <HoverCardTrigger asChild>
+          {services.map((service, index) => {
+            // eslint-disable-next-line react-hooks/rules-of-hooks
+            const { tooltip, triggerRef, tooltipRef, showTooltip, hideTooltip } = useTooltip();
+
+            return (
+              <div key={service.id}>
                 <div
+                  ref={triggerRef}
                   className={`group relative rounded-2xl bg-gray-900/80 backdrop-blur-sm border ${colorClasses[service.color]} hover:bg-gray-800/90 transition-all duration-500 overflow-hidden cursor-pointer h-[400px]`}
+                  onMouseEnter={showTooltip}
+                  onMouseLeave={hideTooltip}
                 >
                   {/* Background Image with better overlay */}
                   <div className="absolute inset-0">
@@ -163,83 +169,88 @@ const Services = () => {
                     </Link>
                   </div>
                 </div>
-              </HoverCardTrigger>
-              
-              <HoverCardContent 
-                align={getHoverCardAlignment(index)}
-                sideOffset={20}
-                className="w-96 max-w-[calc(100vw-2rem)] bg-gray-900/98 border-gray-700/50 backdrop-blur-xl shadow-2xl z-[100] rounded-xl p-6"
-                style={{ zIndex: 1000 }}
-              >
-                <div className="space-y-5">
-                  <div className="flex items-center space-x-3">
-                    <div className={`w-10 h-10 rounded-lg bg-gradient-to-r ${colorClasses[service.color]} flex items-center justify-center`}>
-                      <service.icon className={`h-5 w-5 text-${service.color}-400`} />
-                    </div>
-                    <h4 className={`text-xl font-bold text-${service.color}-400`}>{service.title}</h4>
-                  </div>
-                  
-                  <p className="text-gray-300 text-sm leading-relaxed">
-                    {service.detailedDescription}
-                  </p>
-                  
-                  <div className="space-y-4">
-                    <div>
-                      <h5 className="text-sm font-semibold text-white mb-3 flex items-center">
-                        <span className={`w-2 h-2 rounded-full bg-${service.color}-400 mr-2`}></span>
-                        Key Features
-                      </h5>
-                      <ul className="space-y-1">
-                        {service.features.map((feature, idx) => (
-                          <li key={idx} className="text-xs text-gray-400 flex items-center">
-                            <span className={`w-1 h-1 rounded-full bg-${service.color}-400/60 mr-2`}></span>
-                            {feature}
-                          </li>
-                        ))}
-                      </ul>
+
+                {/* Custom Tooltip */}
+                <CustomTooltip
+                  visible={tooltip.visible}
+                  position={tooltip.position}
+                  direction={tooltip.direction}
+                  onRef={(ref) => {
+                    if (tooltipRef.current !== ref) {
+                      tooltipRef.current = ref;
+                    }
+                  }}
+                >
+                  <div className="space-y-5">
+                    <div className="flex items-center space-x-3">
+                      <div className={`w-10 h-10 rounded-lg bg-gradient-to-r ${colorClasses[service.color]} flex items-center justify-center`}>
+                        <service.icon className={`h-5 w-5 text-${service.color}-400`} />
+                      </div>
+                      <h4 className={`text-xl font-bold text-${service.color}-400`}>{service.title}</h4>
                     </div>
                     
-                    <div>
-                      <h5 className="text-sm font-semibold text-white mb-3 flex items-center">
-                        <span className={`w-2 h-2 rounded-full bg-${service.color}-400 mr-2`}></span>
-                        Technologies
-                      </h5>
-                      <div className="flex flex-wrap gap-2">
-                        {service.technologies.map((tech, idx) => (
-                          <span key={idx} className={`text-xs px-3 py-1 rounded-full bg-${service.color}-500/20 text-${service.color}-300 border border-${service.color}-500/30`}>
-                            {tech}
-                          </span>
-                        ))}
+                    <p className="text-gray-300 text-sm leading-relaxed">
+                      {service.detailedDescription}
+                    </p>
+                    
+                    <div className="space-y-4">
+                      <div>
+                        <h5 className="text-sm font-semibold text-white mb-3 flex items-center">
+                          <span className={`w-2 h-2 rounded-full bg-${service.color}-400 mr-2`}></span>
+                          Key Features
+                        </h5>
+                        <ul className="space-y-1">
+                          {service.features.map((feature, idx) => (
+                            <li key={idx} className="text-xs text-gray-400 flex items-center">
+                              <span className={`w-1 h-1 rounded-full bg-${service.color}-400/60 mr-2`}></span>
+                              {feature}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                      
+                      <div>
+                        <h5 className="text-sm font-semibold text-white mb-3 flex items-center">
+                          <span className={`w-2 h-2 rounded-full bg-${service.color}-400 mr-2`}></span>
+                          Technologies
+                        </h5>
+                        <div className="flex flex-wrap gap-2">
+                          {service.technologies.map((tech, idx) => (
+                            <span key={idx} className={`text-xs px-3 py-1 rounded-full bg-${service.color}-500/20 text-${service.color}-300 border border-${service.color}-500/30`}>
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                      
+                      <div className="flex justify-between items-center pt-3 border-t border-gray-700/50">
+                        <div className="text-center">
+                          <span className="text-xs text-gray-500 block">Starting from</span>
+                          <span className={`text-lg font-bold text-${service.color}-400`}>{service.startingPrice}</span>
+                        </div>
+                        <div className="text-center">
+                          <span className="text-xs text-gray-500 block">Timeline</span>
+                          <span className="text-sm font-semibold text-white">{service.timeline}</span>
+                        </div>
                       </div>
                     </div>
                     
-                    <div className="flex justify-between items-center pt-3 border-t border-gray-700/50">
-                      <div className="text-center">
-                        <span className="text-xs text-gray-500 block">Starting from</span>
-                        <span className={`text-lg font-bold text-${service.color}-400`}>{service.startingPrice}</span>
-                      </div>
-                      <div className="text-center">
-                        <span className="text-xs text-gray-500 block">Timeline</span>
-                        <span className="text-sm font-semibold text-white">{service.timeline}</span>
-                      </div>
+                    <div className="flex space-x-3 pt-2">
+                      <Link 
+                        to={service.route}
+                        className={`flex-1 inline-flex items-center justify-center px-4 py-2.5 rounded-lg bg-gradient-to-r from-${service.color}-500 to-${service.color}-600 text-white font-medium hover:from-${service.color}-400 hover:to-${service.color}-500 transition-all duration-300 text-sm`}
+                      >
+                        View Details
+                      </Link>
+                      <button className={`px-4 py-2.5 rounded-lg border border-${service.color}-400/40 text-${service.color}-400 hover:bg-${service.color}-500/10 transition-all duration-300 text-sm font-medium`}>
+                        Get Quote
+                      </button>
                     </div>
                   </div>
-                  
-                  <div className="flex space-x-3 pt-2">
-                    <Link 
-                      to={service.route}
-                      className={`flex-1 inline-flex items-center justify-center px-4 py-2.5 rounded-lg bg-gradient-to-r from-${service.color}-500 to-${service.color}-600 text-white font-medium hover:from-${service.color}-400 hover:to-${service.color}-500 transition-all duration-300 text-sm`}
-                    >
-                      View Details
-                    </Link>
-                    <button className={`px-4 py-2.5 rounded-lg border border-${service.color}-400/40 text-${service.color}-400 hover:bg-${service.color}-500/10 transition-all duration-300 text-sm font-medium`}>
-                      Get Quote
-                    </button>
-                  </div>
-                </div>
-              </HoverCardContent>
-            </HoverCard>
-          ))}
+                </CustomTooltip>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
