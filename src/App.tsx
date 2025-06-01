@@ -11,6 +11,7 @@ import SaasPage from "./pages/SaasPage";
 import MobileAppsPage from "./pages/MobileAppsPage";
 import AiCallingPage from "./pages/AiCallingPage";
 import AiAutomationPage from "./pages/AiAutomationPage";
+import Portfolio from "./pages/Portfolio";
 
 const queryClient = new QueryClient();
 
@@ -22,6 +23,7 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/portfolio" element={<Portfolio />} />
           <Route path="/web-apps" element={<WebAppsPage />} />
           <Route path="/saas" element={<SaasPage />} />
           <Route path="/mobile-apps" element={<MobileAppsPage />} />
