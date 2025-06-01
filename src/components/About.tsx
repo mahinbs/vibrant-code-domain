@@ -1,18 +1,21 @@
-
-import { useState, useEffect } from 'react';
+import { useState, useEffect, memo } from 'react';
 import { CheckCircle, Users, Target, Award, Code, Smartphone, Cloud, Brain, Zap, Star, Globe, TrendingUp, ArrowRight, Rocket } from 'lucide-react';
+import { useParallax } from '@/hooks/useParallax';
+import { usePerformance } from '@/hooks/usePerformance';
 
-const About = () => {
+const About = memo(() => {
   const [isVisible, setIsVisible] = useState(false);
+  const { createOptimizedObserver } = usePerformance();
+  const parallaxRef = useParallax({ speed: 0.3 });
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
+    const observer = createOptimizedObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0.1, rootMargin: '100px' }
     );
 
     const section = document.getElementById('about');
@@ -25,7 +28,7 @@ const About = () => {
         observer.unobserve(section);
       }
     };
-  }, []);
+  }, [createOptimizedObserver]);
 
   const statistics = [
     { icon: Target, label: 'Successful Projects', value: '1,500+', color: 'cyan' },
@@ -125,20 +128,28 @@ const About = () => {
       id="about" 
       className="py-20 bg-gradient-to-b from-black to-gray-900 relative overflow-hidden"
       style={{
-        backgroundImage: `url('/lovable-uploads/d0fa4f38-5951-4a69-9df8-13d4faa03aaa.png')`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-        backgroundAttachment: 'fixed'
+        contain: 'layout style paint',
+        contentVisibility: 'auto',
+        containIntrinsicSize: '1px 2000px'
       }}
     >
-      {/* Enhanced Background Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/60 to-gray-900/75"></div>
-      <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-transparent to-black/20"></div>
+      {/* Optimized Background with Hardware Acceleration */}
+      <div 
+        ref={parallaxRef}
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat gpu-accelerate"
+        style={{
+          backgroundImage: `url('/lovable-uploads/d0fa4f38-5951-4a69-9df8-13d4faa03aaa.png')`,
+          transform: 'translate3d(0, 0, 0)',
+          willChange: 'auto'
+        }}
+      />
 
-      <div className="container mx-auto px-6 relative z-10">
+      {/* Enhanced Background Overlay with reduced complexity */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/60 to-gray-900/75"></div>
+
+      <div className="container mx-auto px-6 relative z-10" style={{ contain: 'layout style paint' }}>
         {/* Section Header */}
-        <div className={`text-center mb-16 transition-all duration-1000 ${isVisible ? 'animate-fade-in opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+        <div className={`text-center mb-16 transition-all duration-700 ${isVisible ? 'animate-fade-in opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
             About <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Boostmysites</span>
           </h2>
@@ -147,15 +158,25 @@ const About = () => {
           </p>
         </div>
 
-        {/* Statistics Grid */}
-        <div className={`grid grid-cols-2 md:grid-cols-4 gap-6 mb-16 transition-all duration-1000 delay-200 ${isVisible ? 'animate-fade-in opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+        {/* Statistics Grid with optimized animations */}
+        <div className={`grid grid-cols-2 md:grid-cols-4 gap-6 mb-16 transition-all duration-700 delay-200 ${isVisible ? 'animate-fade-in opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           {statistics.map((stat, index) => {
             const colors = colorClasses[stat.color];
             return (
               <div
                 key={stat.label}
-                className={`group relative rounded-2xl bg-gray-900/80 backdrop-blur-sm border ${colors.border} hover:bg-gray-800/90 transition-all duration-500 p-6 text-center hover:transform hover:scale-105`}
-                style={{ animationDelay: `${index * 100 + 400}ms` }}
+                className={`group relative rounded-2xl bg-gray-900/80 backdrop-blur-sm border ${colors.border} hover:bg-gray-800/90 transition-all duration-300 p-6 text-center gpu-accelerate`}
+                style={{ 
+                  animationDelay: `${index * 50 + 400}ms`,
+                  contain: 'layout style paint',
+                  willChange: 'auto'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.willChange = 'transform';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.willChange = 'auto';
+                }}
               >
                 <div className={`w-12 h-12 rounded-xl ${colors.icon} border flex items-center justify-center mx-auto mb-4`}>
                   <stat.icon className="h-6 w-6" />
@@ -171,9 +192,9 @@ const About = () => {
           })}
         </div>
 
-        {/* Company Story */}
-        <div className={`mb-16 transition-all duration-1000 delay-400 ${isVisible ? 'animate-fade-in opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          <div className="bg-gray-900/80 backdrop-blur-sm rounded-3xl border border-gray-700/30 p-8">
+        {/* Company Story with reduced blur */}
+        <div className={`mb-16 transition-all duration-700 delay-400 ${isVisible ? 'animate-fade-in opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <div className="bg-gray-900/90 rounded-3xl border border-gray-700/30 p-8" style={{ contain: 'layout style paint' }}>
             <p className="text-lg text-gray-300 leading-relaxed mb-6">
               Over the years, we've delivered <span className="text-cyan-400 font-semibold">1,500+ successful projects</span> across web applications, mobile apps, SaaS platforms, AI tools, and enterprise software systems.
             </p>
@@ -183,8 +204,8 @@ const About = () => {
           </div>
         </div>
 
-        {/* Expertise Areas */}
-        <div className={`mb-16 transition-all duration-1000 delay-600 ${isVisible ? 'animate-fade-in opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+        {/* Expertise Areas with optimized images */}
+        <div className={`mb-16 transition-all duration-700 delay-600 ${isVisible ? 'animate-fade-in opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <div className="text-center mb-12">
             <h3 className="text-3xl font-bold text-white mb-4">
               Our <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Expertise</span>
@@ -200,17 +221,31 @@ const About = () => {
               return (
                 <div
                   key={item.title}
-                  className={`group relative rounded-2xl border ${colors.border} hover:transform hover:scale-105 transition-all duration-500 overflow-hidden h-80`}
-                  style={{ animationDelay: `${index * 100 + 800}ms` }}
+                  className={`group relative rounded-2xl border ${colors.border} transition-all duration-300 overflow-hidden h-80 gpu-accelerate`}
+                  style={{ 
+                    animationDelay: `${index * 50 + 800}ms`,
+                    contain: 'layout style paint',
+                    willChange: 'auto'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.willChange = 'transform';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.willChange = 'auto';
+                  }}
                 >
-                  {/* Background Image */}
+                  {/* Optimized Background Image */}
                   <div 
-                    className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
-                    style={{ backgroundImage: `url(${item.image})` }}
+                    className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
+                    style={{ 
+                      backgroundImage: `url(${item.image})`,
+                      contentVisibility: 'auto',
+                      containIntrinsicSize: '1px 320px'
+                    }}
                   />
                   
-                  {/* Gradient Overlay */}
-                  <div className={`absolute inset-0 bg-gradient-to-br ${colors.overlay} transition-opacity duration-500 group-hover:opacity-90`} />
+                  {/* Reduced Gradient Overlay complexity */}
+                  <div className={`absolute inset-0 bg-gradient-to-br ${colors.overlay} transition-opacity duration-300 group-hover:opacity-90`} />
                   
                   {/* Content */}
                   <div className="relative z-10 p-6 h-full flex flex-col justify-between">
@@ -232,8 +267,8 @@ const About = () => {
           </div>
         </div>
 
-        {/* Global Presence & Recognition */}
-        <div className={`grid md:grid-cols-2 gap-8 mb-16 transition-all duration-1000 delay-800 ${isVisible ? 'animate-fade-in opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+        {/* Global Presence & Recognition with optimized layout */}
+        <div className={`grid md:grid-cols-2 gap-8 mb-16 transition-all duration-700 delay-800 ${isVisible ? 'animate-fade-in opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           {/* Global Presence */}
           <div className="bg-gray-900/80 backdrop-blur-sm rounded-3xl border border-gray-700/30 p-8">
             <div className="flex items-center space-x-4 mb-6">
@@ -275,7 +310,7 @@ const About = () => {
         </div>
 
         {/* Mission Statement CTA */}
-        <div className={`text-center transition-all duration-1000 delay-1000 ${isVisible ? 'animate-fade-in opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+        <div className={`text-center transition-all duration-700 delay-1000 ${isVisible ? 'animate-fade-in opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <div className="bg-gradient-to-r from-gray-900/50 to-black/50 rounded-3xl p-8 border border-gray-700/30">
             <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
               Our Mission: <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Build Smarter, Scale Faster</span>
@@ -292,6 +327,8 @@ const About = () => {
       </div>
     </section>
   );
-};
+});
+
+About.displayName = 'About';
 
 export default About;

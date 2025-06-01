@@ -1,18 +1,23 @@
 
 import { ArrowRight, Play } from 'lucide-react';
 import { usePerformance } from '@/hooks/usePerformance';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, memo } from 'react';
 
-const Hero = () => {
-  const { throttleScroll } = usePerformance();
+const Hero = memo(() => {
+  const { throttleScroll, getScrollVelocity } = usePerformance();
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isScrolling, setIsScrolling] = useState(false);
+  const [shouldPlayVideo, setShouldPlayVideo] = useState(true);
   const scrollTimeoutRef = useRef<NodeJS.Timeout>();
 
   useEffect(() => {
     const handleScroll = () => {
       throttleScroll(() => {
-        setIsScrolling(true);
+        const velocity = getScrollVelocity();
+        const fastScrolling = velocity > 3;
+        
+        setIsScrolling(fastScrolling);
+        setShouldPlayVideo(!fastScrolling);
         
         // Clear existing timeout
         if (scrollTimeoutRef.current) {
@@ -22,7 +27,8 @@ const Hero = () => {
         // Set new timeout to detect when scrolling stops
         scrollTimeoutRef.current = setTimeout(() => {
           setIsScrolling(false);
-        }, 150);
+          setShouldPlayVideo(true);
+        }, 100);
       });
     };
 
@@ -34,22 +40,35 @@ const Hero = () => {
         clearTimeout(scrollTimeoutRef.current);
       }
     };
-  }, [throttleScroll]);
+  }, [throttleScroll, getScrollVelocity]);
 
-  // Pause video during fast scrolling to improve performance
+  // Enhanced video performance optimization
   useEffect(() => {
     if (videoRef.current) {
-      if (isScrolling) {
-        videoRef.current.style.willChange = 'auto';
+      const video = videoRef.current;
+      
+      if (isScrolling || !shouldPlayVideo) {
+        video.style.willChange = 'auto';
+        // Reduce video quality during scroll by lowering playback rate
+        video.playbackRate = 0.5;
       } else {
-        videoRef.current.style.willChange = 'transform';
+        video.style.willChange = 'transform';
+        video.playbackRate = 1;
       }
     }
-  }, [isScrolling]);
+  }, [isScrolling, shouldPlayVideo]);
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden hero-section">
-      {/* Video Background with performance optimizations */}
+    <section 
+      id="home" 
+      className="relative min-h-screen flex items-center justify-center overflow-hidden hero-section"
+      style={{
+        contain: 'layout style paint',
+        contentVisibility: 'auto',
+        containIntrinsicSize: '100vw 100vh'
+      }}
+    >
+      {/* Enhanced Video Background with performance optimizations */}
       <video 
         ref={videoRef}
         autoPlay 
@@ -59,16 +78,18 @@ const Hero = () => {
         className="absolute inset-0 w-full h-full object-cover z-0 gpu-accelerate"
         style={{
           contentVisibility: 'auto',
-          containIntrinsicSize: '100vw 100vh'
+          containIntrinsicSize: '100vw 100vh',
+          transform: 'translate3d(0, 0, 0)'
         }}
+        preload="metadata"
       >
         <source src="https://res.cloudinary.com/dknafpppp/video/upload/v1748771996/0_Ai_Brain_1920x1080_quggeb.mp4" type="video/mp4" />
       </video>
       
-      {/* Dark Overlay */}
-      <div className="absolute inset-0 bg-black/60 z-10"></div>
+      {/* Optimized Dark Overlay */}
+      <div className="absolute inset-0 bg-black/60 z-10" style={{ contain: 'layout style paint' }}></div>
       
-      {/* Content */}
+      {/* Content with enhanced performance */}
       <div className="relative z-20 container mx-auto px-6 py-24" style={{ contain: 'layout style paint' }}>
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight animate-fade-in gpu-accelerate">
@@ -94,22 +115,22 @@ const Hero = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-20" style={{ contain: 'layout style paint' }}>
             <div className="text-center group cursor-pointer gpu-accelerate">
-              <div className="text-4xl md:text-5xl font-bold text-cyan-400 mb-3 group-hover:text-cyan-300 transition-colors duration-300 animate-pulse">1 M+</div>
+              <div className="text-4xl md:text-5xl font-bold text-cyan-400 mb-3 group-hover:text-cyan-300 transition-colors duration-300">1 M+</div>
               <div className="text-gray-300 font-medium">AI Models Deployed</div>
             </div>
             <div className="text-center group cursor-pointer gpu-accelerate">
-              <div className="text-4xl md:text-5xl font-bold text-blue-400 mb-3 group-hover:text-blue-300 transition-colors duration-300 animate-pulse">99.9%</div>
+              <div className="text-4xl md:text-5xl font-bold text-blue-400 mb-3 group-hover:text-blue-300 transition-colors duration-300">99.9%</div>
               <div className="text-gray-300 font-medium">Neural Accuracy</div>
             </div>
             <div className="text-center group cursor-pointer gpu-accelerate">
-              <div className="text-4xl md:text-5xl font-bold text-purple-400 mb-3 group-hover:text-purple-300 transition-colors duration-300 animate-pulse">24/7</div>
+              <div className="text-4xl md:text-5xl font-bold text-purple-400 mb-3 group-hover:text-purple-300 transition-colors duration-300">24/7</div>
               <div className="text-gray-300 font-medium">Quantum Support</div>
             </div>
           </div>
         </div>
       </div>
       
-      {/* Animated Particles with performance optimization */}
+      {/* Optimized Animated Particles */}
       <div className="absolute inset-0 z-15" style={{ contain: 'layout style paint' }}>
         <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-cyan-400 rounded-full animate-ping gpu-accelerate"></div>
         <div className="absolute top-3/4 right-1/4 w-1 h-1 bg-blue-400 rounded-full animate-ping animation-delay-1000 gpu-accelerate"></div>
@@ -117,6 +138,8 @@ const Hero = () => {
       </div>
     </section>
   );
-};
+});
+
+Hero.displayName = 'Hero';
 
 export default Hero;
