@@ -89,9 +89,29 @@ const Hero = memo(() => {
       {/* Optimized Dark Overlay */}
       <div className="absolute inset-0 bg-black/60 z-10" style={{ contain: 'layout style paint' }}></div>
       
+      {/* Large Logo Overlay */}
+      <div className="absolute top-8 right-8 z-15 hidden lg:block" style={{ contain: 'layout style paint' }}>
+        <img 
+          src="https://res.cloudinary.com/dknafpppp/image/upload/v1748806784/freepik_br_f976b57b-9b0c-47dc-8aa0-439758154a91_cpevk3.png" 
+          alt="Boostmysites Logo" 
+          className="h-32 w-32 object-contain opacity-80 hover:opacity-100 transition-opacity duration-500 animate-pulse-light"
+          loading="lazy"
+        />
+      </div>
+      
       {/* Content with enhanced performance */}
       <div className="relative z-20 container mx-auto px-6 py-24" style={{ contain: 'layout style paint' }}>
         <div className="max-w-4xl mx-auto text-center">
+          {/* Mobile/Tablet Logo */}
+          <div className="lg:hidden mb-8 flex justify-center">
+            <img 
+              src="https://res.cloudinary.com/dknafpppp/image/upload/v1748806784/freepik_br_f976b57b-9b0c-47dc-8aa0-439758154a91_cpevk3.png" 
+              alt="Boostmysites Logo" 
+              className="h-24 w-24 md:h-28 md:w-28 object-contain opacity-90 animate-fade-in"
+              loading="lazy"
+            />
+          </div>
+
           <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight animate-fade-in gpu-accelerate">
             The Future of
             <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent animate-pulse"> AI-Powered Software</span>
@@ -141,5 +161,4 @@ const Hero = memo(() => {
 });
 
 Hero.displayName = 'Hero';
-
 export default Hero;

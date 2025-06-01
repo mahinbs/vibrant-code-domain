@@ -202,8 +202,28 @@ const ReviewsPage = () => {
         {/* Dark Overlay */}
         <div className="absolute inset-0 bg-black/60 z-10"></div>
         
+        {/* Large Logo Overlay - Desktop */}
+        <div className="absolute top-8 left-8 z-15 hidden lg:block">
+          <img 
+            src="https://res.cloudinary.com/dknafpppp/image/upload/v1748806784/freepik_br_f976b57b-9b0c-47dc-8aa0-439758154a91_cpevk3.png" 
+            alt="Boostmysites Logo" 
+            className="h-40 w-40 object-contain opacity-85 hover:opacity-100 transition-all duration-500 hover:scale-110 filter drop-shadow-lg"
+            loading="lazy"
+          />
+        </div>
+        
         {/* Content */}
         <div className="container mx-auto text-center relative z-20">
+          {/* Mobile/Tablet Logo */}
+          <div className="lg:hidden mb-8 flex justify-center">
+            <img 
+              src="https://res.cloudinary.com/dknafpppp/image/upload/v1748806784/freepik_br_f976b57b-9b0c-47dc-8aa0-439758154a91_cpevk3.png" 
+              alt="Boostmysites Logo" 
+              className="h-32 w-32 md:h-36 md:w-36 object-contain opacity-90 animate-fade-in filter drop-shadow-lg"
+              loading="lazy"
+            />
+          </div>
+
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
             <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Boostmysites</span>
             {' '}Reviews
