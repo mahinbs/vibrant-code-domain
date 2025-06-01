@@ -1,9 +1,11 @@
-import { Code, Smartphone, Cloud, Brain, Zap } from 'lucide-react';
+
+import { Code, Smartphone, Cloud, Brain, Zap, ChevronDown, Clock, DollarSign } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { useTooltip } from '@/hooks/useTooltip';
-import CustomTooltip from './CustomTooltip';
+import { useState } from 'react';
 
 const Services = () => {
+  const [expandedService, setExpandedService] = useState<string | null>(null);
+
   const services = [
     {
       id: 'web-apps',
@@ -78,18 +80,50 @@ const Services = () => {
   ];
 
   const colorClasses = {
-    cyan: 'border-cyan-400/30 hover:border-cyan-400/60 from-cyan-400/20 to-cyan-600/20',
-    blue: 'border-blue-400/30 hover:border-blue-400/60 from-blue-400/20 to-blue-600/20',
-    purple: 'border-purple-400/30 hover:border-purple-400/60 from-purple-400/20 to-purple-600/20',
-    pink: 'border-pink-400/30 hover:border-pink-400/60 from-pink-400/20 to-pink-600/20',
-    green: 'border-green-400/30 hover:border-green-400/60 from-green-400/20 to-green-600/20',
+    cyan: {
+      border: 'border-cyan-400/30',
+      gradient: 'from-cyan-400/10 to-cyan-600/10',
+      icon: 'bg-cyan-500/10 text-cyan-400 border-cyan-400/30',
+      text: 'text-cyan-400',
+      button: 'bg-cyan-500/20 border-cyan-400/30 text-cyan-400 hover:bg-cyan-500/30',
+      tag: 'bg-cyan-500/20 text-cyan-300 border-cyan-500/30'
+    },
+    blue: {
+      border: 'border-blue-400/30',
+      gradient: 'from-blue-400/10 to-blue-600/10',
+      icon: 'bg-blue-500/10 text-blue-400 border-blue-400/30',
+      text: 'text-blue-400',
+      button: 'bg-blue-500/20 border-blue-400/30 text-blue-400 hover:bg-blue-500/30',
+      tag: 'bg-blue-500/20 text-blue-300 border-blue-500/30'
+    },
+    purple: {
+      border: 'border-purple-400/30',
+      gradient: 'from-purple-400/10 to-purple-600/10',
+      icon: 'bg-purple-500/10 text-purple-400 border-purple-400/30',
+      text: 'text-purple-400',
+      button: 'bg-purple-500/20 border-purple-400/30 text-purple-400 hover:bg-purple-500/30',
+      tag: 'bg-purple-500/20 text-purple-300 border-purple-500/30'
+    },
+    pink: {
+      border: 'border-pink-400/30',
+      gradient: 'from-pink-400/10 to-pink-600/10',
+      icon: 'bg-pink-500/10 text-pink-400 border-pink-400/30',
+      text: 'text-pink-400',
+      button: 'bg-pink-500/20 border-pink-400/30 text-pink-400 hover:bg-pink-500/30',
+      tag: 'bg-pink-500/20 text-pink-300 border-pink-500/30'
+    },
+    green: {
+      border: 'border-green-400/30',
+      gradient: 'from-green-400/10 to-green-600/10',
+      icon: 'bg-green-500/10 text-green-400 border-green-400/30',
+      text: 'text-green-400',
+      button: 'bg-green-500/20 border-green-400/30 text-green-400 hover:bg-green-500/30',
+      tag: 'bg-green-500/20 text-green-300 border-green-500/30'
+    },
   };
 
-  const getHoverCardAlignment = (index: number) => {
-    // For 3-column layout
-    if (index % 3 === 0) return 'start'; // Left column - align to start
-    if (index % 3 === 2) return 'end';   // Right column - align to end
-    return 'center'; // Middle column - center align
+  const toggleExpanded = (serviceId: string) => {
+    setExpandedService(expandedService === serviceId ? null : serviceId);
   };
 
   return (
@@ -106,148 +140,144 @@ const Services = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 relative">
-          {services.map((service, index) => {
-            // eslint-disable-next-line react-hooks/rules-of-hooks
-            const { tooltip, triggerRef, tooltipRef, showTooltip, hideTooltip } = useTooltip();
+        <div className="max-w-6xl mx-auto space-y-6">
+          {services.map((service) => {
+            const isExpanded = expandedService === service.id;
+            const colors = colorClasses[service.color];
 
             return (
-              <div key={service.id}>
+              <div
+                key={service.id}
+                className={`group relative rounded-2xl bg-gray-900/80 backdrop-blur-sm border ${colors.border} hover:bg-gray-800/90 transition-all duration-500 overflow-hidden`}
+              >
+                {/* Main Card Content */}
                 <div
-                  ref={triggerRef}
-                  className={`group relative rounded-2xl bg-gray-900/80 backdrop-blur-sm border ${colorClasses[service.color]} hover:bg-gray-800/90 transition-all duration-500 overflow-hidden cursor-pointer h-[400px]`}
-                  onMouseEnter={showTooltip}
-                  onMouseLeave={hideTooltip}
+                  className="p-8 cursor-pointer"
+                  onClick={() => toggleExpanded(service.id)}
                 >
-                  {/* Background Image with better overlay */}
-                  <div className="absolute inset-0">
-                    <img 
-                      src={service.image} 
-                      alt={service.title}
-                      className="w-full h-full object-cover opacity-20 group-hover:opacity-30 transition-opacity duration-500"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-gray-900/98 via-gray-900/80 to-gray-900/60"></div>
-                  </div>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-6 flex-1">
+                      {/* Icon */}
+                      <div className={`w-16 h-16 rounded-xl ${colors.icon} border flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
+                        <service.icon className="h-8 w-8" />
+                      </div>
 
-                  {/* Content */}
-                  <div className="relative p-8 h-full flex flex-col z-20">
-                    <div className="flex items-center mb-6">
-                      <div className={`w-14 h-14 rounded-xl bg-gradient-to-r ${colorClasses[service.color]} border border-${service.color}-400/50 flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
-                        <service.icon className={`h-7 w-7 text-${service.color}-400`} />
+                      {/* Content */}
+                      <div className="flex-1">
+                        <h3 className={`text-2xl font-bold text-white mb-2 group-hover:${colors.text} transition-colors duration-300`}>
+                          {service.title}
+                        </h3>
+                        <p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300 leading-relaxed">
+                          {service.description}
+                        </p>
+                      </div>
+
+                      {/* Price and Timeline Badges */}
+                      <div className="hidden md:flex flex-col space-y-2">
+                        <div className={`px-4 py-2 rounded-lg ${colors.button} border text-sm font-medium flex items-center space-x-2`}>
+                          <DollarSign className="h-4 w-4" />
+                          <span>{service.startingPrice}</span>
+                        </div>
+                        <div className={`px-4 py-2 rounded-lg ${colors.button} border text-sm font-medium flex items-center space-x-2`}>
+                          <Clock className="h-4 w-4" />
+                          <span>{service.timeline}</span>
+                        </div>
                       </div>
                     </div>
 
-                    <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-cyan-300 transition-colors duration-300">
-                      {service.title}
-                    </h3>
-
-                    <p className="text-gray-400 mb-6 leading-relaxed group-hover:text-gray-300 transition-colors duration-300 flex-grow">
-                      {service.description}
-                    </p>
-
-                    {/* Features */}
-                    <div className="mb-6">
-                      <ul className="space-y-2">
-                        {service.features.slice(0, 3).map((feature, idx) => (
-                          <li key={idx} className="text-sm text-gray-500 flex items-center">
-                            <div className={`w-1.5 h-1.5 rounded-full bg-${service.color}-400 mr-3`}></div>
-                            {feature}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-
-                    {/* CTA Button */}
-                    <Link 
-                      to={service.route}
-                      className={`inline-flex items-center justify-center px-6 py-3 rounded-xl bg-gradient-to-r from-${service.color}-500/20 to-${service.color}-600/20 border border-${service.color}-400/30 text-${service.color}-400 font-medium hover:from-${service.color}-500/30 hover:to-${service.color}-600/30 hover:border-${service.color}-400/50 transition-all duration-300 group-hover:scale-105`}
-                    >
-                      Learn More
-                      <svg className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                      </svg>
-                    </Link>
+                    {/* Expand Icon */}
+                    <ChevronDown 
+                      className={`h-6 w-6 ${colors.text} transform transition-transform duration-300 ml-4 ${
+                        isExpanded ? 'rotate-180' : ''
+                      }`}
+                    />
                   </div>
                 </div>
 
-                {/* Custom Tooltip */}
-                <CustomTooltip
-                  visible={tooltip.visible}
-                  position={tooltip.position}
-                  direction={tooltip.direction}
-                  onRef={(ref) => {
-                    if (tooltipRef.current !== ref) {
-                      tooltipRef.current = ref;
-                    }
-                  }}
-                >
-                  <div className="space-y-5">
-                    <div className="flex items-center space-x-3">
-                      <div className={`w-10 h-10 rounded-lg bg-gradient-to-r ${colorClasses[service.color]} flex items-center justify-center`}>
-                        <service.icon className={`h-5 w-5 text-${service.color}-400`} />
-                      </div>
-                      <h4 className={`text-xl font-bold text-${service.color}-400`}>{service.title}</h4>
-                    </div>
-                    
-                    <p className="text-gray-300 text-sm leading-relaxed">
-                      {service.detailedDescription}
-                    </p>
-                    
-                    <div className="space-y-4">
-                      <div>
-                        <h5 className="text-sm font-semibold text-white mb-3 flex items-center">
-                          <span className={`w-2 h-2 rounded-full bg-${service.color}-400 mr-2`}></span>
-                          Key Features
-                        </h5>
-                        <ul className="space-y-1">
-                          {service.features.map((feature, idx) => (
-                            <li key={idx} className="text-xs text-gray-400 flex items-center">
-                              <span className={`w-1 h-1 rounded-full bg-${service.color}-400/60 mr-2`}></span>
-                              {feature}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                      
-                      <div>
-                        <h5 className="text-sm font-semibold text-white mb-3 flex items-center">
-                          <span className={`w-2 h-2 rounded-full bg-${service.color}-400 mr-2`}></span>
-                          Technologies
-                        </h5>
-                        <div className="flex flex-wrap gap-2">
-                          {service.technologies.map((tech, idx) => (
-                            <span key={idx} className={`text-xs px-3 py-1 rounded-full bg-${service.color}-500/20 text-${service.color}-300 border border-${service.color}-500/30`}>
-                              {tech}
-                            </span>
-                          ))}
+                {/* Expanded Content */}
+                <div className={`overflow-hidden transition-all duration-500 ${
+                  isExpanded ? 'max-h-[800px] opacity-100' : 'max-h-0 opacity-0'
+                }`}>
+                  <div className="px-8 pb-8 border-t border-gray-700/50">
+                    <div className="grid md:grid-cols-2 gap-8 mt-8">
+                      {/* Left Column */}
+                      <div className="space-y-6">
+                        {/* Background Image */}
+                        <div className="rounded-xl overflow-hidden">
+                          <img 
+                            src={service.image} 
+                            alt={service.title}
+                            className="w-full h-48 object-cover opacity-80 hover:opacity-100 transition-opacity duration-300"
+                          />
+                        </div>
+
+                        {/* Detailed Description */}
+                        <div>
+                          <h4 className="text-lg font-semibold text-white mb-3">About This Service</h4>
+                          <p className="text-gray-300 leading-relaxed">
+                            {service.detailedDescription}
+                          </p>
+                        </div>
+
+                        {/* Mobile Price/Timeline */}
+                        <div className="md:hidden flex space-x-4">
+                          <div className={`px-4 py-2 rounded-lg ${colors.button} border text-sm font-medium flex items-center space-x-2`}>
+                            <DollarSign className="h-4 w-4" />
+                            <span>{service.startingPrice}</span>
+                          </div>
+                          <div className={`px-4 py-2 rounded-lg ${colors.button} border text-sm font-medium flex items-center space-x-2`}>
+                            <Clock className="h-4 w-4" />
+                            <span>{service.timeline}</span>
+                          </div>
                         </div>
                       </div>
-                      
-                      <div className="flex justify-between items-center pt-3 border-t border-gray-700/50">
-                        <div className="text-center">
-                          <span className="text-xs text-gray-500 block">Starting from</span>
-                          <span className={`text-lg font-bold text-${service.color}-400`}>{service.startingPrice}</span>
+
+                      {/* Right Column */}
+                      <div className="space-y-6">
+                        {/* Key Features */}
+                        <div>
+                          <h4 className="text-lg font-semibold text-white mb-4">Key Features</h4>
+                          <ul className="space-y-3">
+                            {service.features.map((feature, idx) => (
+                              <li key={idx} className="text-gray-300 flex items-center">
+                                <div className={`w-2 h-2 rounded-full ${colors.text} mr-3`}></div>
+                                {feature}
+                              </li>
+                            ))}
+                          </ul>
                         </div>
-                        <div className="text-center">
-                          <span className="text-xs text-gray-500 block">Timeline</span>
-                          <span className="text-sm font-semibold text-white">{service.timeline}</span>
+
+                        {/* Technologies */}
+                        <div>
+                          <h4 className="text-lg font-semibold text-white mb-4">Technologies Used</h4>
+                          <div className="flex flex-wrap gap-2">
+                            {service.technologies.map((tech, idx) => (
+                              <span 
+                                key={idx} 
+                                className={`px-3 py-1 rounded-full text-sm ${colors.tag} border`}
+                              >
+                                {tech}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* Action Buttons */}
+                        <div className="flex space-x-4 pt-4">
+                          <Link 
+                            to={service.route}
+                            className={`flex-1 inline-flex items-center justify-center px-6 py-3 rounded-xl ${colors.button} border font-medium transition-all duration-300`}
+                          >
+                            View Details
+                          </Link>
+                          <button className={`px-6 py-3 rounded-xl border ${colors.border} ${colors.text} hover:bg-gray-700/50 transition-all duration-300 font-medium`}>
+                            Get Quote
+                          </button>
                         </div>
                       </div>
-                    </div>
-                    
-                    <div className="flex space-x-3 pt-2">
-                      <Link 
-                        to={service.route}
-                        className={`flex-1 inline-flex items-center justify-center px-4 py-2.5 rounded-lg bg-gradient-to-r from-${service.color}-500 to-${service.color}-600 text-white font-medium hover:from-${service.color}-400 hover:to-${service.color}-500 transition-all duration-300 text-sm`}
-                      >
-                        View Details
-                      </Link>
-                      <button className={`px-4 py-2.5 rounded-lg border border-${service.color}-400/40 text-${service.color}-400 hover:bg-${service.color}-500/10 transition-all duration-300 text-sm font-medium`}>
-                        Get Quote
-                      </button>
                     </div>
                   </div>
-                </CustomTooltip>
+                </div>
               </div>
             );
           })}
