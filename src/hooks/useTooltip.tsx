@@ -1,4 +1,3 @@
-
 import { useState, useRef, useEffect } from 'react';
 
 interface Position {
@@ -23,54 +22,28 @@ export const useTooltip = () => {
 
   const calculatePosition = (triggerElement: HTMLElement) => {
     const triggerRect = triggerElement.getBoundingClientRect();
-    const tooltipElement = tooltipRef.current;
-    
-    if (!tooltipElement) return { x: 0, y: 0, direction: 'top' as const };
-    
-    const tooltipRect = tooltipElement.getBoundingClientRect();
     const viewport = {
       width: window.innerWidth,
       height: window.innerHeight
     };
     
-    const spacing = 16;
+    // Center the tooltip over the trigger element
+    let x = triggerRect.left + (triggerRect.width / 2);
+    let y = triggerRect.top + (triggerRect.height / 2);
     
-    // Calculate available space in each direction
-    const spaceTop = triggerRect.top;
-    const spaceBottom = viewport.height - triggerRect.bottom;
-    const spaceLeft = triggerRect.left;
-    const spaceRight = viewport.width - triggerRect.right;
+    // Ensure tooltip stays within viewport with some padding
+    const padding = 20;
+    const tooltipWidth = 320; // Approximate width from CustomTooltip
+    const tooltipHeight = 400; // Approximate height
     
-    let x = 0;
-    let y = 0;
-    let direction: 'top' | 'bottom' | 'left' | 'right' = 'top';
+    // Adjust x position to keep tooltip in viewport
+    x = Math.max(padding, Math.min(x, viewport.width - tooltipWidth - padding));
     
-    // Determine best direction based on available space
-    if (spaceRight >= tooltipRect.width + spacing) {
-      // Show on right
-      direction = 'right';
-      x = triggerRect.right + spacing;
-      y = triggerRect.top + (triggerRect.height - tooltipRect.height) / 2;
-    } else if (spaceLeft >= tooltipRect.width + spacing) {
-      // Show on left
-      direction = 'left';
-      x = triggerRect.left - tooltipRect.width - spacing;
-      y = triggerRect.top + (triggerRect.height - tooltipRect.height) / 2;
-    } else if (spaceBottom >= tooltipRect.height + spacing) {
-      // Show below
-      direction = 'bottom';
-      x = triggerRect.left + (triggerRect.width - tooltipRect.width) / 2;
-      y = triggerRect.bottom + spacing;
-    } else {
-      // Show above
-      direction = 'top';
-      x = triggerRect.left + (triggerRect.width - tooltipRect.width) / 2;
-      y = triggerRect.top - tooltipRect.height - spacing;
-    }
+    // Adjust y position to keep tooltip in viewport
+    y = Math.max(padding, Math.min(y, viewport.height - tooltipHeight - padding));
     
-    // Ensure tooltip stays within viewport
-    x = Math.max(spacing, Math.min(x, viewport.width - tooltipRect.width - spacing));
-    y = Math.max(spacing, Math.min(y, viewport.height - tooltipRect.height - spacing));
+    // Always use 'top' direction since we're centering
+    const direction = 'top';
     
     return { x, y, direction };
   };
