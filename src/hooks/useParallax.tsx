@@ -8,8 +8,8 @@ interface UseParallaxOptions {
   disabled?: boolean;
 }
 
-export const useParallax = ({ speed = 0.5, offset = 0, disabled = false }: UseParallaxOptions = {}) => {
-  const elementRef = useRef<HTMLElement>(null);
+export const useParallax = <T extends HTMLElement = HTMLElement>({ speed = 0.5, offset = 0, disabled = false }: UseParallaxOptions = {}) => {
+  const elementRef = useRef<T>(null);
   const { throttleScroll, getScrollVelocity } = usePerformance();
   const frameRef = useRef<number>();
 

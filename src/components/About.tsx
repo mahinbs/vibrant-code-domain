@@ -6,7 +6,7 @@ import { usePerformance } from '@/hooks/usePerformance';
 const About = memo(() => {
   const [isVisible, setIsVisible] = useState(false);
   const { createOptimizedObserver } = usePerformance();
-  const parallaxRef = useParallax({ speed: 0.3 });
+  const parallaxRef = useParallax<HTMLDivElement>({ speed: 0.3 });
 
   useEffect(() => {
     const observer = createOptimizedObserver(
