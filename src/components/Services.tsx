@@ -85,6 +85,13 @@ const Services = () => {
     green: 'border-green-400/30 hover:border-green-400/60 from-green-400/20 to-green-600/20',
   };
 
+  const getHoverCardAlignment = (index: number) => {
+    // For 3-column layout
+    if (index % 3 === 0) return 'start'; // Left column - align to start
+    if (index % 3 === 2) return 'end';   // Right column - align to end
+    return 'center'; // Middle column - center align
+  };
+
   return (
     <section id="services" className="py-20 bg-gradient-to-b from-gray-900 to-black relative overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,255,255,0.1),transparent_50%)]"></div>
@@ -99,25 +106,25 @@ const Services = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 relative">
           {services.map((service, index) => (
-            <HoverCard key={service.id}>
+            <HoverCard key={service.id} openDelay={300} closeDelay={100}>
               <HoverCardTrigger asChild>
                 <div
                   className={`group relative rounded-2xl bg-gray-900/80 backdrop-blur-sm border ${colorClasses[service.color]} hover:bg-gray-800/90 transition-all duration-500 overflow-hidden cursor-pointer h-[400px]`}
                 >
-                  {/* Background Image */}
+                  {/* Background Image with better overlay */}
                   <div className="absolute inset-0">
                     <img 
                       src={service.image} 
                       alt={service.title}
-                      className="w-full h-full object-cover opacity-30 group-hover:opacity-40 transition-opacity duration-500"
+                      className="w-full h-full object-cover opacity-20 group-hover:opacity-30 transition-opacity duration-500"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-gray-900/95 via-gray-900/60 to-gray-900/30"></div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-gray-900/98 via-gray-900/80 to-gray-900/60"></div>
                   </div>
 
                   {/* Content */}
-                  <div className="relative p-8 h-full flex flex-col">
+                  <div className="relative p-8 h-full flex flex-col z-20">
                     <div className="flex items-center mb-6">
                       <div className={`w-14 h-14 rounded-xl bg-gradient-to-r ${colorClasses[service.color]} border border-${service.color}-400/50 flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
                         <service.icon className={`h-7 w-7 text-${service.color}-400`} />
@@ -158,43 +165,77 @@ const Services = () => {
                 </div>
               </HoverCardTrigger>
               
-              <HoverCardContent className="w-80 bg-gray-800/95 border-gray-700 backdrop-blur-md">
-                <div className="space-y-4">
-                  <h4 className={`text-lg font-semibold text-${service.color}-400`}>{service.title}</h4>
+              <HoverCardContent 
+                align={getHoverCardAlignment(index)}
+                sideOffset={20}
+                className="w-96 max-w-[calc(100vw-2rem)] bg-gray-900/98 border-gray-700/50 backdrop-blur-xl shadow-2xl z-[100] rounded-xl p-6"
+                style={{ zIndex: 1000 }}
+              >
+                <div className="space-y-5">
+                  <div className="flex items-center space-x-3">
+                    <div className={`w-10 h-10 rounded-lg bg-gradient-to-r ${colorClasses[service.color]} flex items-center justify-center`}>
+                      <service.icon className={`h-5 w-5 text-${service.color}-400`} />
+                    </div>
+                    <h4 className={`text-xl font-bold text-${service.color}-400`}>{service.title}</h4>
+                  </div>
+                  
                   <p className="text-gray-300 text-sm leading-relaxed">
                     {service.detailedDescription}
                   </p>
                   
-                  <div className="space-y-3">
+                  <div className="space-y-4">
                     <div>
-                      <h5 className="text-sm font-medium text-white mb-2">Technologies:</h5>
-                      <div className="flex flex-wrap gap-1">
+                      <h5 className="text-sm font-semibold text-white mb-3 flex items-center">
+                        <span className={`w-2 h-2 rounded-full bg-${service.color}-400 mr-2`}></span>
+                        Key Features
+                      </h5>
+                      <ul className="space-y-1">
+                        {service.features.map((feature, idx) => (
+                          <li key={idx} className="text-xs text-gray-400 flex items-center">
+                            <span className={`w-1 h-1 rounded-full bg-${service.color}-400/60 mr-2`}></span>
+                            {feature}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    
+                    <div>
+                      <h5 className="text-sm font-semibold text-white mb-3 flex items-center">
+                        <span className={`w-2 h-2 rounded-full bg-${service.color}-400 mr-2`}></span>
+                        Technologies
+                      </h5>
+                      <div className="flex flex-wrap gap-2">
                         {service.technologies.map((tech, idx) => (
-                          <span key={idx} className={`text-xs px-2 py-1 rounded bg-${service.color}-500/20 text-${service.color}-300`}>
+                          <span key={idx} className={`text-xs px-3 py-1 rounded-full bg-${service.color}-500/20 text-${service.color}-300 border border-${service.color}-500/30`}>
                             {tech}
                           </span>
                         ))}
                       </div>
                     </div>
                     
-                    <div className="flex justify-between text-sm">
-                      <div>
-                        <span className="text-gray-400">Starting from:</span>
-                        <span className={`ml-2 font-semibold text-${service.color}-400`}>{service.startingPrice}</span>
+                    <div className="flex justify-between items-center pt-3 border-t border-gray-700/50">
+                      <div className="text-center">
+                        <span className="text-xs text-gray-500 block">Starting from</span>
+                        <span className={`text-lg font-bold text-${service.color}-400`}>{service.startingPrice}</span>
                       </div>
-                      <div>
-                        <span className="text-gray-400">Timeline:</span>
-                        <span className="ml-2 font-semibold text-white">{service.timeline}</span>
+                      <div className="text-center">
+                        <span className="text-xs text-gray-500 block">Timeline</span>
+                        <span className="text-sm font-semibold text-white">{service.timeline}</span>
                       </div>
                     </div>
                   </div>
                   
-                  <Link 
-                    to={service.route}
-                    className={`w-full inline-flex items-center justify-center px-4 py-2 rounded-lg bg-gradient-to-r from-${service.color}-500 to-${service.color}-600 text-white font-medium hover:from-${service.color}-400 hover:to-${service.color}-500 transition-all duration-300`}
-                  >
-                    View Details
-                  </Link>
+                  <div className="flex space-x-3 pt-2">
+                    <Link 
+                      to={service.route}
+                      className={`flex-1 inline-flex items-center justify-center px-4 py-2.5 rounded-lg bg-gradient-to-r from-${service.color}-500 to-${service.color}-600 text-white font-medium hover:from-${service.color}-400 hover:to-${service.color}-500 transition-all duration-300 text-sm`}
+                    >
+                      View Details
+                    </Link>
+                    <button className={`px-4 py-2.5 rounded-lg border border-${service.color}-400/40 text-${service.color}-400 hover:bg-${service.color}-500/10 transition-all duration-300 text-sm font-medium`}>
+                      Get Quote
+                    </button>
+                  </div>
                 </div>
               </HoverCardContent>
             </HoverCard>
