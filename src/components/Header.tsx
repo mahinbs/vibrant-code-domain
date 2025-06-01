@@ -1,9 +1,10 @@
+
 import { Menu, X, Code2 } from 'lucide-react';
-import { useState } from 'react';
+import { useState, memo, useCallback } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useScrollSpy } from '@/hooks/useScrollSpy';
 
-const Header = () => {
+const Header = memo(() => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
   const isHomePage = location.pathname === '/';
@@ -22,7 +23,7 @@ const Header = () => {
     { name: 'Contact', href: '/#contact', section: 'contact' }
   ];
 
-  const handleSmoothScroll = (href: string, sectionId: string) => {
+  const handleSmoothScroll = useCallback((href: string, sectionId: string) => {
     if (isHomePage && href.startsWith('/#')) {
       const element = document.getElementById(sectionId);
       if (element) {
@@ -31,14 +32,17 @@ const Header = () => {
         return;
       }
     }
-  };
+  }, [isHomePage]);
 
-  const isActive = (item: typeof menuItems[0]) => {
+  const closeMenu = useCallback(() => setIsMenuOpen(false), []);
+  const toggleMenu = useCallback(() => setIsMenuOpen(prev => !prev), []);
+
+  const isActive = useCallback((item: typeof menuItems[0]) => {
     if (isHomePage) {
       return activeSection === item.section;
     }
     return location.pathname === item.href || (item.href === '/' && location.pathname === '/');
-  };
+  }, [isHomePage, activeSection, location.pathname]);
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-black/20 backdrop-blur-md border-b border-cyan-500/20">
@@ -122,7 +126,7 @@ const Header = () => {
           </div>
 
           {/* Mobile Menu Button */}
-          <button className="md:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+          <button className="md:hidden" onClick={toggleMenu} aria-label="Toggle menu">
             {isMenuOpen ? <X className="h-6 w-6 text-cyan-400" /> : <Menu className="h-6 w-6 text-cyan-400" />}
           </button>
         </div>
@@ -142,7 +146,7 @@ const Header = () => {
                       className={`block transition-colors duration-300 font-medium ${
                         active ? 'text-cyan-400' : 'text-gray-300 hover:text-cyan-400'
                       }`} 
-                      onClick={() => setIsMenuOpen(false)}
+                      onClick={closeMenu}
                     >
                       {item.name}
                     </Link>
@@ -155,7 +159,7 @@ const Header = () => {
                       className={`block transition-colors duration-300 font-medium ${
                         active || location.pathname === item.href ? 'text-cyan-400' : 'text-gray-300 hover:text-cyan-400'
                       }`} 
-                      onClick={() => setIsMenuOpen(false)}
+                      onClick={closeMenu}
                     >
                       {item.name}
                     </Link>
@@ -180,7 +184,7 @@ const Header = () => {
                       className={`block transition-colors duration-300 font-medium ${
                         active ? 'text-cyan-400' : 'text-gray-300 hover:text-cyan-400'
                       }`} 
-                      onClick={() => setIsMenuOpen(false)}
+                      onClick={closeMenu}
                     >
                       {item.name}
                     </a>
@@ -196,6 +200,8 @@ const Header = () => {
       </nav>
     </header>
   );
-};
+});
+
+Header.displayName = 'Header';
 
 export default Header;

@@ -1,7 +1,8 @@
 
 import { Github, Linkedin, Twitter } from 'lucide-react';
+import { memo } from 'react';
 
-const Team = () => {
+const Team = memo(() => {
   const teamMembers = [
     {
       name: 'Sarah Johnson',
@@ -47,7 +48,9 @@ const Team = () => {
                 <img
                   src={`${member.image}?w=300&h=300&fit=crop&crop=face`}
                   alt={member.name}
-                  className="w-48 h-48 rounded-full mx-auto object-cover group-hover:scale-105 transition-transform duration-300"
+                  loading="lazy"
+                  decoding="async"
+                  className="w-48 h-48 rounded-full mx-auto object-cover will-change-transform group-hover:scale-105 transition-transform duration-300"
                 />
                 <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-600/20 to-purple-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </div>
@@ -57,13 +60,13 @@ const Team = () => {
               <p className="text-gray-600 text-sm leading-relaxed mb-4">{member.bio}</p>
               
               <div className="flex justify-center space-x-3">
-                <a href="#" className="text-gray-400 hover:text-blue-600 transition-colors duration-200">
+                <a href="#" className="text-gray-400 hover:text-blue-600 transition-colors duration-200" aria-label={`${member.name} LinkedIn`}>
                   <Linkedin className="h-5 w-5" />
                 </a>
-                <a href="#" className="text-gray-400 hover:text-blue-600 transition-colors duration-200">
+                <a href="#" className="text-gray-400 hover:text-blue-600 transition-colors duration-200" aria-label={`${member.name} Twitter`}>
                   <Twitter className="h-5 w-5" />
                 </a>
-                <a href="#" className="text-gray-400 hover:text-blue-600 transition-colors duration-200">
+                <a href="#" className="text-gray-400 hover:text-blue-600 transition-colors duration-200" aria-label={`${member.name} GitHub`}>
                   <Github className="h-5 w-5" />
                 </a>
               </div>
@@ -73,6 +76,8 @@ const Team = () => {
       </div>
     </section>
   );
-};
+});
+
+Team.displayName = 'Team';
 
 export default Team;
