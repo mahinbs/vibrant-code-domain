@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '@/components/Header';
@@ -14,7 +13,7 @@ const Portfolio = () => {
       id: 'web-apps',
       icon: Code,
       title: 'Web Applications',
-      color: 'cyan',
+      color: 'cyan' as const,
       projects: [
         {
           id: 'retailmax',
@@ -22,7 +21,7 @@ const Portfolio = () => {
           client: 'RetailMax Inc.',
           description: 'Complete e-commerce solution with advanced inventory management and AI-powered recommendations.',
           technologies: ['React', 'Node.js', 'PostgreSQL', 'Stripe'],
-          metrics: { revenue: '+250%', conversion: '+45%', users: '50K+' },
+          metrics: { revenue: '+250%', conversion: '+45%', users: '50K+' } as Record<string, string>,
           timeline: '12 weeks',
           team: '5 developers',
           testimonial: 'The platform exceeded our expectations. Sales increased dramatically within the first month.',
@@ -35,7 +34,7 @@ const Portfolio = () => {
           client: 'MedCare Systems',
           description: 'Patient management system with telemedicine capabilities and secure data handling.',
           technologies: ['React', 'TypeScript', 'Firebase', 'WebRTC'],
-          metrics: { efficiency: '+60%', satisfaction: '95%', appointments: '10K+' },
+          metrics: { efficiency: '+60%', satisfaction: '95%', appointments: '10K+' } as Record<string, string>,
           timeline: '16 weeks',
           team: '6 developers',
           testimonial: 'Revolutionary improvement in patient care delivery and administrative efficiency.',
@@ -48,7 +47,7 @@ const Portfolio = () => {
       id: 'saas',
       icon: Cloud,
       title: 'SAAS Solutions',
-      color: 'blue',
+      color: 'blue' as const,
       projects: [
         {
           id: 'projectflow',
@@ -56,7 +55,7 @@ const Portfolio = () => {
           client: 'TechCorp Solutions',
           description: 'Enterprise project management with real-time collaboration and advanced analytics.',
           technologies: ['React', 'AWS', 'Redis', 'WebSocket'],
-          metrics: { productivity: '+75%', teams: '200+', projects: '5K+' },
+          metrics: { productivity: '+75%', teams: '200+', projects: '5K+' } as Record<string, string>,
           timeline: '20 weeks',
           team: '8 developers',
           testimonial: 'Transformed how our teams collaborate. Best investment we\'ve made in years.',
@@ -69,7 +68,7 @@ const Portfolio = () => {
       id: 'mobile-apps',
       icon: Smartphone,
       title: 'Mobile Applications',
-      color: 'purple',
+      color: 'purple' as const,
       projects: [
         {
           id: 'foodie',
@@ -77,7 +76,7 @@ const Portfolio = () => {
           client: 'Foodie Networks',
           description: 'Food delivery platform with real-time tracking and AI-powered recommendations.',
           technologies: ['React Native', 'Node.js', 'MongoDB', 'Socket.io'],
-          metrics: { orders: '100K+', restaurants: '500+', rating: '4.8/5' },
+          metrics: { orders: '100K+', restaurants: '500+', rating: '4.8/5' } as Record<string, string>,
           timeline: '14 weeks',
           team: '6 developers',
           testimonial: 'The app\'s performance and user experience are outstanding. Customer retention is incredible.',
@@ -90,7 +89,7 @@ const Portfolio = () => {
       id: 'ai-calling',
       icon: Brain,
       title: 'AI Calling Agency',
-      color: 'pink',
+      color: 'pink' as const,
       projects: [
         {
           id: 'leadgen',
@@ -98,7 +97,7 @@ const Portfolio = () => {
           client: 'SalesForce Pro',
           description: 'Intelligent lead generation system with natural conversation AI and CRM integration.',
           technologies: ['OpenAI', 'Twilio', 'Python', 'CRM APIs'],
-          metrics: { leads: '+300%', conversion: '+85%', cost: '-60%' },
+          metrics: { leads: '+300%', conversion: '+85%', cost: '-60%' } as Record<string, string>,
           timeline: '10 weeks',
           team: '4 developers',
           testimonial: 'Game-changer for our sales team. The AI calls are indistinguishable from human agents.',
@@ -111,7 +110,7 @@ const Portfolio = () => {
       id: 'ai-automation',
       icon: Zap,
       title: 'AI Automation',
-      color: 'green',
+      color: 'green' as const,
       projects: [
         {
           id: 'docprocess',
@@ -119,7 +118,7 @@ const Portfolio = () => {
           client: 'Legal Associates',
           description: 'Document processing automation with AI-powered analysis and workflow integration.',
           technologies: ['Python', 'TensorFlow', 'AWS Lambda', 'OCR'],
-          metrics: { processing: '+90%', accuracy: '99.2%', time: '-80%' },
+          metrics: { processing: '+90%', accuracy: '99.2%', time: '-80%' } as Record<string, string>,
           timeline: '12 weeks',
           team: '5 developers',
           testimonial: 'Completely revolutionized our document workflow. What took hours now takes minutes.',
@@ -130,6 +129,7 @@ const Portfolio = () => {
     }
   ];
 
+  // ... keep existing code (colorClasses object)
   const colorClasses = {
     cyan: {
       border: 'border-cyan-400/30',
@@ -310,7 +310,7 @@ const Portfolio = () => {
                             <div className="flex flex-wrap gap-2 mb-4">
                               {Object.entries(project.metrics).slice(0, 2).map(([key, value]) => (
                                 <span key={key} className={`px-3 py-1 rounded-full text-xs ${colors.tag} border`}>
-                                  {key}: {value}
+                                  {key}: {String(value)}
                                 </span>
                               ))}
                             </div>
@@ -370,7 +370,7 @@ const Portfolio = () => {
                                   <div className="grid grid-cols-2 gap-2">
                                     {Object.entries(project.metrics).map(([key, value]) => (
                                       <div key={key} className="text-center">
-                                        <div className={`text-lg font-bold ${colors.text}`}>{value}</div>
+                                        <div className={`text-lg font-bold ${colors.text}`}>{String(value)}</div>
                                         <div className="text-xs text-gray-400 capitalize">{key}</div>
                                       </div>
                                     ))}
