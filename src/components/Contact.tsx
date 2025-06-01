@@ -29,36 +29,54 @@ const Contact = () => {
 
   const offices = [
     {
-      city: 'San Francisco',
-      country: 'USA',
-      address: '123 Tech Street, San Francisco, CA 94105',
-      phone: '+1 (555) 123-4567',
-      email: 'usa@boostmysites.com',
-      color: 'cyan'
+      city: 'Dubai',
+      country: 'UAE',
+      address: 'Office number 13 Empire heights Business bay, Dubai, UAE',
+      phone: '+971 4 123 4567',
+      email: 'dubai@boostmysites.com',
+      color: 'cyan',
+      image: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=800&q=80',
+      timezone: 'GMT+4'
     },
     {
-      city: 'London',
-      country: 'UK',
-      address: '456 Innovation Ave, London EC2A 4DP',
-      phone: '+44 20 7946 0958',
-      email: 'uk@boostmysites.com',
-      color: 'blue'
+      city: 'Hong Kong',
+      country: 'China',
+      address: 'The Hong Kong Club Building Level 16, No. 3A Chater Road, Central, Hong Kong',
+      phone: '+852 2123 4567',
+      email: 'hongkong@boostmysites.com',
+      color: 'blue',
+      image: 'https://images.unsplash.com/photo-1536599018102-9f803c140fc1?auto=format&fit=crop&w=800&q=80',
+      timezone: 'GMT+8'
     },
     {
-      city: 'Singapore',
-      country: 'Singapore',
-      address: '789 Marina Bay, Singapore 018956',
-      phone: '+65 6789 0123',
-      email: 'sg@boostmysites.com',
-      color: 'purple'
-    },
-    {
-      city: 'Mumbai',
+      city: 'Bengaluru',
       country: 'India',
-      address: '321 Bandra Kurla Complex, Mumbai 400051',
-      phone: '+91 22 1234 5678',
-      email: 'india@boostmysites.com',
-      color: 'pink'
+      address: 'Salarpuria Symbiosis, Ground floor Bannerghatta Road Arekere Village, Begur Hobli, Bengaluru, Karnataka 560076',
+      phone: '+91 80 1234 5678',
+      email: 'bengaluru@boostmysites.com',
+      color: 'purple',
+      image: 'https://images.unsplash.com/photo-1596176530529-78163a4f7af2?auto=format&fit=crop&w=800&q=80',
+      timezone: 'GMT+5:30'
+    },
+    {
+      city: 'Bangkok',
+      country: 'Thailand',
+      address: '15-17, 20, 25-27FI, T-One Building, 8 Soi Sukhumvit 40, Khwaeng Phra Khanong, Khlong Toei, Bangkok 10110, Thailand',
+      phone: '+66 2 123 4567',
+      email: 'bangkok@boostmysites.com',
+      color: 'pink',
+      image: 'https://images.unsplash.com/photo-1508009603885-50cf7c579365?auto=format&fit=crop&w=800&q=80',
+      timezone: 'GMT+7'
+    },
+    {
+      city: 'Delhi',
+      country: 'India',
+      address: 'Office number 309, Ambadeep building- 3rd floor, Kg marg Connaught Place, Delhi 110001, India',
+      phone: '+91 11 1234 5678',
+      email: 'delhi@boostmysites.com',
+      color: 'green',
+      image: 'https://images.unsplash.com/photo-1587474260584-136574528ed5?auto=format&fit=crop&w=800&q=80',
+      timezone: 'GMT+5:30'
     }
   ];
 
@@ -319,32 +337,53 @@ const Contact = () => {
               Our <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Global Offices</span>
             </h3>
             <p className="text-gray-400 max-w-3xl mx-auto">
-              With presence across 56+ cities, we're always close to our clients, ensuring seamless collaboration and support.
+              With presence across 5 strategic locations, we're always close to our clients, ensuring seamless collaboration and support across multiple time zones.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
             {offices.map((office, index) => {
               const colors = colorClasses[office.color];
               return (
                 <div
                   key={office.city}
-                  className={`group relative rounded-2xl bg-gray-900/80 backdrop-blur-sm border ${colors.border} hover:bg-gray-800/90 transition-all duration-500 p-6 hover:transform hover:scale-105`}
+                  className={`group relative rounded-2xl overflow-hidden bg-gray-900/80 backdrop-blur-sm border ${colors.border} hover:bg-gray-800/90 transition-all duration-500 hover:transform hover:scale-105`}
                   style={{ animationDelay: `${index * 100 + 1000}ms` }}
                 >
-                  <div className={`w-12 h-12 rounded-xl ${colors.icon} border flex items-center justify-center mb-4`}>
-                    <MapPin className="h-6 w-6" />
-                  </div>
-                  <div className={`text-xl font-bold ${colors.text} mb-2`}>
-                    {office.city}
-                  </div>
-                  <div className="text-gray-400 text-sm mb-4">
-                    {office.country}
-                  </div>
-                  <div className="space-y-2 text-sm">
-                    <p className="text-gray-300">{office.address}</p>
-                    <p className={`${colors.text} font-medium`}>{office.phone}</p>
-                    <p className="text-gray-400">{office.email}</p>
+                  {/* Background Image */}
+                  <div 
+                    className="absolute inset-0 bg-cover bg-center opacity-20 group-hover:opacity-30 transition-opacity duration-500"
+                    style={{ backgroundImage: `url(${office.image})` }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-b from-transparent via-gray-900/40 to-gray-900/80" />
+                  
+                  {/* Content */}
+                  <div className="relative z-10 p-6">
+                    <div className={`w-12 h-12 rounded-xl ${colors.icon} border flex items-center justify-center mb-4`}>
+                      <MapPin className="h-6 w-6" />
+                    </div>
+                    <div className={`text-xl font-bold ${colors.text} mb-2`}>
+                      {office.city}
+                    </div>
+                    <div className="text-gray-400 text-sm mb-2">
+                      {office.country} • {office.timezone}
+                    </div>
+                    <div className="space-y-2 text-sm">
+                      <p className="text-gray-300 line-clamp-3">{office.address}</p>
+                      <p className={`${colors.text} font-medium`}>{office.phone}</p>
+                      <p className="text-gray-400">{office.email}</p>
+                    </div>
+                    
+                    {/* WhatsApp Quick Contact */}
+                    <div className="mt-4 pt-4 border-t border-gray-700/50">
+                      <a
+                        href={`https://wa.me/${office.phone.replace(/[^0-9]/g, '')}`}
+                        className="inline-flex items-center space-x-2 text-green-400 hover:text-green-300 transition-colors text-sm"
+                      >
+                        <MessageCircle className="h-4 w-4" />
+                        <span>WhatsApp</span>
+                      </a>
+                    </div>
                   </div>
                 </div>
               );
