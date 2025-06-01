@@ -1,17 +1,8 @@
-
 import { ArrowRight, Play } from 'lucide-react';
-
 const Hero = () => {
-  return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
+  return <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Video Background */}
-      <video
-        autoPlay
-        loop
-        muted
-        playsInline
-        className="absolute inset-0 w-full h-full object-cover z-0"
-      >
+      <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover z-0">
         <source src="https://res.cloudinary.com/dknafpppp/video/upload/v1748771996/0_Ai_Brain_1920x1080_quggeb.mp4" type="video/mp4" />
       </video>
       
@@ -44,7 +35,7 @@ const Hero = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-20">
             <div className="text-center group cursor-pointer">
-              <div className="text-4xl md:text-5xl font-bold text-cyan-400 mb-3 group-hover:text-cyan-300 transition-colors duration-300 animate-pulse">2M+</div>
+              <div className="text-4xl md:text-5xl font-bold text-cyan-400 mb-3 group-hover:text-cyan-300 transition-colors duration-300 animate-pulse">100+</div>
               <div className="text-gray-300 font-medium">AI Models Deployed</div>
             </div>
             <div className="text-center group cursor-pointer">
@@ -65,8 +56,6 @@ const Hero = () => {
         <div className="absolute top-3/4 right-1/4 w-1 h-1 bg-blue-400 rounded-full animate-ping animation-delay-1000"></div>
         <div className="absolute top-1/2 left-3/4 w-1.5 h-1.5 bg-purple-400 rounded-full animate-ping animation-delay-2000"></div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default Hero;
