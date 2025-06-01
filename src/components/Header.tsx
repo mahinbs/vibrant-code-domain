@@ -1,4 +1,3 @@
-
 import { Menu, X, Code2 } from 'lucide-react';
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
@@ -10,7 +9,7 @@ const Header = () => {
   const isHomePage = location.pathname === '/';
   
   const activeSection = useScrollSpy({ 
-    sectionIds: ['hero', 'services', 'portfolio', 'about', 'team', 'contact'],
+    sectionIds: ['hero', 'services', 'portfolio', 'about', 'contact'],
     rootMargin: '-20% 0px -80% 0px'
   });
   
@@ -20,7 +19,6 @@ const Header = () => {
     { name: 'Portfolio', href: '/#portfolio', section: 'portfolio' },
     { name: 'Reviews', href: '/reviews', section: 'reviews' },
     { name: 'About', href: '/#about', section: 'about' },
-    { name: 'Team', href: '/#team', section: 'team' },
     { name: 'Contact', href: '/#contact', section: 'contact' }
   ];
 
