@@ -1,126 +1,379 @@
 
-import { Mail, Phone, MapPin, Send } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Mail, Phone, MapPin, Send, MessageCircle, Instagram, Twitter, Youtube, Globe, Users, Target, ArrowRight } from 'lucide-react';
 
 const Contact = () => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    const section = document.getElementById('contact');
+    if (section) {
+      observer.observe(section);
+    }
+
+    return () => {
+      if (section) {
+        observer.unobserve(section);
+      }
+    };
+  }, []);
+
+  const offices = [
+    {
+      city: 'San Francisco',
+      country: 'USA',
+      address: '123 Tech Street, San Francisco, CA 94105',
+      phone: '+1 (555) 123-4567',
+      email: 'usa@boostmysites.com',
+      color: 'cyan'
+    },
+    {
+      city: 'London',
+      country: 'UK',
+      address: '456 Innovation Ave, London EC2A 4DP',
+      phone: '+44 20 7946 0958',
+      email: 'uk@boostmysites.com',
+      color: 'blue'
+    },
+    {
+      city: 'Singapore',
+      country: 'Singapore',
+      address: '789 Marina Bay, Singapore 018956',
+      phone: '+65 6789 0123',
+      email: 'sg@boostmysites.com',
+      color: 'purple'
+    },
+    {
+      city: 'Mumbai',
+      country: 'India',
+      address: '321 Bandra Kurla Complex, Mumbai 400051',
+      phone: '+91 22 1234 5678',
+      email: 'india@boostmysites.com',
+      color: 'pink'
+    }
+  ];
+
+  const socialLinks = [
+    { icon: Instagram, label: 'Instagram', url: '#', color: 'pink' },
+    { icon: Twitter, label: 'Twitter', url: '#', color: 'blue' },
+    { icon: Youtube, label: 'YouTube', url: '#', color: 'red' },
+    { icon: MessageCircle, label: 'WhatsApp', url: 'https://wa.me/15551234567', color: 'green' }
+  ];
+
+  const colorClasses = {
+    cyan: {
+      border: 'border-cyan-400/30',
+      gradient: 'from-cyan-400/10 to-cyan-600/10',
+      icon: 'bg-cyan-500/10 text-cyan-400 border-cyan-400/30',
+      text: 'text-cyan-400',
+      hover: 'hover:bg-cyan-500/10 hover:border-cyan-400/50'
+    },
+    blue: {
+      border: 'border-blue-400/30',
+      gradient: 'from-blue-400/10 to-blue-600/10',
+      icon: 'bg-blue-500/10 text-blue-400 border-blue-400/30',
+      text: 'text-blue-400',
+      hover: 'hover:bg-blue-500/10 hover:border-blue-400/50'
+    },
+    purple: {
+      border: 'border-purple-400/30',
+      gradient: 'from-purple-400/10 to-purple-600/10',
+      icon: 'bg-purple-500/10 text-purple-400 border-purple-400/30',
+      text: 'text-purple-400',
+      hover: 'hover:bg-purple-500/10 hover:border-purple-400/50'
+    },
+    pink: {
+      border: 'border-pink-400/30',
+      gradient: 'from-pink-400/10 to-pink-600/10',
+      icon: 'bg-pink-500/10 text-pink-400 border-pink-400/30',
+      text: 'text-pink-400',
+      hover: 'hover:bg-pink-500/10 hover:border-pink-400/50'
+    },
+    green: {
+      border: 'border-green-400/30',
+      gradient: 'from-green-400/10 to-green-600/10',
+      icon: 'bg-green-500/10 text-green-400 border-green-400/30',
+      text: 'text-green-400',
+      hover: 'hover:bg-green-500/10 hover:border-green-400/50'
+    },
+    red: {
+      border: 'border-red-400/30',
+      gradient: 'from-red-400/10 to-red-600/10',
+      icon: 'bg-red-500/10 text-red-400 border-red-400/30',
+      text: 'text-red-400',
+      hover: 'hover:bg-red-500/10 hover:border-red-400/50'
+    }
+  };
+
   return (
-    <section id="contact" className="py-20 bg-gray-50">
-      <div className="container mx-auto px-6">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">Get In Touch</h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Ready to start your next project? Let's discuss how we can help bring your vision to life.
+    <section 
+      id="contact" 
+      className="py-20 bg-gradient-to-b from-gray-900 to-black relative overflow-hidden"
+      style={{
+        backgroundImage: `url('/lovable-uploads/d0fa4f38-5951-4a69-9df8-13d4faa03aaa.png')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        backgroundAttachment: 'fixed'
+      }}
+    >
+      {/* Background Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/60 to-gray-900/75"></div>
+      <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-transparent to-black/20"></div>
+
+      <div className="container mx-auto px-6 relative z-10">
+        {/* Section Header */}
+        <div className={`text-center mb-16 transition-all duration-1000 ${isVisible ? 'animate-fade-in opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+            Get In <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Touch</span>
+          </h2>
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+            Ready to transform your business with cutting-edge technology? Let's discuss how we can help bring your vision to life.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          <div>
-            <div className="space-y-8">
-              <div className="flex items-start space-x-4">
-                <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <Mail className="h-6 w-6 text-blue-600" />
-                </div>
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-1">Email Us</h3>
-                  <p className="text-gray-600">hello@techcorp.com</p>
-                  <p className="text-gray-600">support@techcorp.com</p>
-                </div>
-              </div>
+        {/* Quick Contact Cards */}
+        <div className={`grid grid-cols-1 md:grid-cols-3 gap-6 mb-16 transition-all duration-1000 delay-200 ${isVisible ? 'animate-fade-in opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <div className="group relative rounded-2xl bg-gray-900/80 backdrop-blur-sm border border-cyan-400/30 hover:bg-gray-800/90 transition-all duration-500 p-6 text-center hover:transform hover:scale-105">
+            <div className="w-12 h-12 rounded-xl bg-cyan-500/10 text-cyan-400 border border-cyan-400/30 flex items-center justify-center mx-auto mb-4">
+              <Mail className="h-6 w-6" />
+            </div>
+            <h3 className="text-lg font-semibold text-white mb-2">Email Us</h3>
+            <p className="text-cyan-400 font-medium">ceo@boostmysites.com</p>
+            <p className="text-gray-400 text-sm mt-1">Business inquiries</p>
+          </div>
 
-              <div className="flex items-start space-x-4">
-                <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <Phone className="h-6 w-6 text-purple-600" />
-                </div>
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-1">Call Us</h3>
-                  <p className="text-gray-600">+1 (555) 123-4567</p>
-                  <p className="text-gray-600">Mon-Fri 9am-6pm EST</p>
-                </div>
-              </div>
+          <div className="group relative rounded-2xl bg-gray-900/80 backdrop-blur-sm border border-blue-400/30 hover:bg-gray-800/90 transition-all duration-500 p-6 text-center hover:transform hover:scale-105">
+            <div className="w-12 h-12 rounded-xl bg-blue-500/10 text-blue-400 border border-blue-400/30 flex items-center justify-center mx-auto mb-4">
+              <Phone className="h-6 w-6" />
+            </div>
+            <h3 className="text-lg font-semibold text-white mb-2">Call Us</h3>
+            <p className="text-blue-400 font-medium">+1 (555) 123-4567</p>
+            <p className="text-gray-400 text-sm mt-1">24/7 Support Available</p>
+          </div>
 
-              <div className="flex items-start space-x-4">
-                <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <MapPin className="h-6 w-6 text-green-600" />
+          <div className="group relative rounded-2xl bg-gray-900/80 backdrop-blur-sm border border-green-400/30 hover:bg-gray-800/90 transition-all duration-500 p-6 text-center hover:transform hover:scale-105">
+            <div className="w-12 h-12 rounded-xl bg-green-500/10 text-green-400 border border-green-400/30 flex items-center justify-center mx-auto mb-4">
+              <MessageCircle className="h-6 w-6" />
+            </div>
+            <h3 className="text-lg font-semibold text-white mb-2">WhatsApp</h3>
+            <a href="https://wa.me/15551234567" className="text-green-400 font-medium hover:text-green-300 transition-colors">
+              Quick Chat
+            </a>
+            <p className="text-gray-400 text-sm mt-1">Instant responses</p>
+          </div>
+        </div>
+
+        {/* Main Content Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
+          {/* Contact Form */}
+          <div className={`transition-all duration-1000 delay-400 ${isVisible ? 'animate-fade-in opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+            <div className="bg-gray-900/80 backdrop-blur-sm rounded-3xl border border-gray-700/30 p-8">
+              <h3 className="text-2xl font-bold text-white mb-6">Send Us a Message</h3>
+              <form className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label htmlFor="firstName" className="block text-sm font-medium text-gray-300 mb-2">
+                      First Name
+                    </label>
+                    <input
+                      type="text"
+                      id="firstName"
+                      className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600/50 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent outline-none transition-all duration-200 text-white placeholder-gray-400"
+                      placeholder="John"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="lastName" className="block text-sm font-medium text-gray-300 mb-2">
+                      Last Name
+                    </label>
+                    <input
+                      type="text"
+                      id="lastName"
+                      className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600/50 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent outline-none transition-all duration-200 text-white placeholder-gray-400"
+                      placeholder="Doe"
+                    />
+                  </div>
                 </div>
+
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-1">Visit Us</h3>
-                  <p className="text-gray-600">123 Tech Street</p>
-                  <p className="text-gray-600">San Francisco, CA 94105</p>
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
+                    Email Address
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600/50 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent outline-none transition-all duration-200 text-white placeholder-gray-400"
+                    placeholder="john@example.com"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="subject" className="block text-sm font-medium text-gray-300 mb-2">
+                    Subject
+                  </label>
+                  <input
+                    type="text"
+                    id="subject"
+                    className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600/50 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent outline-none transition-all duration-200 text-white placeholder-gray-400"
+                    placeholder="Project Discussion"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-2">
+                    Message
+                  </label>
+                  <textarea
+                    id="message"
+                    rows={5}
+                    className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600/50 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent outline-none transition-all duration-200 resize-none text-white placeholder-gray-400"
+                    placeholder="Tell us about your project..."
+                  ></textarea>
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-6 py-4 rounded-lg hover:from-cyan-400 hover:to-blue-500 transition-all duration-300 font-semibold flex items-center justify-center space-x-2 shadow-lg hover:shadow-cyan-500/25 transform hover:scale-105"
+                >
+                  <span>Send Message</span>
+                  <Send className="h-5 w-5" />
+                </button>
+              </form>
+            </div>
+          </div>
+
+          {/* Social Media & Additional Info */}
+          <div className={`space-y-8 transition-all duration-1000 delay-600 ${isVisible ? 'animate-fade-in opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+            {/* Social Media */}
+            <div className="bg-gray-900/80 backdrop-blur-sm rounded-3xl border border-gray-700/30 p-8">
+              <h3 className="text-2xl font-bold text-white mb-6">Connect With Us</h3>
+              <div className="grid grid-cols-2 gap-4">
+                {socialLinks.map((social, index) => {
+                  const colors = colorClasses[social.color];
+                  return (
+                    <a
+                      key={social.label}
+                      href={social.url}
+                      className={`group relative rounded-xl bg-gray-800/50 border ${colors.border} ${colors.hover} transition-all duration-300 p-4 flex items-center space-x-3 transform hover:scale-105`}
+                    >
+                      <div className={`w-8 h-8 rounded-lg ${colors.icon} flex items-center justify-center`}>
+                        <social.icon className="h-4 w-4" />
+                      </div>
+                      <span className={`font-medium ${colors.text}`}>{social.label}</span>
+                    </a>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Quick Stats */}
+            <div className="bg-gray-900/80 backdrop-blur-sm rounded-3xl border border-gray-700/30 p-8">
+              <h3 className="text-2xl font-bold text-white mb-6">Why Choose Us?</h3>
+              <div className="space-y-4">
+                <div className="flex items-center space-x-4">
+                  <div className="w-8 h-8 rounded-lg bg-cyan-500/10 text-cyan-400 border border-cyan-400/30 flex items-center justify-center">
+                    <Target className="h-4 w-4" />
+                  </div>
+                  <div>
+                    <p className="text-white font-medium">1,500+ Projects Delivered</p>
+                    <p className="text-gray-400 text-sm">Across 56+ cities worldwide</p>
+                  </div>
+                </div>
+                <div className="flex items-center space-x-4">
+                  <div className="w-8 h-8 rounded-lg bg-blue-500/10 text-blue-400 border border-blue-400/30 flex items-center justify-center">
+                    <Users className="h-4 w-4" />
+                  </div>
+                  <div>
+                    <p className="text-white font-medium">230+ Expert Team Members</p>
+                    <p className="text-gray-400 text-sm">Developers, designers & strategists</p>
+                  </div>
+                </div>
+                <div className="flex items-center space-x-4">
+                  <div className="w-8 h-8 rounded-lg bg-purple-500/10 text-purple-400 border border-purple-400/30 flex items-center justify-center">
+                    <Globe className="h-4 w-4" />
+                  </div>
+                  <div>
+                    <p className="text-white font-medium">7+ Years of Innovation</p>
+                    <p className="text-gray-400 text-sm">Since 2017, trusted globally</p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
+        </div>
 
-          <div className="bg-white rounded-2xl p-8 shadow-lg">
-            <form className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-2">
-                    First Name
-                  </label>
-                  <input
-                    type="text"
-                    id="firstName"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all duration-200"
-                    placeholder="John"
-                  />
+        {/* Global Offices */}
+        <div className={`transition-all duration-1000 delay-800 ${isVisible ? 'animate-fade-in opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <div className="text-center mb-12">
+            <h3 className="text-3xl font-bold text-white mb-4">
+              Our <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Global Offices</span>
+            </h3>
+            <p className="text-gray-400 max-w-3xl mx-auto">
+              With presence across 56+ cities, we're always close to our clients, ensuring seamless collaboration and support.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {offices.map((office, index) => {
+              const colors = colorClasses[office.color];
+              return (
+                <div
+                  key={office.city}
+                  className={`group relative rounded-2xl bg-gray-900/80 backdrop-blur-sm border ${colors.border} hover:bg-gray-800/90 transition-all duration-500 p-6 hover:transform hover:scale-105`}
+                  style={{ animationDelay: `${index * 100 + 1000}ms` }}
+                >
+                  <div className={`w-12 h-12 rounded-xl ${colors.icon} border flex items-center justify-center mb-4`}>
+                    <MapPin className="h-6 w-6" />
+                  </div>
+                  <div className={`text-xl font-bold ${colors.text} mb-2`}>
+                    {office.city}
+                  </div>
+                  <div className="text-gray-400 text-sm mb-4">
+                    {office.country}
+                  </div>
+                  <div className="space-y-2 text-sm">
+                    <p className="text-gray-300">{office.address}</p>
+                    <p className={`${colors.text} font-medium`}>{office.phone}</p>
+                    <p className="text-gray-400">{office.email}</p>
+                  </div>
                 </div>
-                <div>
-                  <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-2">
-                    Last Name
-                  </label>
-                  <input
-                    type="text"
-                    id="lastName"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all duration-200"
-                    placeholder="Doe"
-                  />
-                </div>
-              </div>
+              );
+            })}
+          </div>
+        </div>
 
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                  Email Address
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all duration-200"
-                  placeholder="john@example.com"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-2">
-                  Subject
-                </label>
-                <input
-                  type="text"
-                  id="subject"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all duration-200"
-                  placeholder="Project Discussion"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
-                  Message
-                </label>
-                <textarea
-                  id="message"
-                  rows={5}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all duration-200 resize-none"
-                  placeholder="Tell us about your project..."
-                ></textarea>
-              </div>
-
-              <button
-                type="submit"
-                className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors duration-200 font-semibold flex items-center justify-center space-x-2"
-              >
-                <span>Send Message</span>
-                <Send className="h-5 w-5" />
+        {/* CTA Section */}
+        <div className={`text-center mt-16 transition-all duration-1000 delay-1000 ${isVisible ? 'animate-fade-in opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <div className="bg-gradient-to-r from-gray-900/50 to-black/50 rounded-3xl p-8 border border-gray-700/30">
+            <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
+              Ready to <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Get Started?</span>
+            </h3>
+            <p className="text-gray-300 mb-6 max-w-2xl mx-auto leading-relaxed">
+              Join 1,500+ satisfied clients who have transformed their businesses with our cutting-edge solutions.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <button className="inline-flex items-center space-x-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-8 py-4 rounded-xl hover:from-cyan-400 hover:to-blue-500 transition-all duration-300 font-medium shadow-lg hover:shadow-cyan-500/25 transform hover:scale-105">
+                <span>Start Your Project</span>
+                <ArrowRight className="h-5 w-5" />
               </button>
-            </form>
+              <a
+                href="https://wa.me/15551234567"
+                className="inline-flex items-center space-x-2 border-2 border-green-400/50 text-green-300 px-8 py-4 rounded-xl hover:bg-green-400/10 hover:border-green-300 transition-all duration-300 font-medium backdrop-blur-sm"
+              >
+                <MessageCircle className="h-5 w-5" />
+                <span>WhatsApp Chat</span>
+              </a>
+            </div>
           </div>
         </div>
       </div>
