@@ -35,7 +35,7 @@ const Hero = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-20">
             <div className="text-center group cursor-pointer">
-              <div className="text-4xl md:text-5xl font-bold text-cyan-400 mb-3 group-hover:text-cyan-300 transition-colors duration-300 animate-pulse">100+</div>
+              <div className="text-4xl md:text-5xl font-bold text-cyan-400 mb-3 group-hover:text-cyan-300 transition-colors duration-300 animate-pulse">1 M+</div>
               <div className="text-gray-300 font-medium">AI Models Deployed</div>
             </div>
             <div className="text-center group cursor-pointer">
