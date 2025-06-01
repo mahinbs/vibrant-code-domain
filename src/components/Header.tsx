@@ -1,8 +1,8 @@
-
 import { Menu, X } from 'lucide-react';
 import { useState, memo, useCallback } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useScrollSpy } from '@/hooks/useScrollSpy';
+
 const Header = memo(() => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
@@ -60,7 +60,7 @@ const Header = memo(() => {
       <nav className="container mx-auto px-6 py-4">
         <div className="flex justify-between items-center">
           <Link to="/" className="relative flex items-center space-x-4 z-60">
-            <img src="https://res.cloudinary.com/dknafpppp/image/upload/v1748806784/freepik_br_f976b57b-9b0c-47dc-8aa0-439758154a91_cpevk3.png" alt="Boostmysites Logo" loading="lazy" className="h-64 w-64 hover:scale-110 transition-transform duration-300 filter drop-shadow-lg object-cover absolute -top-24 -left-24" />
+            <img src="https://res.cloudinary.com/dknafpppp/image/upload/v1748806784/freepik_br_f976b57b-9b0c-47dc-8aa0-439758154a91_cpevk3.png" alt="Boostmysites Logo" loading="lazy" className="h-64 w-64 hover:scale-110 transition-transform duration-300 filter drop-shadow-lg object-cover absolute -top-12 -left-12" />
             
           </Link>
 
@@ -132,5 +132,6 @@ const Header = memo(() => {
       </nav>
     </header>;
 });
+
 Header.displayName = 'Header';
 export default Header;
