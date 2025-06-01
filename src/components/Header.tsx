@@ -18,6 +18,7 @@ const Header = () => {
     { name: 'Home', href: '/', section: 'hero' },
     { name: 'Services', href: '/#services', section: 'services' },
     { name: 'Portfolio', href: '/#portfolio', section: 'portfolio' },
+    { name: 'Reviews', href: '/reviews', section: 'reviews' },
     { name: 'About', href: '/#about', section: 'about' },
     { name: 'Team', href: '/#team', section: 'team' },
     { name: 'Contact', href: '/#contact', section: 'contact' }
@@ -67,6 +68,21 @@ const Header = () => {
                     {item.name}
                     <span className={`absolute bottom-0 left-0 h-0.5 bg-cyan-400 transition-all duration-300 ${
                       active ? 'w-full' : 'w-0 group-hover:w-full'
+                    }`}></span>
+                  </Link>
+                );
+              } else if (item.name === 'Reviews' || (!isHomePage && !item.href.startsWith('/#'))) {
+                return (
+                  <Link 
+                    key={item.name} 
+                    to={item.href} 
+                    className={`transition-all duration-300 font-medium relative group ${
+                      active || location.pathname === item.href ? 'text-cyan-400' : 'text-gray-300 hover:text-cyan-400'
+                    }`}
+                  >
+                    {item.name}
+                    <span className={`absolute bottom-0 left-0 h-0.5 bg-cyan-400 transition-all duration-300 ${
+                      active || location.pathname === item.href ? 'w-full' : 'w-0 group-hover:w-full'
                     }`}></span>
                   </Link>
                 );
@@ -127,6 +143,19 @@ const Header = () => {
                       to={item.href} 
                       className={`block transition-colors duration-300 font-medium ${
                         active ? 'text-cyan-400' : 'text-gray-300 hover:text-cyan-400'
+                      }`} 
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      {item.name}
+                    </Link>
+                  );
+                } else if (item.name === 'Reviews' || (!isHomePage && !item.href.startsWith('/#'))) {
+                  return (
+                    <Link 
+                      key={item.name} 
+                      to={item.href} 
+                      className={`block transition-colors duration-300 font-medium ${
+                        active || location.pathname === item.href ? 'text-cyan-400' : 'text-gray-300 hover:text-cyan-400'
                       }`} 
                       onClick={() => setIsMenuOpen(false)}
                     >
