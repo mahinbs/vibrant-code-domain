@@ -1,3 +1,4 @@
+
 import { Menu, X } from 'lucide-react';
 import { useState, memo, useCallback } from 'react';
 import { Link, useLocation } from 'react-router-dom';
@@ -67,7 +68,7 @@ const Header = memo(() => {
               src="https://res.cloudinary.com/dknafpppp/image/upload/v1748806784/freepik_br_f976b57b-9b0c-47dc-8aa0-439758154a91_cpevk3.png" 
               alt="Boostmysites Logo" 
               loading="lazy" 
-              className="h-80 w-80 md:h-96 md:w-96 hover:scale-110 transition-transform duration-300 filter drop-shadow-lg object-cover" 
+              className="h-60 w-60 md:h-76 md:w-76 hover:scale-110 transition-transform duration-300 filter drop-shadow-lg object-cover" 
             />
           </Link>
 
