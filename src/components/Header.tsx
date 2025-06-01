@@ -60,23 +60,20 @@ const Header = memo(() => {
   
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-black/20 backdrop-blur-md border-b border-cyan-500/20">
-      {/* Logo positioned in top-left corner */}
-      <Link to="/" className="fixed top-4 left-4 z-60">
-        <img 
-          src="https://res.cloudinary.com/dknafpppp/image/upload/v1748806784/freepik_br_f976b57b-9b0c-47dc-8aa0-439758154a91_cpevk3.png" 
-          alt="Boostmysites Logo" 
-          loading="lazy" 
-          className="h-64 w-64 hover:scale-110 transition-transform duration-300 filter drop-shadow-lg object-cover" 
-        />
-      </Link>
-
       <nav className="container mx-auto px-6 py-4 relative">
         <div className="flex justify-between items-center">
-          {/* Spacer to prevent overlap with fixed logo */}
-          <div className="w-64"></div>
+          {/* Logo positioned on the left side of navigation */}
+          <Link to="/" className="flex-shrink-0">
+            <img 
+              src="https://res.cloudinary.com/dknafpppp/image/upload/v1748806784/freepik_br_f976b57b-9b0c-47dc-8aa0-439758154a91_cpevk3.png" 
+              alt="Boostmysites Logo" 
+              loading="lazy" 
+              className="h-16 w-16 md:h-20 md:w-20 hover:scale-110 transition-transform duration-300 filter drop-shadow-lg object-cover" 
+            />
+          </Link>
 
-          {/* Desktop Menu - positioned to avoid logo overlap */}
-          <div className="hidden md:flex items-center space-x-8 ml-auto">
+          {/* Desktop Menu */}
+          <div className="hidden md:flex items-center space-x-8">
             {menuItems.map(item => {
               const active = isActive(item);
               if (item.name === 'Home') {
@@ -115,7 +112,7 @@ const Header = memo(() => {
           </div>
 
           {/* Mobile Menu Button */}
-          <button className="md:hidden ml-auto" onClick={toggleMenu} aria-label="Toggle menu">
+          <button className="md:hidden" onClick={toggleMenu} aria-label="Toggle menu">
             {isMenuOpen ? <X className="h-6 w-6 text-cyan-400" /> : <Menu className="h-6 w-6 text-cyan-400" />}
           </button>
         </div>
