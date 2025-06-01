@@ -72,11 +72,11 @@ const Header = memo(() => {
             />
           </Link>
 
-          {/* Invisible spacer to maintain layout balance */}
-          <div className="flex-shrink-0 w-0"></div>
+          {/* Left spacer to account for logo space and ensure proper navigation alignment */}
+          <div className="flex-shrink-0 w-64 md:w-80"></div>
 
-          {/* Desktop Menu */}
-          <div className="hidden md:flex items-center space-x-8">
+          {/* Desktop Menu - properly aligned from left to right */}
+          <div className="hidden md:flex items-center space-x-8 flex-1 justify-center">
             {menuItems.map(item => {
               const active = isActive(item);
               if (item.name === 'Home') {
@@ -114,7 +114,7 @@ const Header = memo(() => {
             </button>
           </div>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile Menu Button - properly positioned on the right */}
           <button className="md:hidden" onClick={toggleMenu} aria-label="Toggle menu">
             {isMenuOpen ? <X className="h-6 w-6 text-cyan-400" /> : <Menu className="h-6 w-6 text-cyan-400" />}
           </button>
