@@ -1,6 +1,5 @@
-
 import { useState, useEffect } from 'react';
-import { CheckCircle, Users, Target, Award, Code, Smartphone, Cloud, Brain, Zap, Star, Globe, TrendingUp, ArrowRight } from 'lucide-react';
+import { CheckCircle, Users, Target, Award, Code, Smartphone, Cloud, Brain, Zap, Star, Globe, TrendingUp, ArrowRight, Rocket } from 'lucide-react';
 
 const About = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -36,39 +35,39 @@ const About = () => {
 
   const expertise = [
     {
-      icon: Brain,
-      title: 'AI Integrations',
-      description: 'Chatbots, Predictive Analytics, AI Agents',
+      icon: Rocket,
+      title: 'Product-Led Growth Approach',
+      description: 'We don\'t just develop software—we build products with a clear growth strategy. Every feature, UI component, and integration is designed to improve user engagement, reduce friction, and drive measurable business outcomes.',
       color: 'cyan'
     },
     {
-      icon: Cloud,
-      title: 'SaaS Development',
-      description: 'Scalable cloud-based solutions',
+      icon: Brain,
+      title: 'Deep Tech + Business Understanding',
+      description: 'Our strength lies in bridging the gap between technology and business. We deeply understand user psychology, business models, and market dynamics, allowing us to build systems that perform under real business pressure.',
       color: 'blue'
     },
     {
-      icon: Code,
-      title: 'Custom Applications',
-      description: 'Web and Mobile Applications',
+      icon: Zap,
+      title: 'Speed + Iteration Mastery',
+      description: 'With 1500+ projects delivered, we\'ve refined the art of rapid prototyping, MVP development, and iterative scaling. Whether you\'re launching in 30 days or scaling to 1M users, our agile frameworks deliver results—fast.',
       color: 'purple'
     },
     {
-      icon: Zap,
-      title: 'Enterprise Systems',
-      description: 'Large-scale software solutions',
+      icon: Users,
+      title: 'True Technology Partner',
+      description: 'We don\'t work for our clients. We work with them—as partners. From ideation to launch and beyond, we embed ourselves in your mission and act as your extended tech team, not a vendor.',
       color: 'pink'
     },
     {
-      icon: Smartphone,
-      title: 'UX/UI Design',
-      description: 'Design and Branding excellence',
+      icon: Target,
+      title: 'Complex Problem Solving',
+      description: 'From automating legacy business operations to building AI-powered workflows and integrating third-party APIs, we specialize in solving non-obvious, high-impact problems with elegant tech solutions.',
       color: 'cyan'
     },
     {
-      icon: Target,
-      title: 'Marketing Automation',
-      description: 'CRM Tools and Growth Marketing',
+      icon: Globe,
+      title: 'Global Delivery Mindset',
+      description: 'With a presence in 56+ cities and clients across 10+ countries, we understand the nuances of building systems for global scale—languages, regulations, latency, user behavior, and infrastructure.',
       color: 'blue'
     }
   ];
@@ -179,8 +178,8 @@ const About = () => {
             <h3 className="text-3xl font-bold text-white mb-4">
               Our <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Expertise</span>
             </h3>
-            <p className="text-gray-400 max-w-2xl mx-auto">
-              We deliver comprehensive solutions across multiple technology domains
+            <p className="text-gray-400 max-w-3xl mx-auto">
+              At Boostmysites, expertise isn't just about the tools we use—it's about how we think, solve problems, and build systems that drive real-world outcomes.
             </p>
           </div>
 
@@ -196,10 +195,10 @@ const About = () => {
                   <div className={`w-12 h-12 rounded-xl ${colors.icon} border flex items-center justify-center mb-4`}>
                     <item.icon className="h-6 w-6" />
                   </div>
-                  <h4 className={`text-xl font-bold text-white mb-2 group-hover:${colors.text} transition-colors duration-300`}>
+                  <h4 className={`text-xl font-bold text-white mb-3 group-hover:${colors.text} transition-colors duration-300`}>
                     {item.title}
                   </h4>
-                  <p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300">
+                  <p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300 leading-relaxed">
                     {item.description}
                   </p>
                 </div>
