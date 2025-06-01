@@ -148,12 +148,22 @@ const WebAppsPage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div 
+      className="min-h-screen bg-black text-white"
+      style={{
+        backgroundImage: 'url("https://res.cloudinary.com/dknafpppp/image/upload/v1748810561/2150323552_rl9lps.jpg")',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        backgroundAttachment: 'fixed'
+      }}
+    >
       <Header />
       
       {/* Hero Section */}
       <section className="pt-32 pb-20 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 to-blue-500/10"></div>
+        <div className="absolute inset-0 bg-black/40"></div>
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-5xl md:text-7xl font-bold mb-6">
@@ -177,7 +187,7 @@ const WebAppsPage = () => {
       </section>
 
       {/* Portfolio Section */}
-      <section className="py-20 bg-gray-900/50">
+      <section className="py-20 bg-gray-900/70">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4">Our Web Application Portfolio</h2>
@@ -229,7 +239,7 @@ const WebAppsPage = () => {
       </section>
 
       {/* Case Studies Section */}
-      <section className="py-20">
+      <section className="py-20 bg-black/50">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4">Success Stories</h2>
@@ -303,7 +313,7 @@ const WebAppsPage = () => {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 bg-gray-900/50">
+      <section className="py-20 bg-gray-900/70">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4">Why Choose Our Web Development?</h2>
@@ -342,7 +352,7 @@ const WebAppsPage = () => {
       </section>
 
       {/* Process Section */}
-      <section className="py-20">
+      <section className="py-20 bg-black/50">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4">Our Development Process</h2>
@@ -365,7 +375,7 @@ const WebAppsPage = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-cyan-500/10 to-blue-500/10">
+      <section className="py-20 bg-gradient-to-r from-cyan-500/20 to-blue-500/20">
         <div className="container mx-auto px-6 text-center">
           <h2 className="text-4xl font-bold mb-4">Ready to Build Something Amazing?</h2>
           <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
