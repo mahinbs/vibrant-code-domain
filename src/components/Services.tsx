@@ -149,20 +149,16 @@ const Services = () => {
 
   return (
     <section id="services" className="py-20 bg-gradient-to-b from-gray-900 to-black relative overflow-hidden">
-      {/* Video Background */}
+      {/* Image Background */}
       <div className="absolute inset-0 z-0">
-        <iframe
-          src="https://player.cloudinary.com/embed/?cloud_name=dknafpppp&public_id=5257353_Robot_Hand_1920x1080_dzh23x&profile=cld-default&autoplay=true&loop=true&muted=true&controls=false"
-          width="100%"
-          height="100%"
-          className="w-full h-full object-cover scale-150"
-          allow="autoplay; fullscreen"
+        <div 
+          className="w-full h-full bg-cover bg-center bg-no-repeat"
           style={{
-            border: 'none',
+            backgroundImage: `url('https://res.cloudinary.com/dknafpppp/image/upload/v1748804520/108518_y7q2re.jpg')`,
+            transform: 'translate(-50%, -50%) scale(1.2)',
             position: 'absolute',
             top: '50%',
             left: '50%',
-            transform: 'translate(-50%, -50%) scale(1.2)',
             minWidth: '100vw',
             minHeight: '100vh',
           }}
