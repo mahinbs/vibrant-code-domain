@@ -1,7 +1,9 @@
 
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback, useRef } from 'react';
 
 export const usePerformance = () => {
+  const scrollRAF = useRef<number>();
+
   // Preload critical resources
   const preloadResource = useCallback((href: string, as: string) => {
     const link = document.createElement('link');
@@ -11,7 +13,7 @@ export const usePerformance = () => {
     document.head.appendChild(link);
   }, []);
 
-  // Optimize images loading
+  // Optimize images loading with intersection observer
   const optimizeImages = useCallback(() => {
     const images = document.querySelectorAll('img[data-src]');
     
@@ -25,13 +27,24 @@ export const usePerformance = () => {
             imageObserver.unobserve(img);
           }
         });
+      }, {
+        rootMargin: '50px'
       });
 
       images.forEach(img => imageObserver.observe(img));
     }
   }, []);
 
-  // Debounce scroll events for better performance
+  // Optimized scroll throttling with RAF
+  const throttleScroll = useCallback((callback: () => void) => {
+    if (scrollRAF.current) {
+      cancelAnimationFrame(scrollRAF.current);
+    }
+    
+    scrollRAF.current = requestAnimationFrame(callback);
+  }, []);
+
+  // Debounce function optimized for performance
   const debounce = useCallback((func: Function, wait: number) => {
     let timeout: NodeJS.Timeout;
     return function executedFunction(...args: any[]) {
@@ -44,22 +57,46 @@ export const usePerformance = () => {
     };
   }, []);
 
+  // Optimize scroll performance
+  const optimizeScrollPerformance = useCallback(() => {
+    // Add passive listeners for better scroll performance
+    const addPassiveListener = (element: Element, event: string, handler: EventListener) => {
+      element.addEventListener(event, handler, { passive: true });
+    };
+
+    // Apply performance optimizations to heavy elements
+    const heavyElements = document.querySelectorAll('.backdrop-blur-xl, .animate-pulse');
+    heavyElements.forEach(element => {
+      (element as HTMLElement).style.willChange = 'auto';
+      (element as HTMLElement).style.contain = 'layout style paint';
+    });
+
+    return () => {
+      if (scrollRAF.current) {
+        cancelAnimationFrame(scrollRAF.current);
+      }
+    };
+  }, []);
+
   useEffect(() => {
     // Initialize performance optimizations
     optimizeImages();
+    const cleanup = optimizeScrollPerformance();
 
     // Preload critical fonts (if any)
     // preloadResource('/fonts/critical-font.woff2', 'font');
 
     // Clean up on unmount
     return () => {
-      // Cleanup if needed
+      cleanup();
     };
-  }, [optimizeImages, preloadResource]);
+  }, [optimizeImages, optimizeScrollPerformance, preloadResource]);
 
   return {
     preloadResource,
     optimizeImages,
     debounce,
+    throttleScroll,
+    optimizeScrollPerformance,
   };
 };
