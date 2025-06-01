@@ -1,3 +1,4 @@
+
 import React, { useState, useMemo } from 'react';
 import { Star, Filter, Zap, Shield, Users, TrendingUp } from 'lucide-react';
 import Header from '@/components/Header';
@@ -179,14 +180,30 @@ const ReviewsPage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black">
-      {/* Simplified Background */}
+      {/* Background Effects */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(0,255,255,0.02),transparent_50%)]"></div>
       
       <Header />
       
-      {/* Hero Section */}
-      <section className="pt-20 pb-12 px-6 relative">
-        <div className="container mx-auto text-center">
+      {/* Hero Section with Video Background */}
+      <section className="relative pt-20 pb-12 px-6 min-h-[70vh] flex items-center overflow-hidden">
+        {/* Video Background */}
+        <video 
+          autoPlay 
+          loop 
+          muted 
+          playsInline 
+          className="absolute inset-0 w-full h-full object-cover z-0"
+          preload="metadata"
+        >
+          <source src="https://res.cloudinary.com/dknafpppp/video/upload/v1748772016/0_Ai_Brain_1280x720_1_om1z8u.mp4" type="video/mp4" />
+        </video>
+        
+        {/* Dark Overlay */}
+        <div className="absolute inset-0 bg-black/60 z-10"></div>
+        
+        {/* Content */}
+        <div className="container mx-auto text-center relative z-20">
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
             <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Boostmysites</span>
             {' '}Reviews
@@ -197,7 +214,7 @@ const ReviewsPage = () => {
             authentic feedback from clients who've ventured into the future with Boostmysites
           </p>
 
-          {/* Simplified Stats */}
+          {/* Stats Grid */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
             {[{
               icon: Star,
