@@ -94,7 +94,7 @@ const Hero = memo(() => {
         <img 
           src="https://res.cloudinary.com/dknafpppp/image/upload/v1748806784/freepik_br_f976b57b-9b0c-47dc-8aa0-439758154a91_cpevk3.png" 
           alt="Boostmysites Logo" 
-          className="h-96 w-96 object-contain opacity-90 hover:opacity-100 transition-all duration-500 animate-pulse-light hover:scale-110 filter drop-shadow-2xl"
+          className="h-64 w-64 object-contain opacity-90 hover:opacity-100 transition-all duration-500 animate-pulse-light hover:scale-110 filter drop-shadow-2xl"
           loading="lazy"
         />
       </div>
@@ -107,23 +107,23 @@ const Hero = memo(() => {
             <img 
               src="https://res.cloudinary.com/dknafpppp/image/upload/v1748806784/freepik_br_f976b57b-9b0c-47dc-8aa0-439758154a91_cpevk3.png" 
               alt="Boostmysites Logo" 
-              className="h-80 w-80 md:h-96 md:w-96 object-contain opacity-95 animate-fade-in filter drop-shadow-2xl"
+              className="h-48 w-48 md:h-56 md:w-56 object-contain opacity-95 animate-fade-in filter drop-shadow-2xl"
               loading="lazy"
             />
           </div>
 
-          {/* Main content with proper spacing from large logos */}
-          <div className="lg:mr-96 lg:pr-8">
+          {/* Main content with centered alignment */}
+          <div>
             <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight animate-fade-in gpu-accelerate">
               The Future of
               <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent animate-pulse"> AI-Powered Software</span>
             </h1>
-            <p className="text-xl md:text-2xl text-gray-200 mb-8 leading-relaxed max-w-3xl mx-auto lg:mx-0 opacity-90">
+            <p className="text-xl md:text-2xl text-gray-200 mb-8 leading-relaxed max-w-3xl mx-auto opacity-90">
               We forge tomorrow's digital reality with cutting-edge AI, machine learning, and quantum-ready solutions. 
               Experience the next evolution of software development.
             </p>
             
-            <div className="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start items-center mb-16">
+            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16">
               <button className="group relative bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-10 py-5 rounded-lg hover:from-cyan-400 hover:to-blue-500 transition-all duration-300 font-semibold flex items-center space-x-3 shadow-lg hover:shadow-cyan-500/25 transform hover:scale-105 gpu-accelerate">
                 <span>Launch Your Vision</span>
                 <ArrowRight className="h-6 w-6 group-hover:translate-x-2 transition-transform duration-300" />
