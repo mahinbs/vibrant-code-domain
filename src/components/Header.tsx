@@ -1,5 +1,5 @@
 
-import { Menu, X, Code2 } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { useState, memo, useCallback } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useScrollSpy } from '@/hooks/useScrollSpy';
@@ -48,8 +48,13 @@ const Header = memo(() => {
     <header className="fixed top-0 left-0 right-0 z-50 bg-black/20 backdrop-blur-md border-b border-cyan-500/20">
       <nav className="container mx-auto px-6 py-4">
         <div className="flex justify-between items-center">
-          <Link to="/" className="flex items-center space-x-2">
-            <Code2 className="h-8 w-8 text-cyan-400" />
+          <Link to="/" className="flex items-center space-x-3">
+            <img 
+              src="https://res.cloudinary.com/dknafpppp/image/upload/v1748806784/freepik_br_f976b57b-9b0c-47dc-8aa0-439758154a91_cpevk3.png" 
+              alt="Boostmysites Logo" 
+              className="h-10 w-10 object-contain"
+              loading="eager"
+            />
             <span className="text-xl font-bold text-white">BOOSTMYSITES</span>
           </Link>
 
