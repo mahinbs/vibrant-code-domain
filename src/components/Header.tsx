@@ -62,8 +62,8 @@ const Header = memo(() => {
     <header className="fixed top-0 left-0 right-0 z-50 bg-black/20 backdrop-blur-md border-b border-cyan-500/20">
       <nav className="container mx-auto px-6 py-4 relative">
         <div className="flex justify-between items-center">
-          {/* Logo positioned absolutely to not affect header height */}
-          <Link to="/" className="absolute -top-32 left-6 z-10">
+          {/* Logo positioned to be visible in top-left corner */}
+          <Link to="/" className="absolute top-2 left-6 z-10">
             <img 
               src="https://res.cloudinary.com/dknafpppp/image/upload/v1748806784/freepik_br_f976b57b-9b0c-47dc-8aa0-439758154a91_cpevk3.png" 
               alt="Boostmysites Logo" 
