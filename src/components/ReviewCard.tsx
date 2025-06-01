@@ -1,6 +1,7 @@
 
 import React, { memo, useState, useRef, useEffect } from 'react';
 import { Star } from 'lucide-react';
+import { usePerformance } from '@/hooks/usePerformance';
 
 interface ReviewCardProps {
   review: {
@@ -21,15 +22,16 @@ const ReviewCard = memo(({ review, index, getServiceColor }: ReviewCardProps) =>
   const [isInView, setIsInView] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
+  const { createOptimizedObserver } = usePerformance();
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
+    const observer = createOptimizedObserver(
       ([entry]) => {
         setIsInView(entry.isIntersecting);
       },
       { 
         threshold: 0.1,
-        rootMargin: '50px'
+        rootMargin: '100px'
       }
     );
 
@@ -38,44 +40,55 @@ const ReviewCard = memo(({ review, index, getServiceColor }: ReviewCardProps) =>
     }
 
     return () => observer.disconnect();
-  }, []);
+  }, [createOptimizedObserver]);
 
-  const handleMouseEnter = () => setIsHovered(true);
-  const handleMouseLeave = () => setIsHovered(false);
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+    if (cardRef.current) {
+      cardRef.current.style.willChange = 'transform';
+    }
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+    if (cardRef.current) {
+      cardRef.current.style.willChange = 'auto';
+    }
+  };
 
   return (
     <div 
       ref={cardRef}
-      className={`group relative transform transition-all duration-700 ${isInView ? 'animate-fade-in' : 'opacity-0'} ${isHovered ? 'scale-105' : ''}`}
+      className={`group relative transform transition-all duration-700 prevent-layout-shift ${isInView ? 'animate-fade-in' : 'opacity-0'} ${isHovered ? 'scale-105' : ''}`}
       style={{
         animationDelay: `${index * 0.1}s`,
-        willChange: isHovered ? 'transform' : 'auto',
-        contain: 'layout style paint'
+        contain: 'layout style paint',
+        contentVisibility: 'auto',
+        containIntrinsicSize: '1px 400px'
       }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
       {/* Card Container with optimized 3D Transform */}
-      <div className="relative bg-black/40 backdrop-blur-md rounded-3xl p-8 border border-cyan-500/20 hover:border-cyan-400/60 transition-all duration-700 hover:shadow-2xl hover:shadow-cyan-400/20 gpu-accelerate">
+      <div className="relative bg-black/40 backdrop-blur-md rounded-3xl p-8 border border-cyan-500/20 hover:border-cyan-400/60 transition-all duration-700 hover:shadow-2xl hover:shadow-cyan-400/20 gpu-accelerate review-card">
         
         {/* Optimized Holographic Background */}
         <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 via-transparent to-blue-600/5 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
         
         {/* Service Badge with optimized Neon Effect */}
-        <div className={`inline-block px-4 py-2 rounded-full text-xs font-bold border mb-6 relative overflow-hidden ${getServiceColor(review.service)}`}>
+        <div className={`inline-block px-4 py-2 rounded-full text-xs font-bold border mb-6 relative overflow-hidden gpu-accelerate ${getServiceColor(review.service)}`}>
           <span className="relative z-10">{review.service}</span>
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
         </div>
 
         {/* Rating with optimized animation */}
-        <div className="flex mb-6 space-x-1">
+        <div className="flex mb-6 space-x-1" style={{ contain: 'layout' }}>
           {[...Array(review.rating)].map((_, i) => (
             <Star 
               key={i} 
-              className="h-5 w-5 text-yellow-400 fill-current transform hover:scale-125 transition-transform duration-300" 
+              className="h-5 w-5 text-yellow-400 fill-current transform hover:scale-125 transition-transform duration-300 gpu-accelerate" 
               style={{
-                animationDelay: `${i * 0.1}s`,
-                contain: 'layout'
+                animationDelay: `${i * 0.1}s`
               }} 
             />
           ))}
@@ -89,14 +102,18 @@ const ReviewCard = memo(({ review, index, getServiceColor }: ReviewCardProps) =>
         </blockquote>
 
         {/* Client Info with optimized Avatar */}
-        <div className="flex items-center relative">
+        <div className="flex items-center relative" style={{ contain: 'layout style' }}>
           <div className="relative mr-4">
             <img 
               src={review.image} 
               alt={review.name} 
-              className="w-16 h-16 rounded-full border-2 border-cyan-400/50 shadow-lg shadow-cyan-400/20 group-hover:shadow-cyan-400/40 transition-all duration-500"
+              className="w-16 h-16 rounded-full border-2 border-cyan-400/50 shadow-lg shadow-cyan-400/20 group-hover:shadow-cyan-400/40 transition-all duration-500 gpu-accelerate"
               loading="lazy"
               decoding="async"
+              style={{
+                contentVisibility: 'auto',
+                containIntrinsicSize: '64px 64px'
+              }}
             />
             {/* Optimized avatar glow effect */}
             <div className="absolute inset-0 rounded-full bg-cyan-400/20 blur-md animate-pulse"></div>

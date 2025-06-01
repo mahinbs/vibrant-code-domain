@@ -4,7 +4,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Suspense, lazy } from "react";
+import { Suspense, lazy, useEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 
 // Lazy load all page components for code splitting
@@ -30,9 +30,9 @@ const queryClient = new QueryClient({
   },
 });
 
-// Loading fallback component
+// Loading fallback component with performance optimization
 const PageSkeleton = () => (
-  <div className="min-h-screen bg-black">
+  <div className="min-h-screen bg-black" style={{ contain: 'layout style paint' }}>
     <div className="container mx-auto px-6 py-20">
       <Skeleton className="h-12 w-64 mb-8" />
       <Skeleton className="h-8 w-full mb-4" />
@@ -47,28 +47,57 @@ const PageSkeleton = () => (
   </div>
 );
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Suspense fallback={<PageSkeleton />}>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/portfolio" element={<Portfolio />} />
-            <Route path="/reviews" element={<ReviewsPage />} />
-            <Route path="/web-apps" element={<WebAppsPage />} />
-            <Route path="/saas" element={<SaasPage />} />
-            <Route path="/mobile-apps" element={<MobileAppsPage />} />
-            <Route path="/ai-calling" element={<AiCallingPage />} />
-            <Route path="/ai-automation" element={<AiAutomationPage />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </Suspense>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+const App = () => {
+  useEffect(() => {
+    // Global performance optimizations
+    const styleSheet = document.createElement('style');
+    styleSheet.textContent = `
+      * {
+        scroll-behavior: auto !important;
+      }
+      
+      .gpu-accelerate {
+        transform: translateZ(0);
+        will-change: auto;
+        backface-visibility: hidden;
+        perspective: 1000px;
+      }
+      
+      .prevent-layout-shift {
+        contain: layout style paint;
+        content-visibility: auto;
+      }
+    `;
+    document.head.appendChild(styleSheet);
+
+    return () => {
+      document.head.removeChild(styleSheet);
+    };
+  }, []);
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Suspense fallback={<PageSkeleton />}>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/portfolio" element={<Portfolio />} />
+              <Route path="/reviews" element={<ReviewsPage />} />
+              <Route path="/web-apps" element={<WebAppsPage />} />
+              <Route path="/saas" element={<SaasPage />} />
+              <Route path="/mobile-apps" element={<MobileAppsPage />} />
+              <Route path="/ai-calling" element={<AiCallingPage />} />
+              <Route path="/ai-automation" element={<AiAutomationPage />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Suspense>
+        </BrowserRouter>
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
+};
 
 export default App;

@@ -3,6 +3,8 @@ import { useEffect, useCallback, useRef } from 'react';
 
 export const usePerformance = () => {
   const scrollRAF = useRef<number>();
+  const lastScrollTime = useRef<number>(0);
+  const scrollVelocity = useRef<number>(0);
 
   // Preload critical resources
   const preloadResource = useCallback((href: string, as: string) => {
@@ -28,23 +30,35 @@ export const usePerformance = () => {
           }
         });
       }, {
-        rootMargin: '50px'
+        rootMargin: '100px',
+        threshold: 0.01
       });
 
       images.forEach(img => imageObserver.observe(img));
     }
   }, []);
 
-  // Optimized scroll throttling with RAF
+  // High-performance scroll throttling with RAF
   const throttleScroll = useCallback((callback: () => void) => {
     if (scrollRAF.current) {
       cancelAnimationFrame(scrollRAF.current);
     }
     
-    scrollRAF.current = requestAnimationFrame(callback);
+    scrollRAF.current = requestAnimationFrame(() => {
+      const now = performance.now();
+      const deltaTime = now - lastScrollTime.current;
+      
+      // Calculate scroll velocity for performance decisions
+      if (deltaTime > 0) {
+        scrollVelocity.current = Math.abs(window.scrollY - (lastScrollTime.current || 0)) / deltaTime;
+      }
+      
+      lastScrollTime.current = now;
+      callback();
+    });
   }, []);
 
-  // Debounce function optimized for performance
+  // Optimized debounce for performance-critical operations
   const debounce = useCallback((func: Function, wait: number) => {
     let timeout: NodeJS.Timeout;
     return function executedFunction(...args: any[]) {
@@ -57,18 +71,27 @@ export const usePerformance = () => {
     };
   }, []);
 
-  // Optimize scroll performance
+  // Enhanced scroll performance optimization
   const optimizeScrollPerformance = useCallback(() => {
-    // Add passive listeners for better scroll performance
+    // Add high-performance passive listeners
     const addPassiveListener = (element: Element, event: string, handler: EventListener) => {
       element.addEventListener(event, handler, { passive: true });
     };
 
-    // Apply performance optimizations to heavy elements
-    const heavyElements = document.querySelectorAll('.backdrop-blur-xl, .animate-pulse');
+    // Optimize heavy elements with performance hints
+    const heavyElements = document.querySelectorAll('.backdrop-blur-xl, .animate-pulse, .hero-section');
     heavyElements.forEach(element => {
-      (element as HTMLElement).style.willChange = 'auto';
-      (element as HTMLElement).style.contain = 'layout style paint';
+      const htmlElement = element as HTMLElement;
+      htmlElement.style.contain = 'layout style paint';
+      htmlElement.style.contentVisibility = 'auto';
+      htmlElement.style.willChange = 'auto';
+    });
+
+    // Optimize video elements for scroll performance
+    const videos = document.querySelectorAll('video');
+    videos.forEach(video => {
+      video.style.contain = 'layout style paint';
+      video.style.contentVisibility = 'auto';
     });
 
     return () => {
@@ -78,19 +101,49 @@ export const usePerformance = () => {
     };
   }, []);
 
+  // Get current scroll velocity for performance decisions
+  const getScrollVelocity = useCallback(() => {
+    return scrollVelocity.current;
+  }, []);
+
+  // Optimize intersection observers with throttling
+  const createOptimizedObserver = useCallback((
+    callback: IntersectionObserverCallback,
+    options: IntersectionObserverInit = {}
+  ) => {
+    const throttledCallback: IntersectionObserverCallback = (entries, observer) => {
+      if (scrollRAF.current) {
+        cancelAnimationFrame(scrollRAF.current);
+      }
+      
+      scrollRAF.current = requestAnimationFrame(() => {
+        callback(entries, observer);
+      });
+    };
+
+    return new IntersectionObserver(throttledCallback, {
+      rootMargin: '50px',
+      threshold: 0.1,
+      ...options
+    });
+  }, []);
+
   useEffect(() => {
     // Initialize performance optimizations
     optimizeImages();
     const cleanup = optimizeScrollPerformance();
 
-    // Preload critical fonts (if any)
-    // preloadResource('/fonts/critical-font.woff2', 'font');
-
+    // Apply global performance optimizations
+    document.documentElement.style.scrollBehavior = 'auto';
+    
     // Clean up on unmount
     return () => {
       cleanup();
+      if (scrollRAF.current) {
+        cancelAnimationFrame(scrollRAF.current);
+      }
     };
-  }, [optimizeImages, optimizeScrollPerformance, preloadResource]);
+  }, [optimizeImages, optimizeScrollPerformance]);
 
   return {
     preloadResource,
@@ -98,5 +151,7 @@ export const usePerformance = () => {
     debounce,
     throttleScroll,
     optimizeScrollPerformance,
+    getScrollVelocity,
+    createOptimizedObserver,
   };
 };
