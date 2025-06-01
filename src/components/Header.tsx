@@ -14,12 +14,12 @@ const Header = () => {
   ];
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-black/20 backdrop-blur-md border-b border-cyan-500/20">
       <nav className="container mx-auto px-6 py-4">
         <div className="flex justify-between items-center">
           <div className="flex items-center space-x-2">
-            <Code2 className="h-8 w-8 text-blue-600" />
-            <span className="text-xl font-bold text-gray-900">TechCorp</span>
+            <Code2 className="h-8 w-8 text-cyan-400" />
+            <span className="text-xl font-bold text-white">NeuraCode</span>
           </div>
 
           {/* Desktop Menu */}
@@ -28,13 +28,14 @@ const Header = () => {
               <a
                 key={item.name}
                 href={item.href}
-                className="text-gray-600 hover:text-blue-600 transition-colors duration-200 font-medium"
+                className="text-gray-300 hover:text-cyan-400 transition-all duration-300 font-medium relative group"
               >
                 {item.name}
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-cyan-400 transition-all duration-300 group-hover:w-full"></span>
               </a>
             ))}
-            <button className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-200 font-medium">
-              Get Started
+            <button className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-6 py-2 rounded-lg hover:from-cyan-400 hover:to-blue-500 transition-all duration-300 font-medium shadow-lg hover:shadow-cyan-500/25 transform hover:scale-105">
+              Neural Access
             </button>
           </div>
 
@@ -44,29 +45,29 @@ const Header = () => {
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             {isMenuOpen ? (
-              <X className="h-6 w-6 text-gray-600" />
+              <X className="h-6 w-6 text-cyan-400" />
             ) : (
-              <Menu className="h-6 w-6 text-gray-600" />
+              <Menu className="h-6 w-6 text-cyan-400" />
             )}
           </button>
         </div>
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="md:hidden absolute top-full left-0 right-0 bg-white border-b border-gray-200 shadow-lg">
+          <div className="md:hidden absolute top-full left-0 right-0 bg-black/90 backdrop-blur-md border-b border-cyan-500/20 shadow-lg">
             <div className="px-6 py-4 space-y-4">
               {menuItems.map((item) => (
                 <a
                   key={item.name}
                   href={item.href}
-                  className="block text-gray-600 hover:text-blue-600 transition-colors duration-200 font-medium"
+                  className="block text-gray-300 hover:text-cyan-400 transition-colors duration-300 font-medium"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {item.name}
                 </a>
               ))}
-              <button className="w-full bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-200 font-medium">
-                Get Started
+              <button className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-6 py-2 rounded-lg hover:from-cyan-400 hover:to-blue-500 transition-all duration-300 font-medium">
+                Neural Access
               </button>
             </div>
           </div>
