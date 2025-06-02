@@ -80,9 +80,9 @@ const BlogList = () => {
                 {blogs.map((blog) => (
                   <TableRow key={blog.id}>
                     <TableCell className="font-medium">{blog.title}</TableCell>
-                    <TableCell>{blog.author}</TableCell>
-                    <TableCell>{formatDate(blog.date)}</TableCell>
-                    <TableCell>{blog.readingTime}</TableCell>
+                    <TableCell>{blog.author.name}</TableCell>
+                    <TableCell>{formatDate(blog.publishedDate)}</TableCell>
+                    <TableCell>{blog.readingTime} min read</TableCell>
                     <TableCell>
                       <div className="flex flex-wrap gap-1">
                         {blog.tags.slice(0, 2).map((tag) => (

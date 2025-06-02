@@ -15,6 +15,14 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
+const services = [
+  { id: 'web-apps', label: 'Web Applications' },
+  { id: 'saas', label: 'SAAS Solutions' },
+  { id: 'mobile-apps', label: 'Mobile Applications' },
+  { id: 'ai-calling', label: 'AI Calling Agency' },
+  { id: 'ai-automation', label: 'AI Automation' }
+];
+
 const PortfolioList = () => {
   const [projects, setProjects] = useState(adminDataService.getProjects());
   const { toast } = useToast();
@@ -28,6 +36,11 @@ const PortfolioList = () => {
         description: "The portfolio has been successfully deleted.",
       });
     }
+  };
+
+  const getServiceLabel = (serviceId: string) => {
+    const service = services.find(s => s.id === serviceId);
+    return service ? service.label : serviceId;
   };
 
   return (
@@ -76,7 +89,7 @@ const PortfolioList = () => {
                   <TableRow key={project.id}>
                     <TableCell className="font-medium">{project.title}</TableCell>
                     <TableCell>{project.client}</TableCell>
-                    <TableCell>{project.service}</TableCell>
+                    <TableCell>{getServiceLabel(project.serviceId)}</TableCell>
                     <TableCell>
                       <div className="flex flex-wrap gap-1">
                         {project.technologies.slice(0, 3).map((tech) => (
@@ -91,13 +104,11 @@ const PortfolioList = () => {
                     </TableCell>
                     <TableCell>
                       <div className="flex gap-2">
-                        {project.url && (
-                          <Button variant="outline" size="sm" asChild>
-                            <a href={project.url} target="_blank" rel="noopener noreferrer">
-                              <ExternalLink className="h-4 w-4" />
-                            </a>
-                          </Button>
-                        )}
+                        <Button variant="outline" size="sm" asChild>
+                          <Link to={`/case-study/${project.id}`} target="_blank">
+                            <ExternalLink className="h-4 w-4" />
+                          </Link>
+                        </Button>
                         <Button variant="outline" size="sm" asChild>
                           <Link to={`/admin/portfolios/edit/${project.id}`}>
                             <Edit className="h-4 w-4" />

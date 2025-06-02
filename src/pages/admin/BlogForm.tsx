@@ -18,13 +18,18 @@ const BlogForm = () => {
 
   const [formData, setFormData] = useState<AdminBlogPost>({
     title: '',
-    excerpt: '',
     content: '',
-    author: '',
-    date: new Date().toISOString().split('T')[0],
-    readingTime: '',
-    image: '',
-    tags: []
+    author: {
+      name: '',
+      avatar: '',
+      bio: ''
+    },
+    excerpt: '',
+    publishedDate: new Date().toISOString().split('T')[0],
+    category: '',
+    featuredImage: '',
+    tags: [],
+    readingTime: 5
   });
 
   const [tagInput, setTagInput] = useState('');
@@ -36,7 +41,7 @@ const BlogForm = () => {
       if (blog) {
         setFormData({
           ...blog,
-          date: blog.date.split('T')[0] // Convert to date input format
+          publishedDate: blog.publishedDate.split('T')[0] // Convert to date input format
         });
       }
     }
@@ -45,7 +50,7 @@ const BlogForm = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!formData.title || !formData.content || !formData.author) {
+    if (!formData.title || !formData.content || !formData.author.name) {
       toast({
         title: "Validation Error",
         description: "Please fill in all required fields.",
@@ -57,7 +62,7 @@ const BlogForm = () => {
     try {
       const blogData = {
         ...formData,
-        date: new Date(formData.date).toISOString()
+        publishedDate: new Date(formData.publishedDate).toISOString()
       };
       
       adminDataService.saveBlog(blogData);
@@ -139,44 +144,87 @@ const BlogForm = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="author">Author *</Label>
+                <Label htmlFor="author-name">Author Name *</Label>
                 <Input
-                  id="author"
-                  value={formData.author}
-                  onChange={(e) => setFormData(prev => ({ ...prev, author: e.target.value }))}
+                  id="author-name"
+                  value={formData.author.name}
+                  onChange={(e) => setFormData(prev => ({
+                    ...prev,
+                    author: { ...prev.author, name: e.target.value }
+                  }))}
                   placeholder="Author name"
                   required
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="date">Date</Label>
+                <Label htmlFor="publishedDate">Date</Label>
                 <Input
-                  id="date"
+                  id="publishedDate"
                   type="date"
-                  value={formData.date}
-                  onChange={(e) => setFormData(prev => ({ ...prev, date: e.target.value }))}
+                  value={formData.publishedDate}
+                  onChange={(e) => setFormData(prev => ({ ...prev, publishedDate: e.target.value }))}
                   required
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="readingTime">Reading Time</Label>
+                <Label htmlFor="readingTime">Reading Time (minutes)</Label>
                 <Input
                   id="readingTime"
+                  type="number"
                   value={formData.readingTime}
-                  onChange={(e) => setFormData(prev => ({ ...prev, readingTime: e.target.value }))}
-                  placeholder="e.g., 5 min read"
+                  onChange={(e) => setFormData(prev => ({ ...prev, readingTime: parseInt(e.target.value) || 5 }))}
+                  placeholder="5"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="category">Category</Label>
+                <Input
+                  id="category"
+                  value={formData.category}
+                  onChange={(e) => setFormData(prev => ({ ...prev, category: e.target.value }))}
+                  placeholder="e.g., Technology, Design"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="author-avatar">Author Avatar URL</Label>
+                <Input
+                  id="author-avatar"
+                  value={formData.author.avatar}
+                  onChange={(e) => setFormData(prev => ({
+                    ...prev,
+                    author: { ...prev.author, avatar: e.target.value }
+                  }))}
+                  placeholder="https://example.com/avatar.jpg"
+                  type="url"
                 />
               </div>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="image">Featured Image URL</Label>
+              <Label htmlFor="featuredImage">Featured Image URL</Label>
               <Input
-                id="image"
-                value={formData.image}
-                onChange={(e) => setFormData(prev => ({ ...prev, image: e.target.value }))}
+                id="featuredImage"
+                value={formData.featuredImage}
+                onChange={(e) => setFormData(prev => ({ ...prev, featuredImage: e.target.value }))}
                 placeholder="https://example.com/image.jpg"
                 type="url"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="author-bio">Author Bio</Label>
+              <Textarea
+                id="author-bio"
+                value={formData.author.bio}
+                onChange={(e) => setFormData(prev => ({
+                  ...prev,
+                  author: { ...prev.author, bio: e.target.value }
+                }))}
+                placeholder="Brief bio about the author"
+                rows={2}
               />
             </div>
           </CardContent>

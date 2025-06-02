@@ -14,11 +14,24 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
+const services = [
+  { id: 'web-apps', label: 'Web Applications' },
+  { id: 'saas', label: 'SAAS Solutions' },
+  { id: 'mobile-apps', label: 'Mobile Applications' },
+  { id: 'ai-calling', label: 'AI Calling Agency' },
+  { id: 'ai-automation', label: 'AI Automation' }
+];
+
 const CaseStudyList = () => {
   const [projects] = useState(adminDataService.getProjects());
   
   // Filter projects that have case study content
   const caseStudies = projects.filter(p => p.challenge && p.solution);
+
+  const getServiceLabel = (serviceId: string) => {
+    const service = services.find(s => s.id === serviceId);
+    return service ? service.label : serviceId;
+  };
 
   return (
     <div className="space-y-6">
@@ -68,7 +81,7 @@ const CaseStudyList = () => {
                   <TableRow key={project.id}>
                     <TableCell className="font-medium">{project.title}</TableCell>
                     <TableCell>{project.client}</TableCell>
-                    <TableCell>{project.service}</TableCell>
+                    <TableCell>{getServiceLabel(project.serviceId)}</TableCell>
                     <TableCell>
                       <span className={`px-2 py-1 rounded text-xs ${
                         project.challenge ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'

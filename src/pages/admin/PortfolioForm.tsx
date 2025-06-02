@@ -7,8 +7,17 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
 import { ArrowLeft } from 'lucide-react';
+
+const services = [
+  { id: 'web-apps', label: 'Web Applications' },
+  { id: 'saas', label: 'SAAS Solutions' },
+  { id: 'mobile-apps', label: 'Mobile Applications' },
+  { id: 'ai-calling', label: 'AI Calling Agency' },
+  { id: 'ai-automation', label: 'AI Automation' }
+];
 
 const PortfolioForm = () => {
   const { id } = useParams();
@@ -18,26 +27,35 @@ const PortfolioForm = () => {
 
   const [formData, setFormData] = useState<AdminProject>({
     title: '',
-    description: '',
-    service: '',
     client: '',
-    url: '',
-    image: '',
+    description: '',
     technologies: [],
+    metrics: {},
+    timeline: '',
+    team: '',
+    industry: '',
+    testimonial: '',
+    clientLogo: '',
+    image: '',
+    serviceId: '',
     challenge: '',
     solution: '',
-    results: [],
-    testimonial: {
-      text: '',
+    approach: [],
+    gallery: [],
+    detailedMetrics: [],
+    techStack: [],
+    features: [],
+    extendedTestimonial: {
+      quote: '',
       author: '',
-      role: '',
+      position: '',
       company: ''
-    },
-    gallery: []
+    }
   });
 
   const [techInput, setTechInput] = useState('');
-  const [resultInput, setResultInput] = useState('');
+  const [approachInput, setApproachInput] = useState('');
+  const [featureInput, setFeatureInput] = useState('');
 
   useEffect(() => {
     if (isEdit && id) {
@@ -52,7 +70,7 @@ const PortfolioForm = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!formData.title || !formData.description || !formData.service) {
+    if (!formData.title || !formData.description || !formData.serviceId) {
       toast({
         title: "Validation Error",
         description: "Please fill in all required fields.",
@@ -94,20 +112,37 @@ const PortfolioForm = () => {
     }));
   };
 
-  const addResult = () => {
-    if (resultInput.trim() && !formData.results.includes(resultInput.trim())) {
+  const addApproach = () => {
+    if (approachInput.trim() && !formData.approach.includes(approachInput.trim())) {
       setFormData(prev => ({
         ...prev,
-        results: [...prev.results, resultInput.trim()]
+        approach: [...prev.approach, approachInput.trim()]
       }));
-      setResultInput('');
+      setApproachInput('');
     }
   };
 
-  const removeResult = (result: string) => {
+  const removeApproach = (approach: string) => {
     setFormData(prev => ({
       ...prev,
-      results: prev.results.filter(r => r !== result)
+      approach: prev.approach.filter(a => a !== approach)
+    }));
+  };
+
+  const addFeature = () => {
+    if (featureInput.trim() && !formData.features.includes(featureInput.trim())) {
+      setFormData(prev => ({
+        ...prev,
+        features: [...prev.features, featureInput.trim()]
+      }));
+      setFeatureInput('');
+    }
+  };
+
+  const removeFeature = (feature: string) => {
+    setFormData(prev => ({
+      ...prev,
+      features: prev.features.filter(f => f !== feature)
     }));
   };
 
@@ -170,23 +205,48 @@ const PortfolioForm = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="service">Service *</Label>
+                <Label htmlFor="serviceId">Service *</Label>
+                <Select value={formData.serviceId} onValueChange={(value) => setFormData(prev => ({ ...prev, serviceId: value }))}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a service" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {services.map((service) => (
+                      <SelectItem key={service.id} value={service.id}>
+                        {service.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="industry">Industry</Label>
                 <Input
-                  id="service"
-                  value={formData.service}
-                  onChange={(e) => setFormData(prev => ({ ...prev, service: e.target.value }))}
-                  placeholder="e.g., Web Development"
-                  required
+                  id="industry"
+                  value={formData.industry}
+                  onChange={(e) => setFormData(prev => ({ ...prev, industry: e.target.value }))}
+                  placeholder="e.g., Healthcare, Finance"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="timeline">Timeline</Label>
+                <Input
+                  id="timeline"
+                  value={formData.timeline}
+                  onChange={(e) => setFormData(prev => ({ ...prev, timeline: e.target.value }))}
+                  placeholder="e.g., 12 weeks"
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="url">Project URL</Label>
+                <Label htmlFor="team">Team Size</Label>
                 <Input
-                  id="url"
-                  value={formData.url}
-                  onChange={(e) => setFormData(prev => ({ ...prev, url: e.target.value }))}
-                  placeholder="https://example.com"
-                  type="url"
+                  id="team"
+                  value={formData.team}
+                  onChange={(e) => setFormData(prev => ({ ...prev, team: e.target.value }))}
+                  placeholder="e.g., 5 developers"
                 />
               </div>
             </div>
@@ -198,6 +258,17 @@ const PortfolioForm = () => {
                 value={formData.image}
                 onChange={(e) => setFormData(prev => ({ ...prev, image: e.target.value }))}
                 placeholder="https://example.com/image.jpg"
+                type="url"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="clientLogo">Client Logo URL</Label>
+              <Input
+                id="clientLogo"
+                value={formData.clientLogo}
+                onChange={(e) => setFormData(prev => ({ ...prev, clientLogo: e.target.value }))}
+                placeholder="https://example.com/logo.jpg"
                 type="url"
               />
             </div>
@@ -257,21 +328,42 @@ const PortfolioForm = () => {
             </div>
 
             <div className="space-y-2">
-              <Label>Results</Label>
+              <Label>Approach</Label>
               <div className="flex gap-2">
                 <Input
-                  value={resultInput}
-                  onChange={(e) => setResultInput(e.target.value)}
-                  placeholder="Add result"
-                  onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addResult())}
+                  value={approachInput}
+                  onChange={(e) => setApproachInput(e.target.value)}
+                  placeholder="Add approach step"
+                  onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addApproach())}
                 />
-                <Button type="button" onClick={addResult}>Add</Button>
+                <Button type="button" onClick={addApproach}>Add</Button>
               </div>
               <div className="space-y-2">
-                {formData.results.map((result) => (
-                  <div key={result} className="flex items-center justify-between bg-gray-50 p-2 rounded">
-                    <span>{result}</span>
-                    <Button type="button" variant="outline" size="sm" onClick={() => removeResult(result)}>Remove</Button>
+                {formData.approach.map((approach) => (
+                  <div key={approach} className="flex items-center justify-between bg-gray-50 p-2 rounded">
+                    <span>{approach}</span>
+                    <Button type="button" variant="outline" size="sm" onClick={() => removeApproach(approach)}>Remove</Button>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label>Features</Label>
+              <div className="flex gap-2">
+                <Input
+                  value={featureInput}
+                  onChange={(e) => setFeatureInput(e.target.value)}
+                  placeholder="Add feature"
+                  onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addFeature())}
+                />
+                <Button type="button" onClick={addFeature}>Add</Button>
+              </div>
+              <div className="space-y-2">
+                {formData.features.map((feature) => (
+                  <div key={feature} className="flex items-center justify-between bg-gray-50 p-2 rounded">
+                    <span>{feature}</span>
+                    <Button type="button" variant="outline" size="sm" onClick={() => removeFeature(feature)}>Remove</Button>
                   </div>
                 ))}
               </div>
@@ -288,10 +380,10 @@ const PortfolioForm = () => {
               <Label htmlFor="testimonial-text">Testimonial Text</Label>
               <Textarea
                 id="testimonial-text"
-                value={formData.testimonial.text}
+                value={formData.extendedTestimonial.quote}
                 onChange={(e) => setFormData(prev => ({
                   ...prev,
-                  testimonial: { ...prev.testimonial, text: e.target.value }
+                  extendedTestimonial: { ...prev.extendedTestimonial, quote: e.target.value }
                 }))}
                 placeholder="Client testimonial"
                 rows={3}
@@ -303,22 +395,22 @@ const PortfolioForm = () => {
                 <Label htmlFor="testimonial-author">Author</Label>
                 <Input
                   id="testimonial-author"
-                  value={formData.testimonial.author}
+                  value={formData.extendedTestimonial.author}
                   onChange={(e) => setFormData(prev => ({
                     ...prev,
-                    testimonial: { ...prev.testimonial, author: e.target.value }
+                    extendedTestimonial: { ...prev.extendedTestimonial, author: e.target.value }
                   }))}
                   placeholder="John Doe"
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="testimonial-role">Role</Label>
+                <Label htmlFor="testimonial-position">Position</Label>
                 <Input
-                  id="testimonial-role"
-                  value={formData.testimonial.role}
+                  id="testimonial-position"
+                  value={formData.extendedTestimonial.position}
                   onChange={(e) => setFormData(prev => ({
                     ...prev,
-                    testimonial: { ...prev.testimonial, role: e.target.value }
+                    extendedTestimonial: { ...prev.extendedTestimonial, position: e.target.value }
                   }))}
                   placeholder="CEO"
                 />
@@ -327,10 +419,10 @@ const PortfolioForm = () => {
                 <Label htmlFor="testimonial-company">Company</Label>
                 <Input
                   id="testimonial-company"
-                  value={formData.testimonial.company}
+                  value={formData.extendedTestimonial.company}
                   onChange={(e) => setFormData(prev => ({
                     ...prev,
-                    testimonial: { ...prev.testimonial, company: e.target.value }
+                    extendedTestimonial: { ...prev.extendedTestimonial, company: e.target.value }
                   }))}
                   placeholder="Company Name"
                 />
