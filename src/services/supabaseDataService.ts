@@ -1,3 +1,4 @@
+
 import { supabase } from '@/integrations/supabase/client';
 import { Project } from '@/data/projects';
 import { BlogPost } from '@/data/blogs';
@@ -53,7 +54,6 @@ const transformDbBlogToBlogPost = (dbBlog: any): BlogPost => {
     readingTime: dbBlog.reading_time || 5,
     tags: dbBlog.tags || [],
     featuredImage: dbBlog.image,
-    // Add default values for required BlogPost fields
     category: 'General'
   };
 };

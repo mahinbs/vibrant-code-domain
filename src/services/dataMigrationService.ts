@@ -52,7 +52,8 @@ export const dataMigrationService = {
             publishedDate: blog.publishedDate,
             readingTime: blog.readingTime,
             tags: blog.tags,
-            featuredImage: blog.featuredImage
+            featuredImage: blog.featuredImage,
+            category: blog.category
           });
           migratedBlogs.push(migratedBlog);
           console.log(`DataMigration - Successfully migrated blog: ${blog.title}`);
