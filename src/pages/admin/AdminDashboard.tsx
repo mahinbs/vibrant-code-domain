@@ -1,8 +1,10 @@
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { adminDataService } from '@/services/adminDataService';
 import { FolderOpen, FileText, BookOpen, Download, Upload } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
+import { Link } from 'react-router-dom';
 
 const AdminDashboard = () => {
   const { toast } = useToast();
@@ -104,16 +106,18 @@ const AdminDashboard = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {stats.map((stat) => (
-          <Card key={stat.title} className="cursor-pointer hover:shadow-lg transition-shadow">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{stat.title}</CardTitle>
-              <stat.icon className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{stat.value}</div>
-              <CardDescription>{stat.description}</CardDescription>
-            </CardContent>
-          </Card>
+          <Link key={stat.title} to={stat.href}>
+            <Card className="cursor-pointer hover:shadow-lg transition-shadow">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">{stat.title}</CardTitle>
+                <stat.icon className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">{stat.value}</div>
+                <CardDescription>{stat.description}</CardDescription>
+              </CardContent>
+            </Card>
+          </Link>
         ))}
       </div>
 
@@ -146,17 +150,23 @@ const AdminDashboard = () => {
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
-              <Button variant="outline" className="w-full justify-start">
-                <FolderOpen className="h-4 w-4 mr-2" />
-                Add New Portfolio
+              <Button variant="outline" className="w-full justify-start" asChild>
+                <Link to="/admin/portfolios/new">
+                  <FolderOpen className="h-4 w-4 mr-2" />
+                  Add New Portfolio
+                </Link>
               </Button>
-              <Button variant="outline" className="w-full justify-start">
-                <BookOpen className="h-4 w-4 mr-2" />
-                Create Blog Post
+              <Button variant="outline" className="w-full justify-start" asChild>
+                <Link to="/admin/blogs/new">
+                  <BookOpen className="h-4 w-4 mr-2" />
+                  Create Blog Post
+                </Link>
               </Button>
-              <Button variant="outline" className="w-full justify-start">
-                <FileText className="h-4 w-4 mr-2" />
-                Manage Case Studies
+              <Button variant="outline" className="w-full justify-start" asChild>
+                <Link to="/admin/case-studies">
+                  <FileText className="h-4 w-4 mr-2" />
+                  Manage Case Studies
+                </Link>
               </Button>
             </div>
           </CardContent>

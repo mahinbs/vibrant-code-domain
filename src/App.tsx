@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -26,6 +25,11 @@ const BlogPostPage = lazy(() => import("./pages/BlogPostPage"));
 const AdminLogin = lazy(() => import("./components/admin/AdminLogin"));
 const AdminLayout = lazy(() => import("./components/admin/AdminLayout"));
 const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
+const PortfolioList = lazy(() => import("./pages/admin/PortfolioList"));
+const PortfolioForm = lazy(() => import("./pages/admin/PortfolioForm"));
+const BlogList = lazy(() => import("./pages/admin/BlogList"));
+const BlogForm = lazy(() => import("./pages/admin/BlogForm"));
+const CaseStudyList = lazy(() => import("./pages/admin/CaseStudyList"));
 
 // Optimized query client configuration
 const queryClient = new QueryClient({
@@ -113,7 +117,13 @@ const App = () => {
                 </ProtectedRoute>
               }>
                 <Route index element={<AdminDashboard />} />
-                {/* More admin routes will be added here */}
+                <Route path="portfolios" element={<PortfolioList />} />
+                <Route path="portfolios/new" element={<PortfolioForm />} />
+                <Route path="portfolios/edit/:id" element={<PortfolioForm />} />
+                <Route path="blogs" element={<BlogList />} />
+                <Route path="blogs/new" element={<BlogForm />} />
+                <Route path="blogs/edit/:id" element={<BlogForm />} />
+                <Route path="case-studies" element={<CaseStudyList />} />
               </Route>
               
               <Route path="*" element={<NotFound />} />
