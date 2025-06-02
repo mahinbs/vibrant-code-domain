@@ -1,17 +1,12 @@
 
 import { useParams, Navigate } from 'react-router-dom';
-import { useState, useEffect, Suspense, lazy } from 'react';
+import { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import CaseStudyLoading from '@/components/case-study/CaseStudyLoading';
+import CaseStudyComponents from '@/components/case-study/CaseStudyComponents';
 import { getProjectSummary, loadFullProject } from '@/services/projectService';
 import { Project } from '@/data/projects';
-
-// Lazy load heavy components
-const CaseStudyHero = lazy(() => import('@/components/case-study/CaseStudyHero'));
-const CaseStudyOverview = lazy(() => import('@/components/case-study/CaseStudyOverview'));
-const CaseStudyResults = lazy(() => import('@/components/case-study/CaseStudyResults'));
-const CaseStudyGallery = lazy(() => import('@/components/case-study/CaseStudyGallery'));
 
 const CaseStudy = () => {
   const { projectId } = useParams<{ projectId: string }>();
@@ -26,7 +21,7 @@ const CaseStudy = () => {
       return;
     }
 
-    // First, try to get project summary for immediate render
+    // Try to get project summary for immediate render
     const summary = getProjectSummary(projectId);
     if (!summary) {
       setNotFound(true);
@@ -34,7 +29,7 @@ const CaseStudy = () => {
       return;
     }
 
-    // Load full project data
+    // Load full project data immediately (no artificial delay)
     loadFullProject(projectId).then((fullProject) => {
       if (fullProject) {
         setProject(fullProject);
@@ -56,12 +51,7 @@ const CaseStudy = () => {
   return (
     <div className="min-h-screen bg-black">
       <Header />
-      <Suspense fallback={<div className="h-screen bg-gray-900" />}>
-        <CaseStudyHero project={project} />
-        <CaseStudyOverview project={project} />
-        <CaseStudyResults project={project} />
-        <CaseStudyGallery project={project} />
-      </Suspense>
+      <CaseStudyComponents project={project} />
       <Footer />
     </div>
   );

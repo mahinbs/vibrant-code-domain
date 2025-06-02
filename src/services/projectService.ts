@@ -5,9 +5,6 @@ import { projectsData } from '@/data/projects';
 // Cache for loaded projects
 const projectCache = new Map<string, Project>();
 
-// Simulate network delay for demonstration (remove in production)
-const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
-
 export const getProjectSummary = (projectId: string) => {
   const project = projectsData
     .flatMap(service => service.projects)
@@ -24,7 +21,9 @@ export const getProjectSummary = (projectId: string) => {
     image: project.image,
     industry: project.industry,
     clientLogo: project.clientLogo,
-    metrics: project.metrics
+    metrics: project.metrics,
+    timeline: project.timeline,
+    team: project.team
   };
 };
 
@@ -34,9 +33,7 @@ export const loadFullProject = async (projectId: string): Promise<Project | null
     return projectCache.get(projectId)!;
   }
 
-  // Simulate loading time (remove delay in production)
-  await delay(100);
-
+  // No artificial delay - load immediately
   const project = projectsData
     .flatMap(service => service.projects)
     .find(p => p.id === projectId);
@@ -53,4 +50,9 @@ export const preloadProject = (projectId: string) => {
   if (!projectCache.has(projectId)) {
     loadFullProject(projectId);
   }
+};
+
+// Bulk preload for faster navigation
+export const preloadMultipleProjects = (projectIds: string[]) => {
+  projectIds.forEach(id => preloadProject(id));
 };

@@ -20,6 +20,7 @@ const OptimizedImage = ({
 }: OptimizedImageProps) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isInView, setIsInView] = useState(priority);
+  const [imageSrc, setImageSrc] = useState(priority ? src : '');
   const imgRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
@@ -29,10 +30,11 @@ const OptimizedImage = ({
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsInView(true);
+          setImageSrc(src);
           observer.disconnect();
         }
       },
-      { threshold: 0.1, rootMargin: '50px' }
+      { threshold: 0.1, rootMargin: '20px' }
     );
 
     if (imgRef.current) {
@@ -40,42 +42,38 @@ const OptimizedImage = ({
     }
 
     return () => observer.disconnect();
-  }, [priority]);
+  }, [priority, src]);
 
   const handleLoad = () => {
     setIsLoaded(true);
     onLoad?.();
   };
 
+  const handleError = () => {
+    // Fallback to a placeholder or retry logic
+    console.warn(`Failed to load image: ${src}`);
+  };
+
   return (
     <div ref={imgRef} className={`relative overflow-hidden ${className}`}>
-      {/* Blur placeholder */}
-      {blurDataURL && !isLoaded && (
-        <img
-          src={blurDataURL}
-          alt=""
-          className="absolute inset-0 w-full h-full object-cover filter blur-sm scale-110"
-          aria-hidden="true"
-        />
+      {/* Optimized loading skeleton */}
+      {!isLoaded && (
+        <div className="absolute inset-0 bg-gray-800 animate-pulse" />
       )}
       
       {/* Main image */}
-      {isInView && (
+      {isInView && imageSrc && (
         <img
-          src={src}
+          src={imageSrc}
           alt={alt}
-          className={`w-full h-full object-cover transition-opacity duration-300 ${
+          className={`w-full h-full object-cover transition-opacity duration-200 ${
             isLoaded ? 'opacity-100' : 'opacity-0'
           }`}
           onLoad={handleLoad}
+          onError={handleError}
           loading={priority ? 'eager' : 'lazy'}
           decoding="async"
         />
-      )}
-      
-      {/* Loading skeleton */}
-      {!isLoaded && (
-        <div className="absolute inset-0 bg-gray-800 animate-pulse" />
       )}
     </div>
   );

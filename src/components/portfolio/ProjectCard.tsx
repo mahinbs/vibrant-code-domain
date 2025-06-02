@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
-import { preloadProject } from '@/services/projectService';
+import { preloadProject, preloadMultipleProjects } from '@/services/projectService';
+import { useEffect } from 'react';
 
 interface Project {
   id: string;
@@ -14,6 +15,7 @@ interface Service {
   id: string;
   title: string;
   color: string;
+  projects: Project[];
 }
 
 interface ColorClasses {
@@ -44,15 +46,37 @@ const ProjectCard = ({
   handleProjectClick, 
   animationDelay 
 }: ProjectCardProps) => {
+  // Preload project data when card becomes visible
+  useEffect(() => {
+    if (isVisible) {
+      preloadProject(project.id);
+    }
+  }, [isVisible, project.id]);
+
   const handleMouseEnter = () => {
-    // Preload project data on hover for faster navigation
+    // Aggressively preload project data on hover
     preloadProject(project.id);
+    
+    // Also preload related projects from the same service
+    const relatedProjects = service.projects
+      .filter(p => p.id !== project.id)
+      .slice(0, 2)
+      .map(p => p.id);
+    
+    if (relatedProjects.length > 0) {
+      preloadMultipleProjects(relatedProjects);
+    }
+  };
+
+  const handleClick = () => {
+    // Immediate navigation without delay
+    handleProjectClick(project.id);
   };
 
   return (
     <div
       className={`group relative rounded-2xl bg-gray-900/80 backdrop-blur-sm border ${colors.border} hover:bg-gray-800/90 transition-all duration-400 overflow-hidden cursor-pointer hover:transform hover:scale-102 hover:shadow-lg will-change-auto ${isVisible ? 'animate-fade-in opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
-      onClick={() => handleProjectClick(project.id)}
+      onClick={handleClick}
       onMouseEnter={handleMouseEnter}
       style={{ 
         animationDelay: `${animationDelay}ms`,
@@ -65,7 +89,7 @@ const ProjectCard = ({
           src={project.image} 
           alt={project.title}
           className="w-full h-full object-cover transition-transform duration-400 group-hover:scale-105"
-          loading="lazy"
+          loading={isVisible ? "eager" : "lazy"}
           decoding="async"
         />
         <div className={`absolute inset-0 bg-gradient-to-t ${colors.gradient} opacity-60`}></div>
