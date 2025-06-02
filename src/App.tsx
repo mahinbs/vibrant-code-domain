@@ -17,6 +17,8 @@ const AiAutomationPage = lazy(() => import("./pages/AiAutomationPage"));
 const Portfolio = lazy(() => import("./pages/Portfolio"));
 const ReviewsPage = lazy(() => import("./pages/ReviewsPage"));
 const CaseStudy = lazy(() => import("./pages/CaseStudy"));
+const BlogsPage = lazy(() => import("./pages/BlogsPage"));
+const BlogPostPage = lazy(() => import("./pages/BlogPostPage"));
 
 // Optimized query client configuration
 const queryClient = new QueryClient({
@@ -87,6 +89,8 @@ const App = () => {
               <Route path="/portfolio" element={<Portfolio />} />
               <Route path="/case-study/:projectId" element={<CaseStudy />} />
               <Route path="/reviews" element={<ReviewsPage />} />
+              <Route path="/blogs" element={<BlogsPage />} />
+              <Route path="/blog/:blogId" element={<BlogPostPage />} />
               <Route path="/web-apps" element={<WebAppsPage />} />
               <Route path="/saas" element={<SaasPage />} />
               <Route path="/mobile-apps" element={<MobileAppsPage />} />

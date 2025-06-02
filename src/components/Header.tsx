@@ -29,6 +29,11 @@ const Header = memo(() => {
       section: "portfolio",
     },
     {
+      name: "Blogs",
+      href: "/blogs",
+      section: "blogs",
+    },
+    {
       name: "Reviews",
       href: "/reviews",
       section: "reviews",
@@ -117,6 +122,7 @@ const Header = memo(() => {
                 );
               } else if (
                 item.name === "Reviews" ||
+                item.name === "Blogs" ||
                 (!isHomePage && !item.href.startsWith("/#"))
               ) {
                 return (
@@ -124,7 +130,7 @@ const Header = memo(() => {
                     key={item.name}
                     to={item.href}
                     className={`transition-all duration-300 font-medium relative group ${
-                      active || location.pathname === item.href
+                      active || location.pathname === item.href || (item.name === "Blogs" && location.pathname.startsWith("/blog"))
                         ? "text-cyan-400"
                         : "text-gray-300 hover:text-cyan-400"
                     }`}
@@ -132,7 +138,7 @@ const Header = memo(() => {
                     {item.name}
                     <span
                       className={`absolute bottom-0 left-0 h-0.5 bg-cyan-400 transition-all duration-300 ${
-                        active || location.pathname === item.href
+                        active || location.pathname === item.href || (item.name === "Blogs" && location.pathname.startsWith("/blog"))
                           ? "w-full"
                           : "w-0 group-hover:w-full"
                       }`}
@@ -221,6 +227,7 @@ const Header = memo(() => {
                   );
                 } else if (
                   item.name === "Reviews" ||
+                  item.name === "Blogs" ||
                   (!isHomePage && !item.href.startsWith("/#"))
                 ) {
                   return (
@@ -228,7 +235,7 @@ const Header = memo(() => {
                       key={item.name}
                       to={item.href}
                       className={`block transition-colors duration-300 font-medium ${
-                        active || location.pathname === item.href
+                        active || location.pathname === item.href || (item.name === "Blogs" && location.pathname.startsWith("/blog"))
                           ? "text-cyan-400"
                           : "text-gray-300 hover:text-cyan-400"
                       }`}
