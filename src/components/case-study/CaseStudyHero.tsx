@@ -3,6 +3,7 @@ import { ArrowLeft, Calendar, Users, Award } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Project } from '@/data/projects';
 import OptimizedImage from '@/components/ui/OptimizedImage';
+import LiveViewButton from '@/components/ui/LiveViewButton';
 
 interface CaseStudyHeroProps {
   project: Project;
@@ -24,14 +25,24 @@ const CaseStudyHero = ({ project }: CaseStudyHeroProps) => {
       </div>
 
       <div className="container mx-auto px-6 relative z-10 pt-32">
-        {/* Back Navigation */}
-        <Link 
-          to="/portfolio"
-          className="inline-flex items-center space-x-2 text-cyan-400 hover:text-cyan-300 transition-colors duration-300 mb-8"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          <span>Back to Portfolio</span>
-        </Link>
+        {/* Back Navigation and Live View */}
+        <div className="flex items-center justify-between mb-8">
+          <Link 
+            to="/portfolio"
+            className="inline-flex items-center space-x-2 text-cyan-400 hover:text-cyan-300 transition-colors duration-300"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            <span>Back to Portfolio</span>
+          </Link>
+          
+          {project.liveUrl && (
+            <LiveViewButton 
+              url={project.liveUrl}
+              variant="outline"
+              className="border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-black"
+            />
+          )}
+        </div>
 
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Project Info */}

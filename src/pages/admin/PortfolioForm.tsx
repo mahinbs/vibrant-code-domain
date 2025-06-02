@@ -37,6 +37,7 @@ const PortfolioForm = () => {
     clientLogo: '',
     image: '',
     serviceId: '',
+    liveUrl: '',
     challenge: '',
     solution: '',
     approach: [],
@@ -342,6 +343,17 @@ const PortfolioForm = () => {
                   placeholder="e.g., 5 developers"
                 />
               </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="liveUrl">Live Project URL</Label>
+              <Input
+                id="liveUrl"
+                value={formData.liveUrl || ''}
+                onChange={(e) => setFormData(prev => ({ ...prev, liveUrl: e.target.value }))}
+                placeholder="https://example.com"
+                type="url"
+              />
             </div>
 
             <div className="space-y-2">

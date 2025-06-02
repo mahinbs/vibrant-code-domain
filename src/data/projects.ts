@@ -13,6 +13,7 @@ export interface Project {
   clientLogo: string;
   image: string;
   serviceId: string;
+  liveUrl?: string;
   // Enhanced case study fields
   challenge: string;
   solution: string;
@@ -65,6 +66,7 @@ export const projectsData: Service[] = [
         clientLogo: 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=100&h=100&fit=crop',
         image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
         serviceId: 'web-apps',
+        liveUrl: 'https://retailmax-demo.vercel.app',
         challenge: 'RetailMax was struggling with an outdated e-commerce platform that couldn\'t handle their growing customer base and complex inventory needs. Their conversion rates were low, and they were losing sales due to poor user experience and slow loading times.',
         solution: 'We built a modern, scalable e-commerce platform from the ground up with AI-powered product recommendations, real-time inventory tracking, and a seamless checkout process that significantly improved user experience.',
         approach: [
@@ -123,6 +125,7 @@ export const projectsData: Service[] = [
         clientLogo: 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=100&h=100&fit=crop',
         image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
         serviceId: 'web-apps',
+        liveUrl: 'https://medcare-portal-demo.vercel.app',
         challenge: 'MedCare Systems needed a comprehensive digital solution to manage patient records, enable telemedicine consultations, and streamline administrative processes while ensuring HIPAA compliance and data security.',
         solution: 'We developed a secure, cloud-based healthcare portal that integrates patient management, telemedicine capabilities, and administrative tools in one unified platform with end-to-end encryption and compliance features.',
         approach: [
@@ -189,6 +192,7 @@ export const projectsData: Service[] = [
         clientLogo: 'https://images.unsplash.com/photo-1549923746-c502d488b3ea?w=100&h=100&fit=crop',
         image: 'https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
         serviceId: 'saas',
+        liveUrl: 'https://projectflow-demo.vercel.app',
         challenge: 'TechCorp Solutions was struggling with project visibility, team coordination, and resource allocation across multiple departments. Their existing tools were fragmented, leading to miscommunication and missed deadlines.',
         solution: 'We created a comprehensive project management platform that centralizes all project activities, provides real-time collaboration tools, and offers advanced analytics for better decision-making.',
         approach: [
@@ -255,6 +259,7 @@ export const projectsData: Service[] = [
         clientLogo: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop',
         image: 'https://images.unsplash.com/photo-1553775282-20af80779df7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
         serviceId: 'ai-calling',
+        liveUrl: 'https://leadgen-ai-demo.vercel.app',
         challenge: 'SalesForce Pro needed to scale their lead generation efforts but faced high costs and inconsistent quality with human agents. They required a solution that could make thousands of calls daily while maintaining natural, engaging conversations.',
         solution: 'We developed an AI-powered calling system that uses advanced natural language processing to conduct human-like conversations, qualify leads, and seamlessly integrate with their existing CRM workflow.',
         approach: [
