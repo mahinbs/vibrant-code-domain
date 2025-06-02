@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Project } from '@/data/projects';
+import OptimizedImage from '@/components/ui/OptimizedImage';
 
 interface CaseStudyGalleryProps {
   project: Project;
@@ -45,10 +46,10 @@ const CaseStudyGallery = ({ project }: CaseStudyGalleryProps) => {
                 className="relative group cursor-pointer overflow-hidden rounded-xl"
                 onClick={() => openLightbox(index)}
               >
-                <img 
+                <OptimizedImage
                   src={image}
                   alt={`${project.title} screenshot ${index + 1}`}
-                  className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
+                  className="w-full h-64 transition-transform duration-300 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                   <div className="text-white text-lg font-semibold">View Full Size</div>
@@ -81,10 +82,11 @@ const CaseStudyGallery = ({ project }: CaseStudyGalleryProps) => {
                 <ChevronRight className="h-8 w-8" />
               </button>
 
-              <img 
+              <OptimizedImage
                 src={project.gallery[selectedImage]}
                 alt={`${project.title} screenshot ${selectedImage + 1}`}
-                className="max-w-full max-h-full object-contain rounded-lg"
+                className="max-w-full max-h-full rounded-lg"
+                priority={true}
               />
             </div>
           )}

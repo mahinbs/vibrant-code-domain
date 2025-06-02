@@ -2,6 +2,7 @@
 import { ArrowLeft, Calendar, Users, Award } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Project } from '@/data/projects';
+import OptimizedImage from '@/components/ui/OptimizedImage';
 
 interface CaseStudyHeroProps {
   project: Project;
@@ -12,10 +13,11 @@ const CaseStudyHero = ({ project }: CaseStudyHeroProps) => {
     <section className="relative min-h-screen flex items-center bg-gradient-to-b from-gray-900 to-black overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
-        <img 
+        <OptimizedImage
           src={project.image}
           alt={project.title}
-          className="w-full h-full object-cover"
+          className="w-full h-full"
+          priority={true}
         />
         <div className="absolute inset-0 bg-black/70"></div>
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
@@ -33,12 +35,12 @@ const CaseStudyHero = ({ project }: CaseStudyHeroProps) => {
 
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Project Info */}
-          <div>
+          <div className="animate-fade-in">
             <div className="flex items-center space-x-3 mb-4">
-              <img 
+              <OptimizedImage
                 src={project.clientLogo}
                 alt={project.client}
-                className="w-12 h-12 rounded-full object-cover border-2 border-cyan-400"
+                className="w-12 h-12 rounded-full border-2 border-cyan-400"
               />
               <div>
                 <h3 className="text-cyan-400 font-semibold">{project.client}</h3>
@@ -85,12 +87,13 @@ const CaseStudyHero = ({ project }: CaseStudyHeroProps) => {
           </div>
 
           {/* Project Image */}
-          <div className="relative">
+          <div className="relative animate-fade-in" style={{ animationDelay: '200ms' }}>
             <div className="relative rounded-2xl overflow-hidden shadow-2xl">
-              <img 
+              <OptimizedImage
                 src={project.gallery[0] || project.image}
                 alt={project.title}
-                className="w-full h-96 object-cover"
+                className="w-full h-96"
+                priority={true}
               />
               <div className="absolute inset-0 ring-1 ring-cyan-400/20 rounded-2xl"></div>
             </div>
@@ -101,4 +104,4 @@ const CaseStudyHero = ({ project }: CaseStudyHeroProps) => {
   );
 };
 
-export default CaseStudyHero;
+export default CaseStudy;

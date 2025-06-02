@@ -1,5 +1,5 @@
-
 import { Link } from 'react-router-dom';
+import { preloadProject } from '@/services/projectService';
 
 interface Project {
   id: string;
@@ -44,10 +44,16 @@ const ProjectCard = ({
   handleProjectClick, 
   animationDelay 
 }: ProjectCardProps) => {
+  const handleMouseEnter = () => {
+    // Preload project data on hover for faster navigation
+    preloadProject(project.id);
+  };
+
   return (
     <div
       className={`group relative rounded-2xl bg-gray-900/80 backdrop-blur-sm border ${colors.border} hover:bg-gray-800/90 transition-all duration-400 overflow-hidden cursor-pointer hover:transform hover:scale-102 hover:shadow-lg will-change-auto ${isVisible ? 'animate-fade-in opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
       onClick={() => handleProjectClick(project.id)}
+      onMouseEnter={handleMouseEnter}
       style={{ 
         animationDelay: `${animationDelay}ms`,
         contentVisibility: 'auto'
