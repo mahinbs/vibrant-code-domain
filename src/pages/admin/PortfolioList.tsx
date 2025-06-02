@@ -51,7 +51,7 @@ const PortfolioList = () => {
           <p className="text-gray-600">Manage your portfolio projects</p>
         </div>
         <Button asChild>
-          <Link to="/admin/portfolios/new">
+          <Link to="/secure-management-portal-x7k9/portfolios/new">
             <Plus className="h-4 w-4 mr-2" />
             Add Portfolio
           </Link>
@@ -67,7 +67,7 @@ const PortfolioList = () => {
             <div className="text-center py-8">
               <p className="text-gray-500 mb-4">No portfolios found</p>
               <Button asChild>
-                <Link to="/admin/portfolios/new">
+                <Link to="/secure-management-portal-x7k9/portfolios/new">
                   <Plus className="h-4 w-4 mr-2" />
                   Create your first portfolio
                 </Link>
@@ -110,7 +110,7 @@ const PortfolioList = () => {
                           </Link>
                         </Button>
                         <Button variant="outline" size="sm" asChild>
-                          <Link to={`/admin/portfolios/edit/${project.id}`}>
+                          <Link to={`/secure-management-portal-x7k9/portfolios/edit/${project.id}`}>
                             <Edit className="h-4 w-4" />
                           </Link>
                         </Button>

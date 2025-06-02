@@ -41,7 +41,7 @@ const CaseStudyList = () => {
           <p className="text-gray-600">Manage your case studies</p>
         </div>
         <Button asChild>
-          <Link to="/admin/portfolios/new">
+          <Link to="/secure-management-portal-x7k9/portfolios/new">
             Add Portfolio with Case Study
           </Link>
         </Button>
@@ -59,7 +59,7 @@ const CaseStudyList = () => {
                 Case studies are created by adding Challenge and Solution content to portfolios.
               </p>
               <Button asChild>
-                <Link to="/admin/portfolios/new">
+                <Link to="/secure-management-portal-x7k9/portfolios/new">
                   Create Portfolio with Case Study
                 </Link>
               </Button>
@@ -104,7 +104,7 @@ const CaseStudyList = () => {
                           </Link>
                         </Button>
                         <Button variant="outline" size="sm" asChild>
-                          <Link to={`/admin/portfolios/edit/${project.id}`}>
+                          <Link to={`/secure-management-portal-x7k9/portfolios/edit/${project.id}`}>
                             <Edit className="h-4 w-4" />
                           </Link>
                         </Button>

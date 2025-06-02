@@ -76,7 +76,7 @@ const PortfolioForm = () => {
         title: isEdit ? "Portfolio updated" : "Portfolio created",
         description: `The portfolio has been successfully ${isEdit ? 'updated' : 'created'}.`,
       });
-      navigate('/admin/portfolios');
+      navigate('/secure-management-portal-x7k9/portfolios');
     } catch (error) {
       toast({
         title: "Error",
@@ -89,7 +89,7 @@ const PortfolioForm = () => {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-4">
-        <Button variant="outline" onClick={() => navigate('/admin/portfolios')}>
+        <Button variant="outline" onClick={() => navigate('/secure-management-portal-x7k9/portfolios')}>
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back to Portfolios
         </Button>
@@ -116,7 +116,7 @@ const PortfolioForm = () => {
           <Button type="submit">
             {isEdit ? 'Update Portfolio' : 'Create Portfolio'}
           </Button>
-          <Button type="button" variant="outline" onClick={() => navigate('/admin/portfolios')}>
+          <Button type="button" variant="outline" onClick={() => navigate('/secure-management-portal-x7k9/portfolios')}>
             Cancel
           </Button>
         </div>

@@ -42,7 +42,7 @@ const BlogList = () => {
           <p className="text-gray-600">Manage your blog posts</p>
         </div>
         <Button asChild>
-          <Link to="/admin/blogs/new">
+          <Link to="/secure-management-portal-x7k9/blogs/new">
             <Plus className="h-4 w-4 mr-2" />
             Add Blog Post
           </Link>
@@ -58,7 +58,7 @@ const BlogList = () => {
             <div className="text-center py-8">
               <p className="text-gray-500 mb-4">No blog posts found</p>
               <Button asChild>
-                <Link to="/admin/blogs/new">
+                <Link to="/secure-management-portal-x7k9/blogs/new">
                   <Plus className="h-4 w-4 mr-2" />
                   Create your first blog post
                 </Link>
@@ -103,7 +103,7 @@ const BlogList = () => {
                           </Link>
                         </Button>
                         <Button variant="outline" size="sm" asChild>
-                          <Link to={`/admin/blogs/edit/${blog.id}`}>
+                          <Link to={`/secure-management-portal-x7k9/blogs/edit/${blog.id}`}>
                             <Edit className="h-4 w-4" />
                           </Link>
                         </Button>
