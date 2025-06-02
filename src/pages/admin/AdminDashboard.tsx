@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { adminDataService } from '@/services/adminDataService';
 import { FolderOpen, FileText, BookOpen, Download, Upload } from 'lucide-react';
@@ -63,7 +62,7 @@ const AdminDashboard = () => {
     },
     {
       title: 'Case Studies',
-      value: projects.filter(p => p.caseStudy).length,
+      value: projects.filter(p => p.challenge && p.solution).length,
       description: 'Projects with case studies',
       icon: FileText,
       href: '/admin/case-studies'
