@@ -5,27 +5,40 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Code, Smartphone, Cloud, Brain, Zap, ChevronDown, ExternalLink, Star, Users, Clock, ArrowRight, Award, TrendingUp } from 'lucide-react';
 import { getPortfolioData } from '@/services/portfolioDataService';
+import { Service } from '@/data/projects';
 
 const Portfolio = () => {
   const [selectedService, setSelectedService] = useState<string | null>(null);
   const [selectedProject, setSelectedProject] = useState<string | null>(null);
-  const [services, setServices] = useState(getPortfolioData());
+  const [services, setServices] = useState<Service[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  // Refresh data when component mounts or when localStorage changes
+  // Load data when component mounts
   useEffect(() => {
-    const refreshData = () => {
-      setServices(getPortfolioData());
+    const loadPortfolioData = async () => {
+      try {
+        setLoading(true);
+        const data = await getPortfolioData();
+        setServices(data);
+      } catch (error) {
+        console.error('Error loading portfolio data:', error);
+        setServices([]);
+      } finally {
+        setLoading(false);
+      }
     };
 
+    loadPortfolioData();
+    
     // Listen for storage changes (when admin adds/edits projects)
-    window.addEventListener('storage', refreshData);
+    window.addEventListener('storage', loadPortfolioData);
     
     // Also refresh on focus (for same-tab updates)
-    window.addEventListener('focus', refreshData);
+    window.addEventListener('focus', loadPortfolioData);
 
     return () => {
-      window.removeEventListener('storage', refreshData);
-      window.removeEventListener('focus', refreshData);
+      window.removeEventListener('storage', loadPortfolioData);
+      window.removeEventListener('focus', loadPortfolioData);
     };
   }, []);
 
@@ -75,6 +88,14 @@ const Portfolio = () => {
   const handleProjectClick = (projectId: string) => {
     window.location.href = `/case-study/${projectId}`;
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="text-white">Loading portfolio...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen">

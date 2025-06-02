@@ -35,18 +35,26 @@ const DataRecoveryPanel = ({ onDataRestored }: DataRecoveryPanelProps) => {
     }
   };
 
-  const handleCreateBackup = () => {
-    const projects = adminDataService.getProjects();
-    const blogs = adminDataService.getBlogs();
-    
-    const success = dataBackupService.createBackup(projects, blogs);
-    if (success) {
-      setBackupHistory(dataBackupService.getBackupHistory());
-      toast({
-        title: "Backup Created",
-        description: "Your data has been backed up successfully.",
-      });
-    } else {
+  const handleCreateBackup = async () => {
+    try {
+      const projects = await adminDataService.getProjects();
+      const blogs = await adminDataService.getBlogs();
+      
+      const success = dataBackupService.createBackup(projects, blogs);
+      if (success) {
+        setBackupHistory(dataBackupService.getBackupHistory());
+        toast({
+          title: "Backup Created",
+          description: "Your data has been backed up successfully.",
+        });
+      } else {
+        toast({
+          title: "Backup Failed",
+          description: "Could not create backup. Please try again.",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
       toast({
         title: "Backup Failed",
         description: "Could not create backup. Please try again.",

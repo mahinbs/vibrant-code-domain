@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { adminDataService, AdminBlogPost } from '@/services/adminDataService';
@@ -46,7 +45,7 @@ const BlogForm = () => {
           if (blog) {
             setFormData({
               ...blog,
-              publishedDate: blog.published_date.split('T')[0] // Convert to date input format
+              publishedDate: blog.publishedDate.split('T')[0] // Convert to date input format
             });
           } else {
             toast({

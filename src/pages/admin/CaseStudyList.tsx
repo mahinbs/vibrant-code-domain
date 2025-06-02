@@ -1,10 +1,10 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { adminDataService } from '@/services/adminDataService';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Edit, ExternalLink } from 'lucide-react';
+import { Edit, ExternalLink, Loader2 } from 'lucide-react';
 import {
   Table,
   TableBody,
@@ -23,7 +23,25 @@ const services = [
 ];
 
 const CaseStudyList = () => {
-  const [projects] = useState(adminDataService.getProjects());
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadProjects = async () => {
+      try {
+        setLoading(true);
+        const data = await adminDataService.getProjects();
+        setProjects(data);
+      } catch (error) {
+        console.error('Error loading projects:', error);
+        setProjects([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadProjects();
+  }, []);
   
   // Filter projects that have case study content
   const caseStudies = projects.filter(p => p.challenge && p.solution);
@@ -32,6 +50,15 @@ const CaseStudyList = () => {
     const service = services.find(s => s.id === serviceId);
     return service ? service.label : serviceId;
   };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <Loader2 className="h-8 w-8 animate-spin" />
+        <span className="ml-2">Loading case studies...</span>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">

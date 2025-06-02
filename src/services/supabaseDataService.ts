@@ -28,7 +28,7 @@ const transformDbProjectToProject = (dbProject: any): Project => {
     gallery: dbProject.gallery || [],
     extendedTestimonial: dbProject.extended_testimonial || { quote: '', author: '', position: '', company: '' },
     // Add default values for required Project fields that don't exist in DB
-    metrics: [],
+    metrics: {},
     timeline: '',
     team: [],
     industry: '',
