@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { adminDataService } from '@/services/adminDataService';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Plus, Edit, Trash2, ExternalLink } from 'lucide-react';
+import { Plus, Edit, Trash2, ExternalLink, Bug } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import {
   Table,
@@ -30,6 +30,12 @@ const BlogList = () => {
     }
   };
 
+  const handleDebugLocalStorage = () => {
+    adminDataService.debugLocalStorage();
+    // Refresh the data
+    setBlogs(adminDataService.getBlogs());
+  };
+
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString();
   };
@@ -41,12 +47,18 @@ const BlogList = () => {
           <h1 className="text-3xl font-bold text-gray-900">Blog Management</h1>
           <p className="text-gray-600">Manage your blog posts</p>
         </div>
-        <Button asChild>
-          <Link to="/secure-management-portal-x7k9/blogs/new">
-            <Plus className="h-4 w-4 mr-2" />
-            Add Blog Post
-          </Link>
-        </Button>
+        <div className="flex gap-2">
+          <Button variant="outline" onClick={handleDebugLocalStorage}>
+            <Bug className="h-4 w-4 mr-2" />
+            Debug Data
+          </Button>
+          <Button asChild>
+            <Link to="/secure-management-portal-x7k9/blogs/new">
+              <Plus className="h-4 w-4 mr-2" />
+              Add Blog Post
+            </Link>
+          </Button>
+        </div>
       </div>
 
       <Card>
@@ -57,6 +69,9 @@ const BlogList = () => {
           {blogs.length === 0 ? (
             <div className="text-center py-8">
               <p className="text-gray-500 mb-4">No blog posts found</p>
+              <p className="text-sm text-gray-400 mb-4">
+                Click "Debug Data" to check localStorage or create a new blog post.
+              </p>
               <Button asChild>
                 <Link to="/secure-management-portal-x7k9/blogs/new">
                   <Plus className="h-4 w-4 mr-2" />

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { adminDataService } from '@/services/adminDataService';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Plus, Edit, Trash2, ExternalLink } from 'lucide-react';
+import { Plus, Edit, Trash2, ExternalLink, Bug } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import {
   Table,
@@ -38,6 +38,12 @@ const PortfolioList = () => {
     }
   };
 
+  const handleDebugLocalStorage = () => {
+    adminDataService.debugLocalStorage();
+    // Refresh the data
+    setProjects(adminDataService.getProjects());
+  };
+
   const getServiceLabel = (serviceId: string) => {
     const service = services.find(s => s.id === serviceId);
     return service ? service.label : serviceId;
@@ -50,12 +56,18 @@ const PortfolioList = () => {
           <h1 className="text-3xl font-bold text-gray-900">Portfolio Management</h1>
           <p className="text-gray-600">Manage your portfolio projects</p>
         </div>
-        <Button asChild>
-          <Link to="/secure-management-portal-x7k9/portfolios/new">
-            <Plus className="h-4 w-4 mr-2" />
-            Add Portfolio
-          </Link>
-        </Button>
+        <div className="flex gap-2">
+          <Button variant="outline" onClick={handleDebugLocalStorage}>
+            <Bug className="h-4 w-4 mr-2" />
+            Debug Data
+          </Button>
+          <Button asChild>
+            <Link to="/secure-management-portal-x7k9/portfolios/new">
+              <Plus className="h-4 w-4 mr-2" />
+              Add Portfolio
+            </Link>
+          </Button>
+        </div>
       </div>
 
       <Card>
@@ -66,6 +78,9 @@ const PortfolioList = () => {
           {projects.length === 0 ? (
             <div className="text-center py-8">
               <p className="text-gray-500 mb-4">No portfolios found</p>
+              <p className="text-sm text-gray-400 mb-4">
+                Click "Debug Data" to check localStorage or create a new portfolio.
+              </p>
               <Button asChild>
                 <Link to="/secure-management-portal-x7k9/portfolios/new">
                   <Plus className="h-4 w-4 mr-2" />
