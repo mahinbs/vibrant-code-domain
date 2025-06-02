@@ -27,16 +27,6 @@ const BlogPostContent = ({ post, formattedContent }: BlogPostContentProps) => {
       <div className="max-w-4xl mx-auto">
         <div className="flex flex-col lg:flex-row gap-12">
           <div className="lg:w-3/4">
-            {/* Debug information for development */}
-            {process.env.NODE_ENV === 'development' && (
-              <div className="mb-4 p-4 bg-gray-800 rounded text-white text-sm">
-                <strong>Debug Info:</strong><br />
-                Raw content length: {post.content?.length || 0}<br />
-                Formatted content length: {formattedContent?.length || 0}<br />
-                Content preview: {post.content?.substring(0, 100)}...
-              </div>
-            )}
-            
             {formattedContent ? (
               <div 
                 className="prose prose-lg prose-invert blog-content max-w-none"
