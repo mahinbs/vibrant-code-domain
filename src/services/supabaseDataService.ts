@@ -1,3 +1,4 @@
+
 import { supabase } from '@/integrations/supabase/client';
 import { Project } from '@/data/projects';
 import { BlogPost } from '@/data/blogs';
@@ -53,7 +54,6 @@ const transformDbProjectToProject = (dbProject: any): Project => {
     team: '',
     industry: '',
     clientLogo: '',
-    tags: [],
     testimonial: dbProject.extended_testimonial?.quote || '',
     approach: [],
     techStack: [],
