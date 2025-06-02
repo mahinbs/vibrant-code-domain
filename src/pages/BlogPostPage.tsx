@@ -6,6 +6,7 @@ import Footer from '@/components/Footer';
 import { getCombinedBlogs, onBlogsChange, findBlog } from '@/services/blogDataService';
 import { Calendar, Clock, User, ArrowLeft, Share2 } from 'lucide-react';
 import OptimizedImage from '@/components/ui/OptimizedImage';
+import { formatPlainTextContent } from '@/lib/contentUtils';
 
 const BlogPostPage = () => {
   const { blogId } = useParams<{ blogId: string }>();
@@ -31,6 +32,11 @@ const BlogPostPage = () => {
       .filter(p => p.id !== post.id && p.category === post.category)
       .slice(0, 3);
   }, [post, blogs]);
+
+  const formattedContent = useMemo(() => {
+    if (!post?.content) return '';
+    return formatPlainTextContent(post.content);
+  }, [post?.content]);
 
   if (!post) {
     return <Navigate to="/blogs" replace />;
@@ -105,7 +111,7 @@ const BlogPostPage = () => {
               <div className="lg:w-3/4">
                 <div 
                   className="prose prose-lg prose-invert max-w-none"
-                  dangerouslySetInnerHTML={{ __html: post.content }}
+                  dangerouslySetInnerHTML={{ __html: formattedContent }}
                 />
                 
                 {/* Tags */}

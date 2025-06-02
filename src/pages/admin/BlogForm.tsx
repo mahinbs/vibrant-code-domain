@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { adminDataService, AdminBlogPost } from '@/services/adminDataService';
@@ -270,9 +269,11 @@ const BlogForm = () => {
                 rows={15}
                 required
               />
-              <p className="text-sm text-gray-500">
-                You can use Markdown formatting for rich text content.
-              </p>
+              <div className="text-sm text-gray-500 space-y-1">
+                <p>You can use either plain text or HTML formatting for rich content.</p>
+                <p><strong>Plain text tips:</strong> Use double line breaks to create paragraphs.</p>
+                <p><strong>HTML examples:</strong> &lt;h2&gt;Heading&lt;/h2&gt;, &lt;p&gt;Paragraph&lt;/p&gt;, &lt;strong&gt;Bold&lt;/strong&gt;, &lt;em&gt;Italic&lt;/em&gt;</p>
+              </div>
             </div>
           </CardContent>
         </Card>
