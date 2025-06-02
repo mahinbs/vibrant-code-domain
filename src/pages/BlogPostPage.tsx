@@ -135,7 +135,7 @@ const BlogPostPage = () => {
                 
                 {formattedContent ? (
                   <div 
-                    className="prose prose-lg prose-invert max-w-none"
+                    className="prose prose-lg prose-invert blog-content max-w-none"
                     dangerouslySetInnerHTML={{ __html: formattedContent }}
                   />
                 ) : (
