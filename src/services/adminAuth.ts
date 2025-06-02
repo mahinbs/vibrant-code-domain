@@ -1,7 +1,6 @@
-
 const ADMIN_CREDENTIALS = {
-  id: 'admin',
-  password: 'admin123'
+  id: 'webadmin_2024_secure',
+  password: 'W3b$ecur3!2024#Admin'
 };
 
 const AUTH_KEY = 'admin_authenticated';

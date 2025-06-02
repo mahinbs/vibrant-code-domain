@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { adminAuth } from '@/services/adminAuth';
@@ -75,11 +74,6 @@ const AdminLogin = () => {
               {isLoading ? 'Logging in...' : 'Login'}
             </Button>
           </form>
-          <div className="mt-4 p-3 bg-gray-50 rounded-lg text-sm text-gray-600">
-            <p><strong>Demo Credentials:</strong></p>
-            <p>ID: admin</p>
-            <p>Password: admin123</p>
-          </div>
         </CardContent>
       </Card>
     </div>
