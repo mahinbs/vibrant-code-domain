@@ -49,10 +49,24 @@ const BlogForm = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
+    console.log('BlogForm - Submitting form data:', formData);
+    console.log('BlogForm - Content being saved:', formData.content);
+    console.log('BlogForm - Content length:', formData.content?.length || 0);
+    
     if (!formData.title || !formData.content || !formData.author.name) {
       toast({
         title: "Validation Error",
         description: "Please fill in all required fields.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Check if content is just whitespace
+    if (!formData.content.trim()) {
+      toast({
+        title: "Validation Error",
+        description: "Content cannot be empty.",
         variant: "destructive",
       });
       return;
@@ -64,6 +78,7 @@ const BlogForm = () => {
         publishedDate: new Date(formData.publishedDate).toISOString()
       };
       
+      console.log('BlogForm - Final blog data being saved:', blogData);
       adminDataService.saveBlog(blogData);
       toast({
         title: isEdit ? "Blog post updated" : "Blog post created",
@@ -71,6 +86,7 @@ const BlogForm = () => {
       });
       navigate('/admin/blogs');
     } catch (error) {
+      console.error('BlogForm - Error saving blog:', error);
       toast({
         title: "Error",
         description: "Something went wrong. Please try again.",
@@ -264,7 +280,10 @@ const BlogForm = () => {
               <Textarea
                 id="content"
                 value={formData.content}
-                onChange={(e) => setFormData(prev => ({ ...prev, content: e.target.value }))}
+                onChange={(e) => {
+                  console.log('BlogForm - Content changed:', e.target.value);
+                  setFormData(prev => ({ ...prev, content: e.target.value }));
+                }}
                 placeholder="Write your blog content here..."
                 rows={15}
                 required
@@ -274,6 +293,17 @@ const BlogForm = () => {
                 <p><strong>Plain text tips:</strong> Use double line breaks to create paragraphs.</p>
                 <p><strong>HTML examples:</strong> &lt;h2&gt;Heading&lt;/h2&gt;, &lt;p&gt;Paragraph&lt;/p&gt;, &lt;strong&gt;Bold&lt;/strong&gt;, &lt;em&gt;Italic&lt;/em&gt;</p>
               </div>
+              
+              {/* Content preview for debugging */}
+              {process.env.NODE_ENV === 'development' && formData.content && (
+                <div className="mt-4 p-4 bg-gray-50 rounded border">
+                  <strong>Content Preview (Debug):</strong>
+                  <div className="mt-2 text-sm">
+                    Length: {formData.content.length} characters<br />
+                    First 100 chars: {formData.content.substring(0, 100)}...
+                  </div>
+                </div>
+              )}
             </div>
           </CardContent>
         </Card>

@@ -6,15 +6,32 @@ export const isHtmlContent = (content: string): boolean => {
 };
 
 export const formatPlainTextContent = (content: string): string => {
-  if (!content) return '';
+  console.log('formatPlainTextContent - Input content:', content);
+  console.log('formatPlainTextContent - Content type:', typeof content);
+  console.log('formatPlainTextContent - Content length:', content?.length || 0);
+  
+  if (!content) {
+    console.log('formatPlainTextContent - No content provided, returning empty string');
+    return '';
+  }
+  
+  // Trim whitespace to check if content is meaningful
+  const trimmedContent = content.trim();
+  if (!trimmedContent) {
+    console.log('formatPlainTextContent - Content is only whitespace, returning empty string');
+    return '';
+  }
   
   // If it's already HTML, return as-is
   if (isHtmlContent(content)) {
+    console.log('formatPlainTextContent - Content is HTML, returning as-is');
     return content;
   }
   
+  console.log('formatPlainTextContent - Processing as plain text');
+  
   // Convert plain text to HTML with proper paragraph formatting
-  return content
+  const formatted = content
     .split('\n\n') // Split by double line breaks for paragraphs
     .filter(paragraph => paragraph.trim()) // Remove empty paragraphs
     .map(paragraph => {
@@ -27,4 +44,7 @@ export const formatPlainTextContent = (content: string): string => {
       return `<p>${formattedParagraph}</p>`;
     })
     .join('');
+    
+  console.log('formatPlainTextContent - Formatted output:', formatted);
+  return formatted;
 };

@@ -23,7 +23,15 @@ const BlogPostPage = () => {
   }, []);
 
   const post = useMemo(() => {
-    return findBlog(blogId || '');
+    console.log('BlogPostPage - Looking for blog with ID:', blogId);
+    const foundPost = findBlog(blogId || '');
+    console.log('BlogPostPage - Found post:', foundPost);
+    if (foundPost) {
+      console.log('BlogPostPage - Post content:', foundPost.content);
+      console.log('BlogPostPage - Post content type:', typeof foundPost.content);
+      console.log('BlogPostPage - Post content length:', foundPost.content?.length || 0);
+    }
+    return foundPost;
   }, [blogId, blogs]);
 
   const relatedPosts = useMemo(() => {
@@ -34,8 +42,14 @@ const BlogPostPage = () => {
   }, [post, blogs]);
 
   const formattedContent = useMemo(() => {
-    if (!post?.content) return '';
-    return formatPlainTextContent(post.content);
+    if (!post?.content) {
+      console.log('formattedContent - No post content available');
+      return '';
+    }
+    console.log('formattedContent - Processing content:', post.content);
+    const formatted = formatPlainTextContent(post.content);
+    console.log('formattedContent - Final formatted content:', formatted);
+    return formatted;
   }, [post?.content]);
 
   if (!post) {
@@ -109,10 +123,26 @@ const BlogPostPage = () => {
           <div className="max-w-4xl mx-auto">
             <div className="flex flex-col lg:flex-row gap-12">
               <div className="lg:w-3/4">
-                <div 
-                  className="prose prose-lg prose-invert max-w-none"
-                  dangerouslySetInnerHTML={{ __html: formattedContent }}
-                />
+                {/* Debug information for development */}
+                {process.env.NODE_ENV === 'development' && (
+                  <div className="mb-4 p-4 bg-gray-800 rounded text-white text-sm">
+                    <strong>Debug Info:</strong><br />
+                    Raw content length: {post.content?.length || 0}<br />
+                    Formatted content length: {formattedContent?.length || 0}<br />
+                    Content preview: {post.content?.substring(0, 100)}...
+                  </div>
+                )}
+                
+                {formattedContent ? (
+                  <div 
+                    className="prose prose-lg prose-invert max-w-none"
+                    dangerouslySetInnerHTML={{ __html: formattedContent }}
+                  />
+                ) : (
+                  <div className="text-gray-400 italic p-8 text-center border border-gray-700 rounded">
+                    No content available for this blog post.
+                  </div>
+                )}
                 
                 {/* Tags */}
                 <div className="mt-12 pt-8 border-t border-gray-800">
