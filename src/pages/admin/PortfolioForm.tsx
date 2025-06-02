@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { adminDataService, AdminProject } from '@/services/adminDataService';
@@ -9,7 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Plus, X } from 'lucide-react';
 
 const services = [
   { id: 'web-apps', label: 'Web Applications' },
@@ -56,6 +55,16 @@ const PortfolioForm = () => {
   const [techInput, setTechInput] = useState('');
   const [approachInput, setApproachInput] = useState('');
   const [featureInput, setFeatureInput] = useState('');
+  const [galleryInput, setGalleryInput] = useState('');
+
+  // Tech Stack inputs
+  const [techStackCategory, setTechStackCategory] = useState('');
+  const [techStackTechnology, setTechStackTechnology] = useState('');
+
+  // Detailed Metrics inputs
+  const [metricLabel, setMetricLabel] = useState('');
+  const [metricValue, setMetricValue] = useState('');
+  const [metricDescription, setMetricDescription] = useState('');
 
   useEffect(() => {
     if (isEdit && id) {
@@ -143,6 +152,90 @@ const PortfolioForm = () => {
     setFormData(prev => ({
       ...prev,
       features: prev.features.filter(f => f !== feature)
+    }));
+  };
+
+  // New Tech Stack functions
+  const addTechStack = () => {
+    if (techStackCategory.trim() && techStackTechnology.trim()) {
+      setFormData(prev => {
+        const existingCategoryIndex = prev.techStack.findIndex(ts => ts.category === techStackCategory.trim());
+        
+        if (existingCategoryIndex >= 0) {
+          // Add to existing category
+          const updatedTechStack = [...prev.techStack];
+          if (!updatedTechStack[existingCategoryIndex].technologies.includes(techStackTechnology.trim())) {
+            updatedTechStack[existingCategoryIndex].technologies.push(techStackTechnology.trim());
+          }
+          return { ...prev, techStack: updatedTechStack };
+        } else {
+          // Create new category
+          return {
+            ...prev,
+            techStack: [...prev.techStack, {
+              category: techStackCategory.trim(),
+              technologies: [techStackTechnology.trim()]
+            }]
+          };
+        }
+      });
+      setTechStackTechnology('');
+    }
+  };
+
+  const removeTechFromStack = (categoryIndex: number, techIndex: number) => {
+    setFormData(prev => {
+      const updatedTechStack = [...prev.techStack];
+      updatedTechStack[categoryIndex].technologies.splice(techIndex, 1);
+      
+      // Remove category if empty
+      if (updatedTechStack[categoryIndex].technologies.length === 0) {
+        updatedTechStack.splice(categoryIndex, 1);
+      }
+      
+      return { ...prev, techStack: updatedTechStack };
+    });
+  };
+
+  // Detailed Metrics functions
+  const addDetailedMetric = () => {
+    if (metricLabel.trim() && metricValue.trim() && metricDescription.trim()) {
+      setFormData(prev => ({
+        ...prev,
+        detailedMetrics: [...prev.detailedMetrics, {
+          label: metricLabel.trim(),
+          value: metricValue.trim(),
+          description: metricDescription.trim()
+        }]
+      }));
+      setMetricLabel('');
+      setMetricValue('');
+      setMetricDescription('');
+    }
+  };
+
+  const removeDetailedMetric = (index: number) => {
+    setFormData(prev => ({
+      ...prev,
+      detailedMetrics: prev.detailedMetrics.filter((_, i) => i !== index)
+    }));
+  };
+
+  // Gallery functions
+  const addGalleryImage = () => {
+    if (galleryInput.trim() && !formData.gallery.includes(galleryInput.trim())) {
+      setFormData(prev => ({
+        ...prev,
+        gallery: [...prev.gallery, galleryInput.trim()]
+      }));
+      setGalleryInput('');
+    }
+  };
+
+  const removeGalleryImage = (imageUrl: string) => {
+    setFormData(prev => ({
+      ...prev,
+      gallery: prev.gallery.filter(url => url !== imageUrl)
     }));
   };
 
@@ -275,9 +368,10 @@ const PortfolioForm = () => {
           </CardContent>
         </Card>
 
+        {/* Basic Technologies (Legacy) */}
         <Card>
           <CardHeader>
-            <CardTitle>Technologies</CardTitle>
+            <CardTitle>Basic Technologies</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex gap-2">
@@ -295,6 +389,138 @@ const PortfolioForm = () => {
                   {tech}
                   <button type="button" onClick={() => removeTechnology(tech)} className="text-blue-600 hover:text-blue-800">×</button>
                 </span>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Technology Stack (Structured) */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Technology Stack</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+              <Input
+                value={techStackCategory}
+                onChange={(e) => setTechStackCategory(e.target.value)}
+                placeholder="Category (e.g., Frontend)"
+              />
+              <Input
+                value={techStackTechnology}
+                onChange={(e) => setTechStackTechnology(e.target.value)}
+                placeholder="Technology (e.g., React)"
+                onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addTechStack())}
+              />
+              <Button type="button" onClick={addTechStack}>
+                <Plus className="h-4 w-4 mr-2" />
+                Add
+              </Button>
+            </div>
+            
+            <div className="space-y-4">
+              {formData.techStack.map((category, categoryIndex) => (
+                <div key={category.category} className="border rounded-lg p-4">
+                  <h4 className="font-semibold mb-2">{category.category}</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {category.technologies.map((tech, techIndex) => (
+                      <span key={tech} className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm flex items-center gap-2">
+                        {tech}
+                        <button 
+                          type="button" 
+                          onClick={() => removeTechFromStack(categoryIndex, techIndex)}
+                          className="text-green-600 hover:text-green-800"
+                        >
+                          <X className="h-3 w-3" />
+                        </button>
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Results & Impact (Detailed Metrics) */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Results & Impact</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-2">
+              <Input
+                value={metricLabel}
+                onChange={(e) => setMetricLabel(e.target.value)}
+                placeholder="Metric label"
+              />
+              <Input
+                value={metricValue}
+                onChange={(e) => setMetricValue(e.target.value)}
+                placeholder="Value (e.g., +75%)"
+              />
+              <Input
+                value={metricDescription}
+                onChange={(e) => setMetricDescription(e.target.value)}
+                placeholder="Description"
+                onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addDetailedMetric())}
+              />
+              <Button type="button" onClick={addDetailedMetric}>
+                <Plus className="h-4 w-4 mr-2" />
+                Add Metric
+              </Button>
+            </div>
+            
+            <div className="space-y-2">
+              {formData.detailedMetrics.map((metric, index) => (
+                <div key={index} className="flex items-center justify-between bg-gray-50 p-3 rounded border">
+                  <div>
+                    <span className="font-semibold">{metric.label}:</span>
+                    <span className="ml-2 text-blue-600">{metric.value}</span>
+                    <p className="text-sm text-gray-600">{metric.description}</p>
+                  </div>
+                  <Button type="button" variant="outline" size="sm" onClick={() => removeDetailedMetric(index)}>
+                    <X className="h-4 w-4" />
+                  </Button>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Gallery */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Project Gallery</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex gap-2">
+              <Input
+                value={galleryInput}
+                onChange={(e) => setGalleryInput(e.target.value)}
+                placeholder="Image URL"
+                type="url"
+                onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addGalleryImage())}
+              />
+              <Button type="button" onClick={addGalleryImage}>
+                <Plus className="h-4 w-4 mr-2" />
+                Add Image
+              </Button>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {formData.gallery.map((imageUrl) => (
+                <div key={imageUrl} className="relative border rounded-lg overflow-hidden">
+                  <img src={imageUrl} alt="Gallery" className="w-full h-32 object-cover" />
+                  <Button
+                    type="button"
+                    variant="destructive"
+                    size="sm"
+                    className="absolute top-2 right-2"
+                    onClick={() => removeGalleryImage(imageUrl)}
+                  >
+                    <X className="h-4 w-4" />
+                  </Button>
+                </div>
               ))}
             </div>
           </CardContent>
