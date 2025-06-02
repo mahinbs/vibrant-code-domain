@@ -104,4 +104,4 @@ const CaseStudyHero = ({ project }: CaseStudyHeroProps) => {
   );
 };
 
-export default CaseStudy;
+export default CaseStudyHero;
