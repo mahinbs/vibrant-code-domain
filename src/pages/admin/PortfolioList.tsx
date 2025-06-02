@@ -1,11 +1,12 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { adminDataService } from '@/services/adminDataService';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Plus, Edit, Trash2, ExternalLink, Bug } from 'lucide-react';
+import { Plus, Edit, Trash2, ExternalLink, Bug, Shield } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import DataRecoveryPanel from '@/components/admin/DataRecoveryPanel';
 import {
   Table,
   TableBody,
@@ -25,16 +26,42 @@ const services = [
 
 const PortfolioList = () => {
   const [projects, setProjects] = useState(adminDataService.getProjects());
+  const [showRecovery, setShowRecovery] = useState(false);
   const { toast } = useToast();
+
+  // Refresh data on mount and storage changes
+  useEffect(() => {
+    const refreshData = () => {
+      console.log('PortfolioList - Refreshing data...');
+      setProjects(adminDataService.getProjects());
+    };
+
+    // Listen for storage changes
+    window.addEventListener('storage', refreshData);
+    window.addEventListener('focus', refreshData);
+
+    return () => {
+      window.removeEventListener('storage', refreshData);
+      window.removeEventListener('focus', refreshData);
+    };
+  }, []);
 
   const handleDelete = (id: string) => {
     if (confirm('Are you sure you want to delete this portfolio?')) {
-      adminDataService.deleteProject(id);
-      setProjects(adminDataService.getProjects());
-      toast({
-        title: "Portfolio deleted",
-        description: "The portfolio has been successfully deleted.",
-      });
+      try {
+        adminDataService.deleteProject(id);
+        setProjects(adminDataService.getProjects());
+        toast({
+          title: "Portfolio deleted",
+          description: "The portfolio has been successfully deleted.",
+        });
+      } catch (error) {
+        toast({
+          title: "Error",
+          description: "Failed to delete portfolio. Please try again.",
+          variant: "destructive",
+        });
+      }
     }
   };
 
@@ -42,6 +69,11 @@ const PortfolioList = () => {
     adminDataService.debugLocalStorage();
     // Refresh the data
     setProjects(adminDataService.getProjects());
+  };
+
+  const handleDataRestored = () => {
+    setProjects(adminDataService.getProjects());
+    setShowRecovery(false);
   };
 
   const getServiceLabel = (serviceId: string) => {
@@ -57,6 +89,10 @@ const PortfolioList = () => {
           <p className="text-gray-600">Manage your portfolio projects</p>
         </div>
         <div className="flex gap-2">
+          <Button variant="outline" onClick={() => setShowRecovery(!showRecovery)}>
+            <Shield className="h-4 w-4 mr-2" />
+            {showRecovery ? 'Hide' : 'Show'} Recovery
+          </Button>
           <Button variant="outline" onClick={handleDebugLocalStorage}>
             <Bug className="h-4 w-4 mr-2" />
             Debug Data
@@ -70,6 +106,10 @@ const PortfolioList = () => {
         </div>
       </div>
 
+      {showRecovery && (
+        <DataRecoveryPanel onDataRestored={handleDataRestored} />
+      )}
+
       <Card>
         <CardHeader>
           <CardTitle>All Portfolios ({projects.length})</CardTitle>
@@ -79,14 +119,20 @@ const PortfolioList = () => {
             <div className="text-center py-8">
               <p className="text-gray-500 mb-4">No portfolios found</p>
               <p className="text-sm text-gray-400 mb-4">
-                Click "Debug Data" to check localStorage or create a new portfolio.
+                Your data might be lost. Try using the Recovery panel above or create a new portfolio.
               </p>
-              <Button asChild>
-                <Link to="/secure-management-portal-x7k9/portfolios/new">
-                  <Plus className="h-4 w-4 mr-2" />
-                  Create your first portfolio
-                </Link>
-              </Button>
+              <div className="flex gap-2 justify-center">
+                <Button variant="outline" onClick={() => setShowRecovery(true)}>
+                  <Shield className="h-4 w-4 mr-2" />
+                  Try Recovery
+                </Button>
+                <Button asChild>
+                  <Link to="/secure-management-portal-x7k9/portfolios/new">
+                    <Plus className="h-4 w-4 mr-2" />
+                    Create new portfolio
+                  </Link>
+                </Button>
+              </div>
             </div>
           ) : (
             <Table>
