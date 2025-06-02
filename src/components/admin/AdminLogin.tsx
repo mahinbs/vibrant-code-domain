@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { adminAuth } from '@/services/adminAuth';
@@ -25,7 +26,7 @@ const AdminLogin = () => {
         title: "Login successful",
         description: "Welcome to the admin panel",
       });
-      navigate('/admin');
+      navigate('/secure-management-portal-x7k9');
     } else {
       toast({
         title: "Login failed",

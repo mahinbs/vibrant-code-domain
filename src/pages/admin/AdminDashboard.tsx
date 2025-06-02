@@ -60,21 +60,21 @@ const AdminDashboard = () => {
       value: projects.length,
       description: 'Active portfolio projects',
       icon: FolderOpen,
-      href: '/admin/portfolios'
+      href: '/secure-management-portal-x7k9/portfolios'
     },
     {
       title: 'Case Studies',
       value: projects.filter(p => p.challenge && p.solution).length,
       description: 'Projects with case studies',
       icon: FileText,
-      href: '/admin/case-studies'
+      href: '/secure-management-portal-x7k9/case-studies'
     },
     {
       title: 'Blog Posts',
       value: blogs.length,
       description: 'Published and draft posts',
       icon: BookOpen,
-      href: '/admin/blogs'
+      href: '/secure-management-portal-x7k9/blogs'
     }
   ];
 
@@ -151,19 +151,19 @@ const AdminDashboard = () => {
           <CardContent>
             <div className="space-y-2">
               <Button variant="outline" className="w-full justify-start" asChild>
-                <Link to="/admin/portfolios/new">
+                <Link to="/secure-management-portal-x7k9/portfolios/new">
                   <FolderOpen className="h-4 w-4 mr-2" />
                   Add New Portfolio
                 </Link>
               </Button>
               <Button variant="outline" className="w-full justify-start" asChild>
-                <Link to="/admin/blogs/new">
+                <Link to="/secure-management-portal-x7k9/blogs/new">
                   <BookOpen className="h-4 w-4 mr-2" />
                   Create Blog Post
                 </Link>
               </Button>
               <Button variant="outline" className="w-full justify-start" asChild>
-                <Link to="/admin/case-studies">
+                <Link to="/secure-management-portal-x7k9/case-studies">
                   <FileText className="h-4 w-4 mr-2" />
                   Manage Case Studies
                 </Link>

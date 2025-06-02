@@ -19,14 +19,14 @@ const AdminLayout = () => {
 
   const handleLogout = () => {
     adminAuth.logout();
-    window.location.href = '/admin/login';
+    window.location.href = '/secure-management-portal-x7k9/login';
   };
 
   const navigation = [
-    { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
-    { name: 'Portfolios', href: '/admin/portfolios', icon: FolderOpen },
-    { name: 'Case Studies', href: '/admin/case-studies', icon: FileText },
-    { name: 'Blogs', href: '/admin/blogs', icon: BookOpen },
+    { name: 'Dashboard', href: '/secure-management-portal-x7k9', icon: LayoutDashboard },
+    { name: 'Portfolios', href: '/secure-management-portal-x7k9/portfolios', icon: FolderOpen },
+    { name: 'Case Studies', href: '/secure-management-portal-x7k9/case-studies', icon: FileText },
+    { name: 'Blogs', href: '/secure-management-portal-x7k9/blogs', icon: BookOpen },
   ];
 
   return (

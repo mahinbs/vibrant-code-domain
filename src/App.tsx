@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -109,9 +110,9 @@ const App = () => {
               <Route path="/ai-calling" element={<AiCallingPage />} />
               <Route path="/ai-automation" element={<AiAutomationPage />} />
               
-              {/* Admin routes */}
-              <Route path="/admin/login" element={<AdminLogin />} />
-              <Route path="/admin" element={
+              {/* Secure Admin routes */}
+              <Route path="/secure-management-portal-x7k9/login" element={<AdminLogin />} />
+              <Route path="/secure-management-portal-x7k9" element={
                 <ProtectedRoute>
                   <AdminLayout />
                 </ProtectedRoute>
