@@ -1,7 +1,7 @@
-
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Code, Smartphone, Cloud, Brain, Zap, ChevronDown, ExternalLink, Star, Users, Clock, ArrowRight } from 'lucide-react';
+import { projectsData } from '@/data/projects';
 
 const PortfolioSection = () => {
   const [selectedService, setSelectedService] = useState<string | null>(null);
@@ -30,88 +30,12 @@ const PortfolioSection = () => {
     };
   }, []);
 
-  const services = [
-    {
-      id: 'web-apps',
-      icon: Code,
-      title: 'Web Applications',
-      color: 'cyan' as const,
-      projects: [
-        {
-          id: 'retailmax',
-          title: 'RetailMax E-commerce Platform',
-          client: 'RetailMax Inc.',
-          description: 'Complete e-commerce solution with advanced inventory management and AI-powered recommendations.',
-          technologies: ['React', 'Node.js', 'PostgreSQL', 'Stripe', 'Redis'],
-          metrics: { revenue: '+250%', conversion: '+45%', users: '50K+', sales: '$2.5M' } as Record<string, string>,
-          timeline: '12 weeks',
-          team: '5 developers',
-          industry: 'E-commerce',
-          testimonial: 'The platform exceeded our expectations. Sales increased dramatically within the first month.',
-          clientLogo: 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=100&h=100&fit=crop',
-          image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
-        },
-        {
-          id: 'medcare',
-          title: 'MedCare Healthcare Portal',
-          client: 'MedCare Systems',
-          description: 'Patient management system with telemedicine capabilities and secure data handling.',
-          technologies: ['React', 'TypeScript', 'Firebase', 'WebRTC', 'Socket.io'],
-          metrics: { efficiency: '+60%', satisfaction: '95%', appointments: '10K+', cost: '-40%' } as Record<string, string>,
-          timeline: '16 weeks',
-          team: '6 developers',
-          industry: 'Healthcare',
-          testimonial: 'Revolutionary improvement in patient care delivery and administrative efficiency.',
-          clientLogo: 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=100&h=100&fit=crop',
-          image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
-        }
-      ]
-    },
-    {
-      id: 'saas',
-      icon: Cloud,
-      title: 'SAAS Solutions',
-      color: 'blue' as const,
-      projects: [
-        {
-          id: 'projectflow',
-          title: 'ProjectFlow Management Platform',
-          client: 'TechCorp Solutions',
-          description: 'Enterprise project management with real-time collaboration and advanced analytics.',
-          technologies: ['React', 'AWS', 'Redis', 'WebSocket', 'GraphQL'],
-          metrics: { productivity: '+75%', teams: '200+', projects: '5K+', time: '-50%' } as Record<string, string>,
-          timeline: '20 weeks',
-          team: '8 developers',
-          industry: 'Technology',
-          testimonial: 'Transformed how our teams collaborate. Best investment we\'ve made in years.',
-          clientLogo: 'https://images.unsplash.com/photo-1549923746-c502d488b3ea?w=100&h=100&fit=crop',
-          image: 'https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
-        }
-      ]
-    },
-    {
-      id: 'ai-calling',
-      icon: Brain,
-      title: 'AI Calling Agency',
-      color: 'pink' as const,
-      projects: [
-        {
-          id: 'leadgen',
-          title: 'LeadGen AI System',
-          client: 'SalesForce Pro',
-          description: 'Intelligent lead generation system with natural conversation AI and CRM integration.',
-          technologies: ['OpenAI', 'Twilio', 'Python', 'CRM APIs', 'NLP'],
-          metrics: { leads: '+300%', conversion: '+85%', cost: '-60%', calls: '10K+ daily' } as Record<string, string>,
-          timeline: '10 weeks',
-          team: '4 developers',
-          industry: 'Sales & Marketing',
-          testimonial: 'Game-changer for our sales team. The AI calls are indistinguishable from human agents.',
-          clientLogo: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop',
-          image: 'https://images.unsplash.com/photo-1553775282-20af80779df7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
-        }
-      ]
-    }
-  ];
+  const services = projectsData.map(service => ({
+    ...service,
+    icon: service.id === 'web-apps' ? Code :
+          service.id === 'saas' ? Cloud :
+          service.id === 'ai-calling' ? Brain : Code
+  }));
 
   const colorClasses = {
     cyan: {
@@ -141,7 +65,7 @@ const PortfolioSection = () => {
   };
 
   const handleProjectClick = (projectId: string) => {
-    setSelectedProject(selectedProject === projectId ? null : projectId);
+    window.location.href = `/case-study/${projectId}`;
   };
 
   return (
@@ -266,11 +190,13 @@ const PortfolioSection = () => {
                                 {project.description}
                               </p>
                             </div>
-                            <ChevronDown 
-                              className={`h-5 w-5 ${colors.text} transform transition-transform duration-300 ${
-                                selectedProject === project.id ? 'rotate-180' : ''
-                              }`}
-                            />
+                            <Link 
+                              to={`/case-study/${project.id}`}
+                              className={`px-3 py-1 rounded-lg text-xs ${colors.tag} border font-medium hover:scale-105 transition-transform duration-200`}
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              View Case Study
+                            </Link>
                           </div>
 
                           {/* Quick Metrics */}
@@ -280,61 +206,6 @@ const PortfolioSection = () => {
                                 {key}: {String(value)}
                               </span>
                             ))}
-                          </div>
-
-                          {/* Expanded Content - Simplified animations */}
-                          <div className={`overflow-hidden transition-all duration-400 ${
-                            selectedProject === project.id ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0'
-                          }`}>
-                            <div className="pt-4 border-t border-gray-700/50 space-y-4">
-                              {/* Client Info */}
-                              <div className="flex items-center space-x-3">
-                                <img 
-                                  src={project.clientLogo} 
-                                  alt={project.client}
-                                  className="w-10 h-10 rounded-full object-cover border-2 border-gray-700"
-                                  loading="lazy"
-                                  decoding="async"
-                                />
-                                <div>
-                                  <p className="text-white font-medium text-sm">{project.client}</p>
-                                  <div className="flex items-center space-x-3 text-xs text-gray-400">
-                                    <span className="flex items-center space-x-1">
-                                      <Clock className="h-3 w-3" />
-                                      <span>{project.timeline}</span>
-                                    </span>
-                                    <span className="flex items-center space-x-1">
-                                      <Users className="h-3 w-3" />
-                                      <span>{project.team}</span>
-                                    </span>
-                                  </div>
-                                </div>
-                              </div>
-
-                              {/* Technologies */}
-                              <div>
-                                <h5 className="text-xs font-semibold text-white mb-2">Technologies</h5>
-                                <div className="flex flex-wrap gap-1">
-                                  {project.technologies.slice(0, 3).map((tech, idx) => (
-                                    <span key={idx} className={`px-2 py-1 rounded text-xs ${colors.tag} border font-medium`}>
-                                      {tech}
-                                    </span>
-                                  ))}
-                                </div>
-                              </div>
-
-                              {/* Testimonial */}
-                              <div className="bg-gray-800/50 rounded-lg p-3 border border-gray-700/50">
-                                <div className="flex items-center space-x-1 mb-2">
-                                  {[1, 2, 3, 4, 5].map((star) => (
-                                    <Star key={star} className={`h-3 w-3 ${colors.text} fill-current`} />
-                                  ))}
-                                </div>
-                                <p className="text-gray-300 text-xs italic">
-                                  "{project.testimonial}"
-                                </p>
-                              </div>
-                            </div>
                           </div>
                         </div>
                       </div>

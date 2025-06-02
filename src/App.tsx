@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -17,6 +16,7 @@ const AiCallingPage = lazy(() => import("./pages/AiCallingPage"));
 const AiAutomationPage = lazy(() => import("./pages/AiAutomationPage"));
 const Portfolio = lazy(() => import("./pages/Portfolio"));
 const ReviewsPage = lazy(() => import("./pages/ReviewsPage"));
+const CaseStudy = lazy(() => import("./pages/CaseStudy"));
 
 // Optimized query client configuration
 const queryClient = new QueryClient({
@@ -85,6 +85,7 @@ const App = () => {
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/portfolio" element={<Portfolio />} />
+              <Route path="/case-study/:projectId" element={<CaseStudy />} />
               <Route path="/reviews" element={<ReviewsPage />} />
               <Route path="/web-apps" element={<WebAppsPage />} />
               <Route path="/saas" element={<SaasPage />} />
