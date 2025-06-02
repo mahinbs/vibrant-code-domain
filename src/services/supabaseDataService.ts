@@ -1,4 +1,3 @@
-
 import { supabase } from '@/integrations/supabase/client';
 import { Project } from '@/data/projects';
 import { BlogPost } from '@/data/blogs';
@@ -30,12 +29,15 @@ const transformDbProjectToProject = (dbProject: any): Project => {
     // Add default values for required Project fields that don't exist in DB
     metrics: {},
     timeline: '',
-    team: [],
+    team: '',
     industry: '',
     clientLogo: '',
     category: 'Featured',
     tags: [],
-    testimonial: { quote: '', author: '' }
+    testimonial: { quote: '', author: '' },
+    approach: [],
+    techStack: [],
+    features: []
   };
 };
 
