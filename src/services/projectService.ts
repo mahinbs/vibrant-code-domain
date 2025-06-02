@@ -1,14 +1,12 @@
 
 import { Project } from '@/data/projects';
-import { projectsData } from '@/data/projects';
+import { findProject, getCombinedProjects } from './caseStudyDataService';
 
 // Cache for loaded projects
 const projectCache = new Map<string, Project>();
 
 export const getProjectSummary = (projectId: string) => {
-  const project = projectsData
-    .flatMap(service => service.projects)
-    .find(p => p.id === projectId);
+  const project = findProject(projectId);
 
   if (!project) return null;
 
@@ -33,10 +31,8 @@ export const loadFullProject = async (projectId: string): Promise<Project | null
     return projectCache.get(projectId)!;
   }
 
-  // No artificial delay - load immediately
-  const project = projectsData
-    .flatMap(service => service.projects)
-    .find(p => p.id === projectId);
+  // Load from combined data (static + admin)
+  const project = findProject(projectId);
 
   if (project) {
     projectCache.set(projectId, project);

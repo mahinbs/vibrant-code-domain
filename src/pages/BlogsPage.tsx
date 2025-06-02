@@ -1,19 +1,30 @@
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BlogHero from '@/components/blog/BlogHero';
 import BlogGrid from '@/components/blog/BlogGrid';
 import BlogCategories from '@/components/blog/BlogCategories';
 import BlogSearch from '@/components/blog/BlogSearch';
-import { blogsData } from '@/data/blogs';
+import { getCombinedBlogs, onBlogsChange } from '@/services/blogDataService';
 
 const BlogsPage = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
+  const [blogs, setBlogs] = useState(getCombinedBlogs());
+
+  // Refresh data when component mounts or when localStorage changes
+  useEffect(() => {
+    const refreshData = () => {
+      setBlogs(getCombinedBlogs());
+    };
+
+    const cleanup = onBlogsChange(refreshData);
+    return cleanup;
+  }, []);
 
   const filteredPosts = useMemo(() => {
-    let filtered = blogsData;
+    let filtered = blogs;
 
     // Filter by category
     if (selectedCategory !== 'All') {
@@ -32,7 +43,7 @@ const BlogsPage = () => {
     }
 
     return filtered;
-  }, [selectedCategory, searchQuery]);
+  }, [blogs, selectedCategory, searchQuery]);
 
   return (
     <div className="min-h-screen bg-black">

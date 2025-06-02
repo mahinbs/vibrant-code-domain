@@ -1,25 +1,36 @@
 
 import { useParams, Navigate, Link } from 'react-router-dom';
-import { useMemo } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { blogsData } from '@/data/blogs';
+import { getCombinedBlogs, onBlogsChange, findBlog } from '@/services/blogDataService';
 import { Calendar, Clock, User, ArrowLeft, Share2 } from 'lucide-react';
 import OptimizedImage from '@/components/ui/OptimizedImage';
 
 const BlogPostPage = () => {
   const { blogId } = useParams<{ blogId: string }>();
+  const [blogs, setBlogs] = useState(getCombinedBlogs());
   
+  // Refresh data when component mounts or when localStorage changes
+  useEffect(() => {
+    const refreshData = () => {
+      setBlogs(getCombinedBlogs());
+    };
+
+    const cleanup = onBlogsChange(refreshData);
+    return cleanup;
+  }, []);
+
   const post = useMemo(() => {
-    return blogsData.find(p => p.id === blogId);
-  }, [blogId]);
+    return findBlog(blogId || '');
+  }, [blogId, blogs]);
 
   const relatedPosts = useMemo(() => {
     if (!post) return [];
-    return blogsData
+    return blogs
       .filter(p => p.id !== post.id && p.category === post.category)
       .slice(0, 3);
-  }, [post]);
+  }, [post, blogs]);
 
   if (!post) {
     return <Navigate to="/blogs" replace />;

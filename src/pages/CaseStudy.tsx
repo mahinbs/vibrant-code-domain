@@ -6,6 +6,7 @@ import Footer from '@/components/Footer';
 import CaseStudyLoading from '@/components/case-study/CaseStudyLoading';
 import CaseStudyComponents from '@/components/case-study/CaseStudyComponents';
 import { getProjectSummary, loadFullProject } from '@/services/projectService';
+import { onProjectsChange } from '@/services/caseStudyDataService';
 import { Project } from '@/data/projects';
 
 const CaseStudy = () => {
@@ -21,23 +22,34 @@ const CaseStudy = () => {
       return;
     }
 
-    // Try to get project summary for immediate render
-    const summary = getProjectSummary(projectId);
-    if (!summary) {
-      setNotFound(true);
-      setIsLoading(false);
-      return;
-    }
-
-    // Load full project data immediately (no artificial delay)
-    loadFullProject(projectId).then((fullProject) => {
-      if (fullProject) {
-        setProject(fullProject);
-      } else {
+    const loadProject = () => {
+      // Try to get project summary for immediate render
+      const summary = getProjectSummary(projectId);
+      if (!summary) {
         setNotFound(true);
+        setIsLoading(false);
+        return;
       }
-      setIsLoading(false);
+
+      // Load full project data immediately (no artificial delay)
+      loadFullProject(projectId).then((fullProject) => {
+        if (fullProject) {
+          setProject(fullProject);
+        } else {
+          setNotFound(true);
+        }
+        setIsLoading(false);
+      });
+    };
+
+    loadProject();
+
+    // Listen for data changes
+    const cleanup = onProjectsChange(() => {
+      loadProject();
     });
+
+    return cleanup;
   }, [projectId]);
 
   if (notFound) {
