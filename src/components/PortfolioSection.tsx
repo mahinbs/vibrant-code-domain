@@ -1,14 +1,16 @@
+
 import { useState, useEffect } from 'react';
 import { getPortfolioData } from '@/services/portfolioDataService';
 import PortfolioHeader from './portfolio/PortfolioHeader';
 import ServiceFilter from './portfolio/ServiceFilter';
 import ProjectGrid from './portfolio/ProjectGrid';
 import PortfolioCTA from './portfolio/PortfolioCTA';
+import { Service } from '@/data/projects';
 
 const PortfolioSection = () => {
   const [selectedService, setSelectedService] = useState<string | null>(null);
   const [isVisible, setIsVisible] = useState(false);
-  const [services, setServices] = useState([]);
+  const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
 
   // Load data when component mounts

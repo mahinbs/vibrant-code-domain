@@ -7,19 +7,34 @@ import BlogGrid from '@/components/blog/BlogGrid';
 import BlogCategories from '@/components/blog/BlogCategories';
 import BlogSearch from '@/components/blog/BlogSearch';
 import { getCombinedBlogs, onBlogsChange } from '@/services/blogDataService';
+import { BlogPost } from '@/data/blogs';
 
 const BlogsPage = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
-  const [blogs, setBlogs] = useState(getCombinedBlogs());
+  const [blogs, setBlogs] = useState<BlogPost[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  // Refresh data when component mounts or when localStorage changes
+  // Load data when component mounts
   useEffect(() => {
-    const refreshData = () => {
-      setBlogs(getCombinedBlogs());
+    const loadBlogs = async () => {
+      try {
+        setLoading(true);
+        const blogsData = await getCombinedBlogs();
+        setBlogs(blogsData);
+      } catch (error) {
+        console.error('Error loading blogs:', error);
+        setBlogs([]);
+      } finally {
+        setLoading(false);
+      }
     };
 
-    const cleanup = onBlogsChange(refreshData);
+    loadBlogs();
+    
+    const cleanup = onBlogsChange(() => {
+      loadBlogs();
+    });
     return cleanup;
   }, []);
 
@@ -52,15 +67,23 @@ const BlogsPage = () => {
       
       <section className="py-20">
         <div className="container mx-auto px-6">
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-12">
-            <BlogCategories
-              selectedCategory={selectedCategory}
-              onCategoryChange={setSelectedCategory}
-            />
-            <BlogSearch onSearch={setSearchQuery} />
-          </div>
-          
-          <BlogGrid posts={filteredPosts} showFeatured={selectedCategory === 'All' && !searchQuery} />
+          {loading ? (
+            <div className="flex items-center justify-center py-12">
+              <div className="text-white">Loading blogs...</div>
+            </div>
+          ) : (
+            <>
+              <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-12">
+                <BlogCategories
+                  selectedCategory={selectedCategory}
+                  onCategoryChange={setSelectedCategory}
+                />
+                <BlogSearch onSearch={setSearchQuery} />
+              </div>
+              
+              <BlogGrid posts={filteredPosts} showFeatured={selectedCategory === 'All' && !searchQuery} />
+            </>
+          )}
         </div>
       </section>
       

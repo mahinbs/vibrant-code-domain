@@ -1,32 +1,69 @@
 
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { adminDataService } from '@/services/adminDataService';
 import { FolderOpen, FileText, BookOpen, Download, Upload } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { Link } from 'react-router-dom';
+import { Project } from '@/data/projects';
+import { BlogPost } from '@/data/blogs';
 
 const AdminDashboard = () => {
   const { toast } = useToast();
-  const projects = adminDataService.getProjects();
-  const blogs = adminDataService.getBlogs();
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [blogs, setBlogs] = useState<BlogPost[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const handleExport = () => {
-    const data = adminDataService.exportData();
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `admin-data-${new Date().toISOString().split('T')[0]}.json`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-    
-    toast({
-      title: "Data exported",
-      description: "Your data has been exported successfully",
-    });
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        setLoading(true);
+        const [projectsData, blogsData] = await Promise.all([
+          adminDataService.getProjects(),
+          adminDataService.getBlogs()
+        ]);
+        setProjects(projectsData);
+        setBlogs(blogsData);
+      } catch (error) {
+        console.error('Error loading dashboard data:', error);
+        toast({
+          title: "Error loading data",
+          description: "Could not load dashboard data",
+          variant: "destructive",
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadData();
+  }, [toast]);
+
+  const handleExport = async () => {
+    try {
+      const data = await adminDataService.exportData();
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `admin-data-${new Date().toISOString().split('T')[0]}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      
+      toast({
+        title: "Data exported",
+        description: "Your data has been exported successfully",
+      });
+    } catch (error) {
+      toast({
+        title: "Export failed",
+        description: "Could not export data",
+        variant: "destructive",
+      });
+    }
   };
 
   const handleImport = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,10 +71,10 @@ const AdminDashboard = () => {
     if (!file) return;
 
     const reader = new FileReader();
-    reader.onload = (e) => {
+    reader.onload = async (e) => {
       try {
         const data = JSON.parse(e.target?.result as string);
-        adminDataService.importData(data);
+        await adminDataService.importData(data);
         toast({
           title: "Data imported",
           description: "Your data has been imported successfully",
@@ -53,6 +90,17 @@ const AdminDashboard = () => {
     };
     reader.readAsText(file);
   };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading dashboard...</p>
+        </div>
+      </div>
+    );
+  }
 
   const stats = [
     {

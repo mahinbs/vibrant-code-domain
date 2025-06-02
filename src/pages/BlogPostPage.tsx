@@ -9,32 +9,42 @@ import BlogPostSidebar from '@/components/blog/BlogPostSidebar';
 import RelatedPosts from '@/components/blog/RelatedPosts';
 import { getCombinedBlogs, onBlogsChange, findBlog } from '@/services/blogDataService';
 import { formatPlainTextContent } from '@/lib/contentUtils';
+import { BlogPost } from '@/data/blogs';
 
 const BlogPostPage = () => {
   const { blogId } = useParams<{ blogId: string }>();
-  const [blogs, setBlogs] = useState(getCombinedBlogs());
+  const [blogs, setBlogs] = useState<BlogPost[]>([]);
+  const [post, setPost] = useState<BlogPost | null>(null);
+  const [loading, setLoading] = useState(true);
   
-  // Refresh data when component mounts or when localStorage changes
+  // Load data when component mounts
   useEffect(() => {
-    const refreshData = () => {
-      setBlogs(getCombinedBlogs());
+    const loadData = async () => {
+      try {
+        setLoading(true);
+        const blogsData = await getCombinedBlogs();
+        setBlogs(blogsData);
+        
+        if (blogId) {
+          const foundPost = await findBlog(blogId);
+          setPost(foundPost);
+        }
+      } catch (error) {
+        console.error('Error loading blog data:', error);
+        setBlogs([]);
+        setPost(null);
+      } finally {
+        setLoading(false);
+      }
     };
 
-    const cleanup = onBlogsChange(refreshData);
+    loadData();
+    
+    const cleanup = onBlogsChange(() => {
+      loadData();
+    });
     return cleanup;
-  }, []);
-
-  const post = useMemo(() => {
-    console.log('BlogPostPage - Looking for blog with ID:', blogId);
-    const foundPost = findBlog(blogId || '');
-    console.log('BlogPostPage - Found post:', foundPost);
-    if (foundPost) {
-      console.log('BlogPostPage - Post content:', foundPost.content);
-      console.log('BlogPostPage - Post content type:', typeof foundPost.content);
-      console.log('BlogPostPage - Post content length:', foundPost.content?.length || 0);
-    }
-    return foundPost;
-  }, [blogId, blogs]);
+  }, [blogId]);
 
   const relatedPosts = useMemo(() => {
     if (!post) return [];
@@ -53,6 +63,14 @@ const BlogPostPage = () => {
     console.log('formattedContent - Final formatted content:', formatted);
     return formatted;
   }, [post?.content]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="text-white">Loading blog post...</div>
+      </div>
+    );
+  }
 
   if (!post) {
     return <Navigate to="/blogs" replace />;

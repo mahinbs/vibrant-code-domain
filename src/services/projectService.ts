@@ -5,8 +5,8 @@ import { findProject, getCombinedProjects } from './caseStudyDataService';
 // Cache for loaded projects
 const projectCache = new Map<string, Project>();
 
-export const getProjectSummary = (projectId: string) => {
-  const project = findProject(projectId);
+export const getProjectSummary = async (projectId: string) => {
+  const project = await findProject(projectId);
 
   if (!project) return null;
 
@@ -32,7 +32,7 @@ export const loadFullProject = async (projectId: string): Promise<Project | null
   }
 
   // Load from combined data (static + admin)
-  const project = findProject(projectId);
+  const project = await findProject(projectId);
 
   if (project) {
     projectCache.set(projectId, project);
@@ -42,13 +42,13 @@ export const loadFullProject = async (projectId: string): Promise<Project | null
 };
 
 // Preload likely next projects
-export const preloadProject = (projectId: string) => {
+export const preloadProject = async (projectId: string) => {
   if (!projectCache.has(projectId)) {
-    loadFullProject(projectId);
+    await loadFullProject(projectId);
   }
 };
 
 // Bulk preload for faster navigation
-export const preloadMultipleProjects = (projectIds: string[]) => {
-  projectIds.forEach(id => preloadProject(id));
+export const preloadMultipleProjects = async (projectIds: string[]) => {
+  await Promise.all(projectIds.map(id => preloadProject(id)));
 };

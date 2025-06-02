@@ -11,6 +11,51 @@ export interface DatabaseBlogPost extends Omit<BlogPost, 'id'> {
   id?: string;
 }
 
+// Transform database row to Project type
+const transformDbProjectToProject = (dbProject: any): Project => {
+  return {
+    id: dbProject.id,
+    title: dbProject.title,
+    client: dbProject.client,
+    serviceId: dbProject.service_id,
+    description: dbProject.description,
+    challenge: dbProject.challenge,
+    solution: dbProject.solution,
+    image: dbProject.image,
+    liveUrl: dbProject.link,
+    technologies: dbProject.technologies || [],
+    detailedMetrics: dbProject.detailed_metrics || [],
+    gallery: dbProject.gallery || [],
+    extendedTestimonial: dbProject.extended_testimonial || { quote: '', author: '', position: '', company: '' },
+    // Add default values for required Project fields that don't exist in DB
+    metrics: [],
+    timeline: '',
+    team: [],
+    industry: '',
+    clientLogo: '',
+    category: 'Featured',
+    tags: [],
+    testimonial: { quote: '', author: '' }
+  };
+};
+
+// Transform database row to BlogPost type
+const transformDbBlogToBlogPost = (dbBlog: any): BlogPost => {
+  return {
+    id: dbBlog.id,
+    title: dbBlog.title,
+    content: dbBlog.content,
+    excerpt: dbBlog.excerpt,
+    author: dbBlog.author || { name: '', avatar: '', bio: '' },
+    publishedDate: dbBlog.published_date,
+    readingTime: dbBlog.reading_time || 5,
+    tags: dbBlog.tags || [],
+    featuredImage: dbBlog.image,
+    // Add default values for required BlogPost fields
+    category: 'General'
+  };
+};
+
 export const supabaseDataService = {
   // Projects/Portfolios
   getProjects: async (): Promise<Project[]> => {
@@ -27,7 +72,7 @@ export const supabaseDataService = {
       }
 
       console.log('SupabaseDataService - Projects retrieved:', data);
-      return data || [];
+      return (data || []).map(transformDbProjectToProject);
     } catch (error) {
       console.error('SupabaseDataService - Error getting projects:', error);
       return [];
@@ -62,7 +107,7 @@ export const supabaseDataService = {
 
         if (error) throw error;
         console.log('SupabaseDataService - Project updated:', data);
-        return data;
+        return transformDbProjectToProject(data);
       } else {
         // Create new project
         const { data, error } = await supabase
@@ -86,7 +131,7 @@ export const supabaseDataService = {
 
         if (error) throw error;
         console.log('SupabaseDataService - Project created:', data);
-        return data;
+        return transformDbProjectToProject(data);
       }
     } catch (error) {
       console.error('SupabaseDataService - Error saving project:', error);
@@ -126,7 +171,7 @@ export const supabaseDataService = {
       }
 
       console.log('SupabaseDataService - Blogs retrieved:', data);
-      return data || [];
+      return (data || []).map(transformDbBlogToBlogPost);
     } catch (error) {
       console.error('SupabaseDataService - Error getting blogs:', error);
       return [];
@@ -157,7 +202,7 @@ export const supabaseDataService = {
 
         if (error) throw error;
         console.log('SupabaseDataService - Blog updated:', data);
-        return data;
+        return transformDbBlogToBlogPost(data);
       } else {
         // Create new blog
         const { data, error } = await supabase
@@ -177,7 +222,7 @@ export const supabaseDataService = {
 
         if (error) throw error;
         console.log('SupabaseDataService - Blog created:', data);
-        return data;
+        return transformDbBlogToBlogPost(data);
       }
     } catch (error) {
       console.error('SupabaseDataService - Error saving blog:', error);
