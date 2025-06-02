@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -5,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Suspense, lazy, useEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
+import ProtectedRoute from "@/components/admin/ProtectedRoute";
 
 // Lazy load all page components for code splitting
 const Index = lazy(() => import("./pages/Index"));
@@ -19,6 +21,11 @@ const ReviewsPage = lazy(() => import("./pages/ReviewsPage"));
 const CaseStudy = lazy(() => import("./pages/CaseStudy"));
 const BlogsPage = lazy(() => import("./pages/BlogsPage"));
 const BlogPostPage = lazy(() => import("./pages/BlogPostPage"));
+
+// Admin components
+const AdminLogin = lazy(() => import("./components/admin/AdminLogin"));
+const AdminLayout = lazy(() => import("./components/admin/AdminLayout"));
+const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
 
 // Optimized query client configuration
 const queryClient = new QueryClient({
@@ -85,6 +92,7 @@ const App = () => {
         <BrowserRouter>
           <Suspense fallback={<PageSkeleton />}>
             <Routes>
+              {/* Public routes */}
               <Route path="/" element={<Index />} />
               <Route path="/portfolio" element={<Portfolio />} />
               <Route path="/case-study/:projectId" element={<CaseStudy />} />
@@ -96,6 +104,18 @@ const App = () => {
               <Route path="/mobile-apps" element={<MobileAppsPage />} />
               <Route path="/ai-calling" element={<AiCallingPage />} />
               <Route path="/ai-automation" element={<AiAutomationPage />} />
+              
+              {/* Admin routes */}
+              <Route path="/admin/login" element={<AdminLogin />} />
+              <Route path="/admin" element={
+                <ProtectedRoute>
+                  <AdminLayout />
+                </ProtectedRoute>
+              }>
+                <Route index element={<AdminDashboard />} />
+                {/* More admin routes will be added here */}
+              </Route>
+              
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
