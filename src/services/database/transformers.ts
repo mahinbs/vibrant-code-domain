@@ -42,6 +42,7 @@ export const transformDbBlogToBlogPost = (dbBlog: any): BlogPost => {
     publishedDate: dbBlog.published_date,
     readingTime: dbBlog.reading_time || 5,
     featuredImage: dbBlog.image,
-    category: 'General'
+    category: 'General',
+    tags: dbBlog.tags || []
   };
 };
