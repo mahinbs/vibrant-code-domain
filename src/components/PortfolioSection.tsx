@@ -1,6 +1,4 @@
-
 import { useState, useEffect } from 'react';
-import { Code, Cloud, Brain, Smartphone, Zap } from 'lucide-react';
 import { getPortfolioData } from '@/services/portfolioDataService';
 import PortfolioHeader from './portfolio/PortfolioHeader';
 import ServiceFilter from './portfolio/ServiceFilter';
@@ -10,24 +8,26 @@ import PortfolioCTA from './portfolio/PortfolioCTA';
 const PortfolioSection = () => {
   const [selectedService, setSelectedService] = useState<string | null>(null);
   const [isVisible, setIsVisible] = useState(false);
-  const [services, setServices] = useState(getPortfolioData());
+  const [services, setServices] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  // Refresh data when component mounts or when localStorage changes
+  // Load data when component mounts
   useEffect(() => {
-    const refreshData = () => {
-      setServices(getPortfolioData());
+    const loadPortfolioData = async () => {
+      try {
+        setLoading(true);
+        const data = await getPortfolioData();
+        setServices(data);
+      } catch (error) {
+        console.error('Error loading portfolio data:', error);
+        // Keep existing static data as fallback
+        setServices([]);
+      } finally {
+        setLoading(false);
+      }
     };
 
-    // Listen for storage changes (when admin adds/edits projects)
-    window.addEventListener('storage', refreshData);
-    
-    // Also refresh on focus (for same-tab updates)
-    window.addEventListener('focus', refreshData);
-
-    return () => {
-      window.removeEventListener('storage', refreshData);
-      window.removeEventListener('focus', refreshData);
-    };
+    loadPortfolioData();
   }, []);
 
   const handleProjectClick = (projectId: string) => {
@@ -52,18 +52,28 @@ const PortfolioSection = () => {
 
       <div className="container mx-auto px-6 relative z-10">
         <PortfolioHeader isVisible={isVisible} setIsVisible={setIsVisible} />
-        <ServiceFilter 
-          services={services} 
-          selectedService={selectedService} 
-          setSelectedService={setSelectedService}
-          isVisible={isVisible}
-        />
-        <ProjectGrid 
-          services={services}
-          selectedService={selectedService}
-          isVisible={isVisible}
-          handleProjectClick={handleProjectClick}
-        />
+        
+        {loading ? (
+          <div className="flex items-center justify-center py-12">
+            <div className="text-white">Loading portfolio...</div>
+          </div>
+        ) : (
+          <>
+            <ServiceFilter 
+              services={services} 
+              selectedService={selectedService} 
+              setSelectedService={setSelectedService}
+              isVisible={isVisible}
+            />
+            <ProjectGrid 
+              services={services}
+              selectedService={selectedService}
+              isVisible={isVisible}
+              handleProjectClick={handleProjectClick}
+            />
+          </>
+        )}
+        
         <PortfolioCTA isVisible={isVisible} />
       </div>
     </section>

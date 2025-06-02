@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { adminDataService, AdminBlogPost } from '@/services/adminDataService';
@@ -7,7 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Loader2 } from 'lucide-react';
 
 const BlogForm = () => {
   const { id } = useParams();
@@ -15,6 +16,8 @@ const BlogForm = () => {
   const { toast } = useToast();
   const isEdit = Boolean(id);
 
+  const [loading, setLoading] = useState(isEdit);
+  const [saving, setSaving] = useState(false);
   const [formData, setFormData] = useState<AdminBlogPost>({
     title: '',
     content: '',
@@ -35,23 +38,43 @@ const BlogForm = () => {
 
   useEffect(() => {
     if (isEdit && id) {
-      const blogs = adminDataService.getBlogs();
-      const blog = blogs.find(b => b.id === id);
-      if (blog) {
-        setFormData({
-          ...blog,
-          publishedDate: blog.publishedDate.split('T')[0] // Convert to date input format
-        });
-      }
+      const loadBlog = async () => {
+        try {
+          setLoading(true);
+          const blogs = await adminDataService.getBlogs();
+          const blog = blogs.find(b => b.id === id);
+          if (blog) {
+            setFormData({
+              ...blog,
+              publishedDate: blog.published_date.split('T')[0] // Convert to date input format
+            });
+          } else {
+            toast({
+              title: "Blog post not found",
+              description: "The blog post you're trying to edit doesn't exist.",
+              variant: "destructive",
+            });
+            navigate('/secure-management-portal-x7k9/blogs');
+          }
+        } catch (error) {
+          console.error('Error loading blog:', error);
+          toast({
+            title: "Error",
+            description: "Failed to load blog post. Please try again.",
+            variant: "destructive",
+          });
+        } finally {
+          setLoading(false);
+        }
+      };
+      loadBlog();
     }
-  }, [id, isEdit]);
+  }, [id, isEdit, navigate, toast]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     console.log('BlogForm - Submitting form data:', formData);
-    console.log('BlogForm - Content being saved:', formData.content);
-    console.log('BlogForm - Content length:', formData.content?.length || 0);
     
     if (!formData.title || !formData.content || !formData.author.name) {
       toast({
@@ -62,7 +85,6 @@ const BlogForm = () => {
       return;
     }
 
-    // Check if content is just whitespace
     if (!formData.content.trim()) {
       toast({
         title: "Validation Error",
@@ -73,18 +95,19 @@ const BlogForm = () => {
     }
 
     try {
+      setSaving(true);
       const blogData = {
         ...formData,
         publishedDate: new Date(formData.publishedDate).toISOString()
       };
       
       console.log('BlogForm - Final blog data being saved:', blogData);
-      adminDataService.saveBlog(blogData);
+      await adminDataService.saveBlog(blogData);
       toast({
         title: isEdit ? "Blog post updated" : "Blog post created",
         description: `The blog post has been successfully ${isEdit ? 'updated' : 'created'}.`,
       });
-      navigate('/admin/blogs');
+      navigate('/secure-management-portal-x7k9/blogs');
     } catch (error) {
       console.error('BlogForm - Error saving blog:', error);
       toast({
@@ -92,6 +115,8 @@ const BlogForm = () => {
         description: "Something went wrong. Please try again.",
         variant: "destructive",
       });
+    } finally {
+      setSaving(false);
     }
   };
 
@@ -112,10 +137,19 @@ const BlogForm = () => {
     }));
   };
 
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <Loader2 className="h-8 w-8 animate-spin" />
+        <span className="ml-2">Loading blog post...</span>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-4">
-        <Button variant="outline" onClick={() => navigate('/admin/blogs')}>
+        <Button variant="outline" onClick={() => navigate('/secure-management-portal-x7k9/blogs')}>
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back to Blogs
         </Button>
@@ -293,26 +327,16 @@ const BlogForm = () => {
                 <p><strong>Plain text tips:</strong> Use double line breaks to create paragraphs.</p>
                 <p><strong>HTML examples:</strong> &lt;h2&gt;Heading&lt;/h2&gt;, &lt;p&gt;Paragraph&lt;/p&gt;, &lt;strong&gt;Bold&lt;/strong&gt;, &lt;em&gt;Italic&lt;/em&gt;</p>
               </div>
-              
-              {/* Content preview for debugging */}
-              {process.env.NODE_ENV === 'development' && formData.content && (
-                <div className="mt-4 p-4 bg-gray-50 rounded border">
-                  <strong>Content Preview (Debug):</strong>
-                  <div className="mt-2 text-sm">
-                    Length: {formData.content.length} characters<br />
-                    First 100 chars: {formData.content.substring(0, 100)}...
-                  </div>
-                </div>
-              )}
             </div>
           </CardContent>
         </Card>
 
         <div className="flex gap-4">
-          <Button type="submit">
+          <Button type="submit" disabled={saving}>
+            {saving && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
             {isEdit ? 'Update Blog Post' : 'Create Blog Post'}
           </Button>
-          <Button type="button" variant="outline" onClick={() => navigate('/admin/blogs')}>
+          <Button type="button" variant="outline" onClick={() => navigate('/secure-management-portal-x7k9/blogs')}>
             Cancel
           </Button>
         </div>

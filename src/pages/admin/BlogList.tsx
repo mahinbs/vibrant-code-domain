@@ -4,9 +4,8 @@ import { Link } from 'react-router-dom';
 import { adminDataService } from '@/services/adminDataService';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Plus, Edit, Trash2, ExternalLink, Bug, Shield } from 'lucide-react';
+import { Plus, Edit, Trash2, ExternalLink, Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import DataRecoveryPanel from '@/components/admin/DataRecoveryPanel';
 import {
   Table,
   TableBody,
@@ -17,37 +16,42 @@ import {
 } from '@/components/ui/table';
 
 const BlogList = () => {
-  const [blogs, setBlogs] = useState(adminDataService.getBlogs());
-  const [showRecovery, setShowRecovery] = useState(false);
+  const [blogs, setBlogs] = useState([]);
+  const [loading, setLoading] = useState(true);
   const { toast } = useToast();
 
-  // Refresh data on mount and storage changes
+  const loadBlogs = async () => {
+    try {
+      setLoading(true);
+      const data = await adminDataService.getBlogs();
+      setBlogs(data);
+    } catch (error) {
+      console.error('Error loading blogs:', error);
+      toast({
+        title: "Error",
+        description: "Failed to load blog posts. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const refreshData = () => {
-      console.log('BlogList - Refreshing data...');
-      setBlogs(adminDataService.getBlogs());
-    };
-
-    // Listen for storage changes
-    window.addEventListener('storage', refreshData);
-    window.addEventListener('focus', refreshData);
-
-    return () => {
-      window.removeEventListener('storage', refreshData);
-      window.removeEventListener('focus', refreshData);
-    };
+    loadBlogs();
   }, []);
 
-  const handleDelete = (id: string) => {
+  const handleDelete = async (id: string) => {
     if (confirm('Are you sure you want to delete this blog post?')) {
       try {
-        adminDataService.deleteBlog(id);
-        setBlogs(adminDataService.getBlogs());
+        await adminDataService.deleteBlog(id);
+        await loadBlogs(); // Reload the list
         toast({
           title: "Blog post deleted",
           description: "The blog post has been successfully deleted.",
         });
       } catch (error) {
+        console.error('Error deleting blog:', error);
         toast({
           title: "Error",
           description: "Failed to delete blog post. Please try again.",
@@ -57,20 +61,18 @@ const BlogList = () => {
     }
   };
 
-  const handleDebugLocalStorage = () => {
-    adminDataService.debugLocalStorage();
-    // Refresh the data
-    setBlogs(adminDataService.getBlogs());
-  };
-
-  const handleDataRestored = () => {
-    setBlogs(adminDataService.getBlogs());
-    setShowRecovery(false);
-  };
-
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString();
   };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <Loader2 className="h-8 w-8 animate-spin" />
+        <span className="ml-2">Loading blog posts...</span>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -79,27 +81,13 @@ const BlogList = () => {
           <h1 className="text-3xl font-bold text-gray-900">Blog Management</h1>
           <p className="text-gray-600">Manage your blog posts</p>
         </div>
-        <div className="flex gap-2">
-          <Button variant="outline" onClick={() => setShowRecovery(!showRecovery)}>
-            <Shield className="h-4 w-4 mr-2" />
-            {showRecovery ? 'Hide' : 'Show'} Recovery
-          </Button>
-          <Button variant="outline" onClick={handleDebugLocalStorage}>
-            <Bug className="h-4 w-4 mr-2" />
-            Debug Data
-          </Button>
-          <Button asChild>
-            <Link to="/secure-management-portal-x7k9/blogs/new">
-              <Plus className="h-4 w-4 mr-2" />
-              Add Blog Post
-            </Link>
-          </Button>
-        </div>
+        <Button asChild>
+          <Link to="/secure-management-portal-x7k9/blogs/new">
+            <Plus className="h-4 w-4 mr-2" />
+            Add Blog Post
+          </Link>
+        </Button>
       </div>
-
-      {showRecovery && (
-        <DataRecoveryPanel onDataRestored={handleDataRestored} />
-      )}
 
       <Card>
         <CardHeader>
@@ -109,21 +97,12 @@ const BlogList = () => {
           {blogs.length === 0 ? (
             <div className="text-center py-8">
               <p className="text-gray-500 mb-4">No blog posts found</p>
-              <p className="text-sm text-gray-400 mb-4">
-                Your data might be lost. Try using the Recovery panel above or create a new blog post.
-              </p>
-              <div className="flex gap-2 justify-center">
-                <Button variant="outline" onClick={() => setShowRecovery(true)}>
-                  <Shield className="h-4 w-4 mr-2" />
-                  Try Recovery
-                </Button>
-                <Button asChild>
-                  <Link to="/secure-management-portal-x7k9/blogs/new">
-                    <Plus className="h-4 w-4 mr-2" />
-                    Create new blog post
-                  </Link>
-                </Button>
-              </div>
+              <Button asChild>
+                <Link to="/secure-management-portal-x7k9/blogs/new">
+                  <Plus className="h-4 w-4 mr-2" />
+                  Create your first blog post
+                </Link>
+              </Button>
             </div>
           ) : (
             <Table>
@@ -142,8 +121,8 @@ const BlogList = () => {
                   <TableRow key={blog.id}>
                     <TableCell className="font-medium">{blog.title}</TableCell>
                     <TableCell>{blog.author.name}</TableCell>
-                    <TableCell>{formatDate(blog.publishedDate)}</TableCell>
-                    <TableCell>{blog.readingTime} min read</TableCell>
+                    <TableCell>{formatDate(blog.published_date)}</TableCell>
+                    <TableCell>{blog.reading_time} min read</TableCell>
                     <TableCell>
                       <div className="flex flex-wrap gap-1">
                         {blog.tags.slice(0, 2).map((tag) => (

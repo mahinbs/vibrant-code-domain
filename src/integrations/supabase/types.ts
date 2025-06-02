@@ -9,7 +9,102 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      blogs: {
+        Row: {
+          author: Json
+          content: string
+          created_at: string
+          excerpt: string
+          id: string
+          image: string
+          published_date: string
+          reading_time: number
+          tags: string[]
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          author?: Json
+          content: string
+          created_at?: string
+          excerpt: string
+          id?: string
+          image: string
+          published_date: string
+          reading_time?: number
+          tags?: string[]
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          author?: Json
+          content?: string
+          created_at?: string
+          excerpt?: string
+          id?: string
+          image?: string
+          published_date?: string
+          reading_time?: number
+          tags?: string[]
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      portfolios: {
+        Row: {
+          challenge: string
+          client: string
+          created_at: string
+          description: string
+          detailed_metrics: Json
+          extended_testimonial: Json
+          gallery: string[]
+          id: string
+          image: string
+          link: string | null
+          service_id: string
+          solution: string
+          technologies: string[]
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          challenge: string
+          client: string
+          created_at?: string
+          description: string
+          detailed_metrics?: Json
+          extended_testimonial?: Json
+          gallery?: string[]
+          id?: string
+          image: string
+          link?: string | null
+          service_id: string
+          solution: string
+          technologies?: string[]
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          challenge?: string
+          client?: string
+          created_at?: string
+          description?: string
+          detailed_metrics?: Json
+          extended_testimonial?: Json
+          gallery?: string[]
+          id?: string
+          image?: string
+          link?: string | null
+          service_id?: string
+          solution?: string
+          technologies?: string[]
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

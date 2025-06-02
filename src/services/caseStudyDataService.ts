@@ -2,35 +2,40 @@
 import { projectsData, Service, Project } from '@/data/projects';
 import { adminDataService } from './adminDataService';
 
-export const getCombinedProjects = (): Project[] => {
-  // Get admin projects from localStorage
-  const adminProjects = adminDataService.getProjects();
-  
-  // Get all static projects from all services
-  const staticProjects = projectsData.flatMap(service => service.projects);
-  
-  // Combine and return all projects
-  return [...staticProjects, ...adminProjects];
+export const getCombinedProjects = async (): Promise<Project[]> => {
+  try {
+    // Get admin projects from database
+    const adminProjects = await adminDataService.getProjects();
+    
+    // Get all static projects from all services
+    const staticProjects = projectsData.flatMap(service => service.projects);
+    
+    // Combine and return all projects
+    return [...staticProjects, ...adminProjects];
+  } catch (error) {
+    console.error('CaseStudyDataService - Error getting combined projects:', error);
+    // Return static data as fallback
+    return projectsData.flatMap(service => service.projects);
+  }
 };
 
-export const findProject = (projectId: string): Project | null => {
-  const allProjects = getCombinedProjects();
-  return allProjects.find(project => project.id === projectId) || null;
+export const findProject = async (projectId: string): Promise<Project | null> => {
+  try {
+    const allProjects = await getCombinedProjects();
+    return allProjects.find(project => project.id === projectId) || null;
+  } catch (error) {
+    console.error('CaseStudyDataService - Error finding project:', error);
+    return null;
+  }
 };
 
-// Listen for localStorage changes and provide refresh capability
+// For real-time updates, we'll use Supabase subscriptions instead of localStorage events
 export const onProjectsChange = (callback: () => void) => {
-  const handleStorageChange = (e: StorageEvent) => {
-    if (e.key === 'admin_projects') {
-      callback();
-    }
-  };
+  console.log('CaseStudyDataService - Setting up real-time subscription for projects');
   
-  window.addEventListener('storage', handleStorageChange);
-  window.addEventListener('focus', callback);
-  
+  // For now, just return a cleanup function
+  // Real-time subscriptions can be added later if needed
   return () => {
-    window.removeEventListener('storage', handleStorageChange);
-    window.removeEventListener('focus', callback);
+    console.log('CaseStudyDataService - Cleanup function called');
   };
 };

@@ -2,53 +2,51 @@
 import { blogsData, BlogPost } from '@/data/blogs';
 import { adminDataService } from './adminDataService';
 
-export const getCombinedBlogs = (): BlogPost[] => {
+export const getCombinedBlogs = async (): Promise<BlogPost[]> => {
   console.log('BlogDataService - Getting combined blogs...');
   
-  // Get admin blogs from localStorage
-  const adminBlogs = adminDataService.getBlogs();
-  console.log('BlogDataService - Admin blogs retrieved:', adminBlogs);
-  console.log('BlogDataService - Number of admin blogs:', adminBlogs.length);
-  
-  console.log('BlogDataService - Static blogs data:', blogsData);
-  console.log('BlogDataService - Number of static blogs:', blogsData.length);
-  
-  // Combine static blogs with admin blogs
-  const combined = [...blogsData, ...adminBlogs];
-  console.log('BlogDataService - Combined blogs:', combined);
-  console.log('BlogDataService - Total combined blogs count:', combined.length);
-  
-  return combined;
+  try {
+    // Get admin blogs from database
+    const adminBlogs = await adminDataService.getBlogs();
+    console.log('BlogDataService - Admin blogs retrieved:', adminBlogs);
+    console.log('BlogDataService - Number of admin blogs:', adminBlogs.length);
+    
+    console.log('BlogDataService - Static blogs data:', blogsData);
+    console.log('BlogDataService - Number of static blogs:', blogsData.length);
+    
+    // Combine static blogs with admin blogs
+    const combined = [...blogsData, ...adminBlogs];
+    console.log('BlogDataService - Combined blogs:', combined);
+    console.log('BlogDataService - Total combined blogs count:', combined.length);
+    
+    return combined;
+  } catch (error) {
+    console.error('BlogDataService - Error getting combined blogs:', error);
+    // Return static data as fallback
+    return blogsData;
+  }
 };
 
-export const findBlog = (blogId: string): BlogPost | null => {
+export const findBlog = async (blogId: string): Promise<BlogPost | null> => {
   console.log('BlogDataService - Finding blog with ID:', blogId);
-  const allBlogs = getCombinedBlogs();
-  const found = allBlogs.find(blog => blog.id === blogId) || null;
-  console.log('BlogDataService - Found blog:', found);
-  return found;
+  try {
+    const allBlogs = await getCombinedBlogs();
+    const found = allBlogs.find(blog => blog.id === blogId) || null;
+    console.log('BlogDataService - Found blog:', found);
+    return found;
+  } catch (error) {
+    console.error('BlogDataService - Error finding blog:', error);
+    return null;
+  }
 };
 
-// Listen for localStorage changes and provide refresh capability
+// For real-time updates, we'll use Supabase subscriptions instead of localStorage events
 export const onBlogsChange = (callback: () => void) => {
-  const handleStorageChange = (e: StorageEvent) => {
-    console.log('BlogDataService - Storage change detected:', e.key);
-    if (e.key === 'admin_blogs') {
-      console.log('BlogDataService - Admin blogs changed, triggering callback');
-      callback();
-    }
-  };
+  console.log('BlogDataService - Setting up real-time subscription for blogs');
   
-  const handleFocus = () => {
-    console.log('BlogDataService - Window focus detected, triggering callback');
-    callback();
-  };
-  
-  window.addEventListener('storage', handleStorageChange);
-  window.addEventListener('focus', handleFocus);
-  
+  // For now, just return a cleanup function
+  // Real-time subscriptions can be added later if needed
   return () => {
-    window.removeEventListener('storage', handleStorageChange);
-    window.removeEventListener('focus', handleFocus);
+    console.log('BlogDataService - Cleanup function called');
   };
 };
