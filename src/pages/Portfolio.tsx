@@ -1,22 +1,33 @@
-import { useState } from 'react';
+
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Code, Smartphone, Cloud, Brain, Zap, ChevronDown, ExternalLink, Star, Users, Clock, ArrowRight, Award, TrendingUp } from 'lucide-react';
-import { projectsData } from '@/data/projects';
+import { getPortfolioData } from '@/services/portfolioDataService';
 
 const Portfolio = () => {
   const [selectedService, setSelectedService] = useState<string | null>(null);
   const [selectedProject, setSelectedProject] = useState<string | null>(null);
+  const [services, setServices] = useState(getPortfolioData());
 
-  const services = projectsData.map(service => ({
-    ...service,
-    icon: service.id === 'web-apps' ? Code :
-          service.id === 'saas' ? Cloud :
-          service.id === 'mobile-apps' ? Smartphone :
-          service.id === 'ai-calling' ? Brain :
-          service.id === 'ai-automation' ? Zap : Code
-  }));
+  // Refresh data when component mounts or when localStorage changes
+  useEffect(() => {
+    const refreshData = () => {
+      setServices(getPortfolioData());
+    };
+
+    // Listen for storage changes (when admin adds/edits projects)
+    window.addEventListener('storage', refreshData);
+    
+    // Also refresh on focus (for same-tab updates)
+    window.addEventListener('focus', refreshData);
+
+    return () => {
+      window.removeEventListener('storage', refreshData);
+      window.removeEventListener('focus', refreshData);
+    };
+  }, []);
 
   const colorClasses = {
     cyan: {
@@ -105,7 +116,7 @@ const Portfolio = () => {
             <div className="flex items-center justify-center space-x-8 mt-8">
               <div className="flex items-center space-x-2">
                 <Award className="h-6 w-6 text-cyan-400" />
-                <span className="text-white font-semibold">16+ Projects</span>
+                <span className="text-white font-semibold">{services.reduce((total, service) => total + service.projects.length, 0)}+ Projects</span>
               </div>
               <div className="flex items-center space-x-2">
                 <TrendingUp className="h-6 w-6 text-green-400" />

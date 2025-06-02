@@ -1,7 +1,7 @@
 
-import { useState } from 'react';
-import { Code, Cloud, Brain } from 'lucide-react';
-import { projectsData } from '@/data/projects';
+import { useState, useEffect } from 'react';
+import { Code, Cloud, Brain, Smartphone, Zap } from 'lucide-react';
+import { getPortfolioData } from '@/services/portfolioDataService';
 import PortfolioHeader from './portfolio/PortfolioHeader';
 import ServiceFilter from './portfolio/ServiceFilter';
 import ProjectGrid from './portfolio/ProjectGrid';
@@ -10,13 +10,25 @@ import PortfolioCTA from './portfolio/PortfolioCTA';
 const PortfolioSection = () => {
   const [selectedService, setSelectedService] = useState<string | null>(null);
   const [isVisible, setIsVisible] = useState(false);
+  const [services, setServices] = useState(getPortfolioData());
 
-  const services = projectsData.map(service => ({
-    ...service,
-    icon: service.id === 'web-apps' ? Code :
-          service.id === 'saas' ? Cloud :
-          service.id === 'ai-calling' ? Brain : Code
-  }));
+  // Refresh data when component mounts or when localStorage changes
+  useEffect(() => {
+    const refreshData = () => {
+      setServices(getPortfolioData());
+    };
+
+    // Listen for storage changes (when admin adds/edits projects)
+    window.addEventListener('storage', refreshData);
+    
+    // Also refresh on focus (for same-tab updates)
+    window.addEventListener('focus', refreshData);
+
+    return () => {
+      window.removeEventListener('storage', refreshData);
+      window.removeEventListener('focus', refreshData);
+    };
+  }, []);
 
   const handleProjectClick = (projectId: string) => {
     window.location.href = `/case-study/${projectId}`;

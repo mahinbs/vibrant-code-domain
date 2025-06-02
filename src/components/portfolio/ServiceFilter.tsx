@@ -1,5 +1,5 @@
 
-import { Code, Cloud, Brain } from 'lucide-react';
+import { Code, Cloud, Brain, Smartphone, Zap } from 'lucide-react';
 
 interface Service {
   id: string;
@@ -38,7 +38,9 @@ const ServiceFilter = ({ services, selectedService, setSelectedService, isVisibl
     switch (serviceId) {
       case 'web-apps': return Code;
       case 'saas': return Cloud;
+      case 'mobile-apps': return Smartphone;
       case 'ai-calling': return Brain;
+      case 'ai-automation': return Zap;
       default: return Code;
     }
   };

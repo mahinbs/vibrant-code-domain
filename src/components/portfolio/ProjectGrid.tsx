@@ -1,5 +1,5 @@
 
-import { Code, Cloud, Brain } from 'lucide-react';
+import { Code, Cloud, Brain, Smartphone, Zap } from 'lucide-react';
 import ProjectCard from './ProjectCard';
 
 interface Service {
@@ -21,7 +21,9 @@ const ProjectGrid = ({ services, selectedService, isVisible, handleProjectClick 
     switch (serviceId) {
       case 'web-apps': return Code;
       case 'saas': return Cloud;
+      case 'mobile-apps': return Smartphone;
       case 'ai-calling': return Brain;
+      case 'ai-automation': return Zap;
       default: return Code;
     }
   };
