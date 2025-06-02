@@ -5,7 +5,7 @@ import ProjectCard from './ProjectCard';
 interface Service {
   id: string;
   title: string;
-  color: 'cyan' | 'blue' | 'pink';
+  color: 'cyan' | 'blue' | 'pink' | 'purple' | 'green';
   projects: any[];
 }
 
@@ -50,6 +50,22 @@ const ProjectGrid = ({ services, selectedService, isVisible, handleProjectClick 
       text: 'text-pink-400',
       button: 'bg-pink-500/20 border-pink-400/30 text-pink-400 hover:bg-pink-500/30',
       tag: 'bg-pink-500/20 text-pink-300 border-pink-500/30'
+    },
+    purple: {
+      border: 'border-purple-400/30',
+      gradient: 'from-purple-400/10 to-purple-600/10',
+      icon: 'bg-purple-500/10 text-purple-400 border-purple-400/30',
+      text: 'text-purple-400',
+      button: 'bg-purple-500/20 border-purple-400/30 text-purple-400 hover:bg-purple-500/30',
+      tag: 'bg-purple-500/20 text-purple-300 border-purple-500/30'
+    },
+    green: {
+      border: 'border-green-400/30',
+      gradient: 'from-green-400/10 to-green-600/10',
+      icon: 'bg-green-500/10 text-green-400 border-green-400/30',
+      text: 'text-green-400',
+      button: 'bg-green-500/20 border-green-400/30 text-green-400 hover:bg-green-500/30',
+      tag: 'bg-green-500/20 text-green-300 border-green-500/30'
     }
   };
 

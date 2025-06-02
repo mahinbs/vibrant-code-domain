@@ -4,7 +4,7 @@ import { Code, Cloud, Brain } from 'lucide-react';
 interface Service {
   id: string;
   title: string;
-  color: 'cyan' | 'blue' | 'pink';
+  color: 'cyan' | 'blue' | 'pink' | 'purple' | 'green';
   projects: any[];
 }
 
@@ -25,6 +25,12 @@ const ServiceFilter = ({ services, selectedService, setSelectedService, isVisibl
     },
     pink: {
       button: 'bg-pink-500/20 border-pink-400/30 text-pink-400 hover:bg-pink-500/30',
+    },
+    purple: {
+      button: 'bg-purple-500/20 border-purple-400/30 text-purple-400 hover:bg-purple-500/30',
+    },
+    green: {
+      button: 'bg-green-500/20 border-green-400/30 text-green-400 hover:bg-green-500/30',
     }
   };
 
