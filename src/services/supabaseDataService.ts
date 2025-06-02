@@ -56,7 +56,10 @@ const transformDbProjectToProject = (dbProject: any): Project => {
     clientLogo: '',
     category: 'Featured',
     tags: [],
-    testimonial: { quote: '', author: '' },
+    testimonial: { 
+      quote: dbProject.extended_testimonial?.quote || '', 
+      author: dbProject.extended_testimonial?.author || '' 
+    },
     approach: [],
     techStack: [],
     features: []
