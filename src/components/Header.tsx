@@ -125,13 +125,35 @@ const Header = memo(() => {
 
   const isActive = useCallback(
     (item: MenuItem) => {
-      if (isHomePage) {
+      // Handle Home page
+      if (item.name === "Home") {
+        return location.pathname === "/";
+      }
+
+      // Handle Portfolio page
+      if (item.name === "Portfolio") {
+        return location.pathname === "/portfolio" || 
+               (isHomePage && activeSection === item.section);
+      }
+
+      // Handle Blogs page and blog posts
+      if (item.name === "Blogs") {
+        return location.pathname === "/blogs" || 
+               location.pathname.startsWith("/blog/");
+      }
+
+      // Handle Reviews page
+      if (item.name === "Reviews") {
+        return location.pathname === "/reviews";
+      }
+
+      // Handle homepage sections (Services, About, Contact)
+      if (isHomePage && item.href.startsWith("/#")) {
         return activeSection === item.section;
       }
-      return (
-        location.pathname === item.href ||
-        (item.href === "/" && location.pathname === "/")
-      );
+
+      // Default fallback for exact path matching
+      return location.pathname === item.href;
     },
     [isHomePage, activeSection, location.pathname]
   );
