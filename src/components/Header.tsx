@@ -4,6 +4,10 @@ import { Link, useLocation } from "react-router-dom";
 import { useScrollSpy } from "@/hooks/useScrollSpy";
 import { useIsMobile } from "@/hooks/use-mobile";
 import logo from "../assets/logo/logo.png";
+import DesktopMenu from "./header/DesktopMenu";
+import MobileMenu from "./header/MobileMenu";
+import MobileMenuButton from "./header/MobileMenuButton";
+import { MenuItem } from "./header/types";
 
 const Header = memo(() => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -15,6 +19,11 @@ const Header = memo(() => {
     rootMargin: "-20% 0px -80% 0px",
   });
 
+  // Debug logging
+  useEffect(() => {
+    console.log('Header - Mobile state:', { isMobile, isMenuOpen, shouldShowMobileMenu: isMenuOpen && isMobile });
+  }, [isMobile, isMenuOpen]);
+
   // Close menu when route changes
   useEffect(() => {
     setIsMenuOpen(false);
@@ -23,6 +32,7 @@ const Header = memo(() => {
   // Close menu when switching from mobile to desktop
   useEffect(() => {
     if (!isMobile && isMenuOpen) {
+      console.log('Header - Closing menu due to desktop switch');
       setIsMenuOpen(false);
     }
   }, [isMobile, isMenuOpen]);
@@ -40,7 +50,7 @@ const Header = memo(() => {
     };
   }, [isMenuOpen, isMobile]);
 
-  const menuItems = [
+  const menuItems: MenuItem[] = [
     {
       name: "Home",
       href: "/",
@@ -94,18 +104,47 @@ const Header = memo(() => {
     [isHomePage]
   );
 
-  const closeMenu = useCallback(() => setIsMenuOpen(false), []);
-  const toggleMenu = useCallback(() => setIsMenuOpen((prev) => !prev), []);
+  const closeMenu = useCallback(() => {
+    console.log('Header - Closing menu');
+    setIsMenuOpen(false);
+  }, []);
+  
+  const toggleMenu = useCallback(() => {
+    console.log('Header - Toggling menu, current state:', isMenuOpen);
+    setIsMenuOpen((prev) => !prev);
+  }, [isMenuOpen]);
 
   const isActive = useCallback(
-    (item: (typeof menuItems)[0]) => {
-      if (isHomePage) {
+    (item: MenuItem) => {
+      // Handle Home page
+      if (item.name === "Home") {
+        return location.pathname === "/";
+      }
+
+      // Handle Portfolio page
+      if (item.name === "Portfolio") {
+        return location.pathname === "/portfolio" || 
+               (isHomePage && activeSection === item.section);
+      }
+
+      // Handle Blogs page and blog posts
+      if (item.name === "Blogs") {
+        return location.pathname === "/blogs" || 
+               location.pathname.startsWith("/blog/");
+      }
+
+      // Handle Reviews page
+      if (item.name === "Reviews") {
+        return location.pathname === "/reviews";
+      }
+
+      // Handle homepage sections (Services, About, Contact)
+      if (isHomePage && item.href.startsWith("/#")) {
         return activeSection === item.section;
       }
-      return (
-        location.pathname === item.href ||
-        (item.href === "/" && location.pathname === "/")
-      );
+
+      // Default fallback for exact path matching
+      return location.pathname === item.href;
     },
     [isHomePage, activeSection, location.pathname]
   );
