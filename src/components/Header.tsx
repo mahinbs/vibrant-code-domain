@@ -1,4 +1,5 @@
 
+
 import { Menu, X } from "lucide-react";
 import { useState, memo, useCallback, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
@@ -132,6 +133,100 @@ const Header = memo(() => {
     },
     [isHomePage, activeSection, location.pathname]
   );
+
+  // Helper function to render mobile menu item
+  const renderMobileMenuItem = useCallback((item: (typeof menuItems)[0]) => {
+    const active = isActive(item);
+    console.log(`Header - Rendering mobile menu item: ${item.name}, active: ${active}`);
+    
+    // For Home page navigation
+    if (item.name === "Home") {
+      return (
+        <Link
+          key={item.name}
+          to={item.href}
+          className={`block text-lg font-medium py-3 px-4 rounded-lg transition-all duration-300 touch-manipulation min-h-[44px] flex items-center ${
+            active
+              ? "text-cyan-400 bg-cyan-400/10"
+              : "text-gray-300 hover:text-cyan-400 hover:bg-cyan-400/5"
+          }`}
+          onClick={closeMenu}
+        >
+          {item.name}
+        </Link>
+      );
+    }
+    
+    // For external pages (Blogs, Reviews)
+    if (item.name === "Reviews" || item.name === "Blogs") {
+      return (
+        <Link
+          key={item.name}
+          to={item.href}
+          className={`block text-lg font-medium py-3 px-4 rounded-lg transition-all duration-300 touch-manipulation min-h-[44px] flex items-center ${
+            active || location.pathname === item.href || (item.name === "Blogs" && location.pathname.startsWith("/blog"))
+              ? "text-cyan-400 bg-cyan-400/10"
+              : "text-gray-300 hover:text-cyan-400 hover:bg-cyan-400/5"
+          }`}
+          onClick={closeMenu}
+        >
+          {item.name}
+        </Link>
+      );
+    }
+    
+    // For section links (Services, Portfolio, About, Contact)
+    if (item.href.startsWith("/#")) {
+      // If we're on the home page, use smooth scroll
+      if (isHomePage) {
+        return (
+          <button
+            key={item.name}
+            onClick={() => handleSmoothScroll(item.href, item.section)}
+            className={`block w-full text-left text-lg font-medium py-3 px-4 rounded-lg transition-all duration-300 touch-manipulation min-h-[44px] flex items-center ${
+              active
+                ? "text-cyan-400 bg-cyan-400/10"
+                : "text-gray-300 hover:text-cyan-400 hover:bg-cyan-400/5"
+            }`}
+          >
+            {item.name}
+          </button>
+        );
+      } else {
+        // If we're not on the home page, navigate to home page with section
+        return (
+          <Link
+            key={item.name}
+            to={item.href}
+            className={`block text-lg font-medium py-3 px-4 rounded-lg transition-all duration-300 touch-manipulation min-h-[44px] flex items-center ${
+              active
+                ? "text-cyan-400 bg-cyan-400/10"
+                : "text-gray-300 hover:text-cyan-400 hover:bg-cyan-400/5"
+            }`}
+            onClick={closeMenu}
+          >
+            {item.name}
+          </Link>
+        );
+      }
+    }
+    
+    // Fallback for any other links
+    return (
+      <Link
+        key={item.name}
+        to={item.href}
+        className={`block text-lg font-medium py-3 px-4 rounded-lg transition-all duration-300 touch-manipulation min-h-[44px] flex items-center ${
+          active
+            ? "text-cyan-400 bg-cyan-400/10"
+            : "text-gray-300 hover:text-cyan-400 hover:bg-cyan-400/5"
+        }`}
+        onClick={closeMenu}
+      >
+        {item.name}
+      </Link>
+    );
+  }, [isHomePage, isActive, location.pathname, handleSmoothScroll, closeMenu]);
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-black/20 backdrop-blur-md border-b border-cyan-500/20">
@@ -294,73 +389,7 @@ const Header = memo(() => {
               }}
             >
               <div className="pt-20 px-6 py-8 space-y-6 h-full overflow-y-auto">
-                {menuItems.map((item) => {
-                  const active = isActive(item);
-                  if (item.name === "Home") {
-                    return (
-                      <Link
-                        key={item.name}
-                        to={item.href}
-                        className={`block text-lg font-medium py-3 px-4 rounded-lg transition-all duration-300 touch-manipulation min-h-[44px] flex items-center ${
-                          active
-                            ? "text-cyan-400 bg-cyan-400/10"
-                            : "text-gray-300 hover:text-cyan-400 hover:bg-cyan-400/5"
-                        }`}
-                        onClick={closeMenu}
-                      >
-                        {item.name}
-                      </Link>
-                    );
-                  } else if (
-                    item.name === "Reviews" ||
-                    item.name === "Blogs" ||
-                    (!isHomePage && !item.href.startsWith("/#"))
-                  ) {
-                    return (
-                      <Link
-                        key={item.name}
-                        to={item.href}
-                        className={`block text-lg font-medium py-3 px-4 rounded-lg transition-all duration-300 touch-manipulation min-h-[44px] flex items-center ${
-                          active || location.pathname === item.href || (item.name === "Blogs" && location.pathname.startsWith("/blog"))
-                            ? "text-cyan-400 bg-cyan-400/10"
-                            : "text-gray-300 hover:text-cyan-400 hover:bg-cyan-400/5"
-                        }`}
-                        onClick={closeMenu}
-                      >
-                        {item.name}
-                      </Link>
-                    );
-                  } else if (isHomePage && item.href.startsWith("/#")) {
-                    return (
-                      <button
-                        key={item.name}
-                        onClick={() => handleSmoothScroll(item.href, item.section)}
-                        className={`block w-full text-left text-lg font-medium py-3 px-4 rounded-lg transition-all duration-300 touch-manipulation min-h-[44px] flex items-center ${
-                          active
-                            ? "text-cyan-400 bg-cyan-400/10"
-                            : "text-gray-300 hover:text-cyan-400 hover:bg-cyan-400/5"
-                        }`}
-                      >
-                        {item.name}
-                      </button>
-                    );
-                  } else {
-                    return (
-                      <a
-                        key={item.name}
-                        href={item.href}
-                        className={`block text-lg font-medium py-3 px-4 rounded-lg transition-all duration-300 touch-manipulation min-h-[44px] flex items-center ${
-                          active
-                            ? "text-cyan-400 bg-cyan-400/10"
-                            : "text-gray-300 hover:text-cyan-400 hover:bg-cyan-400/5"
-                        }`}
-                        onClick={closeMenu}
-                      >
-                        {item.name}
-                      </a>
-                    );
-                  }
-                })}
+                {menuItems.map(renderMobileMenuItem)}
                 
                 <div className="pt-4">
                   <button className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-6 py-3 rounded-lg hover:from-cyan-400 hover:to-blue-500 transition-all duration-300 font-medium text-lg touch-manipulation min-h-[44px]">
@@ -378,3 +407,4 @@ const Header = memo(() => {
 
 Header.displayName = "Header";
 export default Header;
+
