@@ -1,3 +1,4 @@
+
 import { Menu, X } from "lucide-react";
 import { useState, memo, useCallback, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
@@ -17,7 +18,7 @@ const Header = memo(() => {
 
   // Debug logging
   useEffect(() => {
-    console.log('Mobile state:', { isMobile, isMenuOpen });
+    console.log('Header - Mobile state:', { isMobile, isMenuOpen, shouldShowMobileMenu: isMenuOpen && isMobile });
   }, [isMobile, isMenuOpen]);
 
   // Close menu when route changes
@@ -28,6 +29,7 @@ const Header = memo(() => {
   // Close menu when switching from mobile to desktop
   useEffect(() => {
     if (!isMobile && isMenuOpen) {
+      console.log('Header - Closing menu due to desktop switch');
       setIsMenuOpen(false);
     }
   }, [isMobile, isMenuOpen]);
@@ -108,8 +110,15 @@ const Header = memo(() => {
     [isHomePage]
   );
 
-  const closeMenu = useCallback(() => setIsMenuOpen(false), []);
-  const toggleMenu = useCallback(() => setIsMenuOpen((prev) => !prev), []);
+  const closeMenu = useCallback(() => {
+    console.log('Header - Closing menu');
+    setIsMenuOpen(false);
+  }, []);
+  
+  const toggleMenu = useCallback(() => {
+    console.log('Header - Toggling menu, current state:', isMenuOpen);
+    setIsMenuOpen((prev) => !prev);
+  }, [isMenuOpen]);
 
   const isActive = useCallback(
     (item: (typeof menuItems)[0]) => {
@@ -250,12 +259,14 @@ const Header = memo(() => {
           </button>
         </div>
 
-        {/* Mobile Menu Overlay */}
-        {isMenuOpen && isMobile && (
+        {/* Mobile Menu - Always render on mobile, control visibility with CSS */}
+        {isMobile && (
           <>
             {/* Backdrop */}
             <div 
-              className="lg:hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-[100]"
+              className={`lg:hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] transition-opacity duration-300 ${
+                isMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+              }`}
               onClick={closeMenu}
               aria-hidden="true"
               style={{
@@ -269,7 +280,9 @@ const Header = memo(() => {
             
             {/* Mobile Menu */}
             <div 
-              className="lg:hidden fixed top-0 right-0 h-full w-full max-w-sm bg-black/95 backdrop-blur-md border-l border-cyan-500/20 shadow-xl z-[101] transform transition-transform duration-300 ease-in-out"
+              className={`lg:hidden fixed top-0 right-0 h-full w-full max-w-sm bg-black/95 backdrop-blur-md border-l border-cyan-500/20 shadow-xl z-[101] transition-transform duration-300 ease-in-out ${
+                isMenuOpen ? 'translate-x-0' : 'translate-x-full'
+              }`}
               style={{
                 position: 'fixed',
                 top: 0,
@@ -277,8 +290,6 @@ const Header = memo(() => {
                 height: '100vh',
                 width: '100%',
                 maxWidth: '24rem',
-                transform: isMenuOpen ? 'translateX(0)' : 'translateX(100%)',
-                WebkitTransform: isMenuOpen ? 'translateX(0)' : 'translateX(100%)',
                 willChange: 'transform'
               }}
             >
