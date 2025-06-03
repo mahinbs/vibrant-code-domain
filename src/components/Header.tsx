@@ -1,17 +1,46 @@
+
 import { Menu, X } from "lucide-react";
-import { useState, memo, useCallback } from "react";
+import { useState, memo, useCallback, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useScrollSpy } from "@/hooks/useScrollSpy";
+import { useIsMobile } from "@/hooks/use-mobile";
 import logo from "../assets/logo/logo.png";
 
 const Header = memo(() => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
   const isHomePage = location.pathname === "/";
+  const isMobile = useIsMobile();
   const activeSection = useScrollSpy({
     sectionIds: ["hero", "services", "portfolio", "about", "contact"],
     rootMargin: "-20% 0px -80% 0px",
   });
+
+  // Close menu when route changes
+  useEffect(() => {
+    setIsMenuOpen(false);
+  }, [location.pathname]);
+
+  // Close menu when switching from mobile to desktop
+  useEffect(() => {
+    if (!isMobile && isMenuOpen) {
+      setIsMenuOpen(false);
+    }
+  }, [isMobile, isMenuOpen]);
+
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMenuOpen && isMobile) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isMenuOpen, isMobile]);
+
   const menuItems = [
     {
       name: "Home",
@@ -29,6 +58,11 @@ const Header = memo(() => {
       section: "portfolio",
     },
     {
+      name: "Blogs",
+      href: "/blogs",
+      section: "blogs",
+    },
+    {
       name: "Reviews",
       href: "/reviews",
       section: "reviews",
@@ -44,6 +78,7 @@ const Header = memo(() => {
       section: "contact",
     },
   ];
+
   const handleSmoothScroll = useCallback(
     (href: string, sectionId: string) => {
       if (isHomePage && href.startsWith("/#")) {
@@ -59,8 +94,10 @@ const Header = memo(() => {
     },
     [isHomePage]
   );
+
   const closeMenu = useCallback(() => setIsMenuOpen(false), []);
   const toggleMenu = useCallback(() => setIsMenuOpen((prev) => !prev), []);
+
   const isActive = useCallback(
     (item: (typeof menuItems)[0]) => {
       if (isHomePage) {
@@ -73,27 +110,23 @@ const Header = memo(() => {
     },
     [isHomePage, activeSection, location.pathname]
   );
-  
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-black/20 backdrop-blur-md border-b border-cyan-500/20">
-      <nav className="container mx-auto px-6 py-4 relative">
+      <nav className="container mx-auto px-4 sm:px-6 py-3 sm:py-4 relative">
         <div className="flex justify-between items-center">
-          {/* Logo positioned to be visible in top-left corner */}
-          <Link to="/" className="">
+          {/* Logo */}
+          <Link to="/" className="flex-shrink-0 z-50 relative">
             <img
               src={logo}
               alt="Boostmysites Logo"
               loading="lazy"
-              className="md:w-[11rem] w-[8rem] transition-transform duration-300 filter drop-shadow-lg object-cover"
+              className="w-[7rem] sm:w-[8rem] md:w-[11rem] transition-transform duration-300 filter drop-shadow-lg object-cover"
             />
           </Link>
 
-          {/* Left spacer to account for logo space and ensure proper navigation alignment */}
-          <div className="flex-shrink-0 w-4 md:w-80"></div>
-
-          {/* Desktop Menu - properly aligned from left to right */}
-          <div className="hidden md:flex items-center space-x-8 flex-1 justify-center">
+          {/* Desktop Menu */}
+          <div className="hidden lg:flex items-center space-x-6 xl:space-x-8 flex-1 justify-center">
             {menuItems.map((item) => {
               const active = isActive(item);
               if (item.name === "Home") {
@@ -101,7 +134,7 @@ const Header = memo(() => {
                   <Link
                     key={item.name}
                     to={item.href}
-                    className={`transition-all duration-300 font-medium relative group ${
+                    className={`transition-all duration-300 font-medium relative group text-sm xl:text-base ${
                       active
                         ? "text-cyan-400"
                         : "text-gray-300 hover:text-cyan-400"
@@ -117,14 +150,15 @@ const Header = memo(() => {
                 );
               } else if (
                 item.name === "Reviews" ||
+                item.name === "Blogs" ||
                 (!isHomePage && !item.href.startsWith("/#"))
               ) {
                 return (
                   <Link
                     key={item.name}
                     to={item.href}
-                    className={`transition-all duration-300 font-medium relative group ${
-                      active || location.pathname === item.href
+                    className={`transition-all duration-300 font-medium relative group text-sm xl:text-base ${
+                      active || location.pathname === item.href || (item.name === "Blogs" && location.pathname.startsWith("/blog"))
                         ? "text-cyan-400"
                         : "text-gray-300 hover:text-cyan-400"
                     }`}
@@ -132,7 +166,7 @@ const Header = memo(() => {
                     {item.name}
                     <span
                       className={`absolute bottom-0 left-0 h-0.5 bg-cyan-400 transition-all duration-300 ${
-                        active || location.pathname === item.href
+                        active || location.pathname === item.href || (item.name === "Blogs" && location.pathname.startsWith("/blog"))
                           ? "w-full"
                           : "w-0 group-hover:w-full"
                       }`}
@@ -144,7 +178,7 @@ const Header = memo(() => {
                   <button
                     key={item.name}
                     onClick={() => handleSmoothScroll(item.href, item.section)}
-                    className={`transition-all duration-300 font-medium relative group ${
+                    className={`transition-all duration-300 font-medium relative group text-sm xl:text-base ${
                       active
                         ? "text-cyan-400"
                         : "text-gray-300 hover:text-cyan-400"
@@ -163,7 +197,7 @@ const Header = memo(() => {
                   <a
                     key={item.name}
                     href={item.href}
-                    className={`transition-all duration-300 font-medium relative group ${
+                    className={`transition-all duration-300 font-medium relative group text-sm xl:text-base ${
                       active
                         ? "text-cyan-400"
                         : "text-gray-300 hover:text-cyan-400"
@@ -179,16 +213,17 @@ const Header = memo(() => {
                 );
               }
             })}
-            <button className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-6 py-2 rounded-lg hover:from-cyan-400 hover:to-blue-500 transition-all duration-300 font-medium shadow-lg hover:shadow-cyan-500/25 transform hover:scale-105">
+            <button className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-4 py-2 rounded-lg hover:from-cyan-400 hover:to-blue-500 transition-all duration-300 font-medium shadow-lg hover:shadow-cyan-500/25 transform hover:scale-105 text-sm xl:text-base">
               Neural Access
             </button>
           </div>
 
-          {/* Mobile Menu Button - properly positioned on the right */}
+          {/* Mobile Menu Button */}
           <button
-            className="md:hidden"
+            className="lg:hidden p-2 z-50 relative touch-manipulation"
             onClick={toggleMenu}
             aria-label="Toggle menu"
+            aria-expanded={isMenuOpen}
           >
             {isMenuOpen ? (
               <X className="h-6 w-6 text-cyan-400" />
@@ -198,83 +233,95 @@ const Header = memo(() => {
           </button>
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile Menu Overlay */}
         {isMenuOpen && (
-          <div className="md:hidden absolute top-full left-0 right-0 bg-black/90 backdrop-blur-md border-b border-cyan-500/20 shadow-lg">
-            <div className="px-6 py-4 space-y-4">
-              {menuItems.map((item) => {
-                const active = isActive(item);
-                if (item.name === "Home") {
-                  return (
-                    <Link
-                      key={item.name}
-                      to={item.href}
-                      className={`block transition-colors duration-300 font-medium ${
-                        active
-                          ? "text-cyan-400"
-                          : "text-gray-300 hover:text-cyan-400"
-                      }`}
-                      onClick={closeMenu}
-                    >
-                      {item.name}
-                    </Link>
-                  );
-                } else if (
-                  item.name === "Reviews" ||
-                  (!isHomePage && !item.href.startsWith("/#"))
-                ) {
-                  return (
-                    <Link
-                      key={item.name}
-                      to={item.href}
-                      className={`block transition-colors duration-300 font-medium ${
-                        active || location.pathname === item.href
-                          ? "text-cyan-400"
-                          : "text-gray-300 hover:text-cyan-400"
-                      }`}
-                      onClick={closeMenu}
-                    >
-                      {item.name}
-                    </Link>
-                  );
-                } else if (isHomePage && item.href.startsWith("/#")) {
-                  return (
-                    <button
-                      key={item.name}
-                      onClick={() =>
-                        handleSmoothScroll(item.href, item.section)
-                      }
-                      className={`block w-full text-left transition-colors duration-300 font-medium ${
-                        active
-                          ? "text-cyan-400"
-                          : "text-gray-300 hover:text-cyan-400"
-                      }`}
-                    >
-                      {item.name}
-                    </button>
-                  );
-                } else {
-                  return (
-                    <a
-                      key={item.name}
-                      href={item.href}
-                      className={`block transition-colors duration-300 font-medium ${
-                        active
-                          ? "text-cyan-400"
-                          : "text-gray-300 hover:text-cyan-400"
-                      }`}
-                      onClick={closeMenu}
-                    >
-                      {item.name}
-                    </a>
-                  );
-                }
-              })}
-              <button className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-6 py-2 rounded-lg hover:from-cyan-400 hover:to-blue-500 transition-all duration-300 font-medium">
-                Neural Access
-              </button>
+          <>
+            {/* Backdrop */}
+            <div 
+              className="lg:hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
+              onClick={closeMenu}
+              aria-hidden="true"
+            />
+            
+            {/* Mobile Menu */}
+            <div className="lg:hidden fixed top-0 right-0 h-full w-full max-w-sm bg-black/95 backdrop-blur-md border-l border-cyan-500/20 shadow-xl z-40 transform transition-transform duration-300">
+              <div className="pt-20 px-6 py-8 space-y-6 h-full overflow-y-auto">
+                {menuItems.map((item) => {
+                  const active = isActive(item);
+                  if (item.name === "Home") {
+                    return (
+                      <Link
+                        key={item.name}
+                        to={item.href}
+                        className={`block text-lg font-medium py-3 px-4 rounded-lg transition-all duration-300 touch-manipulation ${
+                          active
+                            ? "text-cyan-400 bg-cyan-400/10"
+                            : "text-gray-300 hover:text-cyan-400 hover:bg-cyan-400/5"
+                        }`}
+                        onClick={closeMenu}
+                      >
+                        {item.name}
+                      </Link>
+                    );
+                  } else if (
+                    item.name === "Reviews" ||
+                    item.name === "Blogs" ||
+                    (!isHomePage && !item.href.startsWith("/#"))
+                  ) {
+                    return (
+                      <Link
+                        key={item.name}
+                        to={item.href}
+                        className={`block text-lg font-medium py-3 px-4 rounded-lg transition-all duration-300 touch-manipulation ${
+                          active || location.pathname === item.href || (item.name === "Blogs" && location.pathname.startsWith("/blog"))
+                            ? "text-cyan-400 bg-cyan-400/10"
+                            : "text-gray-300 hover:text-cyan-400 hover:bg-cyan-400/5"
+                        }`}
+                        onClick={closeMenu}
+                      >
+                        {item.name}
+                      </Link>
+                    );
+                  } else if (isHomePage && item.href.startsWith("/#")) {
+                    return (
+                      <button
+                        key={item.name}
+                        onClick={() => handleSmoothScroll(item.href, item.section)}
+                        className={`block w-full text-left text-lg font-medium py-3 px-4 rounded-lg transition-all duration-300 touch-manipulation ${
+                          active
+                            ? "text-cyan-400 bg-cyan-400/10"
+                            : "text-gray-300 hover:text-cyan-400 hover:bg-cyan-400/5"
+                        }`}
+                      >
+                        {item.name}
+                      </button>
+                    );
+                  } else {
+                    return (
+                      <a
+                        key={item.name}
+                        href={item.href}
+                        className={`block text-lg font-medium py-3 px-4 rounded-lg transition-all duration-300 touch-manipulation ${
+                          active
+                            ? "text-cyan-400 bg-cyan-400/10"
+                            : "text-gray-300 hover:text-cyan-400 hover:bg-cyan-400/5"
+                        }`}
+                        onClick={closeMenu}
+                      >
+                        {item.name}
+                      </a>
+                    );
+                  }
+                })}
+                
+                <div className="pt-4">
+                  <button className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-6 py-3 rounded-lg hover:from-cyan-400 hover:to-blue-500 transition-all duration-300 font-medium text-lg touch-manipulation">
+                    Neural Access
+                  </button>
+                </div>
+              </div>
             </div>
-          </div>
+          </>
         )}
       </nav>
     </header>
