@@ -1,4 +1,3 @@
-
 import { Menu, X } from "lucide-react";
 import { useState, memo, useCallback, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
@@ -39,16 +38,19 @@ const Header = memo(() => {
       document.body.style.overflow = 'hidden';
       document.body.style.position = 'fixed';
       document.body.style.width = '100%';
+      document.body.style.top = '0';
     } else {
-      document.body.style.overflow = 'unset';
-      document.body.style.position = 'unset';
-      document.body.style.width = 'unset';
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+      document.body.style.top = '';
     }
     
     return () => {
-      document.body.style.overflow = 'unset';
-      document.body.style.position = 'unset';
-      document.body.style.width = 'unset';
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+      document.body.style.top = '';
     };
   }, [isMenuOpen, isMobile]);
 
@@ -253,30 +255,28 @@ const Header = memo(() => {
           <>
             {/* Backdrop */}
             <div 
-              className="lg:hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-[51]"
+              className="lg:hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-[100]"
               onClick={closeMenu}
               aria-hidden="true"
               style={{
-                position: 'fixed !important',
-                top: '0 !important',
-                left: '0 !important',
-                right: '0 !important',
-                bottom: '0 !important',
-                zIndex: '51 !important'
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
               }}
             />
             
             {/* Mobile Menu */}
             <div 
-              className="lg:hidden fixed top-0 right-0 h-full w-full max-w-sm bg-black/95 backdrop-blur-md border-l border-cyan-500/20 shadow-xl z-[52] transform transition-transform duration-300 ease-in-out"
+              className="lg:hidden fixed top-0 right-0 h-full w-full max-w-sm bg-black/95 backdrop-blur-md border-l border-cyan-500/20 shadow-xl z-[101] transform transition-transform duration-300 ease-in-out"
               style={{
-                position: 'fixed !important',
-                top: '0 !important',
-                right: '0 !important',
-                height: '100vh !important',
-                width: '100% !important',
-                maxWidth: '24rem !important',
-                zIndex: '52 !important',
+                position: 'fixed',
+                top: 0,
+                right: 0,
+                height: '100vh',
+                width: '100%',
+                maxWidth: '24rem',
                 transform: isMenuOpen ? 'translateX(0)' : 'translateX(100%)',
                 WebkitTransform: isMenuOpen ? 'translateX(0)' : 'translateX(100%)',
                 willChange: 'transform'
