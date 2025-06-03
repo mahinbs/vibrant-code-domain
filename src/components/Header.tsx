@@ -16,6 +16,11 @@ const Header = memo(() => {
     rootMargin: "-20% 0px -80% 0px",
   });
 
+  // Debug logging
+  useEffect(() => {
+    console.log('Mobile state:', { isMobile, isMenuOpen });
+  }, [isMobile, isMenuOpen]);
+
   // Close menu when route changes
   useEffect(() => {
     setIsMenuOpen(false);
@@ -32,12 +37,18 @@ const Header = memo(() => {
   useEffect(() => {
     if (isMenuOpen && isMobile) {
       document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.width = '100%';
     } else {
       document.body.style.overflow = 'unset';
+      document.body.style.position = 'unset';
+      document.body.style.width = 'unset';
     }
     
     return () => {
       document.body.style.overflow = 'unset';
+      document.body.style.position = 'unset';
+      document.body.style.width = 'unset';
     };
   }, [isMenuOpen, isMobile]);
 
@@ -116,7 +127,7 @@ const Header = memo(() => {
       <nav className="container mx-auto px-4 sm:px-6 py-3 sm:py-4 relative">
         <div className="flex justify-between items-center">
           {/* Logo */}
-          <Link to="/" className="flex-shrink-0 z-50 relative">
+          <Link to="/" className="flex-shrink-0 z-[60] relative">
             <img
               src={logo}
               alt="Boostmysites Logo"
@@ -220,10 +231,14 @@ const Header = memo(() => {
 
           {/* Mobile Menu Button */}
           <button
-            className="lg:hidden p-2 z-50 relative touch-manipulation"
+            className="lg:hidden p-3 z-[60] relative touch-manipulation min-h-[44px] min-w-[44px] flex items-center justify-center"
             onClick={toggleMenu}
             aria-label="Toggle menu"
             aria-expanded={isMenuOpen}
+            style={{ 
+              WebkitTapHighlightColor: 'transparent',
+              touchAction: 'manipulation'
+            }}
           >
             {isMenuOpen ? (
               <X className="h-6 w-6 text-cyan-400" />
@@ -234,17 +249,39 @@ const Header = memo(() => {
         </div>
 
         {/* Mobile Menu Overlay */}
-        {isMenuOpen && (
+        {isMenuOpen && isMobile && (
           <>
             {/* Backdrop */}
             <div 
-              className="lg:hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
+              className="lg:hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-[51]"
               onClick={closeMenu}
               aria-hidden="true"
+              style={{
+                position: 'fixed !important',
+                top: '0 !important',
+                left: '0 !important',
+                right: '0 !important',
+                bottom: '0 !important',
+                zIndex: '51 !important'
+              }}
             />
             
             {/* Mobile Menu */}
-            <div className="lg:hidden fixed top-0 right-0 h-full w-full max-w-sm bg-black/95 backdrop-blur-md border-l border-cyan-500/20 shadow-xl z-40 transform transition-transform duration-300">
+            <div 
+              className="lg:hidden fixed top-0 right-0 h-full w-full max-w-sm bg-black/95 backdrop-blur-md border-l border-cyan-500/20 shadow-xl z-[52] transform transition-transform duration-300 ease-in-out"
+              style={{
+                position: 'fixed !important',
+                top: '0 !important',
+                right: '0 !important',
+                height: '100vh !important',
+                width: '100% !important',
+                maxWidth: '24rem !important',
+                zIndex: '52 !important',
+                transform: isMenuOpen ? 'translateX(0)' : 'translateX(100%)',
+                WebkitTransform: isMenuOpen ? 'translateX(0)' : 'translateX(100%)',
+                willChange: 'transform'
+              }}
+            >
               <div className="pt-20 px-6 py-8 space-y-6 h-full overflow-y-auto">
                 {menuItems.map((item) => {
                   const active = isActive(item);
@@ -253,7 +290,7 @@ const Header = memo(() => {
                       <Link
                         key={item.name}
                         to={item.href}
-                        className={`block text-lg font-medium py-3 px-4 rounded-lg transition-all duration-300 touch-manipulation ${
+                        className={`block text-lg font-medium py-3 px-4 rounded-lg transition-all duration-300 touch-manipulation min-h-[44px] flex items-center ${
                           active
                             ? "text-cyan-400 bg-cyan-400/10"
                             : "text-gray-300 hover:text-cyan-400 hover:bg-cyan-400/5"
@@ -272,7 +309,7 @@ const Header = memo(() => {
                       <Link
                         key={item.name}
                         to={item.href}
-                        className={`block text-lg font-medium py-3 px-4 rounded-lg transition-all duration-300 touch-manipulation ${
+                        className={`block text-lg font-medium py-3 px-4 rounded-lg transition-all duration-300 touch-manipulation min-h-[44px] flex items-center ${
                           active || location.pathname === item.href || (item.name === "Blogs" && location.pathname.startsWith("/blog"))
                             ? "text-cyan-400 bg-cyan-400/10"
                             : "text-gray-300 hover:text-cyan-400 hover:bg-cyan-400/5"
@@ -287,7 +324,7 @@ const Header = memo(() => {
                       <button
                         key={item.name}
                         onClick={() => handleSmoothScroll(item.href, item.section)}
-                        className={`block w-full text-left text-lg font-medium py-3 px-4 rounded-lg transition-all duration-300 touch-manipulation ${
+                        className={`block w-full text-left text-lg font-medium py-3 px-4 rounded-lg transition-all duration-300 touch-manipulation min-h-[44px] flex items-center ${
                           active
                             ? "text-cyan-400 bg-cyan-400/10"
                             : "text-gray-300 hover:text-cyan-400 hover:bg-cyan-400/5"
@@ -301,7 +338,7 @@ const Header = memo(() => {
                       <a
                         key={item.name}
                         href={item.href}
-                        className={`block text-lg font-medium py-3 px-4 rounded-lg transition-all duration-300 touch-manipulation ${
+                        className={`block text-lg font-medium py-3 px-4 rounded-lg transition-all duration-300 touch-manipulation min-h-[44px] flex items-center ${
                           active
                             ? "text-cyan-400 bg-cyan-400/10"
                             : "text-gray-300 hover:text-cyan-400 hover:bg-cyan-400/5"
@@ -315,7 +352,7 @@ const Header = memo(() => {
                 })}
                 
                 <div className="pt-4">
-                  <button className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-6 py-3 rounded-lg hover:from-cyan-400 hover:to-blue-500 transition-all duration-300 font-medium text-lg touch-manipulation">
+                  <button className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-6 py-3 rounded-lg hover:from-cyan-400 hover:to-blue-500 transition-all duration-300 font-medium text-lg touch-manipulation min-h-[44px]">
                     Neural Access
                   </button>
                 </div>
