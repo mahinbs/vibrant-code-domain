@@ -17,14 +17,31 @@ const Portfolio = () => {
   useEffect(() => {
     const loadPortfolioData = async () => {
       try {
+        console.log('Portfolio Page - Starting to load portfolio data...');
         setLoading(true);
         const data = await getPortfolioData();
+        console.log('Portfolio Page - Portfolio data loaded:', data);
+        
+        // Log the total number of projects
+        const totalProjects = data.reduce((total, service) => total + service.projects.length, 0);
+        console.log(`Portfolio Page - Total projects loaded: ${totalProjects}`);
+        
+        // Check specifically for Crave Kitchen
+        const allProjects = data.flatMap(service => service.projects);
+        const craveKitchenProject = allProjects.find(p => p.title.toLowerCase().includes('crave kitchen'));
+        if (craveKitchenProject) {
+          console.log('Portfolio Page - ✅ Crave Kitchen found in loaded data');
+        } else {
+          console.log('Portfolio Page - ❌ Crave Kitchen NOT found in loaded data');
+        }
+        
         setServices(data);
       } catch (error) {
-        console.error('Error loading portfolio data:', error);
+        console.error('Portfolio Page - Error loading portfolio data:', error);
         setServices([]);
       } finally {
         setLoading(false);
+        console.log('Portfolio Page - Loading completed');
       }
     };
 
