@@ -22,7 +22,7 @@ const MobileMenu = ({
   onSmoothScroll,
   isMobile 
 }: MobileMenuProps) => {
-  if (!isMobile) return null;
+  console.log('MobileMenu render:', { isOpen, isMobile, menuItems: menuItems.length });
 
   return (
     <>
