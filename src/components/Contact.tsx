@@ -1,25 +1,20 @@
 import { useState, useEffect } from 'react';
 import { Mail, Phone, MapPin, MessageCircle, Instagram, Twitter, Youtube, Users, Target, ArrowRight } from 'lucide-react';
 import CustomerInquiryForm from '@/components/forms/CustomerInquiryForm';
-
 const Contact = () => {
   const [isVisible, setIsVisible] = useState(false);
-
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      { threshold: 0.1 }
-    );
-
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setIsVisible(true);
+      }
+    }, {
+      threshold: 0.1
+    });
     const section = document.getElementById('contact');
     if (section) {
       observer.observe(section);
     }
-
     return () => {
       if (section) {
         observer.unobserve(section);
@@ -33,79 +28,90 @@ const Contact = () => {
       setTimeout(() => {
         const formElement = document.getElementById('inquiry-form');
         if (formElement) {
-          formElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          formElement.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
         }
       }, 100);
     }
   }, []);
-
   const handleStartProject = () => {
     const formElement = document.getElementById('inquiry-form');
     if (formElement) {
-      formElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      formElement.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
     }
   };
-
-  const offices = [
-    {
-      city: 'Dubai',
-      country: 'UAE',
-      address: 'Office number 13 Empire heights Business bay, Dubai, UAE',
-      phone: '+971 4 123 4567',
-      email: 'dubai@boostmysites.com',
-      color: 'cyan',
-      image: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=800&q=80',
-      timezone: 'GMT+4'
-    },
-    {
-      city: 'Hong Kong',
-      country: 'China',
-      address: 'The Hong Kong Club Building Level 16, No. 3A Chater Road, Central, Hong Kong',
-      phone: '+852 2123 4567',
-      email: 'hongkong@boostmysites.com',
-      color: 'blue',
-      image: 'https://images.unsplash.com/photo-1536599018102-9f803c140fc1?auto=format&fit=crop&w=800&q=80',
-      timezone: 'GMT+8'
-    },
-    {
-      city: 'Bengaluru',
-      country: 'India',
-      address: 'Salarpuria Symbiosis, Ground floor Bannerghatta Road Arekere Village, Begur Hobli, Bengaluru, Karnataka 560076',
-      phone: '+91 80 1234 5678',
-      email: 'bengaluru@boostmysites.com',
-      color: 'purple',
-      image: 'https://images.unsplash.com/photo-1596176530529-78163a4f7af2?auto=format&fit=crop&w=800&q=80',
-      timezone: 'GMT+5:30'
-    },
-    {
-      city: 'Bangkok',
-      country: 'Thailand',
-      address: '15-17, 20, 25-27FI, T-One Building, 8 Soi Sukhumvit 40, Khwaeng Phra Khanong, Khlong Toei, Bangkok 10110, Thailand',
-      phone: '+66 2 123 4567',
-      email: 'bangkok@boostmysites.com',
-      color: 'pink',
-      image: 'https://images.unsplash.com/photo-1508009603885-50cf7c579365?auto=format&fit=crop&w=800&q=80',
-      timezone: 'GMT+7'
-    },
-    {
-      city: 'Delhi',
-      country: 'India',
-      address: 'Office number 309, Ambadeep building- 3rd floor, Kg marg Connaught Place, Delhi 110001, India',
-      phone: '+91 11 1234 5678',
-      email: 'delhi@boostmysites.com',
-      color: 'green',
-      image: 'https://images.unsplash.com/photo-1587474260584-136574528ed5?auto=format&fit=crop&w=800&q=80',
-      timezone: 'GMT+5:30'
-    }
-  ];
-
-  const socialLinks = [
-    { icon: Instagram, label: 'Instagram', url: '#', color: 'pink' },
-    { icon: Twitter, label: 'Twitter', url: '#', color: 'blue' },
-    { icon: Youtube, label: 'YouTube', url: '#', color: 'red' },
-    { icon: MessageCircle, label: 'WhatsApp', url: 'https://wa.me/15551234567', color: 'green' }
-  ];
-
+  const offices = [{
+    city: 'Dubai',
+    country: 'UAE',
+    address: 'Office number 13 Empire heights Business bay, Dubai, UAE',
+    phone: '+971 4 123 4567',
+    email: 'dubai@boostmysites.com',
+    color: 'cyan',
+    image: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=800&q=80',
+    timezone: 'GMT+4'
+  }, {
+    city: 'Hong Kong',
+    country: 'China',
+    address: 'The Hong Kong Club Building Level 16, No. 3A Chater Road, Central, Hong Kong',
+    phone: '+852 2123 4567',
+    email: 'hongkong@boostmysites.com',
+    color: 'blue',
+    image: 'https://images.unsplash.com/photo-1536599018102-9f803c140fc1?auto=format&fit=crop&w=800&q=80',
+    timezone: 'GMT+8'
+  }, {
+    city: 'Bengaluru',
+    country: 'India',
+    address: 'Salarpuria Symbiosis, Ground floor Bannerghatta Road Arekere Village, Begur Hobli, Bengaluru, Karnataka 560076',
+    phone: '+91 80 1234 5678',
+    email: 'bengaluru@boostmysites.com',
+    color: 'purple',
+    image: 'https://images.unsplash.com/photo-1596176530529-78163a4f7af2?auto=format&fit=crop&w=800&q=80',
+    timezone: 'GMT+5:30'
+  }, {
+    city: 'Bangkok',
+    country: 'Thailand',
+    address: '15-17, 20, 25-27FI, T-One Building, 8 Soi Sukhumvit 40, Khwaeng Phra Khanong, Khlong Toei, Bangkok 10110, Thailand',
+    phone: '+66 2 123 4567',
+    email: 'bangkok@boostmysites.com',
+    color: 'pink',
+    image: 'https://images.unsplash.com/photo-1508009603885-50cf7c579365?auto=format&fit=crop&w=800&q=80',
+    timezone: 'GMT+7'
+  }, {
+    city: 'Delhi',
+    country: 'India',
+    address: 'Office number 309, Ambadeep building- 3rd floor, Kg marg Connaught Place, Delhi 110001, India',
+    phone: '+91 11 1234 5678',
+    email: 'delhi@boostmysites.com',
+    color: 'green',
+    image: 'https://images.unsplash.com/photo-1587474260584-136574528ed5?auto=format&fit=crop&w=800&q=80',
+    timezone: 'GMT+5:30'
+  }];
+  const socialLinks = [{
+    icon: Instagram,
+    label: 'Instagram',
+    url: '#',
+    color: 'pink'
+  }, {
+    icon: Twitter,
+    label: 'Twitter',
+    url: '#',
+    color: 'blue'
+  }, {
+    icon: Youtube,
+    label: 'YouTube',
+    url: '#',
+    color: 'red'
+  }, {
+    icon: MessageCircle,
+    label: 'WhatsApp',
+    url: 'https://wa.me/15551234567',
+    color: 'green'
+  }];
   const colorClasses = {
     cyan: {
       border: 'border-cyan-400/30',
@@ -150,19 +156,13 @@ const Contact = () => {
       hover: 'hover:bg-red-500/10 hover:border-red-400/50'
     }
   };
-
-  return (
-    <section 
-      id="contact" 
-      className="py-20 bg-gradient-to-b from-gray-900 to-black relative overflow-hidden"
-      style={{
-        backgroundImage: `url('/lovable-uploads/d0fa4f38-5951-4a69-9df8-13d4faa03aaa.png')`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-        backgroundAttachment: 'fixed'
-      }}
-    >
+  return <section id="contact" className="py-20 bg-gradient-to-b from-gray-900 to-black relative overflow-hidden" style={{
+    backgroundImage: `url('/lovable-uploads/d0fa4f38-5951-4a69-9df8-13d4faa03aaa.png')`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+    backgroundAttachment: 'fixed'
+  }}>
       {/* Background Overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/60 to-gray-900/75"></div>
       <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-transparent to-black/20"></div>
@@ -194,7 +194,7 @@ const Contact = () => {
               <Phone className="h-6 w-6" />
             </div>
             <h3 className="text-lg font-semibold text-white mb-2">Call Us</h3>
-            <p className="text-blue-400 font-medium">+1 (555) 123-4567</p>
+            <p className="text-blue-400 font-medium">+919790035747</p>
             <p className="text-gray-400 text-sm mt-1">24/7 Support Available</p>
           </div>
 
@@ -224,20 +224,14 @@ const Contact = () => {
               <h3 className="text-2xl font-bold text-white mb-6">Connect With Us</h3>
               <div className="grid grid-cols-2 gap-4">
                 {socialLinks.map((social, index) => {
-                  const colors = colorClasses[social.color];
-                  return (
-                    <a
-                      key={social.label}
-                      href={social.url}
-                      className={`group relative rounded-xl bg-gray-800/50 border ${colors.border} ${colors.hover} transition-all duration-300 p-4 flex items-center space-x-3 transform hover:scale-105`}
-                    >
+                const colors = colorClasses[social.color];
+                return <a key={social.label} href={social.url} className={`group relative rounded-xl bg-gray-800/50 border ${colors.border} ${colors.hover} transition-all duration-300 p-4 flex items-center space-x-3 transform hover:scale-105`}>
                       <div className={`w-8 h-8 rounded-lg ${colors.icon} flex items-center justify-center`}>
                         <social.icon className="h-4 w-4" />
                       </div>
                       <span className={`font-medium ${colors.text}`}>{social.label}</span>
-                    </a>
-                  );
-                })}
+                    </a>;
+              })}
               </div>
             </div>
 
@@ -290,18 +284,14 @@ const Contact = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
             {offices.map((office, index) => {
-              const colors = colorClasses[office.color];
-              return (
-                <div
-                  key={office.city}
-                  className={`group relative rounded-2xl overflow-hidden bg-gray-900/80 backdrop-blur-sm border ${colors.border} hover:bg-gray-800/90 transition-all duration-500 hover:transform hover:scale-105`}
-                  style={{ animationDelay: `${index * 100 + 1000}ms` }}
-                >
+            const colors = colorClasses[office.color];
+            return <div key={office.city} className={`group relative rounded-2xl overflow-hidden bg-gray-900/80 backdrop-blur-sm border ${colors.border} hover:bg-gray-800/90 transition-all duration-500 hover:transform hover:scale-105`} style={{
+              animationDelay: `${index * 100 + 1000}ms`
+            }}>
                   {/* Background Image */}
-                  <div 
-                    className="absolute inset-0 bg-cover bg-center opacity-20 group-hover:opacity-30 transition-opacity duration-500"
-                    style={{ backgroundImage: `url(${office.image})` }}
-                  />
+                  <div className="absolute inset-0 bg-cover bg-center opacity-20 group-hover:opacity-30 transition-opacity duration-500" style={{
+                backgroundImage: `url(${office.image})`
+              }} />
                   <div className="absolute inset-0 bg-gradient-to-b from-transparent via-gray-900/40 to-gray-900/80" />
                   
                   {/* Content */}
@@ -323,18 +313,14 @@ const Contact = () => {
                     
                     {/* WhatsApp Quick Contact */}
                     <div className="mt-4 pt-4 border-t border-gray-700/50">
-                      <a
-                        href={`https://wa.me/${office.phone.replace(/[^0-9]/g, '')}`}
-                        className="inline-flex items-center space-x-2 text-green-400 hover:text-green-300 transition-colors text-sm"
-                      >
+                      <a href={`https://wa.me/${office.phone.replace(/[^0-9]/g, '')}`} className="inline-flex items-center space-x-2 text-green-400 hover:text-green-300 transition-colors text-sm">
                         <MessageCircle className="h-4 w-4" />
                         <span>WhatsApp</span>
                       </a>
                     </div>
                   </div>
-                </div>
-              );
-            })}
+                </div>;
+          })}
           </div>
         </div>
 
@@ -348,17 +334,11 @@ const Contact = () => {
               Join 1,500+ satisfied clients who have transformed their businesses with our cutting-edge solutions.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <button 
-                onClick={handleStartProject}
-                className="inline-flex items-center space-x-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-8 py-4 rounded-xl hover:from-cyan-400 hover:to-blue-500 transition-all duration-300 font-medium shadow-lg hover:shadow-cyan-500/25 transform hover:scale-105"
-              >
+              <button onClick={handleStartProject} className="inline-flex items-center space-x-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-8 py-4 rounded-xl hover:from-cyan-400 hover:to-blue-500 transition-all duration-300 font-medium shadow-lg hover:shadow-cyan-500/25 transform hover:scale-105">
                 <span>Start Your Project</span>
                 <ArrowRight className="h-5 w-5" />
               </button>
-              <a
-                href="https://wa.me/15551234567"
-                className="inline-flex items-center space-x-2 border-2 border-green-400/50 text-green-300 px-8 py-4 rounded-xl hover:bg-green-400/10 hover:border-green-300 transition-all duration-300 font-medium backdrop-blur-sm"
-              >
+              <a href="https://wa.me/15551234567" className="inline-flex items-center space-x-2 border-2 border-green-400/50 text-green-300 px-8 py-4 rounded-xl hover:bg-green-400/10 hover:border-green-300 transition-all duration-300 font-medium backdrop-blur-sm">
                 <MessageCircle className="h-5 w-5" />
                 <span>WhatsApp Chat</span>
               </a>
@@ -366,8 +346,6 @@ const Contact = () => {
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default Contact;
