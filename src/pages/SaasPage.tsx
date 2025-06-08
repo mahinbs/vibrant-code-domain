@@ -205,9 +205,12 @@ const SaasPage = () => {
               <button className="px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl font-semibold hover:from-blue-400 hover:to-purple-500 transition-all duration-300 transform hover:scale-105">
                 Start Building
               </button>
-              <button className="px-8 py-4 border border-blue-400/30 rounded-xl font-semibold hover:bg-blue-500/10 transition-all duration-300">
+              <Link 
+                to="/portfolio"
+                className="px-8 py-4 border border-blue-400/30 rounded-xl font-semibold hover:bg-blue-500/10 transition-all duration-300 inline-flex items-center justify-center"
+              >
                 View Demo
-              </button>
+              </Link>
             </div>
           </div>
         </div>

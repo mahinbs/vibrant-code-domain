@@ -77,9 +77,12 @@ const AiCallingPage = () => {
               <button className="px-8 py-4 bg-gradient-to-r from-pink-500 to-orange-600 rounded-xl font-semibold hover:from-pink-400 hover:to-orange-500 transition-all duration-300 transform hover:scale-105">
                 Start Calling Campaign
               </button>
-              <button className="px-8 py-4 border border-pink-400/30 rounded-xl font-semibold hover:bg-pink-500/10 transition-all duration-300">
+              <Link 
+                to="/portfolio"
+                className="px-8 py-4 border border-pink-400/30 rounded-xl font-semibold hover:bg-pink-500/10 transition-all duration-300 inline-flex items-center justify-center"
+              >
                 Listen to Demo
-              </button>
+              </Link>
             </div>
           </div>
         </div>

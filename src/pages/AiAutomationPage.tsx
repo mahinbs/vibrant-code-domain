@@ -82,9 +82,12 @@ const AiAutomationPage = () => {
               <button className="px-8 py-4 bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl font-semibold hover:from-green-400 hover:to-emerald-500 transition-all duration-300 transform hover:scale-105">
                 Automate Your Business
               </button>
-              <button className="px-8 py-4 border border-green-400/30 rounded-xl font-semibold hover:bg-green-500/10 transition-all duration-300">
+              <Link 
+                to="/portfolio"
+                className="px-8 py-4 border border-green-400/30 rounded-xl font-semibold hover:bg-green-500/10 transition-all duration-300 inline-flex items-center justify-center"
+              >
                 View Case Studies
-              </button>
+              </Link>
             </div>
           </div>
         </div>

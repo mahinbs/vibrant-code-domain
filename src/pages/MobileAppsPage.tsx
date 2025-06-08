@@ -77,9 +77,12 @@ const MobileAppsPage = () => {
               <button className="px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-600 rounded-xl font-semibold hover:from-purple-400 hover:to-pink-500 transition-all duration-300 transform hover:scale-105">
                 Start Development
               </button>
-              <button className="px-8 py-4 border border-purple-400/30 rounded-xl font-semibold hover:bg-purple-500/10 transition-all duration-300">
+              <Link 
+                to="/portfolio"
+                className="px-8 py-4 border border-purple-400/30 rounded-xl font-semibold hover:bg-purple-500/10 transition-all duration-300 inline-flex items-center justify-center"
+              >
                 View Portfolio
-              </button>
+              </Link>
             </div>
           </div>
         </div>
