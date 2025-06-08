@@ -1,124 +1,70 @@
 
-import { useState } from 'react';
-import { Link, useLocation, Outlet } from 'react-router-dom';
-import { adminAuth } from '@/services/adminAuth';
-import { 
-  LayoutDashboard, 
-  FolderOpen, 
-  FileText, 
-  BookOpen, 
-  LogOut,
-  Menu,
-  X
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { ReactNode } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { BarChart3, Users, FileText, Briefcase, LogOut, MessageSquare } from 'lucide-react';
 
-const AdminLayout = () => {
+interface AdminLayoutProps {
+  children: ReactNode;
+}
+
+const AdminLayout = ({ children }: AdminLayoutProps) => {
   const location = useLocation();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-
-  const handleLogout = () => {
-    adminAuth.logout();
-    window.location.href = '/secure-management-portal-x7k9/login';
-  };
 
   const navigation = [
-    { name: 'Dashboard', href: '/secure-management-portal-x7k9', icon: LayoutDashboard },
-    { name: 'Portfolios', href: '/secure-management-portal-x7k9/portfolios', icon: FolderOpen },
-    { name: 'Case Studies', href: '/secure-management-portal-x7k9/case-studies', icon: FileText },
-    { name: 'Blogs', href: '/secure-management-portal-x7k9/blogs', icon: BookOpen },
+    { name: 'Dashboard', href: '/admin', icon: BarChart3 },
+    { name: 'Customer Inquiries', href: '/admin/customer-inquiries', icon: MessageSquare },
+    { name: 'Portfolio', href: '/admin/portfolio', icon: Briefcase },
+    { name: 'Case Studies', href: '/admin/case-studies', icon: FileText },
+    { name: 'Blogs', href: '/admin/blogs', icon: Users },
   ];
 
+  const handleLogout = () => {
+    localStorage.removeItem('isAdminAuthenticated');
+    window.location.href = '/admin/login';
+  };
+
   return (
-    <div className="min-h-screen bg-gray-50 flex">
-      {/* Mobile sidebar overlay */}
-      {sidebarOpen && (
-        <div 
-          className="fixed inset-0 z-40 lg:hidden bg-black bg-opacity-50"
-          onClick={() => setSidebarOpen(false)}
-        />
-      )}
-
-      {/* Sidebar */}
-      <div className={`
-        fixed inset-y-0 left-0 z-50 w-64 bg-gray-900 transform lg:translate-x-0 lg:static lg:inset-0
-        ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
-        transition-transform duration-300 ease-in-out
-      `}>
-        <div className="flex items-center justify-between h-16 px-4 border-b border-gray-700">
-          <h1 className="text-xl font-bold text-white">Admin Panel</h1>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="lg:hidden text-white"
-            onClick={() => setSidebarOpen(false)}
-          >
-            <X className="h-6 w-6" />
-          </Button>
-        </div>
-
-        <nav className="mt-8">
-          <div className="px-4 space-y-2">
+    <div className="min-h-screen bg-black text-white">
+      <div className="flex">
+        {/* Sidebar */}
+        <div className="w-64 bg-gray-900 border-r border-gray-800">
+          <div className="p-6">
+            <h1 className="text-xl font-bold text-cyan-400">Admin Panel</h1>
+          </div>
+          <nav className="px-4 space-y-2">
             {navigation.map((item) => {
               const isActive = location.pathname === item.href;
               return (
                 <Link
                   key={item.name}
                   to={item.href}
-                  className={`
-                    flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-colors
-                    ${isActive 
-                      ? 'bg-blue-600 text-white' 
-                      : 'text-gray-300 hover:bg-gray-700 hover:text-white'
-                    }
-                  `}
-                  onClick={() => setSidebarOpen(false)}
+                  className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
+                    isActive
+                      ? 'bg-cyan-600 text-white'
+                      : 'text-gray-300 hover:bg-gray-800 hover:text-white'
+                  }`}
                 >
-                  <item.icon className="mr-3 h-5 w-5" />
-                  {item.name}
+                  <item.icon className="h-5 w-5" />
+                  <span>{item.name}</span>
                 </Link>
               );
             })}
-          </div>
-        </nav>
-
-        <div className="absolute bottom-4 left-4 right-4">
-          <Button
-            variant="outline"
-            className="w-full justify-start text-gray-300 border-gray-600 hover:bg-gray-700"
-            onClick={handleLogout}
-          >
-            <LogOut className="mr-3 h-5 w-5" />
-            Logout
-          </Button>
-        </div>
-      </div>
-
-      {/* Main content */}
-      <div className="flex-1 lg:ml-0">
-        {/* Top bar */}
-        <div className="bg-white shadow-sm border-b border-gray-200">
-          <div className="flex items-center justify-between h-16 px-4 sm:px-6 lg:px-8">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="lg:hidden"
-              onClick={() => setSidebarOpen(true)}
+          </nav>
+          <div className="absolute bottom-4 left-4 right-4">
+            <button
+              onClick={handleLogout}
+              className="flex items-center space-x-3 px-4 py-3 w-full text-gray-300 hover:bg-gray-800 hover:text-white rounded-lg transition-colors"
             >
-              <Menu className="h-6 w-6" />
-            </Button>
-            <div className="flex-1 lg:ml-0">
-              <h1 className="text-2xl font-semibold text-gray-900">
-                {navigation.find(nav => nav.href === location.pathname)?.name || 'Admin Panel'}
-              </h1>
-            </div>
+              <LogOut className="h-5 w-5" />
+              <span>Logout</span>
+            </button>
           </div>
         </div>
 
-        {/* Page content */}
-        <main className="flex-1 p-4 sm:p-6 lg:p-8">
-          <Outlet />
-        </main>
+        {/* Main content */}
+        <div className="flex-1 p-8">
+          {children}
+        </div>
       </div>
     </div>
   );

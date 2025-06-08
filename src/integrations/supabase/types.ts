@@ -51,6 +51,57 @@ export type Database = {
         }
         Relationships: []
       }
+      customer_inquiries: {
+        Row: {
+          budget_range: string
+          company: string | null
+          created_at: string
+          email: string
+          first_name: string
+          id: string
+          last_name: string
+          message: string
+          phone: string | null
+          project_timeline: string
+          service_interest: string
+          source_page: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          budget_range: string
+          company?: string | null
+          created_at?: string
+          email: string
+          first_name: string
+          id?: string
+          last_name: string
+          message: string
+          phone?: string | null
+          project_timeline: string
+          service_interest: string
+          source_page?: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          budget_range?: string
+          company?: string | null
+          created_at?: string
+          email?: string
+          first_name?: string
+          id?: string
+          last_name?: string
+          message?: string
+          phone?: string | null
+          project_timeline?: string
+          service_interest?: string
+          source_page?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       portfolios: {
         Row: {
           challenge: string

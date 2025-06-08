@@ -6,6 +6,7 @@ import PortfolioSection from '@/components/PortfolioSection';
 import About from '@/components/About';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
+import HomeCTASection from '@/components/HomeCTASection';
 
 const Index = () => {
   return (
@@ -19,6 +20,7 @@ const Index = () => {
           <Services />
         </div>
         <PortfolioSection />
+        <HomeCTASection />
         <div id="about">
           <About />
         </div>
