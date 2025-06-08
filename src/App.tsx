@@ -4,6 +4,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import FloatingWhatsAppButton from "@/components/ui/FloatingWhatsAppButton";
 import Index from "./pages/Index";
 import Portfolio from "./pages/Portfolio";
 import CaseStudy from "./pages/CaseStudy";
@@ -67,6 +68,9 @@ const App = () => (
           {/* 404 page */}
           <Route path="*" element={<NotFound />} />
         </Routes>
+        
+        {/* Floating WhatsApp Button - appears on all pages */}
+        <FloatingWhatsAppButton />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
