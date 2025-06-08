@@ -15,6 +15,7 @@ import SaasPage from "./pages/SaasPage";
 import AiAutomationPage from "./pages/AiAutomationPage";
 import AiCallingPage from "./pages/AiCallingPage";
 import ReviewsPage from "./pages/ReviewsPage";
+import ContactPage from "./pages/ContactPage";
 import NotFound from "./pages/NotFound";
 
 // Admin pages
@@ -49,6 +50,7 @@ const App = () => (
           <Route path="/ai-automation" element={<AiAutomationPage />} />
           <Route path="/ai-calling" element={<AiCallingPage />} />
           <Route path="/reviews" element={<ReviewsPage />} />
+          <Route path="/contact" element={<ContactPage />} />
           
           {/* Admin routes */}
           <Route path="/admin/login" element={<AdminLogin />} />
