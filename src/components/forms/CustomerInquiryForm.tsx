@@ -8,7 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { customerInquiryService } from '@/services/customerInquiryService';
-import { CheckCircle, Loader2, ArrowRight, ArrowLeft, AlertCircle } from 'lucide-react';
+import { CheckCircle, Loader2, ArrowRight, ArrowLeft, AlertCircle, RefreshCw } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 const formSchema = z.object({
@@ -36,6 +36,7 @@ const CustomerInquiryForm = ({ sourcePage = 'contact', onSuccess, className = ''
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [retryCount, setRetryCount] = useState(0);
   const totalSteps = 3;
   const { toast } = useToast();
 
@@ -88,6 +89,7 @@ const CustomerInquiryForm = ({ sourcePage = 'contact', onSuccess, className = ''
     
     try {
       console.log('Form submission started with data:', data);
+      console.log('Retry count:', retryCount);
       
       const inquiryData = {
         first_name: data.first_name,
@@ -107,6 +109,7 @@ const CustomerInquiryForm = ({ sourcePage = 'contact', onSuccess, className = ''
       console.log('Submission successful:', result);
       
       setIsSubmitted(true);
+      setRetryCount(0);
       toast({
         title: "Success!",
         description: "Your inquiry has been submitted successfully. We'll get back to you within 24 hours.",
@@ -117,18 +120,12 @@ const CustomerInquiryForm = ({ sourcePage = 'contact', onSuccess, className = ''
       }
     } catch (error) {
       console.error('Error submitting form:', error);
+      setRetryCount(prev => prev + 1);
       
       let errorMessage = 'There was an error submitting your inquiry. Please try again.';
       
       if (error && typeof error === 'object' && 'message' in error) {
-        const errorMsg = (error as any).message;
-        if (errorMsg.includes('row-level security')) {
-          errorMessage = 'Unable to submit inquiry due to security settings. Please try again or contact support.';
-        } else if (errorMsg.includes('network')) {
-          errorMessage = 'Network error. Please check your connection and try again.';
-        } else if (errorMsg.includes('duplicate') || errorMsg.includes('unique')) {
-          errorMessage = 'This inquiry may have already been submitted. Please contact us directly if you need assistance.';
-        }
+        errorMessage = (error as Error).message;
       }
       
       setSubmitError(errorMessage);
@@ -140,6 +137,11 @@ const CustomerInquiryForm = ({ sourcePage = 'contact', onSuccess, className = ''
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const handleRetry = () => {
+    setSubmitError(null);
+    form.handleSubmit(onSubmit)();
   };
 
   const nextStep = async () => {
@@ -207,11 +209,34 @@ const CustomerInquiryForm = ({ sourcePage = 'contact', onSuccess, className = ''
         </div>
       </div>
 
-      {/* Error Message */}
+      {/* Error Message with Retry Option */}
       {submitError && (
-        <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-xl flex items-center space-x-3">
-          <AlertCircle className="h-5 w-5 text-red-400 flex-shrink-0" />
-          <p className="text-red-300">{submitError}</p>
+        <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-xl">
+          <div className="flex items-start space-x-3">
+            <AlertCircle className="h-5 w-5 text-red-400 flex-shrink-0 mt-0.5" />
+            <div className="flex-1">
+              <p className="text-red-300 mb-3">{submitError}</p>
+              {retryCount < 3 && (
+                <Button
+                  onClick={handleRetry}
+                  disabled={isSubmitting}
+                  variant="outline"
+                  size="sm"
+                  className="border-red-400/50 text-red-300 hover:bg-red-500/10"
+                >
+                  <RefreshCw className={`h-4 w-4 mr-2 ${isSubmitting ? 'animate-spin' : ''}`} />
+                  Try Again ({retryCount}/3)
+                </Button>
+              )}
+              {retryCount >= 3 && (
+                <div className="text-sm text-gray-400">
+                  <p>If the problem persists, please contact us directly:</p>
+                  <p className="text-cyan-300">Email: ceo@boostmysites.com</p>
+                  <p className="text-cyan-300">Phone: +1 (555) 123-4567</p>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       )}
 

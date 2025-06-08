@@ -39,19 +39,41 @@ export const customerInquiryService = {
 
       console.log('Cleaned data for submission:', cleanData);
 
+      // Test database connection first
+      const { data: testData, error: testError } = await supabase
+        .from('customer_inquiries')
+        .select('count', { count: 'exact', head: true });
+
+      if (testError) {
+        console.error('Database connection test failed:', testError);
+        throw new Error('Database connection failed. Please try again.');
+      }
+
+      console.log('Database connection successful, proceeding with insert...');
+
       const { data, error } = await supabase
         .from('customer_inquiries')
         .insert([cleanData])
         .select();
 
       if (error) {
-        console.error('Supabase error details:', {
+        console.error('Supabase insertion error:', {
           message: error.message,
           details: error.details,
           hint: error.hint,
           code: error.code
         });
-        throw error;
+        
+        // More specific error handling
+        if (error.message.includes('row-level security')) {
+          throw new Error('Security policy issue. Our team has been notified and will resolve this shortly.');
+        } else if (error.message.includes('duplicate') || error.message.includes('unique')) {
+          throw new Error('This inquiry appears to have been submitted already. Please contact us directly if you need assistance.');
+        } else if (error.message.includes('network') || error.message.includes('timeout')) {
+          throw new Error('Network error. Please check your connection and try again.');
+        } else {
+          throw new Error('Failed to submit inquiry. Please try again or contact us directly.');
+        }
       }
 
       console.log('Inquiry submitted successfully:', data);
@@ -59,7 +81,14 @@ export const customerInquiryService = {
       
     } catch (error) {
       console.error('Error in submitInquiry:', error);
-      throw error;
+      
+      // Re-throw known errors
+      if (error instanceof Error) {
+        throw error;
+      }
+      
+      // Handle unknown errors
+      throw new Error('An unexpected error occurred. Please try again or contact us directly.');
     }
   },
 
