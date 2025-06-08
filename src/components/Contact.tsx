@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { Mail, Phone, MapPin, MessageCircle, Instagram, Twitter, Youtube, Users, Target, ArrowRight } from 'lucide-react';
 import CustomerInquiryForm from '@/components/forms/CustomerInquiryForm';
@@ -50,8 +51,8 @@ const Contact = () => {
   };
 
   // WhatsApp message and number
-  const whatsappNumber = '00919632953355';
-  const whatsappMessage = 'I want to discuss about a software or app project. when can we discuss the same?';
+  const whatsappNumber = '919632953355';
+  const whatsappMessage = 'I would like to develop a software or app. I need to discuss with you more';
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
 
   const offices = [{
