@@ -1,3 +1,4 @@
+
 import { supabase } from '@/integrations/supabase/client';
 
 export interface CustomerInquiry {
@@ -21,51 +22,45 @@ export const customerInquiryService = {
   async submitInquiry(inquiry: Omit<CustomerInquiry, 'id' | 'created_at' | 'updated_at' | 'status'>) {
     console.log('Submitting customer inquiry:', inquiry);
     
-    // Retry mechanism for potential RLS policy propagation delays
-    const maxRetries = 3;
-    let lastError;
-    
-    for (let attempt = 1; attempt <= maxRetries; attempt++) {
-      try {
-        console.log(`Submission attempt ${attempt}/${maxRetries}`);
-        
-        const { data, error } = await supabase
-          .from('customer_inquiries')
-          .insert([inquiry])
-          .select();
+    try {
+      // Clean and validate the data before submission
+      const cleanData = {
+        first_name: inquiry.first_name.trim(),
+        last_name: inquiry.last_name.trim(),
+        email: inquiry.email.trim().toLowerCase(),
+        phone: inquiry.phone?.trim() || null,
+        company: inquiry.company?.trim() || null,
+        service_interest: inquiry.service_interest,
+        budget_range: inquiry.budget_range,
+        project_timeline: inquiry.project_timeline,
+        message: inquiry.message.trim(),
+        source_page: inquiry.source_page
+      };
 
-        if (error) {
-          console.error(`Error on attempt ${attempt}:`, error);
-          lastError = error;
-          
-          // If it's the last attempt or a non-retryable error, throw immediately
-          if (attempt === maxRetries || error.code === '42501') {
-            throw error;
-          }
-          
-          // Wait before retrying (exponential backoff)
-          await new Promise(resolve => setTimeout(resolve, Math.pow(2, attempt) * 1000));
-          continue;
-        }
+      console.log('Cleaned data for submission:', cleanData);
 
-        console.log('Inquiry submitted successfully:', data);
-        return data[0]; // Return the first (and only) inserted record
-        
-      } catch (error) {
-        console.error(`Attempt ${attempt} failed:`, error);
-        lastError = error;
-        
-        if (attempt === maxRetries) {
-          break;
-        }
-        
-        // Wait before retrying
-        await new Promise(resolve => setTimeout(resolve, Math.pow(2, attempt) * 1000));
+      const { data, error } = await supabase
+        .from('customer_inquiries')
+        .insert([cleanData])
+        .select();
+
+      if (error) {
+        console.error('Supabase error details:', {
+          message: error.message,
+          details: error.details,
+          hint: error.hint,
+          code: error.code
+        });
+        throw error;
       }
+
+      console.log('Inquiry submitted successfully:', data);
+      return data[0];
+      
+    } catch (error) {
+      console.error('Error in submitInquiry:', error);
+      throw error;
     }
-    
-    // If all retries failed, throw the last error
-    throw lastError;
   },
 
   async getInquiries() {

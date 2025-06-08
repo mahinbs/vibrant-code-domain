@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { customerInquiryService } from '@/services/customerInquiryService';
 import { CheckCircle, Loader2, ArrowRight, ArrowLeft, AlertCircle } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 
 const formSchema = z.object({
   first_name: z.string().min(2, 'First name must be at least 2 characters'),
@@ -36,6 +37,7 @@ const CustomerInquiryForm = ({ sourcePage = 'contact', onSuccess, className = ''
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const totalSteps = 3;
+  const { toast } = useToast();
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -87,7 +89,6 @@ const CustomerInquiryForm = ({ sourcePage = 'contact', onSuccess, className = ''
     try {
       console.log('Form submission started with data:', data);
       
-      // Ensure all required fields are present and properly typed
       const inquiryData = {
         first_name: data.first_name,
         last_name: data.last_name,
@@ -106,13 +107,17 @@ const CustomerInquiryForm = ({ sourcePage = 'contact', onSuccess, className = ''
       console.log('Submission successful:', result);
       
       setIsSubmitted(true);
+      toast({
+        title: "Success!",
+        description: "Your inquiry has been submitted successfully. We'll get back to you within 24 hours.",
+      });
+      
       if (onSuccess) {
         onSuccess();
       }
     } catch (error) {
       console.error('Error submitting form:', error);
       
-      // Provide more specific error messages
       let errorMessage = 'There was an error submitting your inquiry. Please try again.';
       
       if (error && typeof error === 'object' && 'message' in error) {
@@ -121,10 +126,17 @@ const CustomerInquiryForm = ({ sourcePage = 'contact', onSuccess, className = ''
           errorMessage = 'Unable to submit inquiry due to security settings. Please try again or contact support.';
         } else if (errorMsg.includes('network')) {
           errorMessage = 'Network error. Please check your connection and try again.';
+        } else if (errorMsg.includes('duplicate') || errorMsg.includes('unique')) {
+          errorMessage = 'This inquiry may have already been submitted. Please contact us directly if you need assistance.';
         }
       }
       
       setSubmitError(errorMessage);
+      toast({
+        title: "Submission Failed",
+        description: errorMessage,
+        variant: "destructive",
+      });
     } finally {
       setIsSubmitting(false);
     }
