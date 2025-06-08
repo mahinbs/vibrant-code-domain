@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -9,7 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { customerInquiryService } from '@/services/customerInquiryService';
-import { CheckCircle, Loader2, ArrowRight, ArrowLeft } from 'lucide-react';
+import { CheckCircle, Loader2, ArrowRight, ArrowLeft, AlertCircle } from 'lucide-react';
 
 const formSchema = z.object({
   first_name: z.string().min(2, 'First name must be at least 2 characters'),
@@ -35,6 +34,7 @@ const CustomerInquiryForm = ({ sourcePage = 'contact', onSuccess, className = ''
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const totalSteps = 3;
 
   const form = useForm<FormData>({
@@ -82,7 +82,11 @@ const CustomerInquiryForm = ({ sourcePage = 'contact', onSuccess, className = ''
 
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
+    setSubmitError(null);
+    
     try {
+      console.log('Form submission started with data:', data);
+      
       // Ensure all required fields are present and properly typed
       const inquiryData = {
         first_name: data.first_name,
@@ -97,7 +101,9 @@ const CustomerInquiryForm = ({ sourcePage = 'contact', onSuccess, className = ''
         source_page: sourcePage,
       };
       
-      await customerInquiryService.submitInquiry(inquiryData);
+      console.log('Submitting inquiry data:', inquiryData);
+      const result = await customerInquiryService.submitInquiry(inquiryData);
+      console.log('Submission successful:', result);
       
       setIsSubmitted(true);
       if (onSuccess) {
@@ -105,7 +111,20 @@ const CustomerInquiryForm = ({ sourcePage = 'contact', onSuccess, className = ''
       }
     } catch (error) {
       console.error('Error submitting form:', error);
-      alert('There was an error submitting your inquiry. Please try again.');
+      
+      // Provide more specific error messages
+      let errorMessage = 'There was an error submitting your inquiry. Please try again.';
+      
+      if (error && typeof error === 'object' && 'message' in error) {
+        const errorMsg = (error as any).message;
+        if (errorMsg.includes('row-level security')) {
+          errorMessage = 'Unable to submit inquiry due to security settings. Please try again or contact support.';
+        } else if (errorMsg.includes('network')) {
+          errorMessage = 'Network error. Please check your connection and try again.';
+        }
+      }
+      
+      setSubmitError(errorMessage);
     } finally {
       setIsSubmitting(false);
     }
@@ -175,6 +194,14 @@ const CustomerInquiryForm = ({ sourcePage = 'contact', onSuccess, className = ''
           />
         </div>
       </div>
+
+      {/* Error Message */}
+      {submitError && (
+        <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-xl flex items-center space-x-3">
+          <AlertCircle className="h-5 w-5 text-red-400 flex-shrink-0" />
+          <p className="text-red-300">{submitError}</p>
+        </div>
+      )}
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
