@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { getPortfolioData } from '@/services/portfolioDataService';
 import PortfolioHeader from './portfolio/PortfolioHeader';
@@ -16,14 +17,14 @@ const PortfolioSection = () => {
   useEffect(() => {
     const loadPortfolioData = async () => {
       try {
-        console.log('PortfolioSection - Starting to load portfolio data...');
+        console.log('PortfolioSection - Starting to load portfolio data from database only...');
         setLoading(true);
         const data = await getPortfolioData();
         console.log('PortfolioSection - Portfolio data loaded:', data);
         
         // Log the total number of projects
         const totalProjects = data.reduce((total, service) => total + service.projects.length, 0);
-        console.log(`PortfolioSection - Total projects loaded: ${totalProjects}`);
+        console.log(`PortfolioSection - Total real projects loaded: ${totalProjects}`);
         
         // Check specifically for Crave Kitchen
         const allProjects = data.flatMap(service => service.projects);
@@ -37,7 +38,7 @@ const PortfolioSection = () => {
         setServices(data);
       } catch (error) {
         console.error('PortfolioSection - Error loading portfolio data:', error);
-        // Keep existing static data as fallback
+        // Set empty array as fallback (no static data)
         setServices([]);
       } finally {
         setLoading(false);
@@ -61,6 +62,9 @@ const PortfolioSection = () => {
     });
   }, [services]);
 
+  // Calculate total projects
+  const totalProjects = services.reduce((total, service) => total + service.projects.length, 0);
+
   return (
     <section 
       id="portfolio"
@@ -82,7 +86,12 @@ const PortfolioSection = () => {
         
         {loading ? (
           <div className="flex items-center justify-center py-12">
-            <div className="text-white">Loading portfolio...</div>
+            <div className="text-white text-lg">Loading real portfolios...</div>
+          </div>
+        ) : totalProjects === 0 ? (
+          <div className="text-center py-12">
+            <div className="text-white text-lg mb-4">No portfolios available yet.</div>
+            <div className="text-gray-400">Please check back later for our latest projects.</div>
           </div>
         ) : (
           <>

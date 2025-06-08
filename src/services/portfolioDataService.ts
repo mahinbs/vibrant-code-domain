@@ -1,13 +1,13 @@
 
-import { projectsData, Service } from '@/data/projects';
+import { Service } from '@/data/projects';
 import { adminDataService } from './adminDataService';
 import { Code, Cloud, Brain, Smartphone, Zap } from 'lucide-react';
 
 export const getPortfolioData = async (): Promise<Service[]> => {
-  console.log('PortfolioDataService - Getting portfolio data...');
+  console.log('PortfolioDataService - Getting portfolio data from database only...');
   
   try {
-    // Get admin projects from database
+    // Get only admin projects from database (no static data)
     const adminProjects = await adminDataService.getProjects();
     console.log('PortfolioDataService - Admin projects retrieved:', adminProjects);
     console.log('PortfolioDataService - Number of admin projects:', adminProjects.length);
@@ -24,47 +24,6 @@ export const getPortfolioData = async (): Promise<Service[]> => {
       });
     });
     
-    // Create a deep copy of static data to avoid mutations
-    const combinedData = JSON.parse(JSON.stringify(projectsData)) as Service[];
-    console.log('PortfolioDataService - Static services before combination:', combinedData.map(s => ({ id: s.id, title: s.title, projectCount: s.projects.length })));
-    
-    // Get existing service IDs from static data
-    const existingServiceIds = combinedData.map(s => s.id);
-    console.log('PortfolioDataService - Existing service IDs:', existingServiceIds);
-    
-    // Add missing services that exist in admin but not in static data
-    const uniqueAdminServiceIds = [...new Set(adminProjects.map(p => p.serviceId))];
-    console.log('PortfolioDataService - Unique admin service IDs:', uniqueAdminServiceIds);
-    
-    uniqueAdminServiceIds.forEach(serviceId => {
-      if (!existingServiceIds.includes(serviceId)) {
-        console.log(`PortfolioDataService - Adding missing service: ${serviceId}`);
-        let serviceTitle = serviceId;
-        let serviceColor: 'cyan' | 'blue' | 'pink' | 'purple' | 'green' = 'blue';
-        
-        switch (serviceId) {
-          case 'mobile-apps':
-            serviceTitle = 'Mobile Applications';
-            serviceColor = 'purple';
-            break;
-          case 'ai-automation':
-            serviceTitle = 'AI Automation';
-            serviceColor = 'green';
-            break;
-          default:
-            serviceTitle = serviceId.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase());
-        }
-        
-        combinedData.push({
-          id: serviceId,
-          icon: getServiceIcon(serviceId),
-          title: serviceTitle,
-          color: serviceColor,
-          projects: []
-        });
-      }
-    });
-    
     // Group admin projects by service
     const adminProjectsByService = adminProjects.reduce((acc, project) => {
       console.log(`PortfolioDataService - Processing admin project "${project.title}" for service "${project.serviceId}"`);
@@ -77,7 +36,7 @@ export const getPortfolioData = async (): Promise<Service[]> => {
         id: project.id,
         title: project.title,
         description: project.description,
-        image: project.image || '/placeholder.svg', // Ensure image is always present
+        image: project.image || '/placeholder.svg',
         industry: project.industry || 'Technology',
         client: project.client || 'Client',
         timeline: project.timeline || '3 months',
@@ -87,7 +46,6 @@ export const getPortfolioData = async (): Promise<Service[]> => {
         testimonial: project.testimonial || '',
         clientLogo: project.clientLogo || '',
         liveUrl: project.liveUrl || '',
-        // Add case study specific fields with defaults
         challenge: project.challenge || 'Challenge details coming soon...',
         solution: project.solution || 'Solution details coming soon...',
         approach: project.approach || [],
@@ -116,30 +74,34 @@ export const getPortfolioData = async (): Promise<Service[]> => {
       }))
     );
     
-    // Add admin projects to their respective services
-    combinedData.forEach(service => {
-      const originalProjectCount = service.projects.length;
-      
-      if (adminProjectsByService[service.id]) {
-        console.log(`PortfolioDataService - Adding ${adminProjectsByService[service.id].length} admin projects to service "${service.id}"`);
-        console.log(`PortfolioDataService - Admin projects for "${service.id}":`, adminProjectsByService[service.id].map(p => p.title));
-        
-        // Add admin projects to the service
-        service.projects = [...service.projects, ...adminProjectsByService[service.id]];
-        
-        console.log(`PortfolioDataService - Service "${service.id}" now has ${service.projects.length} projects (was ${originalProjectCount})`);
-        console.log(`PortfolioDataService - All projects in "${service.id}":`, service.projects.map(p => p.title));
-      } else {
-        console.log(`PortfolioDataService - No admin projects found for service "${service.id}"`);
+    // Create services only for those that have actual projects
+    const services: Service[] = [];
+    const serviceConfigs = {
+      'web-apps': { title: 'Web Applications', color: 'cyan' as const },
+      'saas': { title: 'SAAS Solutions', color: 'blue' as const },
+      'mobile-apps': { title: 'Mobile Applications', color: 'purple' as const },
+      'ai-calling': { title: 'AI Calling Agency', color: 'pink' as const },
+      'ai-automation': { title: 'AI Automation', color: 'green' as const }
+    };
+    
+    // Only create service objects for services that have projects
+    Object.entries(adminProjectsByService).forEach(([serviceId, projects]) => {
+      const config = serviceConfigs[serviceId as keyof typeof serviceConfigs];
+      if (config && projects.length > 0) {
+        console.log(`PortfolioDataService - Creating service "${serviceId}" with ${projects.length} projects`);
+        services.push({
+          id: serviceId,
+          icon: getServiceIcon(serviceId),
+          title: config.title,
+          color: config.color,
+          projects: projects
+        });
       }
-      
-      // Ensure all services have icons
-      service.icon = getServiceIcon(service.id);
     });
     
     // Final validation
-    console.log('PortfolioDataService - Final combined data summary:');
-    combinedData.forEach(service => {
+    console.log('PortfolioDataService - Final services created:');
+    services.forEach(service => {
       console.log(`- Service "${service.id}" (${service.title}): ${service.projects.length} projects`);
       service.projects.forEach((project, index) => {
         console.log(`  ${index + 1}. ${project.title} (${project.client || 'No client'})`);
@@ -147,7 +109,7 @@ export const getPortfolioData = async (): Promise<Service[]> => {
     });
     
     // Check specifically for Crave Kitchen
-    const allProjects = combinedData.flatMap(service => service.projects);
+    const allProjects = services.flatMap(service => service.projects);
     const craveKitchenProject = allProjects.find(p => p.title.toLowerCase().includes('crave kitchen'));
     if (craveKitchenProject) {
       console.log('PortfolioDataService - ✅ Crave Kitchen project found in final data:', craveKitchenProject);
@@ -156,14 +118,11 @@ export const getPortfolioData = async (): Promise<Service[]> => {
       console.log('PortfolioDataService - Available project titles:', allProjects.map(p => p.title));
     }
     
-    return combinedData;
+    return services;
   } catch (error) {
     console.error('PortfolioDataService - Error getting portfolio data:', error);
-    // Return static data with icons as fallback
-    return projectsData.map(service => ({
-      ...service,
-      icon: getServiceIcon(service.id)
-    }));
+    // Return empty array as fallback (no static data)
+    return [];
   }
 };
 
