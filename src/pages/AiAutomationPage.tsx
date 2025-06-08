@@ -1,3 +1,4 @@
+
 import { Zap, Brain, Settings, BarChart3, Shield, Users } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Header from '@/components/Header';
@@ -77,13 +78,14 @@ const AiAutomationPage = () => {
             <p className="text-xl md:text-2xl text-gray-300 mb-8 leading-relaxed">
               Revolutionize your business operations with intelligent automation solutions that boost efficiency and drive growth.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center relative z-20">
-              <button className="px-8 py-4 bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl font-semibold hover:from-green-400 hover:to-emerald-500 transition-all duration-300 transform hover:scale-105">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center relative z-50">
+              <button className="px-8 py-4 bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl font-semibold hover:from-green-400 hover:to-emerald-500 transition-all duration-300 transform hover:scale-105 relative z-50">
                 Automate Your Business
               </button>
               <Link 
                 to="/portfolio"
-                className="px-8 py-4 border border-green-400/30 rounded-xl font-semibold hover:bg-green-500/10 transition-all duration-300 inline-flex items-center justify-center relative z-30"
+                className="px-8 py-4 border border-green-400/30 rounded-xl font-semibold hover:bg-green-500/10 transition-all duration-300 inline-flex items-center justify-center relative z-50"
+                onClick={() => console.log('Portfolio link clicked')}
               >
                 View Case Studies
               </Link>
@@ -181,7 +183,7 @@ const AiAutomationPage = () => {
           </p>
           <Link 
             to="/contact"
-            className="inline-block px-8 py-4 bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl font-semibold hover:from-green-400 hover:to-emerald-500 transition-all duration-300 transform hover:scale-105 relative z-20"
+            className="inline-block px-8 py-4 bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl font-semibold hover:from-green-400 hover:to-emerald-500 transition-all duration-300 transform hover:scale-105 relative z-50"
           >
             Start Automation
           </Link>
