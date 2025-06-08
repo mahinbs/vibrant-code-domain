@@ -1,10 +1,12 @@
 
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const WebAppsHero = () => {
   const navigate = useNavigate();
 
   const handleStartProject = () => {
+    console.log('Start Project button clicked');
     navigate('/contact#form');
   };
 
@@ -25,14 +27,13 @@ const WebAppsHero = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center relative z-50">
             <button 
               onClick={handleStartProject}
-              className="px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-xl font-semibold hover:from-cyan-400 hover:to-blue-500 transition-all duration-300 transform hover:scale-105 relative z-50"
+              className="px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-xl font-semibold hover:from-cyan-400 hover:to-blue-500 transition-all duration-300 transform hover:scale-105 relative z-50 cursor-pointer"
             >
               Start Your Project
             </button>
             <Link 
               to="/portfolio"
               className="px-8 py-4 border border-cyan-400/30 rounded-xl font-semibold hover:bg-cyan-500/10 transition-all duration-300 inline-flex items-center justify-center relative z-50"
-              onClick={() => console.log('Portfolio link clicked')}
             >
               View Portfolio
             </Link>
