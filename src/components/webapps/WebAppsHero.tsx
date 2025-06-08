@@ -1,7 +1,13 @@
 
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const WebAppsHero = () => {
+  const navigate = useNavigate();
+
+  const handleStartProject = () => {
+    navigate('/contact#form');
+  };
+
   return (
     <section className="pt-32 pb-20 relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 pointer-events-none"></div>
@@ -17,7 +23,10 @@ const WebAppsHero = () => {
             Transform your business with custom web applications built using cutting-edge technologies and modern development practices.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center relative z-50">
-            <button className="px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-xl font-semibold hover:from-cyan-400 hover:to-blue-500 transition-all duration-300 transform hover:scale-105 relative z-50">
+            <button 
+              onClick={handleStartProject}
+              className="px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-xl font-semibold hover:from-cyan-400 hover:to-blue-500 transition-all duration-300 transform hover:scale-105 relative z-50"
+            >
               Start Your Project
             </button>
             <Link 

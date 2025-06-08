@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Mail, Phone, MapPin, MessageCircle, Instagram, Twitter, Youtube, Users, Target, ArrowRight } from 'lucide-react';
 import CustomerInquiryForm from '@/components/forms/CustomerInquiryForm';
@@ -27,6 +26,25 @@ const Contact = () => {
       }
     };
   }, []);
+
+  // Scroll to form when URL contains #form hash
+  useEffect(() => {
+    if (window.location.hash === '#form') {
+      setTimeout(() => {
+        const formElement = document.getElementById('inquiry-form');
+        if (formElement) {
+          formElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 100);
+    }
+  }, []);
+
+  const handleStartProject = () => {
+    const formElement = document.getElementById('inquiry-form');
+    if (formElement) {
+      formElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
 
   const offices = [
     {
@@ -195,7 +213,7 @@ const Contact = () => {
         {/* Main Content Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
           {/* Advanced Contact Form */}
-          <div className={`transition-all duration-1000 delay-400 ${isVisible ? 'animate-fade-in opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <div id="inquiry-form" className={`transition-all duration-1000 delay-400 ${isVisible ? 'animate-fade-in opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <CustomerInquiryForm sourcePage="contact" />
           </div>
 
@@ -330,7 +348,10 @@ const Contact = () => {
               Join 1,500+ satisfied clients who have transformed their businesses with our cutting-edge solutions.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <button className="inline-flex items-center space-x-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-8 py-4 rounded-xl hover:from-cyan-400 hover:to-blue-500 transition-all duration-300 font-medium shadow-lg hover:shadow-cyan-500/25 transform hover:scale-105">
+              <button 
+                onClick={handleStartProject}
+                className="inline-flex items-center space-x-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-8 py-4 rounded-xl hover:from-cyan-400 hover:to-blue-500 transition-all duration-300 font-medium shadow-lg hover:shadow-cyan-500/25 transform hover:scale-105"
+              >
                 <span>Start Your Project</span>
                 <ArrowRight className="h-5 w-5" />
               </button>
