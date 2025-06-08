@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { Star, Filter, Zap, Shield, Users, TrendingUp } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
@@ -159,6 +160,11 @@ const services = ["All", "Web Applications", "SaaS Solutions", "Mobile Applicati
 
 const ReviewsPage = () => {
   const [selectedService, setSelectedService] = useState("All");
+  const navigate = useNavigate();
+
+  const handleStartProject = () => {
+    navigate('/contact#form');
+  };
 
   const filteredReviews = useMemo(() => {
     return selectedService === "All" ? reviews : reviews.filter(review => review.service === selectedService);
@@ -321,7 +327,10 @@ const ReviewsPage = () => {
             <p className="text-lg text-gray-300 mb-6 max-w-2xl mx-auto">
               Enter the future of digital innovation. Let's architect your next breakthrough together.
             </p>
-            <Button className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-8 py-3 rounded-full hover:from-cyan-400 hover:to-blue-500 transition-all duration-300 font-semibold">
+            <Button 
+              onClick={handleStartProject}
+              className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-8 py-3 rounded-full hover:from-cyan-400 hover:to-blue-500 transition-all duration-300 font-semibold"
+            >
               <Zap className="h-4 w-4 mr-2" />
               Start Your Project
             </Button>

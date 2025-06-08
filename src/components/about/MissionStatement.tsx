@@ -1,12 +1,19 @@
 
 import { memo } from 'react';
 import { ArrowRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 interface MissionStatementProps {
   isVisible: boolean;
 }
 
 const MissionStatement = memo(({ isVisible }: MissionStatementProps) => {
+  const navigate = useNavigate();
+
+  const handleStartProject = () => {
+    navigate('/contact#form');
+  };
+
   return (
     <div className={`text-center transition-all duration-700 delay-1000 ${isVisible ? 'animate-fade-in opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
       <div className="bg-gradient-to-r from-gray-900/50 to-black/50 rounded-3xl p-8 border border-gray-700/30">
@@ -16,7 +23,10 @@ const MissionStatement = memo(({ isVisible }: MissionStatementProps) => {
         <p className="text-gray-300 mb-6 max-w-3xl mx-auto leading-relaxed">
           We continue to innovate with one goal: empowering businesses to build smarter solutions and scale faster than ever before.
         </p>
-        <button className="inline-flex items-center space-x-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-8 py-4 rounded-xl hover:from-cyan-400 hover:to-blue-500 transition-all duration-300 font-medium shadow-lg hover:shadow-cyan-500/25 transform hover:scale-105">
+        <button 
+          onClick={handleStartProject}
+          className="inline-flex items-center space-x-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-8 py-4 rounded-xl hover:from-cyan-400 hover:to-blue-500 transition-all duration-300 font-medium shadow-lg hover:shadow-cyan-500/25 transform hover:scale-105"
+        >
           <span>Start Your Project</span>
           <ArrowRight className="h-5 w-5" />
         </button>

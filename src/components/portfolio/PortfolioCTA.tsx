@@ -25,7 +25,7 @@ const PortfolioCTA = ({ isVisible }: PortfolioCTAProps) => {
             <ArrowRight className="h-4 w-4" />
           </Link>
           <Link 
-            to="/#contact"
+            to="/contact#form"
             className="inline-flex items-center space-x-2 bg-gray-800/50 border border-gray-600 text-gray-300 px-6 py-3 rounded-xl hover:bg-gray-700/50 hover:border-gray-500 transition-all duration-300 font-medium"
           >
             <span>Start Your Project</span>

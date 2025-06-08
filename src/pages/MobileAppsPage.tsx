@@ -1,10 +1,15 @@
-
 import { Smartphone, Zap, Users, Shield, Globe, TrendingUp } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
 const MobileAppsPage = () => {
+  const navigate = useNavigate();
+
+  const handleStartDevelopment = () => {
+    navigate('/contact#form');
+  };
+
   const features = [
     {
       icon: Smartphone,
@@ -74,7 +79,10 @@ const MobileAppsPage = () => {
               Create powerful mobile experiences that engage users and drive business growth with native and cross-platform solutions.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center relative z-50">
-              <button className="px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-600 rounded-xl font-semibold hover:from-purple-400 hover:to-pink-500 transition-all duration-300 transform hover:scale-105 relative z-50">
+              <button 
+                onClick={handleStartDevelopment}
+                className="px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-600 rounded-xl font-semibold hover:from-purple-400 hover:to-pink-500 transition-all duration-300 transform hover:scale-105 relative z-50"
+              >
                 Start Development
               </button>
               <Link 
@@ -146,7 +154,7 @@ const MobileAppsPage = () => {
             Let's create a mobile application that delights users and drives business success.
           </p>
           <Link 
-            to="/contact"
+            to="/contact#form"
             className="inline-block px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-600 rounded-xl font-semibold hover:from-purple-400 hover:to-pink-500 transition-all duration-300 transform hover:scale-105 relative z-50"
           >
             Get Started

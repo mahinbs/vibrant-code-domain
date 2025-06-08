@@ -14,7 +14,7 @@ const PortfolioCTASection = () => {
       </p>
       <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
         <Link 
-          to="/#contact"
+          to="/contact#form"
           className="inline-flex items-center space-x-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-8 py-4 rounded-xl hover:from-cyan-400 hover:to-blue-500 transition-all duration-300 font-medium shadow-lg hover:shadow-cyan-500/25 transform hover:scale-105"
         >
           <span>Get Started Today</span>
