@@ -163,8 +163,8 @@ const WebAppsPage = () => {
       
       {/* Hero Section */}
       <section className="pt-32 pb-20 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 to-blue-500/10"></div>
-        <div className="absolute inset-0 bg-black/40"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 pointer-events-none"></div>
+        <div className="absolute inset-0 bg-black/40 pointer-events-none"></div>
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-5xl md:text-7xl font-bold mb-6">
@@ -175,13 +175,13 @@ const WebAppsPage = () => {
             <p className="text-xl md:text-2xl text-gray-300 mb-8 leading-relaxed">
               Transform your business with custom web applications built using cutting-edge technologies and modern development practices.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center relative z-20">
               <button className="px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-xl font-semibold hover:from-cyan-400 hover:to-blue-500 transition-all duration-300 transform hover:scale-105">
                 Start Your Project
               </button>
               <Link 
                 to="/portfolio"
-                className="px-8 py-4 border border-cyan-400/30 rounded-xl font-semibold hover:bg-cyan-500/10 transition-all duration-300 inline-flex items-center justify-center"
+                className="px-8 py-4 border border-cyan-400/30 rounded-xl font-semibold hover:bg-cyan-500/10 transition-all duration-300 inline-flex items-center justify-center relative z-30"
               >
                 View Portfolio
               </Link>
@@ -329,7 +329,7 @@ const WebAppsPage = () => {
             {features.map((feature, index) => (
               <div key={index} className="group relative p-8 rounded-2xl bg-gray-800/50 border border-gray-700/50 hover:border-cyan-400/50 transition-all duration-300 overflow-hidden">
                 {/* Background Image */}
-                <div className="absolute inset-0 opacity-20 group-hover:opacity-30 transition-opacity duration-300">
+                <div className="absolute inset-0 opacity-20 group-hover:opacity-30 transition-opacity duration-300 pointer-events-none">
                   <img 
                     src={feature.image} 
                     alt={feature.title}
@@ -379,15 +379,16 @@ const WebAppsPage = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-cyan-500/20 to-blue-500/20">
-        <div className="container mx-auto px-6 text-center">
+      <section className="py-20 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 relative">
+        <div className="absolute inset-0 pointer-events-none"></div>
+        <div className="container mx-auto px-6 text-center relative z-10">
           <h2 className="text-4xl font-bold mb-4">Ready to Build Something Amazing?</h2>
           <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
             Let's discuss your project and create a web application that transforms your business.
           </p>
           <Link 
             to="/contact"
-            className="inline-block px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-xl font-semibold hover:from-cyan-400 hover:to-blue-500 transition-all duration-300 transform hover:scale-105"
+            className="inline-block px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-xl font-semibold hover:from-cyan-400 hover:to-blue-500 transition-all duration-300 transform hover:scale-105 relative z-20"
           >
             Get Started Today
           </Link>

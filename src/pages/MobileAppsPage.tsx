@@ -62,7 +62,7 @@ const MobileAppsPage = () => {
       
       {/* Hero Section */}
       <section className="pt-32 pb-20 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-pink-500/10"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-pink-500/10 pointer-events-none"></div>
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-5xl md:text-7xl font-bold mb-6">
@@ -73,13 +73,13 @@ const MobileAppsPage = () => {
             <p className="text-xl md:text-2xl text-gray-300 mb-8 leading-relaxed">
               Create powerful mobile experiences that engage users and drive business growth with native and cross-platform solutions.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center relative z-20">
               <button className="px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-600 rounded-xl font-semibold hover:from-purple-400 hover:to-pink-500 transition-all duration-300 transform hover:scale-105">
                 Start Development
               </button>
               <Link 
                 to="/portfolio"
-                className="px-8 py-4 border border-purple-400/30 rounded-xl font-semibold hover:bg-purple-500/10 transition-all duration-300 inline-flex items-center justify-center"
+                className="px-8 py-4 border border-purple-400/30 rounded-xl font-semibold hover:bg-purple-500/10 transition-all duration-300 inline-flex items-center justify-center relative z-30"
               >
                 View Portfolio
               </Link>
@@ -137,15 +137,16 @@ const MobileAppsPage = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-purple-500/10 to-pink-500/10">
-        <div className="container mx-auto px-6 text-center">
+      <section className="py-20 bg-gradient-to-r from-purple-500/10 to-pink-500/10 relative">
+        <div className="absolute inset-0 pointer-events-none"></div>
+        <div className="container mx-auto px-6 text-center relative z-10">
           <h2 className="text-4xl font-bold mb-4">Ready to Build Your Mobile App?</h2>
           <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
             Let's create a mobile application that delights users and drives business success.
           </p>
           <Link 
             to="/contact"
-            className="inline-block px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-600 rounded-xl font-semibold hover:from-purple-400 hover:to-pink-500 transition-all duration-300 transform hover:scale-105"
+            className="inline-block px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-600 rounded-xl font-semibold hover:from-purple-400 hover:to-pink-500 transition-all duration-300 transform hover:scale-105 relative z-20"
           >
             Get Started
           </Link>

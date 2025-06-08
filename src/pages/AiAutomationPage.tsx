@@ -1,4 +1,3 @@
-
 import { Zap, Brain, Settings, BarChart3, Shield, Users } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Header from '@/components/Header';
@@ -67,7 +66,7 @@ const AiAutomationPage = () => {
       
       {/* Hero Section */}
       <section className="pt-32 pb-20 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-green-500/10 to-emerald-500/10"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-green-500/10 to-emerald-500/10 pointer-events-none"></div>
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-5xl md:text-7xl font-bold mb-6">
@@ -78,13 +77,13 @@ const AiAutomationPage = () => {
             <p className="text-xl md:text-2xl text-gray-300 mb-8 leading-relaxed">
               Revolutionize your business operations with intelligent automation solutions that boost efficiency and drive growth.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center relative z-20">
               <button className="px-8 py-4 bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl font-semibold hover:from-green-400 hover:to-emerald-500 transition-all duration-300 transform hover:scale-105">
                 Automate Your Business
               </button>
               <Link 
                 to="/portfolio"
-                className="px-8 py-4 border border-green-400/30 rounded-xl font-semibold hover:bg-green-500/10 transition-all duration-300 inline-flex items-center justify-center"
+                className="px-8 py-4 border border-green-400/30 rounded-xl font-semibold hover:bg-green-500/10 transition-all duration-300 inline-flex items-center justify-center relative z-30"
               >
                 View Case Studies
               </Link>
@@ -143,8 +142,9 @@ const AiAutomationPage = () => {
       </section>
 
       {/* ROI Section */}
-      <section className="py-20 bg-gradient-to-r from-green-500/10 to-emerald-500/10">
-        <div className="container mx-auto px-6">
+      <section className="py-20 bg-gradient-to-r from-green-500/10 to-emerald-500/10 relative">
+        <div className="absolute inset-0 pointer-events-none"></div>
+        <div className="container mx-auto px-6 relative z-10">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold mb-4">Automation ROI</h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
@@ -181,7 +181,7 @@ const AiAutomationPage = () => {
           </p>
           <Link 
             to="/contact"
-            className="inline-block px-8 py-4 bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl font-semibold hover:from-green-400 hover:to-emerald-500 transition-all duration-300 transform hover:scale-105"
+            className="inline-block px-8 py-4 bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl font-semibold hover:from-green-400 hover:to-emerald-500 transition-all duration-300 transform hover:scale-105 relative z-20"
           >
             Start Automation
           </Link>
