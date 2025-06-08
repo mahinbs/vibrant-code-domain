@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Mail, Phone, MapPin, MessageCircle, Instagram, Twitter, Youtube, Users, Target, ArrowRight } from 'lucide-react';
 import CustomerInquiryForm from '@/components/forms/CustomerInquiryForm';
+
 const Contact = () => {
   const [isVisible, setIsVisible] = useState(false);
+
   useEffect(() => {
     const observer = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting) {
@@ -36,6 +38,7 @@ const Contact = () => {
       }, 100);
     }
   }, []);
+
   const handleStartProject = () => {
     const formElement = document.getElementById('inquiry-form');
     if (formElement) {
@@ -45,6 +48,12 @@ const Contact = () => {
       });
     }
   };
+
+  // WhatsApp message and number
+  const whatsappNumber = '00919632953355';
+  const whatsappMessage = 'I want to discuss about a software or app project. when can we discuss the same?';
+  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+
   const offices = [{
     city: 'Dubai',
     country: 'UAE',
@@ -91,6 +100,7 @@ const Contact = () => {
     image: 'https://images.unsplash.com/photo-1587474260584-136574528ed5?auto=format&fit=crop&w=800&q=80',
     timezone: 'GMT+5:30'
   }];
+
   const socialLinks = [{
     icon: Instagram,
     label: 'Instagram',
@@ -109,9 +119,10 @@ const Contact = () => {
   }, {
     icon: MessageCircle,
     label: 'WhatsApp',
-    url: 'https://wa.me/15551234567',
+    url: whatsappUrl,
     color: 'green'
   }];
+
   const colorClasses = {
     cyan: {
       border: 'border-cyan-400/30',
@@ -156,6 +167,7 @@ const Contact = () => {
       hover: 'hover:bg-red-500/10 hover:border-red-400/50'
     }
   };
+
   return <section id="contact" className="py-20 bg-gradient-to-b from-gray-900 to-black relative overflow-hidden" style={{
     backgroundImage: `url('/lovable-uploads/d0fa4f38-5951-4a69-9df8-13d4faa03aaa.png')`,
     backgroundSize: 'cover',
@@ -203,7 +215,7 @@ const Contact = () => {
               <MessageCircle className="h-6 w-6" />
             </div>
             <h3 className="text-lg font-semibold text-white mb-2">WhatsApp</h3>
-            <a href="https://wa.me/15551234567" className="text-green-400 font-medium hover:text-green-300 transition-colors">
+            <a href={whatsappUrl} className="text-green-400 font-medium hover:text-green-300 transition-colors">
               Quick Chat
             </a>
             <p className="text-gray-400 text-sm mt-1">Instant responses</p>
@@ -313,7 +325,7 @@ const Contact = () => {
                     
                     {/* WhatsApp Quick Contact */}
                     <div className="mt-4 pt-4 border-t border-gray-700/50">
-                      <a href={`https://wa.me/${office.phone.replace(/[^0-9]/g, '')}`} className="inline-flex items-center space-x-2 text-green-400 hover:text-green-300 transition-colors text-sm">
+                      <a href={whatsappUrl} className="inline-flex items-center space-x-2 text-green-400 hover:text-green-300 transition-colors text-sm">
                         <MessageCircle className="h-4 w-4" />
                         <span>WhatsApp</span>
                       </a>
@@ -338,7 +350,7 @@ const Contact = () => {
                 <span>Start Your Project</span>
                 <ArrowRight className="h-5 w-5" />
               </button>
-              <a href="https://wa.me/15551234567" className="inline-flex items-center space-x-2 border-2 border-green-400/50 text-green-300 px-8 py-4 rounded-xl hover:bg-green-400/10 hover:border-green-300 transition-all duration-300 font-medium backdrop-blur-sm">
+              <a href={whatsappUrl} className="inline-flex items-center space-x-2 border-2 border-green-400/50 text-green-300 px-8 py-4 rounded-xl hover:bg-green-400/10 hover:border-green-300 transition-all duration-300 font-medium backdrop-blur-sm">
                 <MessageCircle className="h-5 w-5" />
                 <span>WhatsApp Chat</span>
               </a>
@@ -348,4 +360,5 @@ const Contact = () => {
       </div>
     </section>;
 };
+
 export default Contact;
