@@ -1,10 +1,39 @@
-
 import { Code, Globe, Zap, Shield, Users, TrendingUp, CheckCircle, Star, ArrowRight } from 'lucide-react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import { adminDataService } from '@/services/adminDataService';
+import { Project } from '@/data/projects';
 
 const WebAppsPage = () => {
+  const [portfolioProjects, setPortfolioProjects] = useState<Project[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch web application portfolios from database
+  useEffect(() => {
+    const fetchPortfolioProjects = async () => {
+      try {
+        console.log('WebAppsPage - Fetching web application portfolios...');
+        const allProjects = await adminDataService.getProjects();
+        
+        // Filter for web applications and get the last 9
+        const webAppProjects = allProjects
+          .filter(project => project.serviceId === 'web-apps')
+          .slice(0, 9);
+        
+        console.log('WebAppsPage - Web app projects loaded:', webAppProjects.length);
+        setPortfolioProjects(webAppProjects);
+      } catch (error) {
+        console.error('WebAppsPage - Error fetching portfolios:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPortfolioProjects();
+  }, []);
+
   const features = [
     {
       icon: Code,
@@ -41,63 +70,6 @@ const WebAppsPage = () => {
       title: 'Analytics Integration',
       description: 'Comprehensive analytics and monitoring to track performance and user behavior.',
       image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
-    }
-  ];
-
-  const portfolio = [
-    {
-      title: 'E-Commerce Platform',
-      category: 'Retail Technology',
-      image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      description: 'Full-featured e-commerce platform with advanced product management, payment processing, and analytics.',
-      technologies: ['React', 'Node.js', 'PostgreSQL', 'Stripe', 'Redis'],
-      metrics: '1M+ products, 50K+ daily users',
-      timeline: '14 weeks'
-    },
-    {
-      title: 'Healthcare Portal',
-      category: 'Healthcare Technology',
-      image: 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      description: 'HIPAA-compliant patient portal with telemedicine capabilities and electronic health records.',
-      technologies: ['React', 'Express', 'MongoDB', 'WebRTC', 'AWS'],
-      metrics: '10K+ patients, 99.9% uptime',
-      timeline: '18 weeks'
-    },
-    {
-      title: 'Real Estate CRM',
-      category: 'Real Estate Technology',
-      image: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      description: 'Comprehensive CRM system for real estate agents with lead management and property showcase.',
-      technologies: ['Vue.js', 'Laravel', 'MySQL', 'Google Maps API', 'S3'],
-      metrics: '500+ agents, 100K+ properties',
-      timeline: '12 weeks'
-    },
-    {
-      title: 'Financial Dashboard',
-      category: 'FinTech',
-      image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      description: 'Advanced financial analytics dashboard with real-time market data and portfolio management.',
-      technologies: ['Angular', 'Python', 'FastAPI', 'PostgreSQL', 'D3.js'],
-      metrics: '$50M+ assets tracked, 2K+ users',
-      timeline: '16 weeks'
-    },
-    {
-      title: 'Learning Management System',
-      category: 'Education Technology',
-      image: 'https://images.unsplash.com/photo-1501504905252-473c47e087f8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      description: 'Interactive LMS with video streaming, assessments, and progress tracking for educational institutions.',
-      technologies: ['Next.js', 'Node.js', 'MongoDB', 'Socket.io', 'Cloudflare'],
-      metrics: '25K+ students, 1K+ courses',
-      timeline: '20 weeks'
-    },
-    {
-      title: 'Logistics Platform',
-      category: 'Supply Chain',
-      image: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      description: 'End-to-end logistics management platform with route optimization and real-time tracking.',
-      technologies: ['React', 'Django', 'PostgreSQL', 'Google Maps', 'Docker'],
-      metrics: '10K+ shipments/month, 300+ vehicles',
-      timeline: '22 weeks'
     }
   ];
 
@@ -197,49 +169,66 @@ const WebAppsPage = () => {
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4">Our Web Application Portfolio</h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              Showcasing our expertise across various industries and technologies
+              Showcasing our latest web application projects and their impact
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {portfolio.map((project, index) => (
-              <div key={index} className="group bg-gray-800/50 rounded-2xl overflow-hidden border border-gray-700/50 hover:border-cyan-400/50 transition-all duration-300">
-                <div className="relative h-48 overflow-hidden">
-                  <img 
-                    src={project.image} 
-                    alt={project.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 to-transparent"></div>
-                  <div className="absolute bottom-4 left-4">
-                    <span className="px-3 py-1 bg-cyan-500/20 border border-cyan-400/30 rounded-full text-sm text-cyan-300">
-                      {project.category}
-                    </span>
-                  </div>
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold mb-3 group-hover:text-cyan-300 transition-colors">
-                    {project.title}
-                  </h3>
-                  <p className="text-gray-400 mb-4 text-sm leading-relaxed">
-                    {project.description}
-                  </p>
-                  <div className="mb-4">
-                    <div className="flex flex-wrap gap-1 mb-3">
-                      {project.technologies.slice(0, 3).map((tech, idx) => (
-                        <span key={idx} className="text-xs px-2 py-1 bg-blue-500/20 text-blue-300 rounded">
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-                    <div className="text-sm text-gray-500">
-                      <div>{project.metrics}</div>
-                      <div>Timeline: {project.timeline}</div>
+          
+          {loading ? (
+            <div className="flex items-center justify-center py-12">
+              <div className="text-white">Loading portfolio projects...</div>
+            </div>
+          ) : portfolioProjects.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {portfolioProjects.map((project, index) => (
+                <div key={project.id} className="group bg-gray-800/50 rounded-2xl overflow-hidden border border-gray-700/50 hover:border-cyan-400/50 transition-all duration-300">
+                  <div className="relative h-48 overflow-hidden">
+                    <img 
+                      src={project.image} 
+                      alt={project.title}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 to-transparent pointer-events-none"></div>
+                    <div className="absolute bottom-4 left-4">
+                      <span className="px-3 py-1 bg-cyan-500/20 border border-cyan-400/30 rounded-full text-sm text-cyan-300">
+                        {project.industry}
+                      </span>
                     </div>
                   </div>
+                  <div className="p-6">
+                    <h3 className="text-xl font-bold mb-3 group-hover:text-cyan-300 transition-colors">
+                      {project.title}
+                    </h3>
+                    <p className="text-gray-400 mb-4 text-sm leading-relaxed">
+                      {project.description}
+                    </p>
+                    <div className="mb-4">
+                      <div className="flex flex-wrap gap-1 mb-3">
+                        {project.technologies.slice(0, 3).map((tech, idx) => (
+                          <span key={idx} className="text-xs px-2 py-1 bg-blue-500/20 text-blue-300 rounded">
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                      <div className="text-sm text-gray-500">
+                        <div>Client: {project.client}</div>
+                        <div>Timeline: {project.timeline}</div>
+                      </div>
+                    </div>
+                    <Link 
+                      to={`/case-study/${project.id}`}
+                      className="inline-flex items-center text-cyan-400 hover:text-cyan-300 transition-colors text-sm font-medium"
+                    >
+                      View Case Study <ArrowRight className="ml-1 h-4 w-4" />
+                    </Link>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12">
+              <p className="text-gray-400">No portfolio projects available.</p>
+            </div>
+          )}
         </div>
       </section>
 
