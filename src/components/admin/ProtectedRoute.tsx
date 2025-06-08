@@ -8,7 +8,7 @@ interface ProtectedRouteProps {
 
 const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   if (!adminAuth.isAuthenticated()) {
-    return <Navigate to="/secure-management-portal-x7k9/login" replace />;
+    return <Navigate to="/admin/login" replace />;
   }
 
   return <>{children}</>;

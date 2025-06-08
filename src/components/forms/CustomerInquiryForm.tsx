@@ -83,10 +83,21 @@ const CustomerInquiryForm = ({ sourcePage = 'contact', onSuccess, className = ''
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
     try {
-      await customerInquiryService.submitInquiry({
-        ...data,
+      // Ensure all required fields are present and properly typed
+      const inquiryData = {
+        first_name: data.first_name,
+        last_name: data.last_name,
+        email: data.email,
+        phone: data.phone || '',
+        company: data.company || '',
+        service_interest: data.service_interest,
+        budget_range: data.budget_range,
+        project_timeline: data.project_timeline,
+        message: data.message,
         source_page: sourcePage,
-      });
+      };
+      
+      await customerInquiryService.submitInquiry(inquiryData);
       
       setIsSubmitted(true);
       if (onSuccess) {
