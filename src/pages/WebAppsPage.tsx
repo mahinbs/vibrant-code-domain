@@ -1,3 +1,4 @@
+
 import { Code, Globe, Zap, Shield, Users, TrendingUp, CheckCircle, Star, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Header from '@/components/Header';
@@ -178,9 +179,12 @@ const WebAppsPage = () => {
               <button className="px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-xl font-semibold hover:from-cyan-400 hover:to-blue-500 transition-all duration-300 transform hover:scale-105">
                 Start Your Project
               </button>
-              <button className="px-8 py-4 border border-cyan-400/30 rounded-xl font-semibold hover:bg-cyan-500/10 transition-all duration-300">
+              <Link 
+                to="/portfolio"
+                className="px-8 py-4 border border-cyan-400/30 rounded-xl font-semibold hover:bg-cyan-500/10 transition-all duration-300 inline-flex items-center justify-center"
+              >
                 View Portfolio
-              </button>
+              </Link>
             </div>
           </div>
         </div>
