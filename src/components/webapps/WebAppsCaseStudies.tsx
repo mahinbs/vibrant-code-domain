@@ -4,40 +4,40 @@ import { CheckCircle, Star } from 'lucide-react';
 const WebAppsCaseStudies = () => {
   const caseStudies = [
     {
-      client: 'RetailMax Corporation',
-      industry: 'E-commerce',
-      challenge: 'Legacy e-commerce platform couldn\'t handle Black Friday traffic spikes and had poor mobile experience.',
-      solution: 'Built a modern, scalable e-commerce platform with microservices architecture, advanced caching, and mobile-first design.',
+      client: 'VirtuTeams Platform',
+      industry: 'Remote Work Technology',
+      challenge: 'Company needed a comprehensive virtual team management solution to handle the transition to hybrid work, with seamless video integration, project tracking, and real-time collaboration tools.',
+      solution: 'Built a scalable remote work platform with integrated video conferencing, advanced project management, team analytics, and AI-powered productivity insights.',
       results: [
-        '300% increase in mobile conversion rates',
-        'Zero downtime during peak traffic',
-        '50% faster page load times',
-        '$2M additional revenue in first quarter'
+        '85% improvement in team productivity',
+        '60% reduction in unnecessary meetings',
+        '40% faster project completion times',
+        '95% user adoption rate within first month'
       ],
-      testimonial: "The new platform exceeded all our expectations. We handled our highest traffic day ever without any issues.",
-      clientName: 'David Martinez',
-      clientRole: 'CTO, RetailMax Corporation',
-      clientImage: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&h=150&q=80',
-      duration: '14 weeks',
-      teamSize: '7 developers'
+      testimonial: "VirtuTeams transformed how our distributed teams collaborate. The platform's intuitive design and powerful features made remote work feel seamless.",
+      clientName: 'Michael Chen',
+      clientRole: 'VP of Operations',
+      clientImage: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&h=150&q=80',
+      duration: '16 weeks',
+      teamSize: '8 developers'
     },
     {
-      client: 'MedCare Health System',
-      industry: 'Healthcare',
-      challenge: 'Needed a HIPAA-compliant patient portal with telemedicine capabilities during the pandemic.',
-      solution: 'Developed a secure healthcare platform with video consultations, appointment scheduling, and EHR integration.',
+      client: 'Fashion Journey Navigator',
+      industry: 'Fashion & E-commerce',
+      challenge: 'Fashion retailers struggled with providing personalized shopping experiences and style discovery, leading to low engagement and poor conversion rates.',
+      solution: 'Developed an AI-powered fashion discovery platform with personalized recommendations, style matching algorithms, and interactive shopping journey mapping.',
       results: [
-        '80% reduction in in-person visits',
-        '95% patient satisfaction score',
-        'HIPAA compliance achieved',
-        '200% increase in patient engagement'
+        '250% increase in user engagement',
+        '180% improvement in conversion rates',
+        '90% customer satisfaction score',
+        '70% reduction in cart abandonment'
       ],
-      testimonial: "NeuraCode delivered a platform that not only met our compliance requirements but also improved patient care significantly.",
-      clientName: 'Dr. Lisa Thompson',
-      clientRole: 'Chief Medical Officer, MedCare',
-      clientImage: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&h=150&q=80',
-      duration: '18 weeks',
-      teamSize: '9 developers'
+      testimonial: "The Fashion Journey Navigator revolutionized our customer experience. Our users now discover styles they love and complete purchases with confidence.",
+      clientName: 'Sarah Williams',
+      clientRole: 'Head of Digital Experience',
+      clientImage: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&h=150&q=80',
+      duration: '20 weeks',
+      teamSize: '10 developers'
     }
   ];
 
