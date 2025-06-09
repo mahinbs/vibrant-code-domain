@@ -1,19 +1,11 @@
-
 import { Mail, Phone, MapPin, Github, Linkedin, Twitter } from 'lucide-react';
-
 const Footer = () => {
-  return (
-    <footer className="bg-gray-900 text-white">
+  return <footer className="bg-gray-900 text-white">
       <div className="container mx-auto px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div>
             <div className="flex items-center space-x-3 mb-4">
-              <img 
-                src="https://res.cloudinary.com/dknafpppp/image/upload/v1748806784/freepik_br_f976b57b-9b0c-47dc-8aa0-439758154a91_cpevk3.png" 
-                alt="Boostmysites Logo" 
-                className="h-8 w-8 object-contain"
-                loading="lazy"
-              />
+              <img src="https://res.cloudinary.com/dknafpppp/image/upload/v1748806784/freepik_br_f976b57b-9b0c-47dc-8aa0-439758154a91_cpevk3.png" alt="Boostmysites Logo" className="h-8 w-8 object-contain" loading="lazy" />
               <span className="text-xl font-bold">Boostmysites</span>
             </div>
             <p className="text-gray-400 mb-6 leading-relaxed">
@@ -47,8 +39,8 @@ const Footer = () => {
             <h3 className="text-lg font-semibold mb-4">Company</h3>
             <ul className="space-y-3 text-gray-400">
               <li><a href="#about" className="hover:text-white transition-colors duration-200">About Us</a></li>
-              <li><a href="#team" className="hover:text-white transition-colors duration-200">Our Team</a></li>
-              <li><a href="#" className="hover:text-white transition-colors duration-200">Careers</a></li>
+              
+              
               <li><a href="#" className="hover:text-white transition-colors duration-200">Blog</a></li>
               <li><a href="#" className="hover:text-white transition-colors duration-200">Privacy Policy</a></li>
             </ul>
@@ -77,8 +69,6 @@ const Footer = () => {
           <p>&copy; 2024 Boostmysites. All rights reserved. Built with passion for innovation.</p>
         </div>
       </div>
-    </footer>
-  );
+    </footer>;
 };
-
 export default Footer;
