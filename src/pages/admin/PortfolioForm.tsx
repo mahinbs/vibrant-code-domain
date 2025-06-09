@@ -101,7 +101,7 @@ const PortfolioForm = () => {
         title: isEdit ? "Portfolio updated" : "Portfolio created",
         description: `The portfolio has been successfully ${isEdit ? 'updated' : 'created'}.`,
       });
-      navigate('/secure-management-portal-x7k9/portfolios');
+      navigate('/admin/portfolio');
     } catch (error) {
       console.error('Error saving project:', error);
       toast({
@@ -126,7 +126,7 @@ const PortfolioForm = () => {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-4">
-        <Button variant="outline" onClick={() => navigate('/secure-management-portal-x7k9/portfolios')}>
+        <Button variant="outline" onClick={() => navigate('/admin/portfolio')}>
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back to Portfolios
         </Button>
@@ -154,7 +154,7 @@ const PortfolioForm = () => {
             {saving && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
             {isEdit ? 'Update Portfolio' : 'Create Portfolio'}
           </Button>
-          <Button type="button" variant="outline" onClick={() => navigate('/secure-management-portal-x7k9/portfolios')}>
+          <Button type="button" variant="outline" onClick={() => navigate('/admin/portfolio')}>
             Cancel
           </Button>
         </div>

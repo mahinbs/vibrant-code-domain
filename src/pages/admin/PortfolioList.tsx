@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { adminDataService } from '@/services/adminDataService';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Plus, Edit, Trash2, ExternalLink, Loader2 } from 'lucide-react';
+import { Plus, Edit, Trash2, ExternalLink, Loader2, ArrowLeft } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import {
   Table,
@@ -85,13 +85,19 @@ const PortfolioList = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <div>
+      <div className="flex items-center gap-4">
+        <Button variant="outline" asChild>
+          <Link to="/admin">
+            <ArrowLeft className="h-4 w-4 mr-2" />
+            Back to Dashboard
+          </Link>
+        </Button>
+        <div className="flex-1">
           <h1 className="text-3xl font-bold text-gray-900">Portfolio Management</h1>
           <p className="text-gray-600">Manage your portfolio projects</p>
         </div>
         <Button asChild>
-          <Link to="/secure-management-portal-x7k9/portfolios/new">
+          <Link to="/admin/portfolio/new">
             <Plus className="h-4 w-4 mr-2" />
             Add Portfolio
           </Link>
@@ -107,7 +113,7 @@ const PortfolioList = () => {
             <div className="text-center py-8">
               <p className="text-gray-500 mb-4">No portfolios found</p>
               <Button asChild>
-                <Link to="/secure-management-portal-x7k9/portfolios/new">
+                <Link to="/admin/portfolio/new">
                   <Plus className="h-4 w-4 mr-2" />
                   Create your first portfolio
                 </Link>
@@ -150,7 +156,7 @@ const PortfolioList = () => {
                           </Link>
                         </Button>
                         <Button variant="outline" size="sm" asChild>
-                          <Link to={`/secure-management-portal-x7k9/portfolios/edit/${project.id}`}>
+                          <Link to={`/admin/portfolio/edit/${project.id}`}>
                             <Edit className="h-4 w-4" />
                           </Link>
                         </Button>

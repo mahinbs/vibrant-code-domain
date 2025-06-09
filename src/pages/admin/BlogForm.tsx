@@ -53,7 +53,7 @@ const BlogForm = () => {
               description: "The blog post you're trying to edit doesn't exist.",
               variant: "destructive",
             });
-            navigate('/secure-management-portal-x7k9/blogs');
+            navigate('/admin/blogs');
           }
         } catch (error) {
           console.error('Error loading blog:', error);
@@ -106,7 +106,7 @@ const BlogForm = () => {
         title: isEdit ? "Blog post updated" : "Blog post created",
         description: `The blog post has been successfully ${isEdit ? 'updated' : 'created'}.`,
       });
-      navigate('/secure-management-portal-x7k9/blogs');
+      navigate('/admin/blogs');
     } catch (error) {
       console.error('BlogForm - Error saving blog:', error);
       toast({
@@ -148,7 +148,7 @@ const BlogForm = () => {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-4">
-        <Button variant="outline" onClick={() => navigate('/secure-management-portal-x7k9/blogs')}>
+        <Button variant="outline" onClick={() => navigate('/admin/blogs')}>
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back to Blogs
         </Button>
@@ -335,7 +335,7 @@ const BlogForm = () => {
             {saving && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
             {isEdit ? 'Update Blog Post' : 'Create Blog Post'}
           </Button>
-          <Button type="button" variant="outline" onClick={() => navigate('/secure-management-portal-x7k9/blogs')}>
+          <Button type="button" variant="outline" onClick={() => navigate('/admin/blogs')}>
             Cancel
           </Button>
         </div>
