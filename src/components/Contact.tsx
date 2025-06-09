@@ -1,11 +1,8 @@
-
 import { useState, useEffect } from 'react';
 import { Mail, Phone, MapPin, MessageCircle, Instagram, Twitter, Youtube, Users, Target, ArrowRight } from 'lucide-react';
 import CustomerInquiryForm from '@/components/forms/CustomerInquiryForm';
-
 const Contact = () => {
   const [isVisible, setIsVisible] = useState(false);
-
   useEffect(() => {
     const observer = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting) {
@@ -39,7 +36,6 @@ const Contact = () => {
       }, 100);
     }
   }, []);
-
   const handleStartProject = () => {
     const formElement = document.getElementById('inquiry-form');
     if (formElement) {
@@ -54,7 +50,6 @@ const Contact = () => {
   const whatsappNumber = '919632953355';
   const whatsappMessage = 'I would like to develop a software or app. I need to discuss with you more';
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
-
   const offices = [{
     city: 'Dubai',
     country: 'UAE',
@@ -101,7 +96,6 @@ const Contact = () => {
     image: 'https://images.unsplash.com/photo-1587474260584-136574528ed5?auto=format&fit=crop&w=800&q=80',
     timezone: 'GMT+5:30'
   }];
-
   const socialLinks = [{
     icon: Instagram,
     label: 'Instagram',
@@ -123,7 +117,6 @@ const Contact = () => {
     url: whatsappUrl,
     color: 'green'
   }];
-
   const colorClasses = {
     cyan: {
       border: 'border-cyan-400/30',
@@ -168,7 +161,6 @@ const Contact = () => {
       hover: 'hover:bg-red-500/10 hover:border-red-400/50'
     }
   };
-
   return <section id="contact" className="py-20 bg-gradient-to-b from-gray-900 to-black relative overflow-hidden" style={{
     backgroundImage: `url('/lovable-uploads/d0fa4f38-5951-4a69-9df8-13d4faa03aaa.png')`,
     backgroundSize: 'cover',
@@ -198,7 +190,7 @@ const Contact = () => {
               <Mail className="h-6 w-6" />
             </div>
             <h3 className="text-lg font-semibold text-white mb-2">Email Us</h3>
-            <p className="text-cyan-400 font-medium">ceo@boostmysites.com</p>
+            <p className="text-cyan-400 font-medium">chairman@boostmysites.com</p>
             <p className="text-gray-400 text-sm mt-1">Business inquiries</p>
           </div>
 
@@ -361,5 +353,4 @@ const Contact = () => {
       </div>
     </section>;
 };
-
 export default Contact;
