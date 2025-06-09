@@ -1,7 +1,5 @@
-
 import { Mail, Phone, MapPin, Github, Linkedin, Twitter } from 'lucide-react';
 import { Link } from 'react-router-dom';
-
 const Footer = () => {
   return <footer className="bg-gray-900 text-white">
       <div className="container mx-auto px-6 py-12">
@@ -66,10 +64,9 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
-          <p>&copy; 2024 Boostmysites. All rights reserved. Built with passion for innovation.</p>
+          <p>© 2025 Boostmysites. All rights reserved. Built with passion for innovation.</p>
         </div>
       </div>
     </footer>;
 };
-
 export default Footer;
