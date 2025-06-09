@@ -1,4 +1,7 @@
+
 import { Mail, Phone, MapPin, Github, Linkedin, Twitter } from 'lucide-react';
+import { Link } from 'react-router-dom';
+
 const Footer = () => {
   return <footer className="bg-gray-900 text-white">
       <div className="container mx-auto px-6 py-12">
@@ -27,10 +30,10 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-semibold mb-4">Services</h3>
             <ul className="space-y-3 text-gray-400">
-              <li><a href="#" className="hover:text-white transition-colors duration-200">Web Development</a></li>
-              <li><a href="#" className="hover:text-white transition-colors duration-200">Mobile Apps</a></li>
-              <li><a href="#" className="hover:text-white transition-colors duration-200">AI Solutions</a></li>
-              <li><a href="#" className="hover:text-white transition-colors duration-200">SaaS Development</a></li>
+              <li><Link to="/web-apps" className="hover:text-white transition-colors duration-200">Web Development</Link></li>
+              <li><Link to="/mobile-apps" className="hover:text-white transition-colors duration-200">Mobile Apps</Link></li>
+              <li><Link to="/ai-automation" className="hover:text-white transition-colors duration-200">AI Solutions</Link></li>
+              <li><Link to="/saas" className="hover:text-white transition-colors duration-200">SaaS Development</Link></li>
               
             </ul>
           </div>
@@ -41,7 +44,7 @@ const Footer = () => {
               <li><a href="#about" className="hover:text-white transition-colors duration-200">About Us</a></li>
               
               
-              <li><a href="#" className="hover:text-white transition-colors duration-200">Blog</a></li>
+              <li><Link to="/blogs" className="hover:text-white transition-colors duration-200">Blog</Link></li>
               <li><a href="#" className="hover:text-white transition-colors duration-200">Privacy Policy</a></li>
             </ul>
           </div>
@@ -68,4 +71,5 @@ const Footer = () => {
       </div>
     </footer>;
 };
+
 export default Footer;
