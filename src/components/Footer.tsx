@@ -31,7 +31,7 @@ const Footer = () => {
               <li><a href="#" className="hover:text-white transition-colors duration-200">Mobile Apps</a></li>
               <li><a href="#" className="hover:text-white transition-colors duration-200">AI Solutions</a></li>
               <li><a href="#" className="hover:text-white transition-colors duration-200">SaaS Development</a></li>
-              <li><a href="#" className="hover:text-white transition-colors duration-200">Digital Marketing</a></li>
+              
             </ul>
           </div>
 
