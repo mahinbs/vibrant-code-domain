@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { adminDataService } from '@/services/adminDataService';
 import { customerInquiryService } from '@/services/customerInquiryService';
@@ -164,19 +163,19 @@ const AdminDashboard = () => {
                   Add New Portfolio
                 </Link>
               </Button>
-              <Button asChild variant="outline" className="w-full justify-start border-gray-600 text-gray-300 hover:bg-gray-700 hover:text-white transition-all duration-300">
+              <Button asChild className="w-full justify-start bg-gradient-to-r from-purple-600 to-violet-600 hover:from-purple-500 hover:to-violet-500 text-white shadow-lg transition-all duration-300">
                 <Link to="/admin/blogs/new">
                   <FileText className="h-4 w-4 mr-3" />
                   Write New Blog Post
                 </Link>
               </Button>
-              <Button asChild variant="outline" className="w-full justify-start border-gray-600 text-gray-300 hover:bg-gray-700 hover:text-white transition-all duration-300">
+              <Button asChild className="w-full justify-start bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-500 hover:to-emerald-500 text-white shadow-lg transition-all duration-300">
                 <Link to="/admin/customer-inquiries">
                   <MessageSquare className="h-4 w-4 mr-3" />
                   Manage Customer Inquiries
                 </Link>
               </Button>
-              <Button asChild variant="outline" className="w-full justify-start border-gray-600 text-gray-300 hover:bg-gray-700 hover:text-white transition-all duration-300">
+              <Button asChild className="w-full justify-start bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-500 hover:to-amber-500 text-white shadow-lg transition-all duration-300">
                 <Link to="/admin/case-studies">
                   <Users className="h-4 w-4 mr-3" />
                   Manage Case Studies
