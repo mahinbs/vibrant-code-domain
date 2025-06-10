@@ -293,7 +293,7 @@ const AdminDashboard = () => {
                       </div>
                     </div>
                   ))}
-                  <Button asChild variant="outline" className="w-full mt-3 border-gray-600 text-gray-300 hover:bg-green-600 hover:border-green-600 hover:text-white">
+                  <Button asChild className="w-full mt-3 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-500 hover:to-emerald-500 text-white shadow-lg transition-all duration-300">
                     <Link to="/admin/customer-inquiries">
                       View All Inquiries
                     </Link>
