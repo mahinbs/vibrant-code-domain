@@ -53,12 +53,12 @@ const RecentContent = ({ recentProjects, recentBlogs, recentInquiries }: RecentC
           ) : (
             <div className="space-y-3">
               {recentProjects.map((project) => (
-                <div key={project.id} className="flex justify-between items-center p-3 hover:bg-gray-700/50 rounded-lg transition-all duration-200">
-                  <div className="flex-1">
+                <div key={project.id} className="flex justify-between items-start gap-3 p-3 hover:bg-gray-700/50 rounded-lg transition-all duration-200">
+                  <div className="flex-1 min-w-0">
                     <p className="font-medium text-white truncate">{project.title}</p>
                     <p className="text-sm text-gray-400 truncate">{project.client}</p>
                   </div>
-                  <Button variant="outline" size="sm" asChild className="border-gray-600 text-gray-300 hover:bg-cyan-600 hover:border-cyan-600 hover:text-white">
+                  <Button variant="outline" size="sm" asChild className="border-gray-600 text-gray-300 hover:bg-cyan-600 hover:border-cyan-600 hover:text-white flex-shrink-0">
                     <Link to={`/admin/portfolio/edit/${project.id}`}>
                       Edit
                     </Link>
@@ -86,12 +86,12 @@ const RecentContent = ({ recentProjects, recentBlogs, recentInquiries }: RecentC
           ) : (
             <div className="space-y-3">
               {recentBlogs.map((blog) => (
-                <div key={blog.id} className="flex justify-between items-center p-3 hover:bg-gray-700/50 rounded-lg transition-all duration-200">
-                  <div className="flex-1">
+                <div key={blog.id} className="flex justify-between items-start gap-3 p-3 hover:bg-gray-700/50 rounded-lg transition-all duration-200">
+                  <div className="flex-1 min-w-0">
                     <p className="font-medium text-white truncate">{blog.title}</p>
                     <p className="text-sm text-gray-400 truncate">{blog.author.name}</p>
                   </div>
-                  <Button variant="outline" size="sm" asChild className="border-gray-600 text-gray-300 hover:bg-purple-600 hover:border-purple-600 hover:text-white">
+                  <Button variant="outline" size="sm" asChild className="border-gray-600 text-gray-300 hover:bg-purple-600 hover:border-purple-600 hover:text-white flex-shrink-0">
                     <Link to={`/admin/blogs/edit/${blog.id}`}>
                       Edit
                     </Link>
@@ -120,12 +120,12 @@ const RecentContent = ({ recentProjects, recentBlogs, recentInquiries }: RecentC
             <div className="space-y-3">
               {recentInquiries.map((inquiry) => (
                 <div key={inquiry.id} className="p-3 hover:bg-gray-700/50 rounded-lg transition-all duration-200">
-                  <div className="flex justify-between items-start mb-2">
-                    <div className="flex-1">
+                  <div className="flex justify-between items-start mb-2 gap-2">
+                    <div className="flex-1 min-w-0">
                       <p className="font-medium text-white truncate">{inquiry.first_name} {inquiry.last_name}</p>
                       <p className="text-sm text-gray-400 truncate">{inquiry.email}</p>
                     </div>
-                    <span className={`px-2 py-1 text-xs rounded-full ${
+                    <span className={`px-2 py-1 text-xs rounded-full flex-shrink-0 ${
                       inquiry.status === 'new' ? 'bg-blue-500/20 text-blue-400' :
                       inquiry.status === 'in_progress' ? 'bg-yellow-500/20 text-yellow-400' :
                       inquiry.status === 'converted' ? 'bg-green-500/20 text-green-400' :
@@ -134,10 +134,10 @@ const RecentContent = ({ recentProjects, recentBlogs, recentInquiries }: RecentC
                       {inquiry.status?.replace('_', ' ').toUpperCase()}
                     </span>
                   </div>
-                  <p className="text-sm text-gray-500 truncate">{inquiry.service_interest}</p>
-                  <div className="flex items-center mt-2 text-xs text-gray-500">
-                    <Clock className="h-3 w-3 mr-1" />
-                    {new Date(inquiry.created_at).toLocaleDateString()}
+                  <p className="text-sm text-gray-500 truncate mb-2">{inquiry.service_interest}</p>
+                  <div className="flex items-center text-xs text-gray-500">
+                    <Clock className="h-3 w-3 mr-1 flex-shrink-0" />
+                    <span className="truncate">{new Date(inquiry.created_at).toLocaleDateString()}</span>
                   </div>
                 </div>
               ))}

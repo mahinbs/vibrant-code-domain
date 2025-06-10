@@ -27,11 +27,11 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
     <div className="min-h-screen bg-black text-white">
       <div className="flex">
         {/* Sidebar */}
-        <div className="w-64 bg-gray-900 border-r border-gray-800">
+        <div className="w-64 bg-gray-900 border-r border-gray-800 min-h-screen relative">
           <div className="p-6">
             <h1 className="text-xl font-bold text-cyan-400">Admin Panel</h1>
           </div>
-          <nav className="px-4 space-y-2">
+          <nav className="px-4 space-y-2 pb-20">
             {navigation.map((item) => {
               const isActive = location.pathname === item.href;
               return (
@@ -44,8 +44,8 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
                       : 'text-gray-300 hover:bg-gray-800 hover:text-white'
                   }`}
                 >
-                  <item.icon className="h-5 w-5" />
-                  <span>{item.name}</span>
+                  <item.icon className="h-5 w-5 flex-shrink-0" />
+                  <span className="truncate">{item.name}</span>
                 </Link>
               );
             })}
@@ -55,14 +55,14 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
               onClick={handleLogout}
               className="flex items-center space-x-3 px-4 py-3 w-full text-gray-300 hover:bg-gray-800 hover:text-white rounded-lg transition-colors"
             >
-              <LogOut className="h-5 w-5" />
-              <span>Logout</span>
+              <LogOut className="h-5 w-5 flex-shrink-0" />
+              <span className="truncate">Logout</span>
             </button>
           </div>
         </div>
 
         {/* Main content */}
-        <div className="flex-1 p-8">
+        <div className="flex-1 p-8 overflow-hidden">
           {children}
         </div>
       </div>
