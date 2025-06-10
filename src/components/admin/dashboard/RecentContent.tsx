@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Briefcase, FileText, MessageSquare, Clock } from 'lucide-react';
@@ -58,7 +57,7 @@ const RecentContent = ({ recentProjects, recentBlogs, recentInquiries }: RecentC
                     <p className="font-medium text-white truncate">{project.title}</p>
                     <p className="text-sm text-gray-400 truncate">{project.client}</p>
                   </div>
-                  <Button variant="outline" size="sm" asChild className="border-gray-600 text-gray-300 hover:bg-cyan-600 hover:border-cyan-600 hover:text-white flex-shrink-0">
+                  <Button size="sm" asChild className="bg-cyan-600 hover:bg-cyan-500 text-white shadow-lg transition-all duration-300 flex-shrink-0">
                     <Link to={`/admin/portfolio/edit/${project.id}`}>
                       Edit
                     </Link>
@@ -91,7 +90,7 @@ const RecentContent = ({ recentProjects, recentBlogs, recentInquiries }: RecentC
                     <p className="font-medium text-white truncate">{blog.title}</p>
                     <p className="text-sm text-gray-400 truncate">{blog.author.name}</p>
                   </div>
-                  <Button variant="outline" size="sm" asChild className="border-gray-600 text-gray-300 hover:bg-purple-600 hover:border-purple-600 hover:text-white flex-shrink-0">
+                  <Button size="sm" asChild className="bg-purple-600 hover:bg-purple-500 text-white shadow-lg transition-all duration-300 flex-shrink-0">
                     <Link to={`/admin/blogs/edit/${blog.id}`}>
                       Edit
                     </Link>
