@@ -1,5 +1,7 @@
 
-import { CheckCircle, Rocket, Lightbulb, Zap } from 'lucide-react';
+import { CheckCircle, Rocket, Lightbulb, Zap, Home, Briefcase, Phone } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
 
 const SuccessMessage = () => {
   return (
@@ -75,7 +77,7 @@ const SuccessMessage = () => {
         </div>
 
         {/* Next Steps */}
-        <div className="bg-gradient-to-r from-cyan-500/10 to-blue-500/10 rounded-2xl p-8 border border-cyan-500/20 backdrop-blur-sm animate-fade-in" style={{ animationDelay: '2.1s' }}>
+        <div className="bg-gradient-to-r from-cyan-500/10 to-blue-500/10 rounded-2xl p-8 border border-cyan-500/20 backdrop-blur-sm mb-10 animate-fade-in" style={{ animationDelay: '2.1s' }}>
           <h3 className="text-2xl font-bold text-white mb-6">What Happens Next? 🎯</h3>
           <div className="space-y-4 text-left max-w-2xl mx-auto">
             <div className="flex items-start space-x-4">
@@ -103,7 +105,7 @@ const SuccessMessage = () => {
         </div>
 
         {/* Contact Information */}
-        <div className="mt-10 p-6 bg-gradient-to-r from-gray-900/60 to-gray-800/60 rounded-xl border border-gray-600/30 backdrop-blur-sm animate-fade-in" style={{ animationDelay: '2.4s' }}>
+        <div className="p-6 bg-gradient-to-r from-gray-900/60 to-gray-800/60 rounded-xl border border-gray-600/30 backdrop-blur-sm mb-10 animate-fade-in" style={{ animationDelay: '2.4s' }}>
           <p className="text-xl text-cyan-300 font-medium mb-3">
             Ready to start building the future? 🌟
           </p>
@@ -111,14 +113,31 @@ const SuccessMessage = () => {
             Our team is standing by to make your vision a reality. Need immediate assistance?
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <a href="tel:+15551234567" className="flex items-center space-x-2 text-white hover:text-cyan-300 transition-colors">
-              <span className="font-semibold">📞 +1 (555) 123-4567</span>
+            <a href="tel:+919632953355" className="flex items-center space-x-2 text-white hover:text-cyan-300 transition-colors">
+              <Phone className="h-4 w-4" />
+              <span className="font-semibold">+91 96329 53355</span>
             </a>
             <span className="hidden sm:block text-gray-500">|</span>
-            <a href="mailto:hello@company.com" className="flex items-center space-x-2 text-white hover:text-cyan-300 transition-colors">
-              <span className="font-semibold">✉️ hello@company.com</span>
+            <a href="mailto:chairman@boostmysites.com" className="flex items-center space-x-2 text-white hover:text-cyan-300 transition-colors">
+              <span className="font-semibold">✉️ chairman@boostmysites.com</span>
             </a>
           </div>
+        </div>
+
+        {/* Navigation Options */}
+        <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in" style={{ animationDelay: '2.7s' }}>
+          <Button asChild className="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white">
+            <Link to="/" className="flex items-center space-x-2">
+              <Home className="h-4 w-4" />
+              <span>Return to Homepage</span>
+            </Link>
+          </Button>
+          <Button asChild variant="outline" className="border-cyan-500/20 text-cyan-300 hover:bg-cyan-500/10">
+            <Link to="/portfolio" className="flex items-center space-x-2">
+              <Briefcase className="h-4 w-4" />
+              <span>View Our Work</span>
+            </Link>
+          </Button>
         </div>
       </div>
     </div>

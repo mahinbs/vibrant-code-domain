@@ -1,12 +1,12 @@
 
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form } from '@/components/ui/form';
 import { customerInquiryService } from '@/services/customerInquiryService';
 import { useToast } from '@/hooks/use-toast';
 import { formSchema, FormData, CustomerInquiryFormProps } from './customer-inquiry/types';
-import SuccessMessage from './customer-inquiry/SuccessMessage';
 import ProgressBar from './customer-inquiry/ProgressBar';
 import PersonalInformationStep from './customer-inquiry/PersonalInformationStep';
 import ProjectDetailsStep from './customer-inquiry/ProjectDetailsStep';
@@ -16,9 +16,9 @@ import FormNavigation from './customer-inquiry/FormNavigation';
 const CustomerInquiryForm = ({ sourcePage = 'contact', onSuccess, className = '' }: CustomerInquiryFormProps) => {
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
   const totalSteps = 3;
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -54,15 +54,20 @@ const CustomerInquiryForm = ({ sourcePage = 'contact', onSuccess, className = ''
       
       await customerInquiryService.submitInquiry(inquiryData);
       
-      setIsSubmitted(true);
       toast({
         title: "Success!",
-        description: "Your inquiry has been submitted successfully. We'll get back to you within 24 hours.",
+        description: "Your inquiry has been submitted successfully. Redirecting to confirmation page...",
       });
       
       if (onSuccess) {
         onSuccess();
       }
+      
+      // Redirect to thank you page after a brief delay
+      setTimeout(() => {
+        navigate('/thank-you');
+      }, 1000);
+      
     } catch (error) {
       console.error('Error submitting form:', error);
       toast({
@@ -99,14 +104,6 @@ const CustomerInquiryForm = ({ sourcePage = 'contact', onSuccess, className = ''
         return [];
     }
   };
-
-  if (isSubmitted) {
-    return (
-      <div className={className}>
-        <SuccessMessage />
-      </div>
-    );
-  }
 
   return (
     <div className={`max-w-2xl mx-auto ${className}`}>
