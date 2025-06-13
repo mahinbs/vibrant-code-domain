@@ -1,10 +1,11 @@
 
 import { Project } from '@/data/projects';
 import { BlogPost } from '@/data/blogs';
+import { generateProjectSlug, generateBlogSlug } from '@/lib/slugUtils';
 
 // Transform database row to Project type
 export const transformDbProjectToProject = (dbProject: any): Project => {
-  return {
+  const baseProject = {
     id: dbProject.id,
     title: dbProject.title,
     client: dbProject.client,
@@ -29,11 +30,24 @@ export const transformDbProjectToProject = (dbProject: any): Project => {
     techStack: [],
     features: []
   };
+
+  // Generate slug if not present in database
+  const slug = dbProject.slug || generateProjectSlug({
+    title: baseProject.title,
+    client: baseProject.client,
+    industry: baseProject.industry,
+    technologies: baseProject.technologies
+  });
+
+  return {
+    ...baseProject,
+    slug
+  };
 };
 
 // Transform database row to BlogPost type
 export const transformDbBlogToBlogPost = (dbBlog: any): BlogPost => {
-  return {
+  const baseBlog = {
     id: dbBlog.id,
     title: dbBlog.title,
     content: dbBlog.content,
@@ -44,5 +58,18 @@ export const transformDbBlogToBlogPost = (dbBlog: any): BlogPost => {
     featuredImage: dbBlog.image,
     category: 'General',
     tags: dbBlog.tags || []
+  };
+
+  // Generate slug if not present in database
+  const slug = dbBlog.slug || generateBlogSlug({
+    title: baseBlog.title,
+    category: baseBlog.category,
+    publishedDate: baseBlog.publishedDate,
+    tags: baseBlog.tags
+  });
+
+  return {
+    ...baseBlog,
+    slug
   };
 };

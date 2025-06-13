@@ -1,6 +1,8 @@
+
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { adminDataService, AdminBlogPost } from '@/services/adminDataService';
+import { generateBlogSlug } from '@/lib/slugUtils';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -19,6 +21,7 @@ const BlogForm = () => {
   const [saving, setSaving] = useState(false);
   const [formData, setFormData] = useState<AdminBlogPost>({
     title: '',
+    slug: '',
     content: '',
     author: {
       name: '',
@@ -70,6 +73,19 @@ const BlogForm = () => {
     }
   }, [id, isEdit, navigate, toast]);
 
+  // Auto-generate slug when title, category, or tags change
+  useEffect(() => {
+    if (formData.title && formData.category && !isEdit) {
+      const generatedSlug = generateBlogSlug({
+        title: formData.title,
+        category: formData.category,
+        publishedDate: formData.publishedDate,
+        tags: formData.tags
+      });
+      setFormData(prev => ({ ...prev, slug: generatedSlug }));
+    }
+  }, [formData.title, formData.category, formData.tags, formData.publishedDate, isEdit]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -97,7 +113,14 @@ const BlogForm = () => {
       setSaving(true);
       const blogData = {
         ...formData,
-        publishedDate: new Date(formData.publishedDate).toISOString()
+        publishedDate: new Date(formData.publishedDate).toISOString(),
+        // Ensure slug is generated if not present
+        slug: formData.slug || generateBlogSlug({
+          title: formData.title,
+          category: formData.category,
+          publishedDate: formData.publishedDate,
+          tags: formData.tags
+        })
       };
       
       console.log('BlogForm - Final blog data being saved:', blogData);
@@ -177,6 +200,20 @@ const BlogForm = () => {
                 placeholder="Blog post title"
                 required
               />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="slug">URL Slug</Label>
+              <Input
+                id="slug"
+                value={formData.slug}
+                onChange={(e) => setFormData(prev => ({ ...prev, slug: e.target.value }))}
+                placeholder="url-friendly-slug (auto-generated from title)"
+                disabled={!isEdit} // Only allow manual editing when editing existing posts
+              />
+              <p className="text-sm text-gray-500">
+                {isEdit ? 'You can manually edit the slug for existing posts' : 'Slug will be auto-generated from title, category and tags'}
+              </p>
             </div>
 
             <div className="space-y-2">

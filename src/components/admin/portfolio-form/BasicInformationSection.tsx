@@ -6,20 +6,20 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { AdminProject } from '@/services/adminDataService';
 
-const services = [
-  { id: 'web-apps', label: 'Web Applications' },
-  { id: 'saas', label: 'SAAS Solutions' },
-  { id: 'mobile-apps', label: 'Mobile Applications' },
-  { id: 'ai-calling', label: 'AI Calling Agency' },
-  { id: 'ai-automation', label: 'AI Automation' }
-];
-
 interface BasicInformationSectionProps {
   formData: AdminProject;
   setFormData: React.Dispatch<React.SetStateAction<AdminProject>>;
 }
 
 const BasicInformationSection = ({ formData, setFormData }: BasicInformationSectionProps) => {
+  const serviceOptions = [
+    { value: 'web-apps', label: 'Web Applications' },
+    { value: 'saas', label: 'SaaS Solutions' },
+    { value: 'mobile-apps', label: 'Mobile Applications' },
+    { value: 'ai-automation', label: 'AI Automation' },
+    { value: 'ai-calling', label: 'AI Calling' }
+  ];
+
   return (
     <Card>
       <CardHeader>
@@ -28,7 +28,7 @@ const BasicInformationSection = ({ formData, setFormData }: BasicInformationSect
       <CardContent className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="title">Title *</Label>
+            <Label htmlFor="title">Project Title *</Label>
             <Input
               id="title"
               value={formData.title}
@@ -38,14 +38,29 @@ const BasicInformationSection = ({ formData, setFormData }: BasicInformationSect
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="client">Client</Label>
+            <Label htmlFor="client">Client Name *</Label>
             <Input
               id="client"
               value={formData.client}
               onChange={(e) => setFormData(prev => ({ ...prev, client: e.target.value }))}
               placeholder="Client name"
+              required
             />
           </div>
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="slug">URL Slug</Label>
+          <Input
+            id="slug"
+            value={formData.slug}
+            onChange={(e) => setFormData(prev => ({ ...prev, slug: e.target.value }))}
+            placeholder="url-friendly-slug (auto-generated from title)"
+            disabled={!formData.id} // Only allow manual editing when editing existing projects
+          />
+          <p className="text-sm text-gray-500">
+            {formData.id ? 'You can manually edit the slug for existing projects' : 'Slug will be auto-generated from title, client, industry and technologies'}
+          </p>
         </div>
 
         <div className="space-y-2">
@@ -54,7 +69,7 @@ const BasicInformationSection = ({ formData, setFormData }: BasicInformationSect
             id="description"
             value={formData.description}
             onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
-            placeholder="Project description"
+            placeholder="Brief project description"
             rows={3}
             required
           />
@@ -62,15 +77,18 @@ const BasicInformationSection = ({ formData, setFormData }: BasicInformationSect
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="serviceId">Service *</Label>
-            <Select value={formData.serviceId} onValueChange={(value) => setFormData(prev => ({ ...prev, serviceId: value }))}>
+            <Label htmlFor="serviceId">Service Category *</Label>
+            <Select
+              value={formData.serviceId}
+              onValueChange={(value) => setFormData(prev => ({ ...prev, serviceId: value }))}
+            >
               <SelectTrigger>
-                <SelectValue placeholder="Select a service" />
+                <SelectValue placeholder="Select service" />
               </SelectTrigger>
               <SelectContent>
-                {services.map((service) => (
-                  <SelectItem key={service.id} value={service.id}>
-                    {service.label}
+                {serviceOptions.map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.label}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -82,7 +100,7 @@ const BasicInformationSection = ({ formData, setFormData }: BasicInformationSect
               id="industry"
               value={formData.industry}
               onChange={(e) => setFormData(prev => ({ ...prev, industry: e.target.value }))}
-              placeholder="e.g., Healthcare, Finance"
+              placeholder="e.g., E-commerce, Healthcare"
             />
           </div>
         </div>
@@ -108,26 +126,27 @@ const BasicInformationSection = ({ formData, setFormData }: BasicInformationSect
           </div>
         </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="liveUrl">Live Project URL</Label>
-          <Input
-            id="liveUrl"
-            value={formData.liveUrl || ''}
-            onChange={(e) => setFormData(prev => ({ ...prev, liveUrl: e.target.value }))}
-            placeholder="https://example.com"
-            type="url"
-          />
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="image">Featured Image URL</Label>
-          <Input
-            id="image"
-            value={formData.image}
-            onChange={(e) => setFormData(prev => ({ ...prev, image: e.target.value }))}
-            placeholder="https://example.com/image.jpg"
-            type="url"
-          />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <Label htmlFor="image">Project Image URL</Label>
+            <Input
+              id="image"
+              value={formData.image}
+              onChange={(e) => setFormData(prev => ({ ...prev, image: e.target.value }))}
+              placeholder="https://example.com/image.jpg"
+              type="url"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="liveUrl">Live URL</Label>
+            <Input
+              id="liveUrl"
+              value={formData.liveUrl}
+              onChange={(e) => setFormData(prev => ({ ...prev, liveUrl: e.target.value }))}
+              placeholder="https://example.com"
+              type="url"
+            />
+          </div>
         </div>
 
         <div className="space-y-2">

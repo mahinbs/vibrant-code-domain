@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { adminDataService, AdminProject } from '@/services/adminDataService';
+import { generateProjectSlug } from '@/lib/slugUtils';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { ArrowLeft, Loader2 } from 'lucide-react';
@@ -23,6 +24,7 @@ const PortfolioForm = () => {
   const [saving, setSaving] = useState(false);
   const [formData, setFormData] = useState<AdminProject>({
     title: '',
+    slug: '',
     client: '',
     description: '',
     technologies: [],
@@ -65,7 +67,7 @@ const PortfolioForm = () => {
               description: "The project you're trying to edit doesn't exist.",
               variant: "destructive",
             });
-            navigate('/secure-management-portal-x7k9/portfolios');
+            navigate('/admin/portfolio');
           }
         } catch (error) {
           console.error('Error loading project:', error);
@@ -82,6 +84,19 @@ const PortfolioForm = () => {
     }
   }, [id, isEdit, navigate, toast]);
 
+  // Auto-generate slug when relevant fields change
+  useEffect(() => {
+    if (formData.title && formData.client && formData.industry && formData.technologies.length > 0 && !isEdit) {
+      const generatedSlug = generateProjectSlug({
+        title: formData.title,
+        client: formData.client,
+        industry: formData.industry,
+        technologies: formData.technologies
+      });
+      setFormData(prev => ({ ...prev, slug: generatedSlug }));
+    }
+  }, [formData.title, formData.client, formData.industry, formData.technologies, isEdit]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -96,7 +111,17 @@ const PortfolioForm = () => {
 
     try {
       setSaving(true);
-      await adminDataService.saveProject(formData);
+      const projectData = {
+        ...formData,
+        // Ensure slug is generated if not present
+        slug: formData.slug || generateProjectSlug({
+          title: formData.title,
+          client: formData.client,
+          industry: formData.industry,
+          technologies: formData.technologies
+        })
+      };
+      await adminDataService.saveProject(projectData);
       toast({
         title: isEdit ? "Portfolio updated" : "Portfolio created",
         description: `The portfolio has been successfully ${isEdit ? 'updated' : 'created'}.`,
