@@ -1,5 +1,6 @@
 
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import PortfolioHero from '@/components/portfolio/PortfolioHero';
@@ -10,6 +11,7 @@ import { getPortfolioData } from '@/services/portfolioDataService';
 import { Service } from '@/data/projects';
 
 const Portfolio = () => {
+  const navigate = useNavigate();
   const [selectedService, setSelectedService] = useState<string | null>(null);
   const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
@@ -61,7 +63,8 @@ const Portfolio = () => {
   }, []);
 
   const handleProjectClick = (projectId: string) => {
-    window.location.href = `/case-study/${projectId}`;
+    // Use React Router navigation instead of window.location.href
+    navigate(`/case-study/${projectId}`);
   };
 
   const totalProjects = services.reduce((total, service) => total + service.projects.length, 0);

@@ -25,20 +25,26 @@ const CaseStudy = () => {
 
     const loadProject = async () => {
       try {
-        // Extract ID from slug for backwards compatibility
-        const projectId = extractIdFromSlug(slug);
+        console.log('CaseStudy - Loading project with slug:', slug);
         
-        // Try to get project summary for immediate render
-        const summary = await getProjectSummary(projectId);
-        if (!summary) {
-          setNotFound(true);
-          setIsLoading(false);
-          return;
+        // First try to find project by slug directly
+        let fullProject = await loadFullProject(slug);
+        
+        // If not found by slug, try to extract ID for backwards compatibility
+        if (!fullProject && slug.includes('-')) {
+          const projectId = extractIdFromSlug(slug);
+          console.log('CaseStudy - Trying with extracted ID:', projectId);
+          fullProject = await loadFullProject(projectId);
         }
-
-        // Load full project data
-        const fullProject = await loadFullProject(projectId);
+        
+        // If still not found, try just using the slug as an ID
+        if (!fullProject) {
+          console.log('CaseStudy - Trying slug as direct ID:', slug);
+          fullProject = await loadFullProject(slug);
+        }
+        
         if (fullProject) {
+          console.log('CaseStudy - Project found:', fullProject.title);
           setProject(fullProject);
           
           // Update URL to use SEO-friendly slug if user accessed via old ID
@@ -46,6 +52,7 @@ const CaseStudy = () => {
             window.history.replaceState(null, '', `/case-study/${fullProject.slug}`);
           }
         } else {
+          console.log('CaseStudy - Project not found for slug:', slug);
           setNotFound(true);
         }
         setIsLoading(false);

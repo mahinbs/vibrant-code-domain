@@ -79,71 +79,68 @@ const PortfolioProjectsGrid = ({
               </div>
 
               <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-8">
-                {service.projects.map((project) => (
-                  <div
-                    key={project.id}
-                    className={`group relative rounded-2xl bg-gray-900/80 backdrop-blur-sm border ${colors.border} hover:bg-gray-800/90 transition-all duration-500 overflow-hidden cursor-pointer hover:transform hover:scale-105 hover:shadow-2xl`}
-                    onClick={() => handleProjectClick(project.id)}
-                  >
-                    {/* Project Image */}
-                    <div className="relative h-48 overflow-hidden rounded-t-2xl">
-                      <img 
-                        src={project.image} 
-                        alt={project.title}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                      />
-                      <div className={`absolute inset-0 bg-gradient-to-t ${colors.gradient} opacity-60`}></div>
-                      <div className={`absolute top-4 left-4 w-10 h-10 rounded-lg ${colors.icon} border flex items-center justify-center`}>
-                        <service.icon className="h-5 w-5" />
-                      </div>
-                      <div className="absolute top-4 right-4">
-                        <span className={`px-2 py-1 rounded text-xs ${colors.tag} border`}>
-                          {project.industry}
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Project Content */}
-                    <div className="p-6">
-                      <div className="flex items-start justify-between mb-4">
-                        <div className="flex-1">
-                          <h3 className={`text-xl font-bold text-white mb-2 group-hover:${colors.text} transition-colors duration-300`}>
-                            {project.title}
-                          </h3>
-                          <p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300 text-sm leading-relaxed">
-                            {project.description}
-                          </p>
+                {service.projects.map((project) => {
+                  // Use slug if available, fallback to ID
+                  const projectSlug = project.slug || project.id;
+                  
+                  return (
+                    <Link
+                      key={project.id}
+                      to={`/case-study/${projectSlug}`}
+                      className={`group relative rounded-2xl bg-gray-900/80 backdrop-blur-sm border ${colors.border} hover:bg-gray-800/90 transition-all duration-500 overflow-hidden cursor-pointer hover:transform hover:scale-105 hover:shadow-2xl block`}
+                    >
+                      {/* Project Image */}
+                      <div className="relative h-48 overflow-hidden rounded-t-2xl">
+                        <img 
+                          src={project.image} 
+                          alt={project.title}
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        />
+                        <div className={`absolute inset-0 bg-gradient-to-t ${colors.gradient} opacity-60`}></div>
+                        <div className={`absolute top-4 left-4 w-10 h-10 rounded-lg ${colors.icon} border flex items-center justify-center`}>
+                          <service.icon className="h-5 w-5" />
                         </div>
-                        <Link 
-                          to={`/case-study/${project.id}`}
-                          className={`px-3 py-1 rounded-lg text-xs ${colors.tag} border font-medium hover:scale-105 transition-transform duration-200`}
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          View Study
-                        </Link>
-                      </div>
-
-                      {/* Quick Metrics */}
-                      <div className="flex flex-wrap gap-2 mb-4">
-                        {Object.entries(project.metrics).slice(0, 2).map(([key, value]) => (
-                          <span key={key} className={`px-3 py-1 rounded-full text-xs ${colors.tag} border`}>
-                            {key}: {String(value)}
+                        <div className="absolute top-4 right-4">
+                          <span className={`px-2 py-1 rounded text-xs ${colors.tag} border`}>
+                            {project.industry}
                           </span>
-                        ))}
+                        </div>
                       </div>
 
-                      {/* Action Button */}
-                      <Link 
-                        to={`/case-study/${project.id}`}
-                        className={`w-full flex items-center justify-center space-x-2 px-4 py-3 rounded-xl ${colors.button} border font-medium transition-all duration-300 hover:transform hover:scale-105 mt-4`}
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        <span>View Full Case Study</span>
-                        <ExternalLink className="h-4 w-4" />
-                      </Link>
-                    </div>
-                  </div>
-                ))}
+                      {/* Project Content */}
+                      <div className="p-6">
+                        <div className="flex items-start justify-between mb-4">
+                          <div className="flex-1">
+                            <h3 className={`text-xl font-bold text-white mb-2 group-hover:${colors.text} transition-colors duration-300`}>
+                              {project.title}
+                            </h3>
+                            <p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300 text-sm leading-relaxed">
+                              {project.description}
+                            </p>
+                          </div>
+                          <span className={`px-3 py-1 rounded-lg text-xs ${colors.tag} border font-medium`}>
+                            View Study
+                          </span>
+                        </div>
+
+                        {/* Quick Metrics */}
+                        <div className="flex flex-wrap gap-2 mb-4">
+                          {Object.entries(project.metrics).slice(0, 2).map(([key, value]) => (
+                            <span key={key} className={`px-3 py-1 rounded-full text-xs ${colors.tag} border`}>
+                              {key}: {String(value)}
+                            </span>
+                          ))}
+                        </div>
+
+                        {/* Action Button */}
+                        <div className={`w-full flex items-center justify-center space-x-2 px-4 py-3 rounded-xl ${colors.button} border font-medium transition-all duration-300 hover:transform hover:scale-105 mt-4`}>
+                          <span>View Full Case Study</span>
+                          <ExternalLink className="h-4 w-4" />
+                        </div>
+                      </div>
+                    </Link>
+                  );
+                })}
               </div>
             </div>
           );

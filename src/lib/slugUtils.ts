@@ -42,7 +42,7 @@ export const extractIdFromSlug = (slug: string): string => {
     return slug;
   }
   
-  // Extract the first part as the ID for new slugs
-  const parts = slug.split('-');
-  return parts[0];
+  // Try to find project by matching the slug directly first
+  // This is more reliable than extracting parts
+  return slug;
 };
