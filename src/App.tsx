@@ -44,9 +44,15 @@ const App = () => (
           {/* Public routes */}
           <Route path="/" element={<Index />} />
           <Route path="/portfolio" element={<Portfolio />} />
-          <Route path="/case-study/:id" element={<CaseStudy />} />
+          
+          {/* Case study routes - supports both slug-based and ID-based URLs */}
+          <Route path="/case-study/:slug" element={<CaseStudy />} />
+          
+          {/* Blog routes */}
           <Route path="/blogs" element={<BlogsPage />} />
+          {/* Blog post routes - supports both slug-based and ID-based URLs */}
           <Route path="/blog/:slug" element={<BlogPostPage />} />
+          
           <Route path="/web-apps" element={<WebAppsPage />} />
           <Route path="/mobile-apps" element={<MobileAppsPage />} />
           <Route path="/saas" element={<SaasPage />} />

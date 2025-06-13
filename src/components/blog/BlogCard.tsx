@@ -12,7 +12,7 @@ interface BlogCardProps {
 const BlogCard = ({ post, featured = false }: BlogCardProps) => {
   return (
     <Link 
-      to={`/blog/${post.id}`}
+      to={`/blog/${post.slug || post.id}`}
       className={`group block ${featured ? 'md:col-span-2' : ''}`}
     >
       <article className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-xl overflow-hidden hover:border-cyan-500/50 transition-all duration-300 hover:transform hover:scale-105">

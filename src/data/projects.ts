@@ -1,6 +1,6 @@
-
 export interface Project {
   id: string;
+  slug: string; // New SEO-friendly slug field
   title: string;
   client: string;
   description: string;
@@ -54,6 +54,7 @@ export const projectsData: Service[] = [
     projects: [
       {
         id: 'retailmax',
+        slug: 'retailmax-ecommerce-platform-react-nodejs-postgresql',
         title: 'RetailMax E-commerce Platform',
         client: 'RetailMax Inc.',
         description: 'Complete e-commerce solution with advanced inventory management and AI-powered recommendations.',
@@ -113,6 +114,7 @@ export const projectsData: Service[] = [
       },
       {
         id: 'medcare',
+        slug: 'medcare-healthcare-portal-telemedicine-react-firebase',
         title: 'MedCare Healthcare Portal',
         client: 'MedCare Systems',
         description: 'Patient management system with telemedicine capabilities and secure data handling.',
@@ -180,6 +182,7 @@ export const projectsData: Service[] = [
     projects: [
       {
         id: 'projectflow',
+        slug: 'projectflow-management-platform-saas-react-aws',
         title: 'ProjectFlow Management Platform',
         client: 'TechCorp Solutions',
         description: 'Enterprise project management with real-time collaboration and advanced analytics.',
@@ -247,6 +250,7 @@ export const projectsData: Service[] = [
     projects: [
       {
         id: 'leadgen',
+        slug: 'leadgen-ai-calling-system-openai-twilio-python',
         title: 'LeadGen AI System',
         client: 'SalesForce Pro',
         description: 'Intelligent lead generation system with natural conversation AI and CRM integration.',

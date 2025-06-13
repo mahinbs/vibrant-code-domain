@@ -1,6 +1,6 @@
-
 export interface BlogPost {
   id: string;
+  slug: string; // New SEO-friendly slug field
   title: string;
   excerpt: string;
   content: string;
@@ -30,6 +30,7 @@ export const blogCategories = [
 export const blogsData: BlogPost[] = [
   {
     id: "ai-revolution-web-development",
+    slug: "ai-revolution-web-development-machine-learning-automation-2024",
     title: "The AI Revolution: How Machine Learning is Transforming Web Development",
     excerpt: "Explore how artificial intelligence and machine learning are reshaping the landscape of web development, from automated coding to intelligent user experiences.",
     content: `
@@ -61,6 +62,7 @@ export const blogsData: BlogPost[] = [
   },
   {
     id: "progressive-web-apps-2024",
+    slug: "progressive-web-apps-mobile-first-development-pwa-2024",
     title: "Progressive Web Apps: The Future of Mobile-First Development",
     excerpt: "Discover why Progressive Web Apps are becoming the go-to solution for businesses looking to provide native app experiences without the app store complexity.",
     content: `
@@ -88,6 +90,7 @@ export const blogsData: BlogPost[] = [
   },
   {
     id: "saas-scaling-strategies",
+    slug: "saas-scaling-strategies-enterprise-solutions-architecture-microservices-2023",
     title: "Scaling SaaS Applications: Lessons from Building Enterprise Solutions",
     excerpt: "Learn the key strategies and architectural decisions that enable SaaS applications to scale from startup to enterprise level successfully.",
     content: `
@@ -115,6 +118,7 @@ export const blogsData: BlogPost[] = [
   },
   {
     id: "react-performance-optimization",
+    slug: "react-performance-optimization-techniques-memoization-hooks-2024",
     title: "React Performance Optimization: Advanced Techniques for 2024",
     excerpt: "Master the latest React performance optimization techniques to build lightning-fast applications that provide exceptional user experiences.",
     content: `
@@ -142,6 +146,7 @@ export const blogsData: BlogPost[] = [
   },
   {
     id: "cybersecurity-web-apps",
+    slug: "cybersecurity-web-applications-security-best-practices-owasp-2023",
     title: "Cybersecurity Best Practices for Modern Web Applications",
     excerpt: "Essential security measures every web application should implement to protect against common vulnerabilities and emerging threats.",
     content: `
@@ -169,6 +174,7 @@ export const blogsData: BlogPost[] = [
   },
   {
     id: "e-commerce-case-study",
+    slug: "ecommerce-case-study-headless-architecture-conversion-optimization-2023",
     title: "Case Study: Transforming E-commerce with Headless Architecture",
     excerpt: "How we helped a major retailer increase their conversion rate by 40% through a complete platform migration to headless commerce.",
     content: `

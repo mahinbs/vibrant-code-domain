@@ -83,7 +83,7 @@ const WebAppsPortfolio = () => {
                     </div>
                   </div>
                   <Link 
-                    to={`/case-study/${project.id}`}
+                    to={`/case-study/${project.slug || project.id}`}
                     className="inline-flex items-center text-cyan-400 hover:text-cyan-300 transition-colors text-sm font-medium"
                   >
                     View Case Study <ArrowRight className="ml-1 h-4 w-4" />

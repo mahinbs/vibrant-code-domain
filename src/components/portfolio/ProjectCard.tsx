@@ -1,9 +1,11 @@
+
 import { Link } from 'react-router-dom';
 import { preloadProject, preloadMultipleProjects } from '@/services/projectService';
 import { useEffect } from 'react';
 
 interface Project {
   id: string;
+  slug: string;
   title: string;
   description: string;
   image: string;
@@ -69,8 +71,9 @@ const ProjectCard = ({
   };
 
   const handleClick = () => {
-    // Immediate navigation without delay
-    handleProjectClick(project.id);
+    // Navigate using SEO-friendly slug
+    const slug = project.slug || project.id;
+    window.location.href = `/case-study/${slug}`;
   };
 
   return (
@@ -115,7 +118,7 @@ const ProjectCard = ({
             </p>
           </div>
           <Link 
-            to={`/case-study/${project.id}`}
+            to={`/case-study/${project.slug || project.id}`}
             className={`px-3 py-1 rounded-lg text-xs ${colors.tag} border font-medium hover:scale-105 transition-transform duration-200`}
             onClick={(e) => e.stopPropagation()}
           >
