@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 const ThankYouPage = () => {
   useEffect(() => {
     // Send GTM event for conversion tracking
-    if (window.dataLayer) {
+    if (typeof window !== 'undefined' && window.dataLayer) {
       window.dataLayer.push({
         event: 'form_submission_success',
         page_title: 'Thank You - Form Submitted Successfully',
