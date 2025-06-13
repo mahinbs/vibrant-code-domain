@@ -1,7 +1,9 @@
 import { Mail, Phone, MapPin, Github, Linkedin, Twitter } from 'lucide-react';
 import { Link } from 'react-router-dom';
+
 const Footer = () => {
-  return <footer className="bg-gray-900 text-white">
+  return (
+    <footer className="bg-gray-900 text-white">
       <div className="container mx-auto px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div>
@@ -32,7 +34,6 @@ const Footer = () => {
               <li><Link to="/mobile-apps" className="hover:text-white transition-colors duration-200">Mobile Apps</Link></li>
               <li><Link to="/ai-automation" className="hover:text-white transition-colors duration-200">AI Solutions</Link></li>
               <li><Link to="/saas" className="hover:text-white transition-colors duration-200">SaaS Development</Link></li>
-              
             </ul>
           </div>
 
@@ -40,10 +41,8 @@ const Footer = () => {
             <h3 className="text-lg font-semibold mb-4">Company</h3>
             <ul className="space-y-3 text-gray-400">
               <li><a href="#about" className="hover:text-white transition-colors duration-200">About Us</a></li>
-              
-              
               <li><Link to="/blogs" className="hover:text-white transition-colors duration-200">Blog</Link></li>
-              <li><a href="#" className="hover:text-white transition-colors duration-200">Privacy Policy</a></li>
+              <li><Link to="/privacy-policy" className="hover:text-white transition-colors duration-200">Privacy Policy</Link></li>
             </ul>
           </div>
 
@@ -58,7 +57,6 @@ const Footer = () => {
                 <Phone className="h-4 w-4 flex-shrink-0" />
                 <span>+919632953355</span>
               </div>
-              
             </div>
           </div>
         </div>
@@ -67,6 +65,8 @@ const Footer = () => {
           <p>© 2025 Boostmysites. All rights reserved. Built with passion for innovation.</p>
         </div>
       </div>
-    </footer>;
+    </footer>
+  );
 };
+
 export default Footer;
