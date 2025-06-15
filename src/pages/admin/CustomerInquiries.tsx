@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { DateRange } from 'react-day-picker';
 import { isWithinInterval, parseISO, startOfDay, endOfDay } from 'date-fns';
@@ -254,7 +253,7 @@ const CustomerInquiries = () => {
                           </div>
                         )}
                         <div className="flex items-center space-x-1">
-                          <Calendar className="h-4 w-4" />
+                          <CalendarIcon className="h-4 w-4" />
                           <span>{new Date(inquiry.created_at!).toLocaleDateString()}</span>
                         </div>
                       </div>
