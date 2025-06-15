@@ -56,6 +56,7 @@ export type Database = {
           budget_range: string
           company: string | null
           created_at: string
+          deleted_at: string | null
           email: string
           first_name: string
           id: string
@@ -72,6 +73,7 @@ export type Database = {
           budget_range: string
           company?: string | null
           created_at?: string
+          deleted_at?: string | null
           email: string
           first_name: string
           id?: string
@@ -88,6 +90,7 @@ export type Database = {
           budget_range?: string
           company?: string | null
           created_at?: string
+          deleted_at?: string | null
           email?: string
           first_name?: string
           id?: string
@@ -101,6 +104,38 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      inquiry_audit_trails: {
+        Row: {
+          action: string
+          created_at: string
+          details: Json | null
+          id: string
+          inquiry_id: string
+        }
+        Insert: {
+          action: string
+          created_at?: string
+          details?: Json | null
+          id?: string
+          inquiry_id: string
+        }
+        Update: {
+          action?: string
+          created_at?: string
+          details?: Json | null
+          id?: string
+          inquiry_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "inquiry_audit_trails_inquiry_id_fkey"
+            columns: ["inquiry_id"]
+            isOneToOne: false
+            referencedRelation: "customer_inquiries"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       portfolios: {
         Row: {

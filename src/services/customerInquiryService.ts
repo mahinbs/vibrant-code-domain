@@ -1,4 +1,3 @@
-
 import { supabase } from '@/integrations/supabase/client';
 
 export interface CustomerInquiry {
@@ -16,10 +15,11 @@ export interface CustomerInquiry {
   status?: string;
   created_at?: string;
   updated_at?: string;
+  deleted_at?: string | null;
 }
 
 export const customerInquiryService = {
-  async submitInquiry(inquiry: Omit<CustomerInquiry, 'id' | 'created_at' | 'updated_at' | 'status'>) {
+  async submitInquiry(inquiry: Omit<CustomerInquiry, 'id' | 'created_at' | 'updated_at' | 'status' | 'deleted_at'>) {
     console.log('Submitting customer inquiry to Supabase:', inquiry);
     
     const { data, error } = await supabase
@@ -40,10 +40,26 @@ export const customerInquiryService = {
     const { data, error } = await supabase
       .from('customer_inquiries')
       .select('*')
+      .is('deleted_at', null)
       .order('created_at', { ascending: false });
 
     if (error) {
       console.error('Error fetching inquiries:', error);
+      throw error;
+    }
+
+    return data || [];
+  },
+  
+  async getDeletedInquiries() {
+    const { data, error } = await supabase
+      .from('customer_inquiries')
+      .select('*')
+      .not('deleted_at', 'is', null)
+      .order('deleted_at', { ascending: false });
+
+    if (error) {
+      console.error('Error fetching deleted inquiries:', error);
       throw error;
     }
 
@@ -66,7 +82,39 @@ export const customerInquiryService = {
     return data;
   },
 
-  async deleteInquiry(id: string) {
+  async deleteInquiry(id: string) { // Soft delete
+    const { data, error } = await supabase
+      .from('customer_inquiries')
+      .update({ deleted_at: new Date().toISOString() })
+      .eq('id', id)
+      .select()
+      .single();
+
+    if (error) {
+      console.error('Error soft deleting inquiry:', error);
+      throw error;
+    }
+
+    return data;
+  },
+  
+  async restoreInquiry(id: string) {
+    const { data, error } = await supabase
+      .from('customer_inquiries')
+      .update({ deleted_at: null })
+      .eq('id', id)
+      .select()
+      .single();
+
+    if (error) {
+      console.error('Error restoring inquiry:', error);
+      throw error;
+    }
+
+    return data;
+  },
+
+  async hardDeleteInquiry(id: string) { // Permanent delete
     const { error } = await supabase
       .from('customer_inquiries')
       .delete()

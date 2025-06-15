@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Trash2, Mail, Phone, Building, Calendar as CalendarIcon, DollarSign, Clock, MessageSquare, Filter, Search, ArrowLeft, Home } from 'lucide-react';
+import { Trash2, Mail, Phone, Building, Calendar as CalendarIcon, DollarSign, Clock, MessageSquare, Filter, Search, ArrowLeft, Home, RotateCcw } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Link } from 'react-router-dom';
 import AdminLayout from '@/components/admin/AdminLayout';
@@ -19,6 +19,8 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
 import { DateRangePicker } from '@/components/admin/DateRangePicker';
+import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/ui/label';
 
 const CustomerInquiries = () => {
   const [inquiries, setInquiries] = useState<CustomerInquiry[]>([]);
@@ -26,10 +28,15 @@ const CustomerInquiries = () => {
   const [filter, setFilter] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [dateRange, setDateRange] = useState<DateRange | undefined>();
+  const [showDeleted, setShowDeleted] = useState(false);
 
   useEffect(() => {
-    loadInquiries();
-  }, []);
+    if (showDeleted) {
+      loadDeletedInquiries();
+    } else {
+      loadInquiries();
+    }
+  }, [showDeleted]);
 
   const loadInquiries = async () => {
     try {
@@ -38,6 +45,18 @@ const CustomerInquiries = () => {
       setInquiries(data);
     } catch (error) {
       console.error('Error loading inquiries:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const loadDeletedInquiries = async () => {
+    try {
+      setLoading(true);
+      const data = await customerInquiryService.getDeletedInquiries();
+      setInquiries(data);
+    } catch (error) {
+      console.error('Error loading deleted inquiries:', error);
     } finally {
       setLoading(false);
     }
@@ -53,12 +72,32 @@ const CustomerInquiries = () => {
   };
 
   const deleteInquiry = async (id: string) => {
-    if (window.confirm('Are you sure you want to delete this inquiry?')) {
+    if (window.confirm('Are you sure you want to move this inquiry to trash?')) {
       try {
         await customerInquiryService.deleteInquiry(id);
         await loadInquiries(); // Reload the list
       } catch (error) {
         console.error('Error deleting inquiry:', error);
+      }
+    }
+  };
+
+  const restoreInquiry = async (id: string) => {
+    try {
+      await customerInquiryService.restoreInquiry(id);
+      await loadDeletedInquiries(); // Reload deleted list
+    } catch (error) {
+      console.error('Error restoring inquiry:', error);
+    }
+  };
+  
+  const hardDeleteInquiry = async (id: string) => {
+    if (window.confirm('Are you sure you want to PERMANENTLY delete this inquiry? This action cannot be undone.')) {
+      try {
+        await customerInquiryService.hardDeleteInquiry(id);
+        await loadDeletedInquiries(); // Reload deleted list
+      } catch (error) {
+        console.error('Error permanently deleting inquiry:', error);
       }
     }
   };
@@ -147,7 +186,7 @@ const CustomerInquiries = () => {
             </div>
           </div>
           <Button 
-            onClick={loadInquiries}
+            onClick={showDeleted ? loadDeletedInquiries : loadInquiries}
             className="bg-cyan-500 hover:bg-cyan-600"
           >
             Refresh
@@ -221,6 +260,14 @@ const CustomerInquiries = () => {
               className="bg-gray-800 border-gray-600 text-white"
             />
           </div>
+          <div className="flex items-center space-x-2 ml-auto">
+            <Label htmlFor="show-deleted" className="text-gray-400">Show Deleted</Label>
+            <Switch
+              id="show-deleted"
+              checked={showDeleted}
+              onCheckedChange={setShowDeleted}
+            />
+          </div>
         </div>
 
         {/* Inquiries List */}
@@ -259,31 +306,56 @@ const CustomerInquiries = () => {
                       </div>
                     </div>
                     <div className="flex items-center space-x-2">
-                      <Badge className={`${getStatusBadgeColor(inquiry.status!)} text-white`}>
-                        {inquiry.status?.replace('_', ' ').toUpperCase()}
-                      </Badge>
-                      <Select
-                        value={inquiry.status}
-                        onValueChange={(value) => updateStatus(inquiry.id!, value)}
-                      >
-                        <SelectTrigger className="w-36 bg-gray-700 border-gray-600 text-white text-xs">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent className="bg-gray-800 border-gray-600">
-                          <SelectItem value="new">New</SelectItem>
-                          <SelectItem value="in_progress">In Progress</SelectItem>
-                          <SelectItem value="contacted">Contacted</SelectItem>
-                          <SelectItem value="converted">Converted</SelectItem>
-                          <SelectItem value="closed">Closed</SelectItem>
-                        </SelectContent>
-                      </Select>
-                      <Button
-                        variant="destructive"
-                        size="sm"
-                        onClick={() => deleteInquiry(inquiry.id!)}
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
+                      {showDeleted ? (
+                        <>
+                          <Badge variant="destructive">DELETED</Badge>
+                          <Button
+                           variant="outline"
+                           size="sm"
+                           onClick={() => restoreInquiry(inquiry.id!)}
+                           className="text-white border-green-500 hover:bg-green-600"
+                          >
+                           <RotateCcw className="h-4 w-4 mr-2" />
+                            Restore
+                          </Button>
+                          <Button
+                           variant="destructive"
+                           size="sm"
+                           onClick={() => hardDeleteInquiry(inquiry.id!)}
+                          >
+                           <Trash2 className="h-4 w-4 mr-2" />
+                           Delete Permanently
+                          </Button>
+                        </>
+                      ) : (
+                        <>
+                          <Badge className={`${getStatusBadgeColor(inquiry.status!)} text-white`}>
+                            {inquiry.status?.replace('_', ' ').toUpperCase()}
+                          </Badge>
+                          <Select
+                            value={inquiry.status}
+                            onValueChange={(value) => updateStatus(inquiry.id!, value)}
+                          >
+                            <SelectTrigger className="w-36 bg-gray-700 border-gray-600 text-white text-xs">
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent className="bg-gray-800 border-gray-600">
+                              <SelectItem value="new">New</SelectItem>
+                              <SelectItem value="in_progress">In Progress</SelectItem>
+                              <SelectItem value="contacted">Contacted</SelectItem>
+                              <SelectItem value="converted">Converted</SelectItem>
+                              <SelectItem value="closed">Closed</SelectItem>
+                            </SelectContent>
+                          </Select>
+                          <Button
+                            variant="destructive"
+                            size="sm"
+                            onClick={() => deleteInquiry(inquiry.id!)}
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </>
+                      )}
                     </div>
                   </div>
                 </CardHeader>
@@ -318,6 +390,9 @@ const CustomerInquiries = () => {
                     <span className="text-sm text-gray-400">
                       Source: {inquiry.source_page} | 
                       Created: {new Date(inquiry.created_at!).toLocaleString()}
+                      {showDeleted && inquiry.deleted_at && (
+                        <> | Deleted: {new Date(inquiry.deleted_at).toLocaleString()}</>
+                      )}
                     </span>
                     <div className="flex space-x-2">
                       <Button
