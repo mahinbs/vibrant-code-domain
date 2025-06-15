@@ -1,10 +1,13 @@
+
 import { useState, useEffect } from 'react';
+import { DateRange } from 'react-day-picker';
+import { isWithinInterval, parseISO, startOfDay, endOfDay } from 'date-fns';
 import { customerInquiryService, CustomerInquiry } from '@/services/customerInquiryService';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Trash2, Mail, Phone, Building, Calendar, DollarSign, Clock, MessageSquare, Filter, Search, ArrowLeft, Home } from 'lucide-react';
+import { Trash2, Mail, Phone, Building, Calendar as CalendarIcon, DollarSign, Clock, MessageSquare, Filter, Search, ArrowLeft, Home } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Link } from 'react-router-dom';
 import AdminLayout from '@/components/admin/AdminLayout';
@@ -16,12 +19,14 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
+import { DateRangePicker } from '@/components/admin/DateRangePicker';
 
 const CustomerInquiries = () => {
   const [inquiries, setInquiries] = useState<CustomerInquiry[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
+  const [dateRange, setDateRange] = useState<DateRange | undefined>();
 
   useEffect(() => {
     loadInquiries();
@@ -79,14 +84,21 @@ const CustomerInquiries = () => {
       inquiry.company?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       inquiry.service_interest.toLowerCase().includes(searchTerm.toLowerCase());
     
-    return matchesFilter && matchesSearch;
+    let matchesDate = true;
+    if (dateRange?.from) {
+      const start = startOfDay(dateRange.from);
+      const end = endOfDay(dateRange.to || dateRange.from);
+      matchesDate = inquiry.created_at ? isWithinInterval(parseISO(inquiry.created_at), { start, end }) : false;
+    }
+
+    return matchesFilter && matchesSearch && matchesDate;
   });
 
   const inquiryStats = {
-    total: inquiries.length,
-    new: inquiries.filter(i => i.status === 'new').length,
-    in_progress: inquiries.filter(i => i.status === 'in_progress').length,
-    converted: inquiries.filter(i => i.status === 'converted').length,
+    total: filteredInquiries.length,
+    new: filteredInquiries.filter(i => i.status === 'new').length,
+    in_progress: filteredInquiries.filter(i => i.status === 'in_progress').length,
+    converted: filteredInquiries.filter(i => i.status === 'converted').length,
   };
 
   if (loading) {
@@ -180,7 +192,7 @@ const CustomerInquiries = () => {
         </div>
 
         {/* Filters */}
-        <div className="flex gap-4 items-center">
+        <div className="flex flex-wrap gap-4 items-center">
           <div className="flex items-center space-x-2">
             <Filter className="h-4 w-4 text-gray-400" />
             <Select value={filter} onValueChange={setFilter}>
@@ -197,7 +209,11 @@ const CustomerInquiries = () => {
               </SelectContent>
             </Select>
           </div>
-          <div className="flex items-center space-x-2 flex-1 max-w-md">
+          <div className="flex items-center space-x-2">
+            <CalendarIcon className="h-4 w-4 text-gray-400" />
+            <DateRangePicker date={dateRange} onDateChange={setDateRange} />
+          </div>
+          <div className="flex items-center space-x-2 flex-1 min-w-[250px]">
             <Search className="h-4 w-4 text-gray-400" />
             <Input
               placeholder="Search inquiries..."
