@@ -20,7 +20,7 @@ export interface CustomerInquiry {
 
 export const customerInquiryService = {
   async submitInquiry(inquiry: Omit<CustomerInquiry, 'id' | 'created_at' | 'updated_at' | 'status'>) {
-    console.log('Submitting customer inquiry:', inquiry);
+    console.log('Submitting customer inquiry to Supabase:', inquiry);
     
     const { data, error } = await supabase
       .from('customer_inquiries')
@@ -28,11 +28,11 @@ export const customerInquiryService = {
       .select();
 
     if (error) {
-      console.error('Error submitting inquiry:', error);
-      throw new Error('Failed to submit inquiry. Please try again.');
+      console.error('Error submitting inquiry to Supabase:', error);
+      throw new Error(`Failed to submit inquiry. Supabase error: ${error.message}`);
     }
 
-    console.log('Inquiry submitted successfully:', data);
+    console.log('Inquiry submitted successfully to Supabase:', data);
     return data[0];
   },
 

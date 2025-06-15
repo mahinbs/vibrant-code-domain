@@ -36,6 +36,7 @@ const CustomerInquiryForm = ({ sourcePage = 'contact', onSuccess, className = ''
   });
 
   const onSubmit = async (data: FormData) => {
+    console.log('CustomerInquiryForm: onSubmit triggered with data:', data);
     setIsSubmitting(true);
     
     try {
@@ -52,7 +53,9 @@ const CustomerInquiryForm = ({ sourcePage = 'contact', onSuccess, className = ''
         source_page: sourcePage,
       };
       
+      console.log('CustomerInquiryForm: Calling customerInquiryService.submitInquiry with:', inquiryData);
       await customerInquiryService.submitInquiry(inquiryData);
+      console.log('CustomerInquiryForm: Inquiry submission successful.');
       
       toast({
         title: "Success!",
@@ -60,22 +63,25 @@ const CustomerInquiryForm = ({ sourcePage = 'contact', onSuccess, className = ''
       });
       
       if (onSuccess) {
+        console.log('CustomerInquiryForm: Calling onSuccess callback.');
         onSuccess();
       }
       
       // Redirect to thank you page after a brief delay
       setTimeout(() => {
+        console.log('CustomerInquiryForm: Navigating to /thank-you');
         navigate('/thank-you');
       }, 1000);
       
     } catch (error) {
-      console.error('Error submitting form:', error);
+      console.error('CustomerInquiryForm: Error in onSubmit:', error);
       toast({
         title: "Submission Failed",
         description: "There was an error submitting your inquiry. Please try again.",
         variant: "destructive",
       });
     } finally {
+      console.log('CustomerInquiryForm: Setting isSubmitting to false.');
       setIsSubmitting(false);
     }
   };
