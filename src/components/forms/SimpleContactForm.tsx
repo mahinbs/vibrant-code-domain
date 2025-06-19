@@ -10,7 +10,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { customerInquiryService } from '@/services/customerInquiryService';
 import { useToast } from '@/hooks/use-toast';
-import { Mail, User, Phone, MessageSquare } from 'lucide-react';
+import { Mail, User, Phone, MessageSquare, AlertCircle } from 'lucide-react';
 
 const simpleFormSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
@@ -29,6 +29,7 @@ interface SimpleContactFormProps {
 
 const SimpleContactForm = ({ sourcePage = 'home-simple', onSuccess, className = '' }: SimpleContactFormProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -43,8 +44,9 @@ const SimpleContactForm = ({ sourcePage = 'home-simple', onSuccess, className = 
   });
 
   const onSubmit = async (data: SimpleFormData) => {
-    console.log('SimpleContactForm: onSubmit triggered with data:', data);
+    console.log('SimpleContactForm: Starting submission process with data:', data);
     setIsSubmitting(true);
+    setSubmitError(null);
     
     try {
       // Split name into first and last name (simple approach)
@@ -65,17 +67,18 @@ const SimpleContactForm = ({ sourcePage = 'home-simple', onSuccess, className = 
         source_page: sourcePage,
       };
       
-      console.log('SimpleContactForm: Calling customerInquiryService.submitInquiry with:', inquiryData);
-      await customerInquiryService.submitInquiry(inquiryData);
-      console.log('SimpleContactForm: Inquiry submission successful.');
+      console.log('SimpleContactForm: Calling customerInquiryService.submitInquiry with payload:', inquiryData);
+      
+      const result = await customerInquiryService.submitInquiry(inquiryData);
+      console.log('SimpleContactForm: Inquiry submission successful, result:', result);
       
       toast({
-        title: "Message Sent!",
+        title: "Message Sent Successfully! 🎉",
         description: "Thanks for reaching out! We'll get back to you within 24 hours.",
       });
       
       if (onSuccess) {
-        console.log('SimpleContactForm: Calling onSuccess callback.');
+        console.log('SimpleContactForm: Calling onSuccess callback');
         onSuccess();
       }
       
@@ -86,17 +89,36 @@ const SimpleContactForm = ({ sourcePage = 'home-simple', onSuccess, className = 
       setTimeout(() => {
         console.log('SimpleContactForm: Navigating to /thank-you');
         navigate('/thank-you');
-      }, 1000);
+      }, 1500);
       
     } catch (error) {
-      console.error('SimpleContactForm: Error in onSubmit:', error);
+      console.error('SimpleContactForm: Full error details:', error);
+      
+      let errorMessage = 'There was an error sending your message. Please try again.';
+      
+      // Check for specific error types
+      if (error instanceof Error) {
+        console.error('SimpleContactForm: Error message:', error.message);
+        console.error('SimpleContactForm: Error stack:', error.stack);
+        
+        if (error.message.includes('Failed to fetch')) {
+          errorMessage = 'Network connection issue. Please check your internet connection and try again.';
+        } else if (error.message.includes('Unauthorized')) {
+          errorMessage = 'Authorization error. Please refresh the page and try again.';
+        } else if (error.message.includes('Forbidden')) {
+          errorMessage = 'Access denied. Please contact support if this persists.';
+        }
+      }
+      
+      setSubmitError(errorMessage);
+      
       toast({
         title: "Submission Failed",
-        description: "There was an error sending your message. Please try again.",
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {
-      console.log('SimpleContactForm: Setting isSubmitting to false.');
+      console.log('SimpleContactForm: Setting isSubmitting to false');
       setIsSubmitting(false);
     }
   };
@@ -105,6 +127,13 @@ const SimpleContactForm = ({ sourcePage = 'home-simple', onSuccess, className = 
     <div className={`max-w-lg mx-auto ${className}`}>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          {submitError && (
+            <div className="flex items-center space-x-2 p-4 bg-red-900/20 border border-red-600 rounded-lg">
+              <AlertCircle className="h-5 w-5 text-red-400" />
+              <p className="text-red-300 text-sm">{submitError}</p>
+            </div>
+          )}
+
           <FormField
             control={form.control}
             name="name"

@@ -20,20 +20,55 @@ export interface CustomerInquiry {
 
 export const customerInquiryService = {
   async submitInquiry(inquiry: Omit<CustomerInquiry, 'id' | 'created_at' | 'updated_at' | 'status' | 'deleted_at'>) {
-    console.log('Submitting customer inquiry to Supabase:', inquiry);
+    console.log('CustomerInquiryService: Starting submission to Supabase with data:', inquiry);
     
-    const { data, error } = await supabase
-      .from('customer_inquiries')
-      .insert([inquiry])
-      .select();
+    try {
+      // Test connection first
+      console.log('CustomerInquiryService: Testing Supabase connection...');
+      
+      const { data, error } = await supabase
+        .from('customer_inquiries')
+        .insert([inquiry])
+        .select();
 
-    if (error) {
-      console.error('Error submitting inquiry to Supabase:', error);
-      throw new Error(`Failed to submit inquiry. Supabase error: ${error.message}`);
+      if (error) {
+        console.error('CustomerInquiryService: Supabase error details:', {
+          message: error.message,
+          details: error.details,
+          hint: error.hint,
+          code: error.code
+        });
+        
+        // Provide more specific error messages
+        if (error.code === '42501') {
+          throw new Error('Database permission denied. Please try again or contact support.');
+        } else if (error.code === '23505') {
+          throw new Error('A submission with this information already exists.');
+        } else if (error.message.includes('RLS')) {
+          throw new Error('Database security policy error. Please contact support.');
+        }
+        
+        throw new Error(`Failed to submit inquiry: ${error.message}`);
+      }
+
+      if (!data || data.length === 0) {
+        console.error('CustomerInquiryService: No data returned from insert operation');
+        throw new Error('No data returned from submission. Please try again.');
+      }
+
+      console.log('CustomerInquiryService: Submission successful, returned data:', data[0]);
+      return data[0];
+      
+    } catch (error) {
+      console.error('CustomerInquiryService: Caught error during submission:', error);
+      
+      // Re-throw with better context
+      if (error instanceof Error) {
+        throw error;
+      } else {
+        throw new Error('An unexpected error occurred during submission. Please try again.');
+      }
     }
-
-    console.log('Inquiry submitted successfully to Supabase:', data);
-    return data[0];
   },
 
   async getInquiries() {
