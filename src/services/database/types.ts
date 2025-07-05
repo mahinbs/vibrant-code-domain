@@ -13,6 +13,8 @@ export interface DatabaseProject {
   detailedMetrics: Array<{ label: string; value: string; description: string; }>;
   gallery: string[];
   extendedTestimonial: { quote: string; author: string; position: string; company: string; };
+  timeline?: string;
+  team?: string;
 }
 
 export interface DatabaseBlogPost {

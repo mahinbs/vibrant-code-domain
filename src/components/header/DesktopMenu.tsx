@@ -22,7 +22,7 @@ const DesktopMenu = ({ menuItems, isActive, isHomePage, onSmoothScroll }: Deskto
         />
       ))}
       <button className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-4 py-2 rounded-lg hover:from-cyan-400 hover:to-blue-500 transition-all duration-300 font-medium shadow-lg hover:shadow-cyan-500/25 transform hover:scale-105 text-sm xl:text-base">
-        Neural Access
+        Boostmysites
       </button>
     </div>
   );

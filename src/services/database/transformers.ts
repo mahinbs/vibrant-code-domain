@@ -5,6 +5,14 @@ import { generateProjectSlug, generateBlogSlug } from '@/lib/slugUtils';
 
 // Transform database row to Project type
 export const transformDbProjectToProject = (dbProject: any): Project => {
+  // Create techStack from technologies if it doesn't exist
+  const techStack = dbProject.techStack || [
+    { 
+      category: 'Technologies', 
+      technologies: dbProject.technologies || [] 
+    }
+  ];
+  
   const baseProject = {
     id: dbProject.id,
     title: dbProject.title,
@@ -21,14 +29,14 @@ export const transformDbProjectToProject = (dbProject: any): Project => {
     extendedTestimonial: dbProject.extended_testimonial || { quote: '', author: '', position: '', company: '' },
     // Add default values for required Project fields that don't exist in DB
     metrics: {},
-    timeline: '',
-    team: '',
-    industry: '',
-    clientLogo: '',
+    timeline: dbProject.timeline || '',
+    team: dbProject.team || '',
+    industry: dbProject.industry || '',
+    clientLogo: dbProject.clientLogo || '',
     testimonial: dbProject.extended_testimonial?.quote || '',
-    approach: [],
-    techStack: [],
-    features: []
+    approach: dbProject.approach || [],
+    techStack: techStack,
+    features: dbProject.features || []
   };
 
   // Generate slug if not present in database

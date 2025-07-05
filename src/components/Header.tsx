@@ -135,7 +135,7 @@ const Header = memo(() => {
           <div className="flex justify-between items-center">
             {/* Logo */}
             <Link to="/" className="flex items-center z-50 relative">
-              <img src={logo} alt="Boostmysites Logo" loading="lazy" className="h-[2rem] transition-transform duration-300 filter drop-shadow-lg object-cover" />
+              <img src={logo} alt="Boostmysites Logo" loading="lazy" className="w-[7rem] transition-transform duration-300 filter drop-shadow-lg object-cover" />
             </Link>
 
             {/* Desktop Menu */}
@@ -211,7 +211,7 @@ const Header = memo(() => {
 
               <div className="pt-4">
                 <button className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-6 py-3 rounded-lg hover:from-cyan-400 hover:to-blue-500 transition-all duration-300 font-medium text-lg touch-manipulation">
-                  Neural Access
+                  Boostmysites
                 </button>
               </div>
             </div>
