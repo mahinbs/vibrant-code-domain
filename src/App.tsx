@@ -1,10 +1,10 @@
 
-import React from "react";
+import React, { useEffect } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import FloatingWhatsAppButton from "@/components/ui/FloatingWhatsAppButton";
 import Index from "./pages/Index";
 import Portfolio from "./pages/Portfolio";
@@ -35,12 +35,28 @@ import ProtectedRoute from "./components/admin/ProtectedRoute";
 
 const queryClient = new QueryClient();
 
+// Google Analytics tracker component
+const GoogleAnalyticsTracker = () => {
+  const location = useLocation();
+  
+  useEffect(() => {
+    if (typeof window.gtag === 'function') {
+      window.gtag('config', 'AW-10794572231', {
+        page_path: location.pathname + location.search
+      });
+    }
+  }, [location]);
+  
+  return null;
+};
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <GoogleAnalyticsTracker />
         <Routes>
           {/* Public routes */}
           <Route path="/" element={<Index />} />
