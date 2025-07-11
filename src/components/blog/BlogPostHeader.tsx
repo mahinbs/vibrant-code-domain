@@ -39,11 +39,11 @@ const BlogPostHeader = ({ post }: BlogPostHeaderProps) => {
           <div className="flex items-center gap-6 text-gray-400">
             <div className="flex items-center gap-2">
               <Calendar className="h-4 w-4" />
-              <span>{new Date(post.publishedDate).toLocaleDateString()}</span>
+              <span>{new Date(post.publishedDate || post.published_date || '').toLocaleDateString()}</span>
             </div>
             <div className="flex items-center gap-2">
               <Clock className="h-4 w-4" />
-              <span>{post.readingTime} min read</span>
+              <span>{post.readingTime || post.reading_time || 0} min read</span>
             </div>
           </div>
           

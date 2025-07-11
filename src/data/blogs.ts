@@ -9,11 +9,15 @@ export interface BlogPost {
     avatar: string;
     bio: string;
   };
-  publishedDate: string;
+  // Support both naming conventions
+  publishedDate?: string;
+  published_date?: string;
   category: string;
   featuredImage: string;
   tags: string[];
-  readingTime: number;
+  // Support both naming conventions
+  readingTime?: number;
+  reading_time?: number;
   featured?: boolean;
 }
 

@@ -27,17 +27,41 @@ const BlogPostPage = () => {
         setBlogs(blogsData);
         
         if (slug) {
+          console.log('BlogPostPage - Looking for blog with slug:', slug);
+          
           // Extract ID from slug for backwards compatibility
           const blogId = extractIdFromSlug(slug);
-          const foundPost = await findBlog(blogId);
+          console.log('BlogPostPage - Extracted ID:', blogId);
+          
+          // First try to find by slug directly
+          let foundPost = blogsData.find(blog => blog.slug === slug);
+          
+          // If not found by slug, try by ID
+          if (!foundPost) {
+            console.log('BlogPostPage - Blog not found by slug, trying by ID');
+            foundPost = await findBlog(blogId);
+          }
           
           if (foundPost) {
-            setPost(foundPost);
+            console.log('BlogPostPage - Found blog:', foundPost);
+            
+            // Normalize the blog post data to handle different field names
+            const normalizedPost = {
+              ...foundPost,
+              // Ensure publishedDate exists
+              publishedDate: foundPost.publishedDate || foundPost.published_date,
+              // Ensure readingTime exists
+              readingTime: foundPost.readingTime || foundPost.reading_time
+            };
+            
+            setPost(normalizedPost);
             
             // Update URL to use SEO-friendly slug if user accessed via old ID
-            if (foundPost.slug && slug !== foundPost.slug && !slug.includes('-')) {
-              window.history.replaceState(null, '', `/blog/${foundPost.slug}`);
+            if (normalizedPost.slug && slug !== normalizedPost.slug && !slug.includes('-')) {
+              window.history.replaceState(null, '', `/blog/${normalizedPost.slug}`);
             }
+          } else {
+            console.log('BlogPostPage - Blog not found');
           }
         }
       } catch (error) {
