@@ -60,6 +60,7 @@ const App = () => (
         <Routes>
           {/* Public routes */}
           <Route path="/" element={<Index />} />
+          <Route path="/h1" element={<Index />} />
           <Route path="/portfolio" element={<Portfolio />} />
           
           {/* Case study routes - supports both slug-based and ID-based URLs */}
