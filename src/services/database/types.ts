@@ -15,6 +15,7 @@ export interface DatabaseProject {
   extendedTestimonial: { quote: string; author: string; position: string; company: string; };
   timeline?: string;
   team?: string;
+  industry?: string; // Added industry field
 }
 
 export interface DatabaseBlogPost {

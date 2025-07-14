@@ -48,7 +48,8 @@ export const projectService = {
             gallery: project.gallery,
             extended_testimonial: project.extendedTestimonial,
             timeline: project.timeline,
-            team: project.team
+            team: project.team,
+            industry: project.industry // Added industry field
           })
           .eq('id', project.id)
           .select()
@@ -75,7 +76,8 @@ export const projectService = {
             gallery: project.gallery,
             extended_testimonial: project.extendedTestimonial,
             timeline: project.timeline,
-            team: project.team
+            team: project.team,
+            industry: project.industry // Added industry field
           })
           .select()
           .single();
