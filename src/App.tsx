@@ -31,6 +31,7 @@ import CaseStudyList from "./pages/admin/CaseStudyList";
 import BlogForm from "./pages/admin/BlogForm";
 import BlogList from "./pages/admin/BlogList";
 import CustomerInquiries from "./pages/admin/CustomerInquiries";
+import { LinkGenerator } from "./pages/admin/LinkGenerator";
 import ProtectedRoute from "./components/admin/ProtectedRoute";
 
 const queryClient = new QueryClient();
@@ -92,6 +93,7 @@ const App = () => (
           <Route path="/admin/blogs" element={<ProtectedRoute><BlogList /></ProtectedRoute>} />
           <Route path="/admin/blogs/new" element={<ProtectedRoute><BlogForm /></ProtectedRoute>} />
           <Route path="/admin/blogs/edit/:id" element={<ProtectedRoute><BlogForm /></ProtectedRoute>} />
+          <Route path="/admin/link-generator" element={<ProtectedRoute><LinkGenerator /></ProtectedRoute>} />
           
           {/* 404 page */}
           <Route path="*" element={<NotFound />} />
