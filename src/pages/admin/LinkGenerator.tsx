@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Plus } from 'lucide-react';
+import { Plus, ArrowLeft } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import AdminLayout from '@/components/admin/AdminLayout';
 import { SalespersonForm } from '@/components/admin/salesperson/SalespersonForm';
 import { SalespersonList } from '@/components/admin/salesperson/SalespersonList';
 import { SalespersonLink, salespersonLinkService } from '@/services/salespersonLinkService';
@@ -52,28 +54,45 @@ export const LinkGenerator = () => {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-48">
-        <p>Loading...</p>
-      </div>
+      <AdminLayout>
+        <div className="flex items-center justify-center h-48">
+          <p className="text-cyan-400">Loading...</p>
+        </div>
+      </AdminLayout>
     );
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold">Link Generator</h1>
-          <p className="text-muted-foreground">
-            Generate personalized service links for your sales team
-          </p>
+    <AdminLayout>
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <div className="flex items-center gap-4 mb-2">
+              <Link 
+                to="/admin" 
+                className="flex items-center text-gray-400 hover:text-cyan-400 transition-colors"
+              >
+                <ArrowLeft className="h-4 w-4 mr-1" />
+                Back to Dashboard
+              </Link>
+            </div>
+            <h1 className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+              Link Generator
+            </h1>
+            <p className="text-gray-400 mt-1">
+              Generate personalized service links for your sales team
+            </p>
+          </div>
+          {!showForm && (
+            <Button 
+              onClick={handleAdd}
+              className="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-medium shadow-lg transition-all duration-200"
+            >
+              <Plus className="h-4 w-4 mr-2" />
+              Add Salesperson
+            </Button>
+          )}
         </div>
-        {!showForm && (
-          <Button onClick={handleAdd}>
-            <Plus className="h-4 w-4 mr-2" />
-            Add Salesperson
-          </Button>
-        )}
-      </div>
 
       {showForm ? (
         <SalespersonForm
@@ -107,6 +126,7 @@ export const LinkGenerator = () => {
           />
         </>
       )}
-    </div>
+      </div>
+    </AdminLayout>
   );
 };
