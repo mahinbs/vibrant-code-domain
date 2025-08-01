@@ -21,6 +21,7 @@ import ContactPage from "./pages/ContactPage";
 import ThankYouPage from "./pages/ThankYouPage";
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 import NotFound from "./pages/NotFound";
+import SalespersonServicePage from "./pages/SalespersonServicePage";
 
 // Admin pages
 import AdminLogin from "./pages/admin/AdminLogin";
@@ -94,6 +95,9 @@ const App = () => (
           <Route path="/admin/blogs/new" element={<ProtectedRoute><BlogForm /></ProtectedRoute>} />
           <Route path="/admin/blogs/edit/:id" element={<ProtectedRoute><BlogForm /></ProtectedRoute>} />
           <Route path="/admin/link-generator" element={<ProtectedRoute><LinkGenerator /></ProtectedRoute>} />
+          
+          {/* Dynamic salesperson service routes */}
+          <Route path="/:salesperson/:service" element={<SalespersonServicePage />} />
           
           {/* 404 page */}
           <Route path="*" element={<NotFound />} />
