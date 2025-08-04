@@ -96,7 +96,7 @@ export const salespersonLinkService = {
   },
 
   generateLinks(salesperson: SalespersonLink): Array<{ service: string; url: string; serviceName: string }> {
-    const baseUrl = 'boostmysites.in';
+    const baseUrl = 'services.boostmysites.in';
     return salesperson.services.map(serviceId => {
       const service = AVAILABLE_SERVICES.find(s => s.id === serviceId);
       return {
