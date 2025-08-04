@@ -70,6 +70,7 @@ const App = () => (
           
           {/* Blog routes */}
           <Route path="/blogs" element={<BlogsPage />} />
+          
           {/* Blog post routes - supports both slug-based and ID-based URLs */}
           <Route path="/blog/:slug" element={<BlogPostPage />} />
           
