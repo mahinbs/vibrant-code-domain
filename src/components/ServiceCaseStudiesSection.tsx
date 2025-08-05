@@ -39,7 +39,7 @@ const ServiceCaseStudiesSection = ({ serviceName, caseStudies, accentColor = "te
     return colorMap[colorName] || accent;
   };
   return (
-    <section className="py-20 bg-black/50">
+    <section className="py-20 bg-black/80">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className={`text-4xl font-bold mb-4 ${getHeadingColorClass(accentColor)}`}>Success Stories</h2>

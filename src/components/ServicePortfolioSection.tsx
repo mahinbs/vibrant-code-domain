@@ -74,7 +74,7 @@ const ServicePortfolioSection = ({ serviceId, serviceName, fallbackProjects = []
 
   if (loading) {
     return (
-      <section className="py-20 bg-gray-900/50">
+    <section className="py-20 bg-black/80">
         <div className="container mx-auto px-6">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
@@ -86,7 +86,7 @@ const ServicePortfolioSection = ({ serviceId, serviceName, fallbackProjects = []
   }
 
   return (
-    <section className="py-20 bg-gray-900/50">
+    <section className="py-20 bg-black/80">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className={`text-4xl font-bold mb-4 ${getHeadingColorClass(accentColor)}`}>Our {serviceName} Portfolio</h2>

@@ -191,7 +191,7 @@ const GameDevelopmentPage = () => {
       />
 
       {/* Features Section */}
-      <section className="py-20 bg-black/50">
+      <section className="py-20 bg-black/80">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4 text-red-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">Game Development Expertise</h2>
@@ -212,7 +212,7 @@ const GameDevelopmentPage = () => {
       </section>
 
       {/* Process Section */}
-      <section className="py-20 bg-black/50">
+      <section className="py-20 bg-black/80">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4 text-red-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">Our Game Development Process</h2>

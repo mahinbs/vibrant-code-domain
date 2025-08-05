@@ -176,7 +176,7 @@ const CloudComputingPage = () => {
       />
 
       {/* Features Section */}
-      <section className="py-20 bg-black/50">
+      <section className="py-20 bg-black/80">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4 text-blue-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">Cloud Excellence</h2>
@@ -197,7 +197,7 @@ const CloudComputingPage = () => {
       </section>
 
       {/* Process Section */}
-      <section className="py-20 bg-black/50">
+      <section className="py-20 bg-black/80">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4 text-blue-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">Our Cloud Migration Process</h2>

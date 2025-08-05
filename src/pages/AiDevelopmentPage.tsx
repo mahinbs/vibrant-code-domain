@@ -176,7 +176,7 @@ const AiDevelopmentPage = () => {
       />
 
       {/* Features Section */}
-      <section className="py-20 bg-black/50">
+      <section className="py-20 bg-black/80">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4 text-purple-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">AI Capabilities</h2>
@@ -197,7 +197,7 @@ const AiDevelopmentPage = () => {
       </section>
 
       {/* Process Section */}
-      <section className="py-20 bg-black/50">
+      <section className="py-20 bg-black/80">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4 text-purple-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">Our AI Development Process</h2>

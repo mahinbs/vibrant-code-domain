@@ -88,7 +88,7 @@ const ServicePricingSection = ({ serviceName, pricingTiers, accentColor = "text-
     }
   };
   return (
-    <section className="py-20 bg-black/60">
+    <section className="py-20 bg-black/80">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className={`text-4xl font-bold mb-4 ${getAccentColorClass()} drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]`}>{serviceName} Pricing</h2>
