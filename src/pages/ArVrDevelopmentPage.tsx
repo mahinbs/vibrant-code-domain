@@ -69,7 +69,7 @@ const ArVrDevelopmentPage = () => {
       
       {/* Hero Section */}
       <section className="pt-32 pb-20 relative overflow-hidden">
-        <div className="absolute inset-0 bg-black/50"></div>
+        <div className="absolute inset-0 bg-black/80"></div>
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-5xl md:text-7xl font-bold mb-6">
@@ -119,7 +119,7 @@ const ArVrDevelopmentPage = () => {
       ]} accentColor="text-green-400" />
 
       {/* Features Section */}
-      <section className="py-20 bg-black/50">
+      <section className="py-20 bg-black/80 border-t border-green-400/10">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4 text-green-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">Immersive Technologies</h2>
@@ -140,7 +140,7 @@ const ArVrDevelopmentPage = () => {
       </section>
 
       {/* Process Section */}
-      <section className="py-20 bg-black/50">
+      <section className="py-20 bg-black/80 border-t border-green-400/10">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4 text-green-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">Our AR/VR Development Process</h2>
