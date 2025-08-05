@@ -2,6 +2,9 @@ import { Palette, Figma, Users, Eye, Smartphone, Monitor } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import ServicePortfolioSection from '@/components/ServicePortfolioSection';
+import ServiceCaseStudiesSection from '@/components/ServiceCaseStudiesSection';
+import ServicePricingSection from '@/components/ServicePricingSection';
 
 const UxuiDesignPage = () => {
   const navigate = useNavigate();
@@ -40,6 +43,69 @@ const UxuiDesignPage = () => {
       icon: Monitor,
       title: 'Prototyping',
       description: 'Interactive prototypes to validate concepts before development begins.'
+    }
+  ];
+
+  const caseStudies = [
+    {
+      client: 'TechFlow Solutions',
+      industry: 'SaaS Platform',
+      challenge: 'Poor user experience causing 70% drop-off rate and low user engagement on their project management platform.',
+      solution: 'Complete UX overhaul with user research, redesigned information architecture, and intuitive interface design.',
+      results: [
+        '65% reduction in user drop-off rate',
+        '150% increase in user engagement',
+        '40% faster task completion times',
+        '90% user satisfaction score'
+      ],
+      testimonial: "The design transformation was incredible. Our users now love using our platform, and we've seen a massive improvement in retention.",
+      clientName: 'Sarah Mitchell',
+      clientRole: 'Head of Product, TechFlow Solutions',
+      clientImage: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&h=150&q=80',
+      duration: '8 weeks',
+      teamSize: '4 designers'
+    },
+    {
+      client: 'RetailMax E-commerce',
+      industry: 'E-commerce',
+      challenge: 'Complex checkout process leading to 80% cart abandonment and poor mobile experience.',
+      solution: 'Mobile-first design approach with streamlined checkout flow and accessibility improvements.',
+      results: [
+        '50% reduction in cart abandonment',
+        '200% increase in mobile conversions',
+        '99% accessibility compliance',
+        '35% increase in overall revenue'
+      ],
+      testimonial: "Our mobile sales have tripled since the redesign. The user experience is now seamless across all devices.",
+      clientName: 'Marcus Johnson',
+      clientRole: 'CEO, RetailMax E-commerce',
+      clientImage: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&h=150&q=80',
+      duration: '6 weeks',
+      teamSize: '3 designers'
+    }
+  ];
+
+  const pricingTiers = [
+    {
+      name: 'Startup',
+      price: '$3,000',
+      description: 'Essential design for new products',
+      features: ['User Research & Analysis', 'Wireframing & Prototyping', 'UI Design (up to 10 screens)', 'Design System Basics', '2 Rounds of Revisions'],
+      popular: false
+    },
+    {
+      name: 'Growth',
+      price: '$8,000',
+      description: 'Comprehensive design solution',
+      features: ['Complete UX Research', 'Advanced Prototyping', 'UI Design (up to 25 screens)', 'Complete Design System', 'Usability Testing', '4 Rounds of Revisions'],
+      popular: true
+    },
+    {
+      name: 'Enterprise',
+      price: 'Custom',
+      description: 'Full-scale design transformation',
+      features: ['Enterprise UX Strategy', 'Multi-platform Design', 'Advanced Design Systems', 'Accessibility Compliance', 'Ongoing Design Support', 'Unlimited Revisions'],
+      popular: false
     }
   ];
 
@@ -95,6 +161,18 @@ const UxuiDesignPage = () => {
         </div>
       </section>
 
+      {/* Portfolio Section */}
+      <ServicePortfolioSection 
+        serviceId="uxui-design" 
+        serviceName="UX/UI Design"
+      />
+
+      {/* Case Studies Section */}
+      <ServiceCaseStudiesSection 
+        serviceName="UX/UI Design"
+        caseStudies={caseStudies}
+      />
+
       {/* Features Section */}
       <section className="py-20 bg-black/50">
         <div className="container mx-auto px-6">
@@ -138,6 +216,12 @@ const UxuiDesignPage = () => {
           </div>
         </div>
       </section>
+
+      {/* Pricing Section */}
+      <ServicePricingSection 
+        serviceName="UX/UI Design"
+        pricingTiers={pricingTiers}
+      />
 
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-pink-500/20 to-purple-500/20 relative">

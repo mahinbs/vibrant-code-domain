@@ -2,6 +2,9 @@ import { Cloud, Shield, Zap, Globe, Database, Settings } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import ServicePortfolioSection from '@/components/ServicePortfolioSection';
+import ServiceCaseStudiesSection from '@/components/ServiceCaseStudiesSection';
+import ServicePricingSection from '@/components/ServicePricingSection';
 
 const CloudComputingPage = () => {
   const navigate = useNavigate();
@@ -40,6 +43,69 @@ const CloudComputingPage = () => {
       icon: Settings,
       title: 'DevOps Integration',
       description: 'CI/CD pipelines, containerization, and infrastructure as code implementation.'
+    }
+  ];
+
+  const caseStudies = [
+    {
+      client: 'Enterprise Manufacturing Corp',
+      industry: 'Manufacturing',
+      challenge: 'Legacy on-premise infrastructure causing scalability issues and 40% higher operational costs.',
+      solution: 'Complete cloud migration to AWS with microservices architecture and automated scaling.',
+      results: [
+        '60% reduction in infrastructure costs',
+        '99.9% uptime improvement',
+        '300% faster deployment cycles',
+        '50% reduction in maintenance overhead'
+      ],
+      testimonial: "The cloud migration transformed our operations. We can now scale effortlessly and our costs have dropped significantly.",
+      clientName: 'Robert Chen',
+      clientRole: 'CTO, Enterprise Manufacturing Corp',
+      clientImage: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&h=150&q=80',
+      duration: '12 weeks',
+      teamSize: '5 engineers'
+    },
+    {
+      client: 'HealthTech Solutions',
+      industry: 'Healthcare',
+      challenge: 'HIPAA compliance requirements and need for secure, scalable patient data management.',
+      solution: 'Azure-based solution with end-to-end encryption, automated backups, and compliance monitoring.',
+      results: [
+        '100% HIPAA compliance achieved',
+        'Zero security incidents',
+        '40% faster data processing',
+        '99.99% data availability'
+      ],
+      testimonial: "Security and compliance were our top priorities. The cloud solution exceeded our expectations on both fronts.",
+      clientName: 'Dr. Emily Watson',
+      clientRole: 'Chief Information Officer, HealthTech Solutions',
+      clientImage: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&h=150&q=80',
+      duration: '16 weeks',
+      teamSize: '6 engineers'
+    }
+  ];
+
+  const pricingTiers = [
+    {
+      name: 'Migration Starter',
+      price: '$8,000',
+      description: 'Basic cloud migration for small teams',
+      features: ['Infrastructure Assessment', 'Basic Migration Strategy', 'Single Cloud Provider Setup', 'Basic Security Configuration', '1 Month Support'],
+      popular: false
+    },
+    {
+      name: 'Enterprise Migration',
+      price: '$25,000',
+      description: 'Comprehensive cloud transformation',
+      features: ['Complete Infrastructure Audit', 'Multi-Cloud Strategy', 'Advanced Security & Compliance', 'DevOps Integration', 'Load Balancing & Auto-scaling', '6 Months Support'],
+      popular: true
+    },
+    {
+      name: 'Custom Solution',
+      price: 'Custom',
+      description: 'Tailored for complex enterprises',
+      features: ['Custom Architecture Design', 'Hybrid Cloud Solutions', 'Advanced Compliance (HIPAA, SOC2)', 'Disaster Recovery Planning', '24/7 Monitoring', '12 Months Dedicated Support'],
+      popular: false
     }
   ];
 
@@ -95,6 +161,18 @@ const CloudComputingPage = () => {
         </div>
       </section>
 
+      {/* Portfolio Section */}
+      <ServicePortfolioSection 
+        serviceId="cloud-computing" 
+        serviceName="Cloud Computing"
+      />
+
+      {/* Case Studies Section */}
+      <ServiceCaseStudiesSection 
+        serviceName="Cloud Computing"
+        caseStudies={caseStudies}
+      />
+
       {/* Features Section */}
       <section className="py-20 bg-black/50">
         <div className="container mx-auto px-6">
@@ -138,6 +216,12 @@ const CloudComputingPage = () => {
           </div>
         </div>
       </section>
+
+      {/* Pricing Section */}
+      <ServicePricingSection 
+        serviceName="Cloud Computing"
+        pricingTiers={pricingTiers}
+      />
 
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 relative">

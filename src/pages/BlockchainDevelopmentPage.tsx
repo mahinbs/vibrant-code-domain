@@ -2,6 +2,9 @@ import { Shield, Coins, Link, Users, Zap, Lock } from 'lucide-react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import ServicePortfolioSection from '@/components/ServicePortfolioSection';
+import ServiceCaseStudiesSection from '@/components/ServiceCaseStudiesSection';
+import ServicePricingSection from '@/components/ServicePricingSection';
 
 const BlockchainDevelopmentPage = () => {
   const navigate = useNavigate();
@@ -95,6 +98,9 @@ const BlockchainDevelopmentPage = () => {
         </div>
       </section>
 
+      <ServicePortfolioSection serviceId="blockchain-development" serviceName="Blockchain Development" />
+      <ServiceCaseStudiesSection serviceName="Blockchain Development" caseStudies={[{client: 'CryptoFinance', industry: 'DeFi', challenge: 'Need secure DeFi platform', solution: 'Smart contract development', results: ['99.9% security', '$50M locked', '100k users', 'Zero hacks'], testimonial: "Secure and scalable DeFi platform", clientName: 'Alex Chen', clientRole: 'CTO, CryptoFinance', clientImage: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&h=150&q=80', duration: '12 weeks', teamSize: '4 developers'}]} />
+
       {/* Features Section */}
       <section className="py-20 bg-black/50">
         <div className="container mx-auto px-6">
@@ -138,6 +144,8 @@ const BlockchainDevelopmentPage = () => {
           </div>
         </div>
       </section>
+
+      <ServicePricingSection serviceName="Blockchain Development" pricingTiers={[{name: 'Smart Contract', price: '$20,000', description: 'Basic blockchain solution', features: ['Smart Contract Development', 'Security Audit', 'Testnet Deployment', 'Documentation'], popular: false}, {name: 'DeFi Platform', price: '$60,000', description: 'Complete DeFi solution', features: ['Advanced Smart Contracts', 'Frontend Development', 'Multi-chain Support', 'Security Audits', 'Liquidity Integration'], popular: true}, {name: 'Enterprise Blockchain', price: 'Custom', description: 'Full enterprise solution', features: ['Custom Blockchain', 'Enterprise Integration', 'Advanced Security', 'Dedicated Support'], popular: false}]} />
 
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 relative">

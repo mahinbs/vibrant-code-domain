@@ -2,6 +2,9 @@ import { Glasses, Eye, Gamepad2, Monitor, Smartphone, Zap } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import ServicePortfolioSection from '@/components/ServicePortfolioSection';
+import ServiceCaseStudiesSection from '@/components/ServiceCaseStudiesSection';
+import ServicePricingSection from '@/components/ServicePricingSection';
 
 const ArVrDevelopmentPage = () => {
   const navigate = useNavigate();
@@ -95,6 +98,26 @@ const ArVrDevelopmentPage = () => {
         </div>
       </section>
 
+      {/* Portfolio Section */}
+      <ServicePortfolioSection serviceId="ar-vr-development" serviceName="AR/VR Development" />
+
+      {/* Case Studies Section */}
+      <ServiceCaseStudiesSection serviceName="AR/VR Development" caseStudies={[
+        {
+          client: 'MedTech Training',
+          industry: 'Healthcare',
+          challenge: 'Need for safe surgical training environment.',
+          solution: 'VR surgical simulation with haptic feedback.',
+          results: ['90% skill improvement', '80% cost reduction', '95% satisfaction', 'Zero risk training'],
+          testimonial: "Revolutionary VR training platform for medical education.",
+          clientName: 'Dr. Amanda Foster',
+          clientRole: 'Director, MedTech Training',
+          clientImage: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&h=150&q=80',
+          duration: '16 weeks',
+          teamSize: '6 developers'
+        }
+      ]} />
+
       {/* Features Section */}
       <section className="py-20 bg-black/50">
         <div className="container mx-auto px-6">
@@ -138,6 +161,13 @@ const ArVrDevelopmentPage = () => {
           </div>
         </div>
       </section>
+
+      {/* Pricing Section */}
+      <ServicePricingSection serviceName="AR/VR Development" pricingTiers={[
+        { name: 'AR Starter', price: '$12,000', description: 'Mobile AR development', features: ['iOS/Android AR App', 'Basic 3D Tracking', 'Custom Models', 'Store Deployment'], popular: false },
+        { name: 'VR Professional', price: '$35,000', description: 'Immersive VR experience', features: ['Multi-Platform VR', 'Advanced Physics', 'Hand Tracking', 'Multiplayer', 'Analytics'], popular: true },
+        { name: 'Enterprise XR', price: 'Custom', description: 'Full-scale solution', features: ['Custom Platform', 'Enterprise Integration', 'Advanced Analytics', 'Cloud Infrastructure'], popular: false }
+      ]} />
 
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-green-500/20 to-blue-500/20 relative">

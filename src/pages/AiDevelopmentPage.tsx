@@ -2,6 +2,9 @@ import { Brain, Bot, Eye, Mic, BarChart3, Zap } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import ServicePortfolioSection from '@/components/ServicePortfolioSection';
+import ServiceCaseStudiesSection from '@/components/ServiceCaseStudiesSection';
+import ServicePricingSection from '@/components/ServicePricingSection';
 
 const AiDevelopmentPage = () => {
   const navigate = useNavigate();
@@ -40,6 +43,69 @@ const AiDevelopmentPage = () => {
       icon: Zap,
       title: 'Process Automation',
       description: 'Intelligent automation of complex business processes with AI decision-making.'
+    }
+  ];
+
+  const caseStudies = [
+    {
+      client: 'DataCorp Analytics',
+      industry: 'Financial Services',
+      challenge: 'Manual fraud detection taking 48 hours per case with 65% accuracy rate causing significant losses.',
+      solution: 'AI-powered fraud detection system using machine learning algorithms with real-time processing capabilities.',
+      results: [
+        '99.2% fraud detection accuracy',
+        'Real-time processing (under 2 seconds)',
+        '85% reduction in false positives',
+        '$2.3M annual savings from prevented fraud'
+      ],
+      testimonial: "The AI system revolutionized our fraud detection. We're now catching fraud in real-time with incredible accuracy.",
+      clientName: 'Michael Rodriguez',
+      clientRole: 'Head of Risk Management, DataCorp Analytics',
+      clientImage: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&h=150&q=80',
+      duration: '14 weeks',
+      teamSize: '4 AI engineers'
+    },
+    {
+      client: 'RetailVision Inc',
+      industry: 'Retail Technology',
+      challenge: 'Inventory management inefficiencies leading to 30% stockouts and $1M in lost revenue annually.',
+      solution: 'Computer vision and predictive analytics system for automated inventory tracking and demand forecasting.',
+      results: [
+        '95% reduction in stockouts',
+        '40% improvement in inventory turnover',
+        '99.5% inventory accuracy',
+        '$1.8M increase in annual revenue'
+      ],
+      testimonial: "Our inventory is now managed by AI with unprecedented accuracy. We've eliminated stockouts almost entirely.",
+      clientName: 'Sarah Kim',
+      clientRole: 'VP of Operations, RetailVision Inc',
+      clientImage: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&h=150&q=80',
+      duration: '10 weeks',
+      teamSize: '5 AI engineers'
+    }
+  ];
+
+  const pricingTiers = [
+    {
+      name: 'AI Starter',
+      price: '$15,000',
+      description: 'Basic AI implementation for small projects',
+      features: ['AI Feasibility Study', 'Basic ML Model Development', 'Data Preprocessing', 'Model Training & Testing', '3 Months Support'],
+      popular: false
+    },
+    {
+      name: 'AI Advanced',
+      price: '$45,000',
+      description: 'Comprehensive AI solution',
+      features: ['Advanced ML/DL Models', 'Computer Vision or NLP', 'Real-time Processing', 'API Development', 'System Integration', '6 Months Support'],
+      popular: true
+    },
+    {
+      name: 'Enterprise AI',
+      price: 'Custom',
+      description: 'Large-scale AI transformation',
+      features: ['Custom AI Architecture', 'Multi-model Integration', 'Advanced Analytics Dashboard', 'Continuous Learning Systems', '24/7 Monitoring', '12 Months Dedicated Support'],
+      popular: false
     }
   ];
 
@@ -95,6 +161,18 @@ const AiDevelopmentPage = () => {
         </div>
       </section>
 
+      {/* Portfolio Section */}
+      <ServicePortfolioSection 
+        serviceId="ai-development" 
+        serviceName="AI Development"
+      />
+
+      {/* Case Studies Section */}
+      <ServiceCaseStudiesSection 
+        serviceName="AI Development"
+        caseStudies={caseStudies}
+      />
+
       {/* Features Section */}
       <section className="py-20 bg-black/50">
         <div className="container mx-auto px-6">
@@ -138,6 +216,12 @@ const AiDevelopmentPage = () => {
           </div>
         </div>
       </section>
+
+      {/* Pricing Section */}
+      <ServicePricingSection 
+        serviceName="AI Development"
+        pricingTiers={pricingTiers}
+      />
 
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-purple-500/20 to-pink-500/20 relative">
