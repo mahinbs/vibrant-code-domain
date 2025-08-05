@@ -105,7 +105,7 @@ const BlockchainDevelopmentPage = () => {
       <section className="py-20 bg-black/50">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Blockchain Technologies</h2>
+            <h2 className="text-4xl font-bold mb-4 text-yellow-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">Blockchain Technologies</h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
               Complete blockchain development services for the decentralized future.
             </p>
@@ -126,7 +126,7 @@ const BlockchainDevelopmentPage = () => {
       <section className="py-20 bg-black/50">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Our Blockchain Development Process</h2>
+            <h2 className="text-4xl font-bold mb-4 text-yellow-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">Our Blockchain Development Process</h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
               Secure and efficient blockchain development from concept to deployment.
             </p>
@@ -145,12 +145,12 @@ const BlockchainDevelopmentPage = () => {
         </div>
       </section>
 
-      <ServicePricingSection serviceName="Blockchain Development" pricingTiers={[{name: 'Smart Contract', price: '$20,000', description: 'Basic blockchain solution', features: ['Smart Contract Development', 'Security Audit', 'Testnet Deployment', 'Documentation'], popular: false}, {name: 'DeFi Platform', price: '$60,000', description: 'Complete DeFi solution', features: ['Advanced Smart Contracts', 'Frontend Development', 'Multi-chain Support', 'Security Audits', 'Liquidity Integration'], popular: true}, {name: 'Enterprise Blockchain', price: 'Custom', description: 'Full enterprise solution', features: ['Custom Blockchain', 'Enterprise Integration', 'Advanced Security', 'Dedicated Support'], popular: false}]} accentColor="text-yellow-400" />
+      <ServicePricingSection serviceName="Blockchain Development" pricingTiers={[{name: 'Smart Contract', price: '$20,000', description: 'Basic blockchain solution', features: ['Smart Contract Development', 'Security Audit', 'Testnet Deployment', 'Documentation'], popular: false}, {name: 'DeFi Platform', price: '$60,000', description: 'Complete DeFi solution', features: ['Advanced Smart Contracts', 'Frontend Development', 'Multi-chain Support', 'Security Audits', 'Liquidity Integration'], popular: true}, {name: 'Enterprise Blockchain', price: 'Custom', description: 'Full enterprise solution', features: ['Custom Blockchain', 'Enterprise Integration', 'Advanced Security', 'Dedicated Support'], popular: false}]} accentColor="text-yellow-400" buttonAccentColor="yellow" />
 
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 relative">
         <div className="container mx-auto px-6 text-center relative z-10">
-          <h2 className="text-4xl font-bold mb-4">Ready to Build on Blockchain?</h2>
+          <h2 className="text-4xl font-bold mb-4 text-yellow-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">Ready to Build on Blockchain?</h2>
           <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
             Let's create decentralized applications that revolutionize your industry.
           </p>

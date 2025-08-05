@@ -194,7 +194,7 @@ const IotDevelopmentPage = () => {
       <section className="py-20 bg-black/50">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">IoT Technologies</h2>
+            <h2 className="text-4xl font-bold mb-4 text-blue-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">IoT Technologies</h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
               Complete IoT development services from devices to cloud platforms.
             </p>
@@ -215,7 +215,7 @@ const IotDevelopmentPage = () => {
       <section className="py-20 bg-black/50">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Our IoT Development Process</h2>
+            <h2 className="text-4xl font-bold mb-4 text-blue-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">Our IoT Development Process</h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
               End-to-end IoT solution development from concept to deployment.
             </p>
@@ -244,7 +244,7 @@ const IotDevelopmentPage = () => {
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-emerald-500/20 to-teal-500/20 relative">
         <div className="container mx-auto px-6 text-center relative z-10">
-          <h2 className="text-4xl font-bold mb-4">Ready to Build Smart Solutions?</h2>
+          <h2 className="text-4xl font-bold mb-4 text-blue-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">Ready to Build Smart Solutions?</h2>
           <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
             Let's create IoT solutions that connect your business to the future of smart technology.
           </p>

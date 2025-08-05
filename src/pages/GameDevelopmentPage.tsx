@@ -194,7 +194,7 @@ const GameDevelopmentPage = () => {
       <section className="py-20 bg-black/50">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Game Development Expertise</h2>
+            <h2 className="text-4xl font-bold mb-4 text-red-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">Game Development Expertise</h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
               From indie games to AAA titles, we create memorable gaming experiences.
             </p>
@@ -215,7 +215,7 @@ const GameDevelopmentPage = () => {
       <section className="py-20 bg-black/50">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Our Game Development Process</h2>
+            <h2 className="text-4xl font-bold mb-4 text-red-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">Our Game Development Process</h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
               From concept to launch with industry-proven development methodologies.
             </p>
@@ -239,12 +239,13 @@ const GameDevelopmentPage = () => {
         serviceName="Game Development"
         pricingTiers={pricingTiers}
         accentColor="text-red-400"
+        buttonAccentColor="red"
       />
 
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-red-500/20 to-pink-500/20 relative">
         <div className="container mx-auto px-6 text-center relative z-10">
-          <h2 className="text-4xl font-bold mb-4">Ready to Create the Next Hit Game?</h2>
+          <h2 className="text-4xl font-bold mb-4 text-red-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">Ready to Create the Next Hit Game?</h2>
           <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
             Let's bring your game idea to life with cutting-edge technology and creative excellence.
           </p>

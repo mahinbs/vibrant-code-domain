@@ -194,7 +194,7 @@ const DataAnalyticsPage = () => {
       <section className="py-20 bg-black/50">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Analytics Capabilities</h2>
+            <h2 className="text-4xl font-bold mb-4 text-indigo-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">Analytics Capabilities</h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
               Comprehensive data analytics and business intelligence tools for data-driven decisions.
             </p>
@@ -215,7 +215,7 @@ const DataAnalyticsPage = () => {
       <section className="py-20 bg-black/50">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Our Analytics Implementation Process</h2>
+            <h2 className="text-4xl font-bold mb-4 text-indigo-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">Our Analytics Implementation Process</h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
               From data chaos to clear business insights with proven methodologies.
             </p>
@@ -239,12 +239,13 @@ const DataAnalyticsPage = () => {
         serviceName="Data Analytics & BI"
         pricingTiers={pricingTiers}
         accentColor="text-indigo-400"
+        buttonAccentColor="indigo"
       />
 
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-indigo-500/20 to-purple-500/20 relative">
         <div className="container mx-auto px-6 text-center relative z-10">
-          <h2 className="text-4xl font-bold mb-4">Ready to Unlock Your Data's Potential?</h2>
+          <h2 className="text-4xl font-bold mb-4 text-indigo-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">Ready to Unlock Your Data's Potential?</h2>
           <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
             Let's turn your data into your competitive advantage with advanced analytics and BI.
           </p>

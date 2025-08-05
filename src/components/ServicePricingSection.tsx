@@ -12,9 +12,37 @@ interface ServicePricingSectionProps {
   serviceName: string;
   pricingTiers: PricingTier[];
   accentColor?: string;
+  buttonAccentColor?: string;
 }
 
-const ServicePricingSection = ({ serviceName, pricingTiers, accentColor = "text-primary" }: ServicePricingSectionProps) => {
+const ServicePricingSection = ({ serviceName, pricingTiers, accentColor = "text-primary", buttonAccentColor = "yellow" }: ServicePricingSectionProps) => {
+  const getButtonClasses = (popular: boolean) => {
+    const baseClasses = "w-full py-3 px-6 rounded-xl font-semibold transition-all duration-300";
+    
+    if (popular) {
+      switch (buttonAccentColor) {
+        case 'yellow': return `${baseClasses} bg-yellow-500 text-black hover:bg-yellow-400 shadow-lg`;
+        case 'purple': return `${baseClasses} bg-purple-500 text-white hover:bg-purple-400 shadow-lg`;
+        case 'red': return `${baseClasses} bg-red-500 text-white hover:bg-red-400 shadow-lg`;
+        case 'indigo': return `${baseClasses} bg-indigo-500 text-white hover:bg-indigo-400 shadow-lg`;
+        case 'teal': return `${baseClasses} bg-teal-500 text-white hover:bg-teal-400 shadow-lg`;
+        case 'pink': return `${baseClasses} bg-pink-500 text-white hover:bg-pink-400 shadow-lg`;
+        case 'blue': return `${baseClasses} bg-blue-500 text-white hover:bg-blue-400 shadow-lg`;
+        default: return `${baseClasses} bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg`;
+      }
+    } else {
+      switch (buttonAccentColor) {
+        case 'yellow': return `${baseClasses} border-2 border-yellow-400 text-yellow-400 hover:bg-yellow-500 hover:text-black`;
+        case 'purple': return `${baseClasses} border-2 border-purple-400 text-purple-400 hover:bg-purple-500 hover:text-white`;
+        case 'red': return `${baseClasses} border-2 border-red-400 text-red-400 hover:bg-red-500 hover:text-white`;
+        case 'indigo': return `${baseClasses} border-2 border-indigo-400 text-indigo-400 hover:bg-indigo-500 hover:text-white`;
+        case 'teal': return `${baseClasses} border-2 border-teal-400 text-teal-400 hover:bg-teal-500 hover:text-white`;
+        case 'pink': return `${baseClasses} border-2 border-pink-400 text-pink-400 hover:bg-pink-500 hover:text-white`;
+        case 'blue': return `${baseClasses} border-2 border-blue-400 text-blue-400 hover:bg-blue-500 hover:text-white`;
+        default: return `${baseClasses} border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground`;
+      }
+    }
+  };
   return (
     <section className="py-20 bg-black/60">
       <div className="container mx-auto px-6">
@@ -60,13 +88,7 @@ const ServicePricingSection = ({ serviceName, pricingTiers, accentColor = "text-
                 ))}
               </div>
               
-              <button 
-                className={`w-full py-3 px-6 rounded-xl font-semibold transition-all duration-300 ${
-                  tier.popular
-                    ? 'bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg'
-                    : 'border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground'
-                }`}
-              >
+              <button className={getButtonClasses(tier.popular)}>
                 Get Started
               </button>
             </div>

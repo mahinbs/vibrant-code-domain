@@ -179,7 +179,7 @@ const UxuiDesignPage = () => {
       <section className="py-20 bg-black/50">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Design Excellence</h2>
+            <h2 className="text-4xl font-bold mb-4 text-pink-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">Design Excellence</h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
               Our comprehensive design approach ensures your product delivers exceptional user experiences.
             </p>
@@ -200,7 +200,7 @@ const UxuiDesignPage = () => {
       <section className="py-20 bg-black/50">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Our Design Process</h2>
+            <h2 className="text-4xl font-bold mb-4 text-pink-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">Our Design Process</h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
               A proven methodology that ensures exceptional design outcomes.
             </p>
@@ -224,12 +224,13 @@ const UxuiDesignPage = () => {
         serviceName="UX/UI Design"
         pricingTiers={pricingTiers}
         accentColor="text-pink-400"
+        buttonAccentColor="pink"
       />
 
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-pink-500/20 to-purple-500/20 relative">
         <div className="container mx-auto px-6 text-center relative z-10">
-          <h2 className="text-4xl font-bold mb-4">Ready to Transform Your User Experience?</h2>
+          <h2 className="text-4xl font-bold mb-4 text-pink-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">Ready to Transform Your User Experience?</h2>
           <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
             Let's create designs that your users will love and that drive real business results.
           </p>

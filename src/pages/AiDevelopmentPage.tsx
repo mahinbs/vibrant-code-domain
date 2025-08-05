@@ -179,7 +179,7 @@ const AiDevelopmentPage = () => {
       <section className="py-20 bg-black/50">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">AI Capabilities</h2>
+            <h2 className="text-4xl font-bold mb-4 text-purple-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">AI Capabilities</h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
               Cutting-edge AI technologies to solve complex business challenges.
             </p>
@@ -200,7 +200,7 @@ const AiDevelopmentPage = () => {
       <section className="py-20 bg-black/50">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Our AI Development Process</h2>
+            <h2 className="text-4xl font-bold mb-4 text-purple-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">Our AI Development Process</h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
               A systematic approach to building intelligent solutions.
             </p>
@@ -224,12 +224,13 @@ const AiDevelopmentPage = () => {
         serviceName="AI Development"
         pricingTiers={pricingTiers}
         accentColor="text-purple-400"
+        buttonAccentColor="purple"
       />
 
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-purple-500/20 to-pink-500/20 relative">
         <div className="container mx-auto px-6 text-center relative z-10">
-          <h2 className="text-4xl font-bold mb-4">Ready to Embrace AI Innovation?</h2>
+          <h2 className="text-4xl font-bold mb-4 text-purple-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">Ready to Embrace AI Innovation?</h2>
           <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
             Let's build intelligent solutions that transform your business operations.
           </p>

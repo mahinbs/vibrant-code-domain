@@ -179,7 +179,7 @@ const CloudComputingPage = () => {
       <section className="py-20 bg-black/50">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Cloud Excellence</h2>
+            <h2 className="text-4xl font-bold mb-4 text-blue-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">Cloud Excellence</h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
               Comprehensive cloud services to power your digital transformation.
             </p>
@@ -200,7 +200,7 @@ const CloudComputingPage = () => {
       <section className="py-20 bg-black/50">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Our Cloud Migration Process</h2>
+            <h2 className="text-4xl font-bold mb-4 text-blue-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">Our Cloud Migration Process</h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
               A proven methodology ensuring smooth cloud transition.
             </p>
@@ -224,12 +224,13 @@ const CloudComputingPage = () => {
         serviceName="Cloud Computing"
         pricingTiers={pricingTiers}
         accentColor="text-blue-400"
+        buttonAccentColor="blue"
       />
 
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 relative">
         <div className="container mx-auto px-6 text-center relative z-10">
-          <h2 className="text-4xl font-bold mb-4">Ready to Migrate to the Cloud?</h2>
+          <h2 className="text-4xl font-bold mb-4 text-blue-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">Ready to Migrate to the Cloud?</h2>
           <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
             Transform your infrastructure with our expert cloud computing services.
           </p>

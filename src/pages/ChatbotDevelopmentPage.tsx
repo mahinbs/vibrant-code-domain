@@ -194,7 +194,7 @@ const ChatbotDevelopmentPage = () => {
       <section className="py-20 bg-black/50">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Intelligent Chatbot Features</h2>
+            <h2 className="text-4xl font-bold mb-4 text-teal-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">Intelligent Chatbot Features</h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
               Advanced AI capabilities to enhance customer experience and business efficiency.
             </p>
@@ -215,7 +215,7 @@ const ChatbotDevelopmentPage = () => {
       <section className="py-20 bg-black/50">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Our Chatbot Development Process</h2>
+            <h2 className="text-4xl font-bold mb-4 text-teal-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">Our Chatbot Development Process</h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
               From conversation design to intelligent deployment.
             </p>
@@ -239,12 +239,13 @@ const ChatbotDevelopmentPage = () => {
         serviceName="Chatbot Development"
         pricingTiers={pricingTiers}
         accentColor="text-teal-400"
+        buttonAccentColor="teal"
       />
 
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-teal-500/20 to-blue-500/20 relative">
         <div className="container mx-auto px-6 text-center relative z-10">
-          <h2 className="text-4xl font-bold mb-4">Ready to Automate Customer Support?</h2>
+          <h2 className="text-4xl font-bold mb-4 text-teal-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">Ready to Automate Customer Support?</h2>
           <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
             Let's build intelligent chatbots that enhance customer experience and reduce support costs.
           </p>
