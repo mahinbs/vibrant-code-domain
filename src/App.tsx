@@ -16,6 +16,15 @@ import MobileAppsPage from "./pages/MobileAppsPage";
 import SaasPage from "./pages/SaasPage";
 import AiAutomationPage from "./pages/AiAutomationPage";
 import AiCallingPage from "./pages/AiCallingPage";
+import UxuiDesignPage from "./pages/UxuiDesignPage";
+import CloudComputingPage from "./pages/CloudComputingPage";
+import AiDevelopmentPage from "./pages/AiDevelopmentPage";
+import ArVrDevelopmentPage from "./pages/ArVrDevelopmentPage";
+import BlockchainDevelopmentPage from "./pages/BlockchainDevelopmentPage";
+import ChatbotDevelopmentPage from "./pages/ChatbotDevelopmentPage";
+import DataAnalyticsPage from "./pages/DataAnalyticsPage";
+import GameDevelopmentPage from "./pages/GameDevelopmentPage";
+import IotDevelopmentPage from "./pages/IotDevelopmentPage";
 import ReviewsPage from "./pages/ReviewsPage";
 import ContactPage from "./pages/ContactPage";
 import ThankYouPage from "./pages/ThankYouPage";
@@ -79,6 +88,15 @@ const App = () => (
           <Route path="/saas" element={<SaasPage />} />
           <Route path="/ai-automation" element={<AiAutomationPage />} />
           <Route path="/ai-calling" element={<AiCallingPage />} />
+          <Route path="/uxui-design" element={<UxuiDesignPage />} />
+          <Route path="/cloud-computing" element={<CloudComputingPage />} />
+          <Route path="/ai-development" element={<AiDevelopmentPage />} />
+          <Route path="/ar-vr-development" element={<ArVrDevelopmentPage />} />
+          <Route path="/blockchain-development" element={<BlockchainDevelopmentPage />} />
+          <Route path="/chatbot-development" element={<ChatbotDevelopmentPage />} />
+          <Route path="/data-analytics" element={<DataAnalyticsPage />} />
+          <Route path="/game-development" element={<GameDevelopmentPage />} />
+          <Route path="/iot-development" element={<IotDevelopmentPage />} />
           <Route path="/reviews" element={<ReviewsPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/thank-you" element={<ThankYouPage />} />

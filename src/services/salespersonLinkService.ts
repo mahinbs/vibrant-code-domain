@@ -16,7 +16,16 @@ export const AVAILABLE_SERVICES = [
   { id: 'saas', name: 'SAAS Solutions' },
   { id: 'mobile-apps', name: 'Mobile Applications' },
   { id: 'ai-automation', name: 'AI Automation' },
-  { id: 'ai-calling', name: 'AI Calling' }
+  { id: 'ai-calling', name: 'AI Calling' },
+  { id: 'uxui-design', name: 'UX/UI Design' },
+  { id: 'cloud-computing', name: 'Cloud Computing Services' },
+  { id: 'ai-development', name: 'AI Development' },
+  { id: 'ar-vr-development', name: 'AR/VR Development' },
+  { id: 'blockchain-development', name: 'Blockchain Development' },
+  { id: 'chatbot-development', name: 'Chatbot Development' },
+  { id: 'data-analytics', name: 'Data Analytics & Business Intelligence' },
+  { id: 'game-development', name: 'Game Development' },
+  { id: 'iot-development', name: 'IoT Development' }
 ];
 
 export const salespersonLinkService = {
