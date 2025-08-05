@@ -2,6 +2,9 @@ import { Gamepad2, Users, Zap, Trophy, Smartphone, Monitor } from 'lucide-react'
 import { Link, useNavigate } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import ServicePortfolioSection from '@/components/ServicePortfolioSection';
+import ServiceCaseStudiesSection from '@/components/ServiceCaseStudiesSection';
+import ServicePricingSection from '@/components/ServicePricingSection';
 
 const GameDevelopmentPage = () => {
   const navigate = useNavigate();
@@ -51,6 +54,84 @@ const GameDevelopmentPage = () => {
     { step: '05', title: 'Launch', description: 'Store submission, marketing support, and post-launch updates' }
   ];
 
+  const caseStudies = [
+    {
+      client: "PixelForge Studios",
+      industry: "Gaming & Entertainment",
+      challenge: "Needed to create a cross-platform multiplayer game with complex physics and real-time networking within a tight 8-month deadline.",
+      solution: "Developed using Unity with custom networking solution, optimized for mobile and PC with cloud-based matchmaking and anti-cheat systems.",
+      results: ["500K+ downloads in first month", "4.8/5 store rating", "Cross-platform compatibility", "Low latency multiplayer"],
+      testimonial: "The team delivered an incredible multiplayer experience that exceeded our expectations. The game's performance across platforms is outstanding and our players love it.",
+      clientName: "Alex Rivera",
+      clientRole: "Game Director",
+      clientImage: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
+      duration: "8 months",
+      teamSize: "12 specialists"
+    },
+    {
+      client: "EduPlay Interactive",
+      industry: "Education Technology",
+      challenge: "Creating an engaging educational game for children that balances learning with fun gameplay, targeting multiple age groups.",
+      solution: "Built adaptive learning game with progressive difficulty, gamification elements, and detailed progress tracking for parents and teachers.",
+      results: ["85% learning retention rate", "Used in 200+ schools", "Parent satisfaction 4.9/5", "Multiple education awards"],
+      testimonial: "This educational game has transformed how children in our schools learn. The engagement levels are incredible and the learning outcomes speak for themselves.",
+      clientName: "Dr. Sarah Kim",
+      clientRole: "Educational Director",
+      clientImage: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face",
+      duration: "10 months",
+      teamSize: "8 specialists"
+    }
+  ];
+
+  const pricingTiers = [
+    {
+      name: "Indie Game",
+      price: "$25,000",
+      description: "Perfect for small indie game projects and prototypes",
+      features: [
+        "2D game development",
+        "Single platform (mobile or PC)",
+        "Basic gameplay mechanics",
+        "Art assets included",
+        "Store submission support",
+        "3 months post-launch support"
+      ],
+      popular: false
+    },
+    {
+      name: "Studio Pro",
+      price: "$75,000",
+      description: "Comprehensive game development for growing studios",
+      features: [
+        "3D game development",
+        "Cross-platform deployment",
+        "Multiplayer capabilities",
+        "Advanced graphics & effects",
+        "Monetization integration",
+        "Marketing support",
+        "6 months post-launch support",
+        "Live operations setup"
+      ],
+      popular: true
+    },
+    {
+      name: "AAA Production",
+      price: "Custom",
+      description: "Full-scale game production for major releases",
+      features: [
+        "Custom game engine options",
+        "Advanced AI & physics",
+        "Console certification",
+        "Dedicated development team",
+        "Quality assurance testing",
+        "Marketing & PR support",
+        "12 months post-launch support",
+        "Live service management"
+      ],
+      popular: false
+    }
+  ];
+
   return (
     <div 
       className="min-h-screen bg-black text-white"
@@ -95,6 +176,18 @@ const GameDevelopmentPage = () => {
         </div>
       </section>
 
+      {/* Portfolio Section */}
+      <ServicePortfolioSection 
+        serviceId="game-development"
+        serviceName="Game Development"
+      />
+
+      {/* Case Studies Section */}
+      <ServiceCaseStudiesSection 
+        serviceName="Game Development"
+        caseStudies={caseStudies}
+      />
+
       {/* Features Section */}
       <section className="py-20 bg-black/50">
         <div className="container mx-auto px-6">
@@ -138,6 +231,12 @@ const GameDevelopmentPage = () => {
           </div>
         </div>
       </section>
+
+      {/* Pricing Section */}
+      <ServicePricingSection 
+        serviceName="Game Development"
+        pricingTiers={pricingTiers}
+      />
 
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-red-500/20 to-pink-500/20 relative">

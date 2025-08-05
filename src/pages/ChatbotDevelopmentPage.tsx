@@ -2,6 +2,9 @@ import { MessageCircle, Brain, Zap, Users, Settings, Bot } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import ServicePortfolioSection from '@/components/ServicePortfolioSection';
+import ServiceCaseStudiesSection from '@/components/ServiceCaseStudiesSection';
+import ServicePricingSection from '@/components/ServicePricingSection';
 
 const ChatbotDevelopmentPage = () => {
   const navigate = useNavigate();
@@ -51,6 +54,84 @@ const ChatbotDevelopmentPage = () => {
     { step: '05', title: 'Deployment', description: 'Launch with monitoring and continuous improvement' }
   ];
 
+  const caseStudies = [
+    {
+      client: "RetailCorp",
+      industry: "E-commerce",
+      challenge: "High customer service costs with 500+ daily inquiries and long response times affecting customer satisfaction.",
+      solution: "Deployed AI chatbot with NLP capabilities, integrated with inventory and order management systems for instant responses.",
+      results: ["75% reduction in support tickets", "90% faster response times", "24/7 customer support", "40% cost savings"],
+      testimonial: "The chatbot handles most customer queries instantly. Our support team can now focus on complex issues while customer satisfaction has improved dramatically.",
+      clientName: "Sarah Johnson",
+      clientRole: "Customer Service Director",
+      clientImage: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face",
+      duration: "8 weeks",
+      teamSize: "4 specialists"
+    },
+    {
+      client: "HealthPlus Clinic",
+      industry: "Healthcare",
+      challenge: "Patients struggling to book appointments and get basic information outside business hours.",
+      solution: "Created HIPAA-compliant chatbot for appointment booking, symptom checking, and medical information with secure data handling.",
+      results: ["60% increase in online bookings", "85% patient satisfaction", "50% reduction in phone calls", "Improved accessibility"],
+      testimonial: "Our patients love the convenience of booking appointments anytime. The chatbot has made our clinic more accessible and efficient.",
+      clientName: "Dr. Michael Chen",
+      clientRole: "Practice Manager",
+      clientImage: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
+      duration: "10 weeks",
+      teamSize: "5 specialists"
+    }
+  ];
+
+  const pricingTiers = [
+    {
+      name: "Starter Bot",
+      price: "$2,500",
+      description: "Perfect for small businesses getting started with chatbots",
+      features: [
+        "Basic FAQ chatbot",
+        "Up to 100 questions",
+        "Web widget integration",
+        "Basic analytics",
+        "Email support",
+        "1 month maintenance"
+      ],
+      popular: false
+    },
+    {
+      name: "Smart Assistant",
+      price: "$8,500",
+      description: "Advanced AI chatbot for growing businesses",
+      features: [
+        "AI-powered conversations",
+        "Unlimited questions",
+        "Multi-platform deployment",
+        "CRM integration",
+        "Advanced analytics",
+        "Voice capabilities",
+        "3 months maintenance",
+        "Training & documentation"
+      ],
+      popular: true
+    },
+    {
+      name: "Enterprise Solution",
+      price: "Custom",
+      description: "Full-scale chatbot ecosystem for large organizations",
+      features: [
+        "Custom AI model development",
+        "Multi-language support",
+        "Advanced integrations",
+        "Dedicated support team",
+        "99.9% uptime SLA",
+        "Custom security features",
+        "12 months maintenance",
+        "On-site training"
+      ],
+      popular: false
+    }
+  ];
+
   return (
     <div 
       className="min-h-screen bg-black text-white"
@@ -95,6 +176,18 @@ const ChatbotDevelopmentPage = () => {
         </div>
       </section>
 
+      {/* Portfolio Section */}
+      <ServicePortfolioSection 
+        serviceId="chatbot-development"
+        serviceName="Chatbot Development"
+      />
+
+      {/* Case Studies Section */}
+      <ServiceCaseStudiesSection 
+        serviceName="Chatbot Development"
+        caseStudies={caseStudies}
+      />
+
       {/* Features Section */}
       <section className="py-20 bg-black/50">
         <div className="container mx-auto px-6">
@@ -138,6 +231,12 @@ const ChatbotDevelopmentPage = () => {
           </div>
         </div>
       </section>
+
+      {/* Pricing Section */}
+      <ServicePricingSection 
+        serviceName="Chatbot Development"
+        pricingTiers={pricingTiers}
+      />
 
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-teal-500/20 to-blue-500/20 relative">
