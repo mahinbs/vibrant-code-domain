@@ -122,7 +122,7 @@ const ArVrDevelopmentPage = () => {
       <section className="py-20 bg-black/50">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Immersive Technologies</h2>
+            <h2 className="text-4xl font-bold mb-4 text-green-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">Immersive Technologies</h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
               Push the boundaries of reality with our AR/VR development expertise.
             </p>
@@ -143,7 +143,7 @@ const ArVrDevelopmentPage = () => {
       <section className="py-20 bg-black/50">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Our AR/VR Development Process</h2>
+            <h2 className="text-4xl font-bold mb-4 text-green-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">Our AR/VR Development Process</h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
               From concept to immersive reality with proven methodologies.
             </p>
@@ -163,16 +163,21 @@ const ArVrDevelopmentPage = () => {
       </section>
 
       {/* Pricing Section */}
-      <ServicePricingSection serviceName="AR/VR Development" pricingTiers={[
-        { name: 'AR Starter', price: '$12,000', description: 'Mobile AR development', features: ['iOS/Android AR App', 'Basic 3D Tracking', 'Custom Models', 'Store Deployment'], popular: false },
-        { name: 'VR Professional', price: '$35,000', description: 'Immersive VR experience', features: ['Multi-Platform VR', 'Advanced Physics', 'Hand Tracking', 'Multiplayer', 'Analytics'], popular: true },
-        { name: 'Enterprise XR', price: 'Custom', description: 'Full-scale solution', features: ['Custom Platform', 'Enterprise Integration', 'Advanced Analytics', 'Cloud Infrastructure'], popular: false }
-      ]} />
+      <ServicePricingSection 
+        serviceName="AR/VR Development" 
+        pricingTiers={[
+          { name: 'AR Starter', price: '$12,000', description: 'Mobile AR development', features: ['iOS/Android AR App', 'Basic 3D Tracking', 'Custom Models', 'Store Deployment'], popular: false },
+          { name: 'VR Professional', price: '$35,000', description: 'Immersive VR experience', features: ['Multi-Platform VR', 'Advanced Physics', 'Hand Tracking', 'Multiplayer', 'Analytics'], popular: true },
+          { name: 'Enterprise XR', price: 'Custom', description: 'Full-scale solution', features: ['Custom Platform', 'Enterprise Integration', 'Advanced Analytics', 'Cloud Infrastructure'], popular: false }
+        ]}
+        accentColor="text-green-400"
+        buttonAccentColor="green"
+      />
 
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-green-500/20 to-blue-500/20 relative">
         <div className="container mx-auto px-6 text-center relative z-10">
-          <h2 className="text-4xl font-bold mb-4">Ready to Enter the Metaverse?</h2>
+          <h2 className="text-4xl font-bold mb-4 text-green-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">Ready to Enter the Metaverse?</h2>
           <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
             Let's create immersive AR/VR experiences that captivate and engage your audience.
           </p>
