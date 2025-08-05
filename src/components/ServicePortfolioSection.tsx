@@ -74,7 +74,7 @@ const ServicePortfolioSection = ({ serviceId, serviceName, fallbackProjects = []
 
   if (loading) {
     return (
-    <section className={`py-20 bg-black/80 border-t border-${accentColor}-400/10`}>
+    <section className={`py-20 bg-black/80 border-t ${accentColor === 'yellow' ? 'border-yellow-400/40' : accentColor === 'pink' ? 'border-pink-400/40' : accentColor === 'blue' ? 'border-blue-400/40' : accentColor === 'indigo' ? 'border-indigo-400/40' : accentColor === 'red' ? 'border-red-400/40' : accentColor === 'green' ? 'border-green-400/40' : accentColor === 'purple' ? 'border-purple-400/40' : accentColor === 'teal' ? 'border-teal-400/40' : `border-${accentColor}-400/10`}`}>
         <div className="container mx-auto px-6">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
@@ -86,7 +86,7 @@ const ServicePortfolioSection = ({ serviceId, serviceName, fallbackProjects = []
   }
 
   return (
-    <section className={`py-20 bg-black/80 border-t border-${accentColor}-400/10`}>
+    <section className={`py-20 bg-black/80 border-t ${accentColor === 'yellow' ? 'border-yellow-400/40' : accentColor === 'pink' ? 'border-pink-400/40' : accentColor === 'blue' ? 'border-blue-400/40' : accentColor === 'indigo' ? 'border-indigo-400/40' : accentColor === 'red' ? 'border-red-400/40' : accentColor === 'green' ? 'border-green-400/40' : accentColor === 'purple' ? 'border-purple-400/40' : accentColor === 'teal' ? 'border-teal-400/40' : `border-${accentColor}-400/10`}`}>
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className={`text-4xl font-bold mb-4 ${getHeadingColorClass(accentColor)}`}>Our {serviceName} Portfolio</h2>

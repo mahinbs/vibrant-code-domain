@@ -136,7 +136,7 @@ const DataAnalyticsPage = () => {
     <div 
       className="min-h-screen bg-black text-white"
       style={{
-        backgroundImage: 'url("https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80")',
+        backgroundImage: 'url("https://res.cloudinary.com/dqogq10ag/image/upload/f_auto,q_auto/v1754397318/BizAnalytics_vs_Intelligence-Hero_copy_ku9lq9.tiff")',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
@@ -146,13 +146,13 @@ const DataAnalyticsPage = () => {
       <Header />
       
       {/* Hero Section */}
-      <section className="pt-32 pb-20 relative overflow-hidden">
+      <section className="pt-32 pb-16 relative overflow-hidden">
         <div className="absolute inset-0 bg-black/80"></div>
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-5xl md:text-7xl font-bold mb-6">
-              <span className="bg-gradient-to-r from-indigo-400 to-purple-500 bg-clip-text text-transparent">
-                Data Analytics & BI
+            <h1 className="text-5xl md:text-7xl font-bold mb-6 text-center">
+              <span className="bg-gradient-to-r from-indigo-300 via-purple-500 via-indigo-400 to-purple-400 bg-clip-text text-transparent inline-block animate-gradient bg-[length:400%_100%] typewriter">
+                Data Analytics
               </span>
             </h1>
             <p className="text-xl md:text-2xl text-gray-300 mb-8 leading-relaxed">
@@ -191,7 +191,7 @@ const DataAnalyticsPage = () => {
       />
 
       {/* Features Section */}
-      <section className="py-20 bg-black/80">
+      <section className="py-20 bg-black/80 border-t border-indigo-400/40">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4 text-indigo-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">Analytics Capabilities</h2>
@@ -212,7 +212,7 @@ const DataAnalyticsPage = () => {
       </section>
 
       {/* Process Section */}
-      <section className="py-20 bg-black/80">
+      <section className="py-20 bg-black/80 border-t border-indigo-400/40">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4 text-indigo-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">Our Analytics Implementation Process</h2>
@@ -244,6 +244,7 @@ const DataAnalyticsPage = () => {
 
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-indigo-500/20 to-purple-500/20 relative">
+        <div className="absolute inset-0 bg-black/60"></div>
         <div className="container mx-auto px-6 text-center relative z-10">
           <h2 className="text-4xl font-bold mb-4 text-indigo-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">Ready to Unlock Your Data's Potential?</h2>
           <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">

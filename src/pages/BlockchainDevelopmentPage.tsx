@@ -68,12 +68,12 @@ const BlockchainDevelopmentPage = () => {
       <Header />
       
       {/* Hero Section */}
-      <section className="pt-32 pb-20 relative overflow-hidden">
+      <section className="pt-32 pb-16 relative overflow-hidden">
         <div className="absolute inset-0 bg-black/80"></div>
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-5xl md:text-7xl font-bold mb-6">
-              <span className="bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
+            <h1 className="text-5xl md:text-7xl font-bold mb-6 text-center">
+              <span className="bg-gradient-to-r from-yellow-300 via-orange-500 via-yellow-400 to-orange-400 bg-clip-text text-transparent inline-block animate-gradient bg-[length:400%_100%] typewriter">
                 Blockchain Development
               </span>
             </h1>
@@ -102,7 +102,7 @@ const BlockchainDevelopmentPage = () => {
       <ServiceCaseStudiesSection serviceName="Blockchain Development" caseStudies={[{client: 'CryptoFinance', industry: 'DeFi', challenge: 'Need secure DeFi platform', solution: 'Smart contract development', results: ['99.9% security', '$50M locked', '100k users', 'Zero hacks'], testimonial: "Secure and scalable DeFi platform", clientName: 'Alex Chen', clientRole: 'CTO, CryptoFinance', clientImage: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&h=150&q=80', duration: '12 weeks', teamSize: '4 developers'}]} accentColor="text-yellow-400" />
 
       {/* Features Section */}
-      <section className="py-20 bg-black/80">
+      <section className="py-20 bg-black/80 border-t border-yellow-400/40">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4 text-yellow-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">Blockchain Technologies</h2>
@@ -123,7 +123,7 @@ const BlockchainDevelopmentPage = () => {
       </section>
 
       {/* Process Section */}
-      <section className="py-20 bg-black/80">
+      <section className="py-20 bg-black/80 border-t border-yellow-400/40">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4 text-yellow-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">Our Blockchain Development Process</h2>

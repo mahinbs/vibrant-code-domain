@@ -58,7 +58,7 @@ const ArVrDevelopmentPage = () => {
     <div 
       className="min-h-screen bg-black text-white"
       style={{
-        backgroundImage: 'url("https://images.unsplash.com/photo-1592478411213-6153e4ebc696?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80")',
+        backgroundImage: 'url("https://res.cloudinary.com/dqogq10ag/image/upload/v1754394533/AdobeStock_576514253-2048x1365_hyjhwi.png")',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
@@ -68,12 +68,12 @@ const ArVrDevelopmentPage = () => {
       <Header />
       
       {/* Hero Section */}
-      <section className="pt-32 pb-20 relative overflow-hidden">
+      <section className="pt-32 pb-16 relative overflow-hidden">
         <div className="absolute inset-0 bg-black/80"></div>
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-5xl md:text-7xl font-bold mb-6">
-              <span className="bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent">
+            <h1 className="text-5xl md:text-7xl font-bold mb-6 text-center">
+              <span className="bg-gradient-to-r from-green-300 via-emerald-500 via-green-400 to-emerald-400 bg-clip-text text-transparent inline-block animate-gradient bg-[length:400%_100%] typewriter">
                 AR/VR Development
               </span>
             </h1>
@@ -119,7 +119,7 @@ const ArVrDevelopmentPage = () => {
       ]} accentColor="text-green-400" />
 
       {/* Features Section */}
-      <section className="py-20 bg-black/80 border-t border-green-400/10">
+      <section className="py-20 bg-black/80 border-t border-green-400/40">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4 text-green-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">Immersive Technologies</h2>
@@ -140,7 +140,7 @@ const ArVrDevelopmentPage = () => {
       </section>
 
       {/* Process Section */}
-      <section className="py-20 bg-black/80 border-t border-green-400/10">
+      <section className="py-20 bg-black/80 border-t border-green-400/40">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4 text-green-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">Our AR/VR Development Process</h2>
@@ -176,6 +176,7 @@ const ArVrDevelopmentPage = () => {
 
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-green-500/20 to-blue-500/20 relative">
+        <div className="absolute inset-0 bg-black/60"></div>
         <div className="container mx-auto px-6 text-center relative z-10">
           <h2 className="text-4xl font-bold mb-4 text-green-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">Ready to Enter the Metaverse?</h2>
           <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">

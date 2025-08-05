@@ -576,3 +576,61 @@ video {
 .blog-content img {
   @apply rounded-lg mb-3 sm:mb-4 w-full h-auto;
 }
+
+/* Gradient Animation for Service Headings */
+@keyframes gradient-flow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-gradient {
+  animation: gradient-flow 2s ease-in-out infinite;
+  will-change: background-position;
+}
+
+/* Typewriter Animation */
+@keyframes typewriter {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes blink {
+  0%, 50% {
+    opacity: 0;
+  }
+  51%, 100% {
+    opacity: 1;
+  }
+}
+
+.typewriter {
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+  display: inline-block;
+  animation: typewriter 3s steps(20) 1s forwards;
+  width: 0;
+}
+
+.typewriter::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 3px;
+  height: 100%;
+  background-color: white;
+  animation: blink 1s infinite;
+  animation-delay: 4s;
+}

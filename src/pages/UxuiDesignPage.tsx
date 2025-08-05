@@ -121,7 +121,7 @@ const UxuiDesignPage = () => {
     <div 
       className="min-h-screen bg-black text-white"
       style={{
-        backgroundImage: 'url("https://images.unsplash.com/photo-1561070791-2526d30994b5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80")',
+        backgroundImage: 'url("https://res.cloudinary.com/dqogq10ag/image/upload/v1754397189/gradient-ui-ux-elements-background_23-2149056159_yajapz.avif")',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
@@ -131,12 +131,12 @@ const UxuiDesignPage = () => {
       <Header />
       
       {/* Hero Section */}
-      <section className="pt-32 pb-20 relative overflow-hidden">
+      <section className="pt-32 pb-16 relative overflow-hidden">
         <div className="absolute inset-0 bg-black/80"></div>
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-5xl md:text-7xl font-bold mb-6">
-              <span className="bg-gradient-to-r from-pink-400 to-purple-500 bg-clip-text text-transparent">
+            <h1 className="text-5xl md:text-7xl font-bold mb-6 text-center">
+              <span className="bg-gradient-to-r from-pink-300 via-purple-500 via-pink-400 to-purple-400 bg-clip-text text-transparent inline-block animate-gradient bg-[length:400%_100%] typewriter">
                 UX/UI Design
               </span>
             </h1>
@@ -176,7 +176,7 @@ const UxuiDesignPage = () => {
       />
 
       {/* Features Section */}
-      <section className="py-20 bg-black/80 border-t border-pink-400/10">
+      <section className="py-20 bg-black/80 border-t border-pink-400/40">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4 text-pink-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">Design Excellence</h2>
@@ -197,7 +197,7 @@ const UxuiDesignPage = () => {
       </section>
 
       {/* Process Section */}
-      <section className="py-20 bg-black/80 border-t border-pink-400/10">
+      <section className="py-20 bg-black/80 border-t border-pink-400/40">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4 text-pink-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">Our Design Process</h2>
@@ -229,6 +229,7 @@ const UxuiDesignPage = () => {
 
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-pink-500/20 to-purple-500/20 relative">
+        <div className="absolute inset-0 bg-black/60"></div>
         <div className="container mx-auto px-6 text-center relative z-10">
           <h2 className="text-4xl font-bold mb-4 text-pink-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">Ready to Transform Your User Experience?</h2>
           <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">

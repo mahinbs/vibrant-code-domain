@@ -131,12 +131,12 @@ const CloudComputingPage = () => {
       <Header />
       
       {/* Hero Section */}
-      <section className="pt-32 pb-20 relative overflow-hidden">
+      <section className="pt-32 pb-16 relative overflow-hidden">
         <div className="absolute inset-0 bg-black/80"></div>
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-5xl md:text-7xl font-bold mb-6">
-              <span className="bg-gradient-to-r from-blue-400 to-cyan-500 bg-clip-text text-transparent">
+            <h1 className="text-5xl md:text-7xl font-bold mb-6 text-center">
+              <span className="bg-gradient-to-r from-blue-300 via-cyan-500 via-blue-400 to-cyan-400 bg-clip-text text-transparent inline-block animate-gradient bg-[length:400%_100%] typewriter">
                 Cloud Computing
               </span>
             </h1>
@@ -176,7 +176,7 @@ const CloudComputingPage = () => {
       />
 
       {/* Features Section */}
-      <section className="py-20 bg-black/80">
+      <section className="py-20 bg-black/80 border-t border-blue-400/40">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4 text-blue-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">Cloud Excellence</h2>
@@ -197,7 +197,7 @@ const CloudComputingPage = () => {
       </section>
 
       {/* Process Section */}
-      <section className="py-20 bg-black/80">
+      <section className="py-20 bg-black/80 border-t border-blue-400/40">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4 text-blue-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">Our Cloud Migration Process</h2>
@@ -229,6 +229,7 @@ const CloudComputingPage = () => {
 
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 relative">
+        <div className="absolute inset-0 bg-black/60"></div>
         <div className="container mx-auto px-6 text-center relative z-10">
           <h2 className="text-4xl font-bold mb-4 text-blue-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">Ready to Migrate to the Cloud?</h2>
           <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">

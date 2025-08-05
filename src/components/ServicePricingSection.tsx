@@ -88,7 +88,7 @@ const ServicePricingSection = ({ serviceName, pricingTiers, accentColor = "text-
     }
   };
   return (
-    <section className={`py-20 bg-black/80 border-t ${buttonAccentColor === 'pink' ? 'border-pink-400/10' : buttonAccentColor === 'blue' ? 'border-blue-400/10' : buttonAccentColor === 'green' ? 'border-green-400/10' : buttonAccentColor === 'purple' ? 'border-purple-400/10' : buttonAccentColor === 'yellow' ? 'border-yellow-400/10' : buttonAccentColor === 'red' ? 'border-red-400/10' : buttonAccentColor === 'orange' ? 'border-orange-400/10' : 'border-gray-400/10'}`}>
+    <section className={`py-20 bg-black/80 border-t ${buttonAccentColor === 'pink' ? 'border-pink-400/40' : buttonAccentColor === 'blue' ? 'border-blue-400/40' : buttonAccentColor === 'green' ? 'border-green-400/40' : buttonAccentColor === 'purple' ? 'border-purple-400/40' : buttonAccentColor === 'yellow' ? 'border-yellow-400/40' : buttonAccentColor === 'red' ? 'border-red-400/40' : buttonAccentColor === 'orange' ? 'border-orange-400/10' : buttonAccentColor === 'indigo' ? 'border-indigo-400/40' : buttonAccentColor === 'teal' ? 'border-teal-400/40' : 'border-gray-400/10'}`}>
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className={`text-4xl font-bold mb-4 ${getAccentColorClass()} drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]`}>{serviceName} Pricing</h2>

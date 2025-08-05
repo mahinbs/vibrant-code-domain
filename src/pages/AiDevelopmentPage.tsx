@@ -131,12 +131,12 @@ const AiDevelopmentPage = () => {
       <Header />
       
       {/* Hero Section */}
-      <section className="pt-32 pb-20 relative overflow-hidden">
+      <section className="pt-32 pb-16 relative overflow-hidden">
         <div className="absolute inset-0 bg-black/80"></div>
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-5xl md:text-7xl font-bold mb-6">
-              <span className="bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
+            <h1 className="text-5xl md:text-7xl font-bold mb-6 text-center">
+              <span className="bg-gradient-to-r from-purple-300 via-violet-500 via-purple-400 to-violet-400 bg-clip-text text-transparent inline-block animate-gradient bg-[length:400%_100%] typewriter">
                 AI Development
               </span>
             </h1>
@@ -176,7 +176,7 @@ const AiDevelopmentPage = () => {
       />
 
       {/* Features Section */}
-      <section className="py-20 bg-black/80">
+      <section className="py-20 bg-black/80 border-t border-purple-400/40">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4 text-purple-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">AI Capabilities</h2>
@@ -197,7 +197,7 @@ const AiDevelopmentPage = () => {
       </section>
 
       {/* Process Section */}
-      <section className="py-20 bg-black/80">
+      <section className="py-20 bg-black/80 border-t border-purple-400/40">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4 text-purple-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">Our AI Development Process</h2>
@@ -229,6 +229,7 @@ const AiDevelopmentPage = () => {
 
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-purple-500/20 to-pink-500/20 relative">
+        <div className="absolute inset-0 bg-black/60"></div>
         <div className="container mx-auto px-6 text-center relative z-10">
           <h2 className="text-4xl font-bold mb-4 text-purple-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">Ready to Embrace AI Innovation?</h2>
           <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
