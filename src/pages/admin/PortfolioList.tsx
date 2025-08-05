@@ -17,10 +17,19 @@ import {
 
 const services = [
   { id: 'web-apps', label: 'Web Applications' },
-  { id: 'saas', label: 'SAAS Solutions' },
+  { id: 'saas', label: 'SaaS Solutions' },
   { id: 'mobile-apps', label: 'Mobile Applications' },
-  { id: 'ai-calling', label: 'AI Calling Agency' },
-  { id: 'ai-automation', label: 'AI Automation' }
+  { id: 'ai-automation', label: 'AI Automation' },
+  { id: 'ai-calling', label: 'AI Calling' },
+  { id: 'uxui-design', label: 'UX/UI Design' },
+  { id: 'cloud-computing', label: 'Cloud Computing Services' },
+  { id: 'ai-development', label: 'AI Development' },
+  { id: 'ar-vr-development', label: 'AR/VR Development' },
+  { id: 'blockchain-development', label: 'Blockchain Development' },
+  { id: 'chatbot-development', label: 'Chatbot Development' },
+  { id: 'data-analytics', label: 'Data Analytics & Business Intelligence' },
+  { id: 'game-development', label: 'Game Development' },
+  { id: 'iot-development', label: 'IoT Development' }
 ];
 
 const PortfolioList = () => {

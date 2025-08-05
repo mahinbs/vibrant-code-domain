@@ -17,7 +17,16 @@ const BasicInformationSection = ({ formData, setFormData }: BasicInformationSect
     { value: 'saas', label: 'SaaS Solutions' },
     { value: 'mobile-apps', label: 'Mobile Applications' },
     { value: 'ai-automation', label: 'AI Automation' },
-    { value: 'ai-calling', label: 'AI Calling' }
+    { value: 'ai-calling', label: 'AI Calling' },
+    { value: 'uxui-design', label: 'UX/UI Design' },
+    { value: 'cloud-computing', label: 'Cloud Computing Services' },
+    { value: 'ai-development', label: 'AI Development' },
+    { value: 'ar-vr-development', label: 'AR/VR Development' },
+    { value: 'blockchain-development', label: 'Blockchain Development' },
+    { value: 'chatbot-development', label: 'Chatbot Development' },
+    { value: 'data-analytics', label: 'Data Analytics & Business Intelligence' },
+    { value: 'game-development', label: 'Game Development' },
+    { value: 'iot-development', label: 'IoT Development' }
   ];
 
   return (
