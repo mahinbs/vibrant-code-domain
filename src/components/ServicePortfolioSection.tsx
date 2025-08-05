@@ -8,9 +8,27 @@ interface ServicePortfolioSectionProps {
   serviceId: string;
   serviceName: string;
   fallbackProjects?: any[];
+  accentColor?: string;
 }
 
-const ServicePortfolioSection = ({ serviceId, serviceName, fallbackProjects = [] }: ServicePortfolioSectionProps) => {
+const ServicePortfolioSection = ({ serviceId, serviceName, fallbackProjects = [], accentColor = "cyan" }: ServicePortfolioSectionProps) => {
+  
+  // Color mapping for different accents
+  const getAccentClasses = (accent: string) => {
+    const colorMap: Record<string, { border: string; bg: string; text: string; tag: string; hover: string }> = {
+      cyan: { border: "border-cyan-400/50", bg: "bg-cyan-500/20", text: "text-cyan-300", tag: "text-cyan-300", hover: "hover:text-cyan-300" },
+      purple: { border: "border-purple-400/50", bg: "bg-purple-500/20", text: "text-purple-300", tag: "text-purple-300", hover: "hover:text-purple-300" },
+      red: { border: "border-red-400/50", bg: "bg-red-500/20", text: "text-red-300", tag: "text-red-300", hover: "hover:text-red-300" },
+      yellow: { border: "border-yellow-400/50", bg: "bg-yellow-500/20", text: "text-yellow-300", tag: "text-yellow-300", hover: "hover:text-yellow-300" },
+      indigo: { border: "border-indigo-400/50", bg: "bg-indigo-500/20", text: "text-indigo-300", tag: "text-indigo-300", hover: "hover:text-indigo-300" },
+      teal: { border: "border-teal-400/50", bg: "bg-teal-500/20", text: "text-teal-300", tag: "text-teal-300", hover: "hover:text-teal-300" },
+      pink: { border: "border-pink-400/50", bg: "bg-pink-500/20", text: "text-pink-300", tag: "text-pink-300", hover: "hover:text-pink-300" },
+      blue: { border: "border-blue-400/50", bg: "bg-blue-500/20", text: "text-blue-300", tag: "text-blue-300", hover: "hover:text-blue-300" },
+    };
+    return colorMap[accent] || colorMap.cyan;
+  };
+  
+  const accentClasses = getAccentClasses(accentColor);
   const [portfolioProjects, setPortfolioProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -63,7 +81,7 @@ const ServicePortfolioSection = ({ serviceId, serviceName, fallbackProjects = []
         {portfolioProjects.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {portfolioProjects.map((project, index) => (
-              <div key={project.id} className="group bg-gray-800/50 rounded-2xl overflow-hidden border border-gray-700/50 hover:border-cyan-400/50 transition-all duration-300">
+              <div key={project.id} className={`group bg-gray-800/50 rounded-2xl overflow-hidden border border-gray-700/50 hover:${accentClasses.border} transition-all duration-300`}>
                 <div className="relative h-48 overflow-hidden">
                   <img 
                     src={project.image} 
@@ -72,13 +90,13 @@ const ServicePortfolioSection = ({ serviceId, serviceName, fallbackProjects = []
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 to-transparent pointer-events-none"></div>
                   <div className="absolute bottom-4 left-4">
-                    <span className="px-3 py-1 bg-cyan-500/20 border border-cyan-400/30 rounded-full text-sm text-cyan-300">
+                    <span className={`px-3 py-1 ${accentClasses.bg} border border-${accentColor}-400/30 rounded-full text-sm ${accentClasses.tag}`}>
                       {project.industry}
                     </span>
                   </div>
                 </div>
                 <div className="p-6">
-                  <h3 className="text-xl font-bold mb-3 group-hover:text-cyan-300 transition-colors">
+                  <h3 className={`text-xl font-bold mb-3 group-${accentClasses.hover} transition-colors`}>
                     {project.title}
                   </h3>
                   <p className="text-gray-400 mb-4 text-sm leading-relaxed">
@@ -99,7 +117,7 @@ const ServicePortfolioSection = ({ serviceId, serviceName, fallbackProjects = []
                   </div>
                   <Link 
                     to={`/case-study/${project.slug || project.id}`}
-                    className="inline-flex items-center text-cyan-400 hover:text-cyan-300 transition-colors text-sm font-medium"
+                    className={`inline-flex items-center ${accentClasses.text} ${accentClasses.hover} transition-colors text-sm font-medium`}
                   >
                     View Case Study <ArrowRight className="ml-1 h-4 w-4" />
                   </Link>

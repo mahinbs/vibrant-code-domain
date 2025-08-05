@@ -180,6 +180,7 @@ const GameDevelopmentPage = () => {
       <ServicePortfolioSection 
         serviceId="game-development"
         serviceName="Game Development"
+        accentColor="red"
       />
 
       {/* Case Studies Section */}

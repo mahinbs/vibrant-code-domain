@@ -30,8 +30,8 @@ const ServicePricingSection = ({ serviceName, pricingTiers, accentColor = "text-
               key={index} 
               className={`relative p-8 rounded-2xl border transition-all duration-300 ${
                 tier.popular 
-                  ? 'border-primary bg-card/80 backdrop-blur-sm scale-105 shadow-lg' 
-                  : 'border-gray-700/50 bg-card/40 backdrop-blur-sm hover:border-primary/50 hover:bg-card/60'
+                  ? 'border-primary bg-gray-800/90 backdrop-blur-sm scale-105 shadow-2xl shadow-primary/20' 
+                  : 'border-gray-600/70 bg-gray-800/70 backdrop-blur-sm hover:border-primary/50 hover:bg-gray-700/80 hover:shadow-lg'
               }`}
             >
               {tier.popular && (

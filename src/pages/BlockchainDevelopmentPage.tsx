@@ -69,7 +69,7 @@ const BlockchainDevelopmentPage = () => {
       
       {/* Hero Section */}
       <section className="pt-32 pb-20 relative overflow-hidden">
-        <div className="absolute inset-0 bg-black/65"></div>
+        <div className="absolute inset-0 bg-black/80"></div>
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-5xl md:text-7xl font-bold mb-6">
@@ -98,7 +98,7 @@ const BlockchainDevelopmentPage = () => {
         </div>
       </section>
 
-      <ServicePortfolioSection serviceId="blockchain-development" serviceName="Blockchain Development" />
+      <ServicePortfolioSection serviceId="blockchain-development" serviceName="Blockchain Development" accentColor="yellow" />
       <ServiceCaseStudiesSection serviceName="Blockchain Development" caseStudies={[{client: 'CryptoFinance', industry: 'DeFi', challenge: 'Need secure DeFi platform', solution: 'Smart contract development', results: ['99.9% security', '$50M locked', '100k users', 'Zero hacks'], testimonial: "Secure and scalable DeFi platform", clientName: 'Alex Chen', clientRole: 'CTO, CryptoFinance', clientImage: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&h=150&q=80', duration: '12 weeks', teamSize: '4 developers'}]} accentColor="text-yellow-400" />
 
       {/* Features Section */}
