@@ -99,7 +99,7 @@ const ArVrDevelopmentPage = () => {
       </section>
 
       {/* Portfolio Section */}
-      <ServicePortfolioSection serviceId="ar-vr-development" serviceName="AR/VR Development" />
+      <ServicePortfolioSection serviceId="ar-vr-development" serviceName="AR/VR Development" accentColor="green" />
 
       {/* Case Studies Section */}
       <ServiceCaseStudiesSection serviceName="AR/VR Development" caseStudies={[
@@ -116,7 +116,7 @@ const ArVrDevelopmentPage = () => {
           duration: '16 weeks',
           teamSize: '6 developers'
         }
-      ]} />
+      ]} accentColor="text-green-400" />
 
       {/* Features Section */}
       <section className="py-20 bg-black/50">

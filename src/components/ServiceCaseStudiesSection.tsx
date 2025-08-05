@@ -21,11 +21,28 @@ interface ServiceCaseStudiesSectionProps {
 }
 
 const ServiceCaseStudiesSection = ({ serviceName, caseStudies, accentColor = "text-primary" }: ServiceCaseStudiesSectionProps) => {
+  // Color mapping for headings
+  const getHeadingColorClass = (accent: string) => {
+    // Extract color from text-color-400 format
+    const colorName = accent.replace('text-', '').replace('-400', '');
+    const colorMap: Record<string, string> = {
+      cyan: 'text-cyan-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]',
+      purple: 'text-purple-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]',
+      red: 'text-red-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]',
+      yellow: 'text-yellow-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]',
+      indigo: 'text-indigo-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]',
+      teal: 'text-teal-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]',
+      pink: 'text-pink-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]',
+      blue: 'text-blue-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]',
+      green: 'text-green-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]'
+    };
+    return colorMap[colorName] || accent;
+  };
   return (
     <section className="py-20 bg-black/50">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold mb-4">Success Stories</h2>
+          <h2 className={`text-4xl font-bold mb-4 ${getHeadingColorClass(accentColor)}`}>Success Stories</h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
             Real results from our {serviceName.toLowerCase()} projects
           </p>
@@ -36,7 +53,7 @@ const ServiceCaseStudiesSection = ({ serviceName, caseStudies, accentColor = "te
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <div>
                   <div className="mb-6">
-                    <h3 className="text-2xl font-bold text-primary mb-2">{study.client}</h3>
+                    <h3 className={`text-2xl font-bold mb-2 ${accentColor}`}>{study.client}</h3>
                     <p className="text-gray-400">{study.industry} • {study.duration} • {study.teamSize}</p>
                   </div>
                   

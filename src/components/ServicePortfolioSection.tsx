@@ -24,8 +24,25 @@ const ServicePortfolioSection = ({ serviceId, serviceName, fallbackProjects = []
       teal: { border: "border-teal-400/50", bg: "bg-teal-500/20", text: "text-teal-300", tag: "text-teal-300", hover: "hover:text-teal-300" },
       pink: { border: "border-pink-400/50", bg: "bg-pink-500/20", text: "text-pink-300", tag: "text-pink-300", hover: "hover:text-pink-300" },
       blue: { border: "border-blue-400/50", bg: "bg-blue-500/20", text: "text-blue-300", tag: "text-blue-300", hover: "hover:text-blue-300" },
+      green: { border: "border-green-400/50", bg: "bg-green-500/20", text: "text-green-300", tag: "text-green-300", hover: "hover:text-green-300" },
     };
     return colorMap[accent] || colorMap.cyan;
+  };
+
+  // Color mapping for headings
+  const getHeadingColorClass = (accent: string) => {
+    const colorMap: Record<string, string> = {
+      cyan: 'text-cyan-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]',
+      purple: 'text-purple-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]',
+      red: 'text-red-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]',
+      yellow: 'text-yellow-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]',
+      indigo: 'text-indigo-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]',
+      teal: 'text-teal-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]',
+      pink: 'text-pink-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]',
+      blue: 'text-blue-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]',
+      green: 'text-green-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]'
+    };
+    return colorMap[accent] || 'text-white';
   };
   
   const accentClasses = getAccentClasses(accentColor);
@@ -72,7 +89,7 @@ const ServicePortfolioSection = ({ serviceId, serviceName, fallbackProjects = []
     <section className="py-20 bg-gray-900/50">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold mb-4">Our {serviceName} Portfolio</h2>
+          <h2 className={`text-4xl font-bold mb-4 ${getHeadingColorClass(accentColor)}`}>Our {serviceName} Portfolio</h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
             Explore our successful {serviceName.toLowerCase()} implementations across various industries
           </p>
