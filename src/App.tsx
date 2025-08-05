@@ -29,6 +29,7 @@ import ReviewsPage from "./pages/ReviewsPage";
 import ContactPage from "./pages/ContactPage";
 import ThankYouPage from "./pages/ThankYouPage";
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
+import ServicesPage from "./pages/ServicesPage";
 import NotFound from "./pages/NotFound";
 import SalespersonServicePage from "./pages/SalespersonServicePage";
 
@@ -98,6 +99,7 @@ const App = () => (
           <Route path="/game-development" element={<GameDevelopmentPage />} />
           <Route path="/iot-development" element={<IotDevelopmentPage />} />
           <Route path="/reviews" element={<ReviewsPage />} />
+          <Route path="/services" element={<ServicesPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/thank-you" element={<ThankYouPage />} />
           <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
