@@ -17,9 +17,10 @@ interface CaseStudy {
 interface ServiceCaseStudiesSectionProps {
   serviceName: string;
   caseStudies: CaseStudy[];
+  accentColor?: string;
 }
 
-const ServiceCaseStudiesSection = ({ serviceName, caseStudies }: ServiceCaseStudiesSectionProps) => {
+const ServiceCaseStudiesSection = ({ serviceName, caseStudies, accentColor = "text-primary" }: ServiceCaseStudiesSectionProps) => {
   return (
     <section className="py-20 bg-black/50">
       <div className="container mx-auto px-6">
@@ -58,7 +59,7 @@ const ServiceCaseStudiesSection = ({ serviceName, caseStudies }: ServiceCaseStud
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       {study.results.map((result, idx) => (
                         <div key={idx} className="flex items-start space-x-2">
-                          <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 flex-shrink-0" />
+                          <CheckCircle className={`h-5 w-5 ${accentColor} mt-0.5 flex-shrink-0`} />
                           <span className="text-gray-300 text-sm">{result}</span>
                         </div>
                       ))}

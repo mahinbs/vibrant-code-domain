@@ -69,7 +69,7 @@ const BlockchainDevelopmentPage = () => {
       
       {/* Hero Section */}
       <section className="pt-32 pb-20 relative overflow-hidden">
-        <div className="absolute inset-0 bg-black/50"></div>
+        <div className="absolute inset-0 bg-black/65"></div>
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-5xl md:text-7xl font-bold mb-6">
@@ -99,7 +99,7 @@ const BlockchainDevelopmentPage = () => {
       </section>
 
       <ServicePortfolioSection serviceId="blockchain-development" serviceName="Blockchain Development" />
-      <ServiceCaseStudiesSection serviceName="Blockchain Development" caseStudies={[{client: 'CryptoFinance', industry: 'DeFi', challenge: 'Need secure DeFi platform', solution: 'Smart contract development', results: ['99.9% security', '$50M locked', '100k users', 'Zero hacks'], testimonial: "Secure and scalable DeFi platform", clientName: 'Alex Chen', clientRole: 'CTO, CryptoFinance', clientImage: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&h=150&q=80', duration: '12 weeks', teamSize: '4 developers'}]} />
+      <ServiceCaseStudiesSection serviceName="Blockchain Development" caseStudies={[{client: 'CryptoFinance', industry: 'DeFi', challenge: 'Need secure DeFi platform', solution: 'Smart contract development', results: ['99.9% security', '$50M locked', '100k users', 'Zero hacks'], testimonial: "Secure and scalable DeFi platform", clientName: 'Alex Chen', clientRole: 'CTO, CryptoFinance', clientImage: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&h=150&q=80', duration: '12 weeks', teamSize: '4 developers'}]} accentColor="text-yellow-400" />
 
       {/* Features Section */}
       <section className="py-20 bg-black/50">
@@ -145,7 +145,7 @@ const BlockchainDevelopmentPage = () => {
         </div>
       </section>
 
-      <ServicePricingSection serviceName="Blockchain Development" pricingTiers={[{name: 'Smart Contract', price: '$20,000', description: 'Basic blockchain solution', features: ['Smart Contract Development', 'Security Audit', 'Testnet Deployment', 'Documentation'], popular: false}, {name: 'DeFi Platform', price: '$60,000', description: 'Complete DeFi solution', features: ['Advanced Smart Contracts', 'Frontend Development', 'Multi-chain Support', 'Security Audits', 'Liquidity Integration'], popular: true}, {name: 'Enterprise Blockchain', price: 'Custom', description: 'Full enterprise solution', features: ['Custom Blockchain', 'Enterprise Integration', 'Advanced Security', 'Dedicated Support'], popular: false}]} />
+      <ServicePricingSection serviceName="Blockchain Development" pricingTiers={[{name: 'Smart Contract', price: '$20,000', description: 'Basic blockchain solution', features: ['Smart Contract Development', 'Security Audit', 'Testnet Deployment', 'Documentation'], popular: false}, {name: 'DeFi Platform', price: '$60,000', description: 'Complete DeFi solution', features: ['Advanced Smart Contracts', 'Frontend Development', 'Multi-chain Support', 'Security Audits', 'Liquidity Integration'], popular: true}, {name: 'Enterprise Blockchain', price: 'Custom', description: 'Full enterprise solution', features: ['Custom Blockchain', 'Enterprise Integration', 'Advanced Security', 'Dedicated Support'], popular: false}]} accentColor="text-yellow-400" />
 
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 relative">

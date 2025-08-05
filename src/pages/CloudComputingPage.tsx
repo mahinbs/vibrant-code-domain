@@ -132,7 +132,7 @@ const CloudComputingPage = () => {
       
       {/* Hero Section */}
       <section className="pt-32 pb-20 relative overflow-hidden">
-        <div className="absolute inset-0 bg-black/50"></div>
+        <div className="absolute inset-0 bg-black/65"></div>
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-5xl md:text-7xl font-bold mb-6">
@@ -171,6 +171,7 @@ const CloudComputingPage = () => {
       <ServiceCaseStudiesSection 
         serviceName="Cloud Computing"
         caseStudies={caseStudies}
+        accentColor="text-blue-400"
       />
 
       {/* Features Section */}
@@ -221,6 +222,7 @@ const CloudComputingPage = () => {
       <ServicePricingSection 
         serviceName="Cloud Computing"
         pricingTiers={pricingTiers}
+        accentColor="text-blue-400"
       />
 
       {/* CTA Section */}

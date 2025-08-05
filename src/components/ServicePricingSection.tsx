@@ -11,11 +11,12 @@ interface PricingTier {
 interface ServicePricingSectionProps {
   serviceName: string;
   pricingTiers: PricingTier[];
+  accentColor?: string;
 }
 
-const ServicePricingSection = ({ serviceName, pricingTiers }: ServicePricingSectionProps) => {
+const ServicePricingSection = ({ serviceName, pricingTiers, accentColor = "text-primary" }: ServicePricingSectionProps) => {
   return (
-    <section className="py-20 bg-gray-900/50">
+    <section className="py-20 bg-black/60">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold mb-4">{serviceName} Pricing</h2>
@@ -29,8 +30,8 @@ const ServicePricingSection = ({ serviceName, pricingTiers }: ServicePricingSect
               key={index} 
               className={`relative p-8 rounded-2xl border transition-all duration-300 ${
                 tier.popular 
-                  ? 'border-primary bg-primary/5 scale-105' 
-                  : 'border-gray-700/50 bg-gray-800/30 hover:border-primary/50'
+                  ? 'border-primary bg-card/80 backdrop-blur-sm scale-105 shadow-lg' 
+                  : 'border-gray-700/50 bg-card/40 backdrop-blur-sm hover:border-primary/50 hover:bg-card/60'
               }`}
             >
               {tier.popular && (
@@ -53,7 +54,7 @@ const ServicePricingSection = ({ serviceName, pricingTiers }: ServicePricingSect
               <div className="space-y-3 mb-8">
                 {tier.features.map((feature, idx) => (
                   <div key={idx} className="flex items-start space-x-3">
-                    <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 flex-shrink-0" />
+                    <CheckCircle className={`h-5 w-5 ${accentColor} mt-0.5 flex-shrink-0`} />
                     <span className="text-gray-300 text-sm">{feature}</span>
                   </div>
                 ))}
@@ -62,8 +63,8 @@ const ServicePricingSection = ({ serviceName, pricingTiers }: ServicePricingSect
               <button 
                 className={`w-full py-3 px-6 rounded-xl font-semibold transition-all duration-300 ${
                   tier.popular
-                    ? 'bg-primary text-primary-foreground hover:bg-primary/90'
-                    : 'border border-primary text-primary hover:bg-primary hover:text-primary-foreground'
+                    ? 'bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg'
+                    : 'border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground'
                 }`}
               >
                 Get Started
