@@ -64,7 +64,7 @@ const ChatbotDevelopmentPage = () => {
       testimonial: "The chatbot handles most customer queries instantly. Our support team can now focus on complex issues while customer satisfaction has improved dramatically.",
       clientName: "Sarah Johnson",
       clientRole: "Customer Service Director",
-      clientImage: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face",
+      clientImage: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&h=150&q=80",
       duration: "8 weeks",
       teamSize: "4 specialists"
     },

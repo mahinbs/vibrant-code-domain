@@ -22,6 +22,7 @@ export const SalespersonForm: React.FC<SalespersonFormProps> = ({
     salesperson_name: salesperson?.salesperson_name || '',
     display_name: salesperson?.display_name || '',
     email: salesperson?.email || '',
+    phone: salesperson?.phone || '',
     services: salesperson?.services || [],
     is_active: salesperson?.is_active ?? true
   });
@@ -112,6 +113,17 @@ export const SalespersonForm: React.FC<SalespersonFormProps> = ({
               onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
               placeholder="john@boostmysites.in"
               required
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="phone">Phone Number</Label>
+            <Input
+              id="phone"
+              type="tel"
+              value={formData.phone}
+              onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
+              placeholder="+91 98765 43210"
             />
           </div>
 
