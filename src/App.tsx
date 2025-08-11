@@ -32,6 +32,7 @@ import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 import ServicesPage from "./pages/ServicesPage";
 import NotFound from "./pages/NotFound";
 import SalespersonServicePage from "./pages/SalespersonServicePage";
+import PartnershipPage from "./pages/PartnershipPage";
 
 // Admin pages
 import AdminLogin from "./pages/admin/AdminLogin";
@@ -103,6 +104,7 @@ const App = () => (
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/thank-you" element={<ThankYouPage />} />
           <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+          <Route path="/partnership" element={<PartnershipPage />} />
           
           {/* Admin routes */}
           <Route path="/admin/login" element={<AdminLogin />} />
