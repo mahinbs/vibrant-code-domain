@@ -77,7 +77,7 @@ const GameDevelopmentPage = () => {
       testimonial: "This educational game has transformed how children in our schools learn. The engagement levels are incredible and the learning outcomes speak for themselves.",
       clientName: "Dr. Sarah Kim",
       clientRole: "Educational Director",
-      clientImage: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face",
+      clientImage: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&h=150&q=80",
       duration: "10 months",
       teamSize: "8 specialists"
     }

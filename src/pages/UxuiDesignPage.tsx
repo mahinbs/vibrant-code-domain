@@ -61,7 +61,7 @@ const UxuiDesignPage = () => {
       testimonial: "The design transformation was incredible. Our users now love using our platform, and we've seen a massive improvement in retention.",
       clientName: 'Sarah Mitchell',
       clientRole: 'Head of Product, TechFlow Solutions',
-      clientImage: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&h=150&q=80',
+      clientImage: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&h=150&q=80',
       duration: '8 weeks',
       teamSize: '4 designers'
     },

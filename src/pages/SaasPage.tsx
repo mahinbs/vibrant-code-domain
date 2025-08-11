@@ -107,10 +107,10 @@ const SaasPage = () => {
         '99.9% uptime achieved',
         '$500K annual cost savings'
       ],
-      testimonial: "NeuraCode delivered exactly what we needed. The platform has transformed how our teams collaborate and has significantly improved our project delivery times.",
+      testimonial: "Boostmysites delivered exactly what we needed. The platform has transformed how our teams collaborate and has significantly improved our project delivery times.",
       clientName: 'Sarah Johnson',
       clientRole: 'CTO, TechCorp Solutions',
-      clientImage: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&h=150&q=80',
+      clientImage: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&h=150&q=80',
       duration: '14 weeks',
       teamSize: '6 developers'
     },
@@ -143,10 +143,10 @@ const SaasPage = () => {
         '50% reduction in support tickets',
         'Zero downtime during peak usage'
       ],
-      testimonial: "NeuraCode helped us scale from 5,000 to 50,000 students seamlessly. Their platform handled the massive growth without any issues.",
+      testimonial: "Boostmysites helped us scale from 5,000 to 50,000 students seamlessly. Their platform handled the massive growth without any issues.",
       clientName: 'Dr. Emily Roberts',
       clientRole: 'Director of Technology, EduTech Academy',
-      clientImage: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&h=150&q=80',
+      clientImage: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&h=150&q=80',
       duration: '16 weeks',
       teamSize: '8 developers'
     }

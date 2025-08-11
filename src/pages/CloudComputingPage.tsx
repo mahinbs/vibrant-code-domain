@@ -79,7 +79,7 @@ const CloudComputingPage = () => {
       testimonial: "Security and compliance were our top priorities. The cloud solution exceeded our expectations on both fronts.",
       clientName: 'Dr. Emily Watson',
       clientRole: 'Chief Information Officer, HealthTech Solutions',
-      clientImage: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&h=150&q=80',
+      clientImage: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&h=150&q=80',
       duration: '16 weeks',
       teamSize: '6 engineers'
     }

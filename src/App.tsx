@@ -120,7 +120,7 @@ const App = () => (
           <Route path="/admin/link-generator" element={<ProtectedRoute><LinkGenerator /></ProtectedRoute>} />
           
           {/* Dynamic salesperson service routes */}
-          <Route path="/:salesperson/:service" element={<SalespersonServicePage />} />
+          {/* <Route path="/:salesperson/:service" element={<SalespersonServicePage />} /> */}
           
           {/* 404 page */}
           <Route path="*" element={<NotFound />} />

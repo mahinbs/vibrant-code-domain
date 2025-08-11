@@ -77,7 +77,7 @@ const IotDevelopmentPage = () => {
       testimonial: "The predictive maintenance system has transformed our operations. We can now anticipate equipment failures before they happen, saving us millions in downtime costs.",
       clientName: "Maria Chen",
       clientRole: "Plant Manager",
-      clientImage: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face",
+      clientImage: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&h=150&q=80",
       duration: "18 weeks",
       teamSize: "9 specialists"
     }
