@@ -207,36 +207,143 @@ export type Database = {
       }
       salesperson_links: {
         Row: {
+          conversion_tag: string | null
           created_at: string
           display_name: string
           email: string
+          gtag_script: string | null
           id: string
           is_active: boolean
+          phone: string | null
           salesperson_name: string
           services: string[]
           updated_at: string
         }
         Insert: {
+          conversion_tag?: string | null
           created_at?: string
           display_name: string
           email: string
+          gtag_script?: string | null
           id?: string
           is_active?: boolean
+          phone?: string | null
           salesperson_name: string
           services?: string[]
           updated_at?: string
         }
         Update: {
+          conversion_tag?: string | null
           created_at?: string
           display_name?: string
           email?: string
+          gtag_script?: string | null
           id?: string
           is_active?: boolean
+          phone?: string | null
           salesperson_name?: string
           services?: string[]
           updated_at?: string
         }
         Relationships: []
+      }
+      webinar_events: {
+        Row: {
+          agenda: Json
+          benefits: Json
+          created_at: string
+          description: string
+          duration_minutes: number
+          event_date: string
+          id: string
+          is_active: boolean
+          registration_limit: number | null
+          speaker_bio: string
+          speaker_image: string | null
+          speaker_name: string
+          subtitle: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          agenda?: Json
+          benefits?: Json
+          created_at?: string
+          description: string
+          duration_minutes?: number
+          event_date: string
+          id?: string
+          is_active?: boolean
+          registration_limit?: number | null
+          speaker_bio: string
+          speaker_image?: string | null
+          speaker_name: string
+          subtitle: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          agenda?: Json
+          benefits?: Json
+          created_at?: string
+          description?: string
+          duration_minutes?: number
+          event_date?: string
+          id?: string
+          is_active?: boolean
+          registration_limit?: number | null
+          speaker_bio?: string
+          speaker_image?: string | null
+          speaker_name?: string
+          subtitle?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      webinar_registrations: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          name: string
+          registration_date: string
+          status: string
+          updated_at: string
+          webinar_id: string
+          whatsapp_number: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          name: string
+          registration_date?: string
+          status?: string
+          updated_at?: string
+          webinar_id: string
+          whatsapp_number: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          name?: string
+          registration_date?: string
+          status?: string
+          updated_at?: string
+          webinar_id?: string
+          whatsapp_number?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "webinar_registrations_webinar_id_fkey"
+            columns: ["webinar_id"]
+            isOneToOne: false
+            referencedRelation: "webinar_events"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
