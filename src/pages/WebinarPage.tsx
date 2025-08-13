@@ -373,10 +373,6 @@ const WebinarPage = () => {
 
   return (
     <div className="min-h-screen relative overflow-hidden">
-      {/* DRAMATIC HEADER BANNER TO CONFIRM CHANGES */}
-      <div className="absolute top-0 left-0 right-0 bg-red-600 text-white text-center py-2 z-50 font-bold">
-        🔥 UPDATED DESIGN - Dark Blue Theme Active 🔥
-      </div>
       
       {/* Hero Section with Vanta Globe Background */}
       <section ref={vantaRef} className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
@@ -476,20 +472,22 @@ const WebinarPage = () => {
       </section>
 
         {/* What You'll Learn */}
-        <section 
-          className="py-20 bg-gradient-to-b from-black to-gray-900 relative"
-          style={{
-            backgroundImage: `url('/lovable-uploads/d0fa4f38-5951-4a69-9df8-13d4faa03aaa.png')`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
-            backgroundAttachment: 'fixed'
-          }}
-        >
-          {/* Enhanced Background Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/60 to-gray-900/75"></div>
-          <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-transparent to-black/20"></div>
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+        <section className="py-20 bg-black relative overflow-hidden">
+          {/* AI Brain Video Background */}
+          <video 
+            autoPlay 
+            loop 
+            muted 
+            playsInline 
+            className="absolute inset-0 w-full h-full object-cover z-0"
+            preload="metadata"
+          >
+            <source src="https://res.cloudinary.com/dknafpppp/video/upload/v1748771996/0_Ai_Brain_1920x1080_quggeb.mp4" type="video/mp4" />
+          </video>
+          
+          {/* Dark Overlay */}
+          <div className="absolute inset-0 bg-black/60 z-10"></div>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
             <div className="text-center mb-16 animate-fade-in">
               <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white drop-shadow-lg">What You'll Learn</h2>
               <p className="text-lg text-white/90 max-w-2xl mx-auto drop-shadow-md">
@@ -517,20 +515,23 @@ const WebinarPage = () => {
       </section>
 
         {/* Event Agenda */}
-        <section 
-          className="py-20 bg-gradient-to-b from-black to-gray-900 relative"
-          style={{
-            backgroundImage: `url('/lovable-uploads/d0fa4f38-5951-4a69-9df8-13d4faa03aaa.png')`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
-            backgroundAttachment: 'fixed'
-          }}
-        >
-          {/* Enhanced Background Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/60 to-gray-900/75"></div>
-          <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-transparent to-black/20"></div>
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+        <section className="py-20 bg-black relative overflow-hidden">
+          {/* AI Brain Video Background */}
+          <video 
+            autoPlay 
+            loop 
+            muted 
+            playsInline 
+            className="absolute inset-0 w-full h-full object-cover z-0"
+            preload="metadata"
+          >
+            <source src="https://res.cloudinary.com/dknafpppp/video/upload/v1748771996/0_Ai_Brain_1920x1080_quggeb.mp4" type="video/mp4" />
+          </video>
+          
+          {/* Dark Overlay */}
+          <div className="absolute inset-0 bg-black/60 z-10"></div>
+          
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
             <div className="text-center mb-16 animate-fade-in">
               <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white drop-shadow-lg">Event Agenda</h2>
               <p className="text-lg text-white/90 drop-shadow-md">
@@ -562,22 +563,23 @@ const WebinarPage = () => {
       </section>
 
       {/* Registration Form */}
-      <section 
-        id="registration" 
-        className="py-20 bg-gradient-to-b from-black to-gray-900 relative overflow-hidden"
-        style={{
-          backgroundImage: `url('/lovable-uploads/d0fa4f38-5951-4a69-9df8-13d4faa03aaa.png')`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-          backgroundAttachment: 'fixed'
-        }}
-      >
-        {/* Enhanced Background Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/60 to-gray-900/75"></div>
-        <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-transparent to-black/20"></div>
+      <section id="registration" className="py-20 bg-black relative overflow-hidden">
+        {/* AI Brain Video Background */}
+        <video 
+          autoPlay 
+          loop 
+          muted 
+          playsInline 
+          className="absolute inset-0 w-full h-full object-cover z-0"
+          preload="metadata"
+        >
+          <source src="https://res.cloudinary.com/dknafpppp/video/upload/v1748771996/0_Ai_Brain_1920x1080_quggeb.mp4" type="video/mp4" />
+        </video>
         
-        <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+        {/* Dark Overlay */}
+        <div className="absolute inset-0 bg-black/60 z-10"></div>
+        
+        <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
           <div className="text-center mb-12 animate-fade-in">
             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white drop-shadow-lg">Secure Your Spot</h2>
             <p className="text-lg text-white/90 drop-shadow-md">
