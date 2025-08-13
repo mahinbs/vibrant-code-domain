@@ -79,23 +79,21 @@ const WebinarPage = () => {
           });
         }
         
-        // Initialize Vanta Globe
+        // Initialize Vanta Globe immediately when both are ready
         if (vantaRef.current && (window as any).VANTA && !(vantaEffect.current)) {
-          setTimeout(() => {
-            vantaEffect.current = (window as any).VANTA.GLOBE({
-              el: vantaRef.current,
-              mouseControls: true,
-              touchControls: true,
-              gyroControls: false,
-              minHeight: 200.00,
-              minWidth: 200.00,
-              scale: 1.00,
-              scaleMobile: 1.00,
-              color: 0x3fd1ff,
-              size: 1.50,
-              backgroundColor: 0x15153c
-            });
-          }, 100);
+          vantaEffect.current = (window as any).VANTA.GLOBE({
+            el: vantaRef.current,
+            mouseControls: true,
+            touchControls: true,
+            gyroControls: false,
+            minHeight: 200.00,
+            minWidth: 200.00,
+            scale: 1.00,
+            scaleMobile: 1.00,
+            color: 0x3fd1ff,
+            size: 1.50,
+            backgroundColor: 0x15153c
+          });
         }
       } catch (error) {
         console.error('Error loading Vanta:', error);
@@ -441,9 +439,12 @@ const WebinarPage = () => {
       {/* Rest of the page with regular background */}
       <div className="bg-gradient-to-br from-[#1e3a8a] via-[#1e40af] to-[#0f172a]">
 
-        {/* Speaker Section */}
-        <section className="py-20 bg-white/95 backdrop-blur-sm relative">
-        <div className="absolute inset-0 bg-gradient-to-r from-[#1e3a8a]/5 to-[#0f172a]/5"></div>
+      {/* White separator line */}
+      <div className="h-px bg-white/20"></div>
+
+      {/* Speaker Section */}
+      <section className="py-20 bg-white/95 backdrop-blur-sm relative">
+      <div className="absolute inset-0 bg-gradient-to-r from-[#1e3a8a]/5 to-[#0f172a]/5"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-6 animate-fade-in">
@@ -470,6 +471,9 @@ const WebinarPage = () => {
           </div>
         </div>
       </section>
+
+      {/* White separator line */}
+      <div className="h-px bg-white/20"></div>
 
         {/* What You'll Learn */}
         <section className="py-20 bg-black relative overflow-hidden">
@@ -513,6 +517,9 @@ const WebinarPage = () => {
           </div>
         </div>
       </section>
+
+      {/* White separator line */}
+      <div className="h-px bg-white/20"></div>
 
         {/* Event Agenda */}
         <section className="py-20 bg-black relative overflow-hidden">
@@ -561,6 +568,9 @@ const WebinarPage = () => {
           </div>
         </div>
       </section>
+
+      {/* White separator line */}
+      <div className="h-px bg-white/20"></div>
 
       {/* Registration Form */}
       <section id="registration" className="py-20 bg-black relative overflow-hidden">
