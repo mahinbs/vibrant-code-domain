@@ -476,14 +476,19 @@ const WebinarPage = () => {
       </section>
 
         {/* What You'll Learn */}
-        <section className="py-20 bg-gradient-to-br from-[#1e3a8a] via-[#1e40af] to-[#0f172a] relative">
-          {/* Subtle hexagonal background pattern */}
-          <div className="absolute inset-0 opacity-8">
-            <div className="absolute inset-0" style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.3'%3E%3Cpolygon points='40,5 65,20 65,50 40,65 15,50 15,20'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-              backgroundSize: '80px 80px'
-            }}></div>
-          </div>
+        <section 
+          className="py-20 bg-gradient-to-b from-black to-gray-900 relative"
+          style={{
+            backgroundImage: `url('/lovable-uploads/d0fa4f38-5951-4a69-9df8-13d4faa03aaa.png')`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            backgroundAttachment: 'fixed'
+          }}
+        >
+          {/* Enhanced Background Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/60 to-gray-900/75"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-transparent to-black/20"></div>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
             <div className="text-center mb-16 animate-fade-in">
               <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white drop-shadow-lg">What You'll Learn</h2>
@@ -512,14 +517,19 @@ const WebinarPage = () => {
       </section>
 
         {/* Event Agenda */}
-        <section className="py-20 bg-gradient-to-br from-[#1e3a8a] via-[#1e40af] to-[#0f172a] relative">
-          {/* Subtle hexagonal background pattern */}
-          <div className="absolute inset-0 opacity-10">
-            <div className="absolute inset-0" style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.4'%3E%3Cpolygon points='30,2 55,17 55,47 30,62 5,47 5,17'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-              backgroundSize: '60px 60px'
-            }}></div>
-          </div>
+        <section 
+          className="py-20 bg-gradient-to-b from-black to-gray-900 relative"
+          style={{
+            backgroundImage: `url('/lovable-uploads/d0fa4f38-5951-4a69-9df8-13d4faa03aaa.png')`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            backgroundAttachment: 'fixed'
+          }}
+        >
+          {/* Enhanced Background Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/60 to-gray-900/75"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-transparent to-black/20"></div>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
             <div className="text-center mb-16 animate-fade-in">
               <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white drop-shadow-lg">Event Agenda</h2>
@@ -552,23 +562,20 @@ const WebinarPage = () => {
       </section>
 
       {/* Registration Form */}
-      <section id="registration" className="py-20 bg-gradient-to-br from-[#1e3a8a] via-[#1e40af] to-[#0f172a] relative overflow-hidden">
-        {/* Smooth transition gradient */}
-        <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-[#1e3a8a]/20 to-transparent"></div>
-        
-        {/* Enhanced Hexagonal background for registration */}
-        <div className="absolute inset-0 opacity-25">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.6'%3E%3Cpolygon points='30,2 55,17 55,47 30,62 5,47 5,17'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-            backgroundSize: '60px 60px'
-          }}></div>
-        </div>
-        
-        {/* Additional geometric elements */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-10 left-10 w-20 h-20 border border-white/30 rounded-lg rotate-45 animate-pulse"></div>
-          <div className="absolute bottom-10 right-10 w-24 h-24 border border-white/20 rounded-lg -rotate-12 animate-float"></div>
-        </div>
+      <section 
+        id="registration" 
+        className="py-20 bg-gradient-to-b from-black to-gray-900 relative overflow-hidden"
+        style={{
+          backgroundImage: `url('/lovable-uploads/d0fa4f38-5951-4a69-9df8-13d4faa03aaa.png')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          backgroundAttachment: 'fixed'
+        }}
+      >
+        {/* Enhanced Background Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/60 to-gray-900/75"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-transparent to-black/20"></div>
         
         <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="text-center mb-12 animate-fade-in">
