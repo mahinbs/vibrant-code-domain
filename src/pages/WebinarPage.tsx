@@ -475,35 +475,61 @@ const WebinarPage = () => {
       {/* White separator line */}
       <div className="h-px bg-white/20"></div>
 
-      {/* Speaker Section */}
-      <section className="py-20 bg-white/95 backdrop-blur-sm relative">
-      <div className="absolute inset-0 bg-gradient-to-r from-[#1e3a8a]/5 to-[#0f172a]/5"></div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-6 animate-fade-in">
-              <h2 className="text-3xl md:text-4xl font-bold text-[#0f172a]">Meet Your Speaker</h2>
-              <div className="space-y-4">
-                <h3 className="text-2xl font-semibold text-[#1e3a8a]">{webinar.speaker_name}</h3>
-                <p className="text-lg text-slate-600 leading-relaxed">
-                  {webinar.speaker_bio}
-                </p>
+      {/* Speaker Section - Only show when webinar data is loaded */}
+      {webinar && (
+        <section className="py-20 bg-white/95 backdrop-blur-sm relative">
+          <div className="absolute inset-0 bg-gradient-to-r from-[#1e3a8a]/5 to-[#0f172a]/5"></div>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
+              <div className="space-y-6 animate-fade-in">
+                <h2 className="text-3xl md:text-4xl font-bold text-[#0f172a]">Meet Your Speaker</h2>
+                <div className="space-y-4">
+                  <h3 className="text-2xl font-semibold text-[#1e3a8a]">{webinar.speaker_name}</h3>
+                  <p className="text-lg text-slate-600 leading-relaxed">
+                    {webinar.speaker_bio}
+                  </p>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Star className="w-5 h-5 text-yellow-400 fill-current" />
+                  <span className="text-sm font-medium text-slate-700">Industry Expert with 1000+ Students Trained</span>
+                </div>
               </div>
-              <div className="flex items-center gap-2">
-                <Star className="w-5 h-5 text-yellow-400 fill-current" />
-                <span className="text-sm font-medium text-slate-700">Industry Expert with 1000+ Students Trained</span>
+              <div className="relative animate-fade-in">
+                <div className="absolute inset-0 bg-gradient-to-r from-[#1e3a8a] to-[#0f172a] rounded-2xl blur-2xl opacity-20 animate-pulse"></div>
+                <img 
+                  src={webinar.speaker_image} 
+                  alt={webinar.speaker_name}
+                  className="relative w-full max-w-md mx-auto rounded-2xl shadow-2xl"
+                />
               </div>
-            </div>
-            <div className="relative animate-fade-in">
-              <div className="absolute inset-0 bg-gradient-to-r from-[#1e3a8a] to-[#0f172a] rounded-2xl blur-2xl opacity-20 animate-pulse"></div>
-              <img 
-                src={webinar.speaker_image} 
-                alt={webinar.speaker_name}
-                className="relative w-full max-w-md mx-auto rounded-2xl shadow-2xl"
-              />
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
+
+      {/* Show loading skeleton for speaker section when data is loading */}
+      {isDataLoading && (
+        <section className="py-20 bg-white/95 backdrop-blur-sm relative">
+          <div className="absolute inset-0 bg-gradient-to-r from-[#1e3a8a]/5 to-[#0f172a]/5"></div>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
+              <div className="space-y-6">
+                <div className="h-10 bg-gray-300 rounded animate-pulse"></div>
+                <div className="space-y-4">
+                  <div className="h-8 bg-gray-300 rounded animate-pulse w-3/4"></div>
+                  <div className="space-y-2">
+                    <div className="h-4 bg-gray-200 rounded animate-pulse"></div>
+                    <div className="h-4 bg-gray-200 rounded animate-pulse w-5/6"></div>
+                    <div className="h-4 bg-gray-200 rounded animate-pulse w-4/5"></div>
+                  </div>
+                </div>
+                <div className="h-6 bg-gray-200 rounded animate-pulse w-1/2"></div>
+              </div>
+              <div className="h-96 bg-gray-300 rounded-2xl animate-pulse"></div>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* White separator line */}
       <div className="h-px bg-white/20"></div>
@@ -532,22 +558,22 @@ const WebinarPage = () => {
               </p>
             </div>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {webinar.benefits.map((benefit, index) => (
-                <div 
-                  key={index}
-                  className="bg-white/95 backdrop-blur-sm border border-white/30 rounded-xl p-6 hover:shadow-2xl hover:bg-white transition-all duration-300 hover-scale animate-fade-in"
-                  style={{ animationDelay: `${index * 0.1}s` }}
-                >
-                  <div className="flex items-start gap-4">
-                    <div className="bg-white/20 backdrop-blur-sm rounded-lg p-2 flex-shrink-0 border border-white/30">
-                      <CheckCircle className="w-5 h-5 text-[#1e3a8a]" />
-                    </div>
-                    <p className="text-sm leading-relaxed text-gray-700">{benefit}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+               {webinar?.benefits?.map((benefit, index) => (
+                 <div 
+                   key={index}
+                   className="bg-white/95 backdrop-blur-sm border border-white/30 rounded-xl p-6 hover:shadow-2xl hover:bg-white transition-all duration-300 hover-scale animate-fade-in"
+                   style={{ animationDelay: `${index * 0.1}s` }}
+                 >
+                   <div className="flex items-start gap-4">
+                     <div className="bg-white/20 backdrop-blur-sm rounded-lg p-2 flex-shrink-0 border border-white/30">
+                       <CheckCircle className="w-5 h-5 text-[#1e3a8a]" />
+                     </div>
+                     <p className="text-sm leading-relaxed text-gray-700">{benefit}</p>
+                 </div>
+               </div>
+             )) || []}
+           </div>
         </div>
       </section>
 
@@ -579,26 +605,26 @@ const WebinarPage = () => {
               </p>
             </div>
 
-          <div className="max-w-3xl mx-auto space-y-4">
-              {webinar.agenda.map((item, index) => (
-                <div 
-                  key={index}
-                  className="bg-white/95 backdrop-blur-sm border border-white/30 rounded-xl p-6 flex items-center gap-6 hover:shadow-2xl hover:bg-white transition-all duration-300 animate-fade-in"
-                  style={{ animationDelay: `${index * 0.1}s` }}
-                >
-                <div className="bg-white/20 backdrop-blur-sm rounded-lg p-3 flex-shrink-0 border border-white/30">
-                    <Clock className="w-5 h-5 text-[#1e3a8a]" />
-                </div>
-                <div className="flex-1">
-                  <div className="flex items-center gap-4">
-                      <span className="font-semibold text-[#1e3a8a]">{item.time}</span>
-                      <span className="text-gray-400">•</span>
-                      <span className="font-medium text-gray-700">{item.topic}</span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+           <div className="max-w-3xl mx-auto space-y-4">
+               {webinar?.agenda?.map((item, index) => (
+                 <div 
+                   key={index}
+                   className="bg-white/95 backdrop-blur-sm border border-white/30 rounded-xl p-6 flex items-center gap-6 hover:shadow-2xl hover:bg-white transition-all duration-300 animate-fade-in"
+                   style={{ animationDelay: `${index * 0.1}s` }}
+                 >
+                 <div className="bg-white/20 backdrop-blur-sm rounded-lg p-3 flex-shrink-0 border border-white/30">
+                     <Clock className="w-5 h-5 text-[#1e3a8a]" />
+                 </div>
+                 <div className="flex-1">
+                   <div className="flex items-center gap-4">
+                       <span className="font-semibold text-[#1e3a8a]">{item.time}</span>
+                       <span className="text-gray-400">•</span>
+                       <span className="font-medium text-gray-700">{item.topic}</span>
+                   </div>
+                 </div>
+               </div>
+             )) || []}
+           </div>
         </div>
       </section>
 
@@ -629,7 +655,7 @@ const WebinarPage = () => {
               Limited seats available - Register now to guarantee your access
             </p>
             <div className="mt-6 text-sm font-bold text-white bg-white/25 backdrop-blur-md rounded-xl px-6 py-3 inline-block border border-white/30">
-              {registrationCount}/{webinar.registration_limit} spots taken
+              {registrationCount}/{webinar?.registration_limit || 0} spots taken
             </div>
           </div>
 
