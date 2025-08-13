@@ -305,25 +305,25 @@ const WebinarPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-100">
       {/* Hero Section */}
-      <section ref={heroRef} className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-blue-500/20 via-white dark:via-gray-900 to-cyan-500/20">
-        <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
-        <div className="absolute inset-0 bg-gradient-to-t from-background/50 to-transparent"></div>
+      <section ref={heroRef} className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-blue-600/10 via-blue-50 to-blue-800/15">
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/5 via-transparent to-blue-800/5"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(59,130,246,0.1),transparent_50%)]"></div>
         
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8 animate-fade-in">
           <div className="space-y-4">
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent leading-tight">
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent leading-tight">
               {webinar.title}
             </h1>
-            <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto">
+            <p className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto">
               {webinar.subtitle}
             </p>
           </div>
 
           {/* Countdown Timer */}
-          <div className="bg-card/50 backdrop-blur-sm border rounded-2xl p-6 mx-auto max-w-lg">
-            <p className="text-sm text-muted-foreground mb-4">Event starts in:</p>
+          <div className="bg-white/70 backdrop-blur-sm border border-blue-200 rounded-2xl p-6 mx-auto max-w-lg shadow-lg">
+            <p className="text-sm text-gray-600 mb-4">Event starts in:</p>
             <div className="grid grid-cols-4 gap-4">
               {Object.entries(timeLeft).map(([unit, value]) => (
                 <div key={unit} className="text-center">
