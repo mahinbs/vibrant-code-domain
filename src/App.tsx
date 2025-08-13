@@ -30,6 +30,7 @@ import ContactPage from "./pages/ContactPage";
 import ThankYouPage from "./pages/ThankYouPage";
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 import ServicesPage from "./pages/ServicesPage";
+import WebinarPage from "./pages/WebinarPage";
 import NotFound from "./pages/NotFound";
 import SalespersonServicePage from "./pages/SalespersonServicePage";
 import PartnershipPage from "./pages/PartnershipPage";
@@ -43,6 +44,7 @@ import CaseStudyList from "./pages/admin/CaseStudyList";
 import BlogForm from "./pages/admin/BlogForm";
 import BlogList from "./pages/admin/BlogList";
 import CustomerInquiries from "./pages/admin/CustomerInquiries";
+import WebinarManagement from "./pages/admin/WebinarManagement";
 import { LinkGenerator } from "./pages/admin/LinkGenerator";
 import ProtectedRoute from "./components/admin/ProtectedRoute";
 
@@ -101,6 +103,7 @@ const App = () => (
           <Route path="/iot-development" element={<IotDevelopmentPage />} />
           <Route path="/reviews" element={<ReviewsPage />} />
           <Route path="/services" element={<ServicesPage />} />
+          <Route path="/webinar" element={<WebinarPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/thank-you" element={<ThankYouPage />} />
           <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
@@ -117,6 +120,7 @@ const App = () => (
           <Route path="/admin/blogs" element={<ProtectedRoute><BlogList /></ProtectedRoute>} />
           <Route path="/admin/blogs/new" element={<ProtectedRoute><BlogForm /></ProtectedRoute>} />
           <Route path="/admin/blogs/edit/:id" element={<ProtectedRoute><BlogForm /></ProtectedRoute>} />
+          <Route path="/admin/webinar" element={<ProtectedRoute><WebinarManagement /></ProtectedRoute>} />
           <Route path="/admin/link-generator" element={<ProtectedRoute><LinkGenerator /></ProtectedRoute>} />
           
           {/* Dynamic salesperson service routes */}

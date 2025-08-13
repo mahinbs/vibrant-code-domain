@@ -1,7 +1,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Plus, FileText, MessageSquare, Users } from 'lucide-react';
+import { Plus, FileText, MessageSquare, Users, Calendar } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const QuickActions = () => {
@@ -36,6 +36,12 @@ const QuickActions = () => {
           <Link to="/admin/case-studies">
             <Users className="h-4 w-4 mr-3" />
             Manage Case Studies
+          </Link>
+        </Button>
+        <Button asChild className="w-full justify-start bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white shadow-lg transition-all duration-300">
+          <Link to="/admin/webinar">
+            <Calendar className="h-4 w-4 mr-3" />
+            Manage Webinars
           </Link>
         </Button>
       </CardContent>
