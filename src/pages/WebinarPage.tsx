@@ -50,21 +50,38 @@ const WebinarPage = () => {
   useEffect(() => {
     fetchWebinarData();
     
-    // Load Vanta.js scripts
+    // Check if scripts are already loaded to prevent conflicts
     const loadVanta = async () => {
-      // Load Three.js
-      const threeScript = document.createElement('script');
-      threeScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js';
-      document.head.appendChild(threeScript);
-      
-      threeScript.onload = () => {
-        // Load Vanta Globe
-        const vantaScript = document.createElement('script');
-        vantaScript.src = 'https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.globe.min.js';
-        document.head.appendChild(vantaScript);
+      try {
+        // Check if Three.js is already loaded
+        if (!(window as any).THREE) {
+          const threeScript = document.createElement('script');
+          threeScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js';
+          threeScript.async = true;
+          document.head.appendChild(threeScript);
+          
+          await new Promise((resolve, reject) => {
+            threeScript.onload = resolve;
+            threeScript.onerror = reject;
+          });
+        }
         
-        vantaScript.onload = () => {
-          if (vantaRef.current && (window as any).VANTA) {
+        // Check if Vanta is already loaded
+        if (!(window as any).VANTA) {
+          const vantaScript = document.createElement('script');
+          vantaScript.src = 'https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.globe.min.js';
+          vantaScript.async = true;
+          document.head.appendChild(vantaScript);
+          
+          await new Promise((resolve, reject) => {
+            vantaScript.onload = resolve;
+            vantaScript.onerror = reject;
+          });
+        }
+        
+        // Initialize Vanta Globe
+        if (vantaRef.current && (window as any).VANTA && !(vantaEffect.current)) {
+          setTimeout(() => {
             vantaEffect.current = (window as any).VANTA.GLOBE({
               el: vantaRef.current,
               mouseControls: true,
@@ -78,16 +95,23 @@ const WebinarPage = () => {
               size: 1.50,
               backgroundColor: 0x15153c
             });
-          }
-        };
-      };
+          }, 100);
+        }
+      } catch (error) {
+        console.error('Error loading Vanta:', error);
+      }
     };
     
     loadVanta();
     
     return () => {
       if (vantaEffect.current) {
-        vantaEffect.current.destroy();
+        try {
+          vantaEffect.current.destroy();
+          vantaEffect.current = null;
+        } catch (error) {
+          console.error('Error destroying Vanta:', error);
+        }
       }
     };
   }, []);
