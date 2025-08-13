@@ -32,7 +32,7 @@ interface RegistrationFormData {
 const WebinarPage = () => {
   const [webinar, setWebinar] = useState<WebinarEvent | null>(null);
   const [registrationCount, setRegistrationCount] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isDataLoading, setIsDataLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isRegistered, setIsRegistered] = useState(false);
   const [formData, setFormData] = useState<RegistrationFormData>({
@@ -50,53 +50,73 @@ const WebinarPage = () => {
   useEffect(() => {
     fetchWebinarData();
     
-    // Check if scripts are already loaded to prevent conflicts
+    // Load Vanta immediately for hero background
     const loadVanta = async () => {
       try {
-        // Check if Three.js is already loaded
+        // Load Three.js first
         if (!(window as any).THREE) {
           const threeScript = document.createElement('script');
           threeScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js';
-          threeScript.async = true;
+          threeScript.async = false; // Load synchronously for faster init
           document.head.appendChild(threeScript);
           
           await new Promise((resolve, reject) => {
             threeScript.onload = resolve;
-            threeScript.onerror = reject;
+            threeScript.onerror = () => {
+              console.error('Failed to load Three.js');
+              reject();
+            };
           });
         }
         
-        // Check if Vanta is already loaded
+        // Load Vanta Globe
         if (!(window as any).VANTA) {
           const vantaScript = document.createElement('script');
           vantaScript.src = 'https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.globe.min.js';
-          vantaScript.async = true;
+          vantaScript.async = false; // Load synchronously for faster init
           document.head.appendChild(vantaScript);
           
           await new Promise((resolve, reject) => {
             vantaScript.onload = resolve;
-            vantaScript.onerror = reject;
+            vantaScript.onerror = () => {
+              console.error('Failed to load Vanta');
+              reject();
+            };
           });
         }
         
-        // Initialize Vanta Globe immediately when both are ready
-        if (vantaRef.current && (window as any).VANTA && !(vantaEffect.current)) {
-          vantaEffect.current = (window as any).VANTA.GLOBE({
-            el: vantaRef.current,
-            mouseControls: true,
-            touchControls: true,
-            gyroControls: false,
-            minHeight: 200.00,
-            minWidth: 200.00,
-            scale: 1.00,
-            scaleMobile: 1.00,
-            color: 0x3fd1ff,
-            size: 1.50,
-            backgroundColor: 0x15153c
-          });
-        }
+        // Initialize Vanta Globe with retry logic
+        const initVanta = () => {
+          if (vantaRef.current && (window as any).VANTA && !(vantaEffect.current)) {
+            try {
+              vantaEffect.current = (window as any).VANTA.GLOBE({
+                el: vantaRef.current,
+                mouseControls: true,
+                touchControls: true,
+                gyroControls: false,
+                minHeight: 200.00,
+                minWidth: 200.00,
+                scale: 1.00,
+                scaleMobile: 1.00,
+                color: 0x3fd1ff,
+                size: 1.50,
+                backgroundColor: 0x15153c
+              });
+            } catch (error) {
+              console.error('Error initializing Vanta:', error);
+              // Retry after a short delay
+              setTimeout(initVanta, 500);
+            }
+          } else if (!vantaEffect.current) {
+            // Retry if not ready yet
+            setTimeout(initVanta, 100);
+          }
+        };
+        
+        initVanta();
+        
       } catch (error) {
-        console.error('Error loading Vanta:', error);
+        console.error('Error loading Vanta scripts:', error);
       }
     };
     
@@ -139,12 +159,12 @@ const WebinarPage = () => {
           description: "Failed to load webinar information",
           variant: "destructive",
         });
-        setIsLoading(false);
+        setIsDataLoading(false);
         return;
       }
 
       if (!webinarData) {
-        setIsLoading(false);
+        setIsDataLoading(false);
         return;
       }
 
@@ -170,7 +190,7 @@ const WebinarPage = () => {
     } catch (error) {
       console.error('Error fetching webinar data:', error);
     } finally {
-      setIsLoading(false);
+      setIsDataLoading(false);
     }
   };
 
@@ -270,28 +290,7 @@ const WebinarPage = () => {
     document.getElementById('registration')?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary mx-auto"></div>
-          <p className="mt-4 text-muted-foreground">Loading webinar...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (!webinar) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold mb-4">No Active Webinar</h1>
-          <p className="text-muted-foreground">There are no active webinars at the moment.</p>
-        </div>
-      </div>
-    );
-  }
-
+  // Show registered success state
   if (isRegistered) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-primary/20 via-background to-accent/20 flex items-center justify-center p-4">
@@ -306,33 +305,35 @@ const WebinarPage = () => {
               You're Registered!
             </h1>
             <p className="text-xl text-muted-foreground">
-              Thank you for registering for <strong>{webinar.title}</strong>
+              Thank you for registering for <strong>{webinar?.title}</strong>
             </p>
           </div>
 
           <div className="bg-card/50 backdrop-blur-sm border rounded-2xl p-8 space-y-6">
             <h2 className="text-2xl font-semibold">What's Next?</h2>
-            <div className="grid md:grid-cols-2 gap-6 text-left">
-              <div className="space-y-2">
-                <h3 className="font-semibold flex items-center gap-2">
-                  <Calendar className="w-5 h-5 text-primary" />
-                  Event Details
-                </h3>
-                <p className="text-sm text-muted-foreground">
-                  {new Date(webinar.event_date).toLocaleDateString()} at{' '}
-                  {new Date(webinar.event_date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                </p>
+            {webinar && (
+              <div className="grid md:grid-cols-2 gap-6 text-left">
+                <div className="space-y-2">
+                  <h3 className="font-semibold flex items-center gap-2">
+                    <Calendar className="w-5 h-5 text-primary" />
+                    Event Details
+                  </h3>
+                  <p className="text-sm text-muted-foreground">
+                    {new Date(webinar.event_date).toLocaleDateString()} at{' '}
+                    {new Date(webinar.event_date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                  </p>
+                </div>
+                <div className="space-y-2">
+                  <h3 className="font-semibold flex items-center gap-2">
+                    <Clock className="w-5 h-5 text-primary" />
+                    Duration
+                  </h3>
+                  <p className="text-sm text-muted-foreground">
+                    {webinar.duration_minutes} minutes
+                  </p>
+                </div>
               </div>
-              <div className="space-y-2">
-                <h3 className="font-semibold flex items-center gap-2">
-                  <Clock className="w-5 h-5 text-primary" />
-                  Duration
-                </h3>
-                <p className="text-sm text-muted-foreground">
-                  {webinar.duration_minutes} minutes
-                </p>
-              </div>
-            </div>
+            )}
             
             <div className="space-y-4 pt-4 border-t">
               <h3 className="font-semibold">Next Steps:</h3>
@@ -372,8 +373,8 @@ const WebinarPage = () => {
   return (
     <div className="min-h-screen relative overflow-hidden">
       
-      {/* Hero Section with Vanta Globe Background */}
-      <section ref={vantaRef} className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
+      {/* Hero Section with Vanta Globe Background - Shows immediately */}
+      <section ref={vantaRef} className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16" style={{ backgroundColor: '#15153c' }}>
         {/* Content overlay */}
         <div className="absolute inset-0 bg-black/20 z-10"></div>
         
@@ -386,53 +387,85 @@ const WebinarPage = () => {
         </div>
         
         <div className="relative z-30 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8 animate-fade-in">
-          <div className="space-y-4">
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent leading-tight drop-shadow-2xl">
-              {webinar.title}
-            </h1>
-            <p className="text-xl md:text-2xl text-white/95 max-w-3xl mx-auto drop-shadow-lg">
-              {webinar.subtitle}
-            </p>
-          </div>
-
-          {/* Countdown Timer */}
-          <div className="bg-white/95 backdrop-blur-md border border-white/40 rounded-2xl p-8 mx-auto max-w-lg shadow-2xl">
-            <p className="text-sm text-[#0f172a] mb-6 font-semibold text-center">Event starts in:</p>
-            <div className="grid grid-cols-4 gap-4">
-              {Object.entries(timeLeft).map(([unit, value]) => (
-                <div key={unit} className="text-center">
-                  <div className="bg-gradient-to-br from-[#1e3a8a] to-[#0f172a] rounded-xl p-4 shadow-lg">
-                    <div className="text-3xl md:text-4xl font-bold text-white">{value}</div>
-                    <div className="text-xs text-white/80 capitalize font-medium">{unit}</div>
-                  </div>
+          {isDataLoading ? (
+            /* Loading skeleton for hero content */
+            <div className="space-y-8">
+              <div className="space-y-4">
+                <div className="h-20 bg-white/20 rounded-lg animate-pulse mx-auto max-w-4xl"></div>
+                <div className="h-8 bg-white/15 rounded-lg animate-pulse mx-auto max-w-2xl"></div>
+              </div>
+              <div className="bg-white/95 backdrop-blur-md border border-white/40 rounded-2xl p-8 mx-auto max-w-lg shadow-2xl">
+                <div className="h-4 bg-gray-300 rounded animate-pulse mb-6 mx-auto w-32"></div>
+                <div className="grid grid-cols-4 gap-4">
+                  {[1, 2, 3, 4].map((i) => (
+                    <div key={i} className="bg-gray-300 rounded-xl p-4 h-20 animate-pulse"></div>
+                  ))}
                 </div>
-              ))}
+              </div>
+              <div className="flex flex-wrap justify-center gap-6">
+                {[1, 2, 3].map((i) => (
+                  <div key={i} className="h-12 w-40 bg-white/25 rounded-xl animate-pulse"></div>
+                ))}
+              </div>
+              <div className="h-14 w-64 bg-white/30 rounded-xl animate-pulse mx-auto"></div>
             </div>
-          </div>
+          ) : webinar ? (
+            <>
+              <div className="space-y-4">
+                <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent leading-tight drop-shadow-2xl">
+                  {webinar.title}
+                </h1>
+                <p className="text-xl md:text-2xl text-white/95 max-w-3xl mx-auto drop-shadow-lg">
+                  {webinar.subtitle}
+                </p>
+              </div>
 
-          {/* Event Info */}
-          <div className="flex flex-wrap justify-center gap-6 text-sm">
-            <div className="flex items-center gap-3 bg-white/25 backdrop-blur-md rounded-xl px-6 py-3 border border-white/40 shadow-lg">
-              <Calendar className="w-5 h-5 text-white" />
-              <span className="font-semibold text-white">{new Date(webinar.event_date).toLocaleDateString()}</span>
-            </div>
-            <div className="flex items-center gap-3 bg-white/25 backdrop-blur-md rounded-xl px-6 py-3 border border-white/40 shadow-lg">
-              <Clock className="w-5 h-5 text-white" />
-              <span className="font-semibold text-white">{webinar.duration_minutes} minutes</span>
-            </div>
-            <div className="flex items-center gap-3 bg-white/25 backdrop-blur-md rounded-xl px-6 py-3 border border-white/40 shadow-lg">
-              <Users className="w-5 h-5 text-white" />
-              <span className="font-semibold text-white">{registrationCount}/{webinar.registration_limit} registered</span>
-            </div>
-          </div>
+              {/* Countdown Timer */}
+              <div className="bg-white/95 backdrop-blur-md border border-white/40 rounded-2xl p-8 mx-auto max-w-lg shadow-2xl">
+                <p className="text-sm text-[#0f172a] mb-6 font-semibold text-center">Event starts in:</p>
+                <div className="grid grid-cols-4 gap-4">
+                  {Object.entries(timeLeft).map(([unit, value]) => (
+                    <div key={unit} className="text-center">
+                      <div className="bg-gradient-to-br from-[#1e3a8a] to-[#0f172a] rounded-xl p-4 shadow-lg">
+                        <div className="text-3xl md:text-4xl font-bold text-white">{value}</div>
+                        <div className="text-xs text-white/80 capitalize font-medium">{unit}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
 
-          <Button 
-            size="lg" 
-            className="animate-pulse hover:animate-none bg-white text-[#1e3a8a] hover:bg-white/90 font-bold text-lg px-8 py-4 rounded-xl shadow-xl transform transition-all duration-300 hover:scale-105"
-            onClick={scrollToRegistration}
-          >
-            Reserve Your Spot Now
-          </Button>
+              {/* Event Info */}
+              <div className="flex flex-wrap justify-center gap-6 text-sm">
+                <div className="flex items-center gap-3 bg-white/25 backdrop-blur-md rounded-xl px-6 py-3 border border-white/40 shadow-lg">
+                  <Calendar className="w-5 h-5 text-white" />
+                  <span className="font-semibold text-white">{new Date(webinar.event_date).toLocaleDateString()}</span>
+                </div>
+                <div className="flex items-center gap-3 bg-white/25 backdrop-blur-md rounded-xl px-6 py-3 border border-white/40 shadow-lg">
+                  <Clock className="w-5 h-5 text-white" />
+                  <span className="font-semibold text-white">{webinar.duration_minutes} minutes</span>
+                </div>
+                <div className="flex items-center gap-3 bg-white/25 backdrop-blur-md rounded-xl px-6 py-3 border border-white/40 shadow-lg">
+                  <Users className="w-5 h-5 text-white" />
+                  <span className="font-semibold text-white">{registrationCount}/{webinar.registration_limit} registered</span>
+                </div>
+              </div>
+
+              <Button 
+                size="lg" 
+                className="animate-pulse hover:animate-none bg-white text-[#1e3a8a] hover:bg-white/90 font-bold text-lg px-8 py-4 rounded-xl shadow-xl transform transition-all duration-300 hover:scale-105"
+                onClick={scrollToRegistration}
+              >
+                Reserve Your Spot Now
+              </Button>
+            </>
+          ) : (
+            /* No webinar state */
+            <div className="space-y-4">
+              <h1 className="text-4xl md:text-6xl font-bold text-white">No Active Webinar</h1>
+              <p className="text-xl text-white/80">Check back soon for upcoming events!</p>
+            </div>
+          )}
         </div>
       </section>
 
