@@ -305,37 +305,38 @@ const WebinarPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#4A90E2] via-[#2563eb] to-[#1A365D] relative overflow-hidden">
-      {/* Hexagonal Background Pattern */}
-      <div className="absolute inset-0 opacity-5">
+    <div className="min-h-screen bg-gradient-to-br from-[#1e3a8a] via-[#1e40af] to-[#0f172a] relative overflow-hidden">
+      {/* Enhanced Hexagonal Background Pattern */}
+      <div className="absolute inset-0 opacity-20">
         <div className="absolute inset-0" style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.3'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-          backgroundSize: '60px 60px'
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.7'%3E%3Cpolygon points='40,5 65,20 65,50 40,65 15,50 15,20'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+          backgroundSize: '80px 80px'
         }}></div>
       </div>
       
-      {/* Floating Hexagons */}
+      {/* Larger Floating Hexagons */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-10 left-10 w-16 h-16 bg-white/5 rounded-lg rotate-45 animate-float"></div>
-        <div className="absolute top-32 right-20 w-12 h-12 bg-white/10 rounded-lg rotate-12 animate-float" style={{animationDelay: '2s'}}></div>
-        <div className="absolute bottom-20 left-1/4 w-20 h-20 bg-white/5 rounded-lg -rotate-12 animate-float" style={{animationDelay: '4s'}}></div>
-        <div className="absolute bottom-32 right-1/3 w-14 h-14 bg-white/10 rounded-lg rotate-45 animate-float" style={{animationDelay: '6s'}}></div>
-        <div className="absolute top-1/2 left-10 w-10 h-10 bg-white/5 rounded-lg rotate-12 animate-float" style={{animationDelay: '1s'}}></div>
-        <div className="absolute top-1/3 right-10 w-18 h-18 bg-white/5 rounded-lg -rotate-45 animate-float" style={{animationDelay: '3s'}}></div>
+        <div className="absolute top-20 left-10 w-24 h-24 bg-white/10 rounded-lg rotate-45 animate-float border border-white/20"></div>
+        <div className="absolute top-40 right-20 w-32 h-32 bg-white/5 rounded-lg rotate-12 animate-float border border-white/15" style={{animationDelay: '2s'}}></div>
+        <div className="absolute bottom-32 left-1/4 w-28 h-28 bg-white/10 rounded-lg -rotate-12 animate-float border border-white/20" style={{animationDelay: '4s'}}></div>
+        <div className="absolute bottom-20 right-1/3 w-20 h-20 bg-white/15 rounded-lg rotate-45 animate-float border border-white/25" style={{animationDelay: '6s'}}></div>
+        <div className="absolute top-1/2 left-20 w-16 h-16 bg-white/10 rounded-lg rotate-12 animate-float border border-white/20" style={{animationDelay: '1s'}}></div>
+        <div className="absolute top-1/3 right-10 w-36 h-36 bg-white/5 rounded-lg -rotate-45 animate-float border border-white/10" style={{animationDelay: '3s'}}></div>
       </div>
       
-      {/* Gradient Overlays */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#4A90E2]/80 via-[#2563eb]/60 to-[#1A365D]/90"></div>
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(74,144,226,0.3),transparent_60%)]"></div>
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_70%,rgba(26,54,93,0.4),transparent_70%)]"></div>
+      {/* Enhanced Gradient Overlays */}
+      <div className="absolute inset-0 bg-gradient-to-br from-[#1e3a8a]/90 via-[#1e40af]/80 to-[#0f172a]/95"></div>
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(30,58,138,0.6),transparent_60%)]"></div>
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_70%,rgba(15,23,42,0.8),transparent_70%)]"></div>
       
       {/* Hero Section */}
       <section ref={heroRef} className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        {/* Hexagonal Geometric Elements */}
+        {/* Enhanced Hexagonal Geometric Elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-20 left-20 w-32 h-32 border border-white/10 rounded-lg rotate-45 animate-pulse"></div>
-          <div className="absolute bottom-20 right-20 w-40 h-40 border-2 border-white/5 rounded-lg -rotate-12"></div>
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 border border-white/5 rounded-full"></div>
+          <div className="absolute top-20 left-20 w-40 h-40 border-2 border-white/20 rounded-lg rotate-45 animate-pulse"></div>
+          <div className="absolute bottom-20 right-20 w-48 h-48 border border-white/15 rounded-lg -rotate-12"></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] border border-white/10 rounded-full"></div>
+          <div className="absolute top-10 right-10 w-32 h-32 border-2 border-white/25 rounded-lg rotate-30"></div>
         </div>
         
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8 animate-fade-in">
@@ -349,14 +350,14 @@ const WebinarPage = () => {
           </div>
 
           {/* Countdown Timer */}
-          <div className="bg-white/90 backdrop-blur-sm border border-white/30 rounded-2xl p-6 mx-auto max-w-lg shadow-2xl">
-            <p className="text-sm text-[#1A365D] mb-4 font-medium">Event starts in:</p>
+          <div className="bg-white/95 backdrop-blur-md border border-white/40 rounded-2xl p-8 mx-auto max-w-lg shadow-2xl">
+            <p className="text-sm text-[#0f172a] mb-6 font-semibold text-center">Event starts in:</p>
             <div className="grid grid-cols-4 gap-4">
               {Object.entries(timeLeft).map(([unit, value]) => (
                 <div key={unit} className="text-center">
-                  <div className="bg-primary/10 rounded-lg p-3">
-                    <div className="text-2xl md:text-3xl font-bold text-primary">{value}</div>
-                    <div className="text-xs text-muted-foreground capitalize">{unit}</div>
+                  <div className="bg-gradient-to-br from-[#1e3a8a] to-[#0f172a] rounded-xl p-4 shadow-lg">
+                    <div className="text-3xl md:text-4xl font-bold text-white">{value}</div>
+                    <div className="text-xs text-white/80 capitalize font-medium">{unit}</div>
                   </div>
                 </div>
               ))}
@@ -364,24 +365,24 @@ const WebinarPage = () => {
           </div>
 
           {/* Event Info */}
-          <div className="flex flex-wrap justify-center gap-8 text-sm text-white/80">
-            <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-lg px-4 py-2">
+          <div className="flex flex-wrap justify-center gap-6 text-sm">
+            <div className="flex items-center gap-3 bg-white/20 backdrop-blur-md rounded-xl px-6 py-3 border border-white/30">
               <Calendar className="w-5 h-5 text-white" />
-              <span className="font-medium">{new Date(webinar.event_date).toLocaleDateString()}</span>
+              <span className="font-semibold text-white">{new Date(webinar.event_date).toLocaleDateString()}</span>
             </div>
-            <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-lg px-4 py-2">
+            <div className="flex items-center gap-3 bg-white/20 backdrop-blur-md rounded-xl px-6 py-3 border border-white/30">
               <Clock className="w-5 h-5 text-white" />
-              <span className="font-medium">{webinar.duration_minutes} minutes</span>
+              <span className="font-semibold text-white">{webinar.duration_minutes} minutes</span>
             </div>
-            <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-lg px-4 py-2">
+            <div className="flex items-center gap-3 bg-white/20 backdrop-blur-md rounded-xl px-6 py-3 border border-white/30">
               <Users className="w-5 h-5 text-white" />
-              <span className="font-medium">{registrationCount}/{webinar.registration_limit} registered</span>
+              <span className="font-semibold text-white">{registrationCount}/{webinar.registration_limit} registered</span>
             </div>
           </div>
 
           <Button 
             size="lg" 
-            className="animate-pulse hover:animate-none"
+            className="animate-pulse hover:animate-none bg-white text-[#1e3a8a] hover:bg-white/90 font-bold text-lg px-8 py-4 rounded-xl shadow-xl transform transition-all duration-300 hover:scale-105"
             onClick={scrollToRegistration}
           >
             Reserve Your Spot Now
@@ -391,24 +392,24 @@ const WebinarPage = () => {
 
       {/* Speaker Section */}
       <section className="py-20 bg-white/95 backdrop-blur-sm relative">
-        <div className="absolute inset-0 bg-gradient-to-r from-[#4A90E2]/5 to-[#1A365D]/5"></div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="absolute inset-0 bg-gradient-to-r from-[#1e3a8a]/5 to-[#0f172a]/5"></div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-6 animate-fade-in">
-              <h2 className="text-3xl md:text-4xl font-bold">Meet Your Speaker</h2>
+              <h2 className="text-3xl md:text-4xl font-bold text-[#0f172a]">Meet Your Speaker</h2>
               <div className="space-y-4">
-                <h3 className="text-2xl font-semibold text-primary">{webinar.speaker_name}</h3>
-                <p className="text-lg text-muted-foreground leading-relaxed">
+                <h3 className="text-2xl font-semibold text-[#1e3a8a]">{webinar.speaker_name}</h3>
+                <p className="text-lg text-slate-600 leading-relaxed">
                   {webinar.speaker_bio}
                 </p>
               </div>
               <div className="flex items-center gap-2">
                 <Star className="w-5 h-5 text-yellow-400 fill-current" />
-                <span className="text-sm font-medium">Industry Expert with 1000+ Students Trained</span>
+                <span className="text-sm font-medium text-slate-700">Industry Expert with 1000+ Students Trained</span>
               </div>
             </div>
             <div className="relative animate-fade-in">
-              <div className="absolute inset-0 bg-gradient-to-r from-primary to-accent rounded-2xl blur-2xl opacity-20 animate-pulse"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-[#1e3a8a] to-[#0f172a] rounded-2xl blur-2xl opacity-20 animate-pulse"></div>
               <img 
                 src={webinar.speaker_image} 
                 alt={webinar.speaker_name}
@@ -421,11 +422,11 @@ const WebinarPage = () => {
 
       {/* What You'll Learn */}
       <section className="py-20 bg-white/95 backdrop-blur-sm relative">
-        <div className="absolute inset-0 bg-gradient-to-l from-[#4A90E2]/5 to-[#1A365D]/5"></div>
+        <div className="absolute inset-0 bg-gradient-to-l from-[#1e3a8a]/5 to-[#0f172a]/5"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="text-center mb-16 animate-fade-in">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-[#1A365D]">What You'll Learn</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-[#0f172a]">What You'll Learn</h2>
+            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
               This comprehensive session will equip you with practical knowledge and actionable strategies
             </p>
           </div>
@@ -434,14 +435,14 @@ const WebinarPage = () => {
             {webinar.benefits.map((benefit, index) => (
               <div 
                 key={index}
-                className="bg-card border rounded-xl p-6 hover:shadow-lg transition-all duration-300 hover-scale animate-fade-in"
+                className="bg-white/80 border border-[#1e3a8a]/20 rounded-xl p-6 hover:shadow-lg transition-all duration-300 hover-scale animate-fade-in"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <div className="flex items-start gap-4">
-                  <div className="bg-primary/10 rounded-lg p-2 flex-shrink-0">
-                    <CheckCircle className="w-5 h-5 text-primary" />
+                  <div className="bg-[#1e3a8a]/10 rounded-lg p-2 flex-shrink-0">
+                    <CheckCircle className="w-5 h-5 text-[#1e3a8a]" />
                   </div>
-                  <p className="text-sm leading-relaxed">{benefit}</p>
+                  <p className="text-sm leading-relaxed text-slate-700">{benefit}</p>
                 </div>
               </div>
             ))}
@@ -450,12 +451,12 @@ const WebinarPage = () => {
       </section>
 
       {/* Event Agenda */}
-      <section className="py-20 bg-gradient-to-br from-white via-[#4A90E2]/5 to-[#4A90E2]/15 relative">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#4A90E2]/5 to-[#4A90E2]/20"></div>
+      <section className="py-20 bg-gradient-to-br from-slate-50 via-blue-50 to-[#1e3a8a]/10 relative">
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#1e3a8a]/5 to-[#1e3a8a]/15"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="text-center mb-16 animate-fade-in">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-[#1A365D]">Event Agenda</h2>
-            <p className="text-lg text-gray-600">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-[#0f172a]">Event Agenda</h2>
+            <p className="text-lg text-slate-600">
               A structured 90-minute session designed for maximum value
             </p>
           </div>
@@ -464,17 +465,17 @@ const WebinarPage = () => {
             {webinar.agenda.map((item, index) => (
               <div 
                 key={index}
-                className="bg-card border rounded-xl p-6 flex items-center gap-6 hover:shadow-lg transition-all duration-300 animate-fade-in"
+                className="bg-white/80 border border-[#1e3a8a]/20 rounded-xl p-6 flex items-center gap-6 hover:shadow-lg transition-all duration-300 animate-fade-in"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <div className="bg-primary/10 rounded-lg p-3 flex-shrink-0">
-                  <Clock className="w-5 h-5 text-primary" />
+                <div className="bg-[#1e3a8a]/10 rounded-lg p-3 flex-shrink-0">
+                  <Clock className="w-5 h-5 text-[#1e3a8a]" />
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center gap-4">
-                    <span className="font-semibold text-primary">{item.time}</span>
-                    <span className="text-muted-foreground">•</span>
-                    <span className="font-medium">{item.topic}</span>
+                    <span className="font-semibold text-[#1e3a8a]">{item.time}</span>
+                    <span className="text-slate-400">•</span>
+                    <span className="font-medium text-slate-700">{item.topic}</span>
                   </div>
                 </div>
               </div>
@@ -484,33 +485,40 @@ const WebinarPage = () => {
       </section>
 
       {/* Registration Form */}
-      <section id="registration" className="py-20 bg-gradient-to-br from-[#4A90E2]/20 via-[#2563eb]/40 to-[#1A365D] relative overflow-hidden">
+      <section id="registration" className="py-20 bg-gradient-to-br from-[#1e3a8a] via-[#1e40af] to-[#0f172a] relative overflow-hidden">
         {/* Smooth transition gradient */}
-        <div className="absolute top-0 left-0 right-0 h-20 bg-gradient-to-b from-[#4A90E2]/15 to-transparent"></div>
+        <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-[#1e3a8a]/20 to-transparent"></div>
         
-        {/* Hexagonal background for registration */}
-        <div className="absolute inset-0 opacity-10">
+        {/* Enhanced Hexagonal background for registration */}
+        <div className="absolute inset-0 opacity-25">
           <div className="absolute inset-0" style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.4'%3E%3Cpath d='M20 20l6.5-11.3L20 0l-6.5 11.3L20 20z M20 20l6.5 11.3L20 40l-6.5-11.3L20 20z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-            backgroundSize: '40px 40px'
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.6'%3E%3Cpolygon points='30,2 55,17 55,47 30,62 5,47 5,17'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+            backgroundSize: '60px 60px'
           }}></div>
         </div>
+        
+        {/* Additional geometric elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-10 left-10 w-20 h-20 border border-white/30 rounded-lg rotate-45 animate-pulse"></div>
+          <div className="absolute bottom-10 right-10 w-24 h-24 border border-white/20 rounded-lg -rotate-12 animate-float"></div>
+        </div>
+        
         <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="text-center mb-12 animate-fade-in">
             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white drop-shadow-lg">Secure Your Spot</h2>
             <p className="text-lg text-white/90 drop-shadow-md">
               Limited seats available - Register now to guarantee your access
             </p>
-            <div className="mt-4 text-sm font-medium text-white bg-white/20 backdrop-blur-sm rounded-lg px-4 py-2 inline-block">
+            <div className="mt-6 text-sm font-bold text-white bg-white/25 backdrop-blur-md rounded-xl px-6 py-3 inline-block border border-white/30">
               {registrationCount}/{webinar.registration_limit} spots taken
             </div>
           </div>
 
-          <div className="bg-white/95 backdrop-blur-sm border border-white/30 rounded-2xl p-8 shadow-2xl animate-fade-in">
+          <div className="bg-white/98 backdrop-blur-md border-2 border-white/50 rounded-2xl p-8 shadow-2xl animate-fade-in">
             <form onSubmit={handleRegistration} className="space-y-6">
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <Label htmlFor="name" className="text-[#1A365D] font-medium">Full Name *</Label>
+                  <Label htmlFor="name" className="text-[#0f172a] font-semibold">Full Name *</Label>
                   <Input
                     id="name"
                     name="name"
@@ -518,13 +526,13 @@ const WebinarPage = () => {
                     value={formData.name}
                     onChange={handleInputChange}
                     placeholder="Enter your full name"
-                    className="border-[#4A90E2]/30 focus:border-[#4A90E2] bg-white transition-all duration-200 focus:scale-105"
+                    className="border-[#1e3a8a]/40 focus:border-[#1e3a8a] bg-white transition-all duration-200 focus:scale-105 focus:ring-2 focus:ring-[#1e3a8a]/20"
                     required
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="email" className="text-[#1A365D] font-medium">Email Address *</Label>
+                  <Label htmlFor="email" className="text-[#0f172a] font-semibold">Email Address *</Label>
                   <Input
                     id="email"
                     name="email"
@@ -532,14 +540,14 @@ const WebinarPage = () => {
                     value={formData.email}
                     onChange={handleInputChange}
                     placeholder="Enter your email address"
-                    className="border-[#4A90E2]/30 focus:border-[#4A90E2] bg-white transition-all duration-200 focus:scale-105"
+                    className="border-[#1e3a8a]/40 focus:border-[#1e3a8a] bg-white transition-all duration-200 focus:scale-105 focus:ring-2 focus:ring-[#1e3a8a]/20"
                     required
                   />
                 </div>
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="whatsapp_number" className="text-[#1A365D] font-medium">WhatsApp Number *</Label>
+                <Label htmlFor="whatsapp_number" className="text-[#0f172a] font-semibold">WhatsApp Number *</Label>
                 <Input
                   id="whatsapp_number"
                   name="whatsapp_number"
@@ -547,14 +555,14 @@ const WebinarPage = () => {
                   value={formData.whatsapp_number}
                   onChange={handleInputChange}
                   placeholder="Enter your WhatsApp number"
-                  className="border-[#4A90E2]/30 focus:border-[#4A90E2] bg-white transition-all duration-200 focus:scale-105"
+                  className="border-[#1e3a8a]/40 focus:border-[#1e3a8a] bg-white transition-all duration-200 focus:scale-105 focus:ring-2 focus:ring-[#1e3a8a]/20"
                   required
                 />
               </div>
 
               <Button 
                 type="submit" 
-                className="w-full bg-gradient-to-r from-[#4A90E2] to-[#1A365D] hover:from-[#357ABD] hover:to-[#0D2B4D] border-0 text-white font-semibold shadow-lg transform transition-all duration-200 hover:scale-105" 
+                className="w-full bg-gradient-to-r from-[#1e3a8a] to-[#0f172a] hover:from-[#1e40af] hover:to-[#1e3a8a] border-0 text-white font-bold text-lg shadow-xl transform transition-all duration-300 hover:scale-105 hover:shadow-2xl" 
                 size="lg"
                 disabled={isSubmitting}
               >
@@ -569,7 +577,7 @@ const WebinarPage = () => {
               </Button>
             </form>
 
-            <div className="mt-6 text-center text-xs text-gray-600">
+            <div className="mt-6 text-center text-xs text-slate-600">
               By registering, you agree to receive webinar updates via email and WhatsApp
             </div>
           </div>
