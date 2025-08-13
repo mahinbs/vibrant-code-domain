@@ -451,29 +451,35 @@ const WebinarPage = () => {
         </div>
       </section>
 
-      {/* What You'll Learn */}
-      <section className="py-20 bg-white/95 backdrop-blur-sm relative">
-        <div className="absolute inset-0 bg-gradient-to-l from-[#1e3a8a]/5 to-[#0f172a]/5"></div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <div className="text-center mb-16 animate-fade-in">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-[#0f172a]">What You'll Learn</h2>
-            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-              This comprehensive session will equip you with practical knowledge and actionable strategies
-            </p>
+        {/* What You'll Learn */}
+        <section className="py-20 bg-gradient-to-br from-[#1e3a8a] via-[#1e40af] to-[#0f172a] relative">
+          {/* Subtle hexagonal background pattern */}
+          <div className="absolute inset-0 opacity-8">
+            <div className="absolute inset-0" style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.3'%3E%3Cpolygon points='40,5 65,20 65,50 40,65 15,50 15,20'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+              backgroundSize: '80px 80px'
+            }}></div>
           </div>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+            <div className="text-center mb-16 animate-fade-in">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white drop-shadow-lg">What You'll Learn</h2>
+              <p className="text-lg text-white/90 max-w-2xl mx-auto drop-shadow-md">
+                This comprehensive session will equip you with practical knowledge and actionable strategies
+              </p>
+            </div>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {webinar.benefits.map((benefit, index) => (
-              <div 
-                key={index}
-                className="bg-white/80 border border-[#1e3a8a]/20 rounded-xl p-6 hover:shadow-lg transition-all duration-300 hover-scale animate-fade-in"
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                <div className="flex items-start gap-4">
-                  <div className="bg-[#1e3a8a]/10 rounded-lg p-2 flex-shrink-0">
-                    <CheckCircle className="w-5 h-5 text-[#1e3a8a]" />
-                  </div>
-                  <p className="text-sm leading-relaxed text-slate-700">{benefit}</p>
+              {webinar.benefits.map((benefit, index) => (
+                <div 
+                  key={index}
+                  className="bg-white/95 backdrop-blur-sm border border-white/30 rounded-xl p-6 hover:shadow-2xl hover:bg-white transition-all duration-300 hover-scale animate-fade-in"
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                >
+                  <div className="flex items-start gap-4">
+                    <div className="bg-white/20 backdrop-blur-sm rounded-lg p-2 flex-shrink-0 border border-white/30">
+                      <CheckCircle className="w-5 h-5 text-[#1e3a8a]" />
+                    </div>
+                    <p className="text-sm leading-relaxed text-gray-700">{benefit}</p>
                 </div>
               </div>
             ))}
@@ -481,32 +487,38 @@ const WebinarPage = () => {
         </div>
       </section>
 
-      {/* Event Agenda */}
-      <section className="py-20 bg-gradient-to-br from-slate-50 via-blue-50 to-[#1e3a8a]/10 relative">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#1e3a8a]/5 to-[#1e3a8a]/15"></div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <div className="text-center mb-16 animate-fade-in">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-[#0f172a]">Event Agenda</h2>
-            <p className="text-lg text-slate-600">
-              A structured 90-minute session designed for maximum value
-            </p>
+        {/* Event Agenda */}
+        <section className="py-20 bg-gradient-to-br from-[#1e3a8a] via-[#1e40af] to-[#0f172a] relative">
+          {/* Subtle hexagonal background pattern */}
+          <div className="absolute inset-0 opacity-10">
+            <div className="absolute inset-0" style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.4'%3E%3Cpolygon points='30,2 55,17 55,47 30,62 5,47 5,17'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+              backgroundSize: '60px 60px'
+            }}></div>
           </div>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+            <div className="text-center mb-16 animate-fade-in">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white drop-shadow-lg">Event Agenda</h2>
+              <p className="text-lg text-white/90 drop-shadow-md">
+                A structured 90-minute session designed for maximum value
+              </p>
+            </div>
 
           <div className="max-w-3xl mx-auto space-y-4">
-            {webinar.agenda.map((item, index) => (
-              <div 
-                key={index}
-                className="bg-white/80 border border-[#1e3a8a]/20 rounded-xl p-6 flex items-center gap-6 hover:shadow-lg transition-all duration-300 animate-fade-in"
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                <div className="bg-[#1e3a8a]/10 rounded-lg p-3 flex-shrink-0">
-                  <Clock className="w-5 h-5 text-[#1e3a8a]" />
+              {webinar.agenda.map((item, index) => (
+                <div 
+                  key={index}
+                  className="bg-white/95 backdrop-blur-sm border border-white/30 rounded-xl p-6 flex items-center gap-6 hover:shadow-2xl hover:bg-white transition-all duration-300 animate-fade-in"
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                >
+                <div className="bg-white/20 backdrop-blur-sm rounded-lg p-3 flex-shrink-0 border border-white/30">
+                    <Clock className="w-5 h-5 text-[#1e3a8a]" />
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center gap-4">
-                    <span className="font-semibold text-[#1e3a8a]">{item.time}</span>
-                    <span className="text-slate-400">•</span>
-                    <span className="font-medium text-slate-700">{item.topic}</span>
+                      <span className="font-semibold text-[#1e3a8a]">{item.time}</span>
+                      <span className="text-gray-400">•</span>
+                      <span className="font-medium text-gray-700">{item.topic}</span>
                   </div>
                 </div>
               </div>
