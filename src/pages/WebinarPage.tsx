@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -43,10 +43,53 @@ const WebinarPage = () => {
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
   
   const heroRef = useParallax<HTMLDivElement>({ speed: 0.5 });
+  const vantaRef = useRef<HTMLDivElement>(null);
+  const vantaEffect = useRef<any>(null);
   const { throttleScroll } = usePerformance();
 
   useEffect(() => {
     fetchWebinarData();
+    
+    // Load Vanta.js scripts
+    const loadVanta = async () => {
+      // Load Three.js
+      const threeScript = document.createElement('script');
+      threeScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js';
+      document.head.appendChild(threeScript);
+      
+      threeScript.onload = () => {
+        // Load Vanta Globe
+        const vantaScript = document.createElement('script');
+        vantaScript.src = 'https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.globe.min.js';
+        document.head.appendChild(vantaScript);
+        
+        vantaScript.onload = () => {
+          if (vantaRef.current && (window as any).VANTA) {
+            vantaEffect.current = (window as any).VANTA.GLOBE({
+              el: vantaRef.current,
+              mouseControls: true,
+              touchControls: true,
+              gyroControls: false,
+              minHeight: 200.00,
+              minWidth: 200.00,
+              scale: 1.00,
+              scaleMobile: 1.00,
+              color: 0x3fd1ff,
+              size: 1.50,
+              backgroundColor: 0x15153c
+            });
+          }
+        };
+      };
+    };
+    
+    loadVanta();
+    
+    return () => {
+      if (vantaEffect.current) {
+        vantaEffect.current.destroy();
+      }
+    };
   }, []);
 
   useEffect(() => {
@@ -305,54 +348,31 @@ const WebinarPage = () => {
   }
 
   return (
-    <div className="min-h-screen relative overflow-hidden" style={{
-      background: 'linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #0f172a 100%)',
-      minHeight: '100vh'
-    }}>
+    <div className="min-h-screen relative overflow-hidden">
       {/* DRAMATIC HEADER BANNER TO CONFIRM CHANGES */}
       <div className="absolute top-0 left-0 right-0 bg-red-600 text-white text-center py-2 z-50 font-bold">
         🔥 UPDATED DESIGN - Dark Blue Theme Active 🔥
       </div>
       
-      {/* Enhanced Hexagonal Background Pattern */}
-      <div className="absolute inset-0" style={{ opacity: 0.3 }}>
-        <div className="absolute inset-0" style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.8'%3E%3Cpolygon points='40,5 65,20 65,50 40,65 15,50 15,20'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-          backgroundSize: '80px 80px'
-        }}></div>
-      </div>
-      
-      {/* Larger Floating Hexagons */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-10 w-24 h-24 bg-white/10 rounded-lg rotate-45 animate-float border border-white/20"></div>
-        <div className="absolute top-40 right-20 w-32 h-32 bg-white/5 rounded-lg rotate-12 animate-float border border-white/15" style={{animationDelay: '2s'}}></div>
-        <div className="absolute bottom-32 left-1/4 w-28 h-28 bg-white/10 rounded-lg -rotate-12 animate-float border border-white/20" style={{animationDelay: '4s'}}></div>
-        <div className="absolute bottom-20 right-1/3 w-20 h-20 bg-white/15 rounded-lg rotate-45 animate-float border border-white/25" style={{animationDelay: '6s'}}></div>
-        <div className="absolute top-1/2 left-20 w-16 h-16 bg-white/10 rounded-lg rotate-12 animate-float border border-white/20" style={{animationDelay: '1s'}}></div>
-        <div className="absolute top-1/3 right-10 w-36 h-36 bg-white/5 rounded-lg -rotate-45 animate-float border border-white/10" style={{animationDelay: '3s'}}></div>
-      </div>
-      
-      {/* Enhanced Gradient Overlays */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#1e3a8a]/90 via-[#1e40af]/80 to-[#0f172a]/95"></div>
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(30,58,138,0.6),transparent_60%)]"></div>
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_70%,rgba(15,23,42,0.8),transparent_70%)]"></div>
-      
-      {/* Hero Section - with extra top padding for banner */}
-      <section ref={heroRef} className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
+      {/* Hero Section with Vanta Globe Background */}
+      <section ref={vantaRef} className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
+        {/* Content overlay */}
+        <div className="absolute inset-0 bg-black/20 z-10"></div>
+        
         {/* Enhanced Hexagonal Geometric Elements */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute inset-0 overflow-hidden pointer-events-none z-20">
           <div className="absolute top-20 left-20 w-40 h-40 border-2 border-white/20 rounded-lg rotate-45 animate-pulse"></div>
           <div className="absolute bottom-20 right-20 w-48 h-48 border border-white/15 rounded-lg -rotate-12"></div>
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] border border-white/10 rounded-full"></div>
           <div className="absolute top-10 right-10 w-32 h-32 border-2 border-white/25 rounded-lg rotate-30"></div>
         </div>
         
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8 animate-fade-in">
+        <div className="relative z-30 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8 animate-fade-in">
           <div className="space-y-4">
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent leading-tight drop-shadow-lg">
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent leading-tight drop-shadow-2xl">
               {webinar.title}
             </h1>
-            <p className="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto drop-shadow-md">
+            <p className="text-xl md:text-2xl text-white/95 max-w-3xl mx-auto drop-shadow-lg">
               {webinar.subtitle}
             </p>
           </div>
@@ -374,15 +394,15 @@ const WebinarPage = () => {
 
           {/* Event Info */}
           <div className="flex flex-wrap justify-center gap-6 text-sm">
-            <div className="flex items-center gap-3 bg-white/20 backdrop-blur-md rounded-xl px-6 py-3 border border-white/30">
+            <div className="flex items-center gap-3 bg-white/25 backdrop-blur-md rounded-xl px-6 py-3 border border-white/40 shadow-lg">
               <Calendar className="w-5 h-5 text-white" />
               <span className="font-semibold text-white">{new Date(webinar.event_date).toLocaleDateString()}</span>
             </div>
-            <div className="flex items-center gap-3 bg-white/20 backdrop-blur-md rounded-xl px-6 py-3 border border-white/30">
+            <div className="flex items-center gap-3 bg-white/25 backdrop-blur-md rounded-xl px-6 py-3 border border-white/40 shadow-lg">
               <Clock className="w-5 h-5 text-white" />
               <span className="font-semibold text-white">{webinar.duration_minutes} minutes</span>
             </div>
-            <div className="flex items-center gap-3 bg-white/20 backdrop-blur-md rounded-xl px-6 py-3 border border-white/30">
+            <div className="flex items-center gap-3 bg-white/25 backdrop-blur-md rounded-xl px-6 py-3 border border-white/40 shadow-lg">
               <Users className="w-5 h-5 text-white" />
               <span className="font-semibold text-white">{registrationCount}/{webinar.registration_limit} registered</span>
             </div>
@@ -398,8 +418,11 @@ const WebinarPage = () => {
         </div>
       </section>
 
-      {/* Speaker Section */}
-      <section className="py-20 bg-white/95 backdrop-blur-sm relative">
+      {/* Rest of the page with regular background */}
+      <div className="bg-gradient-to-br from-[#1e3a8a] via-[#1e40af] to-[#0f172a]">
+
+        {/* Speaker Section */}
+        <section className="py-20 bg-white/95 backdrop-blur-sm relative">
         <div className="absolute inset-0 bg-gradient-to-r from-[#1e3a8a]/5 to-[#0f172a]/5"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -591,6 +614,7 @@ const WebinarPage = () => {
           </div>
         </div>
       </section>
+      </div>
     </div>
   );
 };
