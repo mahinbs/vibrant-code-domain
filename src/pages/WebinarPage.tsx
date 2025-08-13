@@ -305,9 +305,9 @@ const WebinarPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-white dark:bg-gray-900">
       {/* Hero Section */}
-      <section ref={heroRef} className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-primary/20 via-background to-accent/20">
+      <section ref={heroRef} className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-blue-500/20 via-white dark:via-gray-900 to-cyan-500/20">
         <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
         <div className="absolute inset-0 bg-gradient-to-t from-background/50 to-transparent"></div>
         
