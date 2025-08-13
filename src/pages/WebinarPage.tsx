@@ -450,8 +450,8 @@ const WebinarPage = () => {
       </section>
 
       {/* Event Agenda */}
-      <section className="py-20 bg-gradient-to-br from-[#4A90E2]/10 via-white to-[#1A365D]/10 relative">
-        <div className="absolute inset-0 bg-gradient-to-r from-[#4A90E2]/5 to-[#1A365D]/5"></div>
+      <section className="py-20 bg-gradient-to-br from-white via-[#4A90E2]/5 to-[#4A90E2]/15 relative">
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#4A90E2]/5 to-[#4A90E2]/20"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="text-center mb-16 animate-fade-in">
             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-[#1A365D]">Event Agenda</h2>
@@ -484,7 +484,10 @@ const WebinarPage = () => {
       </section>
 
       {/* Registration Form */}
-      <section id="registration" className="py-20 bg-gradient-to-br from-[#4A90E2] via-[#2563eb] to-[#1A365D] relative overflow-hidden">
+      <section id="registration" className="py-20 bg-gradient-to-br from-[#4A90E2]/20 via-[#2563eb]/40 to-[#1A365D] relative overflow-hidden">
+        {/* Smooth transition gradient */}
+        <div className="absolute top-0 left-0 right-0 h-20 bg-gradient-to-b from-[#4A90E2]/15 to-transparent"></div>
+        
         {/* Hexagonal background for registration */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0" style={{
