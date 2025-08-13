@@ -305,11 +305,19 @@ const WebinarPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#1e3a8a] via-[#1e40af] to-[#0f172a] relative overflow-hidden">
+    <div className="min-h-screen relative overflow-hidden" style={{
+      background: 'linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #0f172a 100%)',
+      minHeight: '100vh'
+    }}>
+      {/* DRAMATIC HEADER BANNER TO CONFIRM CHANGES */}
+      <div className="absolute top-0 left-0 right-0 bg-red-600 text-white text-center py-2 z-50 font-bold">
+        🔥 UPDATED DESIGN - Dark Blue Theme Active 🔥
+      </div>
+      
       {/* Enhanced Hexagonal Background Pattern */}
-      <div className="absolute inset-0 opacity-20">
+      <div className="absolute inset-0" style={{ opacity: 0.3 }}>
         <div className="absolute inset-0" style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.7'%3E%3Cpolygon points='40,5 65,20 65,50 40,65 15,50 15,20'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.8'%3E%3Cpolygon points='40,5 65,20 65,50 40,65 15,50 15,20'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
           backgroundSize: '80px 80px'
         }}></div>
       </div>
@@ -329,8 +337,8 @@ const WebinarPage = () => {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(30,58,138,0.6),transparent_60%)]"></div>
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_70%,rgba(15,23,42,0.8),transparent_70%)]"></div>
       
-      {/* Hero Section */}
-      <section ref={heroRef} className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Hero Section - with extra top padding for banner */}
+      <section ref={heroRef} className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
         {/* Enhanced Hexagonal Geometric Elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-20 left-20 w-40 h-40 border-2 border-white/20 rounded-lg rotate-45 animate-pulse"></div>
