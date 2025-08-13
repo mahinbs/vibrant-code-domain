@@ -65,14 +65,21 @@ const WebinarPage = () => {
         .from('webinar_events')
         .select('*')
         .eq('is_active', true)
-        .single();
+        .maybeSingle();
 
       if (webinarError) {
+        console.error('Webinar fetch error:', webinarError);
         toast({
           title: "Error",
           description: "Failed to load webinar information",
           variant: "destructive",
         });
+        setIsLoading(false);
+        return;
+      }
+
+      if (!webinarData) {
+        setIsLoading(false);
         return;
       }
 
