@@ -386,16 +386,33 @@ const WebinarManagement = () => {
                     <Input
                       type="datetime-local"
                       value={formData.event_date ? (() => {
-                        const date = new Date(formData.event_date);
-                        // Convert UTC timestamp to local datetime-local format
-                        const localDate = new Date(date.getTime() - (date.getTimezoneOffset() * 60000));
-                        return localDate.toISOString().slice(0, 16);
+                        // Convert UTC database timestamp to local datetime-local format
+                        const utcDate = new Date(formData.event_date);
+                        // Create a new date with the same UTC time but treated as local
+                        const year = utcDate.getUTCFullYear();
+                        const month = String(utcDate.getUTCMonth() + 1).padStart(2, '0');
+                        const day = String(utcDate.getUTCDate()).padStart(2, '0');
+                        const hours = String(utcDate.getUTCHours()).padStart(2, '0');
+                        const minutes = String(utcDate.getUTCMinutes()).padStart(2, '0');
+                        return `${year}-${month}-${day}T${hours}:${minutes}`;
                       })() : ''}
                       onChange={(e) => {
                         if (e.target.value) {
-                          // Convert local datetime-local value to UTC timestamp
-                          const localDate = new Date(e.target.value);
-                          const utcDate = new Date(localDate.getTime() + (localDate.getTimezoneOffset() * 60000));
+                          // Convert local datetime-local value to UTC for database storage
+                          const localDateTime = e.target.value;
+                          const [datePart, timePart] = localDateTime.split('T');
+                          const [year, month, day] = datePart.split('-');
+                          const [hours, minutes] = timePart.split(':');
+                          
+                          // Create UTC date from the local input values
+                          const utcDate = new Date(Date.UTC(
+                            parseInt(year),
+                            parseInt(month) - 1,
+                            parseInt(day),
+                            parseInt(hours),
+                            parseInt(minutes)
+                          ));
+                          
                           handleInputChange('event_date', utcDate.toISOString());
                         } else {
                           handleInputChange('event_date', '');
