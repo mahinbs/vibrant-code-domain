@@ -290,6 +290,17 @@ const WebinarPage = () => {
     document.getElementById('registration')?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  // Helper function to display time without timezone conversion
+  const formatStoredTime = (dateString: string): string => {
+    const date = new Date(dateString);
+    const hours = date.getUTCHours();
+    const minutes = date.getUTCMinutes();
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    const displayHours = hours % 12 || 12;
+    const displayMinutes = minutes.toString().padStart(2, '0');
+    return `${displayHours}:${displayMinutes} ${ampm}`;
+  };
+
   // Show registered success state
   if (isRegistered) {
     return (
@@ -320,7 +331,7 @@ const WebinarPage = () => {
                   </h3>
                   <p className="text-sm text-muted-foreground">
                     {new Date(webinar.event_date).toLocaleDateString()} at{' '}
-                    {new Date(webinar.event_date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    {formatStoredTime(webinar.event_date)}
                   </p>
                 </div>
                 <div className="space-y-2">
@@ -439,7 +450,7 @@ const WebinarPage = () => {
               <div className="flex flex-wrap justify-center gap-6 text-sm">
                 <div className="flex items-center gap-3 bg-white/25 backdrop-blur-md rounded-xl px-6 py-3 border border-white/40 shadow-lg">
                   <Calendar className="w-5 h-5 text-white" />
-                  <span className="font-semibold text-white">{new Date(webinar.event_date).toLocaleDateString()}</span>
+                  <span className="font-semibold text-white">{new Date(webinar.event_date).toLocaleDateString()} at {formatStoredTime(webinar.event_date)}</span>
                 </div>
                 <div className="flex items-center gap-3 bg-white/25 backdrop-blur-md rounded-xl px-6 py-3 border border-white/40 shadow-lg">
                   <Clock className="w-5 h-5 text-white" />
