@@ -695,7 +695,7 @@ const WebinarPage = () => {
             <form onSubmit={handleRegistration} className="space-y-6">
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <Label htmlFor="name" className="text-[#0f172a] font-semibold">Full Name *</Label>
+                  <Label htmlFor="name" className="text-white font-semibold">Full Name *</Label>
                   <Input
                     id="name"
                     name="name"
@@ -709,7 +709,7 @@ const WebinarPage = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="email" className="text-[#0f172a] font-semibold">Email Address *</Label>
+                  <Label htmlFor="email" className="text-white font-semibold">Email Address *</Label>
                   <Input
                     id="email"
                     name="email"
@@ -724,7 +724,7 @@ const WebinarPage = () => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="whatsapp_number" className="text-[#0f172a] font-semibold">WhatsApp Number *</Label>
+                <Label htmlFor="whatsapp_number" className="text-white font-semibold">WhatsApp Number *</Label>
                 <Input
                   id="whatsapp_number"
                   name="whatsapp_number"
