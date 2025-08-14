@@ -385,8 +385,22 @@ const WebinarManagement = () => {
                     <Label>Event Date & Time</Label>
                     <Input
                       type="datetime-local"
-                      value={formData.event_date ? new Date(formData.event_date).toISOString().slice(0, 16) : ''}
-                      onChange={(e) => handleInputChange('event_date', e.target.value)}
+                      value={formData.event_date ? (() => {
+                        const date = new Date(formData.event_date);
+                        // Convert UTC timestamp to local datetime-local format
+                        const localDate = new Date(date.getTime() - (date.getTimezoneOffset() * 60000));
+                        return localDate.toISOString().slice(0, 16);
+                      })() : ''}
+                      onChange={(e) => {
+                        if (e.target.value) {
+                          // Convert local datetime-local value to UTC timestamp
+                          const localDate = new Date(e.target.value);
+                          const utcDate = new Date(localDate.getTime() + (localDate.getTimezoneOffset() * 60000));
+                          handleInputChange('event_date', utcDate.toISOString());
+                        } else {
+                          handleInputChange('event_date', '');
+                        }
+                      }}
                     />
                   </div>
                   <div className="space-y-2">
