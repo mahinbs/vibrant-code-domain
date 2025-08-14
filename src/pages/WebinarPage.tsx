@@ -290,11 +290,11 @@ const WebinarPage = () => {
     document.getElementById('registration')?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  // Helper function to display time without timezone conversion
+  // Helper function to display time exactly as stored
   const formatStoredTime = (dateString: string): string => {
     const date = new Date(dateString);
-    const hours = date.getUTCHours();
-    const minutes = date.getUTCMinutes();
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
     const ampm = hours >= 12 ? 'PM' : 'AM';
     const displayHours = hours % 12 || 12;
     const displayMinutes = minutes.toString().padStart(2, '0');
