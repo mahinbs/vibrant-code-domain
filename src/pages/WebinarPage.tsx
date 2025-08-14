@@ -737,7 +737,7 @@ const WebinarPage = () => {
                   className="border-[#1e3a8a]/40 focus:border-[#1e3a8a] bg-white transition-all duration-200 focus:scale-105 focus:ring-2 focus:ring-[#1e3a8a]/20"
                   required
                 />
-                <p className="text-xs text-gray-600">
+                <p className="text-xs text-white/80">
                   Enter your 10-digit WhatsApp number without country code
                 </p>
               </div>
@@ -759,7 +759,7 @@ const WebinarPage = () => {
               </Button>
             </form>
 
-            <div className="mt-6 text-center text-xs text-slate-600">
+            <div className="mt-6 text-center text-xs text-white/70">
               By registering, you agree to receive webinar updates via email and WhatsApp
             </div>
           </div>
