@@ -213,7 +213,16 @@ const WebinarPage = () => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    
+    // For WhatsApp number, only allow digits and limit to 10 characters
+    if (name === 'whatsapp_number') {
+      const cleanedValue = value.replace(/\D/g, ''); // Remove all non-digits
+      if (cleanedValue.length <= 10) {
+        setFormData(prev => ({ ...prev, [name]: cleanedValue }));
+      }
+    } else {
+      setFormData(prev => ({ ...prev, [name]: value }));
+    }
   };
 
   const validateForm = () => {
@@ -231,6 +240,18 @@ const WebinarPage = () => {
     
     if (!whatsapp_number.trim()) {
       toast({ title: "Error", description: "Please enter your WhatsApp number", variant: "destructive" });
+      return false;
+    }
+    
+    // Validate WhatsApp number is exactly 10 digits
+    const cleanedWhatsApp = whatsapp_number.replace(/\D/g, '');
+    if (cleanedWhatsApp.length !== 10) {
+      toast({ title: "Error", description: "WhatsApp number must be exactly 10 digits", variant: "destructive" });
+      return false;
+    }
+    
+    if (!/^[6-9]\d{9}$/.test(cleanedWhatsApp)) {
+      toast({ title: "Error", description: "Please enter a valid Indian mobile number starting with 6, 7, 8, or 9", variant: "destructive" });
       return false;
     }
     
@@ -710,10 +731,15 @@ const WebinarPage = () => {
                   type="tel"
                   value={formData.whatsapp_number}
                   onChange={handleInputChange}
-                  placeholder="Enter your WhatsApp number"
+                  placeholder="Enter 10-digit mobile number (e.g., 9876543210)"
+                  pattern="[6-9][0-9]{9}"
+                  maxLength={10}
                   className="border-[#1e3a8a]/40 focus:border-[#1e3a8a] bg-white transition-all duration-200 focus:scale-105 focus:ring-2 focus:ring-[#1e3a8a]/20"
                   required
                 />
+                <p className="text-xs text-gray-600">
+                  Enter your 10-digit WhatsApp number without country code
+                </p>
               </div>
 
               <Button 
