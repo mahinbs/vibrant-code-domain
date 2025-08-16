@@ -564,38 +564,65 @@ const WebinarPage = () => {
                 {webinar.cta_text || 'Reserve Your Spot Now'}
               </Button>
 
-              {/* Social Proof in Hero */}
+              {/* Social Proof in Hero - Scrolling */}
               {webinar.show_social_proof && (webinar.social_proof_logos?.length > 0 || webinar.recognitions?.length > 0) && (
-                <div className="mt-8 p-6 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl max-w-3xl mx-auto">
+                <div className="mt-8 p-6 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl max-w-4xl mx-auto overflow-hidden">
                   <h3 className="text-lg font-semibold text-white text-center mb-4">
-                    {webinar.social_proof_logos?.length > 0 ? 'Trusted by Industry Leaders' : 'As Featured In'}
+                    As Featured In
                   </h3>
                   
-                  {/* Logos */}
-                  {webinar.social_proof_logos?.length > 0 && (
-                    <div className="flex flex-wrap justify-center items-center gap-6">
-                      {webinar.social_proof_logos.map((logo, index) => (
-                        <div key={index} className="flex-shrink-0">
-                          <img 
-                            src={logo} 
-                            alt={`Partner logo ${index + 1}`}
-                            className="h-8 w-auto opacity-80 hover:opacity-100 transition-opacity filter brightness-0 invert"
-                          />
-                        </div>
-                      ))}
+                  <div className="relative overflow-hidden">
+                    <div 
+                      className="flex items-center gap-8 animate-scroll" 
+                      style={{ 
+                        animation: 'scroll 25s linear infinite',
+                        width: 'calc(200% + 2rem)'
+                      }}
+                    >
+                      {/* First set */}
+                      {webinar.social_proof_logos?.length > 0 ? (
+                        <>
+                          {webinar.social_proof_logos.map((logo, index) => (
+                            <img 
+                              key={index} 
+                              src={logo} 
+                              alt="Media recognition logo" 
+                              className="h-8 md:h-10 flex-shrink-0 grayscale hover:grayscale-0 transition-all duration-300 opacity-80 hover:opacity-100 filter brightness-0 invert"
+                            />
+                          ))}
+                          {/* Duplicate for seamless loop */}
+                          {webinar.social_proof_logos.map((logo, index) => (
+                            <img 
+                              key={`dup-${index}`} 
+                              src={logo} 
+                              alt="Media recognition logo" 
+                              className="h-8 md:h-10 flex-shrink-0 grayscale hover:grayscale-0 transition-all duration-300 opacity-80 hover:opacity-100 filter brightness-0 invert"
+                            />
+                          ))}
+                        </>
+                      ) : (
+                        <>
+                          {webinar.recognitions?.map((recognition, index) => (
+                            <div 
+                              key={index}
+                              className="bg-white/20 backdrop-blur-sm border border-white/30 rounded-lg px-4 py-2 text-white text-sm font-medium hover:bg-white/30 transition-all duration-300 flex-shrink-0"
+                            >
+                              {recognition}
+                            </div>
+                          ))}
+                          {/* Duplicate for seamless loop */}
+                          {webinar.recognitions?.map((recognition, index) => (
+                            <div 
+                              key={`dup-${index}`}
+                              className="bg-white/20 backdrop-blur-sm border border-white/30 rounded-lg px-4 py-2 text-white text-sm font-medium hover:bg-white/30 transition-all duration-300 flex-shrink-0"
+                            >
+                              {recognition}
+                            </div>
+                          ))}
+                        </>
+                      )}
                     </div>
-                  )}
-                  
-                  {/* Text recognitions */}
-                  {webinar.recognitions?.length > 0 && webinar.social_proof_logos?.length === 0 && (
-                    <div className="flex flex-wrap justify-center items-center gap-4">
-                      {webinar.recognitions.map((recognition, index) => (
-                        <span key={index} className="text-white/80 font-medium text-sm">
-                          {recognition}
-                        </span>
-                      ))}
-                    </div>
-                  )}
+                  </div>
                 </div>
               )}
             </>
@@ -612,159 +639,81 @@ const WebinarPage = () => {
       {/* Rest of the page with regular background */}
       <div className="bg-gradient-to-br from-[#1e3a8a] via-[#1e40af] to-[#0f172a]">
 
-      {/* Social Proof Section with Auto-scroll */}
-      {webinar && webinar.show_social_proof && (webinar.social_proof_logos?.length || webinar.recognitions?.length || webinar.social_proof_videos?.length) && (
-        <section className="py-16 bg-white/5 backdrop-blur-sm border-t border-white/20">
+      {/* Instagram Videos Section - Only show if videos exist */}
+      {webinar && webinar.social_proof_videos?.length && (
+        <section className="py-16 bg-gradient-to-br from-primary/5 via-background to-accent/5 border-t border-border/50">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-8">
-              <h3 className="text-2xl font-bold text-white mb-2">Trusted by Industry Leaders</h3>
-              <p className="text-white/80 text-sm font-medium">BoostMySites - As featured in</p>
+            <div className="text-center mb-12">
+              <h3 className="text-2xl md:text-3xl font-bold text-foreground mb-3">
+                Success Stories from Our Community
+              </h3>
+              <p className="text-muted-foreground text-lg">
+                Real transformations from our webinar attendees
+              </p>
             </div>
             
-            {/* Company Branding */}
-            <div className="flex justify-center mb-8">
-              <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl px-6 py-3 flex items-center gap-3">
-                <img 
-                  src="/logo.png" 
-                  alt="BoostMySites Logo" 
-                  className="w-8 h-8 object-contain"
-                />
-                <span className="text-white font-bold text-xl">BoostMySites</span>
-                <span className="text-white/80 text-sm">- Digital Excellence Partner</span>
+            {/* Carousel for videos with external arrows */}
+            <div className="relative max-w-6xl mx-auto px-16">
+              <Carousel
+                opts={{
+                  align: "start",
+                  loop: false,
+                  slidesToScroll: 1,
+                }}
+                className="w-full"
+              >
+                <CarouselContent className="-ml-2 md:-ml-4">
+                  {webinar.social_proof_videos.map((video, index) => {
+                    const getInstagramEmbedUrl = (url: string) => {
+                      if (url.includes('instagram.com')) {
+                        const postMatch = url.match(/\/p\/([^\/\?]+)/);
+                        const reelMatch = url.match(/\/reel\/([^\/\?]+)/);
+                        const postId = postMatch?.[1] || reelMatch?.[1];
+                        if (postId) {
+                          return `https://www.instagram.com/p/${postId}/embed/`;
+                        }
+                      }
+                      return url;
+                    };
+
+                    return (
+                      <CarouselItem key={index} className="pl-2 md:pl-4 basis-full md:basis-1/2 lg:basis-1/3">
+                        <div 
+                          className="group relative animate-fade-in"
+                          style={{ animationDelay: `${index * 0.1}s` }}
+                        >
+                          <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-accent/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
+                          <div className="relative bg-background/50 backdrop-blur-sm border border-border rounded-2xl overflow-hidden shadow-lg group-hover:shadow-xl transition-all duration-500 group-hover:-translate-y-1">
+                            <iframe
+                              src={getInstagramEmbedUrl(video)}
+                              width="100%" 
+                              height="400"
+                              frameBorder="0"
+                              scrolling="no"
+                              allowTransparency={true}
+                              allow="encrypted-media"
+                              loading="lazy"
+                              className="w-full rounded-2xl"
+                              title={`Success story ${index + 1}`}
+                            />
+                          </div>
+                        </div>
+                      </CarouselItem>
+                    );
+                  })}
+                </CarouselContent>
+                {/* External Arrow Buttons */}
+                <CarouselPrevious className="absolute -left-12 top-1/2 -translate-y-1/2 bg-primary hover:bg-primary/80 border-primary text-primary-foreground w-12 h-12 shadow-lg" />
+                <CarouselNext className="absolute -right-12 top-1/2 -translate-y-1/2 bg-primary hover:bg-primary/80 border-primary text-primary-foreground w-12 h-12 shadow-lg" />
+              </Carousel>
+              
+              {/* CTA */}
+              <div className="text-center mt-8">
+                <p className="text-lg text-muted-foreground mb-4">
+                  Want to become next?
+                </p>
               </div>
             </div>
-            
-            {/* Auto-scrolling logos */}
-            <div className="overflow-hidden">
-              <div className="animate-scroll flex items-center gap-12" style={{ 
-                animation: 'scroll 30s linear infinite',
-                width: 'calc(200% + 4rem)'
-              }}>
-                {/* First set */}
-                {webinar.social_proof_logos?.length ? (
-                  <>
-                    {webinar.social_proof_logos.map((logo, index) => (
-                      <img 
-                        key={index} 
-                        src={logo} 
-                        alt="Media logo" 
-                        className="h-12 flex-shrink-0 grayscale hover:grayscale-0 transition-all duration-300 opacity-80 hover:opacity-100"
-                      />
-                    ))}
-                    {/* Duplicate for seamless loop */}
-                    {webinar.social_proof_logos.map((logo, index) => (
-                      <img 
-                        key={`dup-${index}`} 
-                        src={logo} 
-                        alt="Media logo" 
-                        className="h-12 flex-shrink-0 grayscale hover:grayscale-0 transition-all duration-300 opacity-80 hover:opacity-100"
-                      />
-                    ))}
-                  </>
-                ) : (
-                  <>
-                    {webinar.recognitions?.map((recognition, index) => (
-                      <div 
-                        key={index}
-                        className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg px-6 py-3 text-white text-sm font-medium hover:bg-white/15 transition-all duration-300 flex-shrink-0"
-                      >
-                        {recognition}
-                      </div>
-                    ))}
-                    {/* Duplicate for seamless loop */}
-                    {webinar.recognitions?.map((recognition, index) => (
-                      <div 
-                        key={`dup-${index}`}
-                        className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg px-6 py-3 text-white text-sm font-medium hover:bg-white/15 transition-all duration-300 flex-shrink-0"
-                      >
-                        {recognition}
-                      </div>
-                    ))}
-                  </>
-                )}
-              </div>
-            </div>
-            
-            {/* Instagram Videos Row - Only show if videos exist */}
-            {webinar.social_proof_videos?.length && (
-              <div className="mt-16 space-y-8">
-                {/* Section Header */}
-                <div className="text-center space-y-3">
-                  <h3 className="text-2xl md:text-3xl font-bold text-white drop-shadow-lg">
-                    Real Success Stories
-                  </h3>
-                  <p className="text-white/80 text-lg max-w-2xl mx-auto leading-relaxed">
-                    Watch our community members share their incredible transformation journeys
-                  </p>
-                </div>
-
-                {/* Unified Carousel for all screens */}
-                <div className="max-w-6xl mx-auto">
-                  <Carousel
-                    opts={{
-                      align: "start",
-                      loop: false,
-                      slidesToScroll: 1,
-                    }}
-                    className="w-full"
-                  >
-                    <CarouselContent className="-ml-2 md:-ml-4">
-                      {webinar.social_proof_videos.map((video, index) => {
-                        const getInstagramEmbedUrl = (url: string) => {
-                          if (url.includes('instagram.com')) {
-                            const postMatch = url.match(/\/p\/([^\/\?]+)/);
-                            const reelMatch = url.match(/\/reel\/([^\/\?]+)/);
-                            const postId = postMatch?.[1] || reelMatch?.[1];
-                            if (postId) {
-                              return `https://www.instagram.com/p/${postId}/embed/`;
-                            }
-                          }
-                          return url;
-                        };
-
-                        return (
-                          <CarouselItem key={index} className="pl-2 md:pl-4 basis-full md:basis-1/2 lg:basis-1/3">
-                            <div 
-                              className="group relative animate-fade-in"
-                              style={{ animationDelay: `${index * 0.1}s` }}
-                            >
-                              <div className="absolute inset-0 bg-gradient-to-r from-primary/30 to-accent/30 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-all duration-700"></div>
-                              <div className="relative bg-background/10 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden shadow-2xl group-hover:shadow-primary/20 transition-all duration-500 group-hover:-translate-y-2 group-hover:border-white/20">
-                                <iframe
-                                  src={getInstagramEmbedUrl(video)}
-                                  width="100%" 
-                                  height="450"
-                                  frameBorder="0"
-                                  scrolling="no"
-                                  allowTransparency={true}
-                                  allow="encrypted-media"
-                                  loading="lazy"
-                                  className="w-full rounded-2xl"
-                                  title={`Success story ${index + 1}`}
-                                />
-                              </div>
-                            </div>
-                          </CarouselItem>
-                        );
-                      })}
-                    </CarouselContent>
-                    <CarouselPrevious className="left-4 bg-white/10 border-white/20 hover:bg-white/20 text-white" />
-                    <CarouselNext className="right-4 bg-white/10 border-white/20 hover:bg-white/20 text-white" />
-                  </Carousel>
-                </div>
-
-                {/* Call to Action */}
-                <div className="text-center pt-8">
-                  <Button 
-                    size="lg"
-                    className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-white font-bold px-8 py-4 rounded-xl shadow-2xl transition-all duration-300 hover:scale-105 hover:shadow-primary/25"
-                    onClick={scrollToRegistration}
-                  >
-                    Want to become next?
-                  </Button>
-                </div>
-              </div>
-            )}
           </div>
         </section>
       )}
