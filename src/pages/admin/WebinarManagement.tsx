@@ -674,102 +674,103 @@ const WebinarManagement = () => {
                      ))}
                    </div>
 
-                    {/* Recognitions */}
-                    <div className="space-y-4">
-                      <div className="flex justify-between items-center">
-                        <Label>Media Recognition (Forbes, TOI, etc.)</Label>
-                        <Button type="button" variant="outline" size="sm" onClick={() => addArrayItem('recognitions')}>
-                          Add Recognition
-                        </Button>
-                      </div>
-                      {formData.recognitions?.map((recognition, index) => (
-                        <div key={index} className="flex gap-2">
-                          <Input
-                            value={recognition}
-                            onChange={(e) => handleArrayChange('recognitions', index, e.target.value)}
-                            placeholder="e.g., Forbes, Entrepreneur Magazine"
-                          />
-                          <Button 
-                            type="button" 
-                            variant="destructive" 
-                            size="sm"
-                            onClick={() => removeArrayItem('recognitions', index)}
-                          >
-                            Remove
-                          </Button>
-                        </div>
-                      ))}
-                    </div>
+                     {/* Media Recognition Names */}
+                     <div className="space-y-4">
+                       <div className="flex justify-between items-center">
+                         <Label>Media Recognition Names</Label>
+                         <Button type="button" variant="outline" size="sm" onClick={() => addArrayItem('recognitions')}>
+                           Add Recognition
+                         </Button>
+                       </div>
+                       <p className="text-sm text-muted-foreground">Add names of media outlets (e.g., Forbes, TOI, etc.)</p>
+                       {formData.recognitions?.map((recognition, index) => (
+                         <div key={index} className="flex gap-2">
+                           <Input
+                             value={recognition}
+                             onChange={(e) => handleArrayChange('recognitions', index, e.target.value)}
+                             placeholder="e.g., Forbes, Entrepreneur Magazine"
+                           />
+                           <Button 
+                             type="button" 
+                             variant="destructive" 
+                             size="sm"
+                             onClick={() => removeArrayItem('recognitions', index)}
+                           >
+                             Remove
+                           </Button>
+                         </div>
+                       ))}
+                     </div>
 
-                    {/* Media Recognition Logos */}
-                    <div className="space-y-4">
-                      <div className="flex justify-between items-center">
-                        <Label>Media Recognition Logos</Label>
-                        <Button type="button" variant="outline" size="sm" onClick={() => addArrayItem('social_proof_logos')}>
-                          Add Logo URL
-                        </Button>
-                      </div>
-                      <p className="text-sm text-muted-foreground">Add logo image URLs for media outlets that featured you</p>
-                      {formData.social_proof_logos?.map((logo, index) => (
-                        <div key={index} className="space-y-2">
-                          <div className="flex gap-2">
-                            <Input
-                              value={logo}
-                              onChange={(e) => handleArrayChange('social_proof_logos', index, e.target.value)}
-                              placeholder="Logo image URL (e.g., https://example.com/forbes-logo.png)"
-                            />
-                            <Button 
-                              type="button" 
-                              variant="destructive" 
-                              size="sm"
-                              onClick={() => removeArrayItem('social_proof_logos', index)}
-                            >
-                              Remove
-                            </Button>
-                          </div>
-                          {logo && (
-                            <div className="ml-2">
-                              <img 
-                                src={logo} 
-                                alt="Logo preview" 
-                                className="h-8 w-auto object-contain border rounded" 
-                                onError={(e) => {
-                                  (e.target as HTMLImageElement).style.display = 'none';
-                                }} 
-                              />
-                            </div>
-                          )}
-                        </div>
-                      ))}
-                    </div>
+                     {/* Media Recognition Logos */}
+                     <div className="space-y-4">
+                       <div className="flex justify-between items-center">
+                         <Label>Media Recognition Logo URLs</Label>
+                         <Button type="button" variant="outline" size="sm" onClick={() => addArrayItem('social_proof_logos')}>
+                           Add Logo URL
+                         </Button>
+                       </div>
+                       <p className="text-sm text-muted-foreground">Add logo image URLs for media outlets that featured you</p>
+                       {formData.social_proof_logos?.map((logo, index) => (
+                         <div key={index} className="space-y-2">
+                           <div className="flex gap-2">
+                             <Input
+                               value={logo}
+                               onChange={(e) => handleArrayChange('social_proof_logos', index, e.target.value)}
+                               placeholder="Logo image URL (e.g., https://example.com/forbes-logo.png)"
+                             />
+                             <Button 
+                               type="button" 
+                               variant="destructive" 
+                               size="sm"
+                               onClick={() => removeArrayItem('social_proof_logos', index)}
+                             >
+                               Remove
+                             </Button>
+                           </div>
+                           {logo && (
+                             <div className="ml-2">
+                               <img 
+                                 src={logo} 
+                                 alt="Logo preview" 
+                                 className="h-8 w-auto object-contain border rounded" 
+                                 onError={(e) => {
+                                   (e.target as HTMLImageElement).style.display = 'none';
+                                 }} 
+                               />
+                             </div>
+                           )}
+                         </div>
+                       ))}
+                     </div>
 
-                    {/* Social Proof Videos (Instagram URLs) */}
-                    <div className="space-y-4">
-                      <div className="flex justify-between items-center">
-                        <Label>Social Proof Videos (Instagram URLs)</Label>
-                        <Button type="button" variant="outline" size="sm" onClick={() => addArrayItem('social_proof_videos')}>
-                          Add Instagram Video
-                        </Button>
-                      </div>
-                      <p className="text-sm text-muted-foreground">Add Instagram post/reel URLs for video testimonials</p>
-                      {formData.social_proof_videos?.map((video, index) => (
-                        <div key={index} className="flex gap-2">
-                          <Input
-                            value={video}
-                            onChange={(e) => handleArrayChange('social_proof_videos', index, e.target.value)}
-                            placeholder="Instagram URL (e.g., https://www.instagram.com/p/ABC123/)"
-                          />
-                          <Button 
-                            type="button" 
-                            variant="destructive" 
-                            size="sm"
-                            onClick={() => removeArrayItem('social_proof_videos', index)}
-                          >
-                            Remove
-                          </Button>
-                        </div>
-                      ))}
-                    </div>
+                     {/* Social Proof Videos (Instagram URLs) */}
+                     <div className="space-y-4">
+                       <div className="flex justify-between items-center">
+                         <Label>Instagram Video URLs</Label>
+                         <Button type="button" variant="outline" size="sm" onClick={() => addArrayItem('social_proof_videos')}>
+                           Add Instagram Video
+                         </Button>
+                       </div>
+                       <p className="text-sm text-muted-foreground">Add Instagram post/reel URLs for video testimonials</p>
+                       {formData.social_proof_videos?.map((video, index) => (
+                         <div key={index} className="flex gap-2">
+                           <Input
+                             value={video}
+                             onChange={(e) => handleArrayChange('social_proof_videos', index, e.target.value)}
+                             placeholder="Instagram URL (e.g., https://www.instagram.com/p/ABC123/)"
+                           />
+                           <Button 
+                             type="button" 
+                             variant="destructive" 
+                             size="sm"
+                             onClick={() => removeArrayItem('social_proof_videos', index)}
+                           >
+                             Remove
+                           </Button>
+                         </div>
+                       ))}
+                     </div>
 
 
                     {/* Privacy Note */}

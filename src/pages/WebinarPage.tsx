@@ -577,7 +577,7 @@ const WebinarPage = () => {
       <div className="bg-gradient-to-br from-[#1e3a8a] via-[#1e40af] to-[#0f172a]">
 
       {/* Social Proof Section with Auto-scroll */}
-      {webinar && webinar.show_social_proof && (webinar.social_proof_logos?.length || webinar.recognitions?.length) && (
+      {webinar && webinar.show_social_proof && (webinar.social_proof_logos?.length || webinar.recognitions?.length || webinar.social_proof_videos?.length) && (
         <section className="py-16 bg-white/5 backdrop-blur-sm border-t border-white/20">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-8">
