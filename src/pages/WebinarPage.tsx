@@ -33,6 +33,7 @@ interface WebinarEvent {
   cta_bg_color?: string;
   target_audience?: string[];
   social_proof_logos?: string[];
+  social_proof_videos?: string[];
   recognitions?: string[];
   testimonials?: Array<{ quote: string; author: string; role: string; company: string; avatar?: string }>;
   show_social_proof?: boolean;
@@ -202,6 +203,9 @@ const WebinarPage = () => {
           : [],
         social_proof_logos: Array.isArray(webinarData.social_proof_logos) 
           ? webinarData.social_proof_logos as string[]
+          : [],
+        social_proof_videos: Array.isArray(webinarData.social_proof_videos) 
+          ? webinarData.social_proof_videos as string[]
           : [],
         recognitions: Array.isArray(webinarData.recognitions) 
           ? webinarData.recognitions as string[]
@@ -644,6 +648,48 @@ const WebinarPage = () => {
                 )}
               </div>
             </div>
+            
+            {/* Instagram Videos Row - Only show if videos exist */}
+            {webinar.social_proof_videos?.length && (
+              <div className="mt-8">
+                <div className="text-center mb-4">
+                  <p className="text-white/80 text-sm font-medium">Social Proof Videos</p>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-4xl mx-auto">
+                  {webinar.social_proof_videos.slice(0, 6).map((video, index) => {
+                    // Convert Instagram URL to embed URL
+                    const getInstagramEmbedUrl = (url: string) => {
+                      if (url.includes('instagram.com')) {
+                        // Extract post ID from various Instagram URL formats
+                        const postMatch = url.match(/\/p\/([^\/\?]+)/);
+                        const reelMatch = url.match(/\/reel\/([^\/\?]+)/);
+                        const postId = postMatch?.[1] || reelMatch?.[1];
+                        if (postId) {
+                          return `https://www.instagram.com/p/${postId}/embed/`;
+                        }
+                      }
+                      return url;
+                    };
+
+                    return (
+                      <div key={index} className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg overflow-hidden">
+                        <iframe
+                          src={getInstagramEmbedUrl(video)}
+                          width="100%" 
+                          height="400"
+                          frameBorder="0"
+                          scrolling="no"
+                          allowTransparency={true}
+                          allow="encrypted-media"
+                          loading="lazy"
+                          className="w-full"
+                        />
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
           </div>
         </section>
       )}
