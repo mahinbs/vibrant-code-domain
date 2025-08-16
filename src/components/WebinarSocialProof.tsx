@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 
 interface WebinarEvent {
   id: string;
@@ -122,45 +123,66 @@ const WebinarSocialProof = () => {
               </p>
             </div>
             
-            {/* Show only first 3 videos on home page */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-              {webinar.social_proof_videos.slice(0, 3).map((video, index) => {
-                const getInstagramEmbedUrl = (url: string) => {
-                  if (url.includes('instagram.com')) {
-                    const postMatch = url.match(/\/p\/([^\/\?]+)/);
-                    const reelMatch = url.match(/\/reel\/([^\/\?]+)/);
-                    const postId = postMatch?.[1] || reelMatch?.[1];
-                    if (postId) {
-                      return `https://www.instagram.com/p/${postId}/embed/`;
-                    }
-                  }
-                  return url;
-                };
+            {/* Carousel for videos showing 3 at a time */}
+            <div className="max-w-6xl mx-auto">
+              <Carousel
+                opts={{
+                  align: "start",
+                  loop: false,
+                  slidesToScroll: 3,
+                }}
+                className="w-full"
+              >
+                <CarouselContent className="-ml-2 md:-ml-4">
+                  {webinar.social_proof_videos.map((video, index) => {
+                    const getInstagramEmbedUrl = (url: string) => {
+                      if (url.includes('instagram.com')) {
+                        const postMatch = url.match(/\/p\/([^\/\?]+)/);
+                        const reelMatch = url.match(/\/reel\/([^\/\?]+)/);
+                        const postId = postMatch?.[1] || reelMatch?.[1];
+                        if (postId) {
+                          return `https://www.instagram.com/p/${postId}/embed/`;
+                        }
+                      }
+                      return url;
+                    };
 
-                return (
-                  <div 
-                    key={index} 
-                    className="group relative animate-fade-in"
-                    style={{ animationDelay: `${index * 0.1}s` }}
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-accent/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
-                    <div className="relative bg-background/50 backdrop-blur-sm border border-border rounded-2xl overflow-hidden shadow-lg group-hover:shadow-xl transition-all duration-500 group-hover:-translate-y-1">
-                      <iframe
-                        src={getInstagramEmbedUrl(video)}
-                        width="100%" 
-                        height="400"
-                        frameBorder="0"
-                        scrolling="no"
-                        allowTransparency={true}
-                        allow="encrypted-media"
-                        loading="lazy"
-                        className="w-full rounded-2xl"
-                        title={`Success story ${index + 1}`}
-                      />
-                    </div>
-                  </div>
-                );
-              })}
+                    return (
+                      <CarouselItem key={index} className="pl-2 md:pl-4 basis-full md:basis-1/2 lg:basis-1/3">
+                        <div 
+                          className="group relative animate-fade-in"
+                          style={{ animationDelay: `${index * 0.1}s` }}
+                        >
+                          <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-accent/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
+                          <div className="relative bg-background/50 backdrop-blur-sm border border-border rounded-2xl overflow-hidden shadow-lg group-hover:shadow-xl transition-all duration-500 group-hover:-translate-y-1">
+                            <iframe
+                              src={getInstagramEmbedUrl(video)}
+                              width="100%" 
+                              height="400"
+                              frameBorder="0"
+                              scrolling="no"
+                              allowTransparency={true}
+                              allow="encrypted-media"
+                              loading="lazy"
+                              className="w-full rounded-2xl"
+                              title={`Success story ${index + 1}`}
+                            />
+                          </div>
+                        </div>
+                      </CarouselItem>
+                    );
+                  })}
+                </CarouselContent>
+                <CarouselPrevious className="left-4" />
+                <CarouselNext className="right-4" />
+              </Carousel>
+              
+              {/* CTA */}
+              <div className="text-center mt-8">
+                <p className="text-lg text-muted-foreground mb-4">
+                  Want to become next?
+                </p>
+              </div>
             </div>
           </div>
         )}

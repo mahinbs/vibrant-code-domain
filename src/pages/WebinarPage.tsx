@@ -10,6 +10,7 @@ import { usePerformance } from '@/hooks/usePerformance';
 import StickyButton from '@/components/ui/StickyButton';
 import IconCard from '@/components/ui/IconCard';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 
 interface WebinarEvent {
   id: string;
@@ -662,12 +663,18 @@ const WebinarPage = () => {
                   </p>
                 </div>
 
-                {/* Mobile Carousel / Desktop Grid */}
-                <div className="relative">
-                  {/* Mobile: Horizontal scroll */}
-                  <div className="md:hidden overflow-x-auto pb-4">
-                    <div className="flex gap-4 min-w-max px-4">
-                      {webinar.social_proof_videos.slice(0, 6).map((video, index) => {
+                {/* Unified Carousel for all screens */}
+                <div className="max-w-6xl mx-auto">
+                  <Carousel
+                    opts={{
+                      align: "start",
+                      loop: false,
+                      slidesToScroll: 1,
+                    }}
+                    className="w-full"
+                  >
+                    <CarouselContent className="-ml-2 md:-ml-4">
+                      {webinar.social_proof_videos.map((video, index) => {
                         const getInstagramEmbedUrl = (url: string) => {
                           if (url.includes('instagram.com')) {
                             const postMatch = url.match(/\/p\/([^\/\?]+)/);
@@ -681,74 +688,34 @@ const WebinarPage = () => {
                         };
 
                         return (
-                          <div 
-                            key={index} 
-                            className="group relative w-72 flex-shrink-0"
-                          >
-                            <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-accent/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
-                            <div className="relative bg-background/10 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden shadow-2xl group-hover:shadow-primary/20 transition-all duration-500 group-hover:-translate-y-1">
-                              <iframe
-                                src={getInstagramEmbedUrl(video)}
-                                width="100%" 
-                                height="450"
-                                frameBorder="0"
-                                scrolling="no"
-                                allowTransparency={true}
-                                allow="encrypted-media"
-                                loading="lazy"
-                                className="w-full rounded-2xl"
-                                title={`Success story ${index + 1}`}
-                              />
+                          <CarouselItem key={index} className="pl-2 md:pl-4 basis-full md:basis-1/2 lg:basis-1/3">
+                            <div 
+                              className="group relative animate-fade-in"
+                              style={{ animationDelay: `${index * 0.1}s` }}
+                            >
+                              <div className="absolute inset-0 bg-gradient-to-r from-primary/30 to-accent/30 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-all duration-700"></div>
+                              <div className="relative bg-background/10 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden shadow-2xl group-hover:shadow-primary/20 transition-all duration-500 group-hover:-translate-y-2 group-hover:border-white/20">
+                                <iframe
+                                  src={getInstagramEmbedUrl(video)}
+                                  width="100%" 
+                                  height="450"
+                                  frameBorder="0"
+                                  scrolling="no"
+                                  allowTransparency={true}
+                                  allow="encrypted-media"
+                                  loading="lazy"
+                                  className="w-full rounded-2xl"
+                                  title={`Success story ${index + 1}`}
+                                />
+                              </div>
                             </div>
-                          </div>
+                          </CarouselItem>
                         );
                       })}
-                    </div>
-                  </div>
-
-                  {/* Desktop: Grid Layout */}
-                  <div className="hidden md:grid grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-                    {webinar.social_proof_videos.slice(0, 6).map((video, index) => {
-                      const getInstagramEmbedUrl = (url: string) => {
-                        if (url.includes('instagram.com')) {
-                          const postMatch = url.match(/\/p\/([^\/\?]+)/);
-                          const reelMatch = url.match(/\/reel\/([^\/\?]+)/);
-                          const postId = postMatch?.[1] || reelMatch?.[1];
-                          if (postId) {
-                            return `https://www.instagram.com/p/${postId}/embed/`;
-                          }
-                        }
-                        return url;
-                      };
-
-                      return (
-                        <div 
-                          key={index} 
-                          className="group relative animate-fade-in"
-                          style={{ animationDelay: `${index * 0.1}s` }}
-                        >
-                          {/* Glow Effect */}
-                          <div className="absolute inset-0 bg-gradient-to-r from-primary/30 to-accent/30 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-all duration-700"></div>
-                          
-                          {/* Video Card */}
-                          <div className="relative bg-background/10 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden shadow-2xl group-hover:shadow-primary/20 transition-all duration-500 group-hover:-translate-y-2 group-hover:border-white/20">
-                            <iframe
-                              src={getInstagramEmbedUrl(video)}
-                              width="100%" 
-                              height="500"
-                              frameBorder="0"
-                              scrolling="no"
-                              allowTransparency={true}
-                              allow="encrypted-media"
-                              loading="lazy"
-                              className="w-full rounded-2xl"
-                              title={`Success story ${index + 1}`}
-                            />
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
+                    </CarouselContent>
+                    <CarouselPrevious className="left-4 bg-white/10 border-white/20 hover:bg-white/20 text-white" />
+                    <CarouselNext className="right-4 bg-white/10 border-white/20 hover:bg-white/20 text-white" />
+                  </Carousel>
                 </div>
 
                 {/* Call to Action */}
@@ -758,7 +725,7 @@ const WebinarPage = () => {
                     className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-white font-bold px-8 py-4 rounded-xl shadow-2xl transition-all duration-300 hover:scale-105 hover:shadow-primary/25"
                     onClick={scrollToRegistration}
                   >
-                    Join Their Success Story
+                    Want to become next?
                   </Button>
                 </div>
               </div>
