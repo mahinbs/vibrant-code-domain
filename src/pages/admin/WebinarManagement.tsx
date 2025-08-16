@@ -696,15 +696,42 @@ const WebinarManagement = () => {
                      ))}
                    </div>
 
-                   {/* Privacy Note */}
-                   <div className="space-y-2">
-                     <Label>Privacy Note (below form)</Label>
-                     <Input
-                       value={formData.privacy_note || ''}
-                       onChange={(e) => handleInputChange('privacy_note', e.target.value)}
-                       placeholder="We never spam or share your info."
-                     />
-                   </div>
+                    {/* Social Proof Logos */}
+                    <div className="space-y-4">
+                      <div className="flex justify-between items-center">
+                        <Label>Social Proof Logos (URLs)</Label>
+                        <Button type="button" variant="outline" size="sm" onClick={() => addArrayItem('social_proof_logos')}>
+                          Add Logo URL
+                        </Button>
+                      </div>
+                      {formData.social_proof_logos?.map((logo, index) => (
+                        <div key={index} className="flex gap-2">
+                          <Input
+                            value={logo}
+                            onChange={(e) => handleArrayChange('social_proof_logos', index, e.target.value)}
+                            placeholder="Enter logo image URL"
+                          />
+                          <Button 
+                            type="button" 
+                            variant="destructive" 
+                            size="sm"
+                            onClick={() => removeArrayItem('social_proof_logos', index)}
+                          >
+                            Remove
+                          </Button>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Privacy Note */}
+                    <div className="space-y-2">
+                      <Label>Privacy Note (below form)</Label>
+                      <Input
+                        value={formData.privacy_note || ''}
+                        onChange={(e) => handleInputChange('privacy_note', e.target.value)}
+                        placeholder="We never spam or share your info."
+                      />
+                    </div>
 
                    <div className="flex items-center gap-2">
                      <input

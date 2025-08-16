@@ -498,15 +498,17 @@ const WebinarPage = () => {
             <>
               {/* Company Branding */}
               <div className="mb-6 space-y-3">
-                <div className="flex items-center justify-center gap-3 mb-4">
-                  <div className="w-12 h-12 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl flex items-center justify-center">
-                    <span className="text-white font-bold text-xl">🚀</span>
+                  <div className="flex items-center justify-center gap-3 mb-4">
+                    <img 
+                      src="/src/assets/logo/logo.png" 
+                      alt="BoostMySites Logo" 
+                      className="w-12 h-12 object-contain"
+                    />
+                    <div className="text-left">
+                      <div className="text-white font-bold text-lg">BoostMySites</div>
+                      <div className="text-white/80 text-sm">Hosted by BoostMySites</div>
+                    </div>
                   </div>
-                  <div className="text-left">
-                    <div className="text-white font-bold text-lg">BoostMySites</div>
-                    <div className="text-white/80 text-sm">Hosted by BoostMySites</div>
-                  </div>
-                </div>
               </div>
 
               <div className="space-y-4">
@@ -582,9 +584,14 @@ const WebinarPage = () => {
             
             {/* Company Branding */}
             <div className="flex justify-center mb-8">
-              <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl px-6 py-3">
-                <span className="text-white font-bold text-xl">🚀 BoostMySites</span>
-                <span className="text-white/80 text-sm ml-2">- Digital Excellence Partner</span>
+              <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl px-6 py-3 flex items-center gap-3">
+                <img 
+                  src="/src/assets/logo/logo.png" 
+                  alt="BoostMySites Logo" 
+                  className="w-8 h-8 object-contain"
+                />
+                <span className="text-white font-bold text-xl">BoostMySites</span>
+                <span className="text-white/80 text-sm">- Digital Excellence Partner</span>
               </div>
             </div>
             
