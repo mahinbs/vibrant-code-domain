@@ -498,17 +498,17 @@ const WebinarPage = () => {
             <>
               {/* Company Branding */}
               <div className="mb-6 space-y-3">
-                  <div className="flex items-center justify-center gap-3 mb-4">
-                    <img 
-                      src="/src/assets/logo/logo.png" 
-                      alt="BoostMySites Logo" 
-                      className="w-12 h-12 object-contain"
-                    />
-                    <div className="text-left">
-                      <div className="text-white font-bold text-lg">BoostMySites</div>
-                      <div className="text-white/80 text-sm">Hosted by BoostMySites</div>
-                    </div>
+                <div className="flex items-center justify-center gap-3 mb-4">
+                  <img 
+                    src="/logo.png" 
+                    alt="BoostMySites Logo" 
+                    className="w-12 h-12 object-contain"
+                  />
+                  <div className="text-left">
+                    <div className="text-white font-bold text-lg">BoostMySites</div>
+                    <div className="text-white/80 text-sm">Hosted by BoostMySites</div>
                   </div>
+                </div>
               </div>
 
               <div className="space-y-4">
@@ -553,8 +553,7 @@ const WebinarPage = () => {
 
               <Button 
                 size="lg" 
-                className="animate-pulse hover:animate-none font-bold text-lg px-8 py-4 rounded-xl shadow-xl transform transition-all duration-300 hover:scale-105"
-                style={{ backgroundColor: webinar.cta_bg_color || '#22c55e', color: 'white' }}
+                className="animate-pulse hover:animate-none font-bold text-lg px-8 py-4 rounded-xl shadow-xl transform transition-all duration-300 hover:scale-105 bg-orange-500 hover:bg-orange-600 text-white"
                 onClick={scrollToRegistration}
               >
                 {webinar.cta_text || 'Reserve Your Spot Now'}
@@ -586,7 +585,7 @@ const WebinarPage = () => {
             <div className="flex justify-center mb-8">
               <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl px-6 py-3 flex items-center gap-3">
                 <img 
-                  src="/src/assets/logo/logo.png" 
+                  src="/logo.png" 
                   alt="BoostMySites Logo" 
                   className="w-8 h-8 object-contain"
                 />
@@ -961,7 +960,7 @@ const WebinarPage = () => {
 
               <Button 
                 type="submit" 
-                className="w-full bg-gradient-to-r from-[#1e3a8a] to-[#0f172a] hover:from-[#1e40af] hover:to-[#1e3a8a] border-0 text-white font-bold text-lg shadow-xl transform transition-all duration-300 hover:scale-105 hover:shadow-2xl" 
+                className="w-full bg-orange-500 hover:bg-orange-600 border-0 text-white font-bold text-lg shadow-xl transform transition-all duration-300 hover:scale-105 hover:shadow-2xl" 
                 size="lg"
                 disabled={isSubmitting}
               >

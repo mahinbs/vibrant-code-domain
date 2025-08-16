@@ -696,26 +696,80 @@ const WebinarManagement = () => {
                      ))}
                    </div>
 
-                    {/* Social Proof Logos */}
+                    {/* Target Audience */}
                     <div className="space-y-4">
                       <div className="flex justify-between items-center">
-                        <Label>Social Proof Logos (URLs)</Label>
-                        <Button type="button" variant="outline" size="sm" onClick={() => addArrayItem('social_proof_logos')}>
-                          Add Logo URL
+                        <Label>Target Audience</Label>
+                        <Button type="button" variant="outline" size="sm" onClick={() => addArrayItem('target_audience')}>
+                          Add Audience
                         </Button>
                       </div>
-                      {formData.social_proof_logos?.map((logo, index) => (
+                      {formData.target_audience?.map((audience, index) => (
                         <div key={index} className="flex gap-2">
                           <Input
-                            value={logo}
+                            value={audience}
+                            onChange={(e) => handleArrayChange('target_audience', index, e.target.value)}
+                            placeholder="e.g., Business Owners & Entrepreneurs"
+                          />
+                          <Button 
+                            type="button" 
+                            variant="destructive" 
+                            size="sm"
+                            onClick={() => removeArrayItem('target_audience', index)}
+                          >
+                            Remove
+                          </Button>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Social Proof (Testimonials/Videos) */}
+                    <div className="space-y-4">
+                      <div className="flex justify-between items-center">
+                        <Label>Social Proof (Instagram Video URLs)</Label>
+                        <Button type="button" variant="outline" size="sm" onClick={() => addArrayItem('social_proof_logos')}>
+                          Add Video URL
+                        </Button>
+                      </div>
+                      {formData.social_proof_logos?.map((video, index) => (
+                        <div key={index} className="flex gap-2">
+                          <Input
+                            value={video}
                             onChange={(e) => handleArrayChange('social_proof_logos', index, e.target.value)}
-                            placeholder="Enter logo image URL"
+                            placeholder="Enter Instagram video URL or testimonial link"
                           />
                           <Button 
                             type="button" 
                             variant="destructive" 
                             size="sm"
                             onClick={() => removeArrayItem('social_proof_logos', index)}
+                          >
+                            Remove
+                          </Button>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Media Recognitions */}
+                    <div className="space-y-4">
+                      <div className="flex justify-between items-center">
+                        <Label>Media Recognitions</Label>
+                        <Button type="button" variant="outline" size="sm" onClick={() => addArrayItem('recognitions')}>
+                          Add Recognition
+                        </Button>
+                      </div>
+                      {formData.recognitions?.map((recognition, index) => (
+                        <div key={index} className="flex gap-2">
+                          <Input
+                            value={recognition}
+                            onChange={(e) => handleArrayChange('recognitions', index, e.target.value)}
+                            placeholder="e.g., Forbes, Entrepreneur Magazine"
+                          />
+                          <Button 
+                            type="button" 
+                            variant="destructive" 
+                            size="sm"
+                            onClick={() => removeArrayItem('recognitions', index)}
                           >
                             Remove
                           </Button>
