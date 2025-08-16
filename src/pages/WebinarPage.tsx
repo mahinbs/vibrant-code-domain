@@ -651,42 +651,115 @@ const WebinarPage = () => {
             
             {/* Instagram Videos Row - Only show if videos exist */}
             {webinar.social_proof_videos?.length && (
-              <div className="mt-8">
-                <div className="text-center mb-4">
-                  <p className="text-white/80 text-sm font-medium">Social Proof Videos</p>
+              <div className="mt-16 space-y-8">
+                {/* Section Header */}
+                <div className="text-center space-y-3">
+                  <h3 className="text-2xl md:text-3xl font-bold text-white drop-shadow-lg">
+                    Real Success Stories
+                  </h3>
+                  <p className="text-white/80 text-lg max-w-2xl mx-auto leading-relaxed">
+                    Watch our community members share their incredible transformation journeys
+                  </p>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-4xl mx-auto">
-                  {webinar.social_proof_videos.slice(0, 6).map((video, index) => {
-                    // Convert Instagram URL to embed URL
-                    const getInstagramEmbedUrl = (url: string) => {
-                      if (url.includes('instagram.com')) {
-                        // Extract post ID from various Instagram URL formats
-                        const postMatch = url.match(/\/p\/([^\/\?]+)/);
-                        const reelMatch = url.match(/\/reel\/([^\/\?]+)/);
-                        const postId = postMatch?.[1] || reelMatch?.[1];
-                        if (postId) {
-                          return `https://www.instagram.com/p/${postId}/embed/`;
-                        }
-                      }
-                      return url;
-                    };
 
-                    return (
-                      <div key={index} className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg overflow-hidden">
-                        <iframe
-                          src={getInstagramEmbedUrl(video)}
-                          width="100%" 
-                          height="400"
-                          frameBorder="0"
-                          scrolling="no"
-                          allowTransparency={true}
-                          allow="encrypted-media"
-                          loading="lazy"
-                          className="w-full"
-                        />
-                      </div>
-                    );
-                  })}
+                {/* Mobile Carousel / Desktop Grid */}
+                <div className="relative">
+                  {/* Mobile: Horizontal scroll */}
+                  <div className="md:hidden overflow-x-auto pb-4">
+                    <div className="flex gap-4 min-w-max px-4">
+                      {webinar.social_proof_videos.slice(0, 6).map((video, index) => {
+                        const getInstagramEmbedUrl = (url: string) => {
+                          if (url.includes('instagram.com')) {
+                            const postMatch = url.match(/\/p\/([^\/\?]+)/);
+                            const reelMatch = url.match(/\/reel\/([^\/\?]+)/);
+                            const postId = postMatch?.[1] || reelMatch?.[1];
+                            if (postId) {
+                              return `https://www.instagram.com/p/${postId}/embed/`;
+                            }
+                          }
+                          return url;
+                        };
+
+                        return (
+                          <div 
+                            key={index} 
+                            className="group relative w-72 flex-shrink-0"
+                          >
+                            <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-accent/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
+                            <div className="relative bg-background/10 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden shadow-2xl group-hover:shadow-primary/20 transition-all duration-500 group-hover:-translate-y-1">
+                              <iframe
+                                src={getInstagramEmbedUrl(video)}
+                                width="100%" 
+                                height="450"
+                                frameBorder="0"
+                                scrolling="no"
+                                allowTransparency={true}
+                                allow="encrypted-media"
+                                loading="lazy"
+                                className="w-full rounded-2xl"
+                                title={`Success story ${index + 1}`}
+                              />
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Desktop: Grid Layout */}
+                  <div className="hidden md:grid grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+                    {webinar.social_proof_videos.slice(0, 6).map((video, index) => {
+                      const getInstagramEmbedUrl = (url: string) => {
+                        if (url.includes('instagram.com')) {
+                          const postMatch = url.match(/\/p\/([^\/\?]+)/);
+                          const reelMatch = url.match(/\/reel\/([^\/\?]+)/);
+                          const postId = postMatch?.[1] || reelMatch?.[1];
+                          if (postId) {
+                            return `https://www.instagram.com/p/${postId}/embed/`;
+                          }
+                        }
+                        return url;
+                      };
+
+                      return (
+                        <div 
+                          key={index} 
+                          className="group relative animate-fade-in"
+                          style={{ animationDelay: `${index * 0.1}s` }}
+                        >
+                          {/* Glow Effect */}
+                          <div className="absolute inset-0 bg-gradient-to-r from-primary/30 to-accent/30 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-all duration-700"></div>
+                          
+                          {/* Video Card */}
+                          <div className="relative bg-background/10 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden shadow-2xl group-hover:shadow-primary/20 transition-all duration-500 group-hover:-translate-y-2 group-hover:border-white/20">
+                            <iframe
+                              src={getInstagramEmbedUrl(video)}
+                              width="100%" 
+                              height="500"
+                              frameBorder="0"
+                              scrolling="no"
+                              allowTransparency={true}
+                              allow="encrypted-media"
+                              loading="lazy"
+                              className="w-full rounded-2xl"
+                              title={`Success story ${index + 1}`}
+                            />
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Call to Action */}
+                <div className="text-center pt-8">
+                  <Button 
+                    size="lg"
+                    className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-white font-bold px-8 py-4 rounded-xl shadow-2xl transition-all duration-300 hover:scale-105 hover:shadow-primary/25"
+                    onClick={scrollToRegistration}
+                  >
+                    Join Their Success Story
+                  </Button>
                 </div>
               </div>
             )}
