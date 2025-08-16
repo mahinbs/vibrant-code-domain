@@ -268,7 +268,6 @@ export type Database = {
           show_scarcity: boolean | null
           show_social_proof: boolean | null
           social_proof_logos: string[] | null
-          social_proof_videos: string[] | null
           speaker_bio: string
           speaker_image: string | null
           speaker_name: string
@@ -299,7 +298,6 @@ export type Database = {
           show_scarcity?: boolean | null
           show_social_proof?: boolean | null
           social_proof_logos?: string[] | null
-          social_proof_videos?: string[] | null
           speaker_bio: string
           speaker_image?: string | null
           speaker_name: string
@@ -330,7 +328,6 @@ export type Database = {
           show_scarcity?: boolean | null
           show_social_proof?: boolean | null
           social_proof_logos?: string[] | null
-          social_proof_videos?: string[] | null
           speaker_bio?: string
           speaker_image?: string | null
           speaker_name?: string
