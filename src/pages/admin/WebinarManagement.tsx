@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { toast } from '@/hooks/use-toast';
 import { CalendarDays, Users, Eye, Edit, Trash2, Plus } from 'lucide-react';
+import LogoUploader from '@/components/admin/LogoUploader';
 
 interface WebinarEvent {
   id: string;
@@ -702,47 +703,12 @@ const WebinarManagement = () => {
                        ))}
                      </div>
 
-                     {/* Media Recognition Logos */}
-                     <div className="space-y-4">
-                       <div className="flex justify-between items-center">
-                         <Label>Media Recognition Logo URLs</Label>
-                         <Button type="button" variant="outline" size="sm" onClick={() => addArrayItem('social_proof_logos')}>
-                           Add Logo URL
-                         </Button>
-                       </div>
-                       <p className="text-sm text-muted-foreground">Add logo image URLs for media outlets that featured you</p>
-                       {formData.social_proof_logos?.map((logo, index) => (
-                         <div key={index} className="space-y-2">
-                           <div className="flex gap-2">
-                             <Input
-                               value={logo}
-                               onChange={(e) => handleArrayChange('social_proof_logos', index, e.target.value)}
-                               placeholder="Logo image URL (e.g., https://example.com/forbes-logo.png)"
-                             />
-                             <Button 
-                               type="button" 
-                               variant="destructive" 
-                               size="sm"
-                               onClick={() => removeArrayItem('social_proof_logos', index)}
-                             >
-                               Remove
-                             </Button>
-                           </div>
-                           {logo && (
-                             <div className="ml-2">
-                               <img 
-                                 src={logo} 
-                                 alt="Logo preview" 
-                                 className="h-8 w-auto object-contain border rounded" 
-                                 onError={(e) => {
-                                   (e.target as HTMLImageElement).style.display = 'none';
-                                 }} 
-                               />
-                             </div>
-                           )}
-                         </div>
-                       ))}
-                     </div>
+                      {/* Media Recognition Logos */}
+                      <LogoUploader
+                        logos={formData.social_proof_logos || []}
+                        onLogosChange={(logos) => handleInputChange('social_proof_logos', logos)}
+                        title="Media Recognition Logos"
+                      />
 
                      {/* Social Proof Videos (Instagram URLs) */}
                      <div className="space-y-4">

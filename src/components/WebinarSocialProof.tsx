@@ -173,8 +173,9 @@ const WebinarSocialProof = () => {
                     );
                   })}
                 </CarouselContent>
-                <CarouselPrevious className="left-4" />
-                <CarouselNext className="right-4" />
+                {/* External Arrow Buttons */}
+                <CarouselPrevious className="-left-12 top-1/2 -translate-y-1/2 bg-white/10 border-white/20 hover:bg-white/20 text-white w-10 h-10" />
+                <CarouselNext className="-right-12 top-1/2 -translate-y-1/2 bg-white/10 border-white/20 hover:bg-white/20 text-white w-10 h-10" />
               </Carousel>
               
               {/* CTA */}

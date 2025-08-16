@@ -563,6 +563,41 @@ const WebinarPage = () => {
               >
                 {webinar.cta_text || 'Reserve Your Spot Now'}
               </Button>
+
+              {/* Social Proof in Hero */}
+              {webinar.show_social_proof && (webinar.social_proof_logos?.length > 0 || webinar.recognitions?.length > 0) && (
+                <div className="mt-8 p-6 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl max-w-3xl mx-auto">
+                  <h3 className="text-lg font-semibold text-white text-center mb-4">
+                    {webinar.social_proof_logos?.length > 0 ? 'Trusted by Industry Leaders' : 'As Featured In'}
+                  </h3>
+                  
+                  {/* Logos */}
+                  {webinar.social_proof_logos?.length > 0 && (
+                    <div className="flex flex-wrap justify-center items-center gap-6">
+                      {webinar.social_proof_logos.map((logo, index) => (
+                        <div key={index} className="flex-shrink-0">
+                          <img 
+                            src={logo} 
+                            alt={`Partner logo ${index + 1}`}
+                            className="h-8 w-auto opacity-80 hover:opacity-100 transition-opacity filter brightness-0 invert"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  
+                  {/* Text recognitions */}
+                  {webinar.recognitions?.length > 0 && webinar.social_proof_logos?.length === 0 && (
+                    <div className="flex flex-wrap justify-center items-center gap-4">
+                      {webinar.recognitions.map((recognition, index) => (
+                        <span key={index} className="text-white/80 font-medium text-sm">
+                          {recognition}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
             </>
           ) : (
             /* No webinar state */
