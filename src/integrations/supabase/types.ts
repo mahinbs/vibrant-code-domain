@@ -7,7 +7,7 @@ export type Json =
   | Json[]
 
 export type Database = {
-  // Allows to automatically instanciate createClient with right options
+  // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
     PostgrestVersion: "12.2.3 (519615d)"
@@ -252,16 +252,29 @@ export type Database = {
           agenda: Json
           benefits: Json
           created_at: string
+          cta_bg_color: string | null
+          cta_text: string | null
           description: string
           duration_minutes: number
           event_date: string
+          hero_headline: string | null
+          hero_subtitle: string | null
           id: string
           is_active: boolean
+          privacy_note: string | null
+          recognitions: string[] | null
           registration_limit: number | null
+          show_agenda_collapsible: boolean | null
+          show_scarcity: boolean | null
+          show_social_proof: boolean | null
+          social_proof_logos: string[] | null
           speaker_bio: string
           speaker_image: string | null
           speaker_name: string
+          sticky_cta_enabled: boolean | null
           subtitle: string
+          target_audience: string[] | null
+          testimonials: Json | null
           title: string
           updated_at: string
         }
@@ -269,16 +282,29 @@ export type Database = {
           agenda?: Json
           benefits?: Json
           created_at?: string
+          cta_bg_color?: string | null
+          cta_text?: string | null
           description: string
           duration_minutes?: number
           event_date: string
+          hero_headline?: string | null
+          hero_subtitle?: string | null
           id?: string
           is_active?: boolean
+          privacy_note?: string | null
+          recognitions?: string[] | null
           registration_limit?: number | null
+          show_agenda_collapsible?: boolean | null
+          show_scarcity?: boolean | null
+          show_social_proof?: boolean | null
+          social_proof_logos?: string[] | null
           speaker_bio: string
           speaker_image?: string | null
           speaker_name: string
+          sticky_cta_enabled?: boolean | null
           subtitle: string
+          target_audience?: string[] | null
+          testimonials?: Json | null
           title: string
           updated_at?: string
         }
@@ -286,16 +312,29 @@ export type Database = {
           agenda?: Json
           benefits?: Json
           created_at?: string
+          cta_bg_color?: string | null
+          cta_text?: string | null
           description?: string
           duration_minutes?: number
           event_date?: string
+          hero_headline?: string | null
+          hero_subtitle?: string | null
           id?: string
           is_active?: boolean
+          privacy_note?: string | null
+          recognitions?: string[] | null
           registration_limit?: number | null
+          show_agenda_collapsible?: boolean | null
+          show_scarcity?: boolean | null
+          show_social_proof?: boolean | null
+          social_proof_logos?: string[] | null
           speaker_bio?: string
           speaker_image?: string | null
           speaker_name?: string
+          sticky_cta_enabled?: boolean | null
           subtitle?: string
+          target_audience?: string[] | null
+          testimonials?: Json | null
           title?: string
           updated_at?: string
         }

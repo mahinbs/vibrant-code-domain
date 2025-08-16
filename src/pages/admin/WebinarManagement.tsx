@@ -26,6 +26,20 @@ interface WebinarEvent {
   registration_limit: number;
   created_at: string;
   updated_at: string;
+  // New landing page control fields
+  hero_headline?: string;
+  hero_subtitle?: string;
+  show_scarcity?: boolean;
+  sticky_cta_enabled?: boolean;
+  cta_text?: string;
+  cta_bg_color?: string;
+  target_audience?: string[];
+  social_proof_logos?: string[];
+  recognitions?: string[];
+  testimonials?: Array<{ quote: string; author: string; role: string; company: string; avatar?: string }>;
+  show_social_proof?: boolean;
+  privacy_note?: string;
+  show_agenda_collapsible?: boolean;
 }
 
 interface WebinarRegistration {
@@ -67,6 +81,19 @@ const WebinarManagement = () => {
           : [],
         agenda: Array.isArray(webinar.agenda) 
           ? webinar.agenda.filter((a: any) => a && typeof a === 'object' && a.time && a.topic) as Array<{ time: string; topic: string }>
+          : [],
+        // Type-safe conversion for new fields
+        testimonials: Array.isArray(webinar.testimonials) 
+          ? webinar.testimonials as Array<{ quote: string; author: string; role: string; company: string; avatar?: string }>
+          : [],
+        target_audience: Array.isArray(webinar.target_audience) 
+          ? webinar.target_audience as string[]
+          : [],
+        social_proof_logos: Array.isArray(webinar.social_proof_logos) 
+          ? webinar.social_proof_logos as string[]
+          : [],
+        recognitions: Array.isArray(webinar.recognitions) 
+          ? webinar.recognitions as string[]
           : []
       })));
     } catch (error) {
@@ -145,7 +172,21 @@ const WebinarManagement = () => {
         benefits: [''],
         agenda: [{ time: '', topic: '' }],
         is_active: true,
-        registration_limit: 100
+        registration_limit: 100,
+        // Default values for new fields
+        hero_headline: '',
+        hero_subtitle: '',
+        show_scarcity: true,
+        sticky_cta_enabled: true,
+        cta_text: 'Reserve My Spot Now',
+        cta_bg_color: '#22c55e',
+        target_audience: ['Entrepreneurs', 'Freelancers', 'Coaches / Consultants', 'E-Commerce Sellers', 'Students & Professionals exploring AI'],
+        social_proof_logos: [],
+        recognitions: ['Forbes', 'Entrepreneur Magazine', 'Times of India Award'],
+        testimonials: [],
+        show_social_proof: true,
+        privacy_note: 'We never spam or share your info.',
+        show_agenda_collapsible: true
       });
       setSelectedWebinar(null);
     }
@@ -512,15 +553,179 @@ const WebinarManagement = () => {
                   ))}
                 </div>
 
-                <div className="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    id="is_active"
-                    checked={formData.is_active || false}
-                    onChange={(e) => handleInputChange('is_active', e.target.checked)}
-                  />
-                  <Label htmlFor="is_active">Active (visible on landing page)</Label>
-                </div>
+                 {/* Landing Page Settings */}
+                 <div className="border-t pt-6 space-y-6">
+                   <h3 className="text-lg font-semibold">Landing Page Settings</h3>
+                   
+                   {/* Hero Section */}
+                   <div className="space-y-4">
+                     <h4 className="font-medium">Hero Section</h4>
+                     <div className="grid md:grid-cols-2 gap-4">
+                       <div className="space-y-2">
+                         <Label>Hero Headline (if different from title)</Label>
+                         <Input
+                           value={formData.hero_headline || ''}
+                           onChange={(e) => handleInputChange('hero_headline', e.target.value)}
+                           placeholder="e.g., Launch Your AI Freelancing Career – Start Earning with AI in Just $1"
+                         />
+                       </div>
+                       <div className="space-y-2">
+                         <Label>Hero Subtitle (if different from subtitle)</Label>
+                         <Input
+                           value={formData.hero_subtitle || ''}
+                           onChange={(e) => handleInputChange('hero_subtitle', e.target.value)}
+                           placeholder="Short, direct subheading"
+                         />
+                       </div>
+                     </div>
+                   </div>
+
+                   {/* CTA Settings */}
+                   <div className="space-y-4">
+                     <h4 className="font-medium">Call-to-Action Settings</h4>
+                     <div className="grid md:grid-cols-3 gap-4">
+                       <div className="space-y-2">
+                         <Label>CTA Button Text</Label>
+                         <Input
+                           value={formData.cta_text || ''}
+                           onChange={(e) => handleInputChange('cta_text', e.target.value)}
+                           placeholder="Reserve My Spot Now"
+                         />
+                       </div>
+                       <div className="space-y-2">
+                         <Label>CTA Button Color</Label>
+                         <div className="flex gap-2">
+                           <Input
+                             type="color"
+                             value={formData.cta_bg_color || '#22c55e'}
+                             onChange={(e) => handleInputChange('cta_bg_color', e.target.value)}
+                             className="w-16 h-10"
+                           />
+                           <Input
+                             value={formData.cta_bg_color || ''}
+                             onChange={(e) => handleInputChange('cta_bg_color', e.target.value)}
+                             placeholder="#22c55e"
+                           />
+                         </div>
+                       </div>
+                       <div className="flex items-center gap-2 mt-6">
+                         <input
+                           type="checkbox"
+                           id="sticky_cta_enabled"
+                           checked={formData.sticky_cta_enabled || false}
+                           onChange={(e) => handleInputChange('sticky_cta_enabled', e.target.checked)}
+                         />
+                         <Label htmlFor="sticky_cta_enabled">Enable Sticky CTA</Label>
+                       </div>
+                     </div>
+                   </div>
+
+                   {/* Scarcity & Social Proof */}
+                   <div className="grid md:grid-cols-2 gap-6">
+                     <div className="flex items-center gap-2">
+                       <input
+                         type="checkbox"
+                         id="show_scarcity"
+                         checked={formData.show_scarcity || false}
+                         onChange={(e) => handleInputChange('show_scarcity', e.target.checked)}
+                       />
+                       <Label htmlFor="show_scarcity">Show Scarcity Bar</Label>
+                     </div>
+                     <div className="flex items-center gap-2">
+                       <input
+                         type="checkbox"
+                         id="show_social_proof"
+                         checked={formData.show_social_proof || false}
+                         onChange={(e) => handleInputChange('show_social_proof', e.target.checked)}
+                       />
+                       <Label htmlFor="show_social_proof">Show Social Proof Section</Label>
+                     </div>
+                   </div>
+
+                   {/* Target Audience */}
+                   <div className="space-y-4">
+                     <div className="flex justify-between items-center">
+                       <Label>Target Audience</Label>
+                       <Button type="button" variant="outline" size="sm" onClick={() => addArrayItem('target_audience')}>
+                         Add Audience
+                       </Button>
+                     </div>
+                     {formData.target_audience?.map((audience, index) => (
+                       <div key={index} className="flex gap-2">
+                         <Input
+                           value={audience}
+                           onChange={(e) => handleArrayChange('target_audience', index, e.target.value)}
+                           placeholder="e.g., Entrepreneurs, Freelancers"
+                         />
+                         <Button 
+                           type="button" 
+                           variant="destructive" 
+                           size="sm"
+                           onClick={() => removeArrayItem('target_audience', index)}
+                         >
+                           Remove
+                         </Button>
+                       </div>
+                     ))}
+                   </div>
+
+                   {/* Recognitions */}
+                   <div className="space-y-4">
+                     <div className="flex justify-between items-center">
+                       <Label>Media Recognition (Forbes, TOI, etc.)</Label>
+                       <Button type="button" variant="outline" size="sm" onClick={() => addArrayItem('recognitions')}>
+                         Add Recognition
+                       </Button>
+                     </div>
+                     {formData.recognitions?.map((recognition, index) => (
+                       <div key={index} className="flex gap-2">
+                         <Input
+                           value={recognition}
+                           onChange={(e) => handleArrayChange('recognitions', index, e.target.value)}
+                           placeholder="e.g., Forbes, Entrepreneur Magazine"
+                         />
+                         <Button 
+                           type="button" 
+                           variant="destructive" 
+                           size="sm"
+                           onClick={() => removeArrayItem('recognitions', index)}
+                         >
+                           Remove
+                         </Button>
+                       </div>
+                     ))}
+                   </div>
+
+                   {/* Privacy Note */}
+                   <div className="space-y-2">
+                     <Label>Privacy Note (below form)</Label>
+                     <Input
+                       value={formData.privacy_note || ''}
+                       onChange={(e) => handleInputChange('privacy_note', e.target.value)}
+                       placeholder="We never spam or share your info."
+                     />
+                   </div>
+
+                   <div className="flex items-center gap-2">
+                     <input
+                       type="checkbox"
+                       id="show_agenda_collapsible"
+                       checked={formData.show_agenda_collapsible || false}
+                       onChange={(e) => handleInputChange('show_agenda_collapsible', e.target.checked)}
+                     />
+                     <Label htmlFor="show_agenda_collapsible">Make Agenda Collapsible on Mobile</Label>
+                   </div>
+                 </div>
+
+                 <div className="flex items-center gap-2">
+                   <input
+                     type="checkbox"
+                     id="is_active"
+                     checked={formData.is_active || false}
+                     onChange={(e) => handleInputChange('is_active', e.target.checked)}
+                   />
+                   <Label htmlFor="is_active">Active (visible on landing page)</Label>
+                 </div>
 
                 <div className="flex gap-4">
                   <Button onClick={saveWebinar}>

@@ -4,9 +4,12 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { toast } from '@/hooks/use-toast';
-import { Calendar, Clock, Users, CheckCircle, Star, Play } from 'lucide-react';
+import { Calendar, Clock, Users, CheckCircle, Star, Play, Target, Briefcase, GraduationCap, ShoppingCart, UserCheck, Zap } from 'lucide-react';
 import { useParallax } from '@/hooks/useParallax';
 import { usePerformance } from '@/hooks/usePerformance';
+import StickyButton from '@/components/ui/StickyButton';
+import IconCard from '@/components/ui/IconCard';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 
 interface WebinarEvent {
   id: string;
@@ -21,6 +24,20 @@ interface WebinarEvent {
   benefits: string[];
   agenda: Array<{ time: string; topic: string }>;
   registration_limit: number;
+  // New landing page control fields
+  hero_headline?: string;
+  hero_subtitle?: string;
+  show_scarcity?: boolean;
+  sticky_cta_enabled?: boolean;
+  cta_text?: string;
+  cta_bg_color?: string;
+  target_audience?: string[];
+  social_proof_logos?: string[];
+  recognitions?: string[];
+  testimonials?: Array<{ quote: string; author: string; role: string; company: string; avatar?: string }>;
+  show_social_proof?: boolean;
+  privacy_note?: string;
+  show_agenda_collapsible?: boolean;
 }
 
 interface RegistrationFormData {
@@ -175,6 +192,19 @@ const WebinarPage = () => {
           : [],
         agenda: Array.isArray(webinarData.agenda) 
           ? webinarData.agenda.filter((a: any) => a && typeof a === 'object' && a.time && a.topic) as Array<{ time: string; topic: string }>
+          : [],
+        // Type-safe conversion for new fields
+        testimonials: Array.isArray(webinarData.testimonials) 
+          ? webinarData.testimonials as Array<{ quote: string; author: string; role: string; company: string; avatar?: string }>
+          : [],
+        target_audience: Array.isArray(webinarData.target_audience) 
+          ? webinarData.target_audience as string[]
+          : [],
+        social_proof_logos: Array.isArray(webinarData.social_proof_logos) 
+          ? webinarData.social_proof_logos as string[]
+          : [],
+        recognitions: Array.isArray(webinarData.recognitions) 
+          ? webinarData.recognitions as string[]
           : []
       });
 
@@ -405,10 +435,33 @@ const WebinarPage = () => {
   return (
     <div className="min-h-screen relative overflow-hidden">
       
+      {/* Sticky CTA Button */}
+      {webinar && webinar.sticky_cta_enabled && (
+        <StickyButton
+          text={webinar.cta_text || 'Reserve My Spot Now'}
+          onClick={scrollToRegistration}
+          bgColor={webinar.cta_bg_color || '#22c55e'}
+        />
+      )}
+      
       {/* Hero Section with Vanta Globe Background - Shows immediately */}
       <section ref={vantaRef} className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16" style={{ backgroundColor: '#15153c' }}>
         {/* Content overlay */}
         <div className="absolute inset-0 bg-black/20 z-10"></div>
+        
+        {/* Scarcity Bar */}
+        {webinar && webinar.show_scarcity && (
+          <div className="absolute top-20 left-0 right-0 z-40">
+            <div className="bg-gradient-to-r from-red-500 to-orange-500 text-white text-center py-2 px-4">
+              <div className="flex items-center justify-center gap-2">
+                <Zap className="w-4 h-4" />
+                <span className="font-semibold text-sm">
+                  ⚡ {Math.round(registrationCount / (webinar.registration_limit || 100) * 100)}% seats filled – Reserve your spot before registration closes!
+                </span>
+              </div>
+            </div>
+          </div>
+        )}
         
         {/* Enhanced Hexagonal Geometric Elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none z-20">
@@ -445,10 +498,10 @@ const WebinarPage = () => {
             <>
               <div className="space-y-4">
                 <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent leading-tight drop-shadow-2xl">
-                  {webinar.title}
+                  {webinar.hero_headline || webinar.title}
                 </h1>
                 <p className="text-xl md:text-2xl text-white/95 max-w-3xl mx-auto drop-shadow-lg">
-                  {webinar.subtitle}
+                  {webinar.hero_subtitle || webinar.subtitle}
                 </p>
               </div>
 
@@ -485,10 +538,11 @@ const WebinarPage = () => {
 
               <Button 
                 size="lg" 
-                className="animate-pulse hover:animate-none bg-white text-[#1e3a8a] hover:bg-white/90 font-bold text-lg px-8 py-4 rounded-xl shadow-xl transform transition-all duration-300 hover:scale-105"
+                className="animate-pulse hover:animate-none font-bold text-lg px-8 py-4 rounded-xl shadow-xl transform transition-all duration-300 hover:scale-105"
+                style={{ backgroundColor: webinar.cta_bg_color || '#22c55e', color: 'white' }}
                 onClick={scrollToRegistration}
               >
-                Reserve Your Spot Now
+                {webinar.cta_text || 'Reserve Your Spot Now'}
               </Button>
             </>
           ) : (
@@ -503,6 +557,36 @@ const WebinarPage = () => {
 
       {/* Rest of the page with regular background */}
       <div className="bg-gradient-to-br from-[#1e3a8a] via-[#1e40af] to-[#0f172a]">
+
+      {/* Social Proof Section */}
+      {webinar && webinar.show_social_proof && (webinar.social_proof_logos?.length || webinar.recognitions?.length) && (
+        <section className="py-12 bg-white/5 backdrop-blur-sm">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p className="text-white/80 text-sm mb-6 font-medium">As featured in</p>
+            <div className="flex flex-wrap justify-center items-center gap-8">
+              {webinar.social_proof_logos?.length ? (
+                webinar.social_proof_logos.map((logo, index) => (
+                  <img 
+                    key={index} 
+                    src={logo} 
+                    alt="Media logo" 
+                    className="h-8 grayscale hover:grayscale-0 transition-all duration-300 opacity-70 hover:opacity-100"
+                  />
+                ))
+              ) : (
+                webinar.recognitions?.map((recognition, index) => (
+                  <div 
+                    key={index}
+                    className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg px-4 py-2 text-white text-sm font-medium hover:bg-white/15 transition-all duration-300"
+                  >
+                    {recognition}
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* White separator line */}
       <div className="h-px bg-white/20"></div>
@@ -589,28 +673,85 @@ const WebinarPage = () => {
                 This comprehensive session will equip you with practical knowledge and actionable strategies
               </p>
             </div>
-          
-           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-               {webinar?.benefits?.map((benefit, index) => (
-                 <div 
-                   key={index}
-                   className="bg-white/95 backdrop-blur-sm border border-white/30 rounded-xl p-6 hover:shadow-2xl hover:bg-white transition-all duration-300 hover-scale animate-fade-in"
-                   style={{ animationDelay: `${index * 0.1}s` }}
-                 >
-                   <div className="flex items-start gap-4">
-                     <div className="bg-white/20 backdrop-blur-sm rounded-lg p-2 flex-shrink-0 border border-white/30">
-                       <CheckCircle className="w-5 h-5 text-[#1e3a8a]" />
-                     </div>
-                     <p className="text-sm leading-relaxed text-gray-700">{benefit}</p>
-                 </div>
-               </div>
-             )) || []}
-           </div>
+           
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {webinar?.benefits?.map((benefit, index) => (
+                  <IconCard 
+                    key={index}
+                    icon={CheckCircle}
+                    text={benefit}
+                  />
+                )) || []}
+            </div>
+            
+            {/* CTA after benefits */}
+            <div className="mt-12 text-center">
+              <Button 
+                size="lg"
+                className="font-bold text-lg px-8 py-4 rounded-xl shadow-xl transform transition-all duration-300 hover:scale-105"
+                style={{ backgroundColor: webinar?.cta_bg_color || '#22c55e', color: 'white' }}
+                onClick={scrollToRegistration}
+              >
+                {webinar?.cta_text || 'Reserve My Spot Now'}
+              </Button>
+            </div>
         </div>
       </section>
 
       {/* White separator line */}
       <div className="h-px bg-white/20"></div>
+
+        {/* Who Should Attend */}
+        {webinar && webinar.target_audience?.length && (
+          <section className="py-20 bg-black relative overflow-hidden">
+            {/* AI Brain Video Background */}
+            <video 
+              autoPlay 
+              loop 
+              muted 
+              playsInline 
+              className="absolute inset-0 w-full h-full object-cover z-0"
+              preload="metadata"
+            >
+              <source src="https://res.cloudinary.com/dknafpppp/video/upload/v1748771996/0_Ai_Brain_1920x1080_quggeb.mp4" type="video/mp4" />
+            </video>
+            
+            {/* Dark Overlay */}
+            <div className="absolute inset-0 bg-black/60 z-10"></div>
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
+              <div className="text-center mb-16 animate-fade-in">
+                <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white drop-shadow-lg">Who Should Attend?</h2>
+                <p className="text-lg text-white/90 max-w-2xl mx-auto drop-shadow-md">
+                  This webinar is perfect for:
+                </p>
+              </div>
+            
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {webinar.target_audience.map((audience, index) => {
+                  const getAudienceIcon = (audience: string) => {
+                    if (audience.toLowerCase().includes('entrepreneur')) return Target;
+                    if (audience.toLowerCase().includes('freelancer')) return Briefcase;
+                    if (audience.toLowerCase().includes('student') || audience.toLowerCase().includes('professional')) return GraduationCap;
+                    if (audience.toLowerCase().includes('coach') || audience.toLowerCase().includes('consultant')) return UserCheck;
+                    if (audience.toLowerCase().includes('commerce') || audience.toLowerCase().includes('seller')) return ShoppingCart;
+                    return UserCheck;
+                  };
+                  
+                  return (
+                    <IconCard 
+                      key={index}
+                      icon={getAudienceIcon(audience)}
+                      text={audience}
+                    />
+                  );
+                })}
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* White separator line */}
+        <div className="h-px bg-white/20"></div>
 
         {/* Event Agenda */}
         <section className="py-20 bg-black relative overflow-hidden">
@@ -637,26 +778,59 @@ const WebinarPage = () => {
               </p>
             </div>
 
-           <div className="max-w-3xl mx-auto space-y-4">
-               {webinar?.agenda?.map((item, index) => (
-                 <div 
-                   key={index}
-                   className="bg-white/95 backdrop-blur-sm border border-white/30 rounded-xl p-6 flex items-center gap-6 hover:shadow-2xl hover:bg-white transition-all duration-300 animate-fade-in"
-                   style={{ animationDelay: `${index * 0.1}s` }}
-                 >
-                 <div className="bg-white/20 backdrop-blur-sm rounded-lg p-3 flex-shrink-0 border border-white/30">
-                     <Clock className="w-5 h-5 text-[#1e3a8a]" />
-                 </div>
-                 <div className="flex-1">
-                   <div className="flex items-center gap-4">
-                       <span className="font-semibold text-[#1e3a8a]">{item.time}</span>
-                       <span className="text-gray-400">•</span>
-                       <span className="font-medium text-gray-700">{item.topic}</span>
-                   </div>
-                 </div>
-               </div>
-             )) || []}
-           </div>
+            <div className="max-w-3xl mx-auto">
+              {webinar?.show_agenda_collapsible ? (
+                <div className="md:hidden">
+                  <Collapsible>
+                    <CollapsibleTrigger asChild>
+                      <Button variant="outline" className="w-full mb-4 bg-white/10 border-white/20 text-white hover:bg-white/20">
+                        View Agenda Details
+                      </Button>
+                    </CollapsibleTrigger>
+                    <CollapsibleContent className="space-y-4">
+                      {webinar?.agenda?.map((item, index) => (
+                        <div 
+                          key={index}
+                          className="bg-white/95 backdrop-blur-sm border border-white/30 rounded-xl p-4 flex items-center gap-4 hover:shadow-2xl hover:bg-white transition-all duration-300"
+                        >
+                          <div className="bg-white/20 backdrop-blur-sm rounded-lg p-2 flex-shrink-0 border border-white/30">
+                            <Clock className="w-4 h-4 text-[#1e3a8a]" />
+                          </div>
+                          <div className="flex-1">
+                            <div className="flex flex-col gap-1">
+                              <span className="font-semibold text-[#1e3a8a] text-sm">{item.time}</span>
+                              <span className="font-medium text-gray-700 text-sm">{item.topic}</span>
+                            </div>
+                          </div>
+                        </div>
+                      )) || []}
+                    </CollapsibleContent>
+                  </Collapsible>
+                </div>
+              ) : null}
+              
+              {/* Desktop agenda or expanded mobile view */}
+              <div className={webinar?.show_agenda_collapsible ? "hidden md:block space-y-4" : "space-y-4"}>
+                {webinar?.agenda?.map((item, index) => (
+                  <div 
+                    key={index}
+                    className="bg-white/95 backdrop-blur-sm border border-white/30 rounded-xl p-6 flex items-center gap-6 hover:shadow-2xl hover:bg-white transition-all duration-300 animate-fade-in"
+                    style={{ animationDelay: `${index * 0.1}s` }}
+                  >
+                    <div className="bg-white/20 backdrop-blur-sm rounded-lg p-3 flex-shrink-0 border border-white/30">
+                      <Clock className="w-5 h-5 text-[#1e3a8a]" />
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center gap-4">
+                        <span className="font-semibold text-[#1e3a8a]">{item.time}</span>
+                        <span className="text-gray-400">•</span>
+                        <span className="font-medium text-gray-700">{item.topic}</span>
+                      </div>
+                    </div>
+                  </div>
+                )) || []}
+              </div>
+            </div>
         </div>
       </section>
 
@@ -760,7 +934,7 @@ const WebinarPage = () => {
             </form>
 
             <div className="mt-6 text-center text-xs text-white/70">
-              By registering, you agree to receive webinar updates via email and WhatsApp
+              {webinar?.privacy_note || 'By registering, you agree to receive webinar updates via email and WhatsApp'}
             </div>
           </div>
         </div>

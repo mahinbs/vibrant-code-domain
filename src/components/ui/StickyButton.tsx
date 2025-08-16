@@ -1,0 +1,38 @@
+import React from 'react';
+import { Button } from './button';
+
+interface StickyButtonProps {
+  text: string;
+  onClick: () => void;
+  bgColor?: string;
+}
+
+const StickyButton: React.FC<StickyButtonProps> = ({ text, onClick, bgColor = '#22c55e' }) => {
+  return (
+    <>
+      {/* Desktop sticky button */}
+      <div className="hidden md:block fixed top-24 right-6 z-50">
+        <Button
+          onClick={onClick}
+          className="shadow-2xl border border-white/20 font-semibold px-6 py-3 text-sm hover:scale-105 transition-all duration-300"
+          style={{ backgroundColor: bgColor }}
+        >
+          {text}
+        </Button>
+      </div>
+      
+      {/* Mobile sticky bottom bar */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 p-4 bg-gradient-to-t from-black/80 to-transparent">
+        <Button
+          onClick={onClick}
+          className="w-full font-semibold py-4 h-12 text-base hover:scale-105 transition-all duration-300"
+          style={{ backgroundColor: bgColor }}
+        >
+          {text}
+        </Button>
+      </div>
+    </>
+  );
+};
+
+export default StickyButton;
