@@ -449,9 +449,9 @@ const WebinarPage = () => {
         {/* Content overlay */}
         <div className="absolute inset-0 bg-black/20 z-10"></div>
         
-        {/* Scarcity Bar - Fixed positioning */}
+        {/* Scarcity Bar - Absolute top positioning */}
         {webinar && webinar.show_scarcity && (
-          <div className="absolute top-16 left-0 right-0 z-40">
+          <div className="absolute top-0 left-0 right-0 z-50">
             <div className="bg-gradient-to-r from-red-500 to-orange-500 text-white text-center py-3 px-4 shadow-lg">
               <div className="flex items-center justify-center gap-2">
                 <Zap className="w-4 h-4" />
@@ -496,6 +496,19 @@ const WebinarPage = () => {
             </div>
           ) : webinar ? (
             <>
+              {/* Company Branding */}
+              <div className="mb-6 space-y-3">
+                <div className="flex items-center justify-center gap-3 mb-4">
+                  <div className="w-12 h-12 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl flex items-center justify-center">
+                    <span className="text-white font-bold text-xl">🚀</span>
+                  </div>
+                  <div className="text-left">
+                    <div className="text-white font-bold text-lg">BoostMySites</div>
+                    <div className="text-white/80 text-sm">Hosted by BoostMySites</div>
+                  </div>
+                </div>
+              </div>
+
               <div className="space-y-4">
                 <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent leading-tight drop-shadow-2xl">
                   {webinar.hero_headline || webinar.title}
@@ -685,7 +698,7 @@ const WebinarPage = () => {
         </section>
         )}
 
-        {/* What You'll Learn */}
+        {/* Combined: What You'll Learn & Who Should Attend */}
         <section className="py-20 bg-black relative overflow-hidden">
           {/* AI Brain Video Background */}
           <video 
@@ -702,25 +715,71 @@ const WebinarPage = () => {
           {/* Dark Overlay */}
           <div className="absolute inset-0 bg-black/60 z-10"></div>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
-            <div className="text-center mb-16 animate-fade-in">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white drop-shadow-lg">What You'll Learn</h2>
-              <p className="text-lg text-white/90 max-w-2xl mx-auto drop-shadow-md">
-                This comprehensive session will equip you with practical knowledge and actionable strategies
-              </p>
-            </div>
-           
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {webinar?.benefits?.map((benefit, index) => (
-                  <IconCard 
-                    key={index}
-                    icon={CheckCircle}
-                    text={benefit}
-                  />
-                )) || []}
+            
+            {/* Grid Layout: Side by Side */}
+            <div className="grid lg:grid-cols-2 gap-16 lg:gap-20">
+              
+              {/* What You'll Learn - Left Side */}
+              <div className="space-y-8">
+                <div className="text-center lg:text-left animate-fade-in">
+                  <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white drop-shadow-lg">What You'll Learn</h2>
+                  <p className="text-lg text-white/90 drop-shadow-md">
+                    This comprehensive session will equip you with practical knowledge and actionable strategies
+                  </p>
+                </div>
+               
+                <div className="grid gap-4">
+                  {webinar?.benefits?.map((benefit, index) => (
+                    <IconCard 
+                      key={index}
+                      icon={CheckCircle}
+                      text={benefit}
+                    />
+                  )) || []}
+                </div>
+              </div>
+
+              {/* Who Should Attend - Right Side */}
+              <div className="space-y-8">
+                <div className="text-center lg:text-left animate-fade-in">
+                  <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white drop-shadow-lg">Who Should Attend?</h2>
+                  <p className="text-lg text-white/90 drop-shadow-md">
+                    This webinar is perfect for:
+                  </p>
+                </div>
+              
+                <div className="grid gap-4">
+                  {(webinar?.target_audience?.length ? webinar.target_audience : [
+                    'Entrepreneurs & Business Owners',
+                    'Digital Marketing Professionals', 
+                    'Freelancers & Consultants',
+                    'Students & Graduates',
+                    'E-commerce Store Owners',
+                    'Tech Enthusiasts'
+                  ]).map((audience, index) => {
+                    const getAudienceIcon = (audience: string) => {
+                      if (audience.toLowerCase().includes('entrepreneur')) return Target;
+                      if (audience.toLowerCase().includes('freelancer')) return Briefcase;
+                      if (audience.toLowerCase().includes('student') || audience.toLowerCase().includes('professional')) return GraduationCap;
+                      if (audience.toLowerCase().includes('coach') || audience.toLowerCase().includes('consultant')) return UserCheck;
+                      if (audience.toLowerCase().includes('commerce') || audience.toLowerCase().includes('seller')) return ShoppingCart;
+                      return UserCheck;
+                    };
+                    
+                    return (
+                      <IconCard 
+                        key={index}
+                        icon={getAudienceIcon(audience)}
+                        text={audience}
+                      />
+                    );
+                  })}
+                </div>
+              </div>
             </div>
             
-            {/* CTA after benefits */}
-            <div className="mt-12 text-center">
+            {/* CTA after combined sections */}
+            <div className="mt-16 text-center">
               <Button 
                 size="lg"
                 className="font-bold text-lg px-8 py-4 rounded-xl shadow-xl transform transition-all duration-300 hover:scale-105"
@@ -730,64 +789,8 @@ const WebinarPage = () => {
                 {webinar?.cta_text || 'Reserve My Spot Now'}
               </Button>
             </div>
-        </div>
-      </section>
-
-        {/* Who Should Attend - Show with defaults if no target_audience */}
-        {webinar && (
-          <section className="py-20 bg-black relative overflow-hidden">
-            {/* AI Brain Video Background */}
-            <video 
-              autoPlay 
-              loop 
-              muted 
-              playsInline 
-              className="absolute inset-0 w-full h-full object-cover z-0"
-              preload="metadata"
-            >
-              <source src="https://res.cloudinary.com/dknafpppp/video/upload/v1748771996/0_Ai_Brain_1920x1080_quggeb.mp4" type="video/mp4" />
-            </video>
-            
-            {/* Dark Overlay */}
-            <div className="absolute inset-0 bg-black/60 z-10"></div>
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
-              <div className="text-center mb-16 animate-fade-in">
-                <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white drop-shadow-lg">Who Should Attend?</h2>
-                <p className="text-lg text-white/90 max-w-2xl mx-auto drop-shadow-md">
-                  This webinar is perfect for:
-                </p>
-              </div>
-            
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {(webinar.target_audience?.length ? webinar.target_audience : [
-                  'Entrepreneurs & Business Owners',
-                  'Digital Marketing Professionals', 
-                  'Freelancers & Consultants',
-                  'Students & Graduates',
-                  'E-commerce Store Owners',
-                  'Tech Enthusiasts'
-                ]).map((audience, index) => {
-                  const getAudienceIcon = (audience: string) => {
-                    if (audience.toLowerCase().includes('entrepreneur')) return Target;
-                    if (audience.toLowerCase().includes('freelancer')) return Briefcase;
-                    if (audience.toLowerCase().includes('student') || audience.toLowerCase().includes('professional')) return GraduationCap;
-                    if (audience.toLowerCase().includes('coach') || audience.toLowerCase().includes('consultant')) return UserCheck;
-                    if (audience.toLowerCase().includes('commerce') || audience.toLowerCase().includes('seller')) return ShoppingCart;
-                    return UserCheck;
-                  };
-                  
-                  return (
-                    <IconCard 
-                      key={index}
-                      icon={getAudienceIcon(audience)}
-                      text={audience}
-                    />
-                  );
-                })}
-              </div>
-            </div>
-          </section>
-        )}
+          </div>
+        </section>
 
         {/* Event Agenda */}
         <section className="py-20 bg-black relative overflow-hidden">
