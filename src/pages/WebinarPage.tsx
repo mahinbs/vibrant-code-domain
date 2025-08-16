@@ -449,10 +449,10 @@ const WebinarPage = () => {
         {/* Content overlay */}
         <div className="absolute inset-0 bg-black/20 z-10"></div>
         
-        {/* Scarcity Bar */}
+        {/* Scarcity Bar - Fixed positioning */}
         {webinar && webinar.show_scarcity && (
-          <div className="absolute top-20 left-0 right-0 z-40">
-            <div className="bg-gradient-to-r from-red-500 to-orange-500 text-white text-center py-2 px-4">
+          <div className="absolute top-16 left-0 right-0 z-40">
+            <div className="bg-gradient-to-r from-red-500 to-orange-500 text-white text-center py-3 px-4 shadow-lg">
               <div className="flex items-center justify-center gap-2">
                 <Zap className="w-4 h-4" />
                 <span className="font-semibold text-sm">
@@ -558,38 +558,76 @@ const WebinarPage = () => {
       {/* Rest of the page with regular background */}
       <div className="bg-gradient-to-br from-[#1e3a8a] via-[#1e40af] to-[#0f172a]">
 
-      {/* Social Proof Section */}
+      {/* Social Proof Section with Auto-scroll */}
       {webinar && webinar.show_social_proof && (webinar.social_proof_logos?.length || webinar.recognitions?.length) && (
-        <section className="py-12 bg-white/5 backdrop-blur-sm">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <p className="text-white/80 text-sm mb-6 font-medium">As featured in</p>
-            <div className="flex flex-wrap justify-center items-center gap-8">
-              {webinar.social_proof_logos?.length ? (
-                webinar.social_proof_logos.map((logo, index) => (
-                  <img 
-                    key={index} 
-                    src={logo} 
-                    alt="Media logo" 
-                    className="h-8 grayscale hover:grayscale-0 transition-all duration-300 opacity-70 hover:opacity-100"
-                  />
-                ))
-              ) : (
-                webinar.recognitions?.map((recognition, index) => (
-                  <div 
-                    key={index}
-                    className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg px-4 py-2 text-white text-sm font-medium hover:bg-white/15 transition-all duration-300"
-                  >
-                    {recognition}
-                  </div>
-                ))
-              )}
+        <section className="py-16 bg-white/5 backdrop-blur-sm border-t border-white/20">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-8">
+              <h3 className="text-2xl font-bold text-white mb-2">Trusted by Industry Leaders</h3>
+              <p className="text-white/80 text-sm font-medium">BoostMySites - As featured in</p>
+            </div>
+            
+            {/* Company Branding */}
+            <div className="flex justify-center mb-8">
+              <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl px-6 py-3">
+                <span className="text-white font-bold text-xl">🚀 BoostMySites</span>
+                <span className="text-white/80 text-sm ml-2">- Digital Excellence Partner</span>
+              </div>
+            </div>
+            
+            {/* Auto-scrolling logos */}
+            <div className="overflow-hidden">
+              <div className="animate-scroll flex items-center gap-12" style={{ 
+                animation: 'scroll 30s linear infinite',
+                width: 'calc(200% + 4rem)'
+              }}>
+                {/* First set */}
+                {webinar.social_proof_logos?.length ? (
+                  <>
+                    {webinar.social_proof_logos.map((logo, index) => (
+                      <img 
+                        key={index} 
+                        src={logo} 
+                        alt="Media logo" 
+                        className="h-12 flex-shrink-0 grayscale hover:grayscale-0 transition-all duration-300 opacity-80 hover:opacity-100"
+                      />
+                    ))}
+                    {/* Duplicate for seamless loop */}
+                    {webinar.social_proof_logos.map((logo, index) => (
+                      <img 
+                        key={`dup-${index}`} 
+                        src={logo} 
+                        alt="Media logo" 
+                        className="h-12 flex-shrink-0 grayscale hover:grayscale-0 transition-all duration-300 opacity-80 hover:opacity-100"
+                      />
+                    ))}
+                  </>
+                ) : (
+                  <>
+                    {webinar.recognitions?.map((recognition, index) => (
+                      <div 
+                        key={index}
+                        className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg px-6 py-3 text-white text-sm font-medium hover:bg-white/15 transition-all duration-300 flex-shrink-0"
+                      >
+                        {recognition}
+                      </div>
+                    ))}
+                    {/* Duplicate for seamless loop */}
+                    {webinar.recognitions?.map((recognition, index) => (
+                      <div 
+                        key={`dup-${index}`}
+                        className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg px-6 py-3 text-white text-sm font-medium hover:bg-white/15 transition-all duration-300 flex-shrink-0"
+                      >
+                        {recognition}
+                      </div>
+                    ))}
+                  </>
+                )}
+              </div>
             </div>
           </div>
         </section>
       )}
-
-      {/* White separator line */}
-      <div className="h-px bg-white/20"></div>
 
       {/* Speaker Section - Only show when webinar data is loaded */}
       {webinar && (
@@ -645,10 +683,7 @@ const WebinarPage = () => {
             </div>
           </div>
         </section>
-      )}
-
-      {/* White separator line */}
-      <div className="h-px bg-white/20"></div>
+        )}
 
         {/* What You'll Learn */}
         <section className="py-20 bg-black relative overflow-hidden">
@@ -698,11 +733,8 @@ const WebinarPage = () => {
         </div>
       </section>
 
-      {/* White separator line */}
-      <div className="h-px bg-white/20"></div>
-
-        {/* Who Should Attend */}
-        {webinar && webinar.target_audience?.length && (
+        {/* Who Should Attend - Show with defaults if no target_audience */}
+        {webinar && (
           <section className="py-20 bg-black relative overflow-hidden">
             {/* AI Brain Video Background */}
             <video 
@@ -727,7 +759,14 @@ const WebinarPage = () => {
               </div>
             
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {webinar.target_audience.map((audience, index) => {
+                {(webinar.target_audience?.length ? webinar.target_audience : [
+                  'Entrepreneurs & Business Owners',
+                  'Digital Marketing Professionals', 
+                  'Freelancers & Consultants',
+                  'Students & Graduates',
+                  'E-commerce Store Owners',
+                  'Tech Enthusiasts'
+                ]).map((audience, index) => {
                   const getAudienceIcon = (audience: string) => {
                     if (audience.toLowerCase().includes('entrepreneur')) return Target;
                     if (audience.toLowerCase().includes('freelancer')) return Briefcase;
@@ -749,9 +788,6 @@ const WebinarPage = () => {
             </div>
           </section>
         )}
-
-        {/* White separator line */}
-        <div className="h-px bg-white/20"></div>
 
         {/* Event Agenda */}
         <section className="py-20 bg-black relative overflow-hidden">
@@ -833,9 +869,6 @@ const WebinarPage = () => {
             </div>
         </div>
       </section>
-
-      {/* White separator line */}
-      <div className="h-px bg-white/20"></div>
 
       {/* Registration Form */}
       <section id="registration" className="py-20 bg-black relative overflow-hidden">
