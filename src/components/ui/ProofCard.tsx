@@ -17,24 +17,41 @@ const ProofCard = ({
   className 
 }: ProofCardProps) => {
   return (
-    <div className={cn(
-      // Base styles - consistent for all cards
-      "bg-card/20 backdrop-blur-sm border-2 border-muted/30 rounded-xl p-4 text-center transition-all duration-300 cursor-default",
-      // Hover illumination effect
-      "hover:bg-primary/10 hover:border-primary/40 hover:shadow-lg hover:shadow-primary/20",
-      // Focus styles for accessibility
-      "focus-within:bg-primary/10 focus-within:border-primary/40 focus-within:shadow-lg focus-within:shadow-primary/20",
-      // Enhanced outline visibility
-      "ring-1 ring-muted/20 hover:ring-primary/30",
-      className
-    )}>
+    <div
+      className={cn(
+        'group relative overflow-hidden rounded-xl p-4 text-center transition-all duration-300 cursor-default',
+        // Outline and surface
+        'bg-card/20 backdrop-blur-sm border border-white/15 ring-1 ring-white/10',
+        // Hover/focus illumination
+        'hover:border-white/30 hover:ring-white/30 hover:shadow-[0_10px_30px_-8px_rgba(59,130,246,0.35)]',
+        'focus-within:border-white/30 focus-within:ring-white/30 focus-within:shadow-[0_10px_30px_-8px_rgba(59,130,246,0.35)]',
+        className
+      )}
+    >
+      {/* Colorful radial glow on hover */}
+      <div className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-[radial-gradient(120%_80%_at_50%_0%,rgba(59,130,246,0.22)_0%,rgba(168,85,247,0.18)_45%,transparent_75%)]" />
+      
       {icon && (
-        <div className="flex items-center justify-center gap-1 mb-2 transition-transform duration-300 group-hover:scale-110">
+        <div
+          className="
+            relative z-10 flex items-center justify-center gap-1 mb-2
+            transition-transform duration-300 group-hover:scale-110
+            [&_.icon]:transition-colors group-hover:[&_.icon]:text-white
+            [&_.icon-circle]:transition-all group-hover:[&_.icon-circle]:bg-gradient-to-br
+            group-hover:[&_.icon-circle]:from-primary/40 group-hover:[&_.icon-circle]:to-secondary/40
+            group-hover:[&_.icon-circle]:shadow-[0_0_28px_rgba(59,130,246,0.35)]
+          "
+        >
           {icon}
         </div>
       )}
-      <p className="font-semibold text-sm transition-colors duration-300">{title}</p>
-      <p className="text-xs text-muted-foreground transition-colors duration-300">{subtitle}</p>
+
+      <p className="relative z-10 font-semibold text-sm transition-colors duration-300 group-hover:text-white">
+        {title}
+      </p>
+      <p className="relative z-10 text-xs text-muted-foreground transition-colors duration-300 group-hover:text-white/80">
+        {subtitle}
+      </p>
     </div>
   );
 };
