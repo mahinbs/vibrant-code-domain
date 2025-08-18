@@ -3,22 +3,22 @@ import React from 'react';
 const FeaturedLogosMarquee = () => {
   const logos = [
     { 
-      src: 'https://res.cloudinary.com/dqogq10ag/image/upload/v1755506741/forbes-logo-11609361702nvjwui1s5f_krbedx.png', 
+      src: '/src/assets/logos/forbes.png', 
       alt: 'Forbes', 
       name: 'Forbes' 
     },
     { 
-      src: 'https://res.cloudinary.com/dqogq10ag/image/upload/v1755506740/kisspng-entrepreneurship-logo-organization-leadership-busi-entrepreneur-5ae9753c3ef694.8751702415252493402579_hofbma.webp', 
+      src: '/src/assets/logos/entrepreneur.webp', 
       alt: 'Entrepreneur', 
       name: 'Entrepreneur' 
     },
     { 
-      src: 'https://res.cloudinary.com/dqogq10ag/image/upload/v1755506740/images_qvzhpc.png', 
+      src: '/src/assets/logos/times-of-india.png', 
       alt: 'Times of India', 
       name: 'Times of India' 
     },
     { 
-      src: 'https://res.cloudinary.com/dqogq10ag/image/upload/v1755506740/images_hmfvsu.jpg', 
+      src: '/src/assets/logos/business-insider.jpg', 
       alt: 'Business Insider', 
       name: 'Business Insider' 
     },
@@ -39,14 +39,19 @@ const FeaturedLogosMarquee = () => {
         {logos.map((logo) => (
           <div
             key={logo.name}
-            className="flex-shrink-0 transition-all duration-300 hover:scale-110"
+            className="flex-shrink-0 transition-all duration-300 hover:scale-105 group"
           >
-            <img
-              src={logo.src}
-              alt={logo.alt}
-              className="h-16 w-auto object-contain"
-              loading="lazy"
-            />
+            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl px-6 py-3 
+                          hover:bg-white/10 hover:border-white/20 transition-all duration-300
+                          shadow-lg hover:shadow-xl">
+              <img
+                src={logo.src}
+                alt={logo.alt}
+                className="h-12 w-auto object-contain filter brightness-0 invert opacity-70 
+                         group-hover:opacity-100 transition-opacity duration-300"
+                loading="lazy"
+              />
+            </div>
           </div>
         ))}
       </div>
