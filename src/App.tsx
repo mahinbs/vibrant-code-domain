@@ -34,6 +34,7 @@ import WebinarPage from "./pages/WebinarPage";
 import NotFound from "./pages/NotFound";
 import SalespersonServicePage from "./pages/SalespersonServicePage";
 import PartnershipPage from "./pages/PartnershipPage";
+import AiFreelancingPage from "./pages/AiFreelancingPage";
 
 // Admin pages
 import AdminLogin from "./pages/admin/AdminLogin";
@@ -104,6 +105,7 @@ const App = () => (
           <Route path="/reviews" element={<ReviewsPage />} />
           <Route path="/services" element={<ServicesPage />} />
           <Route path="/webinar" element={<WebinarPage />} />
+          <Route path="/ai-freelancing" element={<AiFreelancingPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/thank-you" element={<ThankYouPage />} />
           <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
