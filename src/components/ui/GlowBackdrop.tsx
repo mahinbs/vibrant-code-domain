@@ -5,13 +5,15 @@ interface GlowBackdropProps {
   size?: 'small' | 'medium' | 'large';
   color?: 'blue' | 'purple' | 'teal';
   intensity?: 'low' | 'medium' | 'high';
+  className?: string;
 }
 
 const GlowBackdrop: React.FC<GlowBackdropProps> = ({ 
   position = 'center', 
   size = 'medium', 
   color = 'blue',
-  intensity = 'medium'
+  intensity = 'medium',
+  className = ''
 }) => {
   const getPositionClasses = () => {
     switch (position) {
@@ -42,11 +44,11 @@ const GlowBackdrop: React.FC<GlowBackdropProps> = ({
   const getColorClasses = () => {
     switch (color) {
       case 'purple':
-        return 'bg-purple-600/20';
+        return 'bg-purple-500/30';
       case 'teal':
-        return 'bg-teal-600/20';
+        return 'bg-teal-500/30';
       default:
-        return 'bg-blue-600/20';
+        return 'bg-blue-500/30';
     }
   };
 
@@ -66,13 +68,13 @@ const GlowBackdrop: React.FC<GlowBackdropProps> = ({
       className={`
         absolute ${getPositionClasses()} ${getSizeClasses()} 
         ${getColorClasses()} ${getIntensityClasses()}
-        rounded-full blur-3xl pointer-events-none z-0
-        animate-pulse
+        rounded-full blur-3xl pointer-events-none z-[1]
+        motion-reduce:animate-none ${className}
       `}
       style={{
         filter: 'blur(80px)',
-        animationDuration: '4s',
-        animationTimingFunction: 'ease-in-out'
+        animation: 'pulse 6s ease-in-out infinite',
+        mixBlendMode: 'screen'
       }}
     />
   );

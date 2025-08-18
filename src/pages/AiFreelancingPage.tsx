@@ -170,6 +170,8 @@ const AiFreelancingPage = () => {
       {/* Hero Section */}
       <section className="pt-32 pb-20 relative overflow-hidden">
         <div ref={vantaRef} className="absolute inset-0 z-0 pointer-events-none" />
+        <GlowBackdrop position="top-right" size="large" color="blue" intensity="medium" />
+        <GlowBackdrop position="bottom-left" size="medium" color="teal" intensity="low" />
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-6xl mx-auto">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -212,7 +214,8 @@ const AiFreelancingPage = () => {
       {/* What You'll Get Section */}
       <section className="py-20 relative">
         <GlowBackdrop position="top-left" size="large" color="blue" intensity="low" />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-black/70 pointer-events-none"></div>
+        <GlowBackdrop position="bottom-right" size="small" color="purple" intensity="medium" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-black/70 pointer-events-none z-0"></div>
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-4xl mx-auto text-center mb-16">
             <h2 className="text-4xl font-bold mb-4">What You'll Get for Just $1</h2>
@@ -242,7 +245,9 @@ const AiFreelancingPage = () => {
       {/* Why This is Different */}
       <section className="py-20 relative">
         <GlowBackdrop position="bottom-right" size="medium" color="purple" intensity="medium" />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/70 to-black/50 pointer-events-none"></div>
+        <GlowBackdrop position="top-left" size="small" color="teal" intensity="low" />
+        <GlowBackdrop position="center" size="large" color="blue" intensity="low" className="opacity-20" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/70 to-black/50 pointer-events-none z-0"></div>
         <div className="container mx-auto px-6 relative z-10">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4">Why This is Different</h2>
@@ -265,6 +270,8 @@ const AiFreelancingPage = () => {
       {/* Animated Journey Section */}
       <div className="relative">
         <GlowBackdrop position="center" size="large" color="teal" intensity="low" />
+        <GlowBackdrop position="top-right" size="medium" color="blue" intensity="medium" />
+        <GlowBackdrop position="bottom-left" size="small" color="purple" intensity="high" />
         <AnimatedJourneySection onCtaClick={scrollToForm} />
       </div>
 
@@ -273,7 +280,8 @@ const AiFreelancingPage = () => {
       {/* FAQ Section */}
       <section className="py-20 relative">
         <GlowBackdrop position="top-right" size="medium" color="blue" intensity="medium" />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-black/70 pointer-events-none"></div>
+        <GlowBackdrop position="bottom-left" size="large" color="teal" intensity="low" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-black/70 pointer-events-none z-0"></div>
         <div className="container mx-auto px-6 relative z-10">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4">Frequently Asked Questions</h2>
@@ -294,7 +302,9 @@ const AiFreelancingPage = () => {
       {/* Final CTA Section */}
       <section id="lead-form" className="py-20 relative">
         <GlowBackdrop position="bottom-left" size="large" color="purple" intensity="high" />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/70 to-black/90 pointer-events-none"></div>
+        <GlowBackdrop position="top-right" size="medium" color="blue" intensity="medium" />
+        <GlowBackdrop position="center" size="small" color="teal" intensity="low" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/70 to-black/90 pointer-events-none z-0"></div>
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-2xl mx-auto text-center">
             <h2 className="text-4xl font-bold mb-4">Your AI Freelancing Journey Starts Today</h2>
