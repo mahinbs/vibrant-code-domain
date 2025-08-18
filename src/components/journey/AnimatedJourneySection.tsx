@@ -151,14 +151,14 @@ export const AnimatedJourneySection: React.FC<AnimatedJourneySectionProps> = ({ 
       const wrapperRect = wrapper.getBoundingClientRect();
       const cardRect = card.getBoundingClientRect();
       
-      const margin = 16;
+      const edgeInset = 10;
       const totalSteps = journeySteps.length + 1; // Include CTA
       
       if (window.innerWidth < 768) {
         // Mobile: center-bottom anchor
         return {
           x: cardRect.left - wrapperRect.left + cardRect.width / 2,
-          y: cardRect.bottom - wrapperRect.top - margin
+          y: cardRect.bottom - wrapperRect.top - edgeInset
         };
       }
       
@@ -169,7 +169,7 @@ export const AnimatedJourneySection: React.FC<AnimatedJourneySectionProps> = ({ 
         // First card: top edge center
         return {
           x: cardRect.left - wrapperRect.left + cardRect.width / 2,
-          y: cardRect.top - wrapperRect.top + margin
+          y: cardRect.top - wrapperRect.top + edgeInset
         };
       }
       
@@ -177,15 +177,15 @@ export const AnimatedJourneySection: React.FC<AnimatedJourneySectionProps> = ({ 
         // CTA card: top edge center (like first card)
         return {
           x: cardRect.left - wrapperRect.left + cardRect.width / 2,
-          y: cardRect.top - wrapperRect.top + margin
+          y: cardRect.top - wrapperRect.top + edgeInset
         };
       }
       
-      // Middle cards (steps 2-7): left/right edge alternating
+      // Middle cards (steps 2-7): actual left/right edge border anchoring
       return {
         x: isEven ? 
-          cardRect.left - wrapperRect.left + margin : 
-          cardRect.right - wrapperRect.left - margin,
+          cardRect.left - wrapperRect.left + edgeInset : 
+          cardRect.right - wrapperRect.left - edgeInset,
         y: cardRect.top - wrapperRect.top + cardRect.height / 2
       };
     }
@@ -218,48 +218,144 @@ export const AnimatedJourneySection: React.FC<AnimatedJourneySectionProps> = ({ 
         const cards = Array.from(wrapper.querySelectorAll('[data-card]')) as HTMLElement[];
         const points = cards.map((card, index) => getAnchor(card, index));
         
-        // Points are already in wrapper's coordinate space
-        const localPoints = points;
+        if (points.length < 2) return;
         
-        // Build simple quadratic path
-        let pathData = `M ${localPoints[0].x},${localPoints[0].y}`;
-        for (let i = 1; i < localPoints.length; i++) {
-          pathData += ` ${quadPath(localPoints[i - 1], localPoints[i])}`;
+        // Calculate path segments and their lengths for precise mapping
+        const segments: Array<{ start: { x: number; y: number }; end: { x: number; y: number }; length: number }> = [];
+        let totalPathLength = 0;
+        
+        for (let i = 1; i < points.length; i++) {
+          const start = points[i - 1];
+          const end = points[i];
+          
+          // Create temporary path element to measure segment length
+          const tempPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+          tempPath.setAttribute('d', `M ${start.x},${start.y} ${quadPath(start, end)}`);
+          svg.appendChild(tempPath);
+          const segmentLength = tempPath.getTotalLength();
+          svg.removeChild(tempPath);
+          
+          segments.push({ start, end, length: segmentLength });
+          totalPathLength += segmentLength;
+        }
+        
+        // Calculate cumulative progress for each anchor point
+        const anchorProgressPoints: Array<{ scrollProgress: number; pathProgress: number }> = [];
+        let cumulativeLength = 0;
+        
+        anchorProgressPoints.push({ scrollProgress: 0, pathProgress: 0 });
+        
+        for (let i = 0; i < segments.length; i++) {
+          cumulativeLength += segments[i].length;
+          const scrollProgress = (i + 1) / (points.length - 1);
+          const pathProgress = cumulativeLength / totalPathLength;
+          anchorProgressPoints.push({ scrollProgress, pathProgress });
+        }
+        
+        // Build the complete path
+        let pathData = `M ${points[0].x},${points[0].y}`;
+        for (let i = 1; i < points.length; i++) {
+          pathData += ` ${quadPath(points[i - 1], points[i])}`;
         }
         pathEl.setAttribute('d', pathData);
 
-        const length = pathEl.getTotalLength?.() || 0;
-        pathEl.style.strokeDasharray = `${length}`;
-        pathEl.style.strokeDashoffset = `${length}`;
+        const pathLength = pathEl.getTotalLength?.() || 0;
+        pathEl.style.strokeDasharray = `${pathLength}`;
+        pathEl.style.strokeDashoffset = `${pathLength}`;
 
         ScrollTrigger.getAll().forEach(st => st.kill());
         gsap.killTweensOf(arrow);
 
-        const tl = gsap.timeline({
-          defaults: { ease: 'power2.inOut' },
-          scrollTrigger: {
-            trigger: wrapper,
-            start: 'top 80%',
-            end: 'bottom 20%',
-            scrub: 1.2,
-          },
-        });
-
-        tl.to(pathEl, { 
-          strokeDashoffset: 0,
-          ease: 'power2.out'
-        }, 0);
-
-        tl.to(arrow, {
+        // Create paused motion path tween for precise control
+        const motionTween = gsap.to(arrow, {
           motionPath: {
             path: pathEl,
             align: pathEl,
             alignOrigin: [0.5, 0.5],
             autoRotate: true,
           },
-          ease: 'power2.inOut'
-        }, 0.1);
+          duration: 1,
+          paused: true,
+          ease: 'none'
+        });
+
+        let reachedFinal = false;
+
+        ScrollTrigger.create({
+          trigger: wrapper,
+          start: 'top top',
+          end: 'bottom bottom',
+          scrub: true,
+          onUpdate: (self) => {
+            const scrollProgress = self.progress;
+            
+            // Map scroll progress to path progress using anchor points
+            let pathProgress = 0;
+            
+            for (let i = 0; i < anchorProgressPoints.length - 1; i++) {
+              const current = anchorProgressPoints[i];
+              const next = anchorProgressPoints[i + 1];
+              
+              if (scrollProgress >= current.scrollProgress && scrollProgress <= next.scrollProgress) {
+                const localProgress = (scrollProgress - current.scrollProgress) / (next.scrollProgress - current.scrollProgress);
+                pathProgress = current.pathProgress + localProgress * (next.pathProgress - current.pathProgress);
+                break;
+              }
+            }
+            
+            // Ensure we don't exceed bounds
+            pathProgress = Math.max(0, Math.min(1, pathProgress));
+            
+            // Update stroke drawing
+            pathEl.style.strokeDashoffset = `${pathLength * (1 - pathProgress)}`;
+            
+            // Update arrow position
+            motionTween.progress(pathProgress);
+            
+            // Trigger celebration when reaching final step
+            if (pathProgress >= 0.95 && !reachedFinal) {
+              reachedFinal = true;
+              triggerCelebration();
+            } else if (pathProgress < 0.95) {
+              reachedFinal = false;
+            }
+          }
+        });
       }, 100);
+    }
+
+    function triggerCelebration() {
+      const ctaCard = wrapper.querySelector('[data-step="7"]') as HTMLElement;
+      if (!ctaCard) return;
+      
+      // Create celebration effect
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      
+      if (!prefersReducedMotion) {
+        gsap.timeline()
+          .to(ctaCard, {
+            scale: 1.05,
+            duration: 0.3,
+            ease: 'power2.out'
+          })
+          .to(ctaCard, {
+            scale: 1,
+            duration: 0.2,
+            ease: 'power2.in'
+          })
+          .to(ctaCard.querySelector('.glow-effect'), {
+            opacity: 1,
+            scale: 1.1,
+            duration: 0.5,
+            ease: 'power2.out'
+          }, 0)
+          .to(ctaCard.querySelector('.glow-effect'), {
+            opacity: 0.3,
+            scale: 1,
+            duration: 0.3,
+            ease: 'power2.in'
+          });
+      }
     }
 
     // Reduced motion support
@@ -477,15 +573,15 @@ export const AnimatedJourneySection: React.FC<AnimatedJourneySectionProps> = ({ 
           {/* Animated CTA integrated into path */}
           <div 
             data-card
-            data-step={journeySteps.length}
+            data-step="7"
             className={`
               text-center mt-16 transition-all duration-1000 ease-out
               ${showCta ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-8 scale-95'}
             `}
           >
             <div className="relative max-w-lg mx-auto">
-              {/* Glow background */}
-              <div className="absolute inset-0 bg-gradient-to-r from-primary via-accent to-primary rounded-2xl blur-xl opacity-20 animate-pulse" />
+              {/* Enhanced Glow background for celebration */}
+              <div className="glow-effect absolute inset-0 bg-gradient-to-r from-primary via-accent to-primary rounded-2xl blur-xl opacity-30 animate-pulse" />
               
               <div className="relative bg-card/90 backdrop-blur-sm border border-primary/20 rounded-2xl p-8">
                 <div className="flex items-center justify-center gap-2 mb-4">
