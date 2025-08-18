@@ -17,6 +17,7 @@ import TestimonialsSection from '@/components/ui/TestimonialsSection';
 import VideoModal from '@/components/ui/VideoModal';
 import InstagramSocialProof from '@/components/social/InstagramSocialProof';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import ProofCard from '@/components/ui/ProofCard';
 
 const AiFreelancingPage = () => {
   const [isFormVisible, setIsFormVisible] = useState(false);
@@ -311,55 +312,67 @@ const AiFreelancingPage = () => {
             <Title className="text-4xl mb-4">Why This is Different</Title>
             <FeaturedLogosMarquee />
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-4xl mx-auto mb-8">
-              <div className="bg-primary/10 backdrop-blur-sm border border-primary/20 rounded-xl p-4 text-center">
-                <div className="flex items-center justify-center gap-1 mb-2">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-primary text-primary" />
-                  ))}
-                </div>
-                <p className="font-semibold text-sm">70% got first client in 30 days</p>
-                <p className="text-xs text-muted-foreground">Program completion data</p>
-              </div>
+              <ProofCard
+                title="70% got first client in 30 days"
+                subtitle="Program completion data"
+                icon={
+                  <div className="flex items-center justify-center gap-1">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-4 h-4 fill-primary text-primary" />
+                    ))}
+                  </div>
+                }
+              />
               
-              <div className="bg-secondary/10 backdrop-blur-sm border border-secondary/20 rounded-xl p-4 text-center">
-                <div className="w-8 h-8 bg-secondary/20 rounded-full flex items-center justify-center mx-auto mb-2">
-                  <Check className="w-4 h-4 text-secondary" />
-                </div>
-                <p className="font-semibold text-sm">Use BoostMySites branding</p>
-                <p className="text-xs text-muted-foreground">Sell under established brand</p>
-              </div>
+              <ProofCard
+                title="Use BoostMySites branding"
+                subtitle="Sell under established brand"
+                icon={
+                  <div className="w-8 h-8 bg-secondary/20 rounded-full flex items-center justify-center mx-auto">
+                    <Check className="w-4 h-4 text-secondary" />
+                  </div>
+                }
+              />
               
-              <div className="bg-accent/10 backdrop-blur-sm border border-accent/20 rounded-xl p-4 text-center">
-                <div className="w-8 h-8 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-2">
-                  <Briefcase className="w-4 h-4 text-accent" />
-                </div>
-                <p className="font-semibold text-sm">Real portfolio projects</p>
-                <p className="text-xs text-muted-foreground">Proven case studies for credibility</p>
-              </div>
+              <ProofCard
+                title="Real portfolio projects"
+                subtitle="Proven case studies for credibility"
+                icon={
+                  <div className="w-8 h-8 bg-accent/20 rounded-full flex items-center justify-center mx-auto">
+                    <Briefcase className="w-4 h-4 text-accent" />
+                  </div>
+                }
+              />
               
-              <div className="bg-primary/10 backdrop-blur-sm border border-primary/20 rounded-xl p-4 text-center">
-                <div className="w-8 h-8 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-2">
-                  <Target className="w-4 h-4 text-primary" />
-                </div>
-                <p className="font-semibold text-sm">Competitive pricing templates</p>
-                <p className="text-xs text-muted-foreground">Win more clients with proven rates</p>
-              </div>
+              <ProofCard
+                title="Competitive pricing templates"
+                subtitle="Win more clients with proven rates"
+                icon={
+                  <div className="w-8 h-8 bg-primary/20 rounded-full flex items-center justify-center mx-auto">
+                    <Target className="w-4 h-4 text-primary" />
+                  </div>
+                }
+              />
               
-              <div className="bg-secondary/10 backdrop-blur-sm border border-secondary/20 rounded-xl p-4 text-center">
-                <div className="w-8 h-8 bg-secondary/20 rounded-full flex items-center justify-center mx-auto mb-2">
-                  <HeadphonesIcon className="w-4 h-4 text-secondary" />
-                </div>
-                <p className="font-semibold text-sm">Complete handholding</p>
-                <p className="text-xs text-muted-foreground">From start to first payment</p>
-              </div>
+              <ProofCard
+                title="Complete handholding"
+                subtitle="From start to first payment"
+                icon={
+                  <div className="w-8 h-8 bg-secondary/20 rounded-full flex items-center justify-center mx-auto">
+                    <HeadphonesIcon className="w-4 h-4 text-secondary" />
+                  </div>
+                }
+              />
               
-              <div className="bg-accent/10 backdrop-blur-sm border border-accent/20 rounded-xl p-4 text-center">
-                <div className="w-8 h-8 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-2">
-                  <Users className="w-4 h-4 text-accent" />
-                </div>
-                <p className="font-semibold text-sm">Dedicated support team</p>
-                <p className="text-xs text-muted-foreground">Every aspect covered 24/7</p>
-              </div>
+              <ProofCard
+                title="Dedicated support team"
+                subtitle="Every aspect covered 24/7"
+                icon={
+                  <div className="w-8 h-8 bg-accent/20 rounded-full flex items-center justify-center mx-auto">
+                    <Users className="w-4 h-4 text-accent" />
+                  </div>
+                }
+              />
             </div>
           </div>
           <div className="text-center mt-12">
