@@ -102,6 +102,7 @@ export const AnimatedJourneySection: React.FC<AnimatedJourneySectionProps> = ({ 
   const [visibleSteps, setVisibleSteps] = useState<Set<string>>(new Set());
   const [showCta, setShowCta] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   const pathRef = useRef<SVGPathElement>(null);
   const arrowRef = useRef<SVGGElement>(null);
@@ -139,24 +140,28 @@ export const AnimatedJourneySection: React.FC<AnimatedJourneySectionProps> = ({ 
   // GSAP Path Animation Setup
   useEffect(() => {
     const section = sectionRef.current;
+    const wrapper = wrapperRef.current;
     const svg = svgRef.current;
     const pathEl = pathRef.current;
     const arrow = arrowRef.current;
     
-    if (!section || !svg || !pathEl || !arrow) return;
+    if (!section || !wrapper || !svg || !pathEl || !arrow) return;
 
     function getAnchor(card: HTMLElement, index: number): { x: number; y: number } {
-      const rect = card.getBoundingClientRect();
-      const scrollY = window.pageYOffset;
-      const scrollX = window.pageXOffset;
+      const wrapperRect = wrapper.getBoundingClientRect();
+      const cardRect = card.getBoundingClientRect();
+      
+      // Use wrapper as coordinate space reference
+      const wrapperScrollY = wrapper.offsetTop;
+      const wrapperScrollX = wrapper.offsetLeft;
       
       const margin = 16;
       
       if (window.innerWidth < 768) {
         // Mobile: center-bottom anchor
         return {
-          x: rect.left + scrollX + rect.width / 2,
-          y: rect.bottom + scrollY - margin
+          x: cardRect.left - wrapperRect.left + cardRect.width / 2,
+          y: cardRect.bottom - wrapperRect.top - margin
         };
       }
       
@@ -166,23 +171,25 @@ export const AnimatedJourneySection: React.FC<AnimatedJourneySectionProps> = ({ 
       if (index === 0) {
         // First card: top edge center
         return {
-          x: rect.left + scrollX + rect.width / 2,
-          y: rect.top + scrollY + margin
+          x: cardRect.left - wrapperRect.left + cardRect.width / 2,
+          y: cardRect.top - wrapperRect.top + margin
         };
       }
       
       if (index === journeySteps.length - 1) {
         // Last card: bottom edge center
         return {
-          x: rect.left + scrollX + rect.width / 2,
-          y: rect.bottom + scrollY - margin
+          x: cardRect.left - wrapperRect.left + cardRect.width / 2,
+          y: cardRect.bottom - wrapperRect.top - margin
         };
       }
       
       // Middle cards: left/right edge alternating
       return {
-        x: isEven ? rect.left + scrollX + margin : rect.right + scrollX - margin,
-        y: rect.top + scrollY + rect.height / 2
+        x: isEven ? 
+          cardRect.left - wrapperRect.left + margin : 
+          cardRect.right - wrapperRect.left - margin,
+        y: cardRect.top - wrapperRect.top + cardRect.height / 2
       };
     }
 
@@ -204,57 +211,58 @@ export const AnimatedJourneySection: React.FC<AnimatedJourneySectionProps> = ({ 
     }
 
     function layout() {
-      const secRect = section.getBoundingClientRect();
-      svg.setAttribute('width', secRect.width.toString());
-      svg.setAttribute('height', secRect.height.toString());
-      svg.setAttribute('viewBox', `0 0 ${secRect.width} ${secRect.height}`);
+      // Wait for animations to settle
+      setTimeout(() => {
+        const wrapperRect = wrapper.getBoundingClientRect();
+        svg.setAttribute('width', wrapperRect.width.toString());
+        svg.setAttribute('height', wrapperRect.height.toString());
+        svg.setAttribute('viewBox', `0 0 ${wrapperRect.width} ${wrapperRect.height}`);
 
-      const cards = Array.from(section.querySelectorAll('[data-card]')) as HTMLElement[];
-      const points = cards.map((card, index) => getAnchor(card, index));
-      
-      // Convert to local coordinates
-      const secTop = secRect.top + window.scrollY;
-      const secLeft = secRect.left + window.scrollX;
-      const localPoints = points.map(p => ({ x: p.x - secLeft, y: p.y - secTop }));
-      
-      // Build simple quadratic path
-      let pathData = `M ${localPoints[0].x},${localPoints[0].y}`;
-      for (let i = 1; i < localPoints.length; i++) {
-        pathData += ` ${quadPath(localPoints[i - 1], localPoints[i])}`;
-      }
-      pathEl.setAttribute('d', pathData);
+        const cards = Array.from(wrapper.querySelectorAll('[data-card]')) as HTMLElement[];
+        const points = cards.map((card, index) => getAnchor(card, index));
+        
+        // Points are already in wrapper's coordinate space
+        const localPoints = points;
+        
+        // Build simple quadratic path
+        let pathData = `M ${localPoints[0].x},${localPoints[0].y}`;
+        for (let i = 1; i < localPoints.length; i++) {
+          pathData += ` ${quadPath(localPoints[i - 1], localPoints[i])}`;
+        }
+        pathEl.setAttribute('d', pathData);
 
-      const length = pathEl.getTotalLength?.() || 0;
-      pathEl.style.strokeDasharray = `${length}`;
-      pathEl.style.strokeDashoffset = `${length}`;
+        const length = pathEl.getTotalLength?.() || 0;
+        pathEl.style.strokeDasharray = `${length}`;
+        pathEl.style.strokeDashoffset = `${length}`;
 
-      ScrollTrigger.getAll().forEach(st => st.kill());
-      gsap.killTweensOf(arrow);
+        ScrollTrigger.getAll().forEach(st => st.kill());
+        gsap.killTweensOf(arrow);
 
-      const tl = gsap.timeline({
-        defaults: { ease: 'power2.inOut' },
-        scrollTrigger: {
-          trigger: section,
-          start: 'top 80%',
-          end: 'bottom 20%',
-          scrub: 1.2,
-        },
-      });
+        const tl = gsap.timeline({
+          defaults: { ease: 'power2.inOut' },
+          scrollTrigger: {
+            trigger: wrapper,
+            start: 'top 80%',
+            end: 'bottom 20%',
+            scrub: 1.2,
+          },
+        });
 
-      tl.to(pathEl, { 
-        strokeDashoffset: 0,
-        ease: 'power2.out'
-      }, 0);
+        tl.to(pathEl, { 
+          strokeDashoffset: 0,
+          ease: 'power2.out'
+        }, 0);
 
-      tl.to(arrow, {
-        motionPath: {
-          path: pathEl,
-          align: pathEl,
-          alignOrigin: [0.5, 0.5],
-          autoRotate: true,
-        },
-        ease: 'power2.inOut'
-      }, 0.1);
+        tl.to(arrow, {
+          motionPath: {
+            path: pathEl,
+            align: pathEl,
+            alignOrigin: [0.5, 0.5],
+            autoRotate: true,
+          },
+          ease: 'power2.inOut'
+        }, 0.1);
+      }, 100);
     }
 
     // Reduced motion support
@@ -272,13 +280,21 @@ export const AnimatedJourneySection: React.FC<AnimatedJourneySectionProps> = ({ 
     // Initial layout
     layout();
 
-    // Handle resize
+    // Handle resize and step visibility changes
     const onResize = () => {
       clearTimeout((window as any).__journeyResizeTimeout);
       (window as any).__journeyResizeTimeout = setTimeout(layout, 150);
     };
 
+    const onStepVisibilityChange = () => {
+      clearTimeout((window as any).__journeyStepTimeout);
+      (window as any).__journeyStepTimeout = setTimeout(layout, 200);
+    };
+
     window.addEventListener('resize', onResize);
+    
+    // Re-layout when steps become visible
+    onStepVisibilityChange();
     
     return () => {
       window.removeEventListener('resize', onResize);
@@ -357,7 +373,7 @@ export const AnimatedJourneySection: React.FC<AnimatedJourneySectionProps> = ({ 
         </div>
 
         {/* Journey Steps */}
-        <div className="max-w-4xl mx-auto relative">
+        <div ref={wrapperRef} className="max-w-4xl mx-auto relative">
           {/* SVG Path Overlay */}
           <svg
             ref={svgRef}
