@@ -292,11 +292,11 @@ const AiFreelancingPage = () => {
                     <span className="ml11-letters">Launch Your AI Freelancing Career – For Just $1</span>
                   </span>
                 </h1>
-                <p className="text-xl text-muted-foreground mb-6">
-                  Get your first month of training, tools, and projects at just $1. Start freelancing in AI with no prior experience required.
+                <p className="text-xl text-white mb-6">
+                  This isn't a course — it's a complete freelancing package. Get CRM tools, outreach strategies, marketing support, and real implementation resources that show you exactly how to start making money with AI — all for just $1 in your first month.
                 </p>
                 <div className="bg-red-500/20 border border-red-500/40 rounded-lg p-3 mb-6 max-w-md">
-                  <p className="text-red-300 text-sm font-semibold">⏰ Limited to first 500 freelancers only</p>
+                  <p className="text-red-300 text-sm font-semibold">⏰ Limited to first 100 freelancers only</p>
                   <p className="text-red-200 text-xs">Secure your spot now</p>
                 </div>
                 <Button 
