@@ -260,9 +260,10 @@ export const AnimatedJourneySection: React.FC<AnimatedJourneySectionProps> = ({ 
         cards.forEach((card, index) => {
           const cardRect = card.getBoundingClientRect();
           const wrapperRect = wrapper.getBoundingClientRect();
-          const cardCenter = cardRect.top + cardRect.height / 2 - wrapperRect.top;
+          // Use card top position for better arrow alignment with card start
+          const cardTop = cardRect.top - wrapperRect.top;
           const totalHeight = wrapperRect.height;
-          scrollTargets.push(Math.max(0, Math.min(1, cardCenter / totalHeight)));
+          scrollTargets.push(Math.max(0, Math.min(1, (cardTop + 50) / totalHeight)));
         });
         
         for (let i = 0; i < segments.length; i++) {
@@ -303,9 +304,9 @@ export const AnimatedJourneySection: React.FC<AnimatedJourneySectionProps> = ({ 
 
         ScrollTrigger.create({
           trigger: wrapper,
-          start: 'top top',
-          end: 'bottom bottom',
-          scrub: true,
+          start: 'top 20%',
+          end: 'bottom 80%',
+          scrub: 1,
           onUpdate: (self) => {
             const scrollProgress = self.progress;
             
@@ -594,13 +595,27 @@ export const AnimatedJourneySection: React.FC<AnimatedJourneySectionProps> = ({ 
                       hover:scale-105 hover:shadow-xl hover:shadow-primary/10
                       ${activeSection === step.id ? 'ring-2 ring-primary/30 bg-card/80' : ''}
                     `}>
-                      {/* Glow effect */}
-                      <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-primary/10 via-accent/10 to-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      {/* Colorful Glow effect */}
+                      <div className={`absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
+                        index % 6 === 0 ? 'bg-gradient-to-r from-cyan-500/20 via-blue-500/20 to-purple-500/20' :
+                        index % 6 === 1 ? 'bg-gradient-to-r from-purple-500/20 via-pink-500/20 to-cyan-500/20' :
+                        index % 6 === 2 ? 'bg-gradient-to-r from-green-500/20 via-cyan-500/20 to-blue-500/20' :
+                        index % 6 === 3 ? 'bg-gradient-to-r from-orange-500/20 via-red-500/20 to-pink-500/20' :
+                        index % 6 === 4 ? 'bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-cyan-500/20' :
+                        'bg-gradient-to-r from-pink-500/20 via-purple-500/20 to-blue-500/20'
+                      }`} />
                       
                       <div className="relative z-10">
                         {/* Icon */}
                         <div className="flex items-center gap-4 mb-4">
-                          <div className="p-3 rounded-xl bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300">
+                          <div className={`p-3 rounded-xl transition-all duration-300 ${
+                            index % 6 === 0 ? 'bg-cyan-500/10 text-cyan-500 group-hover:bg-cyan-500 group-hover:text-white' :
+                            index % 6 === 1 ? 'bg-purple-500/10 text-purple-500 group-hover:bg-purple-500 group-hover:text-white' :
+                            index % 6 === 2 ? 'bg-green-500/10 text-green-500 group-hover:bg-green-500 group-hover:text-white' :
+                            index % 6 === 3 ? 'bg-orange-500/10 text-orange-500 group-hover:bg-orange-500 group-hover:text-white' :
+                            index % 6 === 4 ? 'bg-blue-500/10 text-blue-500 group-hover:bg-blue-500 group-hover:text-white' :
+                            'bg-pink-500/10 text-pink-500 group-hover:bg-pink-500 group-hover:text-white'
+                          }`}>
                             {step.icon}
                           </div>
                           <div className="bg-primary text-primary-foreground rounded-full w-8 h-8 flex items-center justify-center font-bold text-sm">
