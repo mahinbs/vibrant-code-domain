@@ -170,8 +170,9 @@ const AiFreelancingPage = () => {
       {/* Hero Section */}
       <section className="pt-32 pb-20 relative overflow-hidden">
         <div ref={vantaRef} className="absolute inset-0 z-0 pointer-events-none" />
-        <GlowBackdrop position="top-right" size="large" color="blue" intensity="medium" />
-        <GlowBackdrop position="bottom-left" size="medium" color="teal" intensity="low" />
+        <GlowBackdrop position="top-right" size="large" color="blue" intensity="high" />
+        <GlowBackdrop position="bottom-left" size="medium" color="teal" intensity="medium" />
+        <GlowBackdrop position="center" size="large" color="purple" intensity="low" className="opacity-30" />
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-6xl mx-auto">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -213,8 +214,9 @@ const AiFreelancingPage = () => {
 
       {/* What You'll Get Section */}
       <section className="py-20 relative">
-        <GlowBackdrop position="top-left" size="large" color="blue" intensity="low" />
-        <GlowBackdrop position="bottom-right" size="small" color="purple" intensity="medium" />
+        <GlowBackdrop position="top-left" size="large" color="blue" intensity="medium" />
+        <GlowBackdrop position="bottom-right" size="medium" color="purple" intensity="high" />
+        <GlowBackdrop position="center" size="small" color="teal" intensity="low" />
         <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-black/70 pointer-events-none z-0"></div>
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-4xl mx-auto text-center mb-16">
@@ -244,9 +246,10 @@ const AiFreelancingPage = () => {
 
       {/* Why This is Different */}
       <section className="py-20 relative">
-        <GlowBackdrop position="bottom-right" size="medium" color="purple" intensity="medium" />
-        <GlowBackdrop position="top-left" size="small" color="teal" intensity="low" />
-        <GlowBackdrop position="center" size="large" color="blue" intensity="low" className="opacity-20" />
+        <GlowBackdrop position="bottom-right" size="large" color="purple" intensity="high" />
+        <GlowBackdrop position="top-left" size="medium" color="teal" intensity="medium" />
+        <GlowBackdrop position="center" size="large" color="blue" intensity="medium" className="opacity-40" />
+        <GlowBackdrop position="top-right" size="small" color="blue" intensity="low" />
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 to-black/50 pointer-events-none z-0"></div>
         <div className="container mx-auto px-6 relative z-10">
           <div className="text-center mb-16">
@@ -269,9 +272,10 @@ const AiFreelancingPage = () => {
 
       {/* Animated Journey Section */}
       <div className="relative">
-        <GlowBackdrop position="center" size="large" color="teal" intensity="low" />
-        <GlowBackdrop position="top-right" size="medium" color="blue" intensity="medium" />
-        <GlowBackdrop position="bottom-left" size="small" color="purple" intensity="high" />
+        <GlowBackdrop position="center" size="large" color="teal" intensity="medium" />
+        <GlowBackdrop position="top-right" size="large" color="blue" intensity="high" />
+        <GlowBackdrop position="bottom-left" size="medium" color="purple" intensity="high" />
+        <GlowBackdrop position="top-left" size="small" color="teal" intensity="low" />
         <AnimatedJourneySection onCtaClick={scrollToForm} />
       </div>
 
@@ -279,8 +283,9 @@ const AiFreelancingPage = () => {
 
       {/* FAQ Section */}
       <section className="py-20 relative">
-        <GlowBackdrop position="top-right" size="medium" color="blue" intensity="medium" />
-        <GlowBackdrop position="bottom-left" size="large" color="teal" intensity="low" />
+        <GlowBackdrop position="top-right" size="large" color="blue" intensity="high" />
+        <GlowBackdrop position="bottom-left" size="large" color="teal" intensity="medium" />
+        <GlowBackdrop position="center" size="medium" color="purple" intensity="low" />
         <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-black/70 pointer-events-none z-0"></div>
         <div className="container mx-auto px-6 relative z-10">
           <div className="text-center mb-16">
@@ -302,8 +307,9 @@ const AiFreelancingPage = () => {
       {/* Final CTA Section */}
       <section id="lead-form" className="py-20 relative">
         <GlowBackdrop position="bottom-left" size="large" color="purple" intensity="high" />
-        <GlowBackdrop position="top-right" size="medium" color="blue" intensity="medium" />
-        <GlowBackdrop position="center" size="small" color="teal" intensity="low" />
+        <GlowBackdrop position="top-right" size="large" color="blue" intensity="high" />
+        <GlowBackdrop position="center" size="medium" color="teal" intensity="medium" />
+        <GlowBackdrop position="bottom-right" size="small" color="blue" intensity="low" />
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 to-black/90 pointer-events-none z-0"></div>
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-2xl mx-auto text-center">

@@ -55,11 +55,11 @@ const GlowBackdrop: React.FC<GlowBackdropProps> = ({
   const getIntensityClasses = () => {
     switch (intensity) {
       case 'low':
-        return 'opacity-30';
+        return 'opacity-40';
       case 'high':
-        return 'opacity-70';
+        return 'opacity-90';
       default:
-        return 'opacity-50';
+        return 'opacity-70';
     }
   };
 
@@ -72,7 +72,7 @@ const GlowBackdrop: React.FC<GlowBackdropProps> = ({
         motion-reduce:animate-none ${className}
       `}
       style={{
-        filter: 'blur(80px)',
+        filter: 'blur(100px)',
         animation: 'pulse 6s ease-in-out infinite',
         mixBlendMode: 'screen'
       }}
