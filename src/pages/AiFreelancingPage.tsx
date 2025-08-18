@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import StickyButton from '@/components/ui/StickyButton';
+import { AnimatedJourneySection } from '@/components/journey/AnimatedJourneySection';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
@@ -253,33 +254,8 @@ const AiFreelancingPage = () => {
         </div>
       </section>
 
-      {/* Step-by-Step Journey */}
-      <section className="py-20 bg-muted/50">
-        <div className="container mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Your Journey to Success</h2>
-            <p className="text-xl text-muted-foreground">Simple steps to start earning with AI freelancing</p>
-          </div>
-          <div className="max-w-4xl mx-auto">
-            {steps.map((step, index) => (
-              <div key={index} className="flex items-start gap-6 mb-8 last:mb-0">
-                <div className="bg-primary text-primary-foreground rounded-full w-12 h-12 flex items-center justify-center font-bold text-lg flex-shrink-0">
-                  {step.number}
-                </div>
-                <div className="pt-2">
-                  <h3 className="text-xl font-semibold mb-2">{step.title}</h3>
-                  <p className="text-muted-foreground">{step.description}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="text-center mt-12">
-            <Button onClick={scrollToForm} size="lg">
-              Take the First Step for $1
-            </Button>
-          </div>
-        </div>
-      </section>
+      {/* Animated Journey Section */}
+      <AnimatedJourneySection onCtaClick={scrollToForm} />
 
       {/* FAQ Section */}
       <section className="py-20">
