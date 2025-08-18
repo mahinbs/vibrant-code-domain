@@ -27,6 +27,7 @@ const AiFreelancingPage = () => {
     const initVanta = () => {
       if (!vantaRef.current || vantaInstance.current || !(window as any).VANTA?.WAVES) return;
       
+      console.log('Initializing Vanta Waves background');
       vantaInstance.current = (window as any).VANTA.WAVES({
         el: vantaRef.current,
         mouseControls: true,
@@ -164,7 +165,7 @@ const AiFreelancingPage = () => {
       
       {/* Hero Section */}
       <section className="pt-32 pb-20 relative overflow-hidden">
-        <div ref={vantaRef} className="absolute inset-0 -z-10" />
+        <div ref={vantaRef} className="absolute inset-0 z-0 pointer-events-none" />
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-6xl mx-auto">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
