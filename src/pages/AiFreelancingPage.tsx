@@ -328,8 +328,8 @@ const AiFreelancingPage = () => {
                 title="Use BoostMySites branding"
                 subtitle="Sell under established brand"
                 icon={
-                  <div className="icon-circle w-8 h-8 bg-secondary/20 rounded-full flex items-center justify-center mx-auto">
-                    <Check className="icon w-4 h-4 text-secondary" />
+                  <div className="icon-circle w-8 h-8 rounded-full flex items-center justify-center mx-auto">
+                    <Check className="icon w-4 h-4" />
                   </div>
                 }
               />
@@ -338,8 +338,8 @@ const AiFreelancingPage = () => {
                 title="Real portfolio projects"
                 subtitle="Proven case studies for credibility"
                 icon={
-                  <div className="icon-circle w-8 h-8 bg-accent/20 rounded-full flex items-center justify-center mx-auto">
-                    <Briefcase className="icon w-4 h-4 text-accent" />
+                  <div className="icon-circle w-8 h-8 rounded-full flex items-center justify-center mx-auto">
+                    <Briefcase className="icon w-4 h-4" />
                   </div>
                 }
               />
@@ -348,8 +348,8 @@ const AiFreelancingPage = () => {
                 title="Competitive pricing templates"
                 subtitle="Win more clients with proven rates"
                 icon={
-                  <div className="icon-circle w-8 h-8 bg-primary/20 rounded-full flex items-center justify-center mx-auto">
-                    <Target className="icon w-4 h-4 text-primary" />
+                  <div className="icon-circle w-8 h-8 rounded-full flex items-center justify-center mx-auto">
+                    <Target className="icon w-4 h-4" />
                   </div>
                 }
               />
@@ -358,8 +358,8 @@ const AiFreelancingPage = () => {
                 title="Complete handholding"
                 subtitle="From start to first payment"
                 icon={
-                  <div className="icon-circle w-8 h-8 bg-secondary/20 rounded-full flex items-center justify-center mx-auto">
-                    <HeadphonesIcon className="icon w-4 h-4 text-secondary" />
+                  <div className="icon-circle w-8 h-8 rounded-full flex items-center justify-center mx-auto">
+                    <HeadphonesIcon className="icon w-4 h-4" />
                   </div>
                 }
               />
@@ -368,8 +368,8 @@ const AiFreelancingPage = () => {
                 title="Dedicated support team"
                 subtitle="Every aspect covered 24/7"
                 icon={
-                  <div className="icon-circle w-8 h-8 bg-accent/20 rounded-full flex items-center justify-center mx-auto">
-                    <Users className="icon w-4 h-4 text-accent" />
+                  <div className="icon-circle w-8 h-8 rounded-full flex items-center justify-center mx-auto">
+                    <Users className="icon w-4 h-4" />
                   </div>
                 }
               />

@@ -36,9 +36,11 @@ const ProofCard = ({
           className="
             relative z-10 flex items-center justify-center gap-1 mb-2
             transition-transform duration-300 group-hover:scale-110
-            [&_.icon]:transition-colors group-hover:[&_.icon]:text-white
-            [&_.icon-circle]:transition-all group-hover:[&_.icon-circle]:bg-gradient-to-br
-            group-hover:[&_.icon-circle]:from-primary/40 group-hover:[&_.icon-circle]:to-secondary/40
+            [&_.icon]:text-white/80 [&_.icon]:transition-colors group-hover:[&_.icon]:text-white
+            [&_.icon-circle]:bg-white/10 [&_.icon-circle]:ring-1 [&_.icon-circle]:ring-white/20 
+            [&_.icon-circle]:shadow-[0_0_20px_rgba(255,255,255,0.15)] [&_.icon-circle]:transition-all
+            group-hover:[&_.icon-circle]:bg-gradient-to-br group-hover:[&_.icon-circle]:from-primary/40 
+            group-hover:[&_.icon-circle]:to-secondary/40 group-hover:[&_.icon-circle]:ring-primary/30
             group-hover:[&_.icon-circle]:shadow-[0_0_28px_rgba(59,130,246,0.35)]
           "
         >
