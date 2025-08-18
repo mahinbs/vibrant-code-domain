@@ -24,7 +24,7 @@ const Hero = memo(() => {
         scale: 1.00,
         scaleMobile: 1.00,
         color: 0x16,
-        shininess: 33.00,
+        shininess: 67.00,
         waveHeight: 18.00,
         waveSpeed: 0.90,
         zoom: 1.16
