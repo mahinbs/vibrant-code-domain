@@ -7,7 +7,6 @@ import About from '@/components/About';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
 import HomeCTASection from '@/components/HomeCTASection';
-import WebinarSocialProof from '@/components/WebinarSocialProof';
 
 const Index = () => {
   return (
@@ -21,7 +20,6 @@ const Index = () => {
           <Services />
         </div>
         <PortfolioSection />
-        <WebinarSocialProof />
         <HomeCTASection />
         <div id="about">
           <About />
