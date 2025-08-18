@@ -722,3 +722,8 @@ video {
   line-height: 1em;
   opacity: 0;
 }
+
+.ml11-word {
+  white-space: nowrap;
+  display: inline-block;
+}

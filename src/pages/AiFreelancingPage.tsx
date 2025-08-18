@@ -108,12 +108,23 @@ const AiFreelancingPage = () => {
   useEffect(() => {
     if (!heroHeadingRef.current) return;
 
-    // Wrap every letter in a span
+    // Wrap words first, then letters within words
     const lettersElement = heroHeadingRef.current.querySelector('.ml11-letters');
     if (!lettersElement) return;
 
     const text = lettersElement.textContent || '';
-    lettersElement.innerHTML = text.replace(/([^\x00-\x80]|\w)/g, "<span class='ml11-letter'>$&</span>");
+    
+    // Split by words and wrap each word, then wrap letters within words
+    const wordsHtml = text.split(' ').map(word => {
+      const lettersHtml = word.replace(/([^\x00-\x80]|\w)/g, "<span class='ml11-letter'>$&</span>");
+      return `<span class="ml11-word">${lettersHtml}</span>`;
+    }).join(' ');
+    
+    lettersElement.innerHTML = wordsHtml;
+
+    // Set initial state - all letters hidden
+    gsap.set('.ml11-letter', { opacity: 0 });
+    gsap.set('.ml11-line', { scaleY: 0, opacity: 0.5, x: 0 });
 
     // Check for reduced motion preference
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
