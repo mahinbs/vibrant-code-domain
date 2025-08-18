@@ -379,10 +379,10 @@ const AiFreelancingPage = () => {
             </div>
             
             {/* Powered by BoostMySites BaaS - Within Hero */}
-            <div className="mt-16 pt-12">
-              <div className="text-center mb-8">
-                <h3 className="text-3xl font-bold text-white mb-2">
-                  Powered by BoostMySites BaaS
+            <div className="mt-12">
+              <div className="text-center mb-4">
+                <h3 className="text-2xl font-bold text-white mb-1">
+                  Powered by Boostmysites Business-As-A-Service
                 </h3>
               </div>
               <FeaturedLogosMarquee 

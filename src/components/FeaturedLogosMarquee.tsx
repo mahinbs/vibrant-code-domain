@@ -36,25 +36,17 @@ const FeaturedLogosMarquee = ({
     },
   ];
 
-  const duplicatedLogos = [...logos, ...logos];
-  
   return (
-    <div className="w-full overflow-hidden py-8">
+    <div className="w-full overflow-hidden py-4">
       {showTitle && (
-        <div className="flex items-center justify-center mb-8">
+        <div className="flex items-center justify-center mb-6">
           <p className="text-muted-foreground text-lg font-medium">{titleText}</p>
         </div>
       )}
 
       <div className="relative">
-        <div 
-          className="flex items-center space-x-12 animate-marquee"
-          style={{
-            animation: `marquee-${direction} ${speed}s linear infinite`,
-            width: 'max-content',
-          }}
-        >
-          {duplicatedLogos.map((logo, index) => (
+        <div className="flex items-center justify-center space-x-12 animate-bounce-slow">
+          {logos.map((logo, index) => (
             <div
               key={`${logo.name}-${index}`}
               className="flex-shrink-0 transition-all duration-300 hover:scale-105 group"
@@ -76,30 +68,21 @@ const FeaturedLogosMarquee = ({
       </div>
 
       <style>{`
-        @keyframes marquee-left {
-          0% {
-            transform: translateX(0);
+        @keyframes bounce-slow {
+          0%, 100% {
+            transform: translateY(0);
           }
-          100% {
-            transform: translateX(-50%);
-          }
-        }
-        
-        @keyframes marquee-right {
-          0% {
-            transform: translateX(-50%);
-          }
-          100% {
-            transform: translateX(0);
+          50% {
+            transform: translateY(-10px);
           }
         }
         
-        .animate-marquee {
-          animation: marquee-left ${speed}s linear infinite;
+        .animate-bounce-slow {
+          animation: bounce-slow 3s ease-in-out infinite;
         }
         
         @media (prefers-reduced-motion: reduce) {
-          .animate-marquee {
+          .animate-bounce-slow {
             animation: none;
           }
         }
