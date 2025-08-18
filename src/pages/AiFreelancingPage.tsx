@@ -162,7 +162,7 @@ const AiFreelancingPage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-black text-white dark">
       <Header />
       
       {/* Hero Section */}
@@ -188,7 +188,7 @@ const AiFreelancingPage = () => {
                 </Button>
               </div>
               <div className="relative">
-                <div className="bg-card border rounded-xl p-8 shadow-lg">
+                <div className="bg-card/40 backdrop-blur-sm border border-white/10 rounded-xl p-8 shadow-lg">
                   <div className="flex items-center justify-center h-64 bg-muted rounded-lg mb-4 relative group cursor-pointer">
                     <Play className="w-16 h-16 text-primary group-hover:scale-110 transition-transform" />
                     <div className="absolute inset-0 bg-black/50 rounded-lg flex items-center justify-center">
@@ -206,15 +206,16 @@ const AiFreelancingPage = () => {
       </section>
 
       {/* What You'll Get Section */}
-      <section className="py-20 bg-muted/50">
-        <div className="container mx-auto px-6">
+      <section className="py-20 relative">
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-black/70 pointer-events-none"></div>
+        <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-4xl mx-auto text-center mb-16">
             <h2 className="text-4xl font-bold mb-4">What You'll Get for Just $1</h2>
             <p className="text-xl text-muted-foreground">Everything you need to start your AI freelancing journey</p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {benefits.map((benefit, index) => (
-              <div key={index} className="bg-card border rounded-xl p-6 text-center hover:shadow-lg transition-all">
+              <div key={index} className="bg-card/40 backdrop-blur-sm border border-white/10 rounded-xl p-6 text-center hover:bg-card/60 transition-all">
                 <div className="flex justify-center mb-4">
                   {benefit.icon}
                 </div>
@@ -232,12 +233,13 @@ const AiFreelancingPage = () => {
       </section>
 
       {/* Why This is Different */}
-      <section className="py-20">
-        <div className="container mx-auto px-6">
+      <section className="py-20 relative">
+        <div className="absolute inset-0 bg-gradient-to-b from-black/70 to-black/50 pointer-events-none"></div>
+        <div className="container mx-auto px-6 relative z-10">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4">Why This is Different</h2>
             <FeaturedLogosMarquee />
-            <div className="bg-primary/10 border border-primary/20 rounded-xl p-6 max-w-2xl mx-auto">
+            <div className="bg-primary/10 backdrop-blur-sm border border-primary/20 rounded-xl p-6 max-w-2xl mx-auto">
               <div className="flex items-center justify-center gap-2 mb-2">
                 {[...Array(5)].map((_, i) => (
                   <Star key={i} className="w-5 h-5 fill-primary text-primary" />
@@ -254,14 +256,15 @@ const AiFreelancingPage = () => {
       <AnimatedJourneySection onCtaClick={scrollToForm} />
 
       {/* FAQ Section */}
-      <section className="py-20">
-        <div className="container mx-auto px-6">
+      <section className="py-20 relative">
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-black/70 pointer-events-none"></div>
+        <div className="container mx-auto px-6 relative z-10">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4">Frequently Asked Questions</h2>
           </div>
           <div className="max-w-3xl mx-auto">
             {faqs.map((faq, index) => (
-              <div key={index} className="bg-card border rounded-xl p-6 mb-4">
+              <div key={index} className="bg-card/40 backdrop-blur-sm border border-white/10 rounded-xl p-6 mb-4 hover:bg-card/60 transition-all">
                 <h3 className="font-semibold mb-2">{faq.question}</h3>
                 <p className="text-muted-foreground">{faq.answer}</p>
               </div>
@@ -271,14 +274,15 @@ const AiFreelancingPage = () => {
       </section>
 
       {/* Final CTA Section */}
-      <section id="lead-form" className="py-20 bg-primary/5">
-        <div className="container mx-auto px-6">
+      <section id="lead-form" className="py-20 relative">
+        <div className="absolute inset-0 bg-gradient-to-b from-black/70 to-black/90 pointer-events-none"></div>
+        <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-2xl mx-auto text-center">
             <h2 className="text-4xl font-bold mb-4">Your AI Freelancing Journey Starts Today</h2>
             <p className="text-xl text-muted-foreground mb-8">For the price of a coffee</p>
             
             {isFormVisible && (
-              <form onSubmit={handleFormSubmit} className="bg-card border rounded-xl p-8 shadow-lg">
+              <form onSubmit={handleFormSubmit} className="bg-card/40 backdrop-blur-sm border border-white/10 rounded-xl p-8 shadow-lg">
                 <div className="space-y-4">
                   <Input
                     type="text"
@@ -299,6 +303,7 @@ const AiFreelancingPage = () => {
                     placeholder="Your Phone (Optional)"
                     value={formData.phone}
                     onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                    required
                   />
                   <Button 
                     type="submit" 
@@ -324,7 +329,7 @@ const AiFreelancingPage = () => {
       {/* Exit Intent Popup */}
       {showExitIntent && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-          <div className="bg-card border rounded-xl p-8 max-w-md w-full relative">
+          <div className="bg-card/90 backdrop-blur-sm border border-white/10 rounded-xl p-8 max-w-md w-full relative">
             <button 
               onClick={() => setShowExitIntent(false)}
               className="absolute top-4 right-4 text-muted-foreground hover:text-foreground"
