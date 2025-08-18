@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import StickyButton from '@/components/ui/StickyButton';
@@ -34,6 +35,7 @@ const AiFreelancingPage = () => {
   
   const vantaRef = useRef<HTMLDivElement | null>(null);
   const vantaInstance = useRef<any>(null);
+  const heroHeadingRef = useRef<HTMLHeadingElement | null>(null);
 
   // Vanta Waves background effect
   useEffect(() => {
@@ -101,6 +103,62 @@ const AiFreelancingPage = () => {
     document.addEventListener('mouseleave', handleMouseLeave);
     return () => document.removeEventListener('mouseleave', handleMouseLeave);
   }, [showExitIntent]);
+
+  // ML11 Animation Effect
+  useEffect(() => {
+    if (!heroHeadingRef.current) return;
+
+    // Wrap every letter in a span
+    const lettersElement = heroHeadingRef.current.querySelector('.ml11-letters');
+    if (!lettersElement) return;
+
+    const text = lettersElement.textContent || '';
+    lettersElement.innerHTML = text.replace(/([^\x00-\x80]|\w)/g, "<span class='ml11-letter'>$&</span>");
+
+    // Check for reduced motion preference
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) {
+      gsap.set('.ml11-letter', { opacity: 1 });
+      return;
+    }
+
+    // Create GSAP timeline
+    const tl = gsap.timeline({ repeat: -1, delay: 1 });
+
+    tl.fromTo('.ml11-line', 
+      { scaleY: 0, opacity: 0.5 },
+      { scaleY: 1, opacity: 1, duration: 0.7, ease: "expo.out" }
+    )
+    .to('.ml11-line', {
+      x: () => {
+        const lettersWidth = lettersElement?.getBoundingClientRect().width || 0;
+        return lettersWidth + 10;
+      },
+      duration: 0.7,
+      ease: "expo.out",
+      delay: 0.1
+    })
+    .fromTo('.ml11-letter',
+      { opacity: 0 },
+      { 
+        opacity: 1,
+        duration: 0.6,
+        ease: "expo.out",
+        stagger: 0.034
+      },
+      "-=0.775"
+    )
+    .to('.ml11', {
+      opacity: 0,
+      duration: 1,
+      ease: "expo.out",
+      delay: 1
+    })
+    .set('.ml11', { opacity: 1 })
+    .set('.ml11-line', { scaleY: 0, opacity: 0.5, x: 0 })
+    .set('.ml11-letter', { opacity: 0 });
+
+  }, []);
 
   const scrollToForm = () => {
     setIsFormVisible(true);
@@ -217,9 +275,12 @@ const AiFreelancingPage = () => {
           <div className="max-w-6xl mx-auto">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div>
-                <Title as="h1" className="text-5xl md:text-6xl mb-6">
-                  Launch Your <span className="text-primary">AI Freelancing</span> Career – For Just <span className="text-secondary">$1</span>
-                </Title>
+                <h1 ref={heroHeadingRef} className="ml11 text-5xl md:text-6xl mb-6 font-bold">
+                  <span className="ml11-text-wrapper">
+                    <span className="ml11-line"></span>
+                    <span className="ml11-letters">Launch Your AI Freelancing Career – For Just $1</span>
+                  </span>
+                </h1>
                 <p className="text-xl text-muted-foreground mb-6">
                   Get your first month of training, tools, and projects at just $1. Start freelancing in AI with no prior experience required.
                 </p>
