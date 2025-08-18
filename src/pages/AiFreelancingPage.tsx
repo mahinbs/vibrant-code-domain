@@ -354,6 +354,12 @@ const AiFreelancingPage = () => {
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
                 <TrustBadges />
+                
+                {/* Featured in section */}
+                <div className="mt-8">
+                  <p className="text-gray-400 text-sm mb-4 text-center">Powered by BoostMySites BaaS</p>
+                  <FeaturedLogosMarquee />
+                </div>
               </div>
               <div className="relative">
                 <div className="bg-card/40 backdrop-blur-sm border border-white/10 rounded-xl p-8 shadow-lg">
@@ -384,124 +390,13 @@ const AiFreelancingPage = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
       </div>
 
-      {/* What You'll Get Section */}
-      <section className="py-20 relative">
-        <GlowBackdrop position="top-left" size="large" color="blue" intensity="medium" />
-        <GlowBackdrop position="bottom-right" size="medium" color="purple" intensity="high" />
-        <GlowBackdrop position="center" size="small" color="teal" intensity="low" />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-black/70 pointer-events-none z-0"></div>
-        <div className="container mx-auto px-6 relative z-10">
-          <div className="max-w-4xl mx-auto text-center mb-16">
-            <Title className="text-4xl mb-4">What You'll Get for Just $1</Title>
-            <p className="text-xl text-muted-foreground mb-6">Everything you need to start your AI freelancing journey</p>
-            <div className="inline-block bg-primary/20 border border-primary/40 rounded-full px-6 py-2">
-              <p className="text-primary font-bold text-lg">$2,000+ value — yours for $1 trial</p>
-            </div>
-          </div>
-          <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-6xl mx-auto mb-12">
-            {benefits.map((benefit, index) => (
-              <ProofCard
-                key={index}
-                title={benefit.title}
-                subtitle={benefit.description}
-                icon={benefit.icon}
-              />
-            ))}
-          </div>
-          <div className="text-center">
-            <Button onClick={scrollToForm} variant="outline" size="lg" className="mb-4">
-              Start Now – Just $1
-            </Button>
-            <TrustBadges />
-          </div>
-        </div>
-      </section>
-
-      <SectionDivider />
-
-      {/* Why This is Different */}
-      <section className="py-20 relative">
-        <GlowBackdrop position="bottom-right" size="large" color="purple" intensity="high" />
-        <GlowBackdrop position="top-left" size="medium" color="teal" intensity="medium" />
-        <GlowBackdrop position="center" size="large" color="blue" intensity="medium" className="opacity-40" />
-        <GlowBackdrop position="top-right" size="small" color="blue" intensity="low" />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/70 to-black/50 pointer-events-none z-0"></div>
-        <div className="container mx-auto px-6 relative z-10">
-          <div className="text-center mb-16">
-            <Title className="text-4xl mb-4">Why This is Different</Title>
-            <FeaturedLogosMarquee />
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-4xl mx-auto mb-8">
-              <ProofCard
-                title="70% got first client in 30 days"
-                subtitle="Program completion data"
-                icon={
-                  <div className="flex items-center justify-center gap-1">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 fill-primary text-primary" />
-                    ))}
-                  </div>
-                }
-              />
-              
-              <ProofCard
-                title="Use BoostMySites branding"
-                subtitle="Sell under established brand"
-                icon={
-                  <div className="icon-circle w-8 h-8 rounded-full flex items-center justify-center mx-auto">
-                    <Check className="icon w-4 h-4" />
-                  </div>
-                }
-              />
-              
-              <ProofCard
-                title="Real portfolio projects"
-                subtitle="Proven case studies for credibility"
-                icon={
-                  <div className="icon-circle w-8 h-8 rounded-full flex items-center justify-center mx-auto">
-                    <Briefcase className="icon w-4 h-4" />
-                  </div>
-                }
-              />
-              
-              <ProofCard
-                title="Competitive pricing templates"
-                subtitle="Win more clients with proven rates"
-                icon={
-                  <div className="icon-circle w-8 h-8 rounded-full flex items-center justify-center mx-auto">
-                    <Target className="icon w-4 h-4" />
-                  </div>
-                }
-              />
-              
-              <ProofCard
-                title="Complete handholding"
-                subtitle="From start to first payment"
-                icon={
-                  <div className="icon-circle w-8 h-8 rounded-full flex items-center justify-center mx-auto">
-                    <HeadphonesIcon className="icon w-4 h-4" />
-                  </div>
-                }
-              />
-              
-              <ProofCard
-                title="Dedicated support team"
-                subtitle="Every aspect covered 24/7"
-                icon={
-                  <div className="icon-circle w-8 h-8 rounded-full flex items-center justify-center mx-auto">
-                    <Users className="icon w-4 h-4" />
-                  </div>
-                }
-              />
-            </div>
-          </div>
-          <div className="text-center mt-12">
-            <Button onClick={scrollToForm} size="lg" className="mb-4">
-              Join the 70% Who Succeed
-            </Button>
-            <TrustBadges />
-          </div>
-        </div>
-      </section>
+      {/* Your Journey to Success Section */}
+      <div className="relative">
+        <GlowBackdrop position="center" size="large" color="teal" intensity="medium" />
+        <GlowBackdrop position="top-right" size="large" color="blue" intensity="high" />
+        <GlowBackdrop position="bottom-left" size="medium" color="purple" intensity="high" />
+        <AnimatedJourneySection onCtaClick={scrollToForm} />
+      </div>
 
       <SectionDivider />
 
@@ -516,17 +411,6 @@ const AiFreelancingPage = () => {
         onCta={scrollToForm}
         background="inherit"
       />
-
-      <SectionDivider />
-
-      {/* Animated Journey Section */}
-      <div className="relative">
-        <GlowBackdrop position="center" size="large" color="teal" intensity="medium" />
-        <GlowBackdrop position="top-right" size="large" color="blue" intensity="high" />
-        <GlowBackdrop position="bottom-left" size="medium" color="purple" intensity="high" />
-        <GlowBackdrop position="top-left" size="small" color="teal" intensity="low" />
-        <AnimatedJourneySection onCtaClick={scrollToForm} />
-      </div>
 
       <SectionDivider />
 
@@ -557,6 +441,41 @@ const AiFreelancingPage = () => {
           <div className="text-center mt-12">
             <Button onClick={scrollToForm} size="lg" className="mb-4">
               Still Have Questions? Start for $1
+            </Button>
+            <TrustBadges />
+          </div>
+        </div>
+      </section>
+
+      <SectionDivider />
+
+      {/* What You'll Get for Just $1 Section */}
+      <section className="py-20 relative">
+        <GlowBackdrop position="top-left" size="large" color="blue" intensity="medium" />
+        <GlowBackdrop position="bottom-right" size="medium" color="purple" intensity="high" />
+        <GlowBackdrop position="center" size="small" color="teal" intensity="low" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-black/70 pointer-events-none z-0"></div>
+        <div className="container mx-auto px-6 relative z-10">
+          <div className="max-w-4xl mx-auto text-center mb-16">
+            <Title className="text-4xl mb-4">What You'll Get for Just $1</Title>
+            <p className="text-xl text-muted-foreground mb-6">Everything you need to start your AI freelancing journey</p>
+            <div className="inline-block bg-primary/20 border border-primary/40 rounded-full px-6 py-2">
+              <p className="text-primary font-bold text-lg">$2,000+ value — yours for $1 trial</p>
+            </div>
+          </div>
+          <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-6xl mx-auto mb-12">
+            {benefits.map((benefit, index) => (
+              <ProofCard
+                key={index}
+                title={benefit.title}
+                subtitle={benefit.description}
+                icon={benefit.icon}
+              />
+            ))}
+          </div>
+          <div className="text-center">
+            <Button onClick={scrollToForm} variant="outline" size="lg" className="mb-4">
+              Start Now – Just $1
             </Button>
             <TrustBadges />
           </div>
