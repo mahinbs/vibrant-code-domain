@@ -377,30 +377,28 @@ const AiFreelancingPage = () => {
                 </div>
               </div>
             </div>
+            
+            {/* Powered by BoostMySites BaaS - Within Hero */}
+            <div className="mt-16 pt-12">
+              <div className="text-center mb-8">
+                <h3 className="text-3xl font-bold text-white mb-2">
+                  Powered by BoostMySites BaaS
+                </h3>
+              </div>
+              <FeaturedLogosMarquee 
+                direction="left" 
+                speed={30} 
+                showTitle={true}
+                titleText="As featured in"
+              />
+            </div>
           </div>
+        </div>
+        
+        <div className="relative w-full h-px mt-8">
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
         </div>
       </section>
-
-      {/* Powered by BoostMySites BaaS - Full Width */}
-      <div className="w-full bg-black/20 backdrop-blur-sm border-y border-white/10 py-12">
-        <div className="container mx-auto px-6">
-          <div className="text-center mb-8">
-            <h3 className="text-3xl font-bold text-white mb-2">
-              Powered by BoostMySites BaaS
-            </h3>
-          </div>
-          <FeaturedLogosMarquee 
-            direction="left" 
-            speed={30} 
-            showTitle={true}
-            titleText="As featured in"
-          />
-        </div>
-      </div>
-
-      <div className="relative w-full h-px -mt-px">
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-      </div>
 
       {/* Your Journey to Success Section */}
       <div className="relative">
