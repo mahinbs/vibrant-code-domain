@@ -3,6 +3,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import StickyButton from '@/components/ui/StickyButton';
 import { AnimatedJourneySection } from '@/components/journey/AnimatedJourneySection';
+import FeaturedLogosMarquee from '@/components/FeaturedLogosMarquee';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
@@ -235,12 +236,7 @@ const AiFreelancingPage = () => {
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4">Why This is Different</h2>
-            <div className="flex justify-center items-center gap-8 mb-8 flex-wrap">
-              <div className="text-muted-foreground font-medium">Featured in:</div>
-              <div className="bg-card border rounded-lg px-4 py-2">Forbes</div>
-              <div className="bg-card border rounded-lg px-4 py-2">Entrepreneur</div>
-              <div className="bg-card border rounded-lg px-4 py-2">Times of India</div>
-            </div>
+            <FeaturedLogosMarquee />
             <div className="bg-primary/10 border border-primary/20 rounded-xl p-6 max-w-2xl mx-auto">
               <div className="flex items-center justify-center gap-2 mb-2">
                 {[...Array(5)].map((_, i) => (
