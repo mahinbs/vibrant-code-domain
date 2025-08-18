@@ -277,7 +277,7 @@ const AiFreelancingPage = () => {
       <Header />
       
       {/* Hero Section */}
-      <section className="pt-32 pb-20 relative overflow-hidden">
+      <section className="pt-40 md:pt-44 lg:pt-48 pb-20 relative overflow-hidden">
         <div ref={vantaRef} className="absolute inset-0 z-0 pointer-events-none" />
         <GlowBackdrop position="top-right" size="large" color="blue" intensity="high" />
         <GlowBackdrop position="bottom-left" size="medium" color="teal" intensity="medium" />
@@ -334,7 +334,9 @@ const AiFreelancingPage = () => {
         </div>
       </section>
 
-      <SectionDivider />
+      <div className="relative w-full h-px -mt-px">
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+      </div>
 
       {/* What You'll Get Section */}
       <section className="py-20 relative">
