@@ -11,11 +11,16 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
 import { supabase } from '@/integrations/supabase/client';
-import { Play, Check, Star, ArrowRight, X } from 'lucide-react';
+import { Play, Check, Star, ArrowRight, X, Target, Users, Briefcase, BookOpen, Zap, HeadphonesIcon } from 'lucide-react';
+import TrustBadges from '@/components/ui/TrustBadges';
+import TestimonialsSection from '@/components/ui/TestimonialsSection';
+import VideoModal from '@/components/ui/VideoModal';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 const AiFreelancingPage = () => {
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [showExitIntent, setShowExitIntent] = useState(false);
+  const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -116,24 +121,34 @@ const AiFreelancingPage = () => {
 
   const benefits = [
     {
-      icon: <Check className="w-6 h-6 text-primary" />,
-      title: "1 Month AI Freelancing Training",
-      description: "Step-by-step roadmap from beginner to earning freelancer"
+      icon: <BookOpen className="w-8 h-8 text-primary" />,
+      title: "Training",
+      description: "Complete AI freelancing course"
     },
     {
-      icon: <Check className="w-6 h-6 text-primary" />,
-      title: "Access to CRM & AI Tools",
-      description: "Ready-to-use tools with no setup needed"
+      icon: <Target className="w-8 h-8 text-primary" />,
+      title: "CRM + Tools",
+      description: "Ready-to-use systems"
     },
     {
-      icon: <Check className="w-6 h-6 text-primary" />,
-      title: "Real Client Proposals & Projects", 
-      description: "Hands-on practice with actual client work"
+      icon: <Briefcase className="w-8 h-8 text-primary" />,
+      title: "Proposals + Projects",
+      description: "Real client templates"
     },
     {
-      icon: <Check className="w-6 h-6 text-primary" />,
-      title: "Dedicated Support Team",
-      description: "We guide you at every step of your journey"
+      icon: <HeadphonesIcon className="w-8 h-8 text-primary" />,
+      title: "Support Team",
+      description: "24/7 guidance"
+    },
+    {
+      icon: <Zap className="w-8 h-8 text-primary" />,
+      title: "Landing Pages",
+      description: "Professional websites"
+    },
+    {
+      icon: <Users className="w-8 h-8 text-primary" />,
+      title: "Mentorship",
+      description: "Expert guidance"
     }
   ];
 
@@ -181,24 +196,36 @@ const AiFreelancingPage = () => {
                 <Title as="h1" className="text-5xl md:text-6xl mb-6">
                   Launch Your <span className="text-primary">AI Freelancing</span> Career – For Just <span className="text-secondary">$1</span>
                 </Title>
-                <p className="text-xl text-muted-foreground mb-8">
+                <p className="text-xl text-muted-foreground mb-6">
                   Get your first month of training, tools, and projects at just $1. Start freelancing in AI with no prior experience required.
                 </p>
+                <div className="bg-red-500/20 border border-red-500/40 rounded-lg p-3 mb-6 max-w-md">
+                  <p className="text-red-300 text-sm font-semibold">⏰ Limited to first 500 freelancers only</p>
+                  <p className="text-red-200 text-xs">Secure your spot now</p>
+                </div>
                 <Button 
                   onClick={scrollToForm}
                   size="lg"
-                  className="text-lg px-8 py-6 h-auto"
+                  className="text-lg px-8 py-6 h-auto mb-4"
                 >
                   Start for Just $1
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
+                <TrustBadges />
               </div>
               <div className="relative">
                 <div className="bg-card/40 backdrop-blur-sm border border-white/10 rounded-xl p-8 shadow-lg">
-                  <div className="flex items-center justify-center h-64 bg-muted rounded-lg mb-4 relative group cursor-pointer">
-                    <Play className="w-16 h-16 text-primary group-hover:scale-110 transition-transform" />
-                    <div className="absolute inset-0 bg-black/50 rounded-lg flex items-center justify-center">
-                      <span className="text-white text-sm font-medium">Demo Video - 1 Minute</span>
+                  <div 
+                    onClick={() => setIsVideoModalOpen(true)}
+                    className="flex items-center justify-center h-64 bg-muted rounded-lg mb-4 relative group cursor-pointer hover:bg-muted/80 transition-all"
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-lg"></div>
+                    <div className="relative z-10 text-center">
+                      <div className="w-20 h-20 bg-primary rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+                        <Play className="w-8 h-8 text-white ml-1" />
+                      </div>
+                      <p className="text-white font-semibold">Watch: How you'll start freelancing for $1</p>
+                      <p className="text-gray-300 text-sm mt-1">1 minute demo</p>
                     </div>
                   </div>
                   <p className="text-sm text-muted-foreground text-center">
@@ -222,23 +249,27 @@ const AiFreelancingPage = () => {
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-4xl mx-auto text-center mb-16">
             <Title className="text-4xl mb-4">What You'll Get for Just $1</Title>
-            <p className="text-xl text-muted-foreground">Everything you need to start your AI freelancing journey</p>
+            <p className="text-xl text-muted-foreground mb-6">Everything you need to start your AI freelancing journey</p>
+            <div className="inline-block bg-primary/20 border border-primary/40 rounded-full px-6 py-2">
+              <p className="text-primary font-bold text-lg">$2,000+ value — yours for $1 trial</p>
+            </div>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-3 lg:grid-cols-3 gap-6 max-w-4xl mx-auto mb-12">
             {benefits.map((benefit, index) => (
-              <div key={index} className="bg-card/40 backdrop-blur-sm border border-white/10 rounded-xl p-6 text-center hover:bg-card/60 transition-all">
-                <div className="flex justify-center mb-4">
+              <div key={index} className="bg-card/40 backdrop-blur-sm border border-white/10 rounded-xl p-6 text-center hover:bg-card/60 transition-all group">
+                <div className="flex justify-center mb-4 group-hover:scale-110 transition-transform">
                   {benefit.icon}
                 </div>
-                <h3 className="font-semibold mb-2">{benefit.title}</h3>
+                <h3 className="font-semibold mb-2 text-lg">{benefit.title}</h3>
                 <p className="text-sm text-muted-foreground">{benefit.description}</p>
               </div>
             ))}
           </div>
-          <div className="text-center mt-12">
-            <Button onClick={scrollToForm} variant="outline" size="lg">
+          <div className="text-center">
+            <Button onClick={scrollToForm} variant="outline" size="lg" className="mb-4">
               Start Now – Just $1
             </Button>
+            <TrustBadges />
           </div>
         </div>
       </section>
@@ -266,8 +297,16 @@ const AiFreelancingPage = () => {
               <p className="text-sm text-muted-foreground">Based on our program completion data</p>
             </div>
           </div>
+          <div className="text-center mt-12">
+            <Button onClick={scrollToForm} size="lg" className="mb-4">
+              Join the 70% Who Succeed
+            </Button>
+            <TrustBadges />
+          </div>
         </div>
       </section>
+
+      <TestimonialsSection />
 
       <SectionDivider />
 
@@ -293,12 +332,24 @@ const AiFreelancingPage = () => {
             <Title className="text-4xl mb-4">Frequently Asked Questions</Title>
           </div>
           <div className="max-w-3xl mx-auto">
-            {faqs.map((faq, index) => (
-              <div key={index} className="bg-card/40 backdrop-blur-sm border border-white/10 rounded-xl p-6 mb-4 hover:bg-card/60 transition-all">
-                <h3 className="font-semibold mb-2">{faq.question}</h3>
-                <p className="text-muted-foreground">{faq.answer}</p>
-              </div>
-            ))}
+            <Accordion type="single" collapsible className="space-y-4">
+              {faqs.map((faq, index) => (
+                <AccordionItem key={index} value={`item-${index}`} className="bg-card/40 backdrop-blur-sm border border-white/10 rounded-xl overflow-hidden">
+                  <AccordionTrigger className="px-6 py-4 text-left hover:bg-card/60 transition-all">
+                    <span className="font-semibold">{faq.question}</span>
+                  </AccordionTrigger>
+                  <AccordionContent className="px-6 pb-4">
+                    <p className="text-muted-foreground">{faq.answer}</p>
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </div>
+          <div className="text-center mt-12">
+            <Button onClick={scrollToForm} size="lg" className="mb-4">
+              Still Have Questions? Start for $1
+            </Button>
+            <TrustBadges />
           </div>
         </div>
       </section>
@@ -373,7 +424,7 @@ const AiFreelancingPage = () => {
               <X className="w-6 h-6" />
             </button>
             <h3 className="text-2xl font-bold mb-4">Still thinking?</h3>
-            <p className="text-muted-foreground mb-6">Don't miss this $1 chance to start freelancing in AI.</p>
+            <p className="text-muted-foreground mb-6">Don't miss the $1 chance to start freelancing in AI. Claim before spots fill.</p>
             <Button 
               onClick={() => {
                 setShowExitIntent(false);
@@ -392,6 +443,11 @@ const AiFreelancingPage = () => {
         text="Start for $1" 
         onClick={scrollToForm}
         bgColor="#22c55e"
+      />
+
+      <VideoModal 
+        isOpen={isVideoModalOpen} 
+        onClose={() => setIsVideoModalOpen(false)} 
       />
 
       <Footer />
