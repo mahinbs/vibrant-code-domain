@@ -33,63 +33,72 @@ const journeySteps: JourneyStep[] = [
     id: 'step-1',
     number: 1,
     title: 'CRM Platform Access',
-    description: 'Get instant access to our proprietary CRM system to manage leads, track opportunities, and automate your sales pipeline.',
+    description: 'Get instant access to our proprietary CRM system where you can add and track all your leads, automate your sales pipeline, and generate quotations and proposals in one click.',
     icon: <Database className="w-8 h-8" />,
-    mockup: 'Dashboard with 47 active leads',
+    mockup: 'New users typically manage 47+ active leads in their first week',
     direction: 'left'
   },
   {
     id: 'step-2',
     number: 2,
-    title: 'Training Hub',
-    description: 'Master AI tools and freelancing techniques through our comprehensive video training library and live workshops.',
-    icon: <GraduationCap className="w-8 h-8" />,
-    mockup: '150+ training modules completed',
+    title: 'Personal Landing Page (Branded by BoostMySites)',
+    description: 'We create a professional landing page under our brand name that instantly boosts your credibility, showcasing BoostMySites\' portfolios and client testimonials.',
+    icon: <Monitor className="w-8 h-8" />,
+    mockup: 'Clients convert 2.5x faster when shown a branded portfolio page',
     direction: 'right'
   },
   {
     id: 'step-3',
     number: 3,
-    title: 'Marketing Professional',
-    description: 'Work with dedicated marketing experts to build your personal brand and attract high-paying clients.',
-    icon: <Megaphone className="w-8 h-8" />,
-    mockup: '3x increase in client inquiries',
+    title: 'Training Hub',
+    description: 'Master AI freelancing through 150+ video modules covering tools, proposals, and delivery, plus weekly live workshops to apply what you learn immediately.',
+    icon: <GraduationCap className="w-8 h-8" />,
+    mockup: 'Over 150 training modules completed by first-month learners',
     direction: 'left'
   },
   {
     id: 'step-4',
     number: 4,
-    title: 'Technical Analyst',
-    description: 'Get support from technical analysts who help you deliver cutting-edge AI solutions to your clients.',
-    icon: <BarChart3 className="w-8 h-8" />,
-    mockup: '95% project success rate',
+    title: 'Dedicated Marketing Professional',
+    description: 'You\'re assigned a personal marketing role to generate leads for you through Google Ads and other channels handled by experts, with targeted campaigns and ongoing optimization.',
+    icon: <Megaphone className="w-8 h-8" />,
+    mockup: 'Typical freelancers see 3x more client inquiries in the first month',
     direction: 'right'
   },
   {
     id: 'step-5',
     number: 5,
-    title: 'Development & Delivery Team',
-    description: 'Access our full development team to help you scale and deliver complex projects on time.',
-    icon: <Users className="w-8 h-8" />,
-    mockup: '24/7 team support available',
+    title: 'Technical Analyst (In Meetings & Delivery Support)',
+    description: 'You don\'t need technical skills — our analyst joins client meetings to explain technical details, handle demos, technical Q&A, and ensure projects are scoped correctly.',
+    icon: <BarChart3 className="w-8 h-8" />,
+    mockup: '95% project success rate when analysts join meetings',
     direction: 'left'
   },
   {
     id: 'step-6',
     number: 6,
-    title: 'Landing Pages',
-    description: 'Get professionally designed landing pages and sales funnels to convert prospects into paying clients.',
-    icon: <Monitor className="w-8 h-8" />,
-    mockup: '67% conversion rate achieved',
+    title: 'Project Documentation & Delivery Team',
+    description: 'Once you close a project, we take over the heavy lifting with dedicated teams preparing BRDs, SOWs, proposals, development, QA testing, and project management in Projectsy.',
+    icon: <Users className="w-8 h-8" />,
+    mockup: '24/7 delivery team support available for every freelancer',
     direction: 'right'
   },
   {
     id: 'step-7',
     number: 7,
+    title: 'High-Converting Sales Assets',
+    description: 'You\'re equipped with professionally designed landing pages, funnels, portfolio assets, testimonials, and case studies under BoostMySites brand to close clients faster.',
+    icon: <Monitor className="w-8 h-8" />,
+    mockup: 'Boosted to 67% conversion rates with optimized sales pages',
+    direction: 'left'
+  },
+  {
+    id: 'step-8',
+    number: 8,
     title: 'Mentorship & Handholding',
-    description: 'Receive one-on-one mentorship and guidance from successful AI freelancers until you achieve consistent income.',
+    description: 'Get continuous support with weekly 1-on-1 mentorship calls with successful AI freelancers, complete handholding until you reach income stability, and guidance on scaling.',
     icon: <HandHeart className="w-8 h-8" />,
-    mockup: 'Weekly 1-on-1 sessions',
+    mockup: 'Weekly personal mentorship sessions ensure faster results',
     direction: 'bottom'
   }
 ];
@@ -120,7 +129,8 @@ export const AnimatedJourneySection: React.FC<AnimatedJourneySectionProps> = ({ 
             setVisibleSteps(prev => new Set([...prev, stepId]));
             
             // Show CTA after last step is visible
-            if (stepId === 'step-7') {
+            const lastStepId = journeySteps[journeySteps.length - 1].id;
+            if (stepId === lastStepId) {
               setTimeout(() => setShowCta(true), 800);
             }
           }
@@ -335,7 +345,7 @@ export const AnimatedJourneySection: React.FC<AnimatedJourneySectionProps> = ({ 
     }
 
     function triggerCelebration() {
-      const ctaCard = wrapper.querySelector('[data-step="7"]') as HTMLElement;
+      const ctaCard = wrapper.querySelector(`[data-step="${journeySteps.length}"]`) as HTMLElement;
       if (!ctaCard) return;
       
       const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -510,7 +520,7 @@ export const AnimatedJourneySection: React.FC<AnimatedJourneySectionProps> = ({ 
             Your Journey to Success
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Follow our proven roadmap from beginner to successful AI freelancer
+            Follow our proven step-by-step roadmap — everything you need to go from beginner to successful AI freelancer.
           </p>
         </div>
 
@@ -622,7 +632,7 @@ export const AnimatedJourneySection: React.FC<AnimatedJourneySectionProps> = ({ 
           {/* Animated CTA integrated into path */}
           <div 
             data-card
-            data-step="7"
+            data-step={journeySteps.length}
             className={`
               text-center mt-16 transition-all duration-1000 ease-out
               ${showCta ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-8 scale-95'}
