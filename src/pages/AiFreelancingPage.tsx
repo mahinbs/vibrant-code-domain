@@ -15,12 +15,14 @@ import { Play, Check, Star, ArrowRight, X, Target, Users, Briefcase, BookOpen, Z
 import TrustBadges from '@/components/ui/TrustBadges';
 import TestimonialsSection from '@/components/ui/TestimonialsSection';
 import VideoModal from '@/components/ui/VideoModal';
+import InstagramSocialProof from '@/components/social/InstagramSocialProof';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 const AiFreelancingPage = () => {
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [showExitIntent, setShowExitIntent] = useState(false);
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
+  const [instaVideos, setInstaVideos] = useState<string[]>([]);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -64,6 +66,27 @@ const AiFreelancingPage = () => {
         vantaInstance.current = null;
       }
     };
+  }, []);
+
+  // Fetch Instagram videos from webinar data
+  useEffect(() => {
+    const fetchInstagramVideos = async () => {
+      try {
+        const { data: webinarData } = await supabase
+          .from('webinar_events')
+          .select('social_proof_videos')
+          .eq('is_active', true)
+          .maybeSingle();
+
+        if (webinarData?.social_proof_videos) {
+          setInstaVideos(webinarData.social_proof_videos);
+        }
+      } catch (error) {
+        console.error('Error fetching Instagram videos:', error);
+      }
+    };
+
+    fetchInstagramVideos();
   }, []);
 
   // Exit intent detection
@@ -307,6 +330,13 @@ const AiFreelancingPage = () => {
       </section>
 
       <TestimonialsSection />
+
+      <InstagramSocialProof 
+        videoUrls={instaVideos}
+        title="Success Stories from Our Community"
+        subtitle="Real transformations from our AI freelancing program"
+        onCta={scrollToForm}
+      />
 
       <SectionDivider />
 
