@@ -6,13 +6,15 @@ interface InstagramSocialProofProps {
   title?: string;
   subtitle?: string;
   onCta?: () => void;
+  background?: 'video' | 'inherit';
 }
 
 const InstagramSocialProof: React.FC<InstagramSocialProofProps> = ({
   videoUrls,
   title = "Success Stories from Our Community",
   subtitle = "Real transformations from our webinar attendees",
-  onCta
+  onCta,
+  background = 'video'
 }) => {
   if (!videoUrls.length) return null;
 
@@ -29,28 +31,32 @@ const InstagramSocialProof: React.FC<InstagramSocialProofProps> = ({
   };
 
   return (
-    <section className="py-20 bg-black relative overflow-hidden">
-      {/* AI Brain Video Background */}
-      <video 
-        autoPlay 
-        loop 
-        muted 
-        playsInline 
-        className="absolute inset-0 w-full h-full object-cover z-0"
-        preload="metadata"
-      >
-        <source src="https://res.cloudinary.com/dknafpppp/video/upload/v1748771996/0_Ai_Brain_1920x1080_quggeb.mp4" type="video/mp4" />
-      </video>
-      
-      {/* Dark Overlay */}
-      <div className="absolute inset-0 bg-black/60 z-10"></div>
+    <section className="py-20 relative overflow-hidden">
+      {background === 'video' && (
+        <>
+          {/* AI Brain Video Background */}
+          <video 
+            autoPlay 
+            loop 
+            muted 
+            playsInline 
+            className="absolute inset-0 w-full h-full object-cover z-0"
+            preload="metadata"
+          >
+            <source src="https://res.cloudinary.com/dknafpppp/video/upload/v1748771996/0_Ai_Brain_1920x1080_quggeb.mp4" type="video/mp4" />
+          </video>
+          
+          {/* Dark Overlay */}
+          <div className="absolute inset-0 bg-black/60 z-10"></div>
+        </>
+      )}
       
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
         <div className="text-center mb-12">
-          <h3 className="text-2xl md:text-3xl font-bold text-white drop-shadow-lg mb-3">
+          <h3 className={`text-2xl md:text-3xl font-bold mb-3 ${background === 'video' ? 'text-white drop-shadow-lg' : 'text-white'}`}>
             {title}
           </h3>
-          <p className="text-white/90 text-lg drop-shadow-md">
+          <p className={`text-lg ${background === 'video' ? 'text-white/90 drop-shadow-md' : 'text-muted-foreground'}`}>
             {subtitle}
           </p>
         </div>
@@ -97,9 +103,9 @@ const InstagramSocialProof: React.FC<InstagramSocialProofProps> = ({
           </Carousel>
           
           {/* CTA */}
-          {onCta && (
+            {onCta && (
             <div className="text-center mt-8">
-              <p className="text-lg text-white/90 mb-4 drop-shadow-md">
+              <p className={`text-lg mb-4 ${background === 'video' ? 'text-white/90 drop-shadow-md' : 'text-muted-foreground'}`}>
                 Want to become next?
               </p>
               <button
