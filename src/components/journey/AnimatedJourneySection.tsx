@@ -145,143 +145,92 @@ export const AnimatedJourneySection: React.FC<AnimatedJourneySectionProps> = ({ 
     
     if (!section || !svg || !pathEl || !arrow) return;
 
-    // Smart border connector - finds best attachment point
-    function getBorderConnector(card: HTMLElement, sectionCenter: { x: number; y: number }): { x: number; y: number } {
+    function getAnchor(card: HTMLElement, index: number): { x: number; y: number } {
       const rect = card.getBoundingClientRect();
       const scrollY = window.pageYOffset;
       const scrollX = window.pageXOffset;
       
-      // Card center
-      const cardCenterX = rect.left + scrollX + rect.width / 2;
-      const cardCenterY = rect.top + scrollY + rect.height / 2;
-      
-      // Safe margin from card edges
       const margin = 16;
       
-      // Determine best side based on card position relative to section center
-      const isLeft = cardCenterX < sectionCenter.x;
-      const isAbove = cardCenterY < sectionCenter.y;
-      
-      // Choose connector point with smart positioning
-      let x, y;
-      
       if (window.innerWidth < 768) {
-        // Mobile: Always center bottom with slight offset
-        x = cardCenterX;
-        y = rect.bottom + scrollY - margin;
-      } else {
-        // Desktop: Alternating smart sides
-        if (isLeft) {
-          x = rect.right + scrollX - margin;
-          y = cardCenterY;
-        } else {
-          x = rect.left + scrollX + margin;
-          y = cardCenterY;
-        }
+        // Mobile: center-bottom anchor
+        return {
+          x: rect.left + scrollX + rect.width / 2,
+          y: rect.bottom + scrollY - margin
+        };
       }
       
-      return { x, y };
+      // Desktop: precise border alternating
+      const isEven = index % 2 === 0;
+      
+      if (index === 0) {
+        // First card: top edge center
+        return {
+          x: rect.left + scrollX + rect.width / 2,
+          y: rect.top + scrollY + margin
+        };
+      }
+      
+      if (index === journeySteps.length - 1) {
+        // Last card: bottom edge center
+        return {
+          x: rect.left + scrollX + rect.width / 2,
+          y: rect.bottom + scrollY - margin
+        };
+      }
+      
+      // Middle cards: left/right edge alternating
+      return {
+        x: isEven ? rect.left + scrollX + margin : rect.right + scrollX - margin,
+        y: rect.top + scrollY + rect.height / 2
+      };
     }
 
-    // Create smooth cubic bezier curves between points
-    function createCubicSegment(p0: { x: number; y: number }, p1: { x: number; y: number }, index: number) {
+    function quadPath(p0: { x: number; y: number }, p1: { x: number; y: number }) {
       const dx = p1.x - p0.x;
       const dy = p1.y - p0.y;
       
-      // Control point offset - creates natural S-curves
-      const offsetX = Math.abs(dx) * 0.6;
-      const offsetY = Math.abs(dy) * 0.3;
-      
-      // Adaptive curvature based on distance and mobile/desktop
+      // Gentle curves with controlled curvature
       const isMobile = window.innerWidth < 768;
-      const baseOffset = isMobile ? 40 : 80;
+      const curvature = isMobile ? 40 : Math.min(80, Math.abs(dx) * 0.3);
       
-      let cp1x, cp1y, cp2x, cp2y;
+      const midX = p0.x + dx / 2;
+      const midY = p0.y + dy / 2;
       
-      if (isMobile) {
-        // Mobile: Gentle vertical curves
-        cp1x = p0.x;
-        cp1y = p0.y + baseOffset;
-        cp2x = p1.x;
-        cp2y = p1.y - baseOffset;
-      } else {
-        // Desktop: S-curve routing
-        if (dx > 0) {
-          // Moving right
-          cp1x = p0.x + offsetX;
-          cp1y = p0.y + (dy > 0 ? offsetY : -offsetY);
-          cp2x = p1.x - offsetX;
-          cp2y = p1.y - (dy > 0 ? offsetY : -offsetY);
-        } else {
-          // Moving left
-          cp1x = p0.x - offsetX;
-          cp1y = p0.y + (dy > 0 ? offsetY : -offsetY);
-          cp2x = p1.x + offsetX;
-          cp2y = p1.y - (dy > 0 ? offsetY : -offsetY);
-        }
-      }
+      // Control point offset perpendicular to the line
+      const controlY = midY + (dx > 0 ? curvature : -curvature);
       
-      return `C ${cp1x},${cp1y} ${cp2x},${cp2y} ${p1.x},${p1.y}`;
-    }
-
-    // Build composite path with smart routing
-    function buildCompositePath(points: { x: number; y: number }[], sectionRect: DOMRect) {
-      if (points.length < 2) return '';
-      
-      const secTop = sectionRect.top + window.scrollY;
-      const secLeft = sectionRect.left + window.scrollX;
-      const localPoints = points.map(p => ({ x: p.x - secLeft, y: p.y - secTop }));
-      
-      let pathData = `M ${localPoints[0].x},${localPoints[0].y}`;
-      
-      for (let i = 1; i < localPoints.length; i++) {
-        pathData += ` ${createCubicSegment(localPoints[i - 1], localPoints[i], i)}`;
-      }
-      
-      return pathData;
+      return `Q ${midX},${controlY} ${p1.x},${p1.y}`;
     }
 
     function layout() {
-      // Size SVG to section
       const secRect = section.getBoundingClientRect();
       svg.setAttribute('width', secRect.width.toString());
       svg.setAttribute('height', secRect.height.toString());
       svg.setAttribute('viewBox', `0 0 ${secRect.width} ${secRect.height}`);
 
-      // Calculate section center for smart connector logic
-      const sectionCenter = {
-        x: secRect.left + window.scrollX + secRect.width / 2,
-        y: secRect.top + window.scrollY + secRect.height / 2
-      };
-
-      // Get smart border connectors from cards
       const cards = Array.from(section.querySelectorAll('[data-card]')) as HTMLElement[];
-      const points = cards.map(card => getBorderConnector(card, sectionCenter));
-      const pathData = buildCompositePath(points, secRect);
+      const points = cards.map((card, index) => getAnchor(card, index));
+      
+      // Convert to local coordinates
+      const secTop = secRect.top + window.scrollY;
+      const secLeft = secRect.left + window.scrollX;
+      const localPoints = points.map(p => ({ x: p.x - secLeft, y: p.y - secTop }));
+      
+      // Build simple quadratic path
+      let pathData = `M ${localPoints[0].x},${localPoints[0].y}`;
+      for (let i = 1; i < localPoints.length; i++) {
+        pathData += ` ${quadPath(localPoints[i - 1], localPoints[i])}`;
+      }
       pathEl.setAttribute('d', pathData);
 
-      // Set up path reveal animation
       const length = pathEl.getTotalLength?.() || 0;
       pathEl.style.strokeDasharray = `${length}`;
       pathEl.style.strokeDashoffset = `${length}`;
 
-      // Position waypoint dots along path
-      const dots = svg.querySelectorAll('.waypoint-dot') as NodeListOf<SVGCircleElement>;
-      dots.forEach((dot, index) => {
-        if (index < points.length) {
-          const point = points[index];
-          const localX = point.x - (secRect.left + window.scrollX);
-          const localY = point.y - (secRect.top + window.scrollY);
-          dot.setAttribute('cx', localX.toString());
-          dot.setAttribute('cy', localY.toString());
-        }
-      });
-
-      // Kill existing animations
       ScrollTrigger.getAll().forEach(st => st.kill());
       gsap.killTweensOf(arrow);
 
-      // Create scroll-triggered timeline
       const tl = gsap.timeline({
         defaults: { ease: 'power2.inOut' },
         scrollTrigger: {
@@ -292,13 +241,11 @@ export const AnimatedJourneySection: React.FC<AnimatedJourneySectionProps> = ({ 
         },
       });
 
-      // Path reveal with smooth easing
       tl.to(pathEl, { 
         strokeDashoffset: 0,
         ease: 'power2.out'
       }, 0);
 
-      // Arrow motion along path with slight delay
       tl.to(arrow, {
         motionPath: {
           path: pathEl,
@@ -308,16 +255,6 @@ export const AnimatedJourneySection: React.FC<AnimatedJourneySectionProps> = ({ 
         },
         ease: 'power2.inOut'
       }, 0.1);
-
-      // Animate waypoint dots sequentially
-      dots.forEach((dot, index) => {
-        tl.to(dot, {
-          scale: 1.5,
-          opacity: 1,
-          duration: 0.2,
-          ease: 'back.out(1.7)'
-        }, index * 0.15);
-      });
     }
 
     // Reduced motion support
@@ -433,57 +370,27 @@ export const AnimatedJourneySection: React.FC<AnimatedJourneySectionProps> = ({ 
                 <stop offset="50%" stopColor="hsl(var(--accent))" />
                 <stop offset="100%" stopColor="hsl(var(--primary))" />
               </linearGradient>
-              <filter id="pathGlow">
-                <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-                <feMerge> 
-                  <feMergeNode in="coloredBlur"/>
-                  <feMergeNode in="SourceGraphic"/>
-                </feMerge>
-              </filter>
             </defs>
             
-            {/* Main Path with Glow */}
+            {/* Main Path */}
             <path
               ref={pathRef}
               d=""
               fill="none"
               stroke="url(#journeyGradient)"
-              strokeWidth="4"
+              strokeWidth="3"
               strokeLinecap="round"
-              opacity="0.9"
-              filter="url(#pathGlow)"
+              opacity="0.8"
             />
             
-            {/* Waypoint Dots */}
-            <g className="waypoint-dots">
-              {journeySteps.map((_, index) => (
-                <circle
-                  key={index}
-                  r="6"
-                  fill="hsl(var(--primary))"
-                  stroke="hsl(var(--background))"
-                  strokeWidth="2"
-                  opacity="0.8"
-                  className="waypoint-dot"
-                  data-waypoint={index}
-                />
-              ))}
-            </g>
-            
             {/* Traveling Arrow */}
-            <g ref={arrowRef} transform="translate(0,0)" className="traveling-arrow">
-              <circle r="10" fill="hsl(var(--primary))" opacity="0.9">
-                <animate attributeName="r" values="8;12;8" dur="2s" repeatCount="indefinite" />
-              </circle>
+            <g ref={arrowRef} transform="translate(0,0)">
+              <circle r="8" fill="hsl(var(--primary))" opacity="0.9" />
               <path 
-                d="M0,-8 L6,0 L0,8 L-2,0 Z" 
+                d="M0,-6 L4,0 L0,6 L-1.5,0 Z" 
                 fill="hsl(var(--primary-foreground))" 
                 opacity="0.9"
               />
-              <circle r="15" fill="none" stroke="hsl(var(--primary))" strokeWidth="1" opacity="0.3">
-                <animate attributeName="r" values="10;20;10" dur="2s" repeatCount="indefinite" />
-                <animate attributeName="opacity" values="0.3;0.1;0.3" dur="2s" repeatCount="indefinite" />
-              </circle>
             </g>
           </svg>
 
