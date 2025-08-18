@@ -6,6 +6,7 @@ import GlowBackdrop from '@/components/ui/GlowBackdrop';
 import SectionDivider from '@/components/ui/SectionDivider';
 import { AnimatedJourneySection } from '@/components/journey/AnimatedJourneySection';
 import FeaturedLogosMarquee from '@/components/FeaturedLogosMarquee';
+import Title from '@/components/ui/Title';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
@@ -177,9 +178,9 @@ const AiFreelancingPage = () => {
           <div className="max-w-6xl mx-auto">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div>
-                <h1 className="text-5xl md:text-6xl font-bold mb-6">
+                <Title as="h1" className="text-5xl md:text-6xl mb-6">
                   Launch Your <span className="text-primary">AI Freelancing</span> Career – For Just <span className="text-secondary">$1</span>
-                </h1>
+                </Title>
                 <p className="text-xl text-muted-foreground mb-8">
                   Get your first month of training, tools, and projects at just $1. Start freelancing in AI with no prior experience required.
                 </p>
@@ -220,7 +221,7 @@ const AiFreelancingPage = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-black/70 pointer-events-none z-0"></div>
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-4xl mx-auto text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">What You'll Get for Just $1</h2>
+            <Title className="text-4xl mb-4">What You'll Get for Just $1</Title>
             <p className="text-xl text-muted-foreground">Everything you need to start your AI freelancing journey</p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -253,7 +254,7 @@ const AiFreelancingPage = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 to-black/50 pointer-events-none z-0"></div>
         <div className="container mx-auto px-6 relative z-10">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Why This is Different</h2>
+            <Title className="text-4xl mb-4">Why This is Different</Title>
             <FeaturedLogosMarquee />
             <div className="bg-primary/10 backdrop-blur-sm border border-primary/20 rounded-xl p-6 max-w-2xl mx-auto">
               <div className="flex items-center justify-center gap-2 mb-2">
@@ -289,7 +290,7 @@ const AiFreelancingPage = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-black/70 pointer-events-none z-0"></div>
         <div className="container mx-auto px-6 relative z-10">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Frequently Asked Questions</h2>
+            <Title className="text-4xl mb-4">Frequently Asked Questions</Title>
           </div>
           <div className="max-w-3xl mx-auto">
             {faqs.map((faq, index) => (
@@ -313,7 +314,7 @@ const AiFreelancingPage = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 to-black/90 pointer-events-none z-0"></div>
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-2xl mx-auto text-center">
-            <h2 className="text-4xl font-bold mb-4">Your AI Freelancing Journey Starts Today</h2>
+            <Title className="text-4xl mb-4">Your AI Freelancing Journey Starts Today</Title>
             <p className="text-xl text-muted-foreground mb-8">For the price of a coffee</p>
             
             {isFormVisible && (
