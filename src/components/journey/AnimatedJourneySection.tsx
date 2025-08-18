@@ -239,15 +239,25 @@ export const AnimatedJourneySection: React.FC<AnimatedJourneySectionProps> = ({ 
           totalPathLength += segmentLength;
         }
         
-        // Calculate cumulative progress for each anchor point
+        // Calculate cumulative progress for each anchor point based on actual card positions
         const anchorProgressPoints: Array<{ scrollProgress: number; pathProgress: number }> = [];
         let cumulativeLength = 0;
         
         anchorProgressPoints.push({ scrollProgress: 0, pathProgress: 0 });
         
+        // Calculate scroll targets based on actual card center positions
+        const scrollTargets: number[] = [];
+        cards.forEach((card, index) => {
+          const cardRect = card.getBoundingClientRect();
+          const wrapperRect = wrapper.getBoundingClientRect();
+          const cardCenter = cardRect.top + cardRect.height / 2 - wrapperRect.top;
+          const totalHeight = wrapperRect.height;
+          scrollTargets.push(Math.max(0, Math.min(1, cardCenter / totalHeight)));
+        });
+        
         for (let i = 0; i < segments.length; i++) {
           cumulativeLength += segments[i].length;
-          const scrollProgress = (i + 1) / (points.length - 1);
+          const scrollProgress = scrollTargets[i + 1] || (i + 1) / (points.length - 1);
           const pathProgress = cumulativeLength / totalPathLength;
           anchorProgressPoints.push({ scrollProgress, pathProgress });
         }
@@ -312,11 +322,11 @@ export const AnimatedJourneySection: React.FC<AnimatedJourneySectionProps> = ({ 
             // Update arrow position
             motionTween.progress(pathProgress);
             
-            // Trigger celebration when reaching final step
-            if (pathProgress >= 0.95 && !reachedFinal) {
+            // Trigger celebration when reaching final step (more precise trigger)
+            if (pathProgress >= 0.9 && !reachedFinal) {
               reachedFinal = true;
-              triggerCelebration();
-            } else if (pathProgress < 0.95) {
+              setTimeout(() => triggerCelebration(), 200);
+            } else if (pathProgress < 0.85) {
               reachedFinal = false;
             }
           }
@@ -328,33 +338,72 @@ export const AnimatedJourneySection: React.FC<AnimatedJourneySectionProps> = ({ 
       const ctaCard = wrapper.querySelector('[data-step="7"]') as HTMLElement;
       if (!ctaCard) return;
       
-      // Create celebration effect
       const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       
       if (!prefersReducedMotion) {
-        gsap.timeline()
-          .to(ctaCard, {
-            scale: 1.05,
+        // Create sparkles elements
+        const sparkles = ctaCard.querySelectorAll('.celebration-sparkle');
+        
+        // Main celebration animation
+        const tl = gsap.timeline();
+        
+        // Card scale and pulse
+        tl.to(ctaCard, {
+          scale: 1.02,
+          duration: 0.4,
+          ease: 'power2.out'
+        })
+        .to(ctaCard, {
+          scale: 1,
+          duration: 0.3,
+          ease: 'power2.in'
+        });
+        
+        // Glow effect expansion
+        tl.to(ctaCard.querySelector('.glow-effect'), {
+          opacity: 0.8,
+          scale: 1.3,
+          duration: 0.6,
+          ease: 'power2.out'
+        }, 0)
+        .to(ctaCard.querySelector('.glow-effect'), {
+          opacity: 0.3,
+          scale: 1,
+          duration: 0.4,
+          ease: 'power2.in'
+        });
+        
+        // Sparkles animation
+        sparkles.forEach((sparkle, i) => {
+          tl.fromTo(sparkle, 
+            { 
+              opacity: 0, 
+              scale: 0, 
+              rotation: 0 
+            },
+            {
+              opacity: 1,
+              scale: 1,
+              rotation: 360,
+              duration: 0.5,
+              ease: 'back.out(1.7)'
+            }, i * 0.1)
+          .to(sparkle, {
+            opacity: 0,
+            scale: 0.5,
             duration: 0.3,
-            ease: 'power2.out'
-          })
-          .to(ctaCard, {
-            scale: 1,
-            duration: 0.2,
             ease: 'power2.in'
-          })
-          .to(ctaCard.querySelector('.glow-effect'), {
-            opacity: 1,
-            scale: 1.1,
-            duration: 0.5,
-            ease: 'power2.out'
-          }, 0)
-          .to(ctaCard.querySelector('.glow-effect'), {
-            opacity: 0.3,
-            scale: 1,
-            duration: 0.3,
-            ease: 'power2.in'
-          });
+          }, '+=0.2');
+        });
+      } else {
+        // Reduced motion alternative: gentle highlight
+        gsap.to(ctaCard.querySelector('.glow-effect'), {
+          opacity: 0.6,
+          duration: 0.8,
+          ease: 'power2.inOut',
+          yoyo: true,
+          repeat: 1
+        });
       }
     }
 
@@ -581,7 +630,21 @@ export const AnimatedJourneySection: React.FC<AnimatedJourneySectionProps> = ({ 
           >
             <div className="relative max-w-lg mx-auto">
               {/* Enhanced Glow background for celebration */}
-              <div className="glow-effect absolute inset-0 bg-gradient-to-r from-primary via-accent to-primary rounded-2xl blur-xl opacity-30 animate-pulse" />
+              <div className="glow-effect absolute inset-0 bg-gradient-to-r from-primary via-accent to-primary rounded-2xl blur-xl opacity-30" />
+              
+              {/* Celebration Sparkles */}
+              <div className="celebration-sparkle absolute -top-4 -left-4 w-6 h-6 text-primary opacity-0">
+                <Sparkles className="w-full h-full" />
+              </div>
+              <div className="celebration-sparkle absolute -top-2 -right-6 w-4 h-4 text-accent opacity-0">
+                <Sparkles className="w-full h-full" />
+              </div>
+              <div className="celebration-sparkle absolute -bottom-4 -left-2 w-5 h-5 text-primary opacity-0">
+                <Sparkles className="w-full h-full" />
+              </div>
+              <div className="celebration-sparkle absolute -bottom-2 -right-4 w-6 h-6 text-accent opacity-0">
+                <Sparkles className="w-full h-full" />
+              </div>
               
               <div className="relative bg-card/90 backdrop-blur-sm border border-primary/20 rounded-2xl p-8">
                 <div className="flex items-center justify-center gap-2 mb-4">
