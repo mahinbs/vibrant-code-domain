@@ -1,81 +1,49 @@
-import { ArrowRight, Play } from 'lucide-react';
-import { usePerformance } from '@/hooks/usePerformance';
-import { useEffect, useRef, useState, memo } from 'react';
+import { ArrowRight } from 'lucide-react';
+import { useEffect, useRef, memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Hero = memo(() => {
   const navigate = useNavigate();
-  const {
-    throttleScroll,
-    getScrollVelocity
-  } = usePerformance();
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [isScrolling, setIsScrolling] = useState(false);
-  const [shouldPlayVideo, setShouldPlayVideo] = useState(true);
-  const scrollTimeoutRef = useRef<NodeJS.Timeout>();
+  const vantaRef = useRef<HTMLDivElement>(null);
+  const vantaEffect = useRef<any>(null);
 
   const handleLaunchVision = () => {
     navigate('/contact#form');
   };
 
+  // Initialize VANTA.WAVES background
   useEffect(() => {
-    const handleScroll = () => {
-      throttleScroll(() => {
-        const velocity = getScrollVelocity();
-        const fastScrolling = velocity > 3;
-        setIsScrolling(fastScrolling);
-        setShouldPlayVideo(!fastScrolling);
-
-        // Clear existing timeout
-        if (scrollTimeoutRef.current) {
-          clearTimeout(scrollTimeoutRef.current);
-        }
-
-        // Set new timeout to detect when scrolling stops
-        scrollTimeoutRef.current = setTimeout(() => {
-          setIsScrolling(false);
-          setShouldPlayVideo(true);
-        }, 100);
+    if (vantaRef.current && window.VANTA) {
+      vantaEffect.current = window.VANTA.WAVES({
+        el: vantaRef.current,
+        mouseControls: true,
+        touchControls: true,
+        gyroControls: false,
+        minHeight: 200.00,
+        minWidth: 200.00,
+        scale: 1.00,
+        scaleMobile: 1.00,
+        color: 0x16,
+        shininess: 33.00,
+        waveHeight: 18.00,
+        waveSpeed: 0.90,
+        zoom: 1.16
       });
-    };
-    window.addEventListener('scroll', handleScroll, {
-      passive: true
-    });
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      if (scrollTimeoutRef.current) {
-        clearTimeout(scrollTimeoutRef.current);
-      }
-    };
-  }, [throttleScroll, getScrollVelocity]);
-
-  // Enhanced video performance optimization
-  useEffect(() => {
-    if (videoRef.current) {
-      const video = videoRef.current;
-      if (isScrolling || !shouldPlayVideo) {
-        video.style.willChange = 'auto';
-        // Reduce video quality during scroll by lowering playback rate
-        video.playbackRate = 0.5;
-      } else {
-        video.style.willChange = 'transform';
-        video.playbackRate = 1;
-      }
     }
-  }, [isScrolling, shouldPlayVideo]);
+
+    return () => {
+      if (vantaEffect.current) {
+        vantaEffect.current.destroy();
+      }
+    };
+  }, []);
   return <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden hero-section" style={{
     contain: 'layout style paint',
     contentVisibility: 'auto',
     containIntrinsicSize: '100vw 100vh'
   }}>
-      {/* Enhanced Video Background with performance optimizations */}
-      <video ref={videoRef} autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover z-0 gpu-accelerate" style={{
-      contentVisibility: 'auto',
-      containIntrinsicSize: '100vw 100vh',
-      transform: 'translate3d(0, 0, 0)'
-    }} preload="metadata">
-        <source src="https://res.cloudinary.com/dknafpppp/video/upload/v1748771996/0_Ai_Brain_1920x1080_quggeb.mp4" type="video/mp4" />
-      </video>
+      {/* VANTA.WAVES Background */}
+      <div ref={vantaRef} className="absolute inset-0 w-full h-full z-0"></div>
       
       {/* Optimized Dark Overlay */}
       <div className="absolute inset-0 bg-black/60 z-10" style={{
