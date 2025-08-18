@@ -1,45 +1,50 @@
 import React from 'react';
-import forbesLogo from '@/assets/logos/forbes.png';
-import entrepreneurLogo from '@/assets/logos/entrepreneur.webp';
-import timesOfIndiaLogo from '@/assets/logos/times-of-india.png';
-import businessInsiderLogo from '@/assets/logos/business-insider.jpg';
 
 const FeaturedLogosMarquee = () => {
   const logos = [
-    { src: forbesLogo, alt: 'Forbes', name: 'Forbes' },
-    { src: entrepreneurLogo, alt: 'Entrepreneur', name: 'Entrepreneur' },
-    { src: timesOfIndiaLogo, alt: 'Times of India', name: 'Times of India' },
-    { src: businessInsiderLogo, alt: 'Business Insider', name: 'Business Insider' },
+    { 
+      src: 'https://res.cloudinary.com/dqogq10ag/image/upload/v1755506741/forbes-logo-11609361702nvjwui1s5f_krbedx.png', 
+      alt: 'Forbes', 
+      name: 'Forbes' 
+    },
+    { 
+      src: 'https://res.cloudinary.com/dqogq10ag/image/upload/v1755506740/kisspng-entrepreneurship-logo-organization-leadership-busi-entrepreneur-5ae9753c3ef694.8751702415252493402579_hofbma.webp', 
+      alt: 'Entrepreneur', 
+      name: 'Entrepreneur' 
+    },
+    { 
+      src: 'https://res.cloudinary.com/dqogq10ag/image/upload/v1755506740/images_qvzhpc.png', 
+      alt: 'Times of India', 
+      name: 'Times of India' 
+    },
+    { 
+      src: 'https://res.cloudinary.com/dqogq10ag/image/upload/v1755506740/images_hmfvsu.jpg', 
+      alt: 'Business Insider', 
+      name: 'Business Insider' 
+    },
   ];
 
-  // Duplicate logos for seamless loop
-  const duplicatedLogos = [...logos, ...logos];
-
   return (
-    <div className="w-full overflow-hidden bg-background/50 py-8 relative">
-      {/* Gradient masks for smooth edges */}
-      <div className="absolute left-0 top-0 h-full w-32 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none"></div>
-      <div className="absolute right-0 top-0 h-full w-32 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none"></div>
-      
-      <div className="flex items-center justify-center mb-4">
+    <div className="w-full overflow-hidden py-8">
+      <div className="flex items-center justify-center mb-6">
         <p className="text-muted-foreground text-sm font-medium">As featured in</p>
       </div>
 
       <div 
-        className="flex items-center space-x-16 animate-marquee hover:pause-animation"
+        className="flex items-center justify-center space-x-12 animate-marquee"
         style={{
-          animation: 'marquee 30s linear infinite',
+          animation: 'marquee 25s linear infinite',
         }}
       >
-        {duplicatedLogos.map((logo, index) => (
+        {logos.map((logo) => (
           <div
-            key={`${logo.name}-${index}`}
-            className="flex-shrink-0 transition-all duration-300 hover:scale-110 hover:grayscale-0 grayscale opacity-60 hover:opacity-100"
+            key={logo.name}
+            className="flex-shrink-0 transition-all duration-300 hover:scale-110"
           >
             <img
               src={logo.src}
               alt={logo.alt}
-              className="h-8 w-auto object-contain filter"
+              className="h-16 w-auto object-contain"
               loading="lazy"
             />
           </div>
@@ -49,19 +54,15 @@ const FeaturedLogosMarquee = () => {
       <style>{`
         @keyframes marquee {
           0% {
-            transform: translateX(0%);
+            transform: translateX(100%);
           }
           100% {
-            transform: translateX(-50%);
+            transform: translateX(-100%);
           }
         }
         
         .animate-marquee {
-          animation: marquee 30s linear infinite;
-        }
-        
-        .hover\\:pause-animation:hover {
-          animation-play-state: paused;
+          animation: marquee 25s linear infinite;
         }
         
         @media (prefers-reduced-motion: reduce) {
