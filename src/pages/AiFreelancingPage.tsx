@@ -355,11 +355,6 @@ const AiFreelancingPage = () => {
                 </Button>
                 <TrustBadges />
                 
-                {/* Featured in section */}
-                <div className="mt-8">
-                  <p className="text-gray-400 text-sm mb-4 text-center">Powered by BoostMySites BaaS</p>
-                  <FeaturedLogosMarquee />
-                </div>
               </div>
               <div className="relative">
                 <div className="bg-card/40 backdrop-blur-sm border border-white/10 rounded-xl p-8 shadow-lg">
@@ -385,6 +380,23 @@ const AiFreelancingPage = () => {
           </div>
         </div>
       </section>
+
+      {/* Powered by BoostMySites BaaS - Full Width */}
+      <div className="w-full bg-black/20 backdrop-blur-sm border-y border-white/10 py-12">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-8">
+            <h3 className="text-3xl font-bold text-white mb-2">
+              Powered by BoostMySites BaaS
+            </h3>
+          </div>
+          <FeaturedLogosMarquee 
+            direction="left" 
+            speed={30} 
+            showTitle={true}
+            titleText="As featured in"
+          />
+        </div>
+      </div>
 
       <div className="relative w-full h-px -mt-px">
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
