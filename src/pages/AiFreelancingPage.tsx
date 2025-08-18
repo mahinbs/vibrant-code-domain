@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import StickyButton from '@/components/ui/StickyButton';
+import GlowBackdrop from '@/components/ui/GlowBackdrop';
+import SectionDivider from '@/components/ui/SectionDivider';
 import { AnimatedJourneySection } from '@/components/journey/AnimatedJourneySection';
 import FeaturedLogosMarquee from '@/components/FeaturedLogosMarquee';
 import { Button } from '@/components/ui/button';
@@ -205,8 +207,11 @@ const AiFreelancingPage = () => {
         </div>
       </section>
 
+      <SectionDivider />
+
       {/* What You'll Get Section */}
       <section className="py-20 relative">
+        <GlowBackdrop position="top-left" size="large" color="blue" intensity="low" />
         <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-black/70 pointer-events-none"></div>
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-4xl mx-auto text-center mb-16">
@@ -232,8 +237,11 @@ const AiFreelancingPage = () => {
         </div>
       </section>
 
+      <SectionDivider />
+
       {/* Why This is Different */}
       <section className="py-20 relative">
+        <GlowBackdrop position="bottom-right" size="medium" color="purple" intensity="medium" />
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 to-black/50 pointer-events-none"></div>
         <div className="container mx-auto px-6 relative z-10">
           <div className="text-center mb-16">
@@ -252,11 +260,19 @@ const AiFreelancingPage = () => {
         </div>
       </section>
 
+      <SectionDivider />
+
       {/* Animated Journey Section */}
-      <AnimatedJourneySection onCtaClick={scrollToForm} />
+      <div className="relative">
+        <GlowBackdrop position="center" size="large" color="teal" intensity="low" />
+        <AnimatedJourneySection onCtaClick={scrollToForm} />
+      </div>
+
+      <SectionDivider />
 
       {/* FAQ Section */}
       <section className="py-20 relative">
+        <GlowBackdrop position="top-right" size="medium" color="blue" intensity="medium" />
         <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-black/70 pointer-events-none"></div>
         <div className="container mx-auto px-6 relative z-10">
           <div className="text-center mb-16">
@@ -273,8 +289,11 @@ const AiFreelancingPage = () => {
         </div>
       </section>
 
+      <SectionDivider />
+
       {/* Final CTA Section */}
       <section id="lead-form" className="py-20 relative">
+        <GlowBackdrop position="bottom-left" size="large" color="purple" intensity="high" />
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 to-black/90 pointer-events-none"></div>
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-2xl mx-auto text-center">
