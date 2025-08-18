@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { MotionPathPlugin } from 'gsap/MotionPathPlugin';
 import { useScrollSpy } from '@/hooks/useScrollSpy';
-import { useParallax } from '@/hooks/useParallax';
 import { 
   Database, 
   GraduationCap, 
@@ -9,10 +11,12 @@ import {
   Users, 
   Monitor, 
   HandHeart,
-  ArrowDown,
   Sparkles
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+
+// Register GSAP plugins
+gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
 
 interface JourneyStep {
   id: string;
@@ -97,8 +101,10 @@ interface AnimatedJourneySectionProps {
 export const AnimatedJourneySection: React.FC<AnimatedJourneySectionProps> = ({ onCtaClick }) => {
   const [visibleSteps, setVisibleSteps] = useState<Set<string>>(new Set());
   const [showCta, setShowCta] = useState(false);
-  const progressLineRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLDivElement>(null);
+  const svgRef = useRef<SVGSVGElement>(null);
+  const pathRef = useRef<SVGPathElement>(null);
+  const arrowRef = useRef<SVGGElement>(null);
 
   // Create section IDs for scroll spy
   const sectionIds = journeySteps.map(step => step.id);
@@ -130,20 +136,128 @@ export const AnimatedJourneySection: React.FC<AnimatedJourneySectionProps> = ({ 
     return () => observer.disconnect();
   }, []);
 
-  // Progress line animation
+  // GSAP Path Animation Setup
   useEffect(() => {
-    if (!progressLineRef.current) return;
+    const section = sectionRef.current;
+    const svg = svgRef.current;
+    const pathEl = pathRef.current;
+    const arrow = arrowRef.current;
     
-    const handleScroll = () => {
-      if (!sectionRef.current || !progressLineRef.current) return;
+    if (!section || !svg || !pathEl || !arrow) return;
+
+    // Helper function to get anchor points for cards
+    function getAnchor(el: HTMLElement) {
+      const rect = el.getBoundingClientRect();
+      const scrollY = window.pageYOffset;
+      const scrollX = window.pageXOffset;
+      const anchor = el.getAttribute('data-anchor') || 'left';
+      const x = anchor === 'right' ? rect.right + scrollX - 24 : rect.left + scrollX + 24;
+      const y = rect.top + scrollY + rect.height * 0.5;
+      return { x, y };
+    }
+
+    // Helper function to create quadratic curve path
+    function quadPath(p0: { x: number; y: number }, p1: { x: number; y: number }, curve = 120) {
+      const cx = (p0.x + p1.x) * 0.5;
+      const cy = Math.min(p0.y, p1.y) - Math.min(curve, Math.abs(p1.y - p0.y) * 0.6);
+      return `M ${p0.x},${p0.y} Q ${cx},${cy} ${p1.x},${p1.y}`;
+    }
+
+    // Build composite path connecting all cards
+    function buildCompositePath(points: { x: number; y: number }[], sectionRect: DOMRect) {
+      const secTop = sectionRect.top + window.scrollY;
+      const secLeft = sectionRect.left + window.scrollX;
+      const local = points.map(p => ({ x: p.x - secLeft, y: p.y - secTop }));
+
+      const segments = [];
+      for (let i = 0; i < local.length - 1; i++) {
+        segments.push(quadPath(local[i], local[i + 1], 120));
+      }
       
-      const rect = sectionRef.current.getBoundingClientRect();
-      const progress = Math.max(0, Math.min(1, (window.innerHeight - rect.top) / (window.innerHeight + rect.height)));
-      progressLineRef.current.style.transform = `scaleY(${progress})`;
+      if (!segments.length) return '';
+      
+      const normalized = [segments[0]];
+      for (let i = 1; i < segments.length; i++) {
+        normalized.push(segments[i].replace(/^M\s[^Q]+/, (s) => s.replace('M', 'L')));
+      }
+      return normalized.join(' ');
+    }
+
+    function layout() {
+      // Size SVG to section
+      const secRect = section.getBoundingClientRect();
+      svg.setAttribute('width', secRect.width.toString());
+      svg.setAttribute('height', secRect.height.toString());
+      svg.setAttribute('viewBox', `0 0 ${secRect.width} ${secRect.height}`);
+
+      // Get waypoints from cards
+      const cards = Array.from(section.querySelectorAll('[data-card]')) as HTMLElement[];
+      const points = cards.map(card => getAnchor(card));
+      const pathData = buildCompositePath(points, secRect);
+      pathEl.setAttribute('d', pathData);
+
+      // Set up path reveal animation
+      const length = pathEl.getTotalLength?.() || 0;
+      pathEl.style.strokeDasharray = `${length}`;
+      pathEl.style.strokeDashoffset = `${length}`;
+
+      // Kill existing animations
+      ScrollTrigger.getAll().forEach(st => st.kill());
+      gsap.killTweensOf(arrow);
+
+      // Create scroll-triggered timeline
+      const tl = gsap.timeline({
+        defaults: { ease: 'power1.inOut' },
+        scrollTrigger: {
+          trigger: section,
+          start: 'top center',
+          end: 'bottom center',
+          scrub: true,
+        },
+      });
+
+      // Arrow motion along path
+      tl.to(arrow, {
+        motionPath: {
+          path: pathEl,
+          align: pathEl,
+          alignOrigin: [0.5, 0.5],
+          autoRotate: true,
+        },
+      }, 0);
+
+      // Path reveal
+      tl.to(pathEl, { strokeDashoffset: 0 }, 0);
+    }
+
+    // Reduced motion support
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) {
+      // Show static path without animation
+      layout();
+      if (pathRef.current) {
+        pathRef.current.style.strokeDasharray = 'none';
+        pathRef.current.style.strokeDashoffset = '0';
+      }
+      return;
+    }
+
+    // Initial layout
+    layout();
+
+    // Handle resize
+    const onResize = () => {
+      clearTimeout((window as any).__journeyResizeTimeout);
+      (window as any).__journeyResizeTimeout = setTimeout(layout, 150);
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('resize', onResize);
+    
+    return () => {
+      window.removeEventListener('resize', onResize);
+      ScrollTrigger.getAll().forEach(st => st.kill());
+      gsap.killTweensOf(arrow);
+    };
   }, []);
 
   return (
@@ -217,14 +331,34 @@ export const AnimatedJourneySection: React.FC<AnimatedJourneySectionProps> = ({ 
 
         {/* Journey Steps */}
         <div className="max-w-4xl mx-auto relative">
-          {/* Progress Line */}
-          <div className="absolute left-1/2 top-0 bottom-0 w-1 bg-muted transform -translate-x-1/2 hidden md:block">
-            <div 
-              ref={progressLineRef}
-              className="w-full bg-gradient-to-b from-primary via-accent to-primary origin-top transition-transform duration-300"
-              style={{ transform: 'scaleY(0)' }}
+          {/* SVG Path Overlay */}
+          <svg
+            ref={svgRef}
+            className="pointer-events-none absolute inset-0 z-0"
+            aria-hidden="true"
+          >
+            <defs>
+              <linearGradient id="journeyGradient" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0%" stopColor="hsl(var(--primary))" />
+                <stop offset="50%" stopColor="hsl(var(--accent))" />
+                <stop offset="100%" stopColor="hsl(var(--primary))" />
+              </linearGradient>
+            </defs>
+            <path
+              ref={pathRef}
+              d=""
+              fill="none"
+              stroke="url(#journeyGradient)"
+              strokeWidth="3"
+              strokeLinecap="round"
+              opacity="0.8"
             />
-          </div>
+            {/* Traveling Arrow */}
+            <g ref={arrowRef} transform="translate(0,0)">
+              <circle r="8" fill="hsl(var(--primary))" opacity="0.9" />
+              <path d="M0,-12 L10,0 L-10,0 Z" fill="hsl(var(--primary-foreground))" />
+            </g>
+          </svg>
 
           {journeySteps.map((step, index) => {
             const isVisible = visibleSteps.has(step.id);
@@ -234,6 +368,8 @@ export const AnimatedJourneySection: React.FC<AnimatedJourneySectionProps> = ({ 
               <div
                 key={step.id}
                 id={step.id}
+                data-card
+                data-anchor={step.direction === 'right' ? 'right' : 'left'}
                 className={`
                   relative mb-16 last:mb-0 transition-all duration-700 ease-out
                   ${isVisible ? 'opacity-100 translate-x-0 translate-y-0' : 'opacity-0'}
@@ -281,13 +417,6 @@ export const AnimatedJourneySection: React.FC<AnimatedJourneySectionProps> = ({ 
                           </div>
                         )}
                       </div>
-                    </div>
-                  </div>
-
-                  {/* Connector Arrow (Desktop only) */}
-                  <div className="hidden md:flex items-center justify-center">
-                    <div className="p-2 rounded-full bg-primary/10">
-                      <ArrowDown className="w-5 h-5 text-primary animate-bounce" />
                     </div>
                   </div>
 
