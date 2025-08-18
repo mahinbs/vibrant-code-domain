@@ -214,34 +214,76 @@ const AiFreelancingPage = () => {
 
   const benefits = [
     {
-      icon: <BookOpen className="w-8 h-8 text-primary" />,
+      icon: (
+        <div className="icon-circle w-10 h-10 rounded-full flex items-center justify-center mx-auto">
+          <BookOpen className="icon w-5 h-5" />
+        </div>
+      ),
       title: "Training",
       description: "Complete AI freelancing course"
     },
     {
-      icon: <Target className="w-8 h-8 text-primary" />,
+      icon: (
+        <div className="icon-circle w-10 h-10 rounded-full flex items-center justify-center mx-auto">
+          <Target className="icon w-5 h-5" />
+        </div>
+      ),
       title: "CRM + Tools",
       description: "Ready-to-use systems"
     },
     {
-      icon: <Briefcase className="w-8 h-8 text-primary" />,
-      title: "Proposals + Projects",
-      description: "Real client templates"
+      icon: (
+        <div className="icon-circle w-10 h-10 rounded-full flex items-center justify-center mx-auto">
+          <Briefcase className="icon w-5 h-5" />
+        </div>
+      ),
+      title: "Sell under our brand",
+      description: "Use our portfolio & proven reputation"
     },
     {
-      icon: <HeadphonesIcon className="w-8 h-8 text-primary" />,
+      icon: (
+        <div className="icon-circle w-10 h-10 rounded-full flex items-center justify-center mx-auto">
+          <HeadphonesIcon className="icon w-5 h-5" />
+        </div>
+      ),
       title: "Support Team",
       description: "24/7 guidance"
     },
     {
-      icon: <Zap className="w-8 h-8 text-primary" />,
+      icon: (
+        <div className="icon-circle w-10 h-10 rounded-full flex items-center justify-center mx-auto">
+          <Zap className="icon w-5 h-5" />
+        </div>
+      ),
       title: "Landing Pages",
       description: "Professional websites"
     },
     {
-      icon: <Users className="w-8 h-8 text-primary" />,
+      icon: (
+        <div className="icon-circle w-10 h-10 rounded-full flex items-center justify-center mx-auto">
+          <Users className="icon w-5 h-5" />
+        </div>
+      ),
       title: "Mentorship",
       description: "Expert guidance"
+    },
+    {
+      icon: (
+        <div className="icon-circle w-10 h-10 rounded-full flex items-center justify-center mx-auto">
+          <Star className="icon w-5 h-5" />
+        </div>
+      ),
+      title: "10+ services to start selling",
+      description: "Ready-made service offerings"
+    },
+    {
+      icon: (
+        <div className="icon-circle w-10 h-10 rounded-full flex items-center justify-center mx-auto">
+          <ArrowRight className="icon w-5 h-5" />
+        </div>
+      ),
+      title: "Sales strategies",
+      description: "Proven methods to close deals"
     }
   ];
 
@@ -352,15 +394,14 @@ const AiFreelancingPage = () => {
               <p className="text-primary font-bold text-lg">$2,000+ value — yours for $1 trial</p>
             </div>
           </div>
-          <div className="grid md:grid-cols-3 lg:grid-cols-3 gap-6 max-w-4xl mx-auto mb-12">
+          <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-6xl mx-auto mb-12">
             {benefits.map((benefit, index) => (
-              <div key={index} className="bg-card/40 backdrop-blur-sm border border-white/10 rounded-xl p-6 text-center hover:bg-card/60 transition-all group">
-                <div className="flex justify-center mb-4 group-hover:scale-110 transition-transform">
-                  {benefit.icon}
-                </div>
-                <h3 className="font-semibold mb-2 text-lg">{benefit.title}</h3>
-                <p className="text-sm text-muted-foreground">{benefit.description}</p>
-              </div>
+              <ProofCard
+                key={index}
+                title={benefit.title}
+                subtitle={benefit.description}
+                icon={benefit.icon}
+              />
             ))}
           </div>
           <div className="text-center">
