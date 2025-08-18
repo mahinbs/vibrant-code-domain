@@ -151,11 +151,8 @@ export const AnimatedJourneySection: React.FC<AnimatedJourneySectionProps> = ({ 
       const wrapperRect = wrapper.getBoundingClientRect();
       const cardRect = card.getBoundingClientRect();
       
-      // Use wrapper as coordinate space reference
-      const wrapperScrollY = wrapper.offsetTop;
-      const wrapperScrollX = wrapper.offsetLeft;
-      
       const margin = 16;
+      const totalSteps = journeySteps.length + 1; // Include CTA
       
       if (window.innerWidth < 768) {
         // Mobile: center-bottom anchor
@@ -165,7 +162,7 @@ export const AnimatedJourneySection: React.FC<AnimatedJourneySectionProps> = ({ 
         };
       }
       
-      // Desktop: precise border alternating
+      // Desktop anchoring for journey steps + CTA
       const isEven = index % 2 === 0;
       
       if (index === 0) {
@@ -176,15 +173,15 @@ export const AnimatedJourneySection: React.FC<AnimatedJourneySectionProps> = ({ 
         };
       }
       
-      if (index === journeySteps.length - 1) {
-        // Last card: bottom edge center
+      if (index === totalSteps - 1) {
+        // CTA card: top edge center (like first card)
         return {
           x: cardRect.left - wrapperRect.left + cardRect.width / 2,
-          y: cardRect.bottom - wrapperRect.top - margin
+          y: cardRect.top - wrapperRect.top + margin
         };
       }
       
-      // Middle cards: left/right edge alternating
+      // Middle cards (steps 2-7): left/right edge alternating
       return {
         x: isEven ? 
           cardRect.left - wrapperRect.left + margin : 
@@ -293,7 +290,7 @@ export const AnimatedJourneySection: React.FC<AnimatedJourneySectionProps> = ({ 
 
     window.addEventListener('resize', onResize);
     
-    // Re-layout when steps become visible
+    // Re-layout when steps become visible or CTA shows
     onStepVisibilityChange();
     
     return () => {
@@ -301,7 +298,7 @@ export const AnimatedJourneySection: React.FC<AnimatedJourneySectionProps> = ({ 
       ScrollTrigger.getAll().forEach(st => st.kill());
       gsap.killTweensOf(arrow);
     };
-  }, []);
+  }, [showCta]);
 
   return (
     <section 
@@ -476,35 +473,39 @@ export const AnimatedJourneySection: React.FC<AnimatedJourneySectionProps> = ({ 
               </div>
             );
           })}
-        </div>
 
-        {/* Animated CTA */}
-        <div className={`
-          text-center mt-16 transition-all duration-1000 ease-out
-          ${showCta ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-8 scale-95'}
-        `}>
-          <div className="relative max-w-lg mx-auto">
-            {/* Glow background */}
-            <div className="absolute inset-0 bg-gradient-to-r from-primary via-accent to-primary rounded-2xl blur-xl opacity-20 animate-pulse" />
-            
-            <div className="relative bg-card/90 backdrop-blur-sm border border-primary/20 rounded-2xl p-8">
-              <div className="flex items-center justify-center gap-2 mb-4">
-                <Sparkles className="w-6 h-6 text-primary animate-pulse" />
-                <h3 className="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                  All of this for just $1
-                </h3>
-                <Sparkles className="w-6 h-6 text-accent animate-pulse" />
+          {/* Animated CTA integrated into path */}
+          <div 
+            data-card
+            data-step={journeySteps.length}
+            className={`
+              text-center mt-16 transition-all duration-1000 ease-out
+              ${showCta ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-8 scale-95'}
+            `}
+          >
+            <div className="relative max-w-lg mx-auto">
+              {/* Glow background */}
+              <div className="absolute inset-0 bg-gradient-to-r from-primary via-accent to-primary rounded-2xl blur-xl opacity-20 animate-pulse" />
+              
+              <div className="relative bg-card/90 backdrop-blur-sm border border-primary/20 rounded-2xl p-8">
+                <div className="flex items-center justify-center gap-2 mb-4">
+                  <Sparkles className="w-6 h-6 text-primary animate-pulse" />
+                  <h3 className="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+                    All of this for just $1
+                  </h3>
+                  <Sparkles className="w-6 h-6 text-accent animate-pulse" />
+                </div>
+                
+                <p className="text-muted-foreground mb-6">Start your AI freelancing journey today</p>
+                
+                <Button 
+                  onClick={onCtaClick}
+                  size="lg"
+                  className="text-lg px-8 py-6 h-auto bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                >
+                  Start for $1 Today
+                </Button>
               </div>
-              
-              <p className="text-muted-foreground mb-6">Start your AI freelancing journey today</p>
-              
-              <Button 
-                onClick={onCtaClick}
-                size="lg"
-                className="text-lg px-8 py-6 h-auto bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
-              >
-                Start for $1 Today
-              </Button>
             </div>
           </div>
         </div>
