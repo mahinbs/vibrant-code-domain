@@ -371,7 +371,7 @@ export const AnimatedJourneySection: React.FC<AnimatedJourneySectionProps> = ({ 
                 data-card
                 data-anchor={step.direction === 'right' ? 'right' : 'left'}
                 className={`
-                  relative mb-16 last:mb-0 transition-all duration-700 ease-out
+                  relative mb-16 last:mb-0 transition-all duration-700 ease-out z-10
                   ${isVisible ? 'opacity-100 translate-x-0 translate-y-0' : 'opacity-0'}
                   ${!isVisible && step.direction === 'left' ? '-translate-x-16' : ''}
                   ${!isVisible && step.direction === 'right' ? 'translate-x-16' : ''}
