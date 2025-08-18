@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import StickyButton from '@/components/ui/StickyButton';
@@ -18,6 +18,42 @@ const AiFreelancingPage = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
+  
+  const vantaRef = useRef<HTMLDivElement | null>(null);
+  const vantaInstance = useRef<any>(null);
+
+  // Vanta Waves background effect
+  useEffect(() => {
+    const initVanta = () => {
+      if (!vantaRef.current || vantaInstance.current || !(window as any).VANTA?.WAVES) return;
+      
+      vantaInstance.current = (window as any).VANTA.WAVES({
+        el: vantaRef.current,
+        mouseControls: true,
+        touchControls: true,
+        gyroControls: false,
+        minHeight: 200.0,
+        minWidth: 200.0,
+        scale: 1.0,
+        scaleMobile: 1.0,
+        color: 0x200088
+      });
+    };
+
+    // Try to initialize immediately
+    initVanta();
+    
+    // If VANTA is not loaded yet, retry periodically
+    const retryInterval = setInterval(initVanta, 200);
+
+    return () => {
+      clearInterval(retryInterval);
+      if (vantaInstance.current) {
+        vantaInstance.current.destroy();
+        vantaInstance.current = null;
+      }
+    };
+  }, []);
 
   // Exit intent detection
   useEffect(() => {
@@ -128,7 +164,7 @@ const AiFreelancingPage = () => {
       
       {/* Hero Section */}
       <section className="pt-32 pb-20 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-secondary/10 pointer-events-none"></div>
+        <div ref={vantaRef} className="absolute inset-0 -z-10" />
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-6xl mx-auto">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
