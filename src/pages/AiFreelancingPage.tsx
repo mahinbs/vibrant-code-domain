@@ -301,20 +301,32 @@ const AiFreelancingPage = () => {
 
   const faqs = [
     {
+      question: "What kind of support will I get?",
+      answer: "You'll receive a dedicated landing page, CRM access, marketing and lead generation support, technical help for proposals and deals, plus complete project delivery so you can focus only on growth."
+    },
+    {
+      question: "What services can I sell?",
+      answer: "You can sell high-demand services like AI development, web and app development, UI/UX design, blockchain, cloud computing, VR/AR, chatbots, analytics, game development, IoT and more — all fulfilled by our expert team."
+    },
+    {
+      question: "Do I need to invest in tools or ads?",
+      answer: "No, you don't. Everything you need to start, including CRM, landing page, and project support, is already included."
+    },
+    {
+      question: "Can I do this part-time?",
+      answer: "Yes, you can begin part-time and scale up at your own pace as you bring in more clients."
+    },
+    {
+      question: "Is there any long-term contract?",
+      answer: "No, there are no binding contracts. You can cancel anytime after your trial if you don't wish to continue."
+    },
+    {
+      question: "How much can I earn?",
+      answer: "Your earnings depend on the clients you bring and the services you sell, but with high-value services, the potential is unlimited."
+    },
+    {
       question: "Do I need coding skills?",
       answer: "No, beginners are welcome! Our training is designed for people with no technical background."
-    },
-    {
-      question: "What if I can't find clients?",
-      answer: "We give you projects, proposals, and even help you find clients. You're never alone in this journey."
-    },
-    {
-      question: "What happens after the $1 trial?",
-      answer: "You choose to continue or stop. No hidden fees, no risk. Cancel anytime during the trial."
-    },
-    {
-      question: "How quickly can I start earning?",
-      answer: "70% of our freelancers get their first paying client within 30 days of starting the program."
     }
   ];
 
