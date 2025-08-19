@@ -25,6 +25,7 @@ const AiFreelancingPage = () => {
   const [showExitIntent, setShowExitIntent] = useState(false);
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
   const [instaVideos, setInstaVideos] = useState<string[]>([]);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [formData, setFormData] = useState({
@@ -386,7 +387,7 @@ const AiFreelancingPage = () => {
                           isVideoLoaded ? 'opacity-100' : 'opacity-0'
                         }`}
                         preload="auto"
-                        muted
+                        muted={isMuted}
                         playsInline
                         onLoadedData={() => setIsVideoLoaded(true)}
                         onPlay={() => setIsVideoPlaying(true)}
@@ -404,6 +405,8 @@ const AiFreelancingPage = () => {
                         <div 
                           onClick={() => {
                             if (videoRef.current) {
+                              setIsMuted(false);
+                              videoRef.current.muted = false;
                               videoRef.current.play();
                             }
                           }}
@@ -413,6 +416,25 @@ const AiFreelancingPage = () => {
                             <Play className="w-8 h-8 text-white ml-1" />
                           </div>
                         </div>
+                      )}
+                      
+                      {isVideoLoaded && isVideoPlaying && (
+                        <button
+                          onClick={() => {
+                            if (videoRef.current) {
+                              const newMutedState = !isMuted;
+                              setIsMuted(newMutedState);
+                              videoRef.current.muted = newMutedState;
+                            }
+                          }}
+                          className="absolute top-4 right-4 w-10 h-10 bg-black/50 rounded-full flex items-center justify-center hover:bg-black/70 transition-all z-10"
+                        >
+                          {isMuted ? (
+                            <HeadphonesIcon className="w-5 h-5 text-white" />
+                          ) : (
+                            <HeadphonesIcon className="w-5 h-5 text-primary" />
+                          )}
+                        </button>
                       )}
                     </div>
                   </AspectRatio>
