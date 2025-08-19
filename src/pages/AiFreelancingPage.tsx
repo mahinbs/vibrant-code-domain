@@ -12,7 +12,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
 import { supabase } from '@/integrations/supabase/client';
-import { Play, Check, Star, ArrowRight, X, Target, Users, Briefcase, BookOpen, Zap, HeadphonesIcon, User, Mail, MessageCircle } from 'lucide-react';
+import { Play, Check, Star, ArrowRight, X, Target, Users, Briefcase, BookOpen, Zap, HeadphonesIcon, User, Mail, MessageCircle, Palette, Cloud, Bot, Code, Smartphone, Box, Blocks, MessageSquare, BarChart3, Gamepad2, Wifi, UserCog, Megaphone, Layers } from 'lucide-react';
 import TrustBadges from '@/components/ui/TrustBadges';
 import TestimonialsSection from '@/components/ui/TestimonialsSection';
 import InstagramSocialProof from '@/components/social/InstagramSocialProof';
@@ -219,78 +219,141 @@ const AiFreelancingPage = () => {
     }
   };
 
-  const benefits = [
+  const servicesToSell = [
     {
       icon: (
         <div className="icon-circle w-10 h-10 rounded-full flex items-center justify-center mx-auto">
-          <BookOpen className="icon w-5 h-5" />
+          <Palette className="icon w-5 h-5" />
         </div>
       ),
-      title: "Training",
-      description: "Complete AI freelancing course"
+      title: "UX/UI Design",
+      description: "Modern, conversion-focused design solutions"
     },
     {
       icon: (
         <div className="icon-circle w-10 h-10 rounded-full flex items-center justify-center mx-auto">
-          <Target className="icon w-5 h-5" />
+          <Cloud className="icon w-5 h-5" />
         </div>
       ),
-      title: "CRM + Tools",
-      description: "Ready-to-use systems"
+      title: "Cloud Computing Services",
+      description: "Scalable cloud infrastructure and migration"
     },
     {
       icon: (
         <div className="icon-circle w-10 h-10 rounded-full flex items-center justify-center mx-auto">
-          <Briefcase className="icon w-5 h-5" />
+          <Bot className="icon w-5 h-5" />
         </div>
       ),
-      title: "Sell under our brand",
-      description: "Use our portfolio & proven reputation"
+      title: "Artificial Intelligence Development",
+      description: "Custom AI solutions and machine learning models"
     },
     {
       icon: (
         <div className="icon-circle w-10 h-10 rounded-full flex items-center justify-center mx-auto">
-          <HeadphonesIcon className="icon w-5 h-5" />
+          <Code className="icon w-5 h-5" />
         </div>
       ),
-      title: "Support Team",
-      description: "24/7 guidance"
+      title: "Web Full-stack Development",
+      description: "End-to-end web application development"
     },
     {
       icon: (
         <div className="icon-circle w-10 h-10 rounded-full flex items-center justify-center mx-auto">
-          <Zap className="icon w-5 h-5" />
+          <Smartphone className="icon w-5 h-5" />
         </div>
       ),
-      title: "Landing Pages",
-      description: "Professional websites"
+      title: "Mobile App Development",
+      description: "Native and cross-platform mobile applications"
     },
     {
       icon: (
         <div className="icon-circle w-10 h-10 rounded-full flex items-center justify-center mx-auto">
-          <Users className="icon w-5 h-5" />
+          <Box className="icon w-5 h-5" />
         </div>
       ),
-      title: "Mentorship",
-      description: "Expert guidance"
+      title: "VR/AR Development",
+      description: "Immersive virtual and augmented reality experiences"
     },
     {
       icon: (
         <div className="icon-circle w-10 h-10 rounded-full flex items-center justify-center mx-auto">
-          <Star className="icon w-5 h-5" />
+          <Blocks className="icon w-5 h-5" />
         </div>
       ),
-      title: "10+ services to start selling",
-      description: "Ready-made service offerings"
+      title: "Blockchain Development",
+      description: "Decentralized applications and smart contracts"
     },
     {
       icon: (
         <div className="icon-circle w-10 h-10 rounded-full flex items-center justify-center mx-auto">
-          <ArrowRight className="icon w-5 h-5" />
+          <MessageSquare className="icon w-5 h-5" />
         </div>
       ),
-      title: "Sales strategies",
-      description: "Proven methods to close deals"
+      title: "Chatbot Development",
+      description: "Intelligent conversational AI assistants"
+    },
+    {
+      icon: (
+        <div className="icon-circle w-10 h-10 rounded-full flex items-center justify-center mx-auto">
+          <BarChart3 className="icon w-5 h-5" />
+        </div>
+      ),
+      title: "Data Analytics & BI",
+      description: "Business intelligence and data visualization"
+    },
+    {
+      icon: (
+        <div className="icon-circle w-10 h-10 rounded-full flex items-center justify-center mx-auto">
+          <Gamepad2 className="icon w-5 h-5" />
+        </div>
+      ),
+      title: "Game Development",
+      description: "Interactive games and entertainment solutions"
+    },
+    {
+      icon: (
+        <div className="icon-circle w-10 h-10 rounded-full flex items-center justify-center mx-auto">
+          <Wifi className="icon w-5 h-5" />
+        </div>
+      ),
+      title: "IoT Development",
+      description: "Connected devices and IoT ecosystems"
+    },
+    {
+      icon: (
+        <div className="icon-circle w-10 h-10 rounded-full flex items-center justify-center mx-auto">
+          <UserCog className="icon w-5 h-5" />
+        </div>
+      ),
+      title: "VirtuTeams SaaS",
+      description: "Virtual team management platform"
+    },
+    {
+      icon: (
+        <div className="icon-circle w-10 h-10 rounded-full flex items-center justify-center mx-auto">
+          <Megaphone className="icon w-5 h-5" />
+        </div>
+      ),
+      title: "Speaksify SaaS",
+      description: "Voice and speech processing solutions"
+    },
+    {
+      icon: (
+        <div className="icon-circle w-10 h-10 rounded-full flex items-center justify-center mx-auto">
+          <Layers className="icon w-5 h-5" />
+        </div>
+      ),
+      title: "Projectsy.ai SaaS",
+      description: "AI-powered project management platform"
+    },
+    {
+      icon: (
+        <div className="icon-circle w-10 h-10 rounded-full flex items-center justify-center mx-auto">
+          <Bot className="icon w-5 h-5" />
+        </div>
+      ),
+      title: "ChromeBot.ai SaaS",
+      description: "Browser automation and AI assistant"
     }
   ];
 
@@ -529,7 +592,7 @@ const AiFreelancingPage = () => {
 
       <SectionDivider />
 
-      {/* What You'll Get for Just $1 Section */}
+      {/* What you can sell with BoostMySites BaaS Section */}
       <section className="py-20 relative overflow-hidden">
         <GlowBackdrop position="top-left" size="large" color="blue" intensity="medium" />
         <GlowBackdrop position="bottom-right" size="medium" color="purple" intensity="high" />
@@ -537,19 +600,16 @@ const AiFreelancingPage = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-black/70 pointer-events-none z-0"></div>
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-4xl mx-auto text-center mb-16">
-            <Title className="text-4xl mb-4">What You'll Get for Just $1</Title>
-            <p className="text-xl text-muted-foreground mb-6">Everything you need to start your AI freelancing journey</p>
-            <div className="inline-block bg-primary/20 border border-primary/40 rounded-full px-6 py-2">
-              <p className="text-primary font-bold text-lg">$2,000+ value — yours for $1 trial</p>
-            </div>
+            <Title className="text-4xl mb-4">What you can sell with BoostMySites BaaS</Title>
+            <p className="text-xl text-muted-foreground mb-6">Premium services ready for you to resell</p>
           </div>
           <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-6xl mx-auto mb-12">
-            {benefits.map((benefit, index) => (
+            {servicesToSell.map((service, index) => (
               <ProofCard
                 key={index}
-                title={benefit.title}
-                subtitle={benefit.description}
-                icon={benefit.icon}
+                title={service.title}
+                subtitle={service.description}
+                icon={service.icon}
               />
             ))}
           </div>
