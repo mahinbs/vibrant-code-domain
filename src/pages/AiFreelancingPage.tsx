@@ -15,7 +15,6 @@ import { supabase } from '@/integrations/supabase/client';
 import { Play, Check, Star, ArrowRight, X, Target, Users, Briefcase, BookOpen, Zap, HeadphonesIcon } from 'lucide-react';
 import TrustBadges from '@/components/ui/TrustBadges';
 import TestimonialsSection from '@/components/ui/TestimonialsSection';
-import VideoModal from '@/components/ui/VideoModal';
 import InstagramSocialProof from '@/components/social/InstagramSocialProof';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import ProofCard from '@/components/ui/ProofCard';
@@ -24,7 +23,7 @@ import { AspectRatio } from '@/components/ui/aspect-ratio';
 const AiFreelancingPage = () => {
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [showExitIntent, setShowExitIntent] = useState(false);
-  const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const [instaVideos, setInstaVideos] = useState<string[]>([]);
   const [formData, setFormData] = useState({
     name: '',
@@ -372,21 +371,46 @@ const AiFreelancingPage = () => {
               <div className="relative">
                 <div className="bg-card/40 backdrop-blur-sm border border-white/10 rounded-xl p-8 shadow-lg">
                   <AspectRatio ratio={9/16}>
-                    <div 
-                      onClick={() => setIsVideoModalOpen(true)}
-                      className="flex items-center justify-center w-full h-full bg-muted rounded-lg mb-4 relative group cursor-pointer hover:bg-muted/80 transition-all"
-                    >
-                      <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-lg"></div>
-                      <div className="relative z-10 text-center">
-                        <div className="w-20 h-20 bg-primary rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
-                          <Play className="w-8 h-8 text-white ml-1" />
+                    <div className="relative w-full h-full rounded-lg overflow-hidden">
+                      <video
+                        ref={(el) => {
+                          if (el) {
+                            el.preload = 'metadata';
+                          }
+                        }}
+                        className="w-full h-full object-cover"
+                        poster="/placeholder.svg"
+                        onPlay={() => setIsVideoPlaying(true)}
+                        onPause={() => setIsVideoPlaying(false)}
+                        onEnded={() => setIsVideoPlaying(false)}
+                        onError={(e) => {
+                          console.error('Video failed to load:', e);
+                          const target = e.target as HTMLVideoElement;
+                          target.style.display = 'none';
+                        }}
+                      >
+                        <source src="https://upxsbhsamorhvnfebvor.supabase.co/storage/v1/object/public/demo-videos/Captions_DD38D9.MP4" type="video/mp4" />
+                      </video>
+                      
+                      {!isVideoPlaying && (
+                        <div 
+                          onClick={() => {
+                            const video = document.querySelector('video') as HTMLVideoElement;
+                            if (video) {
+                              video.play();
+                              setIsVideoPlaying(true);
+                            }
+                          }}
+                          className="absolute inset-0 flex items-center justify-center bg-black/50 cursor-pointer group hover:bg-black/40 transition-all"
+                        >
+                          <div className="w-20 h-20 bg-primary rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <Play className="w-8 h-8 text-white ml-1" />
+                          </div>
                         </div>
-                        <p className="text-white font-semibold">Watch: How you'll start freelancing for $1</p>
-                        <p className="text-gray-300 text-sm mt-1">1 minute demo</p>
-                      </div>
+                      )}
                     </div>
                   </AspectRatio>
-                  <p className="text-sm text-muted-foreground text-center">
+                  <p className="text-sm text-muted-foreground text-center mt-4">
                     See exactly what you'll get in your $1 trial
                   </p>
                 </div>
@@ -596,11 +620,6 @@ const AiFreelancingPage = () => {
         text="Start for $1" 
         onClick={scrollToForm}
         bgColor="#22c55e"
-      />
-
-      <VideoModal 
-        isOpen={isVideoModalOpen} 
-        onClose={() => setIsVideoModalOpen(false)} 
       />
 
       <Footer />
