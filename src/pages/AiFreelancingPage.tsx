@@ -3,8 +3,7 @@ import { gsap } from 'gsap';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import StickyButton from '@/components/ui/StickyButton';
-import GlowBackdrop from '@/components/ui/GlowBackdrop';
-import SectionDivider from '@/components/ui/SectionDivider';
+import PageGlowLayer from '@/components/ui/PageGlowLayer';
 import { AnimatedJourneySection } from '@/components/journey/AnimatedJourneySection';
 import FeaturedLogosMarquee from '@/components/FeaturedLogosMarquee';
 import Title from '@/components/ui/Title';
@@ -424,15 +423,13 @@ const AiFreelancingPage = () => {
 
   return (
     <div className="min-h-screen bg-black text-white dark overflow-x-hidden">
+      <PageGlowLayer />
       <Header />
       
       {/* Hero Section */}
       <section className="pt-40 md:pt-44 lg:pt-48 pb-20 relative overflow-hidden">
         <div ref={vantaRef} className="absolute inset-0 z-0 pointer-events-none" />
-        <GlowBackdrop position="top-right" size="large" color="blue" intensity="high" />
-        <GlowBackdrop position="bottom-left" size="medium" color="teal" intensity="medium" />
-        <GlowBackdrop position="center" size="large" color="purple" intensity="low" className="opacity-30" />
-        <div className="container mx-auto px-6 relative z-10">
+        <div className="container mx-auto px-6 relative z-20">
           <div className="max-w-6xl mx-auto">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div>
@@ -553,25 +550,14 @@ const AiFreelancingPage = () => {
             </div>
           </div>
         </div>
-        
-        <div className="relative w-full h-px mt-8">
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-        </div>
       </section>
 
       {/* Your Journey to Success Section */}
       <div className="relative overflow-hidden">
-        <GlowBackdrop position="center" size="large" color="teal" intensity="medium" />
-        <GlowBackdrop position="top-right" size="large" color="blue" intensity="high" />
-        <GlowBackdrop position="bottom-left" size="medium" color="purple" intensity="high" />
         <AnimatedJourneySection onCtaClick={scrollToForm} />
       </div>
 
-      <SectionDivider />
-
       <TestimonialsSection />
-
-      <SectionDivider />
 
       <InstagramSocialProof 
         videoUrls={instaVideos}
@@ -581,15 +567,9 @@ const AiFreelancingPage = () => {
         background="inherit"
       />
 
-      <SectionDivider />
-
       {/* FAQ Section */}
       <section className="py-20 relative overflow-hidden">
-        <GlowBackdrop position="top-right" size="large" color="blue" intensity="high" />
-        <GlowBackdrop position="bottom-left" size="large" color="teal" intensity="medium" />
-        <GlowBackdrop position="center" size="medium" color="purple" intensity="low" />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-black/70 pointer-events-none z-0"></div>
-        <div className="container mx-auto px-6 relative z-10">
+        <div className="container mx-auto px-6 relative z-20">
           <div className="text-center mb-16">
             <Title className="text-4xl mb-4">Frequently Asked Questions</Title>
           </div>
@@ -616,15 +596,9 @@ const AiFreelancingPage = () => {
         </div>
       </section>
 
-      <SectionDivider />
-
       {/* What you can sell with BoostMySites BaaS Section */}
       <section className="py-20 relative overflow-hidden">
-        <GlowBackdrop position="top-left" size="large" color="blue" intensity="medium" />
-        <GlowBackdrop position="bottom-right" size="medium" color="purple" intensity="high" />
-        <GlowBackdrop position="center" size="small" color="teal" intensity="low" />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-black/70 pointer-events-none z-0"></div>
-        <div className="container mx-auto px-6 relative z-10">
+        <div className="container mx-auto px-6 relative z-20">
           <div className="max-w-4xl mx-auto text-center mb-16">
             <Title className="text-4xl mb-4">What you can sell with BoostMySites BaaS</Title>
             <p className="text-xl text-muted-foreground mb-6">Premium services ready for you to resell</p>
@@ -659,16 +633,9 @@ const AiFreelancingPage = () => {
         </div>
       </section>
 
-      <SectionDivider />
-
       {/* Final CTA Section */}
       <section id="lead-form" className="py-20 relative overflow-hidden">
-        <GlowBackdrop position="bottom-left" size="large" color="purple" intensity="high" />
-        <GlowBackdrop position="top-right" size="large" color="blue" intensity="high" />
-        <GlowBackdrop position="center" size="medium" color="teal" intensity="medium" />
-        <GlowBackdrop position="bottom-right" size="small" color="blue" intensity="low" />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/70 to-black/90 pointer-events-none z-0"></div>
-        <div className="container mx-auto px-6 relative z-10">
+        <div className="container mx-auto px-6 relative z-20">
           <div className="max-w-2xl mx-auto text-center">
             <Title className="text-4xl mb-4">Your AI Freelancing Journey Starts Today</Title>
             <p className="text-xl text-muted-foreground mb-8">For the price of a coffee</p>
