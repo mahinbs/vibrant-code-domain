@@ -360,6 +360,9 @@ const AiFreelancingPage = () => {
                   <p className="text-red-300 text-sm font-semibold">⏰ Limited to first 100 freelancers only</p>
                   <p className="text-red-200 text-xs">Secure your spot now</p>
                 </div>
+                <div className="bg-green-500/20 border border-green-500/40 rounded-lg p-3 mb-6 max-w-md">
+                  <p className="text-green-300 text-sm font-semibold">💰 Oh, guess what? You earn 70% commission</p>
+                </div>
                 <Button 
                   onClick={scrollToForm}
                   size="lg"
