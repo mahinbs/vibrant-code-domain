@@ -1,5 +1,6 @@
 import React from 'react';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import { Button } from "@/components/ui/button";
 
 interface InstagramSocialProofProps {
   videoUrls: string[];
@@ -108,12 +109,13 @@ const InstagramSocialProof: React.FC<InstagramSocialProofProps> = ({
               <p className={`text-lg mb-4 ${background === 'video' ? 'text-white/90 drop-shadow-md' : 'text-muted-foreground'}`}>
                 Want to become next?
               </p>
-              <button
+              <Button
                 onClick={onCta}
-                className="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+                size="lg"
+                className="font-semibold"
               >
                 Start Your Success Story for $1
-              </button>
+              </Button>
             </div>
           )}
         </div>
