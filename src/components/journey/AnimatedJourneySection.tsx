@@ -220,6 +220,11 @@ export const AnimatedJourneySection: React.FC<AnimatedJourneySectionProps> = ({ 
     function layout() {
       // Wait for animations to settle
       setTimeout(() => {
+        // Detect mobile sticky CTA once at the top
+        const mobileStickyCTA = document.querySelector('[data-sticky-cta="true"]') as HTMLElement;
+        const stickyCtaHeight = (mobileStickyCTA?.offsetHeight || 0) + 20; // Add padding
+        const isMobile = window.innerWidth < 768;
+        
         const wrapperRect = wrapper.getBoundingClientRect();
         svg.setAttribute('width', wrapperRect.width.toString());
         svg.setAttribute('height', wrapperRect.height.toString());
@@ -257,13 +262,15 @@ export const AnimatedJourneySection: React.FC<AnimatedJourneySectionProps> = ({ 
         
         // Calculate scroll targets based on actual card center positions
         const scrollTargets: number[] = [];
+        
         cards.forEach((card, index) => {
           const cardRect = card.getBoundingClientRect();
           const wrapperRect = wrapper.getBoundingClientRect();
-          // Use card top position for better arrow alignment with card start
-          const cardTop = cardRect.top - wrapperRect.top;
-          const totalHeight = wrapperRect.height;
-          scrollTargets.push(Math.max(0, Math.min(1, (cardTop + 50) / totalHeight)));
+          // Adjust for mobile sticky CTA
+          const viewportOffset = isMobile ? stickyCtaHeight : 0;
+          const cardCenter = cardRect.top + cardRect.height / 2 - wrapperRect.top;
+          const adjustedHeight = wrapperRect.height - viewportOffset;
+          scrollTargets.push(Math.max(0, Math.min(1, cardCenter / adjustedHeight)));
         });
         
         for (let i = 0; i < segments.length; i++) {
@@ -302,25 +309,55 @@ export const AnimatedJourneySection: React.FC<AnimatedJourneySectionProps> = ({ 
 
         let reachedFinal = false;
 
+        // Adjust scroll trigger based on mobile sticky CTA
+        const startOffset = isMobile ? 'top 30%' : 'top 20%';
+        const endOffset = isMobile ? `bottom+=${stickyCtaHeight + 100} 70%` : 'bottom 80%';
+
         ScrollTrigger.create({
           trigger: wrapper,
-          start: 'top 20%',
-          end: 'bottom 80%',
+          start: startOffset,
+          end: endOffset,
           scrub: 1,
+          refreshPriority: -1,
           onUpdate: (self) => {
             const scrollProgress = self.progress;
             
-            // Map scroll progress to path progress using anchor points
+            // Enhanced mapping with card-based synchronization
             let pathProgress = 0;
             
-            for (let i = 0; i < anchorProgressPoints.length - 1; i++) {
-              const current = anchorProgressPoints[i];
-              const next = anchorProgressPoints[i + 1];
+            // Calculate which card should be active based on scroll position
+            const wrapperRect = wrapper.getBoundingClientRect();
+            const viewportCenter = window.innerHeight / 2;
+            const activeCardIndex = cards.findIndex(card => {
+              const cardRect = card.getBoundingClientRect();
+              return cardRect.top <= viewportCenter && cardRect.bottom >= viewportCenter;
+            });
+            
+            if (activeCardIndex >= 0) {
+              // Synchronize path progress with active card
+              const cardProgress = activeCardIndex / (cards.length - 1);
+              const nextCardProgress = Math.min((activeCardIndex + 1) / (cards.length - 1), 1);
               
-              if (scrollProgress >= current.scrollProgress && scrollProgress <= next.scrollProgress) {
-                const localProgress = (scrollProgress - current.scrollProgress) / (next.scrollProgress - current.scrollProgress);
-                pathProgress = current.pathProgress + localProgress * (next.pathProgress - current.pathProgress);
-                break;
+              // Fine-tune based on card position within viewport
+              const activeCard = cards[activeCardIndex];
+              const cardRect = activeCard.getBoundingClientRect();
+              const cardCenterY = cardRect.top + cardRect.height / 2;
+              const distanceFromCenter = Math.abs(cardCenterY - viewportCenter);
+              const cardHeight = cardRect.height;
+              const localProgress = Math.max(0, 1 - (distanceFromCenter / (cardHeight / 2)));
+              
+              pathProgress = cardProgress + (nextCardProgress - cardProgress) * localProgress * 0.3;
+            } else {
+              // Fallback to scroll-based progress
+              for (let i = 0; i < anchorProgressPoints.length - 1; i++) {
+                const current = anchorProgressPoints[i];
+                const next = anchorProgressPoints[i + 1];
+                
+                if (scrollProgress >= current.scrollProgress && scrollProgress <= next.scrollProgress) {
+                  const localProgress = (scrollProgress - current.scrollProgress) / (next.scrollProgress - current.scrollProgress);
+                  pathProgress = current.pathProgress + localProgress * (next.pathProgress - current.pathProgress);
+                  break;
+                }
               }
             }
             
@@ -340,6 +377,10 @@ export const AnimatedJourneySection: React.FC<AnimatedJourneySectionProps> = ({ 
             } else if (pathProgress < 0.85) {
               reachedFinal = false;
             }
+          },
+          onRefresh: () => {
+            // Recalculate on refresh
+            setTimeout(layout, 100);
           }
         });
       }, 100);
@@ -436,7 +477,10 @@ export const AnimatedJourneySection: React.FC<AnimatedJourneySectionProps> = ({ 
     // Handle resize and step visibility changes
     const onResize = () => {
       clearTimeout((window as any).__journeyResizeTimeout);
-      (window as any).__journeyResizeTimeout = setTimeout(layout, 150);
+      (window as any).__journeyResizeTimeout = setTimeout(() => {
+        layout();
+        ScrollTrigger.refresh();
+      }, 150);
     };
 
     const onStepVisibilityChange = () => {
@@ -444,15 +488,32 @@ export const AnimatedJourneySection: React.FC<AnimatedJourneySectionProps> = ({ 
       (window as any).__journeyStepTimeout = setTimeout(layout, 200);
     };
 
+    // Watch for mobile sticky CTA changes
+    const onStickyCtaChange = () => {
+      clearTimeout((window as any).__journeyStickyTimeout);
+      (window as any).__journeyStickyTimeout = setTimeout(() => {
+        layout();
+        ScrollTrigger.refresh();
+      }, 100);
+    };
+
     window.addEventListener('resize', onResize);
     
     // Re-layout when steps become visible or CTA shows
     onStepVisibilityChange();
     
+    // Watch for changes in sticky CTA visibility
+    const observer = new MutationObserver(onStickyCtaChange);
+    const stickyElement = document.querySelector('[data-sticky-cta="true"]');
+    if (stickyElement) {
+      observer.observe(stickyElement, { attributes: true, childList: true, subtree: true });
+    }
+    
     return () => {
       window.removeEventListener('resize', onResize);
       ScrollTrigger.getAll().forEach(st => st.kill());
       gsap.killTweensOf(arrow);
+      observer.disconnect();
     };
   }, [showCta]);
 
