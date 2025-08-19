@@ -12,7 +12,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
 import { supabase } from '@/integrations/supabase/client';
-import { Play, Check, Star, ArrowRight, X, Target, Users, Briefcase, BookOpen, Zap, HeadphonesIcon, User, Mail, Phone } from 'lucide-react';
+import { Play, Check, Star, ArrowRight, X, Target, Users, Briefcase, BookOpen, Zap, HeadphonesIcon, User, Mail, MessageCircle } from 'lucide-react';
 import TrustBadges from '@/components/ui/TrustBadges';
 import TestimonialsSection from '@/components/ui/TestimonialsSection';
 import InstagramSocialProof from '@/components/social/InstagramSocialProof';
@@ -602,9 +602,9 @@ const AiFreelancingPage = () => {
                     />
                   </div>
                   <div className="relative">
-                    <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
                     <div className="flex">
-                      <div className="bg-muted px-3 py-2 border border-r-0 rounded-l-md border-input text-muted-foreground text-sm flex items-center">
+                      <div className="bg-muted px-3 py-2 border border-r-0 rounded-l-md border-input text-muted-foreground text-sm flex items-center gap-2">
+                        <MessageCircle className="h-4 w-4" />
                         +91
                       </div>
                       <Input
