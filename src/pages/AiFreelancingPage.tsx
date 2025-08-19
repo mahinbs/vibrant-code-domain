@@ -12,7 +12,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
 import { supabase } from '@/integrations/supabase/client';
-import { Play, Check, Star, ArrowRight, X, Target, Users, Briefcase, BookOpen, Zap, HeadphonesIcon } from 'lucide-react';
+import { Play, Check, Star, ArrowRight, X, Target, Users, Briefcase, BookOpen, Zap, HeadphonesIcon, User, Mail, Phone } from 'lucide-react';
 import TrustBadges from '@/components/ui/TrustBadges';
 import TestimonialsSection from '@/components/ui/TestimonialsSection';
 import InstagramSocialProof from '@/components/social/InstagramSocialProof';
@@ -31,7 +31,7 @@ const AiFreelancingPage = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    phone: ''
+    whatsapp_number: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
@@ -194,7 +194,7 @@ const AiFreelancingPage = () => {
         .insert([{
           name: formData.name,
           email: formData.email,
-          phone: formData.phone,
+          whatsapp_number: formData.whatsapp_number,
           source: 'ai_freelancing_trial'
         }]);
 
@@ -205,7 +205,7 @@ const AiFreelancingPage = () => {
         description: "Thank you for your interest! We'll contact you soon with your $1 trial details.",
       });
 
-      setFormData({ name: '', email: '', phone: '' });
+      setFormData({ name: '', email: '', whatsapp_number: '' });
       setIsFormVisible(false);
     } catch (error) {
       console.error('Error submitting form:', error);
@@ -579,27 +579,49 @@ const AiFreelancingPage = () => {
             {isFormVisible && (
               <form onSubmit={handleFormSubmit} className="bg-card/40 backdrop-blur-sm border border-white/10 rounded-xl p-8 shadow-lg">
                 <div className="space-y-4">
-                  <Input
-                    type="text"
-                    placeholder="Your Name"
-                    value={formData.name}
-                    onChange={(e) => setFormData({...formData, name: e.target.value})}
-                    required
-                  />
-                  <Input
-                    type="email"
-                    placeholder="Your Email"
-                    value={formData.email}
-                    onChange={(e) => setFormData({...formData, email: e.target.value})}
-                    required
-                  />
-                  <Input
-                    type="tel"
-                    placeholder="Your Phone (Optional)"
-                    value={formData.phone}
-                    onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                    required
-                  />
+                  <div className="relative">
+                    <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+                    <Input
+                      type="text"
+                      placeholder="Your Name"
+                      value={formData.name}
+                      onChange={(e) => setFormData({...formData, name: e.target.value})}
+                      required
+                      className="pl-10"
+                    />
+                  </div>
+                  <div className="relative">
+                    <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+                    <Input
+                      type="email"
+                      placeholder="Your Email"
+                      value={formData.email}
+                      onChange={(e) => setFormData({...formData, email: e.target.value})}
+                      required
+                      className="pl-10"
+                    />
+                  </div>
+                  <div className="relative">
+                    <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+                    <div className="flex">
+                      <div className="bg-muted px-3 py-2 border border-r-0 rounded-l-md border-input text-muted-foreground text-sm flex items-center">
+                        +91
+                      </div>
+                      <Input
+                        type="tel"
+                        placeholder="WhatsApp Number (10 digits)"
+                        value={formData.whatsapp_number}
+                        onChange={(e) => {
+                          const value = e.target.value.replace(/\D/g, '').slice(0, 10);
+                          setFormData({...formData, whatsapp_number: value});
+                        }}
+                        required
+                        className="rounded-l-none pl-3"
+                        maxLength={10}
+                        pattern="[0-9]{10}"
+                      />
+                    </div>
+                  </div>
                   <Button 
                     type="submit" 
                     size="lg" 
