@@ -38,7 +38,7 @@ import PortfolioForm from "./pages/admin/PortfolioForm";
 import CaseStudyList from "./pages/admin/CaseStudyList";
 import BlogList from "./pages/admin/BlogList";
 import BlogForm from "./pages/admin/BlogForm";
-import LinkGenerator from "./pages/admin/LinkGenerator";
+import { LinkGenerator } from "./pages/admin/LinkGenerator";
 import WebinarManagement from "./pages/admin/WebinarManagement";
 import ProtectedRoute from "./components/admin/ProtectedRoute";
 import PartnershipPage from "./pages/PartnershipPage";

@@ -28,7 +28,7 @@ const TrialLeads = () => {
   const [leads, setLeads] = useState<TrialLead[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
-  const [sourceFilter, setSour ceFilter] = useState('all');
+  const [sourceFilter, setSourceFilter] = useState('all');
 
   const loadTrialLeads = async () => {
     try {
