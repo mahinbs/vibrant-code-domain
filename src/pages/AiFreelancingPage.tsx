@@ -219,6 +219,17 @@ const AiFreelancingPage = () => {
     }
   };
 
+  // Helper functions for pricing
+  const convertInrToUsd = (inr: number, rate: number = 83): number => {
+    return Math.round((inr / rate) / 5) * 5; // Round to nearest $5
+  };
+
+  const formatUsd = (usd: number): string => {
+    return `$${usd}+ avg deal size`;
+  };
+
+  const [activeServiceIndex, setActiveServiceIndex] = useState<number | null>(null);
+
   const servicesToSell = [
     {
       icon: (
@@ -227,7 +238,8 @@ const AiFreelancingPage = () => {
         </div>
       ),
       title: "UX/UI Design",
-      description: "Modern, conversion-focused design solutions"
+      description: "Modern, conversion-focused design solutions",
+      minInr: 33333
     },
     {
       icon: (
@@ -236,7 +248,8 @@ const AiFreelancingPage = () => {
         </div>
       ),
       title: "Cloud Computing Services",
-      description: "Scalable cloud infrastructure and migration"
+      description: "Scalable cloud infrastructure and migration",
+      minInr: 87000
     },
     {
       icon: (
@@ -245,7 +258,8 @@ const AiFreelancingPage = () => {
         </div>
       ),
       title: "Artificial Intelligence Development",
-      description: "Custom AI solutions and machine learning models"
+      description: "Custom AI solutions and machine learning models",
+      minInr: 125354
     },
     {
       icon: (
@@ -254,7 +268,8 @@ const AiFreelancingPage = () => {
         </div>
       ),
       title: "Web Full-stack Development",
-      description: "End-to-end web application development"
+      description: "End-to-end web application development",
+      minInr: 36105
     },
     {
       icon: (
@@ -263,7 +278,8 @@ const AiFreelancingPage = () => {
         </div>
       ),
       title: "Mobile App Development",
-      description: "Native and cross-platform mobile applications"
+      description: "Native and cross-platform mobile applications",
+      minInr: 69608
     },
     {
       icon: (
@@ -272,7 +288,8 @@ const AiFreelancingPage = () => {
         </div>
       ),
       title: "VR/AR Development",
-      description: "Immersive virtual and augmented reality experiences"
+      description: "Immersive virtual and augmented reality experiences",
+      minInr: 95000
     },
     {
       icon: (
@@ -281,7 +298,8 @@ const AiFreelancingPage = () => {
         </div>
       ),
       title: "Blockchain Development",
-      description: "Decentralized applications and smart contracts"
+      description: "Decentralized applications and smart contracts",
+      minInr: 92000
     },
     {
       icon: (
@@ -290,7 +308,8 @@ const AiFreelancingPage = () => {
         </div>
       ),
       title: "Chatbot Development",
-      description: "Intelligent conversational AI assistants"
+      description: "Intelligent conversational AI assistants",
+      minInr: 10128
     },
     {
       icon: (
@@ -299,7 +318,8 @@ const AiFreelancingPage = () => {
         </div>
       ),
       title: "Data Analytics & BI",
-      description: "Business intelligence and data visualization"
+      description: "Business intelligence and data visualization",
+      minInr: 20072
     },
     {
       icon: (
@@ -308,7 +328,8 @@ const AiFreelancingPage = () => {
         </div>
       ),
       title: "Game Development",
-      description: "Interactive games and entertainment solutions"
+      description: "Interactive games and entertainment solutions",
+      minInr: 99999
     },
     {
       icon: (
@@ -317,7 +338,8 @@ const AiFreelancingPage = () => {
         </div>
       ),
       title: "IoT Development",
-      description: "Connected devices and IoT ecosystems"
+      description: "Connected devices and IoT ecosystems",
+      minInr: 53392
     },
     {
       icon: (
@@ -326,7 +348,8 @@ const AiFreelancingPage = () => {
         </div>
       ),
       title: "VirtuTeams SaaS",
-      description: "Virtual team management platform"
+      description: "Virtual team management platform (affiliate)",
+      minInr: 20000
     },
     {
       icon: (
@@ -335,7 +358,8 @@ const AiFreelancingPage = () => {
         </div>
       ),
       title: "Speaksify SaaS",
-      description: "Voice and speech processing solutions"
+      description: "Voice and speech processing solutions (affiliate)",
+      minInr: 20010
     },
     {
       icon: (
@@ -344,7 +368,8 @@ const AiFreelancingPage = () => {
         </div>
       ),
       title: "Projectsy.ai SaaS",
-      description: "AI-powered project management platform"
+      description: "AI-powered project management platform (affiliate)",
+      minInr: 50000
     },
     {
       icon: (
@@ -353,7 +378,8 @@ const AiFreelancingPage = () => {
         </div>
       ),
       title: "ChromeBot.ai SaaS",
-      description: "Browser automation and AI assistant"
+      description: "Browser automation and AI assistant (affiliate)",
+      minInr: 20000
     }
   ];
 
@@ -604,14 +630,25 @@ const AiFreelancingPage = () => {
             <p className="text-xl text-muted-foreground mb-6">Premium services ready for you to resell</p>
           </div>
           <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-6xl mx-auto mb-12">
-            {servicesToSell.map((service, index) => (
-              <ProofCard
-                key={index}
-                title={service.title}
-                subtitle={service.description}
-                icon={service.icon}
-              />
-            ))}
+            {servicesToSell.map((service, index) => {
+              const usdPrice = convertInrToUsd(service.minInr);
+              const isActive = activeServiceIndex === index;
+              
+              return (
+                <ProofCard
+                  key={index}
+                  title={service.title}
+                  subtitle={service.description}
+                  icon={service.icon}
+                  priceUsd={formatUsd(usdPrice)}
+                  revealOnInteraction={true}
+                  active={isActive}
+                  onClick={() => setActiveServiceIndex(isActive ? null : index)}
+                  onMouseEnter={() => setActiveServiceIndex(index)}
+                  onMouseLeave={() => setActiveServiceIndex(null)}
+                />
+              );
+            })}
           </div>
           <div className="text-center">
             <Button onClick={scrollToForm} variant="outline" size="lg" className="mb-4">
