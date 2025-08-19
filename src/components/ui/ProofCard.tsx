@@ -35,6 +35,11 @@ const ProofCard = ({
     }
   };
 
+  const isRevealed = revealOnInteraction ? active : false;
+  const shouldReveal = revealOnInteraction 
+    ? "group-hover:opacity-100 group-hover:translate-y-0 group-focus-within:opacity-100 group-focus-within:translate-y-0"
+    : "opacity-100 translate-y-0";
+
   return (
     <div
       className={cn(
@@ -59,49 +64,42 @@ const ProofCard = ({
       {/* Colorful radial glow on hover */}
       <div className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-[radial-gradient(120%_80%_at_50%_0%,rgba(59,130,246,0.22)_0%,rgba(168,85,247,0.18)_45%,transparent_75%)]" />
       
-      {/* Content layers */}
-      <div className="relative z-10 h-full flex flex-col justify-center">
-        
-        {/* Icon layer - fades out on hover */}
+      {/* Idle Layer - Default state with icon and centered title */}
+      <div className={cn(
+        "absolute inset-0 p-4 flex flex-col items-center justify-center transition-all duration-300",
+        "opacity-100 scale-100 group-hover:opacity-0 group-hover:scale-95 group-focus-within:opacity-0 group-focus-within:scale-95",
+        isRevealed && "opacity-0 scale-95"
+      )}>
+        {/* Icon */}
         {icon && (
-          <div
-            className={cn(
-              "absolute inset-x-0 top-3 flex items-center justify-center transition-all duration-300",
-              "opacity-100 group-hover:opacity-0 group-focus-within:opacity-0",
-              revealOnInteraction && active && "opacity-0",
-              "[&_.icon]:text-white/80 [&_.icon]:transition-colors",
-              "[&_.icon-circle]:bg-white/10 [&_.icon-circle]:ring-1 [&_.icon-circle]:ring-white/20",
-              "[&_.icon-circle]:shadow-[0_0_20px_rgba(255,255,255,0.15)] [&_.icon-circle]:transition-all"
-            )}
-          >
+          <div className="mb-3 [&_.icon]:text-white/80 [&_.icon-circle]:bg-white/10 [&_.icon-circle]:ring-1 [&_.icon-circle]:ring-white/20 [&_.icon-circle]:shadow-[0_0_20px_rgba(255,255,255,0.15)]">
             {icon}
           </div>
         )}
+        
+        {/* Centered Title */}
+        <p className="font-semibold text-sm text-white/90">
+          {title}
+        </p>
+      </div>
 
-        {/* Title - slides up on hover */}
-        <div
-          className={cn(
-            "absolute inset-x-4 transition-all duration-300",
-            "top-1/2 -translate-y-1/2 group-hover:top-6 group-hover:translate-y-0 group-focus-within:top-6 group-focus-within:translate-y-0",
-            revealOnInteraction && active && "top-6 translate-y-0"
-          )}
-        >
-          <p className="font-semibold text-sm transition-colors duration-300 group-hover:text-white text-white/90">
+      {/* Reveal Layer - Hover state with title at top and content at bottom */}
+      <div className={cn(
+        "absolute inset-0 p-4 flex flex-col justify-between transition-all duration-300",
+        "opacity-0 scale-105 translate-y-2",
+        shouldReveal,
+        isRevealed && "opacity-100 scale-100 translate-y-0"
+      )}>
+        {/* Top: Title */}
+        <div className="pt-2">
+          <p className="font-semibold text-sm text-white">
             {title}
           </p>
         </div>
-
-        {/* Description and price - fade in on hover */}
-        <div
-          className={cn(
-            "absolute inset-x-4 bottom-4 transition-all duration-300",
-            revealOnInteraction 
-              ? "opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 group-focus-within:opacity-100 group-focus-within:translate-y-0"
-              : "opacity-100 translate-y-0",
-            active && "opacity-100 translate-y-0"
-          )}
-        >
-          <p className="text-xs text-muted-foreground transition-colors duration-300 group-hover:text-white/80 mb-2">
+        
+        {/* Bottom: Description and Price */}
+        <div>
+          <p className="text-xs text-white/80 mb-2">
             {subtitle}
           </p>
           {priceUsd && (
@@ -110,7 +108,6 @@ const ProofCard = ({
             </p>
           )}
         </div>
-
       </div>
     </div>
   );
