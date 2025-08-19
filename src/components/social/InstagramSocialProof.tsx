@@ -52,6 +52,13 @@ const InstagramSocialProof: React.FC<InstagramSocialProofProps> = ({
         </>
       )}
       
+      {/* Internal Glow Effects - Contained within viewport */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden z-15">
+        <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-primary/15 rounded-full blur-3xl opacity-70"></div>
+        <div className="absolute bottom-1/3 left-1/3 w-80 h-80 bg-accent/20 rounded-full blur-3xl opacity-60"></div>
+        <div className="absolute top-1/2 right-1/6 w-72 h-72 bg-primary/10 rounded-full blur-2xl opacity-50"></div>
+      </div>
+      
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
         <div className="text-center mb-12">
           <h3 className={`text-2xl md:text-3xl font-bold mb-3 ${background === 'video' ? 'text-white drop-shadow-lg' : 'text-white'}`}>
