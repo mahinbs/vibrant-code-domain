@@ -25,7 +25,7 @@ const AiFreelancingPage = () => {
   const [showExitIntent, setShowExitIntent] = useState(false);
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
-  const [isMuted, setIsMuted] = useState(true);
+  const [isMuted, setIsMuted] = useState(false);
   const [instaVideos, setInstaVideos] = useState<string[]>([]);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [formData, setFormData] = useState({
