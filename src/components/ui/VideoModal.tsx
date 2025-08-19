@@ -8,17 +8,17 @@ interface VideoModalProps {
 }
 
 const VideoModal: React.FC<VideoModalProps> = ({ isOpen, onClose }) => {
-  const videoUrl = "https://upxsbhsamorhvnfebvor.supabase.co/storage/v1/object/public/demo-videos/ai-freelancing-demo.mp4";
+  const videoUrl = "https://upxsbhsamorhvnfebvor.supabase.co/storage/v1/object/public/demo-videos/Captions_DD38D9.MP4";
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl w-full">
+      <DialogContent className="max-w-sm w-full">
         <DialogHeader>
           <DialogTitle>Watch: How to Start AI Freelancing for $1</DialogTitle>
         </DialogHeader>
-        <div className="aspect-video bg-black rounded-lg overflow-hidden">
+        <div className="aspect-[9/16] bg-black rounded-lg overflow-hidden">
           <video
-            className="w-full h-full"
+            className="w-full h-full object-contain"
             controls
             poster="/placeholder.svg"
             onError={(e) => {

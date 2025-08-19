@@ -19,6 +19,7 @@ import VideoModal from '@/components/ui/VideoModal';
 import InstagramSocialProof from '@/components/social/InstagramSocialProof';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import ProofCard from '@/components/ui/ProofCard';
+import { AspectRatio } from '@/components/ui/aspect-ratio';
 
 const AiFreelancingPage = () => {
   const [isFormVisible, setIsFormVisible] = useState(false);
@@ -370,19 +371,21 @@ const AiFreelancingPage = () => {
               </div>
               <div className="relative">
                 <div className="bg-card/40 backdrop-blur-sm border border-white/10 rounded-xl p-8 shadow-lg">
-                  <div 
-                    onClick={() => setIsVideoModalOpen(true)}
-                    className="flex items-center justify-center h-64 bg-muted rounded-lg mb-4 relative group cursor-pointer hover:bg-muted/80 transition-all"
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-lg"></div>
-                    <div className="relative z-10 text-center">
-                      <div className="w-20 h-20 bg-primary rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
-                        <Play className="w-8 h-8 text-white ml-1" />
+                  <AspectRatio ratio={9/16}>
+                    <div 
+                      onClick={() => setIsVideoModalOpen(true)}
+                      className="flex items-center justify-center w-full h-full bg-muted rounded-lg mb-4 relative group cursor-pointer hover:bg-muted/80 transition-all"
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-lg"></div>
+                      <div className="relative z-10 text-center">
+                        <div className="w-20 h-20 bg-primary rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+                          <Play className="w-8 h-8 text-white ml-1" />
+                        </div>
+                        <p className="text-white font-semibold">Watch: How you'll start freelancing for $1</p>
+                        <p className="text-gray-300 text-sm mt-1">1 minute demo</p>
                       </div>
-                      <p className="text-white font-semibold">Watch: How you'll start freelancing for $1</p>
-                      <p className="text-gray-300 text-sm mt-1">1 minute demo</p>
                     </div>
-                  </div>
+                  </AspectRatio>
                   <p className="text-sm text-muted-foreground text-center">
                     See exactly what you'll get in your $1 trial
                   </p>
