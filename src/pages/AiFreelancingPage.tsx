@@ -4,6 +4,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import StickyButton from '@/components/ui/StickyButton';
 import PageGlowLayer from '@/components/ui/PageGlowLayer';
+import SectionDivider from '@/components/ui/SectionDivider';
 import { AnimatedJourneySection } from '@/components/journey/AnimatedJourneySection';
 import FeaturedLogosMarquee from '@/components/FeaturedLogosMarquee';
 import Title from '@/components/ui/Title';
@@ -552,6 +553,8 @@ const AiFreelancingPage = () => {
         </div>
       </section>
 
+      <SectionDivider />
+
       {/* Your Journey to Success Section */}
       <div className="relative overflow-hidden">
         <AnimatedJourneySection onCtaClick={scrollToForm} />
@@ -566,6 +569,8 @@ const AiFreelancingPage = () => {
         onCta={scrollToForm}
         background="inherit"
       />
+
+      <SectionDivider />
 
       {/* FAQ Section */}
       <section className="py-20 relative overflow-hidden">
@@ -595,6 +600,8 @@ const AiFreelancingPage = () => {
           </div>
         </div>
       </section>
+
+      <SectionDivider />
 
       {/* What you can sell with BoostMySites BaaS Section */}
       <section className="py-20 relative overflow-hidden">
@@ -632,6 +639,8 @@ const AiFreelancingPage = () => {
           </div>
         </div>
       </section>
+
+      <SectionDivider />
 
       {/* Final CTA Section */}
       <section id="lead-form" className="py-20 relative overflow-hidden">

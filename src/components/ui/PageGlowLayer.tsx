@@ -3,60 +3,74 @@ import React from 'react';
 const PageGlowLayer: React.FC = () => {
   return (
     <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
-      {/* Primary glow zones - positioned to create seamless flow */}
+      {/* Light Pink Glow - Top Left */}
       <div 
-        className="absolute w-[800px] h-[800px] -top-40 -right-40 opacity-40"
+        className="absolute w-[700px] h-[700px] -top-32 -left-32 opacity-25"
         style={{
-          background: 'radial-gradient(circle, hsl(var(--primary) / 0.3) 0%, hsl(var(--primary) / 0.1) 40%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(236, 72, 153, 0.3) 0%, rgba(236, 72, 153, 0.15) 40%, transparent 70%)',
           filter: 'blur(80px)',
         }}
       />
       
+      {/* Teal Glow - Top Right */}
       <div 
-        className="absolute w-[600px] h-[600px] top-1/4 -left-60 opacity-30"
+        className="absolute w-[600px] h-[600px] -top-20 -right-40 opacity-30"
         style={{
-          background: 'radial-gradient(circle, hsl(var(--accent) / 0.25) 0%, hsl(var(--accent) / 0.1) 40%, transparent 70%)',
-          filter: 'blur(60px)',
-        }}
-      />
-      
-      <div 
-        className="absolute w-[1000px] h-[1000px] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-20"
-        style={{
-          background: 'radial-gradient(ellipse, hsl(var(--secondary) / 0.2) 0%, hsl(var(--secondary) / 0.1) 50%, transparent 80%)',
-          filter: 'blur(100px)',
-        }}
-      />
-      
-      <div 
-        className="absolute w-[700px] h-[700px] bottom-1/4 -right-60 opacity-35"
-        style={{
-          background: 'radial-gradient(circle, hsl(var(--primary) / 0.2) 0%, hsl(var(--primary) / 0.08) 45%, transparent 75%)',
+          background: 'radial-gradient(circle, rgba(20, 184, 166, 0.35) 0%, rgba(20, 184, 166, 0.18) 45%, transparent 75%)',
           filter: 'blur(70px)',
         }}
       />
       
+      {/* Blue Glow - Center Left */}
       <div 
-        className="absolute w-[500px] h-[500px] bottom-10 left-1/4 opacity-25"
+        className="absolute w-[800px] h-[800px] top-1/3 -left-60 opacity-28"
         style={{
-          background: 'radial-gradient(circle, hsl(var(--accent) / 0.2) 0%, hsl(var(--accent) / 0.1) 40%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(59, 130, 246, 0.32) 0%, rgba(59, 130, 246, 0.16) 50%, transparent 80%)',
+          filter: 'blur(90px)',
+        }}
+      />
+      
+      {/* Light Pink Glow - Center Right */}
+      <div 
+        className="absolute w-[500px] h-[500px] top-1/2 -right-30 opacity-22"
+        style={{
+          background: 'radial-gradient(circle, rgba(236, 72, 153, 0.28) 0%, rgba(236, 72, 153, 0.14) 40%, transparent 70%)',
+          filter: 'blur(60px)',
+        }}
+      />
+      
+      {/* Teal Glow - Bottom Left */}
+      <div 
+        className="absolute w-[650px] h-[650px] bottom-1/4 -left-50 opacity-25"
+        style={{
+          background: 'radial-gradient(circle, rgba(20, 184, 166, 0.3) 0%, rgba(20, 184, 166, 0.15) 45%, transparent 75%)',
+          filter: 'blur(75px)',
+        }}
+      />
+      
+      {/* Blue Glow - Bottom Right */}
+      <div 
+        className="absolute w-[550px] h-[550px] bottom-20 -right-45 opacity-26"
+        style={{
+          background: 'radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, rgba(59, 130, 246, 0.15) 50%, transparent 80%)',
+          filter: 'blur(65px)',
+        }}
+      />
+      
+      {/* Additional scattered smaller glows */}
+      <div 
+        className="absolute w-[400px] h-[400px] top-20 left-1/3 opacity-15"
+        style={{
+          background: 'radial-gradient(circle, rgba(168, 85, 247, 0.25) 0%, rgba(168, 85, 247, 0.12) 40%, transparent 70%)',
           filter: 'blur(50px)',
         }}
       />
       
-      {/* Subtle connecting gradients for seamless flow */}
       <div 
-        className="absolute inset-0 opacity-10"
+        className="absolute w-[350px] h-[350px] bottom-40 left-1/2 opacity-18"
         style={{
-          background: `
-            linear-gradient(135deg, 
-              hsl(var(--primary) / 0.1) 0%, 
-              transparent 25%, 
-              hsl(var(--accent) / 0.1) 50%, 
-              transparent 75%, 
-              hsl(var(--secondary) / 0.1) 100%
-            )
-          `,
+          background: 'radial-gradient(circle, rgba(6, 182, 212, 0.28) 0%, rgba(6, 182, 212, 0.14) 45%, transparent 75%)',
+          filter: 'blur(45px)',
         }}
       />
     </div>
