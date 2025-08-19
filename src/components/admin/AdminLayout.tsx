@@ -1,7 +1,6 @@
-
 import { ReactNode } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { BarChart3, Users, FileText, Briefcase, LogOut, MessageSquare, Link2 } from 'lucide-react';
+import { BarChart3, Users, FileText, Briefcase, LogOut, MessageSquare, Link2, UserCheck } from 'lucide-react';
 
 interface AdminLayoutProps {
   children: ReactNode;
@@ -13,6 +12,7 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
   const navigation = [
     { name: 'Dashboard', href: '/admin', icon: BarChart3 },
     { name: 'Customer Inquiries', href: '/admin/customer-inquiries', icon: MessageSquare },
+    { name: 'Trial Leads', href: '/admin/trial-leads', icon: UserCheck },
     { name: 'Portfolio', href: '/admin/portfolio', icon: Briefcase },
     { name: 'Case Studies', href: '/admin/case-studies', icon: FileText },
     { name: 'Blogs', href: '/admin/blogs', icon: Users },
