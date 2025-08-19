@@ -7,15 +7,18 @@ interface StickyButtonProps {
   bgColor?: string;
 }
 
-const StickyButton: React.FC<StickyButtonProps> = ({ text, onClick, bgColor = '#22c55e' }) => {
+const StickyButton: React.FC<StickyButtonProps> = ({ text, onClick, bgColor }) => {
+  const defaultClasses = "bg-gradient-to-r from-neon-cyan to-neon-blue text-white shadow-2xl border border-white/20 font-semibold animate-glow hover:scale-105 hover:animate-pulse transition-all duration-300";
+  const customClasses = "shadow-2xl border border-white/20 font-semibold hover:scale-105 transition-all duration-300";
+  
   return (
     <>
       {/* Desktop sticky button */}
       <div className="hidden md:block fixed top-24 right-6 z-50">
         <Button
           onClick={onClick}
-          className="shadow-2xl border border-white/20 font-semibold px-6 py-3 text-sm hover:scale-105 transition-all duration-300"
-          style={{ backgroundColor: bgColor }}
+          className={`px-6 py-3 text-sm ${bgColor ? customClasses : defaultClasses}`}
+          style={bgColor ? { backgroundColor: bgColor } : undefined}
         >
           {text}
         </Button>
@@ -25,8 +28,8 @@ const StickyButton: React.FC<StickyButtonProps> = ({ text, onClick, bgColor = '#
       <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 p-4 bg-gradient-to-t from-black/80 to-transparent">
         <Button
           onClick={onClick}
-          className="w-full font-semibold py-4 h-12 text-base hover:scale-105 transition-all duration-300"
-          style={{ backgroundColor: bgColor }}
+          className={`w-full font-semibold py-4 h-12 text-base ${bgColor ? customClasses : defaultClasses}`}
+          style={bgColor ? { backgroundColor: bgColor } : undefined}
         >
           {text}
         </Button>

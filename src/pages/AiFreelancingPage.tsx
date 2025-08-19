@@ -672,7 +672,6 @@ const AiFreelancingPage = () => {
       <StickyButton 
         text="Start for $1" 
         onClick={scrollToForm}
-        bgColor="#22c55e"
       />
 
       <Footer />
