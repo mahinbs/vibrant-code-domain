@@ -24,7 +24,9 @@ const AiFreelancingPage = () => {
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [showExitIntent, setShowExitIntent] = useState(false);
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const [instaVideos, setInstaVideos] = useState<string[]>([]);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -372,36 +374,40 @@ const AiFreelancingPage = () => {
                 <div className="bg-card/40 backdrop-blur-sm border border-white/10 rounded-xl p-8 shadow-lg">
                   <AspectRatio ratio={9/16}>
                     <div className="relative w-full h-full rounded-lg overflow-hidden">
+                      {!isVideoLoaded && (
+                        <div className="absolute inset-0 bg-gray-800 animate-pulse flex items-center justify-center">
+                          <div className="text-gray-400">Loading video...</div>
+                        </div>
+                      )}
+                      
                       <video
-                        ref={(el) => {
-                          if (el) {
-                            el.preload = 'metadata';
-                          }
-                        }}
-                        className="w-full h-full object-cover"
-                        poster="/placeholder.svg"
+                        ref={videoRef}
+                        className={`w-full h-full object-cover transition-opacity duration-300 ${
+                          isVideoLoaded ? 'opacity-100' : 'opacity-0'
+                        }`}
+                        preload="auto"
+                        muted
+                        playsInline
+                        onLoadedData={() => setIsVideoLoaded(true)}
                         onPlay={() => setIsVideoPlaying(true)}
                         onPause={() => setIsVideoPlaying(false)}
                         onEnded={() => setIsVideoPlaying(false)}
                         onError={(e) => {
                           console.error('Video failed to load:', e);
-                          const target = e.target as HTMLVideoElement;
-                          target.style.display = 'none';
+                          setIsVideoLoaded(true); // Show error state
                         }}
                       >
                         <source src="https://upxsbhsamorhvnfebvor.supabase.co/storage/v1/object/public/demo-videos/Captions_DD38D9.MP4" type="video/mp4" />
                       </video>
                       
-                      {!isVideoPlaying && (
+                      {isVideoLoaded && !isVideoPlaying && (
                         <div 
                           onClick={() => {
-                            const video = document.querySelector('video') as HTMLVideoElement;
-                            if (video) {
-                              video.play();
-                              setIsVideoPlaying(true);
+                            if (videoRef.current) {
+                              videoRef.current.play();
                             }
                           }}
-                          className="absolute inset-0 flex items-center justify-center bg-black/50 cursor-pointer group hover:bg-black/40 transition-all"
+                          className="absolute inset-0 flex items-center justify-center bg-black/30 cursor-pointer group hover:bg-black/20 transition-all"
                         >
                           <div className="w-20 h-20 bg-primary rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
                             <Play className="w-8 h-8 text-white ml-1" />
