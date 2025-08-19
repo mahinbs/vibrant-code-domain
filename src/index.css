@@ -86,14 +86,16 @@
     font-optical-sizing: auto;
     scroll-behavior: auto;
     /* Prevent horizontal scroll on mobile */
-    overflow-x: hidden;
+    overflow-x: clip;
+    width: 100%;
   }
 
   body {
     @apply bg-background text-foreground;
     font-display: swap;
     /* Prevent horizontal scroll on mobile */
-    overflow-x: hidden;
+    overflow-x: clip;
+    width: 100%;
     /* Improve text rendering on mobile */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;

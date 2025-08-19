@@ -334,7 +334,7 @@ const AiFreelancingPage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-black text-white dark">
+    <div className="min-h-screen bg-black text-white dark overflow-x-hidden">
       <Header />
       
       {/* Hero Section */}
@@ -471,7 +471,7 @@ const AiFreelancingPage = () => {
       </section>
 
       {/* Your Journey to Success Section */}
-      <div className="relative">
+      <div className="relative overflow-hidden">
         <GlowBackdrop position="center" size="large" color="teal" intensity="medium" />
         <GlowBackdrop position="top-right" size="large" color="blue" intensity="high" />
         <GlowBackdrop position="bottom-left" size="medium" color="purple" intensity="high" />
@@ -495,7 +495,7 @@ const AiFreelancingPage = () => {
       <SectionDivider />
 
       {/* FAQ Section */}
-      <section className="py-20 relative">
+      <section className="py-20 relative overflow-hidden">
         <GlowBackdrop position="top-right" size="large" color="blue" intensity="high" />
         <GlowBackdrop position="bottom-left" size="large" color="teal" intensity="medium" />
         <GlowBackdrop position="center" size="medium" color="purple" intensity="low" />
@@ -530,7 +530,7 @@ const AiFreelancingPage = () => {
       <SectionDivider />
 
       {/* What You'll Get for Just $1 Section */}
-      <section className="py-20 relative">
+      <section className="py-20 relative overflow-hidden">
         <GlowBackdrop position="top-left" size="large" color="blue" intensity="medium" />
         <GlowBackdrop position="bottom-right" size="medium" color="purple" intensity="high" />
         <GlowBackdrop position="center" size="small" color="teal" intensity="low" />
@@ -565,7 +565,7 @@ const AiFreelancingPage = () => {
       <SectionDivider />
 
       {/* Final CTA Section */}
-      <section id="lead-form" className="py-20 relative">
+      <section id="lead-form" className="py-20 relative overflow-hidden">
         <GlowBackdrop position="bottom-left" size="large" color="purple" intensity="high" />
         <GlowBackdrop position="top-right" size="large" color="blue" intensity="high" />
         <GlowBackdrop position="center" size="medium" color="teal" intensity="medium" />
