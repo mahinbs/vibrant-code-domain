@@ -45,19 +45,17 @@ const FeaturedLogosMarquee = ({
       )}
 
       <div className="relative">
-        <div className="flex items-center justify-center space-x-12 animate-bounce-slow">
+        <div className="flex flex-col sm:flex-row items-center justify-center space-y-6 sm:space-y-0 sm:space-x-12 sm:animate-bounce-slow">
           {logos.map((logo, index) => (
             <div
               key={`${logo.name}-${index}`}
               className="flex-shrink-0 transition-all duration-300 hover:scale-105 group"
             >
-              <div className="bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl px-6 py-3 
-                            hover:bg-white/30 hover:border-white/40 transition-all duration-300
-                            shadow-lg hover:shadow-xl">
+              <div className="rounded-xl px-6 py-3 transition-all duration-300">
                 <img
                   src={logo.src}
                   alt={logo.alt}
-                  className="h-12 w-auto object-contain opacity-90 
+                  className="h-8 sm:h-12 w-auto object-contain opacity-90 
                            group-hover:opacity-100 transition-opacity duration-300"
                   loading="lazy"
                 />
