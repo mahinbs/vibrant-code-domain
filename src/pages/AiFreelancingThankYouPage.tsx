@@ -54,13 +54,13 @@ const AiFreelancingThankYouPage = () => {
             </div>
 
             {/* Section 2: Next Steps Timeline */}
-            <Card className="bg-card/20 backdrop-blur-sm border border-white/10 mb-12">
+            <Card className="bg-transparent border border-white/10 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.04)] rounded-2xl transition-colors hover:border-white/20 mb-12">
               <CardContent className="p-8">
                 <h2 className="text-3xl font-bold mb-8 text-center text-white">Your Next 24 Hours</h2>
                 
                 <div className="space-y-6">
                   <div className="flex items-start gap-4">
-                    <div className="bg-gradient-to-r from-blue-500/20 to-cyan-500/20 p-3 rounded-full flex-shrink-0">
+                    <div className="p-3 rounded-full border border-blue-500/30 bg-transparent flex-shrink-0">
                       <Phone className="w-6 h-6 text-blue-400" />
                     </div>
                     <div>
@@ -70,7 +70,7 @@ const AiFreelancingThankYouPage = () => {
                   </div>
                   
                   <div className="flex items-start gap-4">
-                    <div className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 p-3 rounded-full flex-shrink-0">
+                    <div className="p-3 rounded-full border border-purple-500/30 bg-transparent flex-shrink-0">
                       <Zap className="w-6 h-6 text-purple-400" />
                     </div>
                     <div>
@@ -80,7 +80,7 @@ const AiFreelancingThankYouPage = () => {
                   </div>
                   
                   <div className="flex items-start gap-4">
-                    <div className="bg-gradient-to-r from-green-500/20 to-emerald-500/20 p-3 rounded-full flex-shrink-0">
+                    <div className="p-3 rounded-full border border-green-500/30 bg-transparent flex-shrink-0">
                       <Users className="w-6 h-6 text-green-400" />
                     </div>
                     <div>
@@ -94,7 +94,7 @@ const AiFreelancingThankYouPage = () => {
 
 
             {/* Section 3: Social Media & Community */}
-            <Card className="bg-card/20 backdrop-blur-sm border border-white/10 mb-12">
+            <Card className="bg-transparent border border-white/10 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.04)] rounded-2xl transition-colors hover:border-white/20 mb-12">
               <CardContent className="p-8 text-center">
                 <h2 className="text-3xl font-bold mb-6 text-white">Stay Connected</h2>
                 <p className="text-gray-300 mb-8">
