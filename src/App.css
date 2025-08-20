@@ -60,18 +60,19 @@
 }
 
 .prose p {
-  color: #d1d5db;
+  color: #ffffff;
   line-height: 1.75;
   margin-bottom: 1.25rem;
 }
 
 .prose ul {
-  color: #d1d5db;
+  color: #ffffff;
   margin-bottom: 1.25rem;
   padding-left: 1.5rem;
 }
 
 .prose li {
+  color: #ffffff;
   margin-bottom: 0.5rem;
 }
 
