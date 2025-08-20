@@ -204,13 +204,8 @@ const AiFreelancingPage = () => {
 
       if (error) throw error;
 
-      toast({
-        title: "Success!",
-        description: "Thank you for your interest! We'll contact you soon with your $1 trial details.",
-      });
-
-      setFormData({ name: '', email: '', whatsapp_number: '' });
-      setIsFormVisible(false);
+      // Redirect to thank you page instead of showing toast
+      window.location.href = '/ai-freelancing/thank-you';
     } catch (error) {
       console.error('Error submitting form:', error);
       toast({
@@ -218,7 +213,6 @@ const AiFreelancingPage = () => {
         description: "Something went wrong. Please try again.",
         variant: "destructive",
       });
-    } finally {
       setIsSubmitting(false);
     }
   };

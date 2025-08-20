@@ -43,6 +43,7 @@ import WebinarManagement from "./pages/admin/WebinarManagement";
 import ProtectedRoute from "./components/admin/ProtectedRoute";
 import PartnershipPage from "./pages/PartnershipPage";
 import AiFreelancingPage from "./pages/AiFreelancingPage";
+import AiFreelancingThankYouPage from "./pages/AiFreelancingThankYouPage";
 import AiCallingPage from "./pages/AiCallingPage";
 import SalespersonServicePage from "./pages/SalespersonServicePage";
 import WebinarPage from "./pages/WebinarPage";
@@ -85,6 +86,7 @@ const App = () => {
               <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
               <Route path="/partnership" element={<PartnershipPage />} />
               <Route path="/ai-freelancing" element={<AiFreelancingPage />} />
+              <Route path="/ai-freelancing/thank-you" element={<AiFreelancingThankYouPage />} />
               <Route path="/ai-calling" element={<AiCallingPage />} />
               <Route path="/salesperson/:id" element={<SalespersonServicePage />} />
               <Route path="/webinar/:id" element={<WebinarPage />} />
