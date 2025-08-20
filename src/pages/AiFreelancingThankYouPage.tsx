@@ -105,46 +105,6 @@ const AiFreelancingThankYouPage = () => {
               </Card>
             )}
 
-            {/* Section 3: What You've Unlocked */}
-            <Card className="bg-card/40 backdrop-blur-sm border border-white/10 mb-12">
-              <CardContent className="p-8">
-                <h2 className="text-3xl font-bold mb-6 text-center flex items-center justify-center gap-2">
-                  <Award className="w-8 h-8 text-cyan-400" />
-                  What You've Unlocked for Just $1
-                </h2>
-                
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div className="space-y-4">
-                    <div className="flex items-center gap-3">
-                      <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0" />
-                      <span className="text-gray-300">Access to 100+ real freelancing opportunities</span>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0" />
-                      <span className="text-gray-300">Step-by-step video training modules</span>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0" />
-                      <span className="text-gray-300">Private community of 5000+ freelancers</span>
-                    </div>
-                  </div>
-                  <div className="space-y-4">
-                    <div className="flex items-center gap-3">
-                      <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0" />
-                      <span className="text-gray-300">Personal mentor assignments</span>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0" />
-                      <span className="text-gray-300">Client outreach templates & scripts</span>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0" />
-                      <span className="text-gray-300">Weekly live Q&A sessions</span>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
 
             {/* Section 4: Next Steps Timeline */}
             <Card className="bg-card/20 backdrop-blur-sm border border-white/10 mb-12">
@@ -185,54 +145,6 @@ const AiFreelancingThankYouPage = () => {
               </CardContent>
             </Card>
 
-            {/* Section 5: Social Proof & Testimonials */}
-            <Card className="bg-card/20 backdrop-blur-sm border border-white/10 mb-12">
-              <CardContent className="p-8">
-                <h2 className="text-3xl font-bold mb-8 text-center text-white">What Our Members Are Saying</h2>
-                
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div className="bg-card/40 backdrop-blur-sm border border-white/10 rounded-xl p-6">
-                    <div className="flex items-center gap-1 mb-4">
-                      {[...Array(5)].map((_, i) => (
-                        <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                      ))}
-                    </div>
-                    <p className="text-gray-300 mb-4">
-                      "I made my first $500 in just 2 weeks! The community support is incredible."
-                    </p>
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center">
-                        <span className="text-white font-semibold">S</span>
-                      </div>
-                      <div>
-                        <p className="text-white font-semibold">Sarah K.</p>
-                        <p className="text-gray-400 text-sm">Graphic Designer</p>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="bg-card/40 backdrop-blur-sm border border-white/10 rounded-xl p-6">
-                    <div className="flex items-center gap-1 mb-4">
-                      {[...Array(5)].map((_, i) => (
-                        <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                      ))}
-                    </div>
-                    <p className="text-gray-300 mb-4">
-                      "From zero to $3K/month in 3 months. This program changed my life!"
-                    </p>
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-blue-500 rounded-full flex items-center justify-center">
-                        <span className="text-white font-semibold">M</span>
-                      </div>
-                      <div>
-                        <p className="text-white font-semibold">Mike R.</p>
-                        <p className="text-gray-400 text-sm">Content Writer</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
 
             {/* Section 6: Social Media & Community */}
             <Card className="bg-card/20 backdrop-blur-sm border border-white/10 mb-12">
@@ -287,31 +199,6 @@ const AiFreelancingThankYouPage = () => {
               </CardContent>
             </Card>
 
-            {/* Section 7: Call-to-Action */}
-            <Card className="bg-gradient-to-r from-cyan-500/10 to-blue-500/10 border-cyan-500/20">
-              <CardContent className="p-8 text-center">
-                <TrendingUp className="w-12 h-12 text-cyan-400 mx-auto mb-4" />
-                <h2 className="text-3xl font-bold mb-4 text-white">Ready to Start Earning?</h2>
-                <p className="text-xl text-gray-300 mb-8">
-                  Don't wait! The sooner you start, the sooner you'll see results.
-                </p>
-                
-                <Button 
-                  size="lg"
-                  className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white hover:from-cyan-400 hover:to-blue-500 text-lg px-8 py-4 mb-4"
-                  asChild
-                >
-                  <a href="https://checkout.yoursite.com" target="_blank" rel="noopener noreferrer">
-                    Access Your Training Now
-                    <ExternalLink className="w-5 h-5 ml-2" />
-                  </a>
-                </Button>
-                
-                <p className="text-sm text-gray-400">
-                  Questions? Email us at support@yoursite.com or use the chat widget below
-                </p>
-              </CardContent>
-            </Card>
 
             {/* Navigation Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
