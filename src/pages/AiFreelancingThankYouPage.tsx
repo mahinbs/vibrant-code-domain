@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import PageGlowLayer from '@/components/ui/PageGlowLayer';
 
 const AiFreelancingThankYouPage = () => {
   const [userEmail, setUserEmail] = useState<string>('');
@@ -30,8 +31,9 @@ const AiFreelancingThankYouPage = () => {
 
   return (
     <div className="min-h-screen bg-black">
+      <PageGlowLayer />
       <Header />
-      <main className="pt-16">
+      <main className="pt-16 relative z-10">
         <div className="container mx-auto px-6 py-12">
           <div className="max-w-4xl mx-auto">
             
