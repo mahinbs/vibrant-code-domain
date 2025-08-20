@@ -103,30 +103,32 @@ const AiFreelancingThankYouPage = () => {
                   Follow us for daily tips, success stories, and exclusive opportunities
                 </p>
                 
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <div className="flex flex-col sm:flex-row gap-6 justify-center">
                   <Button 
                     variant="outline"
                     size="lg"
-                    className="border-pink-500/30 text-pink-300 hover:bg-pink-500/20"
+                    className="relative overflow-hidden bg-gradient-to-r from-pink-500/10 to-purple-500/10 border border-pink-500/30 text-white backdrop-blur-sm shadow-[0_0_20px_rgba(236,72,153,0.3)] hover:shadow-[0_0_30px_rgba(236,72,153,0.5)] hover:border-pink-400/50 hover:bg-gradient-to-r hover:from-pink-500/20 hover:to-purple-500/20 transition-all duration-300 group"
                     asChild
                   >
-                    <a href="https://instagram.com/yourhandle" target="_blank" rel="noopener noreferrer">
-                      <Instagram className="w-5 h-5 mr-2" />
-                      Follow on Instagram
-                      <ExternalLink className="w-4 h-4 ml-2" />
+                    <a href="https://www.instagram.com/boostmysites/" target="_blank" rel="noopener noreferrer">
+                      <div className="absolute inset-0 bg-gradient-to-r from-pink-500/5 to-purple-500/5 blur-sm"></div>
+                      <Instagram className="w-5 h-5 mr-2 relative z-10 group-hover:scale-110 transition-transform" />
+                      <span className="relative z-10">Follow on Instagram</span>
+                      <ExternalLink className="w-4 h-4 ml-2 relative z-10 group-hover:scale-110 transition-transform" />
                     </a>
                   </Button>
                   
                   <Button 
                     variant="outline"
                     size="lg"
-                    className="border-blue-500/30 text-blue-300 hover:bg-blue-500/20"
+                    className="relative overflow-hidden bg-gradient-to-r from-green-500/10 to-teal-500/10 border border-green-500/30 text-white backdrop-blur-sm shadow-[0_0_20px_rgba(16,185,129,0.3)] hover:shadow-[0_0_30px_rgba(16,185,129,0.5)] hover:border-green-400/50 hover:bg-gradient-to-r hover:from-green-500/20 hover:to-teal-500/20 transition-all duration-300 group"
                     asChild
                   >
-                    <a href="https://facebook.com/groups/yourgroup" target="_blank" rel="noopener noreferrer">
-                      <Users className="w-5 h-5 mr-2" />
-                      Join Facebook Group
-                      <ExternalLink className="w-4 h-4 ml-2" />
+                    <a href="https://chat.whatsapp.com/KZMk5yNdSJiDjwbQ8YuJiD?mode=ems_copy_t" target="_blank" rel="noopener noreferrer">
+                      <div className="absolute inset-0 bg-gradient-to-r from-green-500/5 to-teal-500/5 blur-sm"></div>
+                      <Users className="w-5 h-5 mr-2 relative z-10 group-hover:scale-110 transition-transform" />
+                      <span className="relative z-10">Join our exclusive WhatsApp community</span>
+                      <ExternalLink className="w-4 h-4 ml-2 relative z-10 group-hover:scale-110 transition-transform" />
                     </a>
                   </Button>
                 </div>
