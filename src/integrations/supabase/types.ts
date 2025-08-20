@@ -56,6 +56,45 @@ export type Database = {
         }
         Relationships: []
       }
+      coupons: {
+        Row: {
+          code: string
+          created_at: string
+          discount_amount: number
+          discount_type: string
+          email: string
+          expires_at: string
+          id: string
+          is_used: boolean
+          updated_at: string
+          used_at: string | null
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          discount_amount?: number
+          discount_type?: string
+          email: string
+          expires_at: string
+          id?: string
+          is_used?: boolean
+          updated_at?: string
+          used_at?: string | null
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          discount_amount?: number
+          discount_type?: string
+          email?: string
+          expires_at?: string
+          id?: string
+          is_used?: boolean
+          updated_at?: string
+          used_at?: string | null
+        }
+        Relationships: []
+      }
       customer_inquiries: {
         Row: {
           budget_range: string
