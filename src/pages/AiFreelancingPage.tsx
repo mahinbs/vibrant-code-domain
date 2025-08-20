@@ -194,7 +194,7 @@ const AiFreelancingPage = () => {
         .insert([{
           name: formData.name,
           email: formData.email,
-          whatsapp_number: formData.whatsapp_number,
+          phone: '+91 ' + formData.whatsapp_number,
           source: 'ai_freelancing_trial'
         }]);
 
