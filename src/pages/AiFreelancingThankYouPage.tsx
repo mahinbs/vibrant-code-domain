@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { CheckCircle, Mail, Users, Zap, Copy, Clock, Gift, Star, MessageCircle, Instagram, ExternalLink, Timer, Award, TrendingUp } from 'lucide-react';
+import { CheckCircle, Mail, Users, Zap, Phone, Instagram, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { useCoupon } from '@/hooks/useCoupon';
 
 const AiFreelancingThankYouPage = () => {
   const [userEmail, setUserEmail] = useState<string>('');
-  const { coupon, loading, generateCoupon, copyCouponCode, timeRemaining } = useCoupon();
 
   useEffect(() => {
     // Send GTM event for conversion tracking
@@ -29,9 +26,6 @@ const AiFreelancingThankYouPage = () => {
     const urlParams = new URLSearchParams(window.location.search);
     const email = urlParams.get('email') || 'user@example.com';
     setUserEmail(email);
-    
-    // Generate coupon automatically
-    generateCoupon(email);
   }, []);
 
   return (
@@ -59,86 +53,39 @@ const AiFreelancingThankYouPage = () => {
               </p>
             </div>
 
-            {/* Section 2: Exclusive Coupon */}
-            {coupon && (
-              <Card className="bg-gradient-to-r from-amber-500/10 to-orange-500/10 border-amber-500/20 mb-12">
-                <CardContent className="p-8 text-center">
-                  <div className="flex items-center justify-center gap-2 mb-4">
-                    <Gift className="w-6 h-6 text-amber-400" />
-                    <h2 className="text-2xl font-bold text-amber-200">Exclusive Bonus Coupon!</h2>
-                  </div>
-                  
-                  <p className="text-amber-100 mb-6">
-                    Here's your personal $1 discount coupon for any future services:
-                  </p>
-                  
-                  <div className="bg-card/40 backdrop-blur-sm border border-amber-500/30 rounded-xl p-6 mb-6">
-                    <div className="flex items-center justify-center gap-4 mb-4">
-                      <code className="text-2xl font-mono font-bold text-amber-200 tracking-wider">
-                        {coupon.code}
-                      </code>
-                      <Button
-                        onClick={copyCouponCode}
-                        variant="outline"
-                        size="sm"
-                        className="border-amber-500/30 text-amber-200 hover:bg-amber-500/20"
-                      >
-                        <Copy className="w-4 h-4 mr-2" />
-                        Copy
-                      </Button>
-                    </div>
-                    
-                    {timeRemaining && (
-                      <div className="flex items-center justify-center gap-2 text-amber-300">
-                        <Timer className="w-4 h-4" />
-                        <span className="text-sm">
-                          Expires in: {timeRemaining.days}d {timeRemaining.hours}h {timeRemaining.minutes}m {timeRemaining.seconds}s
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                  
-                  <p className="text-sm text-amber-200/80">
-                    Save this code! You'll need it when you're ready to upgrade your freelancing game.
-                  </p>
-                </CardContent>
-              </Card>
-            )}
-
-
-            {/* Section 4: Next Steps Timeline */}
+            {/* Section 2: Next Steps Timeline */}
             <Card className="bg-card/20 backdrop-blur-sm border border-white/10 mb-12">
               <CardContent className="p-8">
-                <h2 className="text-3xl font-bold mb-8 text-center text-white">Your Next 48 Hours</h2>
+                <h2 className="text-3xl font-bold mb-8 text-center text-white">Your Next 24 Hours</h2>
                 
                 <div className="space-y-6">
                   <div className="flex items-start gap-4">
                     <div className="bg-gradient-to-r from-blue-500/20 to-cyan-500/20 p-3 rounded-full flex-shrink-0">
-                      <Mail className="w-6 h-6 text-blue-400" />
+                      <Phone className="w-6 h-6 text-blue-400" />
                     </div>
                     <div>
-                      <h3 className="text-lg font-semibold mb-2 text-white">Step 1: Check Your Email (Next 10 minutes)</h3>
-                      <p className="text-gray-400">We've sent your login credentials and welcome guide to {userEmail}</p>
+                      <h3 className="text-lg font-semibold mb-2 text-white">Step 1: Briefing Call from Our Associate (Within 24 hours)</h3>
+                      <p className="text-gray-400">You will receive a short onboarding call from one of our associates to guide you through the process and answer your questions.</p>
                     </div>
                   </div>
                   
                   <div className="flex items-start gap-4">
                     <div className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 p-3 rounded-full flex-shrink-0">
-                      <Users className="w-6 h-6 text-purple-400" />
+                      <Zap className="w-6 h-6 text-purple-400" />
                     </div>
                     <div>
-                      <h3 className="text-lg font-semibold mb-2 text-white">Step 2: Join Our Community (Today)</h3>
-                      <p className="text-gray-400">Get instant access to our private Facebook group (link in your email)</p>
+                      <h3 className="text-lg font-semibold mb-2 text-white">Step 2: Exclusive $1 Coupon Code</h3>
+                      <p className="text-gray-400">You'll receive your personal coupon code to purchase any of our service packages for just $1 for the first month.</p>
                     </div>
                   </div>
                   
                   <div className="flex items-start gap-4">
                     <div className="bg-gradient-to-r from-green-500/20 to-emerald-500/20 p-3 rounded-full flex-shrink-0">
-                      <Zap className="w-6 h-6 text-green-400" />
+                      <Users className="w-6 h-6 text-green-400" />
                     </div>
                     <div>
-                      <h3 className="text-lg font-semibold mb-2 text-white">Step 3: Complete Your First Module (Within 48 hours)</h3>
-                      <p className="text-gray-400">Start with "Freelancing Fundamentals" and earn your first badge</p>
+                      <h3 className="text-lg font-semibold mb-2 text-white">Step 3: Onboarding</h3>
+                      <p className="text-gray-400">We'll get you set up inside our system so you can start exploring services, tools, and the community immediately.</p>
                     </div>
                   </div>
                 </div>
@@ -146,7 +93,7 @@ const AiFreelancingThankYouPage = () => {
             </Card>
 
 
-            {/* Section 6: Social Media & Community */}
+            {/* Section 3: Social Media & Community */}
             <Card className="bg-card/20 backdrop-blur-sm border border-white/10 mb-12">
               <CardContent className="p-8 text-center">
                 <h2 className="text-3xl font-bold mb-6 text-white">Stay Connected</h2>
