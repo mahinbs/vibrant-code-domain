@@ -1,5 +1,11 @@
 import React from 'react';
 
+// Import logo images as ES6 modules
+import forbesLogo from '/src/assets/logos/forbes.png';
+import entrepreneurLogo from '/src/assets/logos/entrepreneur.webp';
+import timesOfIndiaLogo from '/src/assets/logos/times-of-india.png';
+import businessInsiderLogo from '/src/assets/logos/business-insider.jpg';
+
 interface FeaturedLogosMarqueeProps {
   direction?: 'left' | 'right';
   speed?: number;
@@ -15,22 +21,22 @@ const FeaturedLogosMarquee = ({
 }: FeaturedLogosMarqueeProps) => {
   const logos = [
     { 
-      src: '/src/assets/logos/forbes.png', 
+      src: forbesLogo, 
       alt: 'Forbes', 
       name: 'Forbes' 
     },
     { 
-      src: '/src/assets/logos/entrepreneur.webp', 
+      src: entrepreneurLogo, 
       alt: 'Entrepreneur', 
       name: 'Entrepreneur' 
     },
     { 
-      src: '/src/assets/logos/times-of-india.png', 
+      src: timesOfIndiaLogo, 
       alt: 'Times of India', 
       name: 'Times of India' 
     },
     { 
-      src: '/src/assets/logos/business-insider.jpg', 
+      src: businessInsiderLogo, 
       alt: 'Business Insider', 
       name: 'Business Insider' 
     },

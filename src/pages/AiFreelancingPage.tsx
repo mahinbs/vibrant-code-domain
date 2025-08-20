@@ -43,12 +43,8 @@ const AiFreelancingPage = () => {
   const vantaInstance = useRef<any>(null);
   const heroHeadingRef = useRef<HTMLHeadingElement | null>(null);
 
-  // Vanta Waves background effect - Disabled on mobile for performance
+  // Vanta Waves background effect
   useEffect(() => {
-    if (isMobile) {
-      console.log('Vanta background disabled on mobile for better performance');
-      return;
-    }
 
     const initVanta = () => {
       if (!vantaRef.current || vantaInstance.current || !(window as any).VANTA?.WAVES) return;
@@ -437,8 +433,7 @@ const AiFreelancingPage = () => {
       
       {/* Hero Section */}
       <section className="pt-40 md:pt-44 lg:pt-48 pb-20 relative overflow-hidden">
-        {!isMobile && <div ref={vantaRef} className="absolute inset-0 z-0 pointer-events-none" />}
-        {isMobile && <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 via-purple-900/20 to-black z-0 pointer-events-none" />}
+        <div ref={vantaRef} className="absolute inset-0 z-0 pointer-events-none" />
         <div className="container mx-auto px-6 relative z-20">
           <div className="max-w-6xl mx-auto">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
