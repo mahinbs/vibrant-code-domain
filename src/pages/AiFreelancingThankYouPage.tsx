@@ -105,30 +105,24 @@ const AiFreelancingThankYouPage = () => {
                 
                 <div className="flex flex-col sm:flex-row gap-6 justify-center">
                   <Button 
-                    variant="outline"
-                    size="lg"
-                    className="relative overflow-hidden bg-gradient-to-r from-pink-500/10 to-purple-500/10 border border-pink-500/30 text-white backdrop-blur-sm shadow-[0_0_20px_rgba(236,72,153,0.3)] hover:shadow-[0_0_30px_rgba(236,72,153,0.5)] hover:border-pink-400/50 hover:bg-gradient-to-r hover:from-pink-500/20 hover:to-purple-500/20 transition-all duration-300 group"
+                    className="h-14 px-8 rounded-full bg-gradient-to-r from-rose-500 to-pink-600 text-white font-semibold shadow-[0_0_25px_rgba(244,63,94,0.6)] hover:shadow-[0_0_35px_rgba(244,63,94,0.8)] hover:from-rose-400 hover:to-pink-500 transition-all duration-300 transform hover:scale-105 border border-rose-400/50 ring-1 ring-white/20 [&_svg]:!size-5 md:[&_svg]:!size-6"
                     asChild
                   >
                     <a href="https://www.instagram.com/boostmysites/" target="_blank" rel="noopener noreferrer">
-                      <div className="absolute inset-0 bg-gradient-to-r from-pink-500/5 to-purple-500/5 blur-sm"></div>
-                      <Instagram className="w-5 h-5 mr-2 relative z-10 group-hover:scale-110 transition-transform" />
-                      <span className="relative z-10">Follow on Instagram</span>
-                      <ExternalLink className="w-4 h-4 ml-2 relative z-10 group-hover:scale-110 transition-transform" />
+                      <Instagram className="mr-3" />
+                      Follow on Instagram
+                      <ExternalLink className="ml-3" />
                     </a>
                   </Button>
                   
                   <Button 
-                    variant="outline"
-                    size="lg"
-                    className="relative overflow-hidden bg-gradient-to-r from-green-500/10 to-teal-500/10 border border-green-500/30 text-white backdrop-blur-sm shadow-[0_0_20px_rgba(16,185,129,0.3)] hover:shadow-[0_0_30px_rgba(16,185,129,0.5)] hover:border-green-400/50 hover:bg-gradient-to-r hover:from-green-500/20 hover:to-teal-500/20 transition-all duration-300 group"
+                    className="h-14 px-8 rounded-full bg-gradient-to-r from-emerald-500 to-green-600 text-white font-semibold shadow-[0_0_25px_rgba(16,185,129,0.6)] hover:shadow-[0_0_35px_rgba(16,185,129,0.8)] hover:from-emerald-400 hover:to-green-500 transition-all duration-300 transform hover:scale-105 border border-emerald-400/50 ring-1 ring-white/20 [&_svg]:!size-5 md:[&_svg]:!size-6"
                     asChild
                   >
                     <a href="https://chat.whatsapp.com/KZMk5yNdSJiDjwbQ8YuJiD?mode=ems_copy_t" target="_blank" rel="noopener noreferrer">
-                      <div className="absolute inset-0 bg-gradient-to-r from-green-500/5 to-teal-500/5 blur-sm"></div>
-                      <Users className="w-5 h-5 mr-2 relative z-10 group-hover:scale-110 transition-transform" />
-                      <span className="relative z-10">Join our exclusive WhatsApp community</span>
-                      <ExternalLink className="w-4 h-4 ml-2 relative z-10 group-hover:scale-110 transition-transform" />
+                      <Users className="mr-3" />
+                      Join our exclusive WhatsApp community
+                      <ExternalLink className="ml-3" />
                     </a>
                   </Button>
                 </div>
