@@ -12,20 +12,22 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
 import { supabase } from '@/integrations/supabase/client';
-import { Play, Check, Star, ArrowRight, X, Target, Users, Briefcase, BookOpen, Zap, HeadphonesIcon, User, Mail, MessageCircle, Palette, Cloud, Bot, Code, Smartphone, Box, Blocks, MessageSquare, BarChart3, Gamepad2, Wifi, UserCog, Megaphone, Layers } from 'lucide-react';
+import { Play, Check, Star, ArrowRight, X, Target, Users, Briefcase, BookOpen, Zap, HeadphonesIcon, User, Mail, MessageCircle, Palette, Cloud, Bot, Code, Smartphone, Box, Blocks, MessageSquare, BarChart3, Gamepad2, Wifi, UserCog, Megaphone, Layers, ExternalLink } from 'lucide-react';
 import TrustBadges from '@/components/ui/TrustBadges';
 import TestimonialsSection from '@/components/ui/TestimonialsSection';
 import InstagramSocialProof from '@/components/social/InstagramSocialProof';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import ProofCard from '@/components/ui/ProofCard';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const AiFreelancingPage = () => {
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [showExitIntent, setShowExitIntent] = useState(false);
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
-  const [isMuted, setIsMuted] = useState(false);
+  const [isMuted, setIsMuted] = useState(true); // Start muted for mobile autoplay
+  const [videoError, setVideoError] = useState(false);
   const [instaVideos, setInstaVideos] = useState<string[]>([]);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [formData, setFormData] = useState({
@@ -35,13 +37,19 @@ const AiFreelancingPage = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
+  const isMobile = useIsMobile();
   
   const vantaRef = useRef<HTMLDivElement | null>(null);
   const vantaInstance = useRef<any>(null);
   const heroHeadingRef = useRef<HTMLHeadingElement | null>(null);
 
-  // Vanta Waves background effect
+  // Vanta Waves background effect - Disabled on mobile for performance
   useEffect(() => {
+    if (isMobile) {
+      console.log('Vanta background disabled on mobile for better performance');
+      return;
+    }
+
     const initVanta = () => {
       if (!vantaRef.current || vantaInstance.current || !(window as any).VANTA?.WAVES) return;
       
@@ -76,7 +84,7 @@ const AiFreelancingPage = () => {
         vantaInstance.current = null;
       }
     };
-  }, []);
+  }, [isMobile]);
 
   // Fetch Instagram videos from webinar data
   useEffect(() => {
@@ -429,7 +437,8 @@ const AiFreelancingPage = () => {
       
       {/* Hero Section */}
       <section className="pt-40 md:pt-44 lg:pt-48 pb-20 relative overflow-hidden">
-        <div ref={vantaRef} className="absolute inset-0 z-0 pointer-events-none" />
+        {!isMobile && <div ref={vantaRef} className="absolute inset-0 z-0 pointer-events-none" />}
+        {isMobile && <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 via-purple-900/20 to-black z-0 pointer-events-none" />}
         <div className="container mx-auto px-6 relative z-20">
           <div className="max-w-6xl mx-auto">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -476,22 +485,48 @@ const AiFreelancingPage = () => {
                         className={`w-full h-full object-cover transition-opacity duration-300 ${
                           isVideoLoaded ? 'opacity-100' : 'opacity-0'
                         }`}
-                        preload="auto"
+                        preload={isMobile ? "metadata" : "auto"}
                         muted={isMuted}
                         playsInline
+                        autoPlay={isMuted}
+                        loop={isMuted}
+                        controls={isMobile}
+                        poster="https://upxsbhsamorhvnfebvor.supabase.co/storage/v1/object/public/demo-videos/video-poster.jpg"
                         onLoadedData={() => setIsVideoLoaded(true)}
                         onPlay={() => setIsVideoPlaying(true)}
                         onPause={() => setIsVideoPlaying(false)}
                         onEnded={() => setIsVideoPlaying(false)}
                         onError={(e) => {
                           console.error('Video failed to load:', e);
-                          setIsVideoLoaded(true); // Show error state
+                          setVideoError(true);
+                          setIsVideoLoaded(true);
                         }}
                       >
                         <source src="https://upxsbhsamorhvnfebvor.supabase.co/storage/v1/object/public/demo-videos/Captions_DD38D9.MP4" type="video/mp4" />
+                        Your browser does not support the video tag.
                       </video>
                       
-                      {isVideoLoaded && !isVideoPlaying && (
+                      {/* Video Error Fallback */}
+                      {videoError && (
+                        <div className="absolute inset-0 bg-gradient-to-br from-blue-900/30 to-purple-900/30 flex flex-col items-center justify-center text-center p-6">
+                          <div className="w-20 h-20 bg-primary/20 rounded-full flex items-center justify-center mb-4">
+                            <Play className="w-10 h-10 text-primary" />
+                          </div>
+                          <h3 className="text-xl font-semibold mb-2">Demo Video</h3>
+                          <p className="text-sm text-muted-foreground mb-4">See your AI freelancing tools in action</p>
+                          <Button 
+                            onClick={() => window.open('https://upxsbhsamorhvnfebvor.supabase.co/storage/v1/object/public/demo-videos/Captions_DD38D9.MP4', '_blank')}
+                            variant="outline"
+                            size="sm"
+                            className="gap-2"
+                          >
+                            <ExternalLink className="w-4 h-4" />
+                            Watch Fullscreen
+                          </Button>
+                        </div>
+                      )}
+                      
+                      {isVideoLoaded && !isVideoPlaying && !videoError && !isMobile && (
                         <div 
                           onClick={() => {
                             if (videoRef.current) {
@@ -508,7 +543,7 @@ const AiFreelancingPage = () => {
                         </div>
                       )}
                       
-                      {isVideoLoaded && isVideoPlaying && (
+                      {isVideoLoaded && isVideoPlaying && !isMobile && (
                         <button
                           onClick={() => {
                             if (videoRef.current) {
