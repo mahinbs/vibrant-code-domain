@@ -707,6 +707,7 @@ export const AnimatedJourneySection: React.FC<AnimatedJourneySectionProps> = ({ 
 
           {/* Animated CTA integrated into path */}
           <div 
+            id="cta-box"
             data-card
             data-step={journeySteps.length}
             className={`
