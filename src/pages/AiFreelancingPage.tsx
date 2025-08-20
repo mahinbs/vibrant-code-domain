@@ -29,7 +29,6 @@ const AiFreelancingPage = () => {
   const [isMuted, setIsMuted] = useState(true); // Start muted for mobile autoplay
   const [videoError, setVideoError] = useState(false);
   const [instaVideos, setInstaVideos] = useState<string[]>([]);
-  const [showStickyButton, setShowStickyButton] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [formData, setFormData] = useState({
     name: '',
@@ -82,25 +81,6 @@ const AiFreelancingPage = () => {
       }
     };
   }, [isMobile]);
-
-  // Hide sticky button when CTA or form is visible
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const isAnyVisible = entries.some(entry => entry.isIntersecting);
-        setShowStickyButton(!isAnyVisible);
-      },
-      { threshold: 0.1, rootMargin: '-20px' }
-    );
-
-    const ctaBox = document.getElementById('cta-box');
-    const leadForm = document.getElementById('lead-form');
-
-    if (ctaBox) observer.observe(ctaBox);
-    if (leadForm) observer.observe(leadForm);
-
-    return () => observer.disconnect();
-  }, []);
 
   // Fetch Instagram videos from webinar data
   useEffect(() => {
@@ -786,12 +766,10 @@ const AiFreelancingPage = () => {
         </div>
       )}
 
-      {showStickyButton && (
-        <StickyButton 
-          text="Start for $1" 
-          onClick={scrollToForm}
-        />
-      )}
+      <StickyButton 
+        text="Start for $1" 
+        onClick={scrollToForm}
+      />
 
       <Footer />
     </div>
