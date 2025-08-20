@@ -104,27 +104,27 @@ const AiFreelancingThankYouPage = () => {
                 </p>
                 
                 <div className="flex flex-col sm:flex-row gap-6 justify-center">
-                  <Button 
-                    className="h-14 px-8 rounded-full bg-gradient-to-r from-rose-500 to-pink-600 text-white font-semibold shadow-[0_0_25px_rgba(244,63,94,0.6)] hover:shadow-[0_0_35px_rgba(244,63,94,0.8)] hover:from-rose-400 hover:to-pink-500 transition-all duration-300 transform hover:scale-105 border border-rose-400/50 ring-1 ring-white/20 [&_svg]:!size-5 md:[&_svg]:!size-6"
-                    asChild
+                  <a 
+                    href="https://www.instagram.com/boostmysites/" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center h-14 px-8 rounded-full bg-gradient-to-r from-rose-500 to-pink-600 text-white font-semibold shadow-[0_0_25px_rgba(244,63,94,0.6)] hover:shadow-[0_0_35px_rgba(244,63,94,0.8)] hover:from-rose-400 hover:to-pink-500 transition-all duration-300 transform hover:scale-105 border border-rose-400/50 ring-1 ring-white/20 cursor-pointer"
                   >
-                    <a href="https://www.instagram.com/boostmysites/" target="_blank" rel="noopener noreferrer">
-                      <Instagram className="mr-3" />
-                      Follow on Instagram
-                      <ExternalLink className="ml-3" />
-                    </a>
-                  </Button>
+                    <Instagram className="mr-3 w-5 h-5 md:w-6 md:h-6" />
+                    Follow on Instagram
+                    <ExternalLink className="ml-3 w-5 h-5 md:w-6 md:h-6" />
+                  </a>
                   
-                  <Button 
-                    className="h-14 px-8 rounded-full bg-gradient-to-r from-emerald-500 to-green-600 text-white font-semibold shadow-[0_0_25px_rgba(16,185,129,0.6)] hover:shadow-[0_0_35px_rgba(16,185,129,0.8)] hover:from-emerald-400 hover:to-green-500 transition-all duration-300 transform hover:scale-105 border border-emerald-400/50 ring-1 ring-white/20 [&_svg]:!size-5 md:[&_svg]:!size-6"
-                    asChild
+                  <a 
+                    href="https://chat.whatsapp.com/KZMk5yNdSJiDjwbQ8YuJiD?mode=ems_copy_t" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center h-14 px-8 rounded-full bg-gradient-to-r from-emerald-500 to-green-600 text-white font-semibold shadow-[0_0_25px_rgba(16,185,129,0.6)] hover:shadow-[0_0_35px_rgba(16,185,129,0.8)] hover:from-emerald-400 hover:to-green-500 transition-all duration-300 transform hover:scale-105 border border-emerald-400/50 ring-1 ring-white/20 cursor-pointer"
                   >
-                    <a href="https://chat.whatsapp.com/KZMk5yNdSJiDjwbQ8YuJiD?mode=ems_copy_t" target="_blank" rel="noopener noreferrer">
-                      <Users className="mr-3" />
-                      Join our exclusive WhatsApp community
-                      <ExternalLink className="ml-3" />
-                    </a>
-                  </Button>
+                    <Users className="mr-3 w-5 h-5 md:w-6 md:h-6" />
+                    Join our exclusive WhatsApp community
+                    <ExternalLink className="ml-3 w-5 h-5 md:w-6 md:h-6" />
+                  </a>
                 </div>
                 
                 <div className="mt-8 grid md:grid-cols-3 gap-4 text-center">
