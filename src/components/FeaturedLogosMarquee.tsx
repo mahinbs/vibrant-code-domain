@@ -55,9 +55,10 @@ const FeaturedLogosMarquee = ({
                 <img
                   src={logo.src}
                   alt={logo.alt}
-                  className="h-8 sm:h-12 w-auto object-contain opacity-90 
+                  className="h-12 sm:h-16 md:h-20 w-auto object-contain opacity-90 
                            group-hover:opacity-100 transition-opacity duration-300"
                   loading="lazy"
+                  decoding="async"
                 />
               </div>
             </div>
