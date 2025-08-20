@@ -411,19 +411,12 @@ export const AnimatedJourneySection: React.FC<AnimatedJourneySectionProps> = ({ 
           ease: 'power2.in'
         });
         
-        // Glow effect expansion
+        // Enhanced static glow (no animation to prevent flickering)
         tl.to(ctaCard.querySelector('.glow-effect'), {
           opacity: 0.8,
-          scale: 1.3,
-          duration: 0.6,
+          duration: 0.3,
           ease: 'power2.out'
-        }, 0)
-        .to(ctaCard.querySelector('.glow-effect'), {
-          opacity: 0.3,
-          scale: 1,
-          duration: 0.4,
-          ease: 'power2.in'
-        });
+        }, 0);
         
         // Sparkles animation
         sparkles.forEach((sparkle, i) => {
@@ -713,10 +706,11 @@ export const AnimatedJourneySection: React.FC<AnimatedJourneySectionProps> = ({ 
               text-center mt-16 transition-all duration-1000 ease-out
               ${showCta ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-8 scale-95'}
             `}
+            id="journey-cta-wrapper"
           >
             <div className="relative max-w-lg mx-auto">
-              {/* Enhanced Glow background for celebration */}
-              <div className="glow-effect absolute inset-0 bg-gradient-to-r from-primary via-accent to-primary rounded-2xl blur-xl opacity-30" />
+              {/* Static radial glow background */}
+              <div className="glow-effect absolute inset-0 bg-[radial-gradient(ellipse_at_center,hsl(var(--primary)/0.4)_0%,hsl(var(--accent)/0.2)_40%,transparent_70%)] rounded-2xl opacity-60" />
               
               {/* Celebration Sparkles */}
               <div className="celebration-sparkle absolute -top-4 -left-4 w-6 h-6 text-primary opacity-0">
@@ -732,16 +726,16 @@ export const AnimatedJourneySection: React.FC<AnimatedJourneySectionProps> = ({ 
                 <Sparkles className="w-full h-full" />
               </div>
               
-              <div className="relative bg-card/90 backdrop-blur-sm border border-primary/20 rounded-2xl p-8">
+              <div className="relative bg-card/95 backdrop-blur-sm border border-primary/30 rounded-2xl p-8 shadow-xl">
                 <div className="flex items-center justify-center gap-2 mb-4">
                   <Sparkles className="w-6 h-6 text-primary animate-pulse" />
-                  <h3 className="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                    All of this for just $1
+                  <h3 className="text-2xl font-bold text-white drop-shadow-lg">
+                    All of this for just <span className="bg-gradient-to-r from-emerald-400 to-green-500 bg-clip-text text-transparent font-extrabold text-3xl">$1</span>
                   </h3>
                   <Sparkles className="w-6 h-6 text-accent animate-pulse" />
                 </div>
                 
-                <p className="text-muted-foreground mb-6">Start your AI freelancing journey today</p>
+                <p className="text-muted-foreground mb-6 text-lg">Start your AI freelancing journey today</p>
                 
                 <Button 
                   onClick={onCtaClick}
