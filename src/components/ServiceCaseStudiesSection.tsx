@@ -1,4 +1,5 @@
-import { CheckCircle, Star } from 'lucide-react';
+import { CheckCircle, Star, User } from 'lucide-react';
+import { useState } from 'react';
 
 interface CaseStudy {
   client: string;
@@ -38,8 +39,16 @@ const ServiceCaseStudiesSection = ({ serviceName, caseStudies, accentColor = "te
     };
     return colorMap[colorName] || accent;
   };
+
+  const handleImageError = (index: number) => {
+    // This will be handled by the individual case study component
+  };
+
   return (
-    <section className={`py-20 bg-black/80 border-t ${accentColor?.includes('pink') ? 'border-pink-400/40' : accentColor?.includes('blue') ? 'border-blue-400/40' : accentColor?.includes('green') ? 'border-green-400/40' : accentColor?.includes('purple') ? 'border-purple-400/40' : accentColor?.includes('yellow') ? 'border-yellow-400/40' : accentColor?.includes('red') ? 'border-red-400/40' : accentColor?.includes('orange') ? 'border-orange-400/10' : accentColor?.includes('indigo') ? 'border-indigo-400/40' : accentColor?.includes('teal') ? 'border-teal-400/40' : 'border-gray-400/10'}`}>
+    <section className="py-20 bg-black/80">
+      {/* Separator line */}
+      <div className={`w-full h-0.5 bg-gradient-to-r from-transparent ${accentColor?.includes('pink') ? 'via-pink-300' : accentColor?.includes('blue') ? 'via-blue-300' : accentColor?.includes('green') ? 'via-green-300' : accentColor?.includes('purple') ? 'via-purple-300' : accentColor?.includes('yellow') ? 'via-yellow-300' : accentColor?.includes('red') ? 'via-red-300' : accentColor?.includes('orange') ? 'via-orange-300' : accentColor?.includes('indigo') ? 'via-indigo-300' : accentColor?.includes('teal') ? 'via-teal-300' : 'via-gray-300'} to-transparent mb-8`}></div>
+      
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className={`text-4xl font-bold mb-4 ${getHeadingColorClass(accentColor)}`}>Success Stories</h2>
@@ -49,68 +58,93 @@ const ServiceCaseStudiesSection = ({ serviceName, caseStudies, accentColor = "te
         </div>
         <div className="space-y-16">
           {caseStudies.map((study, index) => (
-            <div key={index} className="bg-gray-800/30 rounded-2xl p-8 border border-gray-700/50">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <div>
-                  <div className="mb-6">
-                    <h3 className={`text-2xl font-bold mb-2 ${accentColor}`}>{study.client}</h3>
-                    <p className="text-gray-400">{study.industry} • {study.duration} • {study.teamSize}</p>
-                  </div>
-                  
-                  <div className="space-y-4">
-                    <div>
-                      <h4 className="font-semibold text-white mb-2">Challenge:</h4>
-                      <p className="text-gray-300 text-sm leading-relaxed">{study.challenge}</p>
-                    </div>
-                    
-                    <div>
-                      <h4 className="font-semibold text-white mb-2">Solution:</h4>
-                      <p className="text-gray-300 text-sm leading-relaxed">{study.solution}</p>
-                    </div>
-                  </div>
-                </div>
-                
-                <div>
-                  <div className="mb-6">
-                    <h4 className="font-semibold text-white mb-4">Results:</h4>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                      {study.results.map((result, idx) => (
-                        <div key={idx} className="flex items-start space-x-2">
-                          <CheckCircle className={`h-5 w-5 ${accentColor} mt-0.5 flex-shrink-0`} />
-                          <span className="text-gray-300 text-sm">{result}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  
-                  <div className="bg-gray-700/30 rounded-xl p-6 border border-gray-600/30">
-                    <div className="flex items-start space-x-4">
-                      <img 
-                        src={study.clientImage} 
-                        alt={study.clientName}
-                        className="w-12 h-12 rounded-full object-cover"
-                      />
-                      <div className="flex-1">
-                        <p className="text-gray-300 text-sm italic mb-3">"{study.testimonial}"</p>
-                        <div>
-                          <p className="font-semibold text-white text-sm">{study.clientName}</p>
-                          <p className="text-gray-400 text-xs">{study.clientRole}</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex mt-3">
-                      {[...Array(5)].map((_, i) => (
-                        <Star key={i} className="h-4 w-4 text-yellow-400 fill-current" />
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <CaseStudyCard 
+              key={index} 
+              study={study} 
+              accentColor={accentColor} 
+              index={index}
+            />
           ))}
         </div>
       </div>
     </section>
+  );
+};
+
+// Separate component for individual case study cards
+const CaseStudyCard = ({ study, accentColor, index }: { study: CaseStudy; accentColor: string; index: number }) => {
+  const [imageError, setImageError] = useState(false);
+
+  const handleImageError = () => {
+    setImageError(true);
+  };
+
+  return (
+    <div className="bg-gray-800/30 rounded-2xl p-8 border border-gray-700/50">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div>
+          <div className="mb-6">
+            <h3 className={`text-2xl font-bold mb-2 ${accentColor}`}>{study.client}</h3>
+            <p className="text-gray-400">{study.industry} • {study.duration} • {study.teamSize}</p>
+          </div>
+          
+          <div className="space-y-4">
+            <div>
+              <h4 className="font-semibold text-white mb-2">Challenge:</h4>
+              <p className="text-gray-300 text-sm leading-relaxed">{study.challenge}</p>
+            </div>
+            
+            <div>
+              <h4 className="font-semibold text-white mb-2">Solution:</h4>
+              <p className="text-gray-300 text-sm leading-relaxed">{study.solution}</p>
+            </div>
+          </div>
+        </div>
+        
+        <div>
+          <div className="mb-6">
+            <h4 className="font-semibold text-white mb-4">Results:</h4>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {study.results.map((result, idx) => (
+                <div key={idx} className="flex items-start space-x-2">
+                  <CheckCircle className={`h-5 w-5 ${accentColor} mt-0.5 flex-shrink-0`} />
+                  <span className="text-gray-300 text-sm">{result}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          
+          <div className="bg-gray-700/30 rounded-xl p-6 border border-gray-600/30">
+            <div className="flex items-start space-x-4">
+              <div className="w-12 h-12 rounded-full border border-gray-600/30 flex items-center justify-center bg-gray-700/50 flex-shrink-0">
+                {!imageError ? (
+                  <img 
+                    src={study.clientImage} 
+                    alt={study.clientName}
+                    className="w-12 h-12 rounded-full object-cover"
+                    onError={handleImageError}
+                  />
+                ) : (
+                  <User className="h-6 w-6 text-gray-400" />
+                )}
+              </div>
+              <div className="flex-1">
+                <p className="text-gray-300 text-sm italic mb-3">"{study.testimonial}"</p>
+                <div>
+                  <p className="font-semibold text-white text-sm">{study.clientName}</p>
+                  <p className="text-gray-400 text-xs">{study.clientRole}</p>
+                </div>
+              </div>
+            </div>
+            <div className="flex mt-3">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} className="h-4 w-4 text-yellow-400 fill-current" />
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 

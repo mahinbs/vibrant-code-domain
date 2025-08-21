@@ -3,6 +3,7 @@ import { Zap, Brain, Settings, BarChart3, Shield, Users } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import ServiceReviewsSection from "@/components/ServiceReviewsSection";
 
 const AiAutomationPage = () => {
   const features = [
@@ -173,6 +174,47 @@ const AiAutomationPage = () => {
           </div>
         </div>
       </section>
+      
+      {/* Reviews Section */}
+      <ServiceReviewsSection
+        serviceName="AI Automation"
+        accentColor="green"
+        reviews={[
+          {
+            id: 1,
+            name: "Ali R.",
+            role: "CTO",
+            company: "Medicare Desk",
+            rating: 5,
+            review:
+              "They automated internal workflows end-to-end. Our operations are lightning-fast and error rates have plummeted.",
+            image:
+              "https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?w=150&h=150&fit=crop&crop=face",
+          },
+          {
+            id: 2,
+            name: "Megha S.",
+            role: "Co-founder",
+            company: "LearnChamp",
+            rating: 5,
+            review:
+              "Lead qualification went from hours to minutes. The automation stack integrates perfectly with our CRM.",
+            image:
+              "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face",
+          },
+          {
+            id: 3,
+            name: "Junaid A.",
+            role: "CTO",
+            company: "BizPulse",
+            rating: 5,
+            review:
+              "Custom automation engine pulls data, triggers workflows, and sends AI-written emails—total lifesaver.",
+            image:
+              "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
+          },
+        ]}
+      />
 
       {/* CTA Section */}
       <section className="py-20">
