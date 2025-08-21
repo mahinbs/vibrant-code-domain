@@ -6,6 +6,9 @@ const GoogleAnalytics = () => {
   const location = useLocation();
 
   useEffect(() => {
+    const isPreview = /(^|\.)lovable\.app$/i.test(window.location.hostname);
+    if (isPreview) return;
+
     // This ensures the gtag function is available
     if (typeof window.gtag === 'function') {
       // Send pageview with the page's path and title

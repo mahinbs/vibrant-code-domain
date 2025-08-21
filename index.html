@@ -5,22 +5,44 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-10794572231"></script>
+    <!-- Ads/Analytics injection (disabled on lovable preview domains) -->
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'AW-10794572231');
-    </script>
+      (function() {
+        const host = location.hostname;
+        const isLovablePreview = /(^|\.)lovable\.app$/i.test(host);
+        if (isLovablePreview) {
+          console.warn('Ads/Analytics disabled on Lovable preview domain:', host);
+          return;
+        }
 
-    <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-NS8MWCPF');</script>
-    <!-- End Google Tag Manager -->
+        // Load gtag.js for Google Ads/Analytics (AW-10794572231)
+        const gtagScript = document.createElement('script');
+        gtagScript.async = true;
+        gtagScript.src = 'https://www.googletagmanager.com/gtag/js?id=AW-10794572231';
+        document.head.appendChild(gtagScript);
+
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){ window.dataLayer.push(arguments); }
+        window.gtag = window.gtag || gtag;
+        gtag('js', new Date());
+        gtag('config', 'AW-10794572231');
+
+        // Google Tag Manager (GTM-NS8MWCPF)
+        (function(w,d,s,l,i){
+          w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});
+          var f=d.getElementsByTagName(s)[0], j=d.createElement(s), dl=l!='dataLayer'?'&l='+l:'';
+          j.async=true; j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
+          f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-NS8MWCPF');
+
+        // Inject noscript iframe after DOM loads
+        document.addEventListener('DOMContentLoaded', function(){
+          var ns = document.createElement('noscript');
+          ns.innerHTML = '<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NS8MWCPF" height="0" width="0" style="display:none;visibility:hidden"></iframe>';
+          document.body.prepend(ns);
+        });
+      })();
+    </script>
 
     <title>Boostmysites - AI-Powered Software Solutions</title>
     <meta name="description" content="Transform your business with Boostmysites' innovative AI-powered software solutions. Web development, mobile apps, SaaS, and digital marketing services." />
@@ -39,10 +61,7 @@
   </head>
 
   <body>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NS8MWCPF"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
+    <!-- GTM noscript is injected dynamically in the head script only on allowed domains -->
 
     <div id="root"></div>
     <!-- Three.js and Vanta.js for background effects -->
