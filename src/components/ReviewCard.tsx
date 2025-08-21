@@ -1,6 +1,6 @@
 
 import React, { memo, useState, useRef, useEffect } from 'react';
-import { Star } from 'lucide-react';
+import { Star, User } from 'lucide-react';
 
 interface ReviewCardProps {
   review: {
@@ -19,6 +19,7 @@ interface ReviewCardProps {
 
 const ReviewCard = memo(({ review, index, getServiceColor }: ReviewCardProps) => {
   const [isInView, setIsInView] = useState(false);
+  const [imageError, setImageError] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -41,6 +42,10 @@ const ReviewCard = memo(({ review, index, getServiceColor }: ReviewCardProps) =>
 
     return () => observer.disconnect();
   }, []);
+
+  const handleImageError = () => {
+    setImageError(true);
+  };
 
   return (
     <div 
@@ -74,12 +79,19 @@ const ReviewCard = memo(({ review, index, getServiceColor }: ReviewCardProps) =>
 
         {/* Client Info */}
         <div className="flex items-center">
-          <img 
-            src={review.image} 
-            alt={review.name} 
-            className="w-12 h-12 rounded-full border border-cyan-400/30 mr-3"
-            loading="lazy"
-          />
+          <div className="w-12 h-12 rounded-full border border-cyan-400/30 mr-3 overflow-hidden bg-gray-700 flex items-center justify-center">
+            {!imageError ? (
+              <img 
+                src={review.image}
+                alt={review.name}
+                className="w-full h-full object-cover"
+                loading="lazy"
+                onError={handleImageError}
+              />
+            ) : (
+              <User className="w-6 h-6 text-gray-400" />
+            )}
+          </div>
           <div>
             <div className="font-semibold text-white">{review.name}</div>
             <div className="text-cyan-300 text-sm">{review.role}</div>

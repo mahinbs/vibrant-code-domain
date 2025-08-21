@@ -35,7 +35,7 @@ const WebAppsCaseStudies = () => {
       testimonial: "The Fashion Journey Navigator revolutionized our customer experience. Our users now discover styles they love and complete purchases with confidence.",
       clientName: 'Sarah Williams',
       clientRole: 'Head of Digital Experience',
-      clientImage: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&h=150&q=80',
+      clientImage: 'https://images.unsplash.com/photo-1745434159123-4908d0b9df94?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       duration: '20 weeks',
       teamSize: '10 developers'
     }

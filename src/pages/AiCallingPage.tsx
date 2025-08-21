@@ -3,6 +3,7 @@ import { Phone, Brain, BarChart3, Users, Zap, Shield } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import ServiceReviewsSection from "@/components/ServiceReviewsSection";
 
 const AiCallingPage = () => {
   const features = [
@@ -162,6 +163,47 @@ const AiCallingPage = () => {
           </div>
         </div>
       </section>
+
+      {/* Reviews Section */}
+      <ServiceReviewsSection
+        serviceName="AI Calling Agency"
+        accentColor="orange"
+        reviews={[
+          {
+            id: 1,
+            name: "Shruti M.",
+            role: "Head of Ops",
+            company: "Rentzy",
+            rating: 5,
+            review:
+              "Automated 90% of outbound calls. Natural language is so good most customers don’t realize it’s AI.",
+            image:
+              "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face",
+          },
+          {
+            id: 2,
+            name: "Deepak K.",
+            role: "CEO",
+            company: "LoanKart365",
+            rating: 5,
+            review:
+              "Cold-call hours dropped by 80%. The voice tech feels incredibly human and handles objections well.",
+            image:
+              "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
+          },
+          {
+            id: 3,
+            name: "Sophia A.",
+            role: "Ops Manager",
+            company: "QuickDrop",
+            rating: 5,
+            review:
+              "Call routing is now fully automated. Customers get answers faster, and our agents focus on high-value tasks.",
+            image:
+              "https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?w=150&h=150&fit=crop&crop=face",
+          },
+        ]}
+      />
 
       {/* CTA Section */}
       <section className="py-20">
