@@ -117,13 +117,14 @@ export const SalespersonForm: React.FC<SalespersonFormProps> = ({
           </div>
 
           <div>
-            <Label htmlFor="phone">Phone Number</Label>
+            <Label htmlFor="phone">Phone Number *</Label>
             <Input
               id="phone"
               type="tel"
               value={formData.phone}
               onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
               placeholder="+91 98765 43210"
+              required
             />
           </div>
 
