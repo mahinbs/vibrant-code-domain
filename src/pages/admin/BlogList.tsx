@@ -150,26 +150,26 @@ const BlogList = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
-        <Loader2 className="h-8 w-8 animate-spin" />
-        <span className="ml-2">Loading blog posts...</span>
+        <Loader2 className="h-8 w-8 animate-spin text-cyan-400" />
+        <span className="ml-2 text-black">Loading blog posts...</span>
       </div>
     );
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 p-3">
       <div className="flex items-center gap-4">
-        <Button variant="outline" asChild>
+        <Button variant="outline" asChild className="border-gray-600 text-gray-900 hover:bg-gray-700 hover:text-white">
           <Link to="/admin">
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back to Dashboard
           </Link>
         </Button>
         <div className="flex-1">
-          <h1 className="text-3xl font-bold text-gray-900">Blog Management</h1>
-          <p className="text-gray-600">Manage your blog posts</p>
+          <h1 className="text-3xl font-bold text-black">Blog Management</h1>
+          <p className="text-gray-400">Manage your blog posts</p>
         </div>
-        <Button asChild>
+        <Button asChild className="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white shadow-lg hover:shadow-cyan-500/25 transition-all duration-300">
           <Link to="/admin/blogs/new">
             <Plus className="h-4 w-4 mr-2" />
             Add Blog Post
@@ -177,15 +177,15 @@ const BlogList = () => {
         </Button>
       </div>
 
-      <Card>
+      <Card className="bg-gray-800 border-gray-700">
         <CardHeader>
-          <CardTitle>All Blog Posts ({blogs.length})</CardTitle>
+          <CardTitle className="text-white">All Blog Posts ({blogs.length})</CardTitle>
         </CardHeader>
         <CardContent>
           {blogs.length === 0 ? (
             <div className="text-center py-8">
-              <p className="text-gray-500 mb-4">No blog posts found</p>
-              <Button asChild>
+              <p className="text-gray-400 mb-4">No blog posts found</p>
+              <Button asChild className="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white shadow-lg hover:shadow-cyan-500/25 transition-all duration-300">
                 <Link to="/admin/blogs/new">
                   <Plus className="h-4 w-4 mr-2" />
                   Create your first blog post
@@ -196,23 +196,23 @@ const BlogList = () => {
             <div className="overflow-x-auto">
               <table className="w-full border-collapse">
                 <thead>
-                  <tr className="bg-gray-50 border-b">
-                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">
+                  <tr className="bg-gray-700 border-b border-gray-600">
+                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-300">
                       Title
                     </th>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">
+                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-300">
                       Author
                     </th>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">
+                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-300">
                       Date
                     </th>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">
+                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-300">
                       Reading Time
                     </th>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">
+                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-300">
                       Tags
                     </th>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">
+                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-300">
                       Actions
                     </th>
                   </tr>
@@ -229,35 +229,35 @@ const BlogList = () => {
                     });
 
                     return (
-                      <tr key={blog.id} className="border-b hover:bg-gray-50">
-                        <td className="px-4 py-4 text-sm font-medium text-gray-900">
+                      <tr key={blog.id} className="border-b border-gray-700 hover:bg-gray-700/50">
+                        <td className="px-4 py-4 text-sm font-medium text-white">
                           {blog.title}
                         </td>
-                        <td className="px-4 py-4 text-sm text-gray-500">
+                        <td className="px-4 py-4 text-sm text-gray-300">
                           {blog.author?.name || "Unknown"}
                         </td>
-                        <td className="px-4 py-4 text-sm text-gray-500">
+                        <td className="px-4 py-4 text-sm text-gray-300">
                           {blog.publishedDate
                             ? formatDate(blog.publishedDate)
                             : blog.published_date
                             ? formatDate(blog.published_date)
                             : "No date"}
                         </td>
-                        <td className="px-4 py-4 text-sm text-gray-500">
+                        <td className="px-4 py-4 text-sm text-gray-300">
                           {typeof blog.readingTime === "number"
                             ? `${blog.readingTime} min read`
                             : typeof blog.reading_time === "number"
                             ? `${blog.reading_time} min read`
                             : "Unknown"}
                         </td>
-                        <td className="px-4 py-4 text-sm text-gray-500">
+                        <td className="px-4 py-4 text-sm text-gray-300">
                           <div className="flex flex-wrap gap-1">
                             {blog.tags && blog.tags.length > 0 ? (
                               <>
                                 {blog.tags.slice(0, 2).map((tag) => (
                                   <span
                                     key={tag}
-                                    className="bg-blue-100 text-blue-700 px-2 py-1 rounded text-xs"
+                                    className="bg-cyan-700 text-cyan-200 px-2 py-1 rounded text-xs border border-cyan-600"
                                   >
                                     {tag}
                                   </span>
@@ -269,18 +269,18 @@ const BlogList = () => {
                                 )}
                               </>
                             ) : (
-                              <span className="text-gray-400">No tags</span>
+                              <span className="text-gray-500">No tags</span>
                             )}
                           </div>
                         </td>
-                        <td className="px-4 py-4 text-sm text-gray-500">
+                        <td className="px-4 py-4 text-sm text-gray-300">
                           <div className="flex gap-2">
-                            <Button variant="outline" size="sm" asChild>
+                            <Button variant="outline" size="sm" asChild className="border-gray-600 text-gray-300 hover:bg-gray-700 hover:text-white">
                               <Link to={`/blog/${blog.id}`} target="_blank">
                                 <ExternalLink className="h-4 w-4" />
                               </Link>
                             </Button>
-                            <Button variant="outline" size="sm" asChild>
+                            <Button variant="outline" size="sm" asChild className="border-gray-600 text-gray-300 hover:bg-gray-700 hover:text-white">
                               <Link to={`/admin/blogs/edit/${blog.id}`}>
                                 <Edit className="h-4 w-4" />
                               </Link>
@@ -289,6 +289,7 @@ const BlogList = () => {
                               variant="outline"
                               size="sm"
                               onClick={() => handleDelete(blog.id)}
+                              className="border-red-600 text-red-400 hover:bg-red-600 hover:text-white"
                             >
                               <Trash2 className="h-4 w-4" />
                             </Button>

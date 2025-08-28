@@ -32,9 +32,9 @@ const GallerySection = ({ formData, setFormData }: GallerySectionProps) => {
   };
 
   return (
-    <Card>
+    <Card className="bg-gray-800 border-gray-700">
       <CardHeader>
-        <CardTitle>Project Gallery</CardTitle>
+        <CardTitle className="text-white">Project Gallery</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="flex gap-2">
@@ -44,15 +44,16 @@ const GallerySection = ({ formData, setFormData }: GallerySectionProps) => {
             placeholder="Image URL"
             type="url"
             onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addGalleryImage())}
+            className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500"
           />
-          <Button type="button" onClick={addGalleryImage}>
+          <Button type="button" onClick={addGalleryImage} className="bg-cyan-600 hover:bg-cyan-700 text-white">
             <Plus className="h-4 w-4 mr-2" />
             Add Image
           </Button>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {formData.gallery.map((imageUrl) => (
-            <div key={imageUrl} className="relative border rounded-lg overflow-hidden">
+            <div key={imageUrl} className="relative border border-gray-600 rounded-lg overflow-hidden bg-gray-700/50">
               <img src={imageUrl} alt="Gallery" className="w-full h-32 object-cover" />
               <Button
                 type="button"

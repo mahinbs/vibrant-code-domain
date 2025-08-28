@@ -51,9 +51,9 @@ export const SalespersonList: React.FC<SalespersonListProps> = ({
 
   if (salespersons.length === 0) {
     return (
-      <Card>
+      <Card className="bg-gray-800 border-gray-700">
         <CardContent className="text-center py-8">
-          <p className="text-muted-foreground">No salespersons added yet.</p>
+          <p className="text-gray-400">No salespersons added yet.</p>
         </CardContent>
       </Card>
     );
@@ -65,23 +65,24 @@ export const SalespersonList: React.FC<SalespersonListProps> = ({
         const links = salespersonLinkService.generateLinks(salesperson);
         
         return (
-          <Card key={salesperson.id}>
+          <Card key={salesperson.id} className="bg-gray-800 border-gray-700">
             <CardHeader>
               <div className="flex items-center justify-between">
                 <div>
-                  <CardTitle className="flex items-center gap-2">
+                  <CardTitle className="flex items-center gap-2 text-white">
                     {salesperson.display_name}
                     {!salesperson.is_active && (
-                      <Badge variant="secondary">Inactive</Badge>
+                      <Badge variant="secondary" className="bg-gray-600 text-gray-300">Inactive</Badge>
                     )}
                   </CardTitle>
-                  <p className="text-sm text-muted-foreground">{salesperson.email}</p>
+                  <p className="text-sm text-gray-400">{salesperson.email}</p>
                 </div>
                 <div className="flex gap-2">
                   <Button
                     variant="outline"
                     size="sm"
                     onClick={() => handleCopyAllLinks(salesperson)}
+                    className="border-gray-600 text-gray-300 hover:bg-gray-700 hover:text-white"
                   >
                     <Copy className="h-4 w-4" />
                     Copy All
@@ -90,6 +91,7 @@ export const SalespersonList: React.FC<SalespersonListProps> = ({
                     variant="outline"
                     size="sm"
                     onClick={() => onEdit(salesperson)}
+                    className="border-gray-600 text-gray-300 hover:bg-gray-700 hover:text-white"
                   >
                     <Edit className="h-4 w-4" />
                   </Button>
@@ -106,15 +108,15 @@ export const SalespersonList: React.FC<SalespersonListProps> = ({
             </CardHeader>
             <CardContent>
               <div className="space-y-2">
-                <h4 className="font-medium">Generated Links:</h4>
+                <h4 className="font-medium text-white">Generated Links:</h4>
                 {links.map((link) => (
                   <div
                     key={link.service}
-                    className="flex items-center justify-between p-2 bg-muted rounded"
+                    className="flex items-center justify-between p-2 bg-gray-700/50 rounded border border-gray-600"
                   >
                     <div>
-                      <span className="font-medium">{link.serviceName}</span>
-                      <p className="text-sm text-muted-foreground">
+                      <span className="font-medium text-white">{link.serviceName}</span>
+                      <p className="text-sm text-gray-400">
                         https://{link.url}
                       </p>
                     </div>
@@ -123,6 +125,7 @@ export const SalespersonList: React.FC<SalespersonListProps> = ({
                         variant="ghost"
                         size="sm"
                         onClick={() => handleCopyLink(link.url)}
+                        className="text-gray-300 hover:bg-gray-700 hover:text-white"
                       >
                         <Copy className="h-4 w-4" />
                       </Button>
@@ -130,6 +133,7 @@ export const SalespersonList: React.FC<SalespersonListProps> = ({
                         variant="ghost"
                         size="sm"
                         onClick={() => window.open(`https://${link.url}`, '_blank')}
+                        className="text-gray-300 hover:bg-gray-700 hover:text-white"
                       >
                         <ExternalLink className="h-4 w-4" />
                       </Button>

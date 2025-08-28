@@ -173,14 +173,14 @@ const App = () => {
                   </ProtectedRoute>
                 } 
               />
-              <Route 
+              {/* <Route 
                 path="/admin/link-generator" 
                 element={
                   <ProtectedRoute>
                     <LinkGenerator />
                   </ProtectedRoute>
                 } 
-              />
+              /> */}
               <Route 
                 path="/admin/webinar-management" 
                 element={

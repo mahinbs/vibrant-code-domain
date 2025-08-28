@@ -30,50 +30,53 @@ const BasicInformationSection = ({ formData, setFormData }: BasicInformationSect
   ];
 
   return (
-    <Card>
+    <Card className="bg-gray-800 border-gray-700">
       <CardHeader>
-        <CardTitle>Basic Information</CardTitle>
+        <CardTitle className="text-white">Basic Information</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="title">Project Title *</Label>
+            <Label htmlFor="title" className="text-gray-200">Project Title *</Label>
             <Input
               id="title"
               value={formData.title}
               onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
               placeholder="Project title"
               required
+              className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500"
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="client">Client Name *</Label>
+            <Label htmlFor="client" className="text-gray-200">Client Name *</Label>
             <Input
               id="client"
               value={formData.client}
               onChange={(e) => setFormData(prev => ({ ...prev, client: e.target.value }))}
               placeholder="Client name"
               required
+              className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500"
             />
           </div>
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="slug">URL Slug</Label>
+          <Label htmlFor="slug" className="text-gray-200">URL Slug</Label>
           <Input
             id="slug"
             value={formData.slug}
             onChange={(e) => setFormData(prev => ({ ...prev, slug: e.target.value }))}
             placeholder="url-friendly-slug (auto-generated from title)"
             disabled={!formData.id} // Only allow manual editing when editing existing projects
+            className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500 disabled:bg-gray-800 disabled:text-gray-500"
           />
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-gray-400">
             {formData.id ? 'You can manually edit the slug for existing projects' : 'Slug will be auto-generated from title, client, industry and technologies'}
           </p>
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="description">Description *</Label>
+          <Label htmlFor="description" className="text-gray-200">Description *</Label>
           <Textarea
             id="description"
             value={formData.description}
@@ -81,22 +84,23 @@ const BasicInformationSection = ({ formData, setFormData }: BasicInformationSect
             placeholder="Brief project description"
             rows={3}
             required
+            className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500"
           />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="serviceId">Service Category *</Label>
+            <Label htmlFor="serviceId" className="text-gray-200">Service Category *</Label>
             <Select
               value={formData.serviceId}
               onValueChange={(value) => setFormData(prev => ({ ...prev, serviceId: value }))}
             >
-              <SelectTrigger>
+              <SelectTrigger className="bg-gray-700 border-gray-600 text-white">
                 <SelectValue placeholder="Select service" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="bg-gray-800 border-gray-600">
                 {serviceOptions.map((option) => (
-                  <SelectItem key={option.value} value={option.value}>
+                  <SelectItem key={option.value} value={option.value} className="text-gray-300 hover:bg-gray-700">
                     {option.label}
                   </SelectItem>
                 ))}
@@ -104,68 +108,74 @@ const BasicInformationSection = ({ formData, setFormData }: BasicInformationSect
             </Select>
           </div>
           <div className="space-y-2">
-            <Label htmlFor="industry">Industry</Label>
+            <Label htmlFor="industry" className="text-gray-200">Industry</Label>
             <Input
               id="industry"
               value={formData.industry}
               onChange={(e) => setFormData(prev => ({ ...prev, industry: e.target.value }))}
               placeholder="e.g., E-commerce, Healthcare"
+              className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500"
             />
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="timeline">Timeline</Label>
+            <Label htmlFor="timeline" className="text-gray-200">Timeline</Label>
             <Input
               id="timeline"
               value={formData.timeline}
               onChange={(e) => setFormData(prev => ({ ...prev, timeline: e.target.value }))}
               placeholder="e.g., 12 weeks"
+              className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500"
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="team">Team Size</Label>
+            <Label htmlFor="team" className="text-gray-200">Team Size</Label>
             <Input
               id="team"
               value={formData.team}
               onChange={(e) => setFormData(prev => ({ ...prev, team: e.target.value }))}
               placeholder="e.g., 5 developers"
+              className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500"
             />
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="image">Project Image URL</Label>
+            <Label htmlFor="image" className="text-gray-200">Project Image URL</Label>
             <Input
               id="image"
               value={formData.image}
               onChange={(e) => setFormData(prev => ({ ...prev, image: e.target.value }))}
               placeholder="https://example.com/image.jpg"
               type="url"
+              className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500"
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="liveUrl">Live URL</Label>
+            <Label htmlFor="liveUrl" className="text-gray-200">Live URL</Label>
             <Input
               id="liveUrl"
               value={formData.liveUrl}
               onChange={(e) => setFormData(prev => ({ ...prev, liveUrl: e.target.value }))}
               placeholder="https://example.com"
               type="url"
+              className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500"
             />
           </div>
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="clientLogo">Client Logo URL</Label>
+          <Label htmlFor="clientLogo" className="text-gray-200">Client Logo URL</Label>
           <Input
             id="clientLogo"
             value={formData.clientLogo}
             onChange={(e) => setFormData(prev => ({ ...prev, clientLogo: e.target.value }))}
             placeholder="https://example.com/logo.jpg"
             type="url"
+            className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500"
           />
         </div>
       </CardContent>

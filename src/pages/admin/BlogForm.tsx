@@ -162,74 +162,77 @@ const BlogForm = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
-        <Loader2 className="h-8 w-8 animate-spin" />
-        <span className="ml-2">Loading blog post...</span>
+        <Loader2 className="h-8 w-8 animate-spin text-cyan-400" />
+        <span className="ml-2 text-white">Loading blog post...</span>
       </div>
     );
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 p-3">
       <div className="flex items-center gap-4">
-        <Button variant="outline" onClick={() => navigate('/admin/blogs')}>
+        <Button variant="outline" onClick={() => navigate('/admin/blogs')} className="border-gray-600 text-gray-900 hover:bg-gray-700 hover:text-white">
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back to Blogs
         </Button>
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">
+          <h1 className="text-3xl font-bold text-black">
             {isEdit ? 'Edit Blog Post' : 'Add New Blog Post'}
           </h1>
-          <p className="text-gray-600">
+          <p className="text-gray-400">
             {isEdit ? 'Update blog post details' : 'Create a new blog post'}
           </p>
         </div>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        <Card>
+        <Card className="bg-gray-800 border-gray-700">
           <CardHeader>
-            <CardTitle>Basic Information</CardTitle>
+            <CardTitle className="text-white">Basic Information</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="title">Title *</Label>
+              <Label htmlFor="title" className="text-gray-200">Title *</Label>
               <Input
                 id="title"
                 value={formData.title}
                 onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
                 placeholder="Blog post title"
                 required
+                className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500"
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="slug">URL Slug</Label>
+              <Label htmlFor="slug" className="text-gray-200">URL Slug</Label>
               <Input
                 id="slug"
                 value={formData.slug}
                 onChange={(e) => setFormData(prev => ({ ...prev, slug: e.target.value }))}
                 placeholder="url-friendly-slug (auto-generated from title)"
                 disabled={!isEdit} // Only allow manual editing when editing existing posts
+                className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500 disabled:bg-gray-800 disabled:text-gray-500"
               />
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-gray-400">
                 {isEdit ? 'You can manually edit the slug for existing posts' : 'Slug will be auto-generated from title, category and tags'}
               </p>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="excerpt">Excerpt</Label>
+              <Label htmlFor="excerpt" className="text-gray-200">Excerpt</Label>
               <Textarea
                 id="excerpt"
                 value={formData.excerpt}
                 onChange={(e) => setFormData(prev => ({ ...prev, excerpt: e.target.value }))}
                 placeholder="Brief description of the blog post"
                 rows={2}
+                className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500"
               />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="author-name">Author Name *</Label>
+                <Label htmlFor="author-name" className="text-gray-200">Author Name *</Label>
                 <Input
                   id="author-name"
                   value={formData.author.name}
@@ -239,42 +242,46 @@ const BlogForm = () => {
                   }))}
                   placeholder="Author name"
                   required
+                  className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500"
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="publishedDate">Date</Label>
+                <Label htmlFor="publishedDate" className="text-gray-200">Date</Label>
                 <Input
                   id="publishedDate"
                   type="date"
                   value={formData.publishedDate}
                   onChange={(e) => setFormData(prev => ({ ...prev, publishedDate: e.target.value }))}
                   required
+                  className="bg-gray-700 border-gray-600 text-white focus:border-cyan-500 focus:ring-cyan-500"
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="readingTime">Reading Time (minutes)</Label>
+                <Label htmlFor="readingTime" className="text-gray-200">Reading Time (minutes)</Label>
                 <Input
                   id="readingTime"
                   type="number"
                   value={formData.readingTime}
                   onChange={(e) => setFormData(prev => ({ ...prev, readingTime: parseInt(e.target.value) || 5 }))}
                   placeholder="5"
+                  className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500"
                 />
               </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="category">Category</Label>
+                <Label htmlFor="category" className="text-gray-200">Category</Label>
                 <Input
                   id="category"
                   value={formData.category}
                   onChange={(e) => setFormData(prev => ({ ...prev, category: e.target.value }))}
                   placeholder="e.g., Technology, Design"
+                  className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500"
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="author-avatar">Author Avatar URL</Label>
+                <Label htmlFor="author-avatar" className="text-gray-200">Author Avatar URL</Label>
                 <Input
                   id="author-avatar"
                   value={formData.author.avatar}
@@ -284,23 +291,25 @@ const BlogForm = () => {
                   }))}
                   placeholder="https://example.com/avatar.jpg"
                   type="url"
+                  className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500"
                 />
               </div>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="featuredImage">Featured Image URL</Label>
+              <Label htmlFor="featuredImage" className="text-gray-200">Featured Image URL</Label>
               <Input
                 id="featuredImage"
                 value={formData.featuredImage}
                 onChange={(e) => setFormData(prev => ({ ...prev, featuredImage: e.target.value }))}
                 placeholder="https://example.com/image.jpg"
                 type="url"
+                className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500"
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="author-bio">Author Bio</Label>
+              <Label htmlFor="author-bio" className="text-gray-200">Author Bio</Label>
               <Textarea
                 id="author-bio"
                 value={formData.author.bio}
@@ -310,14 +319,15 @@ const BlogForm = () => {
                 }))}
                 placeholder="Brief bio about the author"
                 rows={2}
+                className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500"
               />
             </div>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-gray-800 border-gray-700">
           <CardHeader>
-            <CardTitle>Tags</CardTitle>
+            <CardTitle className="text-white">Tags</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex gap-2">
@@ -326,27 +336,28 @@ const BlogForm = () => {
                 onChange={(e) => setTagInput(e.target.value)}
                 placeholder="Add tag"
                 onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addTag())}
+                className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500"
               />
-              <Button type="button" onClick={addTag}>Add</Button>
+              <Button type="button" onClick={addTag} className="bg-cyan-600 hover:bg-cyan-700 text-white">Add</Button>
             </div>
             <div className="flex flex-wrap gap-2">
               {formData.tags.map((tag) => (
-                <span key={tag} className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm flex items-center gap-2">
+                <span key={tag} className="bg-cyan-700 text-cyan-200 px-3 py-1 rounded-full text-sm flex items-center gap-2 border border-cyan-600">
                   {tag}
-                  <button type="button" onClick={() => removeTag(tag)} className="text-blue-600 hover:text-blue-800">×</button>
+                  <button type="button" onClick={() => removeTag(tag)} className="text-cyan-300 hover:text-cyan-100">×</button>
                 </span>
               ))}
             </div>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-gray-800 border-gray-700">
           <CardHeader>
-            <CardTitle>Content</CardTitle>
+            <CardTitle className="text-white">Content</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
-              <Label htmlFor="content">Blog Content *</Label>
+              <Label htmlFor="content" className="text-gray-200">Blog Content *</Label>
               <Textarea
                 id="content"
                 value={formData.content}
@@ -357,8 +368,9 @@ const BlogForm = () => {
                 placeholder="Write your blog content here..."
                 rows={15}
                 required
+                className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500"
               />
-              <div className="text-sm text-gray-500 space-y-1">
+              <div className="text-sm text-gray-400 space-y-1">
                 <p>You can use either plain text or HTML formatting for rich content.</p>
                 <p><strong>Plain text tips:</strong> Use double line breaks to create paragraphs.</p>
                 <p><strong>HTML examples:</strong> &lt;h2&gt;Heading&lt;/h2&gt;, &lt;p&gt;Paragraph&lt;/p&gt;, &lt;strong&gt;Bold&lt;/strong&gt;, &lt;em&gt;Italic&lt;/em&gt;</p>
@@ -368,11 +380,20 @@ const BlogForm = () => {
         </Card>
 
         <div className="flex gap-4">
-          <Button type="submit" disabled={saving}>
+          <Button 
+            type="submit" 
+            disabled={saving}
+            className="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white shadow-lg hover:shadow-cyan-500/25 transition-all duration-300"
+          >
             {saving && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
             {isEdit ? 'Update Blog Post' : 'Create Blog Post'}
           </Button>
-          <Button type="button" variant="outline" onClick={() => navigate('/admin/blogs')}>
+          <Button 
+            type="button" 
+            variant="outline" 
+            onClick={() => navigate('/admin/blogs')}
+            className="border-gray-600 text-gray-300 hover:bg-gray-700 hover:text-white"
+          >
             Cancel
           </Button>
         </div>

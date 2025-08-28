@@ -102,18 +102,18 @@ export const LinkGenerator = () => {
         />
       ) : (
         <>
-          <Card>
+          <Card className="bg-gray-800 border-gray-700">
             <CardHeader>
-              <CardTitle>How it works</CardTitle>
+              <CardTitle className="text-white">How it works</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-muted-foreground">
+              <p className="text-gray-300">
                 Add salespersons to generate personalized links in the format: 
-                <code className="mx-1 px-2 py-1 bg-muted rounded">
-                  boostmysites.in/[salesperson-name]/[service]
+                <code className="mx-1 px-2 py-1 bg-gray-700 text-cyan-300 rounded border border-gray-600">
+                  services.boostmysites.in/[salesperson-name]/[service]
                 </code>
               </p>
-              <p className="text-muted-foreground mt-2">
+              <p className="text-gray-300 mt-2">
                 Each salesperson can have links for multiple services. Use these links for tracking and personalized landing pages.
               </p>
             </CardContent>

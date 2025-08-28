@@ -65,7 +65,7 @@ export function DateRangePicker({ className, date, onDateChange }: DateRangePick
             variant="outline"
             className={cn(
               'w-[270px] justify-start text-left font-normal border-gray-600 text-gray-300 hover:bg-gray-700 hover:text-white',
-              !date && 'text-muted-foreground'
+              !date && 'text-gray-400'
             )}
           >
             <CalendarIcon className="mr-2 h-4 w-4" />
@@ -87,11 +87,11 @@ export function DateRangePicker({ className, date, onDateChange }: DateRangePick
           <div className="flex">
             <div className="p-2 border-r border-gray-700">
                 <div className="flex flex-col space-y-1">
-                    <Button variant="ghost" className="justify-start w-full" onClick={() => handlePresetChange('today')}>Today</Button>
-                    <Button variant="ghost" className="justify-start w-full" onClick={() => handlePresetChange('this_week')}>This Week</Button>
-                    <Button variant="ghost" className="justify-start w-full" onClick={() => handlePresetChange('this_month')}>This Month</Button>
-                    <Button variant="ghost" className="justify-start w-full" onClick={() => handlePresetChange('last_7_days')}>Last 7 days</Button>
-                    <Button variant="ghost" className="justify-start w-full" onClick={() => handlePresetChange('last_30_days')}>Last 30 days</Button>
+                    <Button variant="ghost" className="justify-start w-full text-gray-300 hover:bg-gray-700 hover:text-white" onClick={() => handlePresetChange('today')}>Today</Button>
+                    <Button variant="ghost" className="justify-start w-full text-gray-300 hover:bg-gray-700 hover:text-white" onClick={() => handlePresetChange('this_week')}>This Week</Button>
+                    <Button variant="ghost" className="justify-start w-full text-gray-300 hover:bg-gray-700 hover:text-white" onClick={() => handlePresetChange('this_month')}>This Month</Button>
+                    <Button variant="ghost" className="justify-start w-full text-gray-300 hover:bg-gray-700 hover:text-white" onClick={() => handlePresetChange('last_7_days')}>Last 7 days</Button>
+                    <Button variant="ghost" className="justify-start w-full text-gray-300 hover:bg-gray-700 hover:text-white" onClick={() => handlePresetChange('last_30_days')}>Last 30 days</Button>
                 </div>
             </div>
             <Calendar
@@ -104,6 +104,18 @@ export function DateRangePicker({ className, date, onDateChange }: DateRangePick
               classNames={{
                 day_selected: "bg-cyan-500 text-white hover:bg-cyan-600 focus:bg-cyan-600",
                 day_today: "bg-gray-700 text-white",
+                day: "text-gray-300 hover:bg-gray-700 hover:text-white",
+                day_range_start: "bg-cyan-500 text-white",
+                day_range_end: "bg-cyan-500 text-white",
+                caption: "text-white",
+                caption_label: "text-white",
+                nav_button: "text-gray-300 hover:bg-gray-700 hover:text-white",
+                nav_button_previous: "text-gray-300 hover:bg-gray-700 hover:text-white",
+                nav_button_next: "text-gray-300 hover:bg-gray-700 hover:text-white",
+                head_cell: "text-gray-400",
+                head_row: "border-gray-700",
+                row: "border-gray-700",
+                cell: "text-gray-300",
               }}
             />
           </div>
