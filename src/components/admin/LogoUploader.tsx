@@ -86,16 +86,17 @@ const LogoUploader: React.FC<LogoUploaderProps> = ({ logos, onLogosChange, title
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-medium">{title}</h3>
+        <h3 className="text-lg font-medium text-white">{title}</h3>
         <Button 
           onClick={triggerFileSelect} 
           disabled={uploading}
           variant="outline"
           size="sm"
+          className="border-gray-600 text-gray-300 hover:bg-gray-700 hover:text-white"
         >
           {uploading ? (
             <>
-              <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin mr-2" />
+              <div className="w-4 h-4 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin mr-2" />
               Uploading...
             </>
           ) : (
@@ -118,15 +119,15 @@ const LogoUploader: React.FC<LogoUploaderProps> = ({ logos, onLogosChange, title
 
       {/* Upload Zone */}
       <Card 
-        className="border-2 border-dashed border-muted-foreground/25 hover:border-muted-foreground/50 transition-colors cursor-pointer"
+        className="border-2 border-dashed border-gray-600 hover:border-gray-500 transition-colors cursor-pointer bg-gray-800"
         onClick={triggerFileSelect}
       >
         <CardContent className="flex flex-col items-center justify-center py-8">
-          <Image className="w-12 h-12 text-muted-foreground mb-4" />
-          <p className="text-sm text-muted-foreground text-center">
+          <Image className="w-12 h-12 text-gray-400 mb-4" />
+          <p className="text-sm text-gray-300 text-center">
             Click to upload logo images or drag and drop
           </p>
-          <p className="text-xs text-muted-foreground mt-1">
+          <p className="text-xs text-gray-400 mt-1">
             PNG, JPG, WEBP up to 10MB each
           </p>
         </CardContent>
@@ -136,7 +137,7 @@ const LogoUploader: React.FC<LogoUploaderProps> = ({ logos, onLogosChange, title
       {logos.length > 0 && (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {logos.map((logo, index) => (
-            <Card key={index} className="relative group">
+            <Card key={index} className="relative group bg-gray-800 border-gray-700">
               <CardContent className="p-2">
                 <div className="aspect-video relative">
                   <img 

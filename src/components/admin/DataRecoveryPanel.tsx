@@ -85,20 +85,28 @@ const DataRecoveryPanel = ({ onDataRestored }: DataRecoveryPanelProps) => {
   };
 
   return (
-    <Card>
+    <Card className="bg-gradient-to-br from-gray-800 to-gray-900 border-gray-700">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Shield className="h-5 w-5" />
+        <CardTitle className="flex items-center gap-2 text-white">
+          <Shield className="h-5 w-5 text-cyan-400" />
           Data Recovery & Backup
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="flex gap-2">
-          <Button onClick={handleValidateData} disabled={isValidating}>
+          <Button 
+            onClick={handleValidateData} 
+            disabled={isValidating}
+            className="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white shadow-lg hover:shadow-cyan-500/25 transition-all duration-300"
+          >
             <RefreshCw className={`h-4 w-4 mr-2 ${isValidating ? 'animate-spin' : ''}`} />
             Validate Data
           </Button>
-          <Button onClick={handleCreateBackup} variant="outline">
+          <Button 
+            onClick={handleCreateBackup} 
+            variant="outline"
+            className="border-gray-600 text-gray-300 hover:bg-gray-700 hover:text-white"
+          >
             <Download className="h-4 w-4 mr-2" />
             Create Backup
           </Button>
@@ -106,15 +114,15 @@ const DataRecoveryPanel = ({ onDataRestored }: DataRecoveryPanelProps) => {
 
         {backupHistory.length > 0 && (
           <div>
-            <h4 className="font-medium mb-2">Available Backups</h4>
+            <h4 className="font-medium mb-2 text-white">Available Backups</h4>
             <div className="space-y-2">
               {backupHistory.map((backup, index) => (
-                <div key={index} className="flex items-center justify-between p-2 border rounded">
+                <div key={index} className="flex items-center justify-between p-2 border border-gray-600 rounded bg-gray-700/50">
                   <div>
-                    <div className="text-sm font-medium">
+                    <div className="text-sm font-medium text-white">
                       {formatDate(backup.timestamp)}
                     </div>
-                    <div className="text-xs text-gray-500">
+                    <div className="text-xs text-gray-400">
                       {backup.projects.length} portfolios, {backup.blogs.length} blogs
                     </div>
                   </div>
@@ -122,6 +130,7 @@ const DataRecoveryPanel = ({ onDataRestored }: DataRecoveryPanelProps) => {
                     size="sm"
                     variant="outline"
                     onClick={() => handleRestoreBackup(backup)}
+                    className="border-gray-600 text-gray-300 hover:bg-gray-700 hover:text-white"
                   >
                     <Upload className="h-4 w-4 mr-1" />
                     Restore
@@ -133,8 +142,8 @@ const DataRecoveryPanel = ({ onDataRestored }: DataRecoveryPanelProps) => {
         )}
 
         {backupHistory.length === 0 && (
-          <div className="text-center py-4 text-gray-500">
-            <AlertTriangle className="h-8 w-8 mx-auto mb-2" />
+          <div className="text-center py-4 text-gray-400">
+            <AlertTriangle className="h-8 w-8 mx-auto mb-2 text-orange-400" />
             <p>No backups available</p>
             <p className="text-xs">Create your first backup to protect your data</p>
           </div>

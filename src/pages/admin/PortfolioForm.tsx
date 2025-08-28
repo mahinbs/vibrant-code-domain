@@ -142,24 +142,24 @@ const PortfolioForm = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
-        <Loader2 className="h-8 w-8 animate-spin" />
-        <span className="ml-2">Loading project...</span>
+        <Loader2 className="h-8 w-8 animate-spin text-cyan-400" />
+        <span className="ml-2 text-black">Loading project...</span>
       </div>
     );
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 p-3">
       <div className="flex items-center gap-4">
-        <Button variant="outline" onClick={() => navigate('/admin/portfolio')}>
+        <Button variant="outline" onClick={() => navigate('/admin/portfolio')} className="border-gray-600 text-gray-900 hover:bg-gray-700 hover:text-white">
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back to Portfolios
         </Button>
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">
+          <h1 className="text-3xl font-bold text-black">
             {isEdit ? 'Edit Portfolio' : 'Add New Portfolio'}
           </h1>
-          <p className="text-gray-600">
+          <p className="text-gray-400">
             {isEdit ? 'Update portfolio details' : 'Create a new portfolio project'}
           </p>
         </div>
@@ -175,11 +175,20 @@ const PortfolioForm = () => {
         <TestimonialSection formData={formData} setFormData={setFormData} />
 
         <div className="flex gap-4">
-          <Button type="submit" disabled={saving}>
+          <Button 
+            type="submit" 
+            disabled={saving}
+            className="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white shadow-lg hover:shadow-cyan-500/25 transition-all duration-300"
+          >
             {saving && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
             {isEdit ? 'Update Portfolio' : 'Create Portfolio'}
           </Button>
-          <Button type="button" variant="outline" onClick={() => navigate('/admin/portfolio')}>
+          <Button 
+            type="button" 
+            variant="outline" 
+            onClick={() => navigate('/admin/portfolio')}
+            className="border-gray-600 text-gray-300 hover:bg-gray-700 hover:text-white"
+          >
             Cancel
           </Button>
         </div>

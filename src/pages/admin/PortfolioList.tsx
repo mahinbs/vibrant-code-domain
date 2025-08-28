@@ -86,26 +86,26 @@ const PortfolioList = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
-        <Loader2 className="h-8 w-8 animate-spin" />
-        <span className="ml-2">Loading portfolios...</span>
+        <Loader2 className="h-8 w-8 animate-spin text-cyan-400" />
+        <span className="ml-2 text-white">Loading portfolios...</span>
       </div>
     );
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 p-3">
       <div className="flex items-center gap-4">
-        <Button variant="outline" asChild>
+        <Button variant="outline" asChild className="border-gray-600 text-gray-900 hover:bg-gray-700 hover:text-white">
           <Link to="/admin">
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back to Dashboard
           </Link>
         </Button>
         <div className="flex-1">
-          <h1 className="text-3xl font-bold text-gray-900">Portfolio Management</h1>
-          <p className="text-gray-600">Manage your portfolio projects</p>
+          <h1 className="text-3xl font-bold text-black">Portfolio Management</h1>
+          <p className="text-gray-400">Manage your portfolio projects</p>
         </div>
-        <Button asChild>
+        <Button asChild className="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white shadow-lg hover:shadow-cyan-500/25 transition-all duration-300">
           <Link to="/admin/portfolio/new">
             <Plus className="h-4 w-4 mr-2" />
             Add Portfolio
@@ -113,15 +113,15 @@ const PortfolioList = () => {
         </Button>
       </div>
 
-      <Card>
+      <Card className="bg-gray-800 border-gray-700">
         <CardHeader>
-          <CardTitle>All Portfolios ({projects.length})</CardTitle>
+          <CardTitle className="text-white">All Portfolios ({projects.length})</CardTitle>
         </CardHeader>
         <CardContent>
           {projects.length === 0 ? (
             <div className="text-center py-8">
-              <p className="text-gray-500 mb-4">No portfolios found</p>
-              <Button asChild>
+              <p className="text-gray-400 mb-4">No portfolios found</p>
+              <Button asChild className="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white shadow-lg hover:shadow-cyan-500/25 transition-all duration-300">
                 <Link to="/admin/portfolio/new">
                   <Plus className="h-4 w-4 mr-2" />
                   Create your first portfolio
@@ -131,24 +131,24 @@ const PortfolioList = () => {
           ) : (
             <Table>
               <TableHeader>
-                <TableRow>
-                  <TableHead>Title</TableHead>
-                  <TableHead>Client</TableHead>
-                  <TableHead>Service</TableHead>
-                  <TableHead>Technologies</TableHead>
-                  <TableHead>Actions</TableHead>
+                <TableRow className="border-gray-700">
+                  <TableHead className="text-gray-300">Title</TableHead>
+                  <TableHead className="text-gray-300">Client</TableHead>
+                  <TableHead className="text-gray-300">Service</TableHead>
+                  <TableHead className="text-gray-300">Technologies</TableHead>
+                  <TableHead className="text-gray-300">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {projects.map((project) => (
-                  <TableRow key={project.id}>
-                    <TableCell className="font-medium">{project.title}</TableCell>
-                    <TableCell>{project.client}</TableCell>
-                    <TableCell>{getServiceLabel(project.serviceId)}</TableCell>
+                  <TableRow key={project.id} className="border-gray-700 hover:bg-gray-700/50">
+                    <TableCell className="font-medium text-white">{project.title}</TableCell>
+                    <TableCell className="text-gray-300">{project.client}</TableCell>
+                    <TableCell className="text-gray-300">{getServiceLabel(project.serviceId)}</TableCell>
                     <TableCell>
                       <div className="flex flex-wrap gap-1">
                         {project.technologies.slice(0, 3).map((tech) => (
-                          <span key={tech} className="bg-gray-100 text-gray-700 px-2 py-1 rounded text-xs">
+                          <span key={tech} className="bg-gray-700 text-gray-200 px-2 py-1 rounded text-xs border border-gray-600">
                             {tech}
                           </span>
                         ))}
@@ -159,17 +159,17 @@ const PortfolioList = () => {
                     </TableCell>
                     <TableCell>
                       <div className="flex gap-2">
-                        <Button variant="outline" size="sm" asChild>
+                        <Button variant="outline" size="sm" asChild className="border-gray-600 text-gray-900 hover:bg-gray-700 hover:text-white">
                           <Link to={`/case-study/${project.id}`} target="_blank">
                             <ExternalLink className="h-4 w-4" />
                           </Link>
                         </Button>
-                        <Button variant="outline" size="sm" asChild>
+                        <Button variant="outline" size="sm" asChild className="border-gray-600 text-gray-900 hover:bg-gray-700 hover:text-white">
                           <Link to={`/admin/portfolio/edit/${project.id}`}>
                             <Edit className="h-4 w-4" />
                           </Link>
                         </Button>
-                        <Button variant="outline" size="sm" onClick={() => handleDelete(project.id)}>
+                        <Button variant="outline" size="sm" onClick={() => handleDelete(project.id)} className="border-red-600 text-red-400 hover:bg-red-600 hover:text-white">
                           <Trash2 className="h-4 w-4" />
                         </Button>
                       </div>

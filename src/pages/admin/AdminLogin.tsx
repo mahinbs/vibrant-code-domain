@@ -39,18 +39,18 @@ const AdminLogin = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
-      <Card className="w-full max-w-md">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 flex items-center justify-center p-4">
+      <Card className="w-full max-w-md bg-gray-800 border-gray-700 shadow-2xl">
         <CardHeader className="text-center">
-          <CardTitle className="text-2xl font-bold">Admin Login</CardTitle>
-          <CardDescription>
+          <CardTitle className="text-2xl font-bold text-white">Admin Login</CardTitle>
+          <CardDescription className="text-gray-300">
             Enter your credentials to access the admin panel
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="id">Admin ID</Label>
+              <Label htmlFor="id" className="text-gray-200">Admin ID</Label>
               <Input
                 id="id"
                 type="text"
@@ -58,10 +58,11 @@ const AdminLogin = () => {
                 onChange={(e) => setCredentials(prev => ({ ...prev, id: e.target.value }))}
                 required
                 placeholder="Enter admin ID"
+                className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password" className="text-gray-200">Password</Label>
               <Input
                 id="password"
                 type="password"
@@ -69,9 +70,14 @@ const AdminLogin = () => {
                 onChange={(e) => setCredentials(prev => ({ ...prev, password: e.target.value }))}
                 required
                 placeholder="Enter password"
+                className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500"
               />
             </div>
-            <Button type="submit" className="w-full" disabled={isLoading}>
+            <Button 
+              type="submit" 
+              className="w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white shadow-lg hover:shadow-cyan-500/25 transition-all duration-300" 
+              disabled={isLoading}
+            >
               {isLoading ? 'Logging in...' : 'Login'}
             </Button>
           </form>

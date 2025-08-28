@@ -12,13 +12,13 @@ interface TestimonialSectionProps {
 
 const TestimonialSection = ({ formData, setFormData }: TestimonialSectionProps) => {
   return (
-    <Card>
+    <Card className="bg-gray-800 border-gray-700">
       <CardHeader>
-        <CardTitle>Testimonial</CardTitle>
+        <CardTitle className="text-white">Testimonial</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="testimonial-text">Testimonial Text</Label>
+          <Label htmlFor="testimonial-text" className="text-gray-200">Testimonial Text</Label>
           <Textarea
             id="testimonial-text"
             value={formData.extendedTestimonial.quote}
@@ -28,12 +28,13 @@ const TestimonialSection = ({ formData, setFormData }: TestimonialSectionProps) 
             }))}
             placeholder="Client testimonial"
             rows={3}
+            className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500"
           />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="testimonial-author">Author</Label>
+            <Label htmlFor="testimonial-author" className="text-gray-200">Author</Label>
             <Input
               id="testimonial-author"
               value={formData.extendedTestimonial.author}
@@ -42,10 +43,11 @@ const TestimonialSection = ({ formData, setFormData }: TestimonialSectionProps) 
                 extendedTestimonial: { ...prev.extendedTestimonial, author: e.target.value }
               }))}
               placeholder="John Doe"
+              className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500"
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="testimonial-position">Position</Label>
+            <Label htmlFor="testimonial-position" className="text-gray-200">Position</Label>
             <Input
               id="testimonial-position"
               value={formData.extendedTestimonial.position}
@@ -54,10 +56,11 @@ const TestimonialSection = ({ formData, setFormData }: TestimonialSectionProps) 
                 extendedTestimonial: { ...prev.extendedTestimonial, position: e.target.value }
               }))}
               placeholder="CEO"
+              className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500"
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="testimonial-company">Company</Label>
+            <Label htmlFor="testimonial-company" className="text-gray-200">Company</Label>
             <Input
               id="testimonial-company"
               value={formData.extendedTestimonial.company}
@@ -66,6 +69,7 @@ const TestimonialSection = ({ formData, setFormData }: TestimonialSectionProps) 
                 extendedTestimonial: { ...prev.extendedTestimonial, company: e.target.value }
               }))}
               placeholder="Company Name"
+              className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500"
             />
           </div>
         </div>
