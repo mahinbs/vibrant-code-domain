@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -7,9 +10,51 @@ import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { toast } from '@/hooks/use-toast';
 import { CalendarDays, Users, Eye, Edit, Trash2, Plus } from 'lucide-react';
 import LogoUploader from '@/components/admin/LogoUploader';
+
+// Comprehensive validation schema for webinar form
+const webinarSchema = z.object({
+  title: z.string().min(1, 'Title is required').min(3, 'Title must be at least 3 characters'),
+  subtitle: z.string().min(1, 'Subtitle is required'),
+  description: z.string().min(10, 'Description must be at least 10 characters'),
+  event_date: z.string().min(1, 'Event date is required'),
+  duration_minutes: z.number().min(15, 'Duration must be at least 15 minutes').max(480, 'Duration cannot exceed 8 hours'),
+  speaker_name: z.string().min(1, 'Speaker name is required'),
+  speaker_bio: z.string().min(10, 'Speaker bio must be at least 10 characters'),
+  speaker_image: z.string().url('Please enter a valid URL for speaker image').or(z.literal('')),
+  benefits: z.array(z.string()).min(1, 'At least one benefit is required'),
+  agenda: z.array(z.object({
+    time: z.string().min(1, 'Time is required'),
+    topic: z.string().min(1, 'Topic is required'),
+  })).min(1, 'At least one agenda item is required'),
+  is_active: z.boolean(),
+  registration_limit: z.number().min(1, 'Registration limit must be at least 1'),
+  hero_headline: z.string().min(1, 'Hero headline is required').optional(),
+  hero_subtitle: z.string().min(1, 'Hero subtitle is required').optional(),
+  show_scarcity: z.boolean().optional(),
+  sticky_cta_enabled: z.boolean().optional(),
+  cta_text: z.string().min(1, 'CTA text is required').optional(),
+  cta_bg_color: z.string().min(1, 'CTA background color is required').optional(),
+  target_audience: z.array(z.string()).min(1, 'At least one target audience is required').optional(),
+  social_proof_logos: z.array(z.string()).optional(),
+  social_proof_videos: z.array(z.string().url('Please enter a valid Instagram URL')).optional(),
+  recognitions: z.array(z.string()).optional(),
+  testimonials: z.array(z.object({
+    quote: z.string().min(10, 'Testimonial quote must be at least 10 characters'),
+    author: z.string().min(1, 'Author name is required'),
+    role: z.string().min(1, 'Role is required'),
+    company: z.string().min(1, 'Company name is required'),
+    avatar: z.string().url('Please enter a valid URL for avatar').or(z.literal('')).optional(),
+  })).optional(),
+  show_social_proof: z.boolean().optional(),
+  privacy_note: z.string().min(1, 'Privacy note is required').optional(),
+  show_agenda_collapsible: z.boolean().optional(),
+});
+
+type WebinarFormData = z.infer<typeof webinarSchema>;
 
 interface WebinarEvent {
   id: string;
@@ -61,12 +106,50 @@ const WebinarManagement = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedWebinar, setSelectedWebinar] = useState<WebinarEvent | null>(null);
   const [isEditing, setIsEditing] = useState(false);
-  const [formData, setFormData] = useState<Partial<WebinarEvent>>({});
+
+  const form = useForm<WebinarFormData>({
+    resolver: zodResolver(webinarSchema),
+    defaultValues: {
+      title: '',
+      subtitle: '',
+      description: '',
+      event_date: '',
+      duration_minutes: 60,
+      speaker_name: '',
+      speaker_bio: '',
+      speaker_image: '',
+      benefits: [''],
+      agenda: [{ time: '', topic: '' }],
+      is_active: true,
+      registration_limit: 100,
+      hero_headline: '',
+      hero_subtitle: '',
+      show_scarcity: false,
+      sticky_cta_enabled: false,
+      cta_text: '',
+      cta_bg_color: '#1e3a8a',
+      target_audience: [''],
+      social_proof_logos: [],
+      social_proof_videos: [],
+      recognitions: [],
+      testimonials: [],
+      show_social_proof: false,
+      privacy_note: '',
+      show_agenda_collapsible: false,
+    },
+  });
 
   useEffect(() => {
     fetchWebinars();
     fetchRegistrations();
   }, []);
+
+  // Load webinar data into form when editing
+  useEffect(() => {
+    if (selectedWebinar && isEditing) {
+      form.reset(selectedWebinar);
+    }
+  }, [selectedWebinar, isEditing, form]);
 
   const fetchWebinars = async () => {
     try {

@@ -15,7 +15,9 @@ import { Mail, User, Phone, MessageSquare, AlertCircle } from 'lucide-react';
 const simpleFormSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
   email: z.string().email('Please enter a valid email address'),
-  phone: z.string().min(1, 'Phone number is required'),
+  phone: z.string()
+    .min(1, 'Phone number is required')
+    .regex(/^[+]?[0-9\s-()]{10,15}$/, 'Please enter a valid phone number (10-15 digits)'),
   message: z.string().min(10, 'Message must be at least 10 characters'),
 });
 
@@ -192,6 +194,11 @@ const SimpleContactForm = ({ sourcePage = 'home-simple', onSuccess, className = 
                     placeholder="Enter your phone number" 
                     className="bg-gray-800/50 border-gray-600 text-white placeholder:text-gray-400 focus:border-cyan-400"
                     {...field} 
+                    onChange={(e) => {
+                      // Only allow numbers, spaces, hyphens, parentheses, and plus sign
+                      const value = e.target.value.replace(/[^0-9\s\-()]/g, '');
+                      field.onChange(value);
+                    }}
                   />
                 </FormControl>
                 <FormMessage />
