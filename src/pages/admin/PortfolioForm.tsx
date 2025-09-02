@@ -1,6 +1,9 @@
 
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
 import { adminDataService, AdminProject } from '@/services/adminDataService';
 import { generateProjectSlug } from '@/lib/slugUtils';
 import { Button } from '@/components/ui/button';
@@ -14,6 +17,46 @@ import GallerySection from '@/components/admin/portfolio-form/GallerySection';
 import CaseStudyDetailsSection from '@/components/admin/portfolio-form/CaseStudyDetailsSection';
 import TestimonialSection from '@/components/admin/portfolio-form/TestimonialSection';
 
+// Comprehensive validation schema for portfolio form
+const portfolioSchema = z.object({
+  title: z.string().min(1, 'Title is required').min(3, 'Title must be at least 3 characters'),
+  slug: z.string().min(1, 'Slug is required'),
+  client: z.string().min(1, 'Client name is required'),
+  description: z.string().min(10, 'Description must be at least 10 characters'),
+  technologies: z.array(z.string()).min(1, 'At least one technology is required'),
+  metrics: z.record(z.string()),
+  timeline: z.string().min(1, 'Timeline is required'),
+  team: z.string().min(1, 'Team information is required'),
+  industry: z.string().min(1, 'Industry is required'),
+  testimonial: z.string().min(10, 'Testimonial must be at least 10 characters'),
+  clientLogo: z.string().url('Please enter a valid URL for client logo').or(z.literal('')),
+  image: z.string().url('Please enter a valid URL for project image').or(z.literal('')),
+  serviceId: z.string().min(1, 'Service is required'),
+  liveUrl: z.string().url('Please enter a valid live URL').or(z.literal('')).optional(),
+  challenge: z.string().min(10, 'Challenge description must be at least 10 characters'),
+  solution: z.string().min(10, 'Solution description must be at least 10 characters'),
+  approach: z.array(z.string()).min(1, 'At least one approach step is required'),
+  gallery: z.array(z.string()).min(1, 'At least one gallery image is required'),
+  detailedMetrics: z.array(z.object({
+    label: z.string().min(1, 'Metric label is required'),
+    value: z.string().min(1, 'Metric value is required'),
+    description: z.string().min(1, 'Metric description is required'),
+  })).min(1, 'At least one detailed metric is required'),
+  techStack: z.array(z.object({
+    category: z.string().min(1, 'Category is required'),
+    technologies: z.array(z.string()).min(1, 'At least one technology per category is required'),
+  })).min(1, 'At least one tech stack category is required'),
+  features: z.array(z.string()).min(1, 'At least one feature is required'),
+  extendedTestimonial: z.object({
+    quote: z.string().min(10, 'Testimonial quote must be at least 10 characters'),
+    author: z.string().min(1, 'Author name is required'),
+    position: z.string().min(1, 'Position is required'),
+    company: z.string().min(1, 'Company name is required'),
+  }),
+});
+
+type PortfolioFormData = z.infer<typeof portfolioSchema>;
+
 const PortfolioForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -22,34 +65,38 @@ const PortfolioForm = () => {
 
   const [loading, setLoading] = useState(isEdit);
   const [saving, setSaving] = useState(false);
-  const [formData, setFormData] = useState<AdminProject>({
-    title: '',
-    slug: '',
-    client: '',
-    description: '',
-    technologies: [],
-    metrics: {},
-    timeline: '',
-    team: '',
-    industry: '',
-    testimonial: '',
-    clientLogo: '',
-    image: '',
-    serviceId: '',
-    liveUrl: '',
-    challenge: '',
-    solution: '',
-    approach: [],
-    gallery: [],
-    detailedMetrics: [],
-    techStack: [],
-    features: [],
-    extendedTestimonial: {
-      quote: '',
-      author: '',
-      position: '',
-      company: ''
-    }
+
+  const form = useForm<PortfolioFormData>({
+    resolver: zodResolver(portfolioSchema),
+    defaultValues: {
+      title: '',
+      slug: '',
+      client: '',
+      description: '',
+      technologies: [],
+      metrics: {},
+      timeline: '',
+      team: '',
+      industry: '',
+      testimonial: '',
+      clientLogo: '',
+      image: '',
+      serviceId: '',
+      liveUrl: '',
+      challenge: '',
+      solution: '',
+      approach: [],
+      gallery: [],
+      detailedMetrics: [],
+      techStack: [],
+      features: [],
+      extendedTestimonial: {
+        quote: '',
+        author: '',
+        position: '',
+        company: ''
+      }
+    },
   });
 
   useEffect(() => {
@@ -60,7 +107,7 @@ const PortfolioForm = () => {
           const projects = await adminDataService.getProjects();
           const project = projects.find(p => p.id === id);
           if (project) {
-            setFormData(project);
+            form.reset(project);
           } else {
             toast({
               title: "Project not found",
@@ -82,43 +129,43 @@ const PortfolioForm = () => {
       };
       loadProject();
     }
-  }, [id, isEdit, navigate, toast]);
+  }, [id, isEdit, navigate, toast, form]);
 
   // Auto-generate slug when relevant fields change
   useEffect(() => {
-    if (formData.title && formData.client && formData.industry && formData.technologies.length > 0 && !isEdit) {
-      const generatedSlug = generateProjectSlug({
-        title: formData.title,
-        client: formData.client,
-        industry: formData.industry,
-        technologies: formData.technologies
-      });
-      setFormData(prev => ({ ...prev, slug: generatedSlug }));
-    }
-  }, [formData.title, formData.client, formData.industry, formData.technologies, isEdit]);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+    const subscription = form.watch((value, { name }) => {
+      if (name && ['title', 'client', 'industry', 'technologies'].includes(name) && !isEdit) {
+        const title = form.getValues('title');
+        const client = form.getValues('client');
+        const industry = form.getValues('industry');
+        const technologies = form.getValues('technologies');
+        
+        if (title && client && industry && technologies.length > 0) {
+          const generatedSlug = generateProjectSlug({
+            title,
+            client,
+            industry,
+            technologies
+          });
+          form.setValue('slug', generatedSlug);
+        }
+      }
+    });
     
-    if (!formData.title || !formData.description || !formData.serviceId) {
-      toast({
-        title: "Validation Error",
-        description: "Please fill in all required fields.",
-        variant: "destructive",
-      });
-      return;
-    }
+    return () => subscription.unsubscribe();
+  }, [form, isEdit]);
 
+  const onSubmit = async (data: PortfolioFormData) => {
     try {
       setSaving(true);
       const projectData = {
-        ...formData,
+        ...data,
         // Ensure slug is generated if not present
-        slug: formData.slug || generateProjectSlug({
-          title: formData.title,
-          client: formData.client,
-          industry: formData.industry,
-          technologies: formData.technologies
+        slug: data.slug || generateProjectSlug({
+          title: data.title,
+          client: data.client,
+          industry: data.industry,
+          technologies: data.technologies
         })
       };
       await adminDataService.saveProject(projectData);
@@ -165,14 +212,14 @@ const PortfolioForm = () => {
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <BasicInformationSection formData={formData} setFormData={setFormData} />
-        <TechnologiesSection formData={formData} setFormData={setFormData} />
-        <TechStackSection formData={formData} setFormData={setFormData} />
-        <ResultsMetricsSection formData={formData} setFormData={setFormData} />
-        <GallerySection formData={formData} setFormData={setFormData} />
-        <CaseStudyDetailsSection formData={formData} setFormData={setFormData} />
-        <TestimonialSection formData={formData} setFormData={setFormData} />
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <BasicInformationSection formData={form.getValues()} setFormData={(data) => form.reset({ ...form.getValues(), ...data })} />
+        <TechnologiesSection formData={form.getValues()} setFormData={(data) => form.reset({ ...form.getValues(), ...data })} />
+        <TechStackSection formData={form.getValues()} setFormData={(data) => form.reset({ ...form.getValues(), ...data })} />
+        <ResultsMetricsSection formData={form.getValues()} setFormData={(data) => form.reset({ ...form.getValues(), ...data })} />
+        <GallerySection formData={form.getValues()} setFormData={(data) => form.reset({ ...form.getValues(), ...data })} />
+        <CaseStudyDetailsSection formData={form.getValues()} setFormData={(data) => form.reset({ ...form.getValues(), ...data })} />
+        <TestimonialSection formData={form.getValues()} setFormData={(data) => form.reset({ ...form.getValues(), ...data })} />
 
         <div className="flex gap-4">
           <Button 

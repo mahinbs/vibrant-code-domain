@@ -80,6 +80,11 @@ const PersonalInformationStep = ({ control }: PersonalInformationStepProps) => {
                   type="tel"
                   className="bg-gray-800/50 border-gray-600/50 text-white focus:ring-cyan-500 focus:border-cyan-500"
                   placeholder="+1 (555) 123-4567"
+                  onChange={(e) => {
+                    // Only allow numbers, spaces, hyphens, parentheses, and plus sign
+                    const value = e.target.value.replace(/[^0-9\s\-()]/g, '');
+                    field.onChange(value);
+                  }}
                 />
               </FormControl>
               <FormMessage className="text-red-400" />
