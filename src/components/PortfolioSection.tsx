@@ -68,30 +68,31 @@ const PortfolioSection = () => {
   return (
     <section 
       id="portfolio"
-      className="py-20 bg-gradient-to-b from-black to-gray-900 relative overflow-hidden"
+      className="py-12 sm:py-16 lg:py-20 bg-gradient-to-b from-black to-gray-900 relative overflow-hidden"
       style={{
-        backgroundImage: `url('https://res.cloudinary.com/dknafpppp/image/upload/v1748805837/representation-user-experience-interface-design_1_halzwq.jpg')`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
         backgroundAttachment: 'scroll'
       }}
     >
-      {/* Optimized Background Overlay */}
+      {/* Responsive Background Overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/70 to-gray-900/80"></div>
       <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-black/30"></div>
 
-      <div className="container mx-auto px-6 relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <PortfolioHeader isVisible={isVisible} setIsVisible={setIsVisible} />
         
         {loading ? (
-          <div className="flex items-center justify-center py-12">
-            <div className="text-white text-lg">Loading real portfolios...</div>
+          <div className="flex items-center justify-center py-8 sm:py-12">
+            <div className="text-white text-base sm:text-lg text-center px-4">
+              Loading real portfolios...
+            </div>
           </div>
         ) : totalProjects === 0 ? (
-          <div className="text-center py-12">
-            <div className="text-white text-lg mb-4">No portfolios available yet.</div>
-            <div className="text-gray-400">Please check back later for our latest projects.</div>
+          <div className="text-center py-8 sm:py-12 px-4">
+            <div className="text-white text-base sm:text-lg mb-4">No portfolios available yet.</div>
+            <div className="text-gray-400 text-sm sm:text-base">Please check back later for our latest projects.</div>
           </div>
         ) : (
           <>

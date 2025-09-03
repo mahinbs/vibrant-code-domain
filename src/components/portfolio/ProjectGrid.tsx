@@ -2,11 +2,21 @@
 import { Code, Cloud, Brain, Smartphone, Zap } from 'lucide-react';
 import ProjectCard from './ProjectCard';
 
+interface Project {
+  id: string;
+  slug: string;
+  title: string;
+  description: string;
+  image: string;
+  industry: string;
+  metrics: Record<string, string | number>;
+}
+
 interface Service {
   id: string;
   title: string;
   color: 'cyan' | 'blue' | 'pink' | 'purple' | 'green';
-  projects: any[];
+  projects: Project[];
 }
 
 interface ProjectGridProps {
@@ -72,7 +82,7 @@ const ProjectGrid = ({ services, selectedService, isVisible, handleProjectClick 
   };
 
   return (
-    <div className="space-y-16">
+    <div className="space-y-8 sm:space-y-12 lg:space-y-16 px-4">
       {services
         .filter(service => !selectedService || service.id === selectedService)
         .map((service, serviceIndex) => {
@@ -80,18 +90,20 @@ const ProjectGrid = ({ services, selectedService, isVisible, handleProjectClick 
           const ServiceIcon = getServiceIcon(service.id);
           
           return (
-            <div key={service.id} className="space-y-8">
-              <div className={`flex items-center space-x-4 mb-8 transition-all duration-700 ${isVisible ? 'animate-fade-in opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} style={{ animationDelay: `${serviceIndex * 200 + 400}ms` }}>
-                <div className={`w-12 h-12 rounded-xl ${colors.icon} border flex items-center justify-center`}>
-                  <ServiceIcon className="h-6 w-6" />
+            <div key={service.id} className="space-y-6 sm:space-y-8">
+              {/* Service Header - Responsive */}
+              <div className={`flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-4 mb-6 sm:mb-8 transition-all duration-700 ${isVisible ? 'animate-fade-in opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} style={{ animationDelay: `${serviceIndex * 200 + 400}ms` }}>
+                <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl ${colors.icon} border flex items-center justify-center flex-shrink-0`}>
+                  <ServiceIcon className="h-5 w-5 sm:h-6 sm:w-6" />
                 </div>
-                <div>
-                  <h3 className="text-3xl font-bold text-white">{service.title}</h3>
-                  <p className="text-gray-400 mt-1">{service.projects.length} featured projects</p>
+                <div className="text-center sm:text-left">
+                  <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white">{service.title}</h3>
+                  <p className="text-gray-400 mt-1 text-sm sm:text-base">{service.projects.length} featured projects</p>
                 </div>
               </div>
 
-              <div className="grid md:grid-cols-2 gap-8">
+              {/* Projects Grid - Responsive */}
+              <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
                 {service.projects.map((project, projectIndex) => (
                   <ProjectCard
                     key={project.id}

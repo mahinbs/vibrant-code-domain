@@ -204,48 +204,52 @@ const Services = () => {
     setHoverTimeout(timeout);
   }, [hoverTimeout]);
 
+  const toggleService = (serviceId: string) => {
+    setExpandedService(expandedService === serviceId ? null : serviceId);
+  };
+
   return (
     <section
       id="services"
-      className="py-20 bg-gradient-to-b from-gray-900 to-black relative overflow-hidden"
+      className="py-12 sm:py-16 lg:py-20 bg-gradient-to-b from-gray-900 to-black relative overflow-hidden"
     >
-      {/* Updated Background Image */}
+      {/* Background Image - Optimized for mobile */}
       <div className="absolute inset-0 z-0">
         <div
-          className="w-full h-full bg-cover bg-center bg-no-repeat will-change-auto"
+          className="w-full h-full bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: `url('https://res.cloudinary.com/dknafpppp/image/upload/v1748805697/108518_1_rnyk78.jpg')`,
+            // backgroundImage: `url('https://res.cloudinary.com/dknafpppp/image/upload/v1748805697/108518_1_rnyk78.jpg')`,
             transform: "translate(-50%, -50%) scale(1.1)",
             position: "absolute",
             top: "50%",
             left: "50%",
             minWidth: "100vw",
             minHeight: "100vh",
-            contentVisibility: "auto",
           }}
         />
-        {/* Optimized overlay for better performance */}
         <div className="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
       </div>
 
-      {/* Simplified gradient overlay */}
+      {/* Gradient overlay */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,255,255,0.08),transparent_60%)] z-10"></div>
 
-      <div className="container mx-auto px-6 relative z-20">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
+        {/* Header Section */}
+        <div className="text-center mb-12 sm:mb-16">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4 px-4">
             Boostmysites{" "}
             <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
               Services
             </span>
           </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+          <p className="text-lg sm:text-xl text-gray-300 max-w-3xl mx-auto px-4">
             Transform your business with our cutting-edge AI and development
             solutions
           </p>
         </div>
 
-        <div className="max-w-6xl mx-auto space-y-6">
+        {/* Services Grid - Mobile First */}
+        <div className="max-w-6xl mx-auto space-y-4 sm:space-y-6">
           {services.map((service) => {
             const isExpanded = expandedService === service.id;
             const colors = colorClasses[service.color];
@@ -253,100 +257,179 @@ const Services = () => {
             return (
               <div
                 key={service.id}
-                className={`group relative rounded-2xl bg-gray-900/80 backdrop-blur-sm border ${colors.border} hover:bg-gray-800/90 transition-all duration-300 overflow-hidden will-change-auto`}
+                className={`group relative rounded-xl sm:rounded-2xl bg-gray-900/80 backdrop-blur-sm border ${colors.border} hover:bg-gray-800/90 transition-all duration-300 overflow-hidden`}
                 onMouseEnter={() => handleMouseEnter(service.id)}
                 onMouseLeave={handleMouseLeave}
-                style={{ contentVisibility: "auto" }}
               >
-                {/* Main Card Content */}
-                <div className="flex items-center">
-                  {/* Service Image - Optimized */}
-                  <div className="pl-3">
-                    <div className="relative w-48 h-32 flex-shrink-0 overflow-hidden rounded-l-2xl">
-                      <img
-                        src={service.image}
-                        alt={service.title}
-                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                        loading="lazy"
-                        decoding="async"
-                      />
+                {/* Mobile Layout */}
+                <div className="block lg:hidden">
+                  {/* Mobile Header */}
+                  <div className="p-4 sm:p-6">
+                    <div className="flex items-start space-x-4">
+                      {/* Mobile Icon */}
                       <div
-                        className={`absolute inset-0 bg-gradient-to-r ${colors.gradient} opacity-60`}
-                      ></div>
-                      <div
-                        className={`absolute top-4 left-4 w-12 h-12 rounded-xl ${colors.icon} border flex items-center justify-center`}
+                        className={`w-12 h-12 sm:w-14 sm:h-14 rounded-xl ${colors.icon} border flex items-center justify-center flex-shrink-0`}
                       >
-                        <service.icon className="h-6 w-6" />
+                        <service.icon className="h-6 w-6 sm:h-7 sm:w-7" />
                       </div>
-                    </div>
-                  </div>
-
-                  {/* Content Section */}
-                  <div className="flex-1 p-8">
-                    <div className="flex items-center justify-between">
-                      <div className="flex-1">
-                        <h3
-                          className={`text-2xl font-bold text-white mb-2 group-hover:${colors.text} transition-colors duration-300`}
-                        >
+                      
+                      {/* Mobile Content */}
+                      <div className="flex-1 min-w-0">
+                        <h3 className={`text-xl sm:text-2xl font-bold text-white mb-2 group-hover:${colors.text} transition-colors duration-300`}>
                           {service.title}
                         </h3>
-                        <p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300 leading-relaxed">
+                        <p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300 leading-relaxed text-sm sm:text-base">
                           {service.description}
                         </p>
                       </div>
 
-                      {/* Price and Timeline Badges */}
-                      <div className="hidden md:flex flex-col space-y-2 mr-6">
-                        <div
-                          className={`px-4 py-2 rounded-lg ${colors.button} border text-sm font-medium flex items-center space-x-2`}
-                        >
-                          <DollarSign className="h-4 w-4" />
-                          <span>{service.startingPrice}</span>
-                        </div>
-                        <div
-                          className={`px-4 py-2 rounded-lg ${colors.button} border text-sm font-medium flex items-center space-x-2`}
-                        >
-                          <Clock className="h-4 w-4" />
-                          <span>{service.timeline}</span>
-                        </div>
-                      </div>
+                      {/* Mobile Expand Button */}
+                      <button
+                        onClick={() => toggleService(service.id)}
+                        className="flex-shrink-0"
+                      >
+                        <ChevronDown
+                          className={`h-5 w-5 sm:h-6 sm:w-6 ${colors.text} transform transition-transform duration-300 ${
+                            isExpanded ? "rotate-180" : ""
+                          }`}
+                        />
+                      </button>
+                    </div>
 
-                      {/* Expand Icon */}
-                      <ChevronDown
-                        className={`h-6 w-6 ${
-                          colors.text
-                        } transform transition-transform duration-300 ${
-                          isExpanded ? "rotate-180" : ""
-                        }`}
-                      />
+                    {/* Mobile Price & Timeline */}
+                    <div className="flex flex-wrap gap-2 mt-4">
+                      <div
+                        className={`px-3 py-2 rounded-lg ${colors.button} border text-xs sm:text-sm font-medium flex items-center space-x-2`}
+                      >
+                        <DollarSign className="h-3 w-3 sm:h-4 sm:w-4" />
+                        <span>{service.startingPrice}</span>
+                      </div>
+                      <div
+                        className={`px-3 py-2 rounded-lg ${colors.button} border text-xs sm:text-sm font-medium flex items-center space-x-2`}
+                      >
+                        <Clock className="h-3 w-3 sm:h-4 sm:w-4" />
+                        <span>{service.timeline}</span>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                {/* Expanded Content - Simplified animations */}
-                <div
-                  className={`overflow-hidden transition-all duration-400 ${
-                    isExpanded
-                      ? "max-h-[700px] opacity-100"
-                      : "max-h-0 opacity-0"
-                  }`}
-                >
-                  <div className="px-8 pb-8 border-t border-gray-700/50">
-                    <div className="grid md:grid-cols-2 gap-8 mt-8">
-                      {/* Left Column */}
-                      <div className="space-y-6">
-                        {/* Detailed Description */}
+                  {/* Mobile Expanded Content */}
+                  <div
+                    className={`overflow-hidden transition-all duration-400 ${
+                      isExpanded
+                        ? "max-h-[1000px] opacity-100"
+                        : "max-h-0 opacity-0"
+                    }`}
+                  >
+                    <div className="px-4 sm:px-6 pb-6 border-t border-gray-700/50">
+                      <div className="space-y-6 mt-6">
+                        {/* Mobile Detailed Description */}
                         <div>
                           <h4 className="text-lg font-semibold text-white mb-3">
                             About This Service
                           </h4>
-                          <p className="text-gray-300 leading-relaxed">
+                          <p className="text-gray-300 leading-relaxed text-sm sm:text-base">
                             {service.detailedDescription}
                           </p>
                         </div>
 
-                        {/* Mobile Price/Timeline */}
-                        <div className="md:hidden flex space-x-4">
+                        {/* Mobile Features */}
+                        <div>
+                          <h4 className="text-lg font-semibold text-white mb-4">
+                            Key Features
+                          </h4>
+                          <ul className="space-y-3">
+                            {service.features.map((feature, idx) => (
+                              <li
+                                key={idx}
+                                className="text-gray-300 flex items-center text-sm sm:text-base"
+                              >
+                                <div
+                                  className={`w-2 h-2 rounded-full ${colors.text} mr-3 flex-shrink-0`}
+                                ></div>
+                                {feature}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+
+                        {/* Mobile Technologies */}
+                        <div>
+                          <h4 className="text-lg font-semibold text-white mb-4">
+                            Technologies Used
+                          </h4>
+                          <div className="flex flex-wrap gap-2">
+                            {service.technologies.map((tech, idx) => (
+                              <span
+                                key={idx}
+                                className={`px-3 py-1 rounded-full text-xs sm:text-sm ${colors.tag} border`}
+                              >
+                                {tech}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* Mobile Action Buttons */}
+                        <div className="flex flex-col sm:flex-row gap-3 pt-4">
+                          <Link
+                            to={service.route}
+                            className={`flex-1 inline-flex items-center justify-center px-4 py-3 rounded-xl ${colors.button} border font-medium transition-all duration-300 text-sm sm:text-base`}
+                          >
+                            View Details
+                          </Link>
+                          <button
+                            className={`px-4 py-3 rounded-xl border ${colors.border} ${colors.text} hover:bg-gray-700/50 transition-all duration-300 font-medium text-sm sm:text-base`}
+                          >
+                            Get Quote
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Desktop Layout */}
+                <div className="hidden lg:block">
+                  {/* Desktop Main Content */}
+                  <div className="flex items-center">
+                    {/* Service Image */}
+                    <div className="pl-3">
+                      <div className="relative w-48 h-32 flex-shrink-0 overflow-hidden rounded-l-2xl">
+                        <img
+                          src={service.image}
+                          alt={service.title}
+                          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                          loading="lazy"
+                          decoding="async"
+                        />
+                        <div
+                          className={`absolute inset-0 bg-gradient-to-r ${colors.gradient} opacity-60`}
+                        ></div>
+                        <div
+                          className={`absolute top-4 left-4 w-12 h-12 rounded-xl ${colors.icon} border flex items-center justify-center`}
+                        >
+                          <service.icon className="h-6 w-6" />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Desktop Content Section */}
+                    <div className="flex-1 p-8">
+                      <div className="flex items-center justify-between">
+                        <div className="flex-1">
+                          <h3
+                            className={`text-2xl font-bold text-white mb-2 group-hover:${colors.text} transition-colors duration-300`}
+                          >
+                            {service.title}
+                          </h3>
+                          <p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300 leading-relaxed">
+                            {service.description}
+                          </p>
+                        </div>
+
+                        {/* Desktop Price and Timeline Badges */}
+                        <div className="flex flex-col space-y-2 mr-6">
                           <div
                             className={`px-4 py-2 rounded-lg ${colors.button} border text-sm font-medium flex items-center space-x-2`}
                           >
@@ -360,60 +443,95 @@ const Services = () => {
                             <span>{service.timeline}</span>
                           </div>
                         </div>
+
+                        {/* Desktop Expand Icon */}
+                        <ChevronDown
+                          className={`h-6 w-6 ${
+                            colors.text
+                          } transform transition-transform duration-300 ${
+                            isExpanded ? "rotate-180" : ""
+                          }`}
+                        />
                       </div>
+                    </div>
+                  </div>
 
-                      {/* Right Column */}
-                      <div className="space-y-6">
-                        {/* Key Features */}
-                        <div>
-                          <h4 className="text-lg font-semibold text-white mb-4">
-                            Key Features
-                          </h4>
-                          <ul className="space-y-3">
-                            {service.features.map((feature, idx) => (
-                              <li
-                                key={idx}
-                                className="text-gray-300 flex items-center"
-                              >
-                                <div
-                                  className={`w-2 h-2 rounded-full ${colors.text} mr-3`}
-                                ></div>
-                                {feature}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-
-                        {/* Technologies */}
-                        <div>
-                          <h4 className="text-lg font-semibold text-white mb-4">
-                            Technologies Used
-                          </h4>
-                          <div className="flex flex-wrap gap-2">
-                            {service.technologies.map((tech, idx) => (
-                              <span
-                                key={idx}
-                                className={`px-3 py-1 rounded-full text-sm ${colors.tag} border`}
-                              >
-                                {tech}
-                              </span>
-                            ))}
+                  {/* Desktop Expanded Content */}
+                  <div
+                    className={`overflow-hidden transition-all duration-400 ${
+                      isExpanded
+                        ? "max-h-[700px] opacity-100"
+                        : "max-h-0 opacity-0"
+                    }`}
+                  >
+                    <div className="px-8 pb-8 border-t border-gray-700/50">
+                      <div className="grid md:grid-cols-2 gap-8 mt-8">
+                        {/* Left Column */}
+                        <div className="space-y-6">
+                          {/* Detailed Description */}
+                          <div>
+                            <h4 className="text-lg font-semibold text-white mb-3">
+                              About This Service
+                            </h4>
+                            <p className="text-gray-300 leading-relaxed">
+                              {service.detailedDescription}
+                            </p>
                           </div>
                         </div>
 
-                        {/* Action Buttons */}
-                        <div className="flex space-x-4 pt-4">
-                          <Link
-                            to={service.route}
-                            className={`flex-1 inline-flex items-center justify-center px-6 py-3 rounded-xl ${colors.button} border font-medium transition-all duration-300`}
-                          >
-                            View Details
-                          </Link>
-                          <button
-                            className={`px-6 py-3 rounded-xl border ${colors.border} ${colors.text} hover:bg-gray-700/50 transition-all duration-300 font-medium`}
-                          >
-                            Get Quote
-                          </button>
+                        {/* Right Column */}
+                        <div className="space-y-6">
+                          {/* Key Features */}
+                          <div>
+                            <h4 className="text-lg font-semibold text-white mb-4">
+                              Key Features
+                            </h4>
+                            <ul className="space-y-3">
+                              {service.features.map((feature, idx) => (
+                                <li
+                                  key={idx}
+                                  className="text-gray-300 flex items-center"
+                                >
+                                  <div
+                                    className={`w-2 h-2 rounded-full ${colors.text} mr-3`}
+                                  ></div>
+                                  {feature}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+
+                          {/* Technologies */}
+                          <div>
+                            <h4 className="text-lg font-semibold text-white mb-4">
+                              Technologies Used
+                            </h4>
+                            <div className="flex flex-wrap gap-2">
+                              {service.technologies.map((tech, idx) => (
+                                <span
+                                  key={idx}
+                                  className={`px-3 py-1 rounded-full text-sm ${colors.tag} border`}
+                                >
+                                  {tech}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+
+                          {/* Action Buttons */}
+                          <div className="flex space-x-4 pt-4">
+                            <Link
+                              to={service.route}
+                              className={`flex-1 inline-flex items-center justify-center px-6 py-3 rounded-xl ${colors.button} border font-medium transition-all duration-300`}
+                            >
+                              View Details
+                            </Link>
+                            <button
+                              className={`px-6 py-3 rounded-xl border ${colors.border} ${colors.text} hover:bg-gray-700/50 transition-all duration-300 font-medium`}
+                            >
+                              Get Quote
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -424,19 +542,19 @@ const Services = () => {
           })}
         </div>
         
-        {/* View All Services Button */}
-        <div className="text-center mt-16">
+        {/* View All Services Button - Responsive */}
+        <div className="text-center mt-12 sm:mt-16">
           <Link
             to="/services"
-            className="inline-flex items-center space-x-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-8 py-4 rounded-xl hover:from-cyan-400 hover:to-blue-500 transition-all duration-300 font-medium shadow-lg hover:shadow-cyan-500/25 transform hover:scale-105 group"
+            className="inline-flex items-center space-x-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl hover:from-cyan-400 hover:to-blue-500 transition-all duration-300 font-medium shadow-lg hover:shadow-cyan-500/25 transform hover:scale-105 group"
           >
-            <span className="text-lg">View All Services</span>
+            <span className="text-base sm:text-lg">View All Services</span>
             <div className="flex items-center space-x-1 group-hover:translate-x-1 transition-transform">
-              <span className="text-sm bg-white/20 px-2 py-1 rounded-full">14+ Services</span>
+              <span className="text-xs sm:text-sm bg-white/20 px-2 py-1 rounded-full">14+ Services</span>
               <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
             </div>
           </Link>
-          <p className="text-gray-400 mt-4 text-sm">
+          <p className="text-gray-400 mt-4 text-sm px-4">
             Discover our complete range of development and AI solutions
           </p>
         </div>

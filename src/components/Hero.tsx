@@ -46,7 +46,7 @@ const Hero = memo(() => {
       <div ref={vantaRef} className="absolute inset-0 w-full h-full z-0"></div>
       
       {/* Optimized Dark Overlay */}
-      <div className="absolute inset-0 bg-black/60 z-10" style={{
+      <div className="absolute inset-0 w-full h-full bg-black/60 z-10" style={{
       contain: 'layout style paint'
     }}></div>
       
