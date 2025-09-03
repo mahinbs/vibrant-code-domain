@@ -41,7 +41,7 @@ const HomeCTASection = () => {
 
           {/* Form Toggle */}
           <div className="flex justify-center mb-8">
-            <div className="bg-gray-800/50 p-1 rounded-lg border border-gray-600">
+            <div className="bg-gray-800/50 p-3 rounded-lg border border-gray-600">
               <button
                 onClick={() => setUseSimpleForm(true)}
                 className={`px-6 py-2 rounded-md transition-all duration-300 ${

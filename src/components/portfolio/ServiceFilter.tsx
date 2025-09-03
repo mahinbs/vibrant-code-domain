@@ -46,37 +46,75 @@ const ServiceFilter = ({ services, selectedService, setSelectedService, isVisibl
   };
 
   return (
-    <div className={`mb-12 transition-all duration-700 delay-200 ${isVisible ? 'animate-fade-in opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-      <div className="flex flex-wrap justify-center gap-4">
-        <button
-          onClick={() => setSelectedService(null)}
-          className={`px-6 py-3 rounded-xl border transition-all duration-300 font-medium ${
-            selectedService === null
-              ? 'bg-cyan-500/20 border-cyan-400/30 text-cyan-400'
-              : 'border-gray-600 text-gray-400 hover:border-gray-500 hover:text-gray-300'
-          }`}
-        >
-          All Projects
-        </button>
-        {services.map((service, index) => {
-          const colors = colorClasses[service.color];
-          const ServiceIcon = getServiceIcon(service.id);
-          return (
-            <button
-              key={service.id}
-              onClick={() => setSelectedService(service.id)}
-              className={`px-6 py-3 rounded-xl border transition-all duration-300 font-medium flex items-center space-x-2 ${
-                selectedService === service.id
-                  ? colors.button
-                  : 'border-gray-600 text-gray-400 hover:border-gray-500 hover:text-gray-300'
-              }`}
-              style={{ animationDelay: `${index * 100}ms` }}
-            >
-              <ServiceIcon className="h-4 w-4" />
-              <span>{service.title}</span>
-            </button>
-          );
-        })}
+    <div className={`mb-8 sm:mb-10 lg:mb-12 transition-all duration-700 delay-200 px-4 ${isVisible ? 'animate-fade-in opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+      {/* Mobile: Vertical Stack */}
+      <div className="block lg:hidden">
+        <div className="space-y-3">
+          <button
+            onClick={() => setSelectedService(null)}
+            className={`w-full px-4 py-3 rounded-xl border transition-all duration-300 font-medium text-sm sm:text-base ${
+              selectedService === null
+                ? 'bg-cyan-500/20 border-cyan-400/30 text-cyan-400'
+                : 'border-gray-600 text-gray-400 hover:border-gray-500 hover:text-gray-300'
+            }`}
+          >
+            All Projects
+          </button>
+          {services.map((service, index) => {
+            const colors = colorClasses[service.color];
+            const ServiceIcon = getServiceIcon(service.id);
+            return (
+              <button
+                key={service.id}
+                onClick={() => setSelectedService(service.id)}
+                className={`w-full px-4 py-3 rounded-xl border transition-all duration-300 font-medium flex items-center justify-center space-x-2 text-sm sm:text-base ${
+                  selectedService === service.id
+                    ? colors.button
+                    : 'border-gray-600 text-gray-400 hover:border-gray-500 hover:text-gray-300'
+                }`}
+                style={{ animationDelay: `${index * 100}ms` }}
+              >
+                <ServiceIcon className="h-4 w-4 sm:h-5 sm:w-5" />
+                <span>{service.title}</span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Desktop: Horizontal Grid */}
+      <div className="hidden lg:block">
+        <div className="flex flex-wrap justify-center gap-4">
+          <button
+            onClick={() => setSelectedService(null)}
+            className={`px-6 py-3 rounded-xl border transition-all duration-300 font-medium ${
+              selectedService === null
+                ? 'bg-cyan-500/20 border-cyan-400/30 text-cyan-400'
+                : 'border-gray-600 text-gray-400 hover:border-gray-500 hover:text-gray-300'
+            }`}
+          >
+            All Projects
+          </button>
+          {services.map((service, index) => {
+            const colors = colorClasses[service.color];
+            const ServiceIcon = getServiceIcon(service.id);
+            return (
+              <button
+                key={service.id}
+                onClick={() => setSelectedService(service.id)}
+                className={`px-6 py-3 rounded-xl border transition-all duration-300 font-medium flex items-center space-x-2 ${
+                  selectedService === service.id
+                    ? colors.button
+                    : 'border-gray-600 text-gray-400 hover:border-gray-500 hover:text-gray-300'
+                }`}
+                style={{ animationDelay: `${index * 100}ms` }}
+              >
+                <ServiceIcon className="h-4 w-4" />
+                <span>{service.title}</span>
+              </button>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

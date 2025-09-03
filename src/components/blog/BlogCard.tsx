@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { BlogPost } from "@/data/blogs";
 import { Calendar, Clock, User } from "lucide-react";
 import OptimizedImage from "@/components/ui/OptimizedImage";
+import { useState } from "react";
 
 interface BlogCardProps {
   post: BlogPost;
@@ -9,6 +10,23 @@ interface BlogCardProps {
 }
 
 const BlogCard = ({ post, featured = false }: BlogCardProps) => {
+  const [avatarError, setAvatarError] = useState(false);
+
+  // Function to get initials from author name
+  const getInitials = (name: string) => {
+    return name
+      .split(' ')
+      .map(word => word.charAt(0))
+      .join('')
+      .toUpperCase()
+      .slice(0, 2);
+  };
+
+  // Function to handle avatar image load error
+  const handleAvatarError = () => {
+    setAvatarError(true);
+  };
+
   return (
     <Link
       to={`/blog/${post.slug || post.id}`}
@@ -60,15 +78,22 @@ const BlogCard = ({ post, featured = false }: BlogCardProps) => {
 
           <p className="text-gray-300 mb-4 line-clamp-3">{post.excerpt}</p>
 
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div className="flex items-center gap-3">
-              {post.author.avatar && (
+              {/* Avatar with fallback */}
+              {post.author.avatar && !avatarError ? (
                 <img
                   src={post.author.avatar}
                   alt={post.author.name}
-                  className="w-8 h-8 rounded-full"
+                  className="w-10 h-10 min-w-10 rounded-full object-cover"
+                  onError={handleAvatarError}
                 />
+              ) : (
+                <div className="w-10 h-10 min-w-10 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-white text-xs font-semibold border border-cyan-400/30">
+                  {getInitials(post.author.name)}
+                </div>
               )}
+              
               <div>
                 <p className="text-white text-sm font-medium">
                   {post.author.name}
