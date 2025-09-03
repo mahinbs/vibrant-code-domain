@@ -40,7 +40,7 @@ const Hero = memo(() => {
   return (
     <section
       id="home"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden hero-section pb-24"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden hero-section pb-24 bg-black"
       style={{
         contain: "layout style paint",
         contentVisibility: "auto",
