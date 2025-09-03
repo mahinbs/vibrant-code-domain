@@ -14,7 +14,7 @@ const PortfolioHeader = ({ isVisible, setIsVisible }: PortfolioHeaderProps) => {
           setIsVisible(true);
         }
       },
-      { threshold: 0.1, rootMargin: '50px' }
+      { threshold: 0.1, rootMargin: '-50px' }
     );
 
     const section = document.getElementById('portfolio');

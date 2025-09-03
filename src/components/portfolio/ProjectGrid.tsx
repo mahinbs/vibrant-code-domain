@@ -90,9 +90,12 @@ const ProjectGrid = ({ services, selectedService, isVisible, handleProjectClick 
           const ServiceIcon = getServiceIcon(service.id);
           
           return (
-            <div key={service.id} className="space-y-6 sm:space-y-8">
+            <div 
+              key={service.id} 
+              className="space-y-6 sm:space-y-8"
+            >
               {/* Service Header - Responsive */}
-              <div className={`flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-4 mb-6 sm:mb-8 transition-all duration-700 ${isVisible ? 'animate-fade-in opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} style={{ animationDelay: `${serviceIndex * 200 + 400}ms` }}>
+              <div className="flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-4 mb-6 sm:mb-8">
                 <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl ${colors.icon} border flex items-center justify-center flex-shrink-0`}>
                   <ServiceIcon className="h-5 w-5 sm:h-6 sm:w-6" />
                 </div>

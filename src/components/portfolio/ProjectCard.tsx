@@ -78,19 +78,16 @@ const ProjectCard = ({
 
   return (
     <div
-      className={`group relative rounded-xl sm:rounded-2xl bg-gray-900/80 backdrop-blur-sm border ${colors.border} hover:bg-gray-800/90 transition-all duration-400 overflow-hidden cursor-pointer hover:transform hover:scale-102 hover:shadow-lg ${isVisible ? 'animate-fade-in opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+      className={`group relative rounded-xl sm:rounded-2xl bg-gray-900/80 backdrop-blur-sm border ${colors.border} hover:bg-gray-800/90 transition-all duration-300 overflow-hidden cursor-pointer hover:shadow-lg hover:scale-105`}
       onClick={handleClick}
       onMouseEnter={handleMouseEnter}
-      style={{ 
-        animationDelay: `${animationDelay}ms`
-      }}
     >
       {/* Project Image - Responsive */}
       <div className="relative h-40 sm:h-48 overflow-hidden rounded-t-xl sm:rounded-t-2xl">
         <img 
           src={project.image} 
           alt={project.title}
-          className="w-full h-full object-cover transition-transform duration-400 group-hover:scale-105"
+          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
           loading={isVisible ? "eager" : "lazy"}
           decoding="async"
         />
