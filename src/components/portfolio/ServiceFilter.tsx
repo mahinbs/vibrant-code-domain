@@ -72,7 +72,6 @@ const ServiceFilter = ({ services, selectedService, setSelectedService, isVisibl
                     ? colors.button
                     : 'border-gray-600 text-gray-400 hover:border-gray-500 hover:text-gray-300'
                 }`}
-                style={{ animationDelay: `${index * 100}ms` }}
               >
                 <ServiceIcon className="h-4 w-4 sm:h-5 sm:w-5" />
                 <span>{service.title}</span>
