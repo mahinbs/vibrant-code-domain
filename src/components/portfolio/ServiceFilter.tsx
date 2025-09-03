@@ -46,7 +46,7 @@ const ServiceFilter = ({ services, selectedService, setSelectedService, isVisibl
   };
 
   return (
-    <div className={`mb-8 sm:mb-10 lg:mb-12 transition-all duration-700 delay-200 px-4 ${isVisible ? 'animate-fade-in opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+    <div className={`mb-8 sm:mb-10 lg:mb-12 transition-all duration-700 delay-200 px-4 $`}>
       {/* Mobile: Vertical Stack */}
       <div className="block lg:hidden">
         <div className="space-y-3">
