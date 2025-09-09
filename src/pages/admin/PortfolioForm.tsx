@@ -158,7 +158,7 @@ const PortfolioForm = () => {
   const onSubmit = async (data: PortfolioFormData) => {
     try {
       setSaving(true);
-      const projectData = {
+      const projectData: AdminProject = {
         ...data,
         // Ensure slug is generated if not present
         slug: data.slug || generateProjectSlug({
@@ -166,7 +166,41 @@ const PortfolioForm = () => {
           client: data.client,
           industry: data.industry,
           technologies: data.technologies
-        })
+        }),
+        // Ensure all required fields are present
+        title: data.title || '',
+        client: data.client || '',
+        description: data.description || '',
+        industry: data.industry || '',
+        timeline: data.timeline || '',
+        team: data.team || '',
+        testimonial: data.testimonial || '',
+        challenge: data.challenge || '',
+        solution: data.solution || '',
+        technologies: data.technologies || [],
+        metrics: data.metrics || {},
+        approach: data.approach || [],
+        gallery: data.gallery || [],
+        clientLogo: data.clientLogo || '',
+        image: data.image || '',
+        serviceId: data.serviceId || '',
+        liveUrl: data.liveUrl || '',
+        detailedMetrics: data.detailedMetrics?.map(metric => ({
+          label: metric.label || '',
+          value: metric.value || '',
+          description: metric.description || ''
+        })) || [],
+        techStack: data.techStack?.map(stack => ({
+          category: stack.category || '',
+          technologies: stack.technologies || []
+        })) || [],
+        features: data.features || [],
+        extendedTestimonial: {
+          quote: data.extendedTestimonial?.quote || '',
+          author: data.extendedTestimonial?.author || '',
+          position: data.extendedTestimonial?.position || '',
+          company: data.extendedTestimonial?.company || ''
+        }
       };
       await adminDataService.saveProject(projectData);
       toast({
@@ -213,13 +247,13 @@ const PortfolioForm = () => {
       </div>
 
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <BasicInformationSection formData={form.getValues()} setFormData={(data) => form.reset({ ...form.getValues(), ...data })} />
-        <TechnologiesSection formData={form.getValues()} setFormData={(data) => form.reset({ ...form.getValues(), ...data })} />
-        <TechStackSection formData={form.getValues()} setFormData={(data) => form.reset({ ...form.getValues(), ...data })} />
-        <ResultsMetricsSection formData={form.getValues()} setFormData={(data) => form.reset({ ...form.getValues(), ...data })} />
-        <GallerySection formData={form.getValues()} setFormData={(data) => form.reset({ ...form.getValues(), ...data })} />
-        <CaseStudyDetailsSection formData={form.getValues()} setFormData={(data) => form.reset({ ...form.getValues(), ...data })} />
-        <TestimonialSection formData={form.getValues()} setFormData={(data) => form.reset({ ...form.getValues(), ...data })} />
+        <BasicInformationSection formData={form.getValues() as AdminProject} setFormData={(data) => form.reset({ ...form.getValues(), ...data })} />
+        <TechnologiesSection formData={form.getValues() as AdminProject} setFormData={(data) => form.reset({ ...form.getValues(), ...data })} />
+        <TechStackSection formData={form.getValues() as AdminProject} setFormData={(data) => form.reset({ ...form.getValues(), ...data })} />
+        <ResultsMetricsSection formData={form.getValues() as AdminProject} setFormData={(data) => form.reset({ ...form.getValues(), ...data })} />
+        <GallerySection formData={form.getValues() as AdminProject} setFormData={(data) => form.reset({ ...form.getValues(), ...data })} />
+        <CaseStudyDetailsSection formData={form.getValues() as AdminProject} setFormData={(data) => form.reset({ ...form.getValues(), ...data })} />
+        <TestimonialSection formData={form.getValues() as AdminProject} setFormData={(data) => form.reset({ ...form.getValues(), ...data })} />
 
         <div className="flex gap-4">
           <Button 

@@ -106,6 +106,34 @@ const WebinarManagement = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedWebinar, setSelectedWebinar] = useState<WebinarEvent | null>(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [formData, setFormData] = useState<WebinarFormData>({
+    title: '',
+    subtitle: '',
+    description: '',
+    event_date: '',
+    duration_minutes: 60,
+    speaker_name: '',
+    speaker_bio: '',
+    speaker_image: '',
+    benefits: [''],
+    agenda: [{ time: '', topic: '' }],
+    is_active: true,
+    registration_limit: 100,
+    hero_headline: '',
+    hero_subtitle: '',
+    show_scarcity: false,
+    sticky_cta_enabled: false,
+    cta_text: '',
+    cta_bg_color: '#1e3a8a',
+    target_audience: [''],
+    social_proof_logos: [],
+    social_proof_videos: [],
+    recognitions: [],
+    testimonials: [],
+    show_social_proof: false,
+    privacy_note: '',
+    show_agenda_collapsible: false,
+  });
 
   const form = useForm<WebinarFormData>({
     resolver: zodResolver(webinarSchema),

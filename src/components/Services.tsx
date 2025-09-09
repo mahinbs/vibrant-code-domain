@@ -10,10 +10,12 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState, useCallback } from "react";
+import { useGeoCurrency } from "@/hooks/useGeoCurrency";
 
 const Services = () => {
   const [expandedService, setExpandedService] = useState<string | null>(null);
   const [hoverTimeout, setHoverTimeout] = useState<NodeJS.Timeout | null>(null);
+  const { convertPrice } = useGeoCurrency();
 
   const services = [
     {
@@ -33,7 +35,7 @@ const Services = () => {
         "Progressive Web Apps",
       ],
       technologies: ["TypeScript", "Tailwind CSS", "Node.js", "PostgreSQL"],
-      startingPrice: "$5,000",
+      startingPrice: 5000,
       timeline: "4-12 weeks",
       color: "cyan",
       route: "/web-apps",
@@ -55,7 +57,7 @@ const Services = () => {
         "API Management",
       ],
       technologies: ["React", "Stripe", "AWS", "Redis"],
-      startingPrice: "$15,000",
+      startingPrice: 15000,
       timeline: "8-16 weeks",
       color: "blue",
       route: "/saas",
@@ -77,7 +79,7 @@ const Services = () => {
         "Push Notifications",
       ],
       technologies: ["React Native", "Swift", "Kotlin", "Firebase"],
-      startingPrice: "$10,000",
+      startingPrice: 10000,
       timeline: "6-14 weeks",
       color: "purple",
       route: "/mobile-apps",
@@ -99,7 +101,7 @@ const Services = () => {
         "CRM Integration",
       ],
       technologies: ["OpenAI", "Twilio", "Python", "TensorFlow"],
-      startingPrice: "$8,000",
+      startingPrice: 8000,
       timeline: "6-10 weeks",
       color: "pink",
       route: "/ai-calling",
@@ -121,7 +123,7 @@ const Services = () => {
         "Workflow Integration",
       ],
       technologies: ["Python", "TensorFlow", "AWS Lambda", "Zapier"],
-      startingPrice: "$12,000",
+      startingPrice: 12000,
       timeline: "8-12 weeks",
       color: "green",
       route: "/ai-automation",
@@ -302,7 +304,7 @@ const Services = () => {
                         className={`px-3 py-2 rounded-lg ${colors.button} border text-xs sm:text-sm font-medium flex items-center space-x-2`}
                       >
                         <DollarSign className="h-3 w-3 sm:h-4 sm:w-4" />
-                        <span>{service.startingPrice}</span>
+                        <span>{convertPrice(service.startingPrice).formatted}</span>
                       </div>
                       <div
                         className={`px-3 py-2 rounded-lg ${colors.button} border text-xs sm:text-sm font-medium flex items-center space-x-2`}
@@ -434,7 +436,7 @@ const Services = () => {
                             className={`px-4 py-2 rounded-lg ${colors.button} border text-sm font-medium flex items-center space-x-2`}
                           >
                             <DollarSign className="h-4 w-4" />
-                            <span>{service.startingPrice}</span>
+                            <span>{convertPrice(service.startingPrice).formatted}</span>
                           </div>
                           <div
                             className={`px-4 py-2 rounded-lg ${colors.button} border text-sm font-medium flex items-center space-x-2`}
