@@ -8,7 +8,7 @@ import { AdminProject } from '@/services/adminDataService';
 
 interface TechStackSectionProps {
   formData: AdminProject;
-  setFormData: React.Dispatch<React.SetStateAction<AdminProject>>;
+  setFormData: (field: string, value: unknown) => void;
 }
 
 const TechStackSection = ({ formData, setFormData }: TechStackSectionProps) => {
@@ -17,43 +17,36 @@ const TechStackSection = ({ formData, setFormData }: TechStackSectionProps) => {
 
   const addTechStack = () => {
     if (techStackCategory.trim() && techStackTechnology.trim()) {
-      setFormData(prev => {
-        const existingCategoryIndex = prev.techStack.findIndex(ts => ts.category === techStackCategory.trim());
-        
-        if (existingCategoryIndex >= 0) {
-          // Add to existing category
-          const updatedTechStack = [...prev.techStack];
-          if (!updatedTechStack[existingCategoryIndex].technologies.includes(techStackTechnology.trim())) {
-            updatedTechStack[existingCategoryIndex].technologies.push(techStackTechnology.trim());
-          }
-          return { ...prev, techStack: updatedTechStack };
-        } else {
-          // Create new category
-          return {
-            ...prev,
-            techStack: [...prev.techStack, {
-              category: techStackCategory.trim(),
-              technologies: [techStackTechnology.trim()]
-            }]
-          };
+      const existingCategoryIndex = formData.techStack.findIndex(ts => ts.category === techStackCategory.trim());
+      
+      if (existingCategoryIndex >= 0) {
+        // Add to existing category
+        const updatedTechStack = [...formData.techStack];
+        if (!updatedTechStack[existingCategoryIndex].technologies.includes(techStackTechnology.trim())) {
+          updatedTechStack[existingCategoryIndex].technologies.push(techStackTechnology.trim());
         }
-      });
+        setFormData('techStack', updatedTechStack);
+      } else {
+        // Create new category
+        setFormData('techStack', [...formData.techStack, {
+          category: techStackCategory.trim(),
+          technologies: [techStackTechnology.trim()]
+        }]);
+      }
       setTechStackTechnology('');
     }
   };
 
   const removeTechFromStack = (categoryIndex: number, techIndex: number) => {
-    setFormData(prev => {
-      const updatedTechStack = [...prev.techStack];
-      updatedTechStack[categoryIndex].technologies.splice(techIndex, 1);
-      
-      // Remove category if empty
-      if (updatedTechStack[categoryIndex].technologies.length === 0) {
-        updatedTechStack.splice(categoryIndex, 1);
-      }
-      
-      return { ...prev, techStack: updatedTechStack };
-    });
+    const updatedTechStack = [...formData.techStack];
+    updatedTechStack[categoryIndex].technologies.splice(techIndex, 1);
+    
+    // Remove category if empty
+    if (updatedTechStack[categoryIndex].technologies.length === 0) {
+      updatedTechStack.splice(categoryIndex, 1);
+    }
+    
+    setFormData('techStack', updatedTechStack);
   };
 
   return (

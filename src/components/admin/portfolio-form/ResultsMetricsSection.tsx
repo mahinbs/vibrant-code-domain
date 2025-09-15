@@ -8,7 +8,7 @@ import { AdminProject } from '@/services/adminDataService';
 
 interface ResultsMetricsSectionProps {
   formData: AdminProject;
-  setFormData: React.Dispatch<React.SetStateAction<AdminProject>>;
+  setFormData: (field: string, value: unknown) => void;
 }
 
 const ResultsMetricsSection = ({ formData, setFormData }: ResultsMetricsSectionProps) => {
@@ -18,14 +18,11 @@ const ResultsMetricsSection = ({ formData, setFormData }: ResultsMetricsSectionP
 
   const addDetailedMetric = () => {
     if (metricLabel.trim() && metricValue.trim() && metricDescription.trim()) {
-      setFormData(prev => ({
-        ...prev,
-        detailedMetrics: [...prev.detailedMetrics, {
-          label: metricLabel.trim(),
-          value: metricValue.trim(),
-          description: metricDescription.trim()
-        }]
-      }));
+      setFormData('detailedMetrics', [...formData.detailedMetrics, {
+        label: metricLabel.trim(),
+        value: metricValue.trim(),
+        description: metricDescription.trim()
+      }]);
       setMetricLabel('');
       setMetricValue('');
       setMetricDescription('');
@@ -33,10 +30,7 @@ const ResultsMetricsSection = ({ formData, setFormData }: ResultsMetricsSectionP
   };
 
   const removeDetailedMetric = (index: number) => {
-    setFormData(prev => ({
-      ...prev,
-      detailedMetrics: prev.detailedMetrics.filter((_, i) => i !== index)
-    }));
+    setFormData('detailedMetrics', formData.detailedMetrics.filter((_, i) => i !== index));
   };
 
   return (

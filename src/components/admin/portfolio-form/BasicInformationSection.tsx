@@ -8,7 +8,7 @@ import { AdminProject } from '@/services/adminDataService';
 
 interface BasicInformationSectionProps {
   formData: AdminProject;
-  setFormData: (field: string, value: any) => void;
+  setFormData: (field: string, value: unknown) => void;
 }
 
 const BasicInformationSection = ({ formData, setFormData }: BasicInformationSectionProps) => {

@@ -8,7 +8,7 @@ import { AdminProject } from '@/services/adminDataService';
 
 interface GallerySectionProps {
   formData: AdminProject;
-  setFormData: React.Dispatch<React.SetStateAction<AdminProject>>;
+  setFormData: (field: string, value: unknown) => void;
 }
 
 const GallerySection = ({ formData, setFormData }: GallerySectionProps) => {
@@ -16,19 +16,13 @@ const GallerySection = ({ formData, setFormData }: GallerySectionProps) => {
 
   const addGalleryImage = () => {
     if (galleryInput.trim() && !formData.gallery.includes(galleryInput.trim())) {
-      setFormData(prev => ({
-        ...prev,
-        gallery: [...prev.gallery, galleryInput.trim()]
-      }));
+      setFormData('gallery', [...formData.gallery, galleryInput.trim()]);
       setGalleryInput('');
     }
   };
 
   const removeGalleryImage = (imageUrl: string) => {
-    setFormData(prev => ({
-      ...prev,
-      gallery: prev.gallery.filter(url => url !== imageUrl)
-    }));
+    setFormData('gallery', formData.gallery.filter(url => url !== imageUrl));
   };
 
   return (

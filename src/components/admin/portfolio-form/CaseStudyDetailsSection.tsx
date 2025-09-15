@@ -9,7 +9,7 @@ import { AdminProject } from '@/services/adminDataService';
 
 interface CaseStudyDetailsSectionProps {
   formData: AdminProject;
-  setFormData: React.Dispatch<React.SetStateAction<AdminProject>>;
+  setFormData: (field: string, value: unknown) => void;
 }
 
 const CaseStudyDetailsSection = ({ formData, setFormData }: CaseStudyDetailsSectionProps) => {
@@ -18,36 +18,24 @@ const CaseStudyDetailsSection = ({ formData, setFormData }: CaseStudyDetailsSect
 
   const addApproach = () => {
     if (approachInput.trim() && !formData.approach.includes(approachInput.trim())) {
-      setFormData(prev => ({
-        ...prev,
-        approach: [...prev.approach, approachInput.trim()]
-      }));
+      setFormData('approach', [...formData.approach, approachInput.trim()]);
       setApproachInput('');
     }
   };
 
   const removeApproach = (approach: string) => {
-    setFormData(prev => ({
-      ...prev,
-      approach: prev.approach.filter(a => a !== approach)
-    }));
+    setFormData('approach', formData.approach.filter(a => a !== approach));
   };
 
   const addFeature = () => {
     if (featureInput.trim() && !formData.features.includes(featureInput.trim())) {
-      setFormData(prev => ({
-        ...prev,
-        features: [...prev.features, featureInput.trim()]
-      }));
+      setFormData('features', [...formData.features, featureInput.trim()]);
       setFeatureInput('');
     }
   };
 
   const removeFeature = (feature: string) => {
-    setFormData(prev => ({
-      ...prev,
-      features: prev.features.filter(f => f !== feature)
-    }));
+    setFormData('features', formData.features.filter(f => f !== feature));
   };
 
   return (
@@ -61,7 +49,7 @@ const CaseStudyDetailsSection = ({ formData, setFormData }: CaseStudyDetailsSect
           <Textarea
             id="challenge"
             value={formData.challenge}
-            onChange={(e) => setFormData(prev => ({ ...prev, challenge: e.target.value }))}
+            onChange={(e) => setFormData('challenge', e.target.value)}
             placeholder="What challenge did this project solve?"
             rows={3}
             className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500"
@@ -73,7 +61,7 @@ const CaseStudyDetailsSection = ({ formData, setFormData }: CaseStudyDetailsSect
           <Textarea
             id="solution"
             value={formData.solution}
-            onChange={(e) => setFormData(prev => ({ ...prev, solution: e.target.value }))}
+            onChange={(e) => setFormData('solution', e.target.value)}
             placeholder="How did you solve the challenge?"
             rows={3}
             className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500"

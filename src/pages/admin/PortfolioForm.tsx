@@ -297,31 +297,31 @@ const PortfolioForm = () => {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <BasicInformationSection
           formData={form.watch() as AdminProject}
-          setFormData={(field: string, value: any) => form.setValue(field as keyof PortfolioFormData, value)}
+          setFormData={(field: string, value: unknown) => form.setValue(field as keyof PortfolioFormData, value)}
         />
         <TechnologiesSection
           formData={form.watch() as AdminProject}
-          setFormData={(field: string, value: any) => form.setValue(field as keyof PortfolioFormData, value)}
+          setFormData={(field: string, value: unknown) => form.setValue(field as keyof PortfolioFormData, value)}
         />
         <TechStackSection
           formData={form.watch() as AdminProject}
-          setFormData={(field: string, value: any) => form.setValue(field as keyof PortfolioFormData, value)}
+          setFormData={(field: string, value: unknown) => form.setValue(field as keyof PortfolioFormData, value)}
         />
         <ResultsMetricsSection
           formData={form.watch() as AdminProject}
-          setFormData={(field: string, value: any) => form.setValue(field as keyof PortfolioFormData, value)}
+          setFormData={(field: string, value: unknown) => form.setValue(field as keyof PortfolioFormData, value)}
         />
         <GallerySection
           formData={form.watch() as AdminProject}
-          setFormData={(field: string, value: any) => form.setValue(field as keyof PortfolioFormData, value)}
+          setFormData={(field: string, value: unknown) => form.setValue(field as keyof PortfolioFormData, value)}
         />
         <CaseStudyDetailsSection
           formData={form.watch() as AdminProject}
-          setFormData={(field: string, value: any) => form.setValue(field as keyof PortfolioFormData, value)}
+          setFormData={(field: string, value: unknown) => form.setValue(field as keyof PortfolioFormData, value)}
         />
         <TestimonialSection
           formData={form.watch() as AdminProject}
-          setFormData={(field: string, value: any) => form.setValue(field as keyof PortfolioFormData, value)}
+          setFormData={(field: string, value: unknown) => form.setValue(field as keyof PortfolioFormData, value)}
         />
 
         <div className="flex gap-4">

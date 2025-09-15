@@ -7,7 +7,7 @@ import { AdminProject } from '@/services/adminDataService';
 
 interface TechnologiesSectionProps {
   formData: AdminProject;
-  setFormData: React.Dispatch<React.SetStateAction<AdminProject>>;
+  setFormData: (field: string, value: unknown) => void;
 }
 
 const TechnologiesSection = ({ formData, setFormData }: TechnologiesSectionProps) => {
@@ -15,19 +15,13 @@ const TechnologiesSection = ({ formData, setFormData }: TechnologiesSectionProps
 
   const addTechnology = () => {
     if (techInput.trim() && !formData.technologies.includes(techInput.trim())) {
-      setFormData(prev => ({
-        ...prev,
-        technologies: [...prev.technologies, techInput.trim()]
-      }));
+      setFormData('technologies', [...formData.technologies, techInput.trim()]);
       setTechInput('');
     }
   };
 
   const removeTechnology = (tech: string) => {
-    setFormData(prev => ({
-      ...prev,
-      technologies: prev.technologies.filter(t => t !== tech)
-    }));
+    setFormData('technologies', formData.technologies.filter(t => t !== tech));
   };
 
   return (

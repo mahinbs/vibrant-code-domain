@@ -7,7 +7,7 @@ import { AdminProject } from '@/services/adminDataService';
 
 interface TestimonialSectionProps {
   formData: AdminProject;
-  setFormData: React.Dispatch<React.SetStateAction<AdminProject>>;
+  setFormData: (field: string, value: unknown) => void;
 }
 
 const TestimonialSection = ({ formData, setFormData }: TestimonialSectionProps) => {
@@ -22,10 +22,7 @@ const TestimonialSection = ({ formData, setFormData }: TestimonialSectionProps) 
           <Textarea
             id="testimonial-text"
             value={formData.extendedTestimonial.quote}
-            onChange={(e) => setFormData(prev => ({
-              ...prev,
-              extendedTestimonial: { ...prev.extendedTestimonial, quote: e.target.value }
-            }))}
+            onChange={(e) => setFormData('extendedTestimonial', { ...formData.extendedTestimonial, quote: e.target.value })}
             placeholder="Client testimonial"
             rows={3}
             className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500"
@@ -38,10 +35,7 @@ const TestimonialSection = ({ formData, setFormData }: TestimonialSectionProps) 
             <Input
               id="testimonial-author"
               value={formData.extendedTestimonial.author}
-              onChange={(e) => setFormData(prev => ({
-                ...prev,
-                extendedTestimonial: { ...prev.extendedTestimonial, author: e.target.value }
-              }))}
+              onChange={(e) => setFormData('extendedTestimonial', { ...formData.extendedTestimonial, author: e.target.value })}
               placeholder="John Doe"
               className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500"
             />
@@ -51,10 +45,7 @@ const TestimonialSection = ({ formData, setFormData }: TestimonialSectionProps) 
             <Input
               id="testimonial-position"
               value={formData.extendedTestimonial.position}
-              onChange={(e) => setFormData(prev => ({
-                ...prev,
-                extendedTestimonial: { ...prev.extendedTestimonial, position: e.target.value }
-              }))}
+              onChange={(e) => setFormData('extendedTestimonial', { ...formData.extendedTestimonial, position: e.target.value })}
               placeholder="CEO"
               className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500"
             />
@@ -64,10 +55,7 @@ const TestimonialSection = ({ formData, setFormData }: TestimonialSectionProps) 
             <Input
               id="testimonial-company"
               value={formData.extendedTestimonial.company}
-              onChange={(e) => setFormData(prev => ({
-                ...prev,
-                extendedTestimonial: { ...prev.extendedTestimonial, company: e.target.value }
-              }))}
+              onChange={(e) => setFormData('extendedTestimonial', { ...formData.extendedTestimonial, company: e.target.value })}
               placeholder="Company Name"
               className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500"
             />
