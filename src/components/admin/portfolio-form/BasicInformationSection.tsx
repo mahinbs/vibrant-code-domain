@@ -8,7 +8,7 @@ import { AdminProject } from '@/services/adminDataService';
 
 interface BasicInformationSectionProps {
   formData: AdminProject;
-  setFormData: React.Dispatch<React.SetStateAction<AdminProject>>;
+  setFormData: (field: string, value: any) => void;
 }
 
 const BasicInformationSection = ({ formData, setFormData }: BasicInformationSectionProps) => {
@@ -41,7 +41,7 @@ const BasicInformationSection = ({ formData, setFormData }: BasicInformationSect
             <Input
               id="title"
               value={formData.title}
-              onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
+              onChange={(e) => setFormData('title', e.target.value)}
               placeholder="Project title"
               required
               className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500"
@@ -52,7 +52,7 @@ const BasicInformationSection = ({ formData, setFormData }: BasicInformationSect
             <Input
               id="client"
               value={formData.client}
-              onChange={(e) => setFormData(prev => ({ ...prev, client: e.target.value }))}
+              onChange={(e) => setFormData('client', e.target.value)}
               placeholder="Client name"
               required
               className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500"
@@ -65,7 +65,7 @@ const BasicInformationSection = ({ formData, setFormData }: BasicInformationSect
           <Input
             id="slug"
             value={formData.slug}
-            onChange={(e) => setFormData(prev => ({ ...prev, slug: e.target.value }))}
+            onChange={(e) => setFormData('slug', e.target.value)}
             placeholder="url-friendly-slug (auto-generated from title)"
             disabled={!formData.id} // Only allow manual editing when editing existing projects
             className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500 disabled:bg-gray-800 disabled:text-gray-500"
@@ -80,7 +80,7 @@ const BasicInformationSection = ({ formData, setFormData }: BasicInformationSect
           <Textarea
             id="description"
             value={formData.description}
-            onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
+            onChange={(e) => setFormData('description', e.target.value)}
             placeholder="Brief project description"
             rows={3}
             required
@@ -93,7 +93,7 @@ const BasicInformationSection = ({ formData, setFormData }: BasicInformationSect
             <Label htmlFor="serviceId" className="text-gray-200">Service Category *</Label>
             <Select
               value={formData.serviceId}
-              onValueChange={(value) => setFormData(prev => ({ ...prev, serviceId: value }))}
+              onValueChange={(value) => setFormData('serviceId', value)}
             >
               <SelectTrigger className="bg-gray-700 border-gray-600 text-white">
                 <SelectValue placeholder="Select service" />
@@ -112,7 +112,7 @@ const BasicInformationSection = ({ formData, setFormData }: BasicInformationSect
             <Input
               id="industry"
               value={formData.industry}
-              onChange={(e) => setFormData(prev => ({ ...prev, industry: e.target.value }))}
+              onChange={(e) => setFormData('industry', e.target.value)}
               placeholder="e.g., E-commerce, Healthcare"
               className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500"
             />
@@ -125,7 +125,7 @@ const BasicInformationSection = ({ formData, setFormData }: BasicInformationSect
             <Input
               id="timeline"
               value={formData.timeline}
-              onChange={(e) => setFormData(prev => ({ ...prev, timeline: e.target.value }))}
+              onChange={(e) => setFormData('timeline', e.target.value)}
               placeholder="e.g., 12 weeks"
               className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500"
             />
@@ -135,7 +135,7 @@ const BasicInformationSection = ({ formData, setFormData }: BasicInformationSect
             <Input
               id="team"
               value={formData.team}
-              onChange={(e) => setFormData(prev => ({ ...prev, team: e.target.value }))}
+              onChange={(e) => setFormData('team', e.target.value)}
               placeholder="e.g., 5 developers"
               className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500"
             />
@@ -148,7 +148,7 @@ const BasicInformationSection = ({ formData, setFormData }: BasicInformationSect
             <Input
               id="image"
               value={formData.image}
-              onChange={(e) => setFormData(prev => ({ ...prev, image: e.target.value }))}
+              onChange={(e) => setFormData('image', e.target.value)}
               placeholder="https://example.com/image.jpg"
               type="url"
               className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500"
@@ -159,7 +159,7 @@ const BasicInformationSection = ({ formData, setFormData }: BasicInformationSect
             <Input
               id="liveUrl"
               value={formData.liveUrl}
-              onChange={(e) => setFormData(prev => ({ ...prev, liveUrl: e.target.value }))}
+              onChange={(e) => setFormData('liveUrl', e.target.value)}
               placeholder="https://example.com"
               type="url"
               className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500"
@@ -172,7 +172,7 @@ const BasicInformationSection = ({ formData, setFormData }: BasicInformationSect
           <Input
             id="clientLogo"
             value={formData.clientLogo}
-            onChange={(e) => setFormData(prev => ({ ...prev, clientLogo: e.target.value }))}
+            onChange={(e) => setFormData('clientLogo', e.target.value)}
             placeholder="https://example.com/logo.jpg"
             type="url"
             className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500"
