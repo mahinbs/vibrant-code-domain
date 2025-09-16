@@ -29,10 +29,10 @@ const portfolioSchema = z.object({
     .array(z.string())
     .min(1, "At least one technology is required"),
   metrics: z.record(z.string()),
-  timeline: z.string().min(1, "Timeline is required"),
-  team: z.string().min(1, "Team information is required"),
-  industry: z.string().min(1, "Industry is required"),
-  testimonial: z.string().min(10, "Testimonial must be at least 10 characters"),
+  timeline: z.string().min(1, "Timeline is required").optional().or(z.literal("")),
+  team: z.string().min(1, "Team information is required").optional().or(z.literal("")),
+  industry: z.string().min(1, "Industry is required").optional().or(z.literal("")),
+  testimonial: z.string().min(10, "Testimonial must be at least 10 characters").optional().or(z.literal("")),
   clientLogo: z
     .string()
     .url("Please enter a valid URL for client logo")
@@ -49,14 +49,19 @@ const portfolioSchema = z.object({
     .optional(),
   challenge: z
     .string()
-    .min(10, "Challenge description must be at least 10 characters"),
+    .min(10, "Challenge description must be at least 10 characters")
+    .optional()
+    .or(z.literal("")),
   solution: z
     .string()
-    .min(10, "Solution description must be at least 10 characters"),
+    .min(10, "Solution description must be at least 10 characters")
+    .optional()
+    .or(z.literal("")),
   approach: z
     .array(z.string())
-    .min(1, "At least one approach step is required"),
-  gallery: z.array(z.string()).min(1, "At least one gallery image is required"),
+    .optional()
+    .default([]),
+  gallery: z.array(z.string()).optional().default([]),
   detailedMetrics: z
     .array(
       z.object({
@@ -65,7 +70,8 @@ const portfolioSchema = z.object({
         description: z.string().min(1, "Metric description is required"),
       })
     )
-    .min(1, "At least one detailed metric is required"),
+    .optional()
+    .default([]),
   techStack: z
     .array(
       z.object({
@@ -75,16 +81,19 @@ const portfolioSchema = z.object({
           .min(1, "At least one technology per category is required"),
       })
     )
-    .min(1, "At least one tech stack category is required"),
-  features: z.array(z.string()).min(1, "At least one feature is required"),
+    .optional()
+    .default([]),
+  features: z.array(z.string()).optional().default([]),
   extendedTestimonial: z.object({
     quote: z
       .string()
-      .min(10, "Testimonial quote must be at least 10 characters"),
-    author: z.string().min(1, "Author name is required"),
-    position: z.string().min(1, "Position is required"),
-    company: z.string().min(1, "Company name is required"),
-  }),
+      .min(10, "Testimonial quote must be at least 10 characters")
+      .optional()
+      .or(z.literal("")),
+    author: z.string().min(1, "Author name is required").optional().or(z.literal("")),
+    position: z.string().min(1, "Position is required").optional().or(z.literal("")),
+    company: z.string().min(1, "Company name is required").optional().or(z.literal("")),
+  }).optional(),
 });
 
 type PortfolioFormData = z.infer<typeof portfolioSchema>;
@@ -217,24 +226,24 @@ const PortfolioForm = () => {
         solution: data.solution || "",
         technologies: data.technologies || [],
         metrics: data.metrics || {},
-        approach: data.approach || [],
-        gallery: data.gallery || [],
+        approach: Array.isArray(data.approach) ? data.approach : [],
+        gallery: Array.isArray(data.gallery) ? data.gallery : [],
         clientLogo: data.clientLogo || "",
         image: data.image || "",
         serviceId: data.serviceId || "",
         liveUrl: data.liveUrl || "",
         detailedMetrics:
-          data.detailedMetrics?.map((metric) => ({
+          Array.isArray(data.detailedMetrics) ? data.detailedMetrics.map((metric) => ({
             label: metric.label || "",
             value: metric.value || "",
             description: metric.description || "",
-          })) || [],
+          })) : [],
         techStack:
-          data.techStack?.map((stack) => ({
+          Array.isArray(data.techStack) ? data.techStack.map((stack) => ({
             category: stack.category || "",
             technologies: stack.technologies || [],
-          })) || [],
-        features: data.features || [],
+          })) : [],
+        features: Array.isArray(data.features) ? data.features : [],
         extendedTestimonial: {
           quote: data.extendedTestimonial?.quote || "",
           author: data.extendedTestimonial?.author || "",
@@ -323,6 +332,20 @@ const PortfolioForm = () => {
           formData={form.watch() as AdminProject}
           setFormData={(field: string, value: unknown) => form.setValue(field as keyof PortfolioFormData, value)}
         />
+
+        {/* Form Errors Display */}
+        {Object.keys(form.formState.errors).length > 0 && (
+          <div className="bg-red-900/20 border border-red-500 rounded-lg p-4">
+            <h3 className="text-red-400 font-semibold mb-2">Form Validation Errors:</h3>
+            <ul className="text-red-300 space-y-1">
+              {Object.entries(form.formState.errors).map(([field, error]) => (
+                <li key={field}>
+                  <strong>{field}:</strong> {typeof error === 'object' && error?.message ? String(error.message) : 'Invalid value'}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
 
         <div className="flex gap-4">
           <Button
