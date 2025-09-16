@@ -22,7 +22,7 @@ const portfolioSchema = z.object({
     .string()
     .min(1, "Title is required")
     .min(3, "Title must be at least 3 characters"),
-  slug: z.string().min(1, "Slug is required"),
+  slug: z.string().optional().or(z.literal("")),
   client: z.string().min(1, "Client name is required"),
   description: z.string().min(10, "Description must be at least 10 characters"),
   technologies: z
@@ -98,6 +98,44 @@ const portfolioSchema = z.object({
 
 type PortfolioFormData = z.infer<typeof portfolioSchema>;
 
+// Interface for form data that includes all fields
+interface FormDataWithAllFields extends PortfolioFormData {
+  [key: string]: any;
+}
+
+// Helper function to convert database project to form data
+const convertDbProjectToFormData = (project: any): PortfolioFormData => {
+  return {
+    title: project.title || "",
+    slug: "", // Not stored in database, will be auto-generated
+    client: project.client || "",
+    description: project.description || "",
+    technologies: project.technologies || [],
+    metrics: {}, // Not stored in database
+    timeline: project.timeline || "",
+    team: project.team || "",
+    industry: project.industry || "",
+    testimonial: "", // Not stored in database
+    clientLogo: "", // Not stored in database
+    image: project.image || "",
+    serviceId: project.serviceId || "",
+    liveUrl: project.liveUrl || "",
+    challenge: project.challenge || "",
+    solution: project.solution || "",
+    approach: [], // Not stored in database
+    gallery: project.gallery || [],
+    detailedMetrics: project.detailedMetrics || [],
+    techStack: [], // Not stored in database
+    features: [], // Not stored in database
+    extendedTestimonial: project.extendedTestimonial || {
+      quote: "",
+      author: "",
+      position: "",
+      company: "",
+    },
+  };
+};
+
 const PortfolioForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -148,7 +186,8 @@ const PortfolioForm = () => {
           const projects = await adminDataService.getProjects();
           const project = projects.find((p) => p.id === id);
           if (project) {
-            form.reset(project);
+            const formData = convertDbProjectToFormData(project);
+            form.reset(formData);
           } else {
             toast({
               title: "Project not found",
@@ -203,32 +242,21 @@ const PortfolioForm = () => {
   const onSubmit = async (data: PortfolioFormData) => {
     try {
       setSaving(true);
+      // Convert form data to database format
       const projectData: AdminProject = {
-        ...data,
-        // Ensure slug is generated if not present
-        slug:
-          data.slug ||
-          generateProjectSlug({
-            title: data.title,
-            client: data.client,
-            industry: data.industry,
-            technologies: data.technologies,
-          }),
-        // Ensure all required fields are present
+        // Include id for updates
+        ...(isEdit && id ? { id } : {}),
+        // Only include fields that exist in the database
         title: data.title || "",
         client: data.client || "",
         description: data.description || "",
         industry: data.industry || "",
         timeline: data.timeline || "",
         team: data.team || "",
-        testimonial: data.testimonial || "",
         challenge: data.challenge || "",
         solution: data.solution || "",
         technologies: data.technologies || [],
-        metrics: data.metrics || {},
-        approach: Array.isArray(data.approach) ? data.approach : [],
         gallery: Array.isArray(data.gallery) ? data.gallery : [],
-        clientLogo: data.clientLogo || "",
         image: data.image || "",
         serviceId: data.serviceId || "",
         liveUrl: data.liveUrl || "",
@@ -238,12 +266,6 @@ const PortfolioForm = () => {
             value: metric.value || "",
             description: metric.description || "",
           })) : [],
-        techStack:
-          Array.isArray(data.techStack) ? data.techStack.map((stack) => ({
-            category: stack.category || "",
-            technologies: stack.technologies || [],
-          })) : [],
-        features: Array.isArray(data.features) ? data.features : [],
         extendedTestimonial: {
           quote: data.extendedTestimonial?.quote || "",
           author: data.extendedTestimonial?.author || "",
@@ -251,6 +273,9 @@ const PortfolioForm = () => {
           company: data.extendedTestimonial?.company || "",
         },
       };
+      console.log('Saving project data:', projectData);
+      console.log('Is edit mode:', isEdit);
+      console.log('Project ID:', id);
       await adminDataService.saveProject(projectData);
       toast({
         title: isEdit ? "Portfolio updated" : "Portfolio created",
@@ -305,31 +330,31 @@ const PortfolioForm = () => {
 
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <BasicInformationSection
-          formData={form.watch() as AdminProject}
+          formData={form.watch() as any}
           setFormData={(field: string, value: unknown) => form.setValue(field as keyof PortfolioFormData, value)}
         />
         <TechnologiesSection
-          formData={form.watch() as AdminProject}
+          formData={form.watch() as any}
           setFormData={(field: string, value: unknown) => form.setValue(field as keyof PortfolioFormData, value)}
         />
         <TechStackSection
-          formData={form.watch() as AdminProject}
+          formData={form.watch() as any}
           setFormData={(field: string, value: unknown) => form.setValue(field as keyof PortfolioFormData, value)}
         />
         <ResultsMetricsSection
-          formData={form.watch() as AdminProject}
+          formData={form.watch() as any}
           setFormData={(field: string, value: unknown) => form.setValue(field as keyof PortfolioFormData, value)}
         />
         <GallerySection
-          formData={form.watch() as AdminProject}
+          formData={form.watch() as any}
           setFormData={(field: string, value: unknown) => form.setValue(field as keyof PortfolioFormData, value)}
         />
         <CaseStudyDetailsSection
-          formData={form.watch() as AdminProject}
+          formData={form.watch() as any}
           setFormData={(field: string, value: unknown) => form.setValue(field as keyof PortfolioFormData, value)}
         />
         <TestimonialSection
-          formData={form.watch() as AdminProject}
+          formData={form.watch() as any}
           setFormData={(field: string, value: unknown) => form.setValue(field as keyof PortfolioFormData, value)}
         />
 

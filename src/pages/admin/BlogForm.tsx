@@ -114,8 +114,8 @@ const BlogForm = () => {
       const blogData = {
         ...formData,
         publishedDate: new Date(formData.publishedDate).toISOString(),
-        // Ensure slug is generated if not present
-        slug: formData.slug || generateBlogSlug({
+        // Always generate slug from current form data
+        slug: generateBlogSlug({
           title: formData.title,
           category: formData.category,
           publishedDate: formData.publishedDate,
@@ -204,17 +204,22 @@ const BlogForm = () => {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="slug" className="text-gray-200">URL Slug</Label>
+              <Label htmlFor="slug" className="text-gray-200">URL Slug (Auto-generated)</Label>
               <Input
                 id="slug"
-                value={formData.slug}
+                value={formData.slug || generateBlogSlug({
+                  title: formData.title,
+                  category: formData.category,
+                  publishedDate: formData.publishedDate,
+                  tags: formData.tags
+                })}
                 onChange={(e) => setFormData(prev => ({ ...prev, slug: e.target.value }))}
                 placeholder="url-friendly-slug (auto-generated from title)"
-                disabled={!isEdit} // Only allow manual editing when editing existing posts
+                disabled={true} // Always disabled since it's auto-generated
                 className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500 disabled:bg-gray-800 disabled:text-gray-500"
               />
               <p className="text-sm text-gray-400">
-                {isEdit ? 'You can manually edit the slug for existing posts' : 'Slug will be auto-generated from title, category and tags'}
+                Slug is automatically generated from title, category and tags
               </p>
             </div>
 

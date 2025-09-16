@@ -3,10 +3,8 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { AdminProject } from '@/services/adminDataService';
-
 interface TechnologiesSectionProps {
-  formData: AdminProject;
+  formData: any;
   setFormData: (field: string, value: unknown) => void;
 }
 

@@ -5,10 +5,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { AdminProject } from '@/services/adminDataService';
-
 interface CaseStudyDetailsSectionProps {
-  formData: AdminProject;
+  formData: any;
   setFormData: (field: string, value: unknown) => void;
 }
 

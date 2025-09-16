@@ -4,10 +4,8 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { AdminProject } from '@/services/adminDataService';
-
 interface BasicInformationSectionProps {
-  formData: AdminProject;
+  formData: any;
   setFormData: (field: string, value: unknown) => void;
 }
 
@@ -61,17 +59,17 @@ const BasicInformationSection = ({ formData, setFormData }: BasicInformationSect
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="slug" className="text-gray-200">URL Slug</Label>
+          <Label htmlFor="slug" className="text-gray-200">URL Slug (Auto-generated)</Label>
           <Input
             id="slug"
-            value={formData.slug}
+            value={formData.slug || ""}
             onChange={(e) => setFormData('slug', e.target.value)}
             placeholder="url-friendly-slug (auto-generated from title)"
-            disabled={!formData.id} // Only allow manual editing when editing existing projects
+            disabled={true} // Always disabled since it's auto-generated
             className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500 disabled:bg-gray-800 disabled:text-gray-500"
           />
           <p className="text-sm text-gray-400">
-            {formData.id ? 'You can manually edit the slug for existing projects' : 'Slug will be auto-generated from title, client, industry and technologies'}
+            Slug is automatically generated from title, client, industry and technologies
           </p>
         </div>
 

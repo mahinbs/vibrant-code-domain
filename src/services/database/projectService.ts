@@ -49,7 +49,7 @@ export const projectService = {
             extended_testimonial: project.extendedTestimonial,
             timeline: project.timeline,
             team: project.team,
-            industry: project.industry // Added industry field
+            industry: project.industry
           })
           .eq('id', project.id)
           .select()
@@ -77,7 +77,7 @@ export const projectService = {
             extended_testimonial: project.extendedTestimonial,
             timeline: project.timeline,
             team: project.team,
-            industry: project.industry // Added industry field
+            industry: project.industry
           })
           .select()
           .single();

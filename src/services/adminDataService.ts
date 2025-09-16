@@ -3,8 +3,23 @@ import { Project } from '@/data/projects';
 import { BlogPost } from '@/data/blogs';
 import { supabaseDataService, DatabaseProject, DatabaseBlogPost } from './supabaseDataService';
 
-export interface AdminProject extends Omit<Project, 'id'> {
+export interface AdminProject {
   id?: string;
+  title: string;
+  client: string;
+  serviceId: string;
+  description: string;
+  challenge: string;
+  solution: string;
+  image: string;
+  liveUrl: string;
+  technologies: string[];
+  detailedMetrics: Array<{ label: string; value: string; description: string; }>;
+  gallery: string[];
+  extendedTestimonial: { quote: string; author: string; position: string; company: string; };
+  timeline?: string;
+  team?: string;
+  industry?: string;
 }
 
 export interface AdminBlogPost extends Omit<BlogPost, 'id'> {

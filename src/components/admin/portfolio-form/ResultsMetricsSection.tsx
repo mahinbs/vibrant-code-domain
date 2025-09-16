@@ -4,10 +4,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Plus, X } from 'lucide-react';
-import { AdminProject } from '@/services/adminDataService';
-
 interface ResultsMetricsSectionProps {
-  formData: AdminProject;
+  formData: any;
   setFormData: (field: string, value: unknown) => void;
 }
 
