@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ServiceReviewsSection from "@/components/ServiceReviewsSection";
+import SimpleContactForm from '@/components/forms/SimpleContactForm';
 
 const AiCallingPage = () => {
   const features = [
@@ -87,6 +88,19 @@ const AiCallingPage = () => {
               </Link>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Enquiry Form Section */}
+      <section className="py-20 bg-gray-900/50">
+        <div className="container mx-auto px-6">
+          <div className="max-w-2xl mx-auto text-center mb-12">
+            <h2 className="text-3xl font-bold mb-4">Ready to Transform Your Calling Strategy?</h2>
+            <p className="text-xl text-gray-300">
+              Get started with AI calling solutions that drive results and scale your business.
+            </p>
+          </div>
+          <SimpleContactForm sourcePage="ai-calling" className="max-w-2xl mx-auto" />
         </div>
       </section>
 
@@ -205,19 +219,16 @@ const AiCallingPage = () => {
         ]}
       />
 
-      {/* CTA Section */}
+      {/* Final CTA Section */}
       <section className="py-20">
-        <div className="container mx-auto px-6 text-center">
-          <h2 className="text-4xl font-bold mb-4">Ready to Transform Your Calling Strategy?</h2>
-          <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-            Let's implement AI calling solutions that drive results and scale your business.
-          </p>
-          <Link 
-            to="/contact"
-            className="inline-block px-8 py-4 bg-gradient-to-r from-pink-500 to-orange-600 rounded-xl font-semibold hover:from-pink-400 hover:to-orange-500 transition-all duration-300 transform hover:scale-105 relative z-50"
-          >
-            Start Your Campaign
-          </Link>
+        <div className="container mx-auto px-6">
+          <div className="max-w-2xl mx-auto text-center mb-12">
+            <h2 className="text-3xl font-bold mb-4">Start Your AI Calling Campaign</h2>
+            <p className="text-xl text-gray-300">
+              Let's implement AI calling solutions that drive results and scale your business.
+            </p>
+          </div>
+          <SimpleContactForm sourcePage="ai-calling-cta" className="max-w-2xl mx-auto" />
         </div>
       </section>
 

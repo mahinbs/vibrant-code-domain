@@ -344,10 +344,10 @@ const ServicesPage = () => {
                         {service.title}
                       </CardTitle>
                       <div className="flex items-center space-x-4 text-sm">
-                        <div className={`flex items-center space-x-1 ${colors.text}`}>
+                        {/* <div className={`flex items-center space-x-1 ${colors.text}`}>
                           <DollarSign className="h-4 w-4" />
                           <span>{service.startingPrice}</span>
-                        </div>
+                        </div> */}
                         <div className={`flex items-center space-x-1 ${colors.text}`}>
                           <Clock className="h-4 w-4" />
                           <span>{service.timeline}</span>
@@ -441,10 +441,10 @@ const ServicesPage = () => {
                         )}
                       </CardTitle>
                       <div className="flex items-center space-x-3 text-xs">
-                        <div className={`flex items-center space-x-1 ${colors.text}`}>
+                        {/* <div className={`flex items-center space-x-1 ${colors.text}`}>
                           <DollarSign className="h-3 w-3" />
                           <span>{service.startingPrice}</span>
-                        </div>
+                        </div> */}
                         <div className={`flex items-center space-x-1 ${colors.text}`}>
                           <Clock className="h-3 w-3" />
                           <span>{service.timeline}</span>

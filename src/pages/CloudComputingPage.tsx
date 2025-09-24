@@ -5,6 +5,7 @@ import Footer from '@/components/Footer';
 import ServicePortfolioSection from '@/components/ServicePortfolioSection';
 import ServiceCaseStudiesSection from '@/components/ServiceCaseStudiesSection';
 import ServicePricingSection from '@/components/ServicePricingSection';
+import SimpleContactForm from '@/components/forms/SimpleContactForm';
 
 const CloudComputingPage = () => {
   const navigate = useNavigate();
@@ -161,6 +162,19 @@ const CloudComputingPage = () => {
         </div>
       </section>
 
+      {/* Enquiry Form Section */}
+      <section className="py-20 bg-gray-900/50">
+        <div className="container mx-auto px-6">
+          <div className="max-w-2xl mx-auto text-center mb-12">
+            <h2 className="text-3xl font-bold mb-4">Ready to Migrate to the Cloud?</h2>
+            <p className="text-xl text-gray-300">
+              Transform your infrastructure with our expert cloud computing services.
+            </p>
+          </div>
+          <SimpleContactForm sourcePage="cloud-computing" className="max-w-2xl mx-auto" />
+        </div>
+      </section>
+
       {/* Portfolio Section */}
       <ServicePortfolioSection 
         serviceId="cloud-computing" 
@@ -227,20 +241,17 @@ const CloudComputingPage = () => {
         buttonAccentColor="blue"
       />
 
-      {/* CTA Section */}
+      {/* Final CTA Section */}
       <section className="py-20 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 relative">
         <div className="absolute inset-0 bg-black/60"></div>
-        <div className="container mx-auto px-6 text-center relative z-10">
-          <h2 className="text-4xl font-bold mb-4 text-blue-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">Ready to Migrate to the Cloud?</h2>
-          <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-            Transform your infrastructure with our expert cloud computing services.
-          </p>
-          <button 
-            onClick={handleGetStarted}
-            className="inline-block px-8 py-4 bg-gradient-to-r from-blue-500 to-cyan-600 rounded-xl font-semibold hover:from-blue-400 hover:to-cyan-500 transition-all duration-300 transform hover:scale-105"
-          >
-            Get Started Today
-          </button>
+        <div className="container mx-auto px-6 relative z-10">
+          <div className="max-w-2xl mx-auto text-center mb-12">
+            <h2 className="text-3xl font-bold mb-4 text-blue-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">Start Your Cloud Migration</h2>
+            <p className="text-xl text-gray-300">
+              Transform your infrastructure with our expert cloud computing services.
+            </p>
+          </div>
+          <SimpleContactForm sourcePage="cloud-computing-cta" className="max-w-2xl mx-auto" />
         </div>
       </section>
 

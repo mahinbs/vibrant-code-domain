@@ -8,6 +8,7 @@ import WebAppsFeatures from '@/components/webapps/WebAppsFeatures';
 import WebAppsProcess from '@/components/webapps/WebAppsProcess';
 import WebAppsCTA from '@/components/webapps/WebAppsCTA';
 import ServiceReviewsSection from "@/components/ServiceReviewsSection";
+import SimpleContactForm from '@/components/forms/SimpleContactForm';
 
 const WebAppsPage = () => {
   return (
@@ -23,6 +24,20 @@ const WebAppsPage = () => {
     >
       <Header />
       <WebAppsHero />
+      
+      {/* Enquiry Form Section */}
+      <section className="py-20 bg-gray-900/50">
+        <div className="container mx-auto px-6">
+          <div className="max-w-2xl mx-auto text-center mb-12">
+            <h2 className="text-3xl font-bold mb-4">Ready to Build Your Web Application?</h2>
+            <p className="text-xl text-gray-300">
+              Let's create powerful web applications that drive your business forward.
+            </p>
+          </div>
+          <SimpleContactForm sourcePage="web-apps" className="max-w-2xl mx-auto" />
+        </div>
+      </section>
+      
       <WebAppsPortfolio />
       <WebAppsCaseStudies />
       <WebAppsFeatures />
@@ -67,7 +82,19 @@ const WebAppsPage = () => {
           },
         ]}
       />
-      <WebAppsCTA />
+      {/* Final CTA Section */}
+      <section className="py-20 bg-gray-900/50">
+        <div className="container mx-auto px-6">
+          <div className="max-w-2xl mx-auto text-center mb-12">
+            <h2 className="text-3xl font-bold mb-4">Start Your Web Application Project</h2>
+            <p className="text-xl text-gray-300">
+              Let's create powerful web applications that drive your business forward.
+            </p>
+          </div>
+          <SimpleContactForm sourcePage="web-apps-cta" className="max-w-2xl mx-auto" />
+        </div>
+      </section>
+      
       <Footer />
     </div>
   );

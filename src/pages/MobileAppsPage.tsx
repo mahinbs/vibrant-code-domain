@@ -2,6 +2,7 @@ import { Smartphone, Zap, Users, Shield, Globe, TrendingUp } from 'lucide-react'
 import { Link, useNavigate } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import SimpleContactForm from '@/components/forms/SimpleContactForm';
 
 const MobileAppsPage = () => {
   const navigate = useNavigate();
@@ -97,6 +98,19 @@ const MobileAppsPage = () => {
         </div>
       </section>
 
+      {/* Enquiry Form Section */}
+      <section className="py-20 bg-gray-900/50">
+        <div className="container mx-auto px-6">
+          <div className="max-w-2xl mx-auto text-center mb-12">
+            <h2 className="text-3xl font-bold mb-4">Ready to Build Your Mobile App?</h2>
+            <p className="text-xl text-gray-300">
+              Let's create a mobile application that delights users and drives business success.
+            </p>
+          </div>
+          <SimpleContactForm sourcePage="mobile-apps" className="max-w-2xl mx-auto" />
+        </div>
+      </section>
+
       {/* Features Section */}
       <section className="py-20 bg-gray-900/50">
         <div className="container mx-auto px-6">
@@ -145,20 +159,17 @@ const MobileAppsPage = () => {
         </div>
       </section>
 
-      {/* CTA Section */}
+      {/* Final CTA Section */}
       <section className="py-20 bg-gradient-to-r from-purple-500/10 to-pink-500/10 relative">
         <div className="absolute inset-0 pointer-events-none"></div>
-        <div className="container mx-auto px-6 text-center relative z-10">
-          <h2 className="text-4xl font-bold mb-4">Ready to Build Your Mobile App?</h2>
-          <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-            Let's create a mobile application that delights users and drives business success.
-          </p>
-          <Link 
-            to="/contact#form"
-            className="inline-block px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-600 rounded-xl font-semibold hover:from-purple-400 hover:to-pink-500 transition-all duration-300 transform hover:scale-105 relative z-50"
-          >
-            Get Started
-          </Link>
+        <div className="container mx-auto px-6 relative z-10">
+          <div className="max-w-2xl mx-auto text-center mb-12">
+            <h2 className="text-3xl font-bold mb-4">Start Your Mobile App Development</h2>
+            <p className="text-xl text-gray-300">
+              Let's create a mobile application that delights users and drives business success.
+            </p>
+          </div>
+          <SimpleContactForm sourcePage="mobile-apps-cta" className="max-w-2xl mx-auto" />
         </div>
       </section>
 

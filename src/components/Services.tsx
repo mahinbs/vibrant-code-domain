@@ -300,12 +300,12 @@ const Services = () => {
 
                     {/* Mobile Price & Timeline */}
                     <div className="flex flex-wrap gap-2 mt-4">
-                      <div
+                      {/* <div
                         className={`px-3 py-2 rounded-lg ${colors.button} border text-xs sm:text-sm font-medium flex items-center space-x-2`}
                       >
                         <DollarSign className="h-3 w-3 sm:h-4 sm:w-4" />
                         <span>{convertPrice(service.startingPrice).formatted}</span>
-                      </div>
+                      </div> */}
                       <div
                         className={`px-3 py-2 rounded-lg ${colors.button} border text-xs sm:text-sm font-medium flex items-center space-x-2`}
                       >
@@ -432,12 +432,12 @@ const Services = () => {
 
                         {/* Desktop Price and Timeline Badges */}
                         <div className="flex flex-col space-y-2 mr-6">
-                          <div
+                          {/* <div
                             className={`px-4 py-2 rounded-lg ${colors.button} border text-sm font-medium flex items-center space-x-2`}
                           >
                             <DollarSign className="h-4 w-4" />
                             <span>{convertPrice(service.startingPrice).formatted}</span>
-                          </div>
+                          </div> */}
                           <div
                             className={`px-4 py-2 rounded-lg ${colors.button} border text-sm font-medium flex items-center space-x-2`}
                           >

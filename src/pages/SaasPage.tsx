@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ServiceReviewsSection from "@/components/ServiceReviewsSection";
+import SimpleContactForm from "@/components/forms/SimpleContactForm";
 
 const SaasPage = () => {
   const features = [
@@ -465,6 +466,19 @@ const SaasPage = () => {
         </div>
       </section>
 
+      {/* Enquiry Form Section */}
+      <section className="py-20 bg-gray-900/50">
+        <div className="container mx-auto px-6">
+          <div className="max-w-2xl mx-auto text-center mb-12">
+            <h2 className="text-3xl font-bold mb-4">Ready to Build Your SaaS Platform?</h2>
+            <p className="text-xl text-gray-300">
+              Let's create a scalable SaaS solution that grows with your business.
+            </p>
+          </div>
+          <SimpleContactForm sourcePage="saas" className="max-w-2xl mx-auto" />
+        </div>
+      </section>
+
       {/* Features Section */}
       <section className="py-20 bg-gray-900/50">
         <div className="container mx-auto px-6">
@@ -613,21 +627,18 @@ const SaasPage = () => {
         </div>
       </section>
 
-      {/* CTA Section */}
+      {/* Final CTA Section */}
       <section className="py-20 bg-gradient-to-r from-blue-500/10 to-purple-500/10">
-        <div className="container mx-auto px-6 text-center">
-          <h2 className="text-4xl font-bold mb-4">
-            Ready to Launch Your SAAS?
-          </h2>
-          <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-            Let's build a scalable SAAS platform that grows with your business.
-          </p>
-          <Link
-            to="/contact"
-            className="inline-block px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl font-semibold hover:from-blue-400 hover:to-purple-500 transition-all duration-300 transform hover:scale-105"
-          >
-            Start Your SAAS Journey
-          </Link>
+        <div className="container mx-auto px-6">
+          <div className="max-w-2xl mx-auto text-center mb-12">
+            <h2 className="text-3xl font-bold mb-4">
+              Start Your SaaS Journey
+            </h2>
+            <p className="text-xl text-gray-300">
+              Let's build a scalable SaaS platform that grows with your business.
+            </p>
+          </div>
+          <SimpleContactForm sourcePage="saas-cta" className="max-w-2xl mx-auto" />
         </div>
       </section>
 

@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import ServicePortfolioSection from "@/components/ServicePortfolioSection";
 import ServiceCaseStudiesSection from "@/components/ServiceCaseStudiesSection";
 import ServicePricingSection from "@/components/ServicePricingSection";
+import SimpleContactForm from "@/components/forms/SimpleContactForm";
 
 const ArVrDevelopmentPage = () => {
   const navigate = useNavigate();
@@ -123,6 +124,19 @@ const ArVrDevelopmentPage = () => {
               </Link>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Enquiry Form Section */}
+      <section className="py-20 bg-gray-900/50">
+        <div className="container mx-auto px-6">
+          <div className="max-w-2xl mx-auto text-center mb-12">
+            <h2 className="text-3xl font-bold mb-4">Ready to Enter the Metaverse?</h2>
+            <p className="text-xl text-gray-300">
+              Let's create immersive AR/VR experiences that captivate and engage your audience.
+            </p>
+          </div>
+          <SimpleContactForm sourcePage="ar-vr-development" className="max-w-2xl mx-auto" />
         </div>
       </section>
 
@@ -261,23 +275,19 @@ const ArVrDevelopmentPage = () => {
         buttonAccentColor="green"
       />
 
-      {/* CTA Section */}
+      {/* Final CTA Section */}
       <section className="py-20 bg-gradient-to-r from-green-500/20 to-blue-500/20 relative">
         <div className="absolute inset-0 bg-black/60"></div>
-        <div className="container mx-auto px-6 text-center relative z-10">
-          <h2 className="text-4xl font-bold mb-4 text-green-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">
-            Ready to Enter the Metaverse?
-          </h2>
-          <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-            Let's create immersive AR/VR experiences that captivate and engage
-            your audience.
-          </p>
-          <button
-            onClick={handleGetStarted}
-            className="inline-block px-8 py-4 bg-gradient-to-r from-green-500 to-blue-600 rounded-xl font-semibold hover:from-green-400 hover:to-blue-500 transition-all duration-300 transform hover:scale-105"
-          >
-            Get Started Today
-          </button>
+        <div className="container mx-auto px-6 relative z-10">
+          <div className="max-w-2xl mx-auto text-center mb-12">
+            <h2 className="text-3xl font-bold mb-4 text-green-400 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">
+              Start Your AR/VR Project
+            </h2>
+            <p className="text-xl text-gray-300">
+              Let's create immersive AR/VR experiences that captivate and engage your audience.
+            </p>
+          </div>
+          <SimpleContactForm sourcePage="ar-vr-development-cta" className="max-w-2xl mx-auto" />
         </div>
       </section>
 
