@@ -64,16 +64,15 @@ const Hero = memo(() => {
           {/* Main content with centered alignment */}
           <div>
             <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight animate-fade-in gpu-accelerate">
-              The Future of
-              <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent animate-pulse">
+              Transform Your Business with
+              <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent">
                 {" "}
-                AI-Powered Software
+                Custom Technology Solutions
               </span>
             </h1>
             <p className="text-xl md:text-2xl text-gray-200 mb-8 leading-relaxed max-w-3xl mx-auto opacity-90">
-              We forge tomorrow's digital reality with cutting-edge AI, machine
-              learning, and quantum-ready solutions. Experience the next
-              evolution of software development.
+              Trusted by Fortune 500 companies to deliver mission-critical digital solutions. 
+              We build scalable, enterprise-grade applications that drive real business outcomes.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16">
@@ -81,7 +80,7 @@ const Hero = memo(() => {
                 onClick={handleLaunchVision}
                 className="group relative bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-10 py-5 rounded-lg hover:from-cyan-400 hover:to-blue-500 transition-all duration-300 font-semibold flex items-center space-x-3 shadow-lg hover:shadow-cyan-500/25 transform hover:scale-105 gpu-accelerate"
               >
-                <span>Launch Your Vision</span>
+                <span>Schedule Strategic Consultation</span>
                 <ArrowRight className="h-6 w-6 group-hover:translate-x-2 transition-transform duration-300" />
                 <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-300"></div>
               </button>
@@ -95,23 +94,23 @@ const Hero = memo(() => {
             >
               <div className="text-center group cursor-pointer gpu-accelerate">
                 <div className="text-4xl md:text-5xl font-bold text-cyan-400 mb-3 group-hover:text-cyan-300 transition-colors duration-300">
-                  1 M+
+                  500+
                 </div>
                 <div className="text-gray-300 font-medium">
-                  AI Models Deployed
+                  Projects Delivered
                 </div>
               </div>
               <div className="text-center group cursor-pointer gpu-accelerate">
                 <div className="text-4xl md:text-5xl font-bold text-blue-400 mb-3 group-hover:text-blue-300 transition-colors duration-300">
-                  99.9%
+                  95%
                 </div>
-                <div className="text-gray-300 font-medium">Neural Accuracy</div>
+                <div className="text-gray-300 font-medium">Client Retention</div>
               </div>
               <div className="text-center group cursor-pointer gpu-accelerate">
                 <div className="text-4xl md:text-5xl font-bold text-purple-400 mb-3 group-hover:text-purple-300 transition-colors duration-300">
                   24/7
                 </div>
-                <div className="text-gray-300 font-medium">Quantum Support</div>
+                <div className="text-gray-300 font-medium">Enterprise Support</div>
               </div>
             </div>
           </div>
