@@ -298,18 +298,19 @@ const Services = () => {
                       </button>
                     </div>
 
-                    {/* Mobile Timeline & Custom Quote */}
+                    {/* Mobile Price & Timeline */}
                     <div className="flex flex-wrap gap-2 mt-4">
+                      {/* <div
+                        className={`px-3 py-2 rounded-lg ${colors.button} border text-xs sm:text-sm font-medium flex items-center space-x-2`}
+                      >
+                        <DollarSign className="h-3 w-3 sm:h-4 sm:w-4" />
+                        <span>{convertPrice(service.startingPrice).formatted}</span>
+                      </div> */}
                       <div
                         className={`px-3 py-2 rounded-lg ${colors.button} border text-xs sm:text-sm font-medium flex items-center space-x-2`}
                       >
                         <Clock className="h-3 w-3 sm:h-4 sm:w-4" />
                         <span>{service.timeline}</span>
-                      </div>
-                      <div
-                        className={`px-3 py-2 rounded-lg ${colors.button} border text-xs sm:text-sm font-medium`}
-                      >
-                        Custom Quote Available
                       </div>
                     </div>
                   </div>
@@ -377,12 +378,12 @@ const Services = () => {
                             to={service.route}
                             className={`flex-1 inline-flex items-center justify-center px-4 py-3 rounded-xl ${colors.button} border font-medium transition-all duration-300 text-sm sm:text-base`}
                           >
-                            View Case Studies
+                            View Details
                           </Link>
                           <button
                             className={`px-4 py-3 rounded-xl border ${colors.border} ${colors.text} hover:bg-gray-700/50 transition-all duration-300 font-medium text-sm sm:text-base`}
                           >
-                            Request Quote
+                            Get Quote
                           </button>
                         </div>
                       </div>
@@ -429,19 +430,21 @@ const Services = () => {
                           </p>
                         </div>
 
-                         <div className="flex flex-col space-y-2 mr-6">
-                           <div
-                             className={`px-4 py-2 rounded-lg ${colors.button} border text-sm font-medium flex items-center space-x-2`}
-                           >
-                             <Clock className="h-4 w-4" />
-                             <span>{service.timeline}</span>
-                           </div>
-                           <div
-                             className={`px-4 py-2 rounded-lg ${colors.button} border text-sm font-medium`}
-                           >
-                             Custom Quote Available
-                           </div>
-                         </div>
+                        {/* Desktop Price and Timeline Badges */}
+                        <div className="flex flex-col space-y-2 mr-6">
+                          {/* <div
+                            className={`px-4 py-2 rounded-lg ${colors.button} border text-sm font-medium flex items-center space-x-2`}
+                          >
+                            <DollarSign className="h-4 w-4" />
+                            <span>{convertPrice(service.startingPrice).formatted}</span>
+                          </div> */}
+                          <div
+                            className={`px-4 py-2 rounded-lg ${colors.button} border text-sm font-medium flex items-center space-x-2`}
+                          >
+                            <Clock className="h-4 w-4" />
+                            <span>{service.timeline}</span>
+                          </div>
+                        </div>
 
                         {/* Desktop Expand Icon */}
                         <ChevronDown
@@ -517,18 +520,18 @@ const Services = () => {
                             </div>
                           </div>
 
-                          {/* Desktop Action Buttons */}
+                          {/* Action Buttons */}
                           <div className="flex space-x-4 pt-4">
                             <Link
                               to={service.route}
                               className={`flex-1 inline-flex items-center justify-center px-6 py-3 rounded-xl ${colors.button} border font-medium transition-all duration-300`}
                             >
-                              View Case Studies
+                              View Details
                             </Link>
                             <button
                               className={`px-6 py-3 rounded-xl border ${colors.border} ${colors.text} hover:bg-gray-700/50 transition-all duration-300 font-medium`}
                             >
-                              Request Quote
+                              Get Quote
                             </button>
                           </div>
                         </div>
