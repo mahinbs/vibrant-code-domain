@@ -374,17 +374,16 @@ const Services = () => {
 
                         {/* Mobile Action Buttons */}
                         <div className="flex flex-col sm:flex-row gap-3 pt-4">
-                          <Link
-                            to={service.route}
+                          <button
                             className={`flex-1 inline-flex items-center justify-center px-4 py-3 rounded-xl ${colors.button} border font-medium transition-all duration-300 text-sm sm:text-base`}
                           >
-                            View Details
-                          </Link>
-                          <button
-                            className={`px-4 py-3 rounded-xl border ${colors.border} ${colors.text} hover:bg-gray-700/50 transition-all duration-300 font-medium text-sm sm:text-base`}
-                          >
-                            Get Quote
+                            Book Free Demo
                           </button>
+                          <div className="text-center">
+                            <span className="px-4 py-2 bg-gray-800/50 border border-gray-600 rounded-lg text-sm text-gray-300">
+                              Custom Quote Available
+                            </span>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -521,18 +520,17 @@ const Services = () => {
                           </div>
 
                           {/* Action Buttons */}
-                          <div className="flex space-x-4 pt-4">
-                            <Link
-                              to={service.route}
-                              className={`flex-1 inline-flex items-center justify-center px-6 py-3 rounded-xl ${colors.button} border font-medium transition-all duration-300`}
-                            >
-                              View Details
-                            </Link>
+                          <div className="flex flex-col space-y-3 pt-4">
                             <button
-                              className={`px-6 py-3 rounded-xl border ${colors.border} ${colors.text} hover:bg-gray-700/50 transition-all duration-300 font-medium`}
+                              className={`inline-flex items-center justify-center px-6 py-3 rounded-xl ${colors.button} border font-medium transition-all duration-300`}
                             >
-                              Get Quote
+                              Book Free Demo
                             </button>
+                            <div className="text-center">
+                              <span className="px-4 py-2 bg-gray-800/50 border border-gray-600 rounded-lg text-sm text-gray-300">
+                                Custom Quote Available
+                              </span>
+                            </div>
                           </div>
                         </div>
                       </div>

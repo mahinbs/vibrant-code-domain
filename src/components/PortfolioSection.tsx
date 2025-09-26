@@ -50,8 +50,10 @@ const PortfolioSection = () => {
   }, []);
 
   const handleProjectClick = (projectId: string) => {
-    console.log('PortfolioSection - Project clicked:', projectId);
-    window.location.href = `/case-study/${projectId}`;
+    // Prevent navigation - keep users on homepage
+    console.log('PortfolioSection - Project clicked (navigation disabled):', projectId);
+    // Scroll to contact form instead
+    document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   // Log whenever services state changes
