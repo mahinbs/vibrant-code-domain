@@ -1,8 +1,34 @@
-import { useEffect, useRef, useCallback } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useEffect, useRef, useCallback, useState } from 'react';
 
-gsap.registerPlugin(ScrollTrigger);
+// Dynamic GSAP imports with fallbacks
+let gsap: any;
+let ScrollTrigger: any;
+
+const initGsap = async () => {
+  try {
+    const gsapModule = await import('gsap');
+    const scrollTriggerModule = await import('gsap/ScrollTrigger');
+    
+    gsap = gsapModule.default || gsapModule;
+    ScrollTrigger = scrollTriggerModule.ScrollTrigger;
+    
+    if (gsap && ScrollTrigger) {
+      gsap.registerPlugin(ScrollTrigger);
+    }
+  } catch (error) {
+    console.warn('GSAP failed to load:', error);
+    // Provide fallbacks
+    gsap = {
+      fromTo: () => ({ kill: () => {} }),
+      to: () => ({ kill: () => {} }),
+      timeline: () => ({ kill: () => {} })
+    };
+    ScrollTrigger = {
+      create: () => ({ kill: () => {} }),
+      getAll: () => []
+    };
+  }
+};
 
 interface ScrollAnimationOptions {
   trigger?: string | HTMLElement;
@@ -16,67 +42,89 @@ interface ScrollAnimationOptions {
 }
 
 export const useScrollAnimation = (
-  animation: (element: HTMLElement) => gsap.core.Timeline | gsap.core.Tween,
+  animation: (element: HTMLElement) => any,
   options: ScrollAnimationOptions = {}
 ) => {
   const elementRef = useRef<HTMLElement>(null);
-  const animationRef = useRef<gsap.core.Timeline | gsap.core.Tween | null>(null);
+  const animationRef = useRef<any>(null);
+  const [isReady, setIsReady] = useState(false);
 
-  const initAnimation = useCallback(() => {
-    if (!elementRef.current) return;
+  const initAnimation = useCallback(async () => {
+    if (!elementRef.current || !isReady) return;
 
-    const element = elementRef.current;
-    animationRef.current = animation(element);
+    try {
+      const element = elementRef.current;
+      animationRef.current = animation(element);
 
-    ScrollTrigger.create({
-      trigger: options.trigger || element,
-      start: options.start || "top bottom-=100",
-      end: options.end || "bottom top+=100",
-      scrub: options.scrub || false,
-      pin: options.pin || false,
-      markers: options.markers || false,
-      animation: animationRef.current,
-      onUpdate: (self) => {
-        options.onUpdate?.(self.progress);
-      },
-      onToggle: (self) => {
-        options.onToggle?.(self.isActive);
-      },
-      invalidateOnRefresh: true,
-    });
-  }, [animation, options]);
+      if (ScrollTrigger && ScrollTrigger.create) {
+        ScrollTrigger.create({
+          trigger: options.trigger || element,
+          start: options.start || "top bottom-=100",
+          end: options.end || "bottom top+=100",
+          scrub: options.scrub || false,
+          pin: options.pin || false,
+          markers: options.markers || false,
+          animation: animationRef.current,
+          onUpdate: (self: any) => {
+            options.onUpdate?.(self.progress);
+          },
+          onToggle: (self: any) => {
+            options.onToggle?.(self.isActive);
+          },
+          invalidateOnRefresh: true,
+        });
+      }
+    } catch (error) {
+      console.warn('Animation failed:', error);
+    }
+  }, [animation, options, isReady]);
 
   useEffect(() => {
+    initGsap().then(() => setIsReady(true));
+  }, []);
+
+  useEffect(() => {
+    if (!isReady) return;
+    
     const timer = setTimeout(initAnimation, 100);
     return () => {
       clearTimeout(timer);
-      if (animationRef.current) {
+      if (animationRef.current?.kill) {
         animationRef.current.kill();
       }
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      if (ScrollTrigger?.getAll) {
+        ScrollTrigger.getAll().forEach((trigger: any) => trigger.kill?.());
+      }
     };
-  }, [initAnimation]);
+  }, [initAnimation, isReady]);
 
   return elementRef;
 };
 
 // Utility functions for common animations
 export const fadeInUp = (element: HTMLElement) => {
-  return gsap.fromTo(
-    element,
-    { 
-      opacity: 0, 
-      y: 60,
-      scale: 0.95
-    },
-    { 
-      opacity: 1, 
-      y: 0,
-      scale: 1,
-      duration: 0.8,
-      ease: "power2.out"
-    }
-  );
+  if (!gsap || !element) return { kill: () => {} };
+  
+  try {
+    return gsap.fromTo(
+      element,
+      { 
+        opacity: 0, 
+        y: 60,
+        scale: 0.95
+      },
+      { 
+        opacity: 1, 
+        y: 0,
+        scale: 1,
+        duration: 0.8,
+        ease: "power2.out"
+      }
+    );
+  } catch (error) {
+    console.warn('fadeInUp animation failed:', error);
+    return { kill: () => {} };
+  }
 };
 
 export const staggerFadeIn = (elements: NodeListOf<Element> | Element[]) => {

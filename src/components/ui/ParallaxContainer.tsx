@@ -1,5 +1,5 @@
 import React, { ReactNode, useRef, useEffect } from 'react';
-import { useScrollAnimation, parallaxMove } from '@/hooks/useScrollAnimation';
+import { parallaxMove } from '@/hooks/useScrollAnimation';
 
 interface ParallaxLayer {
   speed: number;
@@ -25,25 +25,26 @@ const ParallaxContainer: React.FC<ParallaxContainerProps> = ({
 
     const layerElements = containerRef.current.querySelectorAll('[data-parallax-layer]');
     
+    // Simple CSS-based parallax fallback
     layerElements.forEach((element, index) => {
       const layer = layers[index];
       if (!layer) return;
 
-      const distance = 100 * (1 - layer.speed);
+      const speed = layer.speed;
+      const htmlElement = element as HTMLElement;
       
-      gsap.registerPlugin(ScrollTrigger);
-      
-      ScrollTrigger.create({
-        trigger: containerRef.current,
-        start: 'top bottom',
-        end: 'bottom top',
-        scrub: true,
-        animation: parallaxMove(element as HTMLElement, distance),
-      });
+      // Apply CSS transform for basic parallax
+      htmlElement.style.transform = `translateZ(0) translateY(${-50 * (1 - speed)}px)`;
+      htmlElement.style.transition = 'transform 0.1s ease-out';
     });
 
+    // Cleanup function
     return () => {
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      layerElements.forEach((element) => {
+        const htmlElement = element as HTMLElement;
+        htmlElement.style.transform = '';
+        htmlElement.style.transition = '';
+      });
     };
   }, [layers]);
 
