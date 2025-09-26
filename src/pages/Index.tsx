@@ -1,7 +1,6 @@
 
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
-import ClientLogos from '@/components/ClientLogos';
 import StatsGrid from '@/components/StatsGrid';
 import ProblemSolution from '@/components/ProblemSolution';
 import Services from '@/components/Services';
@@ -13,6 +12,7 @@ import Footer from '@/components/Footer';
 import SimpleContactForm from '@/components/forms/SimpleContactForm';
 import ConversionStickyButton from '@/components/ConversionStickyButton';
 import MediaCoverage from '@/components/MediaCoverage';
+
 
 const Index = () => {
   return (
@@ -62,25 +62,22 @@ const Index = () => {
                  <span>Schedule a Call Instead</span>
                </a>
              </div>
-           </div>
-         </section>
-        
-        {/* Client Logos Section */}
-        <ClientLogos />
-        
-        {/* Services Section */}
-        <div id="services">
-          <Services />
-        </div>
-        
-        {/* Media Coverage Section */}
-        <MediaCoverage />
-        
-        {/* Stats Grid Section */}
-        <StatsGrid />
-        
-        {/* Problem + Solution Section */}
-        <ProblemSolution />
+            </div>
+             </section>
+          
+          {/* Problem + Solution Section */}
+          <ProblemSolution />
+          
+          {/* Services Section */}
+          <div id="services">
+            <Services />
+          </div>
+         
+         {/* Media Coverage Section */}
+         <MediaCoverage />
+         
+         {/* Stats Grid Section */}
+         <StatsGrid />
         <PortfolioSection />
         <WhyChooseUs />
         <TestimonialsSection />

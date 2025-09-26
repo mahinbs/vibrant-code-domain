@@ -92,6 +92,7 @@
 
   body {
     @apply bg-background text-foreground;
+    font-family: 'Inter', 'Inter Placeholder', sans-serif;
     font-display: swap;
     /* Prevent horizontal scroll on mobile */
     overflow-x: clip;

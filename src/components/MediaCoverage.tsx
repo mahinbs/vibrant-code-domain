@@ -1,24 +1,42 @@
 import React from 'react';
-import { ExternalLink, Play } from 'lucide-react';
+import { ExternalLink, Play, ArrowRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import forbesLogo from '../assets/logos/forbes.png';
+import entrepreneurLogo from '../assets/logos/entrepreneur.webp';
+import timesOfIndiaLogo from '../assets/logos/times-of-india.png';
+import businessInsiderLogo from '../assets/logos/business-insider.jpg';
 
 const MediaCoverage = () => {
+  const navigate = useNavigate();
+  
   const handleForbesClick = () => {
-    window.open('https://youtu.be/z8QmKfoBCWY?si=85rX-6S1wLRXiy2n', '_blank');
+    window.open('https://youtu.be/z8QmKfoBCWY?si=ilhlrWWADdzTuOFe', '_blank');
+  };
+
+  const handleConsultation = () => {
+    navigate('/contact#form');
   };
 
   return (
     <section className="py-20 relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-r from-purple-500/5 to-pink-500/5 pointer-events-none"></div>
+      {/* Dark geometric background matching Hero section */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black via-gray-900 to-black pointer-events-none"></div>
+      <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/5 to-blue-500/5 pointer-events-none"></div>
+      
+      {/* Geometric patterns */}
+      <div className="absolute top-20 left-10 w-64 h-64 bg-gradient-to-br from-cyan-400/10 to-blue-500/10 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-20 right-10 w-96 h-96 bg-gradient-to-tl from-purple-400/10 to-pink-500/10 rounded-full blur-3xl"></div>
       
       <div className="container mx-auto px-6 relative z-10">
+        {/* Authority-driven headline */}
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-6xl font-bold mb-6">
-            <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-red-400 bg-clip-text text-transparent">
-              Media Coverage
+            <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+              Featured In Global Media
             </span>
           </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Our expertise and success stories have been featured in top-tier publications
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+            Recognized by top publications for innovation and digital transformation excellence
           </p>
         </div>
 
@@ -50,7 +68,7 @@ const MediaCoverage = () => {
               <div className="flex-1 text-center md:text-left">
                 <div className="flex items-center justify-center md:justify-start gap-2 mb-4">
                   <img 
-                    src="https://res.cloudinary.com/dqogq10ag/image/upload/v1755670556/Untitled_design_1_cqndw8.png" 
+                    src={forbesLogo} 
                     alt="Forbes" 
                     className="h-8 w-auto object-contain"
                   />
@@ -80,21 +98,54 @@ const MediaCoverage = () => {
             </div>
           </div>
 
-          {/* Additional Media Mentions */}
-          <div className="grid md:grid-cols-3 gap-6 mt-12">
-            {[
-              { name: 'Entrepreneur', color: 'from-green-400 to-blue-500' },
-              { name: 'Times of India', color: 'from-orange-400 to-red-500' },
-              { name: 'Business Insider', color: 'from-blue-400 to-purple-500' }
-            ].map((publication) => (
-              <div key={publication.name} className="bg-gray-900/60 backdrop-blur-sm rounded-2xl border border-gray-700/30 p-6 text-center hover:border-gray-600/50 transition-all duration-300">
-                <div className={`w-12 h-12 rounded-xl bg-gradient-to-r ${publication.color} bg-opacity-20 flex items-center justify-center mx-auto mb-4`}>
-                  <span className="text-2xl">📰</span>
+          {/* Press Logo Strip */}
+          <div className="mt-16 bg-gray-900/40 backdrop-blur-sm rounded-2xl border border-gray-700/20 p-8">
+            <p className="text-center text-gray-400 text-sm mb-6 uppercase tracking-wider">
+              Also Featured In
+            </p>
+            <div className="flex justify-center items-center gap-12 md:gap-16">
+              {[
+                { name: 'Entrepreneur', logo: entrepreneurLogo },
+                { name: 'Times of India', logo: timesOfIndiaLogo },
+                { name: 'Business Insider', logo: businessInsiderLogo }
+              ].map((publication) => (
+                <div key={publication.name} className="grayscale hover:grayscale-0 transition-all duration-300 opacity-70 hover:opacity-100">
+                  <img 
+                    src={publication.logo} 
+                    alt={publication.name} 
+                    className="h-8 md:h-10 w-auto object-contain"
+                  />
                 </div>
-                <h4 className="font-semibold text-white mb-2">{publication.name}</h4>
-                <p className="text-gray-400 text-sm">Featured Coverage</p>
+              ))}
+            </div>
+          </div>
+
+          {/* Conversion Bridge */}
+          <div className="mt-16 text-center">
+            <div className="bg-gradient-to-r from-cyan-500/10 via-blue-500/10 to-purple-500/10 rounded-3xl border border-cyan-500/20 p-8 md:p-12">
+              <p className="text-xl md:text-2xl font-semibold text-white mb-2">
+                Join the 500+ businesses trusting the team
+              </p>
+              <p className="text-cyan-400 text-lg mb-8">
+                featured in Forbes, Times of India & Entrepreneur
+              </p>
+              
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <button 
+                  onClick={handleConsultation}
+                  className="px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-xl font-semibold hover:from-cyan-400 hover:to-blue-500 transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2"
+                >
+                  Get Free Consultation
+                  <ArrowRight className="h-5 w-5" />
+                </button>
+                <button 
+                  onClick={handleConsultation}
+                  className="px-8 py-4 border border-cyan-400/30 rounded-xl font-semibold hover:bg-cyan-500/10 transition-all duration-300 text-white"
+                >
+                  Schedule a Call
+                </button>
               </div>
-            ))}
+            </div>
           </div>
         </div>
       </div>

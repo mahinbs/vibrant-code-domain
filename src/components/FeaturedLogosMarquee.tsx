@@ -1,4 +1,8 @@
 import React from 'react';
+import forbesLogo from '../assets/logos/forbes.png';
+import entrepreneurLogo from '../assets/logos/entrepreneur.webp';
+import timesOfIndiaLogo from '../assets/logos/times-of-india.png';
+import businessInsiderLogo from '../assets/logos/business-insider.jpg';
 
 interface FeaturedLogosMarqueeProps {
   direction?: 'left' | 'right';
@@ -15,23 +19,23 @@ const FeaturedLogosMarquee = ({
 }: FeaturedLogosMarqueeProps) => {
   const logos = [
     { 
-      src: 'https://res.cloudinary.com/dqogq10ag/image/upload/v1755670556/Untitled_design_1_cqndw8.png', 
+      src: forbesLogo, 
       alt: 'Forbes', 
       name: 'Forbes',
-      url: 'https://youtu.be/z8QmKfoBCWY?si=85rX-6S1wLRXiy2n'
+      url: 'https://youtu.be/z8QmKfoBCWY?si=ilhlrWWADdzTuOFe'
     },
     { 
-      src: 'https://res.cloudinary.com/dqogq10ag/image/upload/v1755670556/Untitled_design_3_xwryyd.png', 
+      src: entrepreneurLogo, 
       alt: 'Entrepreneur', 
       name: 'Entrepreneur' 
     },
     { 
-      src: 'https://res.cloudinary.com/dqogq10ag/image/upload/v1755670556/Untitled_design_2_rdvdwc.png', 
+      src: timesOfIndiaLogo, 
       alt: 'Times of India', 
       name: 'Times of India' 
     },
     { 
-      src: 'https://res.cloudinary.com/dqogq10ag/image/upload/v1755670557/Untitled_design_4_ge9dfe.png', 
+      src: businessInsiderLogo, 
       alt: 'Business Insider', 
       name: 'Business Insider' 
     },
