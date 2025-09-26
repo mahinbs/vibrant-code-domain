@@ -12,7 +12,6 @@ import Footer from '@/components/Footer';
 import SimpleContactForm from '@/components/forms/SimpleContactForm';
 import ConversionStickyButton from '@/components/ConversionStickyButton';
 import MediaCoverage from '@/components/MediaCoverage';
-import TechnologyStrugglesSection from '@/components/TechnologyStrugglesSection';
 
 
 const Index = () => {
@@ -65,9 +64,6 @@ const Index = () => {
              </div>
            </div>
             </section>
-         
-         {/* Technology Struggles Section */}
-         <TechnologyStrugglesSection />
          
          {/* Services Section */}
          <div id="services">
