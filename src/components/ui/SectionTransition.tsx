@@ -16,6 +16,8 @@ export const SectionTransition: React.FC<SectionTransitionProps> = ({
   type = 'fade'
 }) => {
   const sectionRef = useRef<HTMLDivElement>(null);
+  const fromLayerRef = useRef<HTMLDivElement | null>(null);
+  const toLayerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     // Ensure content is visible immediately
@@ -59,13 +61,19 @@ export const SectionTransition: React.FC<SectionTransitionProps> = ({
         fromLayer.className = `absolute inset-0 bg-gradient-to-b ${fromGradient}`;
         toLayer.className = `absolute inset-0 bg-gradient-to-b ${toGradient}`;
         
-        fromLayer.style.zIndex = '1';
-        toLayer.style.zIndex = '2';
+        fromLayer.style.zIndex = '0';
+        toLayer.style.zIndex = '0';
         toLayer.style.opacity = '0';
+        fromLayer.style.pointerEvents = 'none';
+        toLayer.style.pointerEvents = 'none';
         
         section.style.position = 'relative';
+        section.style.isolation = 'isolate';
         section.insertBefore(fromLayer, section.firstChild);
         section.insertBefore(toLayer, section.firstChild);
+        
+        fromLayerRef.current = fromLayer;
+        toLayerRef.current = toLayer;
 
         // Animate gradient transition
         gsap.to(toLayer, {
@@ -145,12 +153,36 @@ export const SectionTransition: React.FC<SectionTransitionProps> = ({
     };
 
     // Small delay to ensure DOM is ready
-    setTimeout(animateTransition, 10);
+    const timeoutId = window.setTimeout(animateTransition, 10);
+
+    // Cleanup on unmount
+    return () => {
+      window.clearTimeout(timeoutId);
+      try {
+        const section = sectionRef.current;
+        if (section && fromLayerRef.current && section.contains(fromLayerRef.current)) {
+          section.removeChild(fromLayerRef.current);
+        }
+        if (section && toLayerRef.current && section.contains(toLayerRef.current)) {
+          section.removeChild(toLayerRef.current);
+        }
+        // Attempt to kill ScrollTriggers for this section
+        import('gsap/ScrollTrigger').then(({ ScrollTrigger }) => {
+          ScrollTrigger.getAll().forEach(tr => {
+            if ((tr.vars?.trigger as Element) === section) tr.kill();
+          });
+        }).catch(() => {});
+      } catch (e) {
+        // ignore cleanup errors
+      }
+    };
   }, [fromGradient, toGradient, type]);
 
   return (
     <div ref={sectionRef} className={`relative overflow-hidden ${className}`}>
-      {children}
+      <div className="relative z-10">
+        {children}
+      </div>
     </div>
   );
 };
