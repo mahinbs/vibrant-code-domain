@@ -2,7 +2,7 @@
 import { Control, FieldErrors } from 'react-hook-form';
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { FormData, services, timelines } from './types';
+import { FormData, services, budgetRanges, timelines } from './types';
 
 interface ProjectDetailsStepProps {
   control: Control<FormData>;
@@ -38,6 +38,32 @@ const ProjectDetailsStep = ({ control }: ProjectDetailsStepProps) => {
             </FormItem>
           )}
         />
+        
+        <FormField
+          control={control}
+          name="budget_range"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="text-gray-300">Budget Range *</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger className="bg-gray-800/50 border-gray-600/50 text-white focus:ring-cyan-500 focus:border-cyan-500">
+                    <SelectValue placeholder="Select budget range" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent className="bg-gray-800 border-gray-600">
+                  {budgetRanges.map((range) => (
+                    <SelectItem key={range} value={range} className="text-white focus:bg-gray-700">
+                      {range}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <FormMessage className="text-red-400" />
+            </FormItem>
+          )}
+        />
+        
         <FormField
           control={control}
           name="project_timeline"
