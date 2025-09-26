@@ -14,6 +14,7 @@ import ConversionStickyButton from '@/components/ConversionStickyButton';
 import MediaCoverage from '@/components/MediaCoverage';
 import TechnologyStrugglesSection from '@/components/TechnologyStrugglesSection';
 
+
 const Index = () => {
   return (
     <div className="min-h-screen w-full overflow-x-hidden">
@@ -63,7 +64,7 @@ const Index = () => {
                </a>
              </div>
            </div>
-           </section>
+            </section>
          
          {/* Technology Struggles Section */}
          <TechnologyStrugglesSection />
