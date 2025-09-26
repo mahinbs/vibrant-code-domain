@@ -42,16 +42,16 @@ const ClientLogos = memo(() => {
         {/* Bottom CTA hint */}
         <div className="text-center mt-12">
           <p className="text-gray-400 text-sm mb-3">
-            Ready to join them?
+            See what services made them choose us
           </p>
           <button 
             onClick={() => {
-              const element = document.getElementById('contact-form');
+              const element = document.getElementById('services');
               if (element) element.scrollIntoView({ behavior: 'smooth' });
             }}
             className="text-cyan-400 hover:text-cyan-300 text-sm font-medium transition-colors duration-300 underline decoration-cyan-400/50 hover:decoration-cyan-300"
           >
-            Get your free consultation →
+            Explore our services →
           </button>
         </div>
       </div>

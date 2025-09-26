@@ -238,15 +238,19 @@ const Services = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
         {/* Header Section */}
         <div className="text-center mb-12 sm:mb-16">
+          <div className="mb-4">
+            <p className="text-cyan-400 text-sm uppercase tracking-wider mb-2">
+              The Boostmysites Advantage
+            </p>
+          </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4 px-4">
-            Boostmysites{" "}
+            Our Premium{" "}
             <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
               Services
             </span>
           </h2>
           <p className="text-lg sm:text-xl text-gray-300 max-w-3xl mx-auto px-4">
-            Transform your business with our cutting-edge AI and development
-            solutions
+            Discover the cutting-edge solutions that make industry leaders trust us with their most critical projects
           </p>
         </div>
 
