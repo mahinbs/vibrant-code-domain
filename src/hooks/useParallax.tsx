@@ -1,6 +1,5 @@
 
 import { useEffect, useRef, useCallback } from 'react';
-import { usePerformance } from './usePerformance';
 
 interface UseParallaxOptions {
   speed?: number;
@@ -10,7 +9,6 @@ interface UseParallaxOptions {
 
 export const useParallax = <T extends HTMLElement = HTMLElement>({ speed = 0.5, offset = 0, disabled = false }: UseParallaxOptions = {}) => {
   const elementRef = useRef<T>(null);
-  const { throttleScroll, getScrollVelocity } = usePerformance();
   const frameRef = useRef<number>();
 
   const updateParallax = useCallback(() => {
@@ -19,27 +17,27 @@ export const useParallax = <T extends HTMLElement = HTMLElement>({ speed = 0.5, 
     const element = elementRef.current;
     const rect = element.getBoundingClientRect();
     const scrollY = window.pageYOffset;
-    const velocity = getScrollVelocity();
-
-    // Skip expensive operations during fast scrolling
-    if (velocity > 5) {
-      element.style.willChange = 'auto';
-      return;
-    }
-
-    element.style.willChange = 'transform';
     
     // Calculate parallax offset
     const yPos = (rect.top + scrollY) * speed + offset;
     element.style.transform = `translate3d(0, ${yPos}px, 0)`;
-  }, [speed, offset, disabled, getScrollVelocity]);
+    element.style.willChange = 'transform';
+  }, [speed, offset, disabled]);
 
   const handleScroll = useCallback(() => {
-    throttleScroll(updateParallax);
-  }, [throttleScroll, updateParallax]);
+    if (frameRef.current) {
+      cancelAnimationFrame(frameRef.current);
+    }
+    
+    frameRef.current = requestAnimationFrame(updateParallax);
+  }, [updateParallax]);
 
   useEffect(() => {
     if (disabled) return;
+
+    // Check for reduced motion preference
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return;
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     
