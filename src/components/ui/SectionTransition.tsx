@@ -18,6 +18,22 @@ export const SectionTransition: React.FC<SectionTransitionProps> = ({
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // Ensure content is visible immediately
+    const ensureVisibility = () => {
+      if (sectionRef.current) {
+        const content = Array.from(sectionRef.current.children);
+        content.forEach((child: any) => {
+          if (child.style) {
+            child.style.opacity = '1';
+            child.style.transform = 'translate3d(0, 0, 0)';
+          }
+        });
+      }
+    };
+
+    // Immediate visibility
+    ensureVisibility();
+
     const animateTransition = async () => {
       try {
         const { gsap } = await import('gsap');
@@ -29,7 +45,10 @@ export const SectionTransition: React.FC<SectionTransitionProps> = ({
 
         // Check for reduced motion
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        if (prefersReducedMotion) return;
+        if (prefersReducedMotion) {
+          ensureVisibility();
+          return;
+        }
 
         const section = sectionRef.current;
         
@@ -61,70 +80,72 @@ export const SectionTransition: React.FC<SectionTransitionProps> = ({
           }
         });
 
-        // Section content animation based on type
+        // Get content elements, excluding background layers
         const content = Array.from(section.children).filter(child => 
           child !== fromLayer && child !== toLayer
         );
 
-        switch (type) {
-          case 'scale':
-            gsap.fromTo(content, 
-              { scale: 0.9, opacity: 0.8 },
-              { 
-                scale: 1, 
-                opacity: 1,
-                duration: 1.5,
-                ease: "power2.out",
-                scrollTrigger: {
-                  trigger: section,
-                  start: "top 80%",
-                  toggleActions: "play none none reverse"
+        // Only animate if elements exist and are visible
+        if (content.length > 0) {
+          switch (type) {
+            case 'scale':
+              gsap.fromTo(content, 
+                { scale: 0.95 },
+                { 
+                  scale: 1,
+                  duration: 1,
+                  ease: "power2.out",
+                  scrollTrigger: {
+                    trigger: section,
+                    start: "top 90%",
+                    toggleActions: "play none none reverse"
+                  }
                 }
-              }
-            );
-            break;
-            
-          case 'slide':
-            gsap.fromTo(content,
-              { x: 50, opacity: 0 },
-              {
-                x: 0,
-                opacity: 1,
-                duration: 1.2,
-                ease: "power2.out",
-                stagger: 0.1,
-                scrollTrigger: {
-                  trigger: section,
-                  start: "top 80%",
-                  toggleActions: "play none none reverse"
+              );
+              break;
+              
+            case 'slide':
+              gsap.fromTo(content,
+                { x: 30 },
+                {
+                  x: 0,
+                  duration: 0.8,
+                  ease: "power2.out",
+                  stagger: 0.1,
+                  scrollTrigger: {
+                    trigger: section,
+                    start: "top 90%",
+                    toggleActions: "play none none reverse"
+                  }
                 }
-              }
-            );
-            break;
-            
-          default: // fade
-            gsap.fromTo(content,
-              { opacity: 0, y: 30 },
-              {
-                opacity: 1,
-                y: 0,
-                duration: 1,
-                ease: "power2.out",
-                stagger: 0.1,
-                scrollTrigger: {
-                  trigger: section,
-                  start: "top 80%",
-                  toggleActions: "play none none reverse"
+              );
+              break;
+              
+            default: // fade - keep content visible, just add subtle entrance
+              gsap.fromTo(content,
+                { y: 20 },
+                {
+                  y: 0,
+                  duration: 0.6,
+                  ease: "power2.out",
+                  stagger: 0.05,
+                  scrollTrigger: {
+                    trigger: section,
+                    start: "top 95%",
+                    toggleActions: "play none none reverse"
+                  }
                 }
-              }
-            );
+              );
+          }
         }
       } catch (error) {
         console.warn('Section transition animation failed:', error);
+        ensureVisibility();
       }
     };
 
-    animateTransition();
+    // Small delay to ensure DOM is ready
+    setTimeout(animateTransition, 10);
   }, [fromGradient, toGradient, type]);
 
   return (

@@ -21,6 +21,14 @@ export const ScrollReveal: React.FC<ScrollRevealProps> = ({
   const { elementRef } = useScrollAnimation();
 
   React.useEffect(() => {
+    // Fallback timeout to ensure content is always visible
+    const fallbackTimeout = setTimeout(() => {
+      if (elementRef.current) {
+        elementRef.current.style.opacity = '1';
+        elementRef.current.style.transform = 'translate3d(0, 0, 0)';
+      }
+    }, 100);
+
     const animateElement = async () => {
       try {
         const { gsap } = await import('gsap');
@@ -35,6 +43,7 @@ export const ScrollReveal: React.FC<ScrollRevealProps> = ({
         
         if (prefersReducedMotion) {
           gsap.set(elementRef.current, { opacity: 1, x: 0, y: 0 });
+          clearTimeout(fallbackTimeout);
           return;
         }
 
@@ -48,29 +57,30 @@ export const ScrollReveal: React.FC<ScrollRevealProps> = ({
 
         const from = directions[direction];
 
-        gsap.fromTo(
-          elementRef.current,
-          { 
-            opacity: 0,
-            x: from.x,
-            y: from.y,
-            scale: 0.98
-          },
-          {
-            opacity: 1,
-            x: 0,
-            y: 0,
-            scale: 1,
-            duration,
-            delay,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: elementRef.current,
-              start: "top 85%",
-              toggleActions: "play none none reverse"
-            }
+        // Set initial state only after GSAP is ready
+        gsap.set(elementRef.current, {
+          opacity: 0,
+          x: from.x,
+          y: from.y,
+          scale: 0.98
+        });
+
+        gsap.to(elementRef.current, {
+          opacity: 1,
+          x: 0,
+          y: 0,
+          scale: 1,
+          duration,
+          delay,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: elementRef.current,
+            start: "top 95%",
+            toggleActions: "play none none reverse"
           }
-        );
+        });
+
+        clearTimeout(fallbackTimeout);
       } catch (error) {
         console.warn('ScrollReveal animation failed:', error);
         // Fallback
@@ -78,14 +88,19 @@ export const ScrollReveal: React.FC<ScrollRevealProps> = ({
           elementRef.current.style.opacity = '1';
           elementRef.current.style.transform = 'translate3d(0, 0, 0)';
         }
+        clearTimeout(fallbackTimeout);
       }
     };
 
     animateElement();
+
+    return () => {
+      clearTimeout(fallbackTimeout);
+    };
   }, [direction, delay, duration, distance]);
 
   return (
-    <div ref={elementRef} className={className}>
+    <div ref={elementRef} className={`opacity-100 ${className}`} style={{ opacity: 1 }}>
       {children}
     </div>
   );

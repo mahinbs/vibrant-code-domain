@@ -71,9 +71,16 @@ export const useScrollAnimation = (options: ScrollAnimationOptions = {}) => {
   }, [options]);
 
   useEffect(() => {
-    createAnimation();
+    // Ensure element is visible first
+    if (elementRef.current) {
+      elementRef.current.style.opacity = '1';
+    }
+    
+    // Small delay to ensure DOM is ready
+    const timeout = setTimeout(createAnimation, 10);
 
     return () => {
+      clearTimeout(timeout);
       if (animationRef.current) {
         animationRef.current.kill();
       }
