@@ -62,12 +62,12 @@ const App = () => {
           <BrowserRouter>
             <GoogleAnalytics />
             <Routes>
-              <Route
+                <Route
                 path="/"
                 element={
                   <>
                     <FloatingWhatsAppButton /> 
-                    <Index />
+                    <EnhancedIndex />
                   </>
                 }
               />

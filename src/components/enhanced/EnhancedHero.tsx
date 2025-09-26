@@ -18,7 +18,9 @@ const EnhancedHero = memo(() => {
 
   // Particle system initialization
   useEffect(() => {
-    let vantaEffect: any = null;
+    // Check for reduced motion preference
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return;
 
     const initVanta = () => {
       if (window.VANTA && vantaRef.current && !vantaEffect.current) {
@@ -68,7 +70,10 @@ const EnhancedHero = memo(() => {
 
   // Hero text morphing animation
   const heroAnimation = (element: HTMLElement) => {
-    const tl = gsap.timeline();
+    const windowGsap = (window as any).gsap;
+    if (!windowGsap) return { kill: () => {} };
+    
+    const tl = windowGsap.timeline();
     
     tl.fromTo('.hero-title .word', 
       { 
@@ -118,8 +123,9 @@ const EnhancedHero = memo(() => {
 
   const scrollToNext = () => {
     const nextSection = document.getElementById('problem-solution');
-    if (nextSection) {
-      gsap.to(window, {
+    const windowGsap = (window as any).gsap;
+    if (nextSection && windowGsap) {
+      windowGsap.to(window, {
         duration: 1.2,
         scrollTo: { y: nextSection, offsetY: 0 },
         ease: "power2.inOut"

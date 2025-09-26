@@ -57,7 +57,10 @@ const ScrollReveal: React.FC<ScrollRevealProps> = ({
         break;
     }
 
-    return gsap.fromTo(element, fromVars, toVars);
+    const windowGsap = (window as any).gsap;
+    if (!windowGsap) return { kill: () => {} };
+    
+    return windowGsap.fromTo(element, fromVars, toVars);
   };
 
   const elementRef = useScrollAnimation(animation, {

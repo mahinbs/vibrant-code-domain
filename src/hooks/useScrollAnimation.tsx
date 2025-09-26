@@ -8,12 +8,18 @@ const initGsap = async () => {
   try {
     const gsapModule = await import('gsap');
     const scrollTriggerModule = await import('gsap/ScrollTrigger');
+    const scrollToModule = await import('gsap/ScrollToPlugin');
     
     gsap = gsapModule.default || gsapModule;
     ScrollTrigger = scrollTriggerModule.ScrollTrigger;
+    const ScrollToPlugin = scrollToModule.ScrollToPlugin;
     
-    if (gsap && ScrollTrigger) {
-      gsap.registerPlugin(ScrollTrigger);
+    if (gsap && ScrollTrigger && ScrollToPlugin) {
+      gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+      
+      // Expose globally for components
+      (window as any).gsap = gsap;
+      (window as any).ScrollTrigger = ScrollTrigger;
     }
   } catch (error) {
     console.warn('GSAP failed to load:', error);
@@ -21,12 +27,15 @@ const initGsap = async () => {
     gsap = {
       fromTo: () => ({ kill: () => {} }),
       to: () => ({ kill: () => {} }),
-      timeline: () => ({ kill: () => {} })
+      timeline: () => ({ kill: () => {} }),
+      registerPlugin: () => {}
     };
     ScrollTrigger = {
       create: () => ({ kill: () => {} }),
       getAll: () => []
     };
+    (window as any).gsap = gsap;
+    (window as any).ScrollTrigger = ScrollTrigger;
   }
 };
 
@@ -103,10 +112,11 @@ export const useScrollAnimation = (
 
 // Utility functions for common animations
 export const fadeInUp = (element: HTMLElement) => {
-  if (!gsap || !element) return { kill: () => {} };
+  const windowGsap = (window as any).gsap;
+  if (!windowGsap || !element) return { kill: () => {} };
   
   try {
-    return gsap.fromTo(
+    return windowGsap.fromTo(
       element,
       { 
         opacity: 0, 
@@ -128,7 +138,10 @@ export const fadeInUp = (element: HTMLElement) => {
 };
 
 export const staggerFadeIn = (elements: NodeListOf<Element> | Element[]) => {
-  return gsap.fromTo(
+  const windowGsap = (window as any).gsap;
+  if (!windowGsap) return { kill: () => {} };
+
+  return windowGsap.fromTo(
     elements,
     {
       opacity: 0,
@@ -145,7 +158,10 @@ export const staggerFadeIn = (elements: NodeListOf<Element> | Element[]) => {
 };
 
 export const parallaxMove = (element: HTMLElement, distance = 100) => {
-  return gsap.fromTo(
+  const windowGsap = (window as any).gsap;
+  if (!windowGsap) return { kill: () => {} };
+
+  return windowGsap.fromTo(
     element,
     { y: -distance },
     { y: distance, ease: "none" }
@@ -153,7 +169,10 @@ export const parallaxMove = (element: HTMLElement, distance = 100) => {
 };
 
 export const morphBackground = (element: HTMLElement, colors: string[]) => {
-  const tl = gsap.timeline();
+  const windowGsap = (window as any).gsap;
+  if (!windowGsap) return { kill: () => {} };
+
+  const tl = windowGsap.timeline();
   colors.forEach((color, index) => {
     tl.to(element, {
       background: color,
@@ -165,7 +184,10 @@ export const morphBackground = (element: HTMLElement, colors: string[]) => {
 };
 
 export const cardFlip = (element: HTMLElement) => {
-  return gsap.fromTo(
+  const windowGsap = (window as any).gsap;
+  if (!windowGsap) return { kill: () => {} };
+
+  return windowGsap.fromTo(
     element,
     {
       rotationY: -90,
@@ -183,6 +205,9 @@ export const cardFlip = (element: HTMLElement) => {
 
 export const magneticHover = (element: HTMLElement, strength = 0.3) => {
   const onMouseMove = (e: MouseEvent) => {
+    const windowGsap = (window as any).gsap;
+    if (!windowGsap) return;
+
     const rect = element.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
@@ -190,7 +215,7 @@ export const magneticHover = (element: HTMLElement, strength = 0.3) => {
     const deltaX = (e.clientX - centerX) * strength;
     const deltaY = (e.clientY - centerY) * strength;
     
-    gsap.to(element, {
+    windowGsap.to(element, {
       x: deltaX,
       y: deltaY,
       duration: 0.3,
@@ -199,7 +224,10 @@ export const magneticHover = (element: HTMLElement, strength = 0.3) => {
   };
 
   const onMouseLeave = () => {
-    gsap.to(element, {
+    const windowGsap = (window as any).gsap;
+    if (!windowGsap) return;
+
+    windowGsap.to(element, {
       x: 0,
       y: 0,
       duration: 0.5,

@@ -73,8 +73,11 @@ const EnhancedServices = () => {
 
   // Sequential card flip animation
   const servicesAnimation = (element: HTMLElement) => {
+    const windowGsap = (window as any).gsap;
+    if (!windowGsap) return { kill: () => {} };
+
     const cards = element.querySelectorAll('.service-card');
-    const tl = gsap.timeline();
+    const tl = windowGsap.timeline();
 
     cards.forEach((card, index) => {
       tl.fromTo(card,
@@ -130,8 +133,9 @@ const EnhancedServices = () => {
   const handleServiceClick = (serviceName: string) => {
     // Navigate to specific service page or show details
     const contactForm = document.getElementById('contact-form');
-    if (contactForm) {
-      gsap.to(window, {
+    const windowGsap = (window as any).gsap;
+    if (contactForm && windowGsap) {
+      windowGsap.to(window, {
         duration: 1,
         scrollTo: { y: contactForm, offsetY: 80 },
         ease: "power2.inOut"

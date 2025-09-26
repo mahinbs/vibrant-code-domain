@@ -42,8 +42,9 @@ const JourneyNavigation: React.FC<JourneyNavigationProps> = ({
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
-    if (element) {
-      gsap.to(window, {
+    const windowGsap = (window as any).gsap;
+    if (element && windowGsap) {
+      windowGsap.to(window, {
         duration: 1,
         scrollTo: { y: element, offsetY: 80 },
         ease: "power2.inOut"

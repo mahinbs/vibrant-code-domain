@@ -31,10 +31,13 @@ const challengeSolutions = [
 const EnhancedProblemSolution = () => {
   // Problem to solution transformation animation
   const transformAnimation = (element: HTMLElement) => {
+    const windowGsap = (window as any).gsap;
+    if (!windowGsap) return { kill: () => {} };
+
     const problems = element.querySelectorAll('.problem-item');
     const solutions = element.querySelectorAll('.solution-item');
     
-    const tl = gsap.timeline();
+    const tl = windowGsap.timeline();
     
     // Initial state - show problems
     tl.set(solutions, { opacity: 0, x: 100, rotationY: -90 })
@@ -80,8 +83,9 @@ const EnhancedProblemSolution = () => {
 
   const handleGetStarted = () => {
     const contactForm = document.getElementById('contact-form');
-    if (contactForm) {
-      gsap.to(window, {
+    const windowGsap = (window as any).gsap;
+    if (contactForm && windowGsap) {
+      windowGsap.to(window, {
         duration: 1,
         scrollTo: { y: contactForm, offsetY: 80 },
         ease: "power2.inOut"
@@ -91,8 +95,9 @@ const EnhancedProblemSolution = () => {
 
   const handleScheduleCall = () => {
     const finalForm = document.getElementById('final-contact-form');
-    if (finalForm) {
-      gsap.to(window, {
+    const windowGsap = (window as any).gsap;
+    if (finalForm && windowGsap) {
+      windowGsap.to(window, {
         duration: 1,
         scrollTo: { y: finalForm, offsetY: 80 },
         ease: "power2.inOut"

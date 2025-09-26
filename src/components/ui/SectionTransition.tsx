@@ -23,40 +23,48 @@ const SectionTransition: React.FC<SectionTransitionProps> = ({
   const sectionRef = useRef<HTMLDivElement>(null);
 
   const animation = (element: HTMLElement) => {
+    const windowGsap = (window as any).gsap;
+    if (!windowGsap) return { kill: () => {} };
+
+    const fromLayer = element.querySelector('.gradient-from') as HTMLElement;
+    const toLayer = element.querySelector('.gradient-to') as HTMLElement;
+
     switch (transitionType) {
       case 'gradient':
-        return gsap.to(element, {
-          background: `linear-gradient(135deg, ${toGradient.replace('from-', '').replace('to-', '').split(' via-')})`,
-          duration: 1,
-          ease: "power2.inOut"
-        });
+        if (fromLayer && toLayer) {
+          return windowGsap.fromTo(toLayer,
+            { opacity: 0 },
+            { opacity: 1, duration: 1, ease: "power2.inOut" }
+          );
+        }
+        return { kill: () => {} };
       
       case 'slide':
-        return gsap.fromTo(element,
+        return windowGsap.fromTo(element,
           { x: direction === 'horizontal' ? '100%' : 0, y: direction === 'vertical' ? '100%' : 0 },
           { x: 0, y: 0, duration: 1.2, ease: "power3.out" }
         );
       
       case 'fade':
-        return gsap.fromTo(element,
+        return windowGsap.fromTo(element,
           { opacity: 0 },
           { opacity: 1, duration: 1, ease: "power2.out" }
         );
       
       case 'scale':
-        return gsap.fromTo(element,
+        return windowGsap.fromTo(element,
           { scale: 0.9, opacity: 0 },
           { scale: 1, opacity: 1, duration: 0.8, ease: "back.out(1.2)" }
         );
       
       case 'mask':
-        return gsap.fromTo(element,
+        return windowGsap.fromTo(element,
           { clipPath: 'polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)' },
           { clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)', duration: 1, ease: "power2.out" }
         );
       
       default:
-        return gsap.fromTo(element,
+        return windowGsap.fromTo(element,
           { opacity: 0, y: 50 },
           { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" }
         );
@@ -81,14 +89,19 @@ const SectionTransition: React.FC<SectionTransitionProps> = ({
       id={id}
       className={`section-transition relative ${className}`}
       style={{
-        background: `linear-gradient(135deg, ${fromGradient})`,
         willChange: 'transform, opacity'
       }}
     >
-      {children}
+      {/* Background gradient layers */}
+      <div className={`gradient-from absolute inset-0 bg-gradient-to-br ${fromGradient}`} />
+      <div className={`gradient-to absolute inset-0 bg-gradient-to-br ${toGradient} opacity-0`} />
+      
+      <div className="relative z-10">
+        {children}
+      </div>
       
       {/* Animated separator */}
-      <div className="absolute bottom-0 left-0 w-full h-px">
+      <div className="absolute bottom-0 left-0 w-full h-px z-20">
         <div className="w-full h-full bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent animate-pulse" />
       </div>
     </div>
