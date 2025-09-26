@@ -151,69 +151,20 @@ const EnhancedServices = () => {
     cardRef.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
   }, []);
 
-  useEffect(() => {
-    // Trigger staggered animations for service cards
-    staggerFadeIn('.service-card', 0.2);
-  }, [staggerFadeIn]);
+  // Removed staggered animation to prevent conflicts
 
   useEffect(() => {
-    const animateServices = async () => {
+    const animateFloatingElements = async () => {
       try {
         const { gsap } = await import('gsap');
-        const { ScrollTrigger } = await import('gsap/ScrollTrigger');
         
-        gsap.registerPlugin(ScrollTrigger);
-
         if (!containerRef.current) return;
 
         // Check for reduced motion
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         if (prefersReducedMotion) return;
 
-        // Service cards flip animation
-        const cards = containerRef.current.querySelectorAll('.service-card');
-        
-        cards.forEach((card, index) => {
-          gsap.fromTo(card, 
-            { 
-              opacity: 0,
-              rotationX: -15,
-              y: 50,
-              scale: 0.95
-            },
-            {
-              opacity: 1,
-              rotationX: 0,
-              y: 0,
-              scale: 1,
-              duration: 1,
-              ease: "power2.out",
-              delay: index * 0.1,
-              scrollTrigger: {
-                trigger: card,
-                start: "top 85%",
-                toggleActions: "play none none reverse"
-              }
-            }
-          );
-
-          // Icon rotation animation
-          const icon = card.querySelector('.service-icon');
-          if (icon) {
-            gsap.to(icon, {
-              rotation: 360,
-              duration: 2,
-              ease: "power2.out",
-              scrollTrigger: {
-                trigger: card,
-                start: "top 80%",
-                toggleActions: "play none none none"
-              }
-            });
-          }
-        });
-
-        // Background floating elements
+        // Only animate background floating elements - remove conflicting card animations
         const floatingElements = containerRef.current.querySelectorAll('.floating-element');
         floatingElements.forEach((element, index) => {
           gsap.to(element, {
@@ -228,11 +179,11 @@ const EnhancedServices = () => {
         });
 
       } catch (error) {
-        console.warn('Services animation failed:', error);
+        console.warn('Floating elements animation failed:', error);
       }
     };
 
-    animateServices();
+    animateFloatingElements();
   }, []);
 
   const handleMouseEnter = useCallback((serviceId: string) => {
@@ -314,16 +265,9 @@ const EnhancedServices = () => {
                 className="service-card"
               >
                 <div
-                  className={`group relative rounded-xl sm:rounded-2xl bg-gray-900/80 backdrop-blur-sm border ${colors.border} hover:bg-gray-800/90 transition-all duration-300 overflow-hidden transform-gpu`}
-                  onMouseEnter={(e) => {
-                    handleMouseEnter(service.id);
-                    magneticHover(e, e.currentTarget);
-                  }}
-                  onMouseLeave={(e) => {
-                    handleMouseLeave();
-                    resetMagnetic(e.currentTarget);
-                  }}
-                  onMouseMove={(e) => magneticHover(e, e.currentTarget)}
+                  className={`group relative rounded-xl sm:rounded-2xl bg-gray-900/80 backdrop-blur-sm border ${colors.border} hover:bg-gray-800/90 transition-all duration-300 overflow-hidden`}
+                  onMouseEnter={() => handleMouseEnter(service.id)}
+                  onMouseLeave={handleMouseLeave}
                 >
                   {/* Mobile Layout */}
                   <div className="block lg:hidden">
@@ -411,9 +355,11 @@ const EnhancedServices = () => {
                     </div>
                   </div>
 
-                  {/* Desktop layout with enhanced hover effects */}
+                  {/* Desktop Layout */}
                   <div className="hidden lg:block">
+                    {/* Desktop Main Content */}
                     <div className="flex items-center">
+                      {/* Service Image */}
                       <div className="pl-3">
                         <div className="relative w-48 h-32 flex-shrink-0 overflow-hidden rounded-l-2xl">
                           <img
@@ -430,6 +376,7 @@ const EnhancedServices = () => {
                         </div>
                       </div>
 
+                      {/* Desktop Content Section */}
                       <div className="flex-1 p-8">
                         <div className="flex items-center justify-between">
                           <div className="flex-1">
@@ -439,6 +386,66 @@ const EnhancedServices = () => {
                             <p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300 leading-relaxed">
                               {service.description}
                             </p>
+                          </div>
+
+                          {/* Desktop Price & Timeline */}
+                          <div className="flex items-center space-x-4 ml-8">
+                            <div className={`px-4 py-2 rounded-lg ${colors.button} border text-sm font-medium flex items-center space-x-2`}>
+                              <Clock className="h-4 w-4" />
+                              <span>{service.timeline}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Desktop Expanded Content */}
+                    <div className={`overflow-hidden transition-all duration-500 ease-in-out ${isExpanded ? "max-h-[600px] opacity-100" : "max-h-0 opacity-0"}`}>
+                      <div className="px-8 pb-8 border-t border-gray-700/50">
+                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
+                          {/* Desktop Detailed Description */}
+                          <div>
+                            <h4 className="text-lg font-semibold text-white mb-4">About This Service</h4>
+                            <p className="text-gray-300 leading-relaxed">
+                              {service.detailedDescription}
+                            </p>
+                          </div>
+
+                          {/* Desktop Features */}
+                          <div>
+                            <h4 className="text-lg font-semibold text-white mb-4">Key Features</h4>
+                            <ul className="space-y-3">
+                              {service.features.map((feature, idx) => (
+                                <li key={idx} className="text-gray-300 flex items-center">
+                                  <div className={`w-2 h-2 rounded-full ${colors.text} mr-3 flex-shrink-0`} />
+                                  {feature}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+
+                          {/* Desktop Technologies & Actions */}
+                          <div>
+                            <h4 className="text-lg font-semibold text-white mb-4">Technologies Used</h4>
+                            <div className="flex flex-wrap gap-2 mb-6">
+                              {service.technologies.map((tech, idx) => (
+                                <span key={idx} className={`px-3 py-1 rounded-full text-sm ${colors.tag} border`}>
+                                  {tech}
+                                </span>
+                              ))}
+                            </div>
+
+                            {/* Desktop Action Buttons */}
+                            <div className="space-y-3">
+                              <Link to={service.route} className={`w-full inline-flex items-center justify-center px-6 py-3 rounded-xl ${colors.button} border font-medium transition-all duration-300`}>
+                                Book Free Demo
+                              </Link>
+                              <div className="text-center">
+                                <span className="px-4 py-2 bg-gray-800/50 border border-gray-600 rounded-lg text-sm text-gray-300">
+                                  Custom Quote Available
+                                </span>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -452,6 +459,19 @@ const EnhancedServices = () => {
             );
           })}
         </div>
+
+        {/* Call to Action */}
+        <ScrollReveal>
+          <div className="text-center mt-12 sm:mt-16">
+            <Link
+              to="/services"
+              className="inline-flex items-center px-8 py-4 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-semibold hover:from-cyan-700 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+            >
+              View All Services
+              <ChevronDown className="ml-2 h-5 w-5 rotate-[-90deg]" />
+            </Link>
+          </div>
+        </ScrollReveal>
       </div>
     </section>
   );
