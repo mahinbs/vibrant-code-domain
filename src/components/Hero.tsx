@@ -64,16 +64,18 @@ const Hero = memo(() => {
           {/* Main content with centered alignment */}
           <div>
             <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight animate-fade-in gpu-accelerate">
-              The Future of
+              Custom Software Development &
               <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent animate-pulse">
                 {" "}
-                AI-Powered Software
+                AI Solutions
               </span>
+              <br />
+              <span className="text-4xl md:text-6xl">to Grow Your Business</span>
             </h1>
-            <p className="text-xl md:text-2xl text-gray-200 mb-8 leading-relaxed max-w-3xl mx-auto opacity-90">
-              We forge tomorrow's digital reality with cutting-edge AI, machine
-              learning, and quantum-ready solutions. Experience the next
-              evolution of software development.
+            <p className="text-xl md:text-2xl text-gray-200 mb-8 leading-relaxed max-w-4xl mx-auto opacity-90">
+              Web Apps • Mobile Apps • AI Automation • SaaS Solutions • Blockchain • AR/VR • IoT • Games & More
+              <br />
+              <span className="text-lg md:text-xl text-cyan-300 mt-2 block">Built by Expert Developers & AI Specialists</span>
             </p>
 
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16">
@@ -95,23 +97,23 @@ const Hero = memo(() => {
             >
               <div className="text-center group cursor-pointer gpu-accelerate">
                 <div className="text-4xl md:text-5xl font-bold text-cyan-400 mb-3 group-hover:text-cyan-300 transition-colors duration-300">
-                  1 M+
+                  500+
                 </div>
                 <div className="text-gray-300 font-medium">
-                  AI Models Deployed
+                  Projects Delivered
                 </div>
               </div>
               <div className="text-center group cursor-pointer gpu-accelerate">
                 <div className="text-4xl md:text-5xl font-bold text-blue-400 mb-3 group-hover:text-blue-300 transition-colors duration-300">
-                  99.9%
+                  16+
                 </div>
-                <div className="text-gray-300 font-medium">Neural Accuracy</div>
+                <div className="text-gray-300 font-medium">Tech Services</div>
               </div>
               <div className="text-center group cursor-pointer gpu-accelerate">
                 <div className="text-4xl md:text-5xl font-bold text-purple-400 mb-3 group-hover:text-purple-300 transition-colors duration-300">
                   24/7
                 </div>
-                <div className="text-gray-300 font-medium">Quantum Support</div>
+                <div className="text-gray-300 font-medium">Expert Support</div>
               </div>
             </div>
           </div>

@@ -25,12 +25,20 @@ export interface CustomerInquiryFormProps {
 
 export const services = [
   'Web Applications',
-  'Mobile Apps',
+  'Mobile Apps (iOS/Android)',
   'SaaS Solutions',
   'AI & Automation',
-  'E-commerce',
+  'AI Calling Systems',
+  'Chatbot Development',
+  'E-commerce Development',
   'Custom Software',
   'UI/UX Design',
+  'Data Analytics',
+  'Blockchain Development',
+  'AR/VR Development',
+  'IoT Development',
+  'Game Development',
+  'Cloud Computing',
   'Digital Transformation'
 ];
 

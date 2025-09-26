@@ -127,8 +127,9 @@ const SimpleContactForm = ({ sourcePage = 'home-simple', onSuccess, className = 
 
   return (
     <div className={`max-w-lg mx-auto ${className}`}>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+      <div className="bg-black/40 backdrop-blur-lg border border-cyan-500/20 rounded-2xl p-8 shadow-2xl">
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           {submitError && (
             <div className="flex items-center space-x-2 p-4 bg-red-900/20 border border-red-600 rounded-lg">
               <AlertCircle className="h-5 w-5 text-red-400" />
@@ -145,13 +146,13 @@ const SimpleContactForm = ({ sourcePage = 'home-simple', onSuccess, className = 
                   <User className="h-4 w-4" />
                   Full Name *
                 </FormLabel>
-                <FormControl>
-                  <Input 
-                    placeholder="Enter your full name" 
-                    className="bg-gray-800/50 border-gray-600 text-white placeholder:text-gray-400 focus:border-cyan-400"
-                    {...field} 
-                  />
-                </FormControl>
+                 <FormControl>
+                   <Input 
+                     placeholder="Enter your full name" 
+                     className="bg-black/20 backdrop-blur-sm border-cyan-500/30 text-white placeholder:text-gray-400 focus:border-cyan-400 focus:bg-black/30 transition-all duration-300"
+                     {...field} 
+                   />
+                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
@@ -166,14 +167,14 @@ const SimpleContactForm = ({ sourcePage = 'home-simple', onSuccess, className = 
                   <Mail className="h-4 w-4" />
                   Email Address *
                 </FormLabel>
-                <FormControl>
-                  <Input 
-                    type="email"
-                    placeholder="Enter your email address" 
-                    className="bg-gray-800/50 border-gray-600 text-white placeholder:text-gray-400 focus:border-cyan-400"
-                    {...field} 
-                  />
-                </FormControl>
+                 <FormControl>
+                   <Input 
+                     type="email"
+                     placeholder="Enter your email address" 
+                     className="bg-black/20 backdrop-blur-sm border-cyan-500/30 text-white placeholder:text-gray-400 focus:border-cyan-400 focus:bg-black/30 transition-all duration-300"
+                     {...field} 
+                   />
+                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
@@ -188,11 +189,11 @@ const SimpleContactForm = ({ sourcePage = 'home-simple', onSuccess, className = 
                   <Phone className="h-4 w-4" />
                   Phone Number *
                 </FormLabel>
-                <FormControl>
-                  <Input 
-                    type="tel"
-                    placeholder="Enter your phone number" 
-                    className="bg-gray-800/50 border-gray-600 text-white placeholder:text-gray-400 focus:border-cyan-400"
+                 <FormControl>
+                   <Input 
+                     type="tel"
+                     placeholder="Enter your phone number" 
+                     className="bg-black/20 backdrop-blur-sm border-cyan-500/30 text-white placeholder:text-gray-400 focus:border-cyan-400 focus:bg-black/30 transition-all duration-300"
                     {...field} 
                     onChange={(e) => {
                       // Only allow numbers, spaces, hyphens, parentheses, and plus sign
@@ -215,13 +216,13 @@ const SimpleContactForm = ({ sourcePage = 'home-simple', onSuccess, className = 
                   <MessageSquare className="h-4 w-4" />
                   Message *
                 </FormLabel>
-                <FormControl>
-                  <Textarea 
-                    placeholder="Tell us about your project or inquiry..." 
-                    className="bg-gray-800/50 border-gray-600 text-white placeholder:text-gray-400 focus:border-cyan-400 min-h-[120px]"
-                    {...field} 
-                  />
-                </FormControl>
+                 <FormControl>
+                   <Textarea 
+                     placeholder="Tell us about your project requirements - Web Apps, Mobile Apps, AI Solutions, SaaS, etc." 
+                     className="bg-black/20 backdrop-blur-sm border-cyan-500/30 text-white placeholder:text-gray-400 focus:border-cyan-400 focus:bg-black/30 transition-all duration-300 min-h-[120px]"
+                     {...field} 
+                   />
+                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
@@ -234,9 +235,10 @@ const SimpleContactForm = ({ sourcePage = 'home-simple', onSuccess, className = 
           >
             {isSubmitting ? 'Sending...' : 'Send Message'}
           </Button>
-        </form>
-      </Form>
-    </div>
+         </form>
+       </Form>
+       </div>
+     </div>
   );
 };
 
