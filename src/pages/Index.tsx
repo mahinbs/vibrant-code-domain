@@ -1,7 +1,6 @@
 
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
-import ClientLogos from '@/components/ClientLogos';
 import StatsGrid from '@/components/StatsGrid';
 import ProblemSolution from '@/components/ProblemSolution';
 import Services from '@/components/Services';
@@ -63,10 +62,7 @@ const Index = () => {
                </a>
              </div>
            </div>
-         </section>
-        
-        {/* Client Logos Section */}
-        <ClientLogos />
+          </section>
         
         {/* Services Section */}
         <div id="services">
