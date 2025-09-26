@@ -67,15 +67,16 @@ const Index = () => {
         {/* Client Logos Section */}
         <ClientLogos />
         
+        {/* Services Section */}
+        <div id="services">
+          <Services />
+        </div>
+        
         {/* Stats Grid Section */}
         <StatsGrid />
         
         {/* Problem + Solution Section */}
         <ProblemSolution />
-        
-        <div id="services">
-          <Services />
-        </div>
         <PortfolioSection />
         <WhyChooseUs />
         <TestimonialsSection />
