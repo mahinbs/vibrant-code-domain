@@ -4,7 +4,6 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
-import EnhancedIndex from "./pages/EnhancedIndex";
 import Index from "./pages/Index";
 import Portfolio from "./pages/Portfolio";
 import CaseStudy from "./pages/CaseStudy";
@@ -62,12 +61,11 @@ const App = () => {
           <BrowserRouter>
             <GoogleAnalytics />
             <Routes>
-                <Route
+              <Route
                 path="/"
                 element={
                   <>
-                    <FloatingWhatsAppButton /> 
-                    <EnhancedIndex />
+                    <FloatingWhatsAppButton /> <Index />
                   </>
                 }
               />

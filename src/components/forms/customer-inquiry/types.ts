@@ -42,14 +42,12 @@ export const services = [
   'Digital Transformation'
 ];
 
-
 export const budgetRanges = [
-  'Under $5,000',
-  '$5,000 - $15,000', 
+  '$5,000 - $15,000',
   '$15,000 - $50,000',
   '$50,000 - $100,000',
-  '$100,000+',
-  'Let\'s discuss'
+  '$100,000 - $250,000',
+  '$250,000+'
 ];
 
 export const timelines = [
