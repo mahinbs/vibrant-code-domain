@@ -2,6 +2,7 @@
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
 import ClientLogos from '@/components/ClientLogos';
+import StatsGrid from '@/components/StatsGrid';
 import ProblemSolution from '@/components/ProblemSolution';
 import Services from '@/components/Services';
 import PortfolioSection from '@/components/PortfolioSection';
@@ -23,6 +24,9 @@ const Index = () => {
         
         {/* Client Logos Section */}
         <ClientLogos />
+        
+        {/* Stats Grid Section */}
+        <StatsGrid />
         
         {/* Problem + Solution Section */}
         <ProblemSolution />
