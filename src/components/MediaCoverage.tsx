@@ -1,9 +1,13 @@
 import React from 'react';
 import { ExternalLink, Play } from 'lucide-react';
+import forbesLogo from '../assets/logos/forbes.png';
+import entrepreneurLogo from '../assets/logos/entrepreneur.webp';
+import timesOfIndiaLogo from '../assets/logos/times-of-india.png';
+import businessInsiderLogo from '../assets/logos/business-insider.jpg';
 
 const MediaCoverage = () => {
   const handleForbesClick = () => {
-    window.open('https://youtu.be/z8QmKfoBCWY?si=85rX-6S1wLRXiy2n', '_blank');
+    window.open('https://youtu.be/z8QmKfoBCWY?si=ilhlrWWADdzTuOFe', '_blank');
   };
 
   return (
@@ -50,7 +54,7 @@ const MediaCoverage = () => {
               <div className="flex-1 text-center md:text-left">
                 <div className="flex items-center justify-center md:justify-start gap-2 mb-4">
                   <img 
-                    src="https://res.cloudinary.com/dqogq10ag/image/upload/v1755670556/Untitled_design_1_cqndw8.png" 
+                    src={forbesLogo} 
                     alt="Forbes" 
                     className="h-8 w-auto object-contain"
                   />
@@ -83,13 +87,17 @@ const MediaCoverage = () => {
           {/* Additional Media Mentions */}
           <div className="grid md:grid-cols-3 gap-6 mt-12">
             {[
-              { name: 'Entrepreneur', color: 'from-green-400 to-blue-500' },
-              { name: 'Times of India', color: 'from-orange-400 to-red-500' },
-              { name: 'Business Insider', color: 'from-blue-400 to-purple-500' }
+              { name: 'Entrepreneur', logo: entrepreneurLogo, color: 'from-green-400 to-blue-500' },
+              { name: 'Times of India', logo: timesOfIndiaLogo, color: 'from-orange-400 to-red-500' },
+              { name: 'Business Insider', logo: businessInsiderLogo, color: 'from-blue-400 to-purple-500' }
             ].map((publication) => (
               <div key={publication.name} className="bg-gray-900/60 backdrop-blur-sm rounded-2xl border border-gray-700/30 p-6 text-center hover:border-gray-600/50 transition-all duration-300">
-                <div className={`w-12 h-12 rounded-xl bg-gradient-to-r ${publication.color} bg-opacity-20 flex items-center justify-center mx-auto mb-4`}>
-                  <span className="text-2xl">📰</span>
+                <div className="w-16 h-16 rounded-xl bg-white/10 flex items-center justify-center mx-auto mb-4 p-2">
+                  <img 
+                    src={publication.logo} 
+                    alt={publication.name} 
+                    className="w-full h-full object-contain filter brightness-90"
+                  />
                 </div>
                 <h4 className="font-semibold text-white mb-2">{publication.name}</h4>
                 <p className="text-gray-400 text-sm">Featured Coverage</p>
