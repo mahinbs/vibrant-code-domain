@@ -6,6 +6,7 @@ import ServicePortfolioSection from '@/components/ServicePortfolioSection';
 import ServiceCaseStudiesSection from '@/components/ServiceCaseStudiesSection';
 import ServicePricingSection from '@/components/ServicePricingSection';
 import SimpleContactForm from '@/components/forms/SimpleContactForm';
+import TestimonialsSection from '@/components/TestimonialsSection';
 
 const UxuiDesignPage = () => {
   const navigate = useNavigate();
@@ -254,6 +255,9 @@ const UxuiDesignPage = () => {
           <SimpleContactForm sourcePage="uxui-design-cta" className="max-w-2xl mx-auto" />
         </div>
       </section>
+
+      {/* Testimonials Section */}
+      <TestimonialsSection />
 
       <Footer />
     </div>

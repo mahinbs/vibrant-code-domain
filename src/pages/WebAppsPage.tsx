@@ -9,6 +9,7 @@ import WebAppsProcess from '@/components/webapps/WebAppsProcess';
 import WebAppsCTA from '@/components/webapps/WebAppsCTA';
 import ServiceReviewsSection from "@/components/ServiceReviewsSection";
 import SimpleContactForm from '@/components/forms/SimpleContactForm';
+import TestimonialsSection from '@/components/TestimonialsSection';
 
 const WebAppsPage = () => {
   return (
@@ -94,6 +95,9 @@ const WebAppsPage = () => {
           <SimpleContactForm sourcePage="web-apps-cta" className="max-w-2xl mx-auto" />
         </div>
       </section>
+      
+      {/* Testimonials Section */}
+      <TestimonialsSection />
       
       <Footer />
     </div>

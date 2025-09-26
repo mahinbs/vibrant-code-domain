@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import SimpleContactForm from '@/components/forms/SimpleContactForm';
+import TestimonialsSection from '@/components/TestimonialsSection';
 
 const MobileAppsPage = () => {
   const navigate = useNavigate();
@@ -79,21 +80,7 @@ const MobileAppsPage = () => {
             <p className="text-xl md:text-2xl text-gray-300 mb-8 leading-relaxed">
               Create powerful mobile experiences that engage users and drive business growth with native and cross-platform solutions.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center relative z-50">
-              <button 
-                onClick={handleStartDevelopment}
-                className="px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-600 rounded-xl font-semibold hover:from-purple-400 hover:to-pink-500 transition-all duration-300 transform hover:scale-105 relative z-50"
-              >
-                Start Development
-              </button>
-              <Link 
-                to="/portfolio"
-                className="px-8 py-4 border border-purple-400/30 rounded-xl font-semibold hover:bg-purple-500/10 transition-all duration-300 inline-flex items-center justify-center relative z-50"
-                onClick={() => console.log('Portfolio link clicked')}
-              >
-                View Portfolio
-              </Link>
-            </div>
+            
           </div>
         </div>
       </section>
@@ -108,6 +95,20 @@ const MobileAppsPage = () => {
             </p>
           </div>
           <SimpleContactForm sourcePage="mobile-apps" className="max-w-2xl mx-auto" />
+          
+          {/* Portfolio Section */}
+          <div className="text-center mt-12 pt-8 border-t border-gray-700/50">
+            <h3 className="text-xl font-semibold mb-2 text-purple-400">Want to see our work first?</h3>
+            <p className="text-gray-400 mb-6 max-w-md mx-auto">
+              Explore our portfolio of successful projects and see what we can build for you.
+            </p>
+            <Link 
+              to="/portfolio"
+              className="inline-flex items-center px-6 py-3 border border-purple-400/30 rounded-xl font-semibold hover:bg-purple-500/10 transition-all duration-300"
+            >
+              View Portfolio
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -172,6 +173,9 @@ const MobileAppsPage = () => {
           <SimpleContactForm sourcePage="mobile-apps-cta" className="max-w-2xl mx-auto" />
         </div>
       </section>
+
+      {/* Testimonials Section */}
+      <TestimonialsSection />
 
       <Footer />
     </div>

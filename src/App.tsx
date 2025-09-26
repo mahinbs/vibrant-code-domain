@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -48,6 +47,7 @@ import AiCallingPage from "./pages/AiCallingPage";
 import SalespersonServicePage from "./pages/SalespersonServicePage";
 import WebinarPage from "./pages/WebinarPage";
 import GoogleAnalytics from "./components/GoogleAnalytics";
+import FloatingWhatsAppButton from "./components/ui/FloatingWhatsAppButton";
 
 const queryClient = new QueryClient();
 
@@ -61,117 +61,142 @@ const App = () => {
           <BrowserRouter>
             <GoogleAnalytics />
             <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/portfolio" element={<Portfolio />} />
-              <Route path="/case-study/:slug" element={<CaseStudy />} />
-              <Route path="/contact" element={<ContactPage />} />
-              <Route path="/blogs" element={<BlogsPage />} />
-              <Route path="/blog/:slug" element={<BlogPostPage />} />
-              <Route path="/services" element={<ServicesPage />} />
-              <Route path="/web-apps" element={<WebAppsPage />} />
-              <Route path="/mobile-apps" element={<MobileAppsPage />} />
-              <Route path="/ux-ui-design" element={<UxuiDesignPage />} />
-              <Route path="/saas" element={<SaasPage />} />
-              <Route path="/ai-development" element={<AiDevelopmentPage />} />
-              <Route path="/game-development" element={<GameDevelopmentPage />} />
-              <Route path="/ar-vr-development" element={<ArVrDevelopmentPage />} />
-              <Route path="/blockchain-development" element={<BlockchainDevelopmentPage />} />
-              <Route path="/iot-development" element={<IotDevelopmentPage />} />
-              <Route path="/data-analytics" element={<DataAnalyticsPage />} />
-              <Route path="/cloud-computing" element={<CloudComputingPage />} />
-              <Route path="/chatbot-development" element={<ChatbotDevelopmentPage />} />
-              <Route path="/ai-automation" element={<AiAutomationPage />} />
-              <Route path="/reviews" element={<ReviewsPage />} />
-              <Route path="/thank-you" element={<ThankYouPage />} />
-              <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
-              <Route path="/partnership" element={<PartnershipPage />} />
-              <Route path="/ai-freelancing" element={<AiFreelancingPage />} />
-              <Route path="/ai-freelancing/thank-you" element={<AiFreelancingThankYouPage />} />
-              <Route path="/ai-calling" element={<AiCallingPage />} />
-              <Route path="/salesperson/:id" element={<SalespersonServicePage />} />
-              <Route path="/webinar/:id" element={<WebinarPage />} />
-              
+              <Route
+                path="/"
+                element={
+                  <>
+                    <FloatingWhatsAppButton /> <Index />
+                  </>
+                }
+              />
+              <Route path="/portfolio" element={<><FloatingWhatsAppButton /><Portfolio /></>} />
+              <Route path="/case-study/:slug" element={<><FloatingWhatsAppButton /><CaseStudy /></>} />
+              <Route path="/contact" element={<><FloatingWhatsAppButton /><ContactPage /></>} />
+              <Route path="/blogs" element={<><FloatingWhatsAppButton /><BlogsPage /></>} />
+              <Route path="/blog/:slug" element={<><FloatingWhatsAppButton /><BlogPostPage /></>} />
+              <Route path="/services" element={<><FloatingWhatsAppButton /><ServicesPage /></>} />
+              <Route path="/web-apps" element={<><FloatingWhatsAppButton /><WebAppsPage /></>} />
+              <Route path="/mobile-apps" element={<><FloatingWhatsAppButton /><MobileAppsPage /></>} />
+              <Route path="/ux-ui-design" element={<><FloatingWhatsAppButton /><UxuiDesignPage /></>} />
+              <Route path="/saas" element={<><FloatingWhatsAppButton /><SaasPage /></>} />
+              <Route path="/ai-development" element={<><FloatingWhatsAppButton /><AiDevelopmentPage /></>} />
+              <Route
+                path="/game-development"
+                element={<><FloatingWhatsAppButton /><GameDevelopmentPage /></>}
+              />
+              <Route
+                path="/ar-vr-development"
+                element={<><FloatingWhatsAppButton /><ArVrDevelopmentPage /></>}
+              />
+              <Route
+                path="/blockchain-development"
+                element={<><FloatingWhatsAppButton /><BlockchainDevelopmentPage /></>}
+              />
+              <Route path="/iot-development" element={<><FloatingWhatsAppButton /><IotDevelopmentPage /></>} />
+              <Route path="/data-analytics" element={<><FloatingWhatsAppButton /><DataAnalyticsPage /></>} />
+              <Route path="/cloud-computing" element={<><FloatingWhatsAppButton /><CloudComputingPage /></>} />
+              <Route
+                path="/chatbot-development"
+                element={<><FloatingWhatsAppButton /><ChatbotDevelopmentPage /></>}
+              />
+              <Route path="/ai-automation" element={<><FloatingWhatsAppButton /><AiAutomationPage /></>} />
+              <Route path="/reviews" element={<><FloatingWhatsAppButton /><ReviewsPage /></>} />
+              <Route path="/thank-you" element={<><FloatingWhatsAppButton /><ThankYouPage /></>} />
+              <Route path="/privacy-policy" element={<><FloatingWhatsAppButton /><PrivacyPolicyPage /></>} />
+              <Route path="/partnership" element={<><FloatingWhatsAppButton /><PartnershipPage /></>} />
+              <Route path="/ai-freelancing" element={<><FloatingWhatsAppButton /><AiFreelancingPage /></>} />
+              <Route
+                path="/ai-freelancing/thank-you"
+                element={<><FloatingWhatsAppButton /><AiFreelancingThankYouPage /></>}
+              />
+              <Route path="/ai-calling" element={<><FloatingWhatsAppButton /><AiCallingPage /></>} />
+              <Route
+                path="/salesperson/:id"
+                element={<><FloatingWhatsAppButton /><SalespersonServicePage /></>}
+              />
+              <Route path="/webinar/:id" element={<><FloatingWhatsAppButton /><WebinarPage /></>} />
+
               {/* Admin routes */}
               <Route path="/admin/login" element={<AdminLogin />} />
-              <Route 
-                path="/admin" 
+              <Route
+                path="/admin"
                 element={
                   <ProtectedRoute>
                     <AdminDashboard />
                   </ProtectedRoute>
-                } 
+                }
               />
-              <Route 
-                path="/admin/customer-inquiries" 
+              <Route
+                path="/admin/customer-inquiries"
                 element={
                   <ProtectedRoute>
                     <CustomerInquiries />
                   </ProtectedRoute>
-                } 
+                }
               />
-              <Route 
-                path="/admin/trial-leads" 
+              <Route
+                path="/admin/trial-leads"
                 element={
                   <ProtectedRoute>
                     <TrialLeads />
                   </ProtectedRoute>
-                } 
+                }
               />
-              <Route 
-                path="/admin/portfolio" 
+              <Route
+                path="/admin/portfolio"
                 element={
                   <ProtectedRoute>
                     <PortfolioList />
                   </ProtectedRoute>
-                } 
+                }
               />
-              <Route 
-                path="/admin/portfolio/new" 
+              <Route
+                path="/admin/portfolio/new"
                 element={
                   <ProtectedRoute>
                     <PortfolioForm />
                   </ProtectedRoute>
-                } 
+                }
               />
-              <Route 
-                path="/admin/portfolio/edit/:id" 
+              <Route
+                path="/admin/portfolio/edit/:id"
                 element={
                   <ProtectedRoute>
                     <PortfolioForm />
                   </ProtectedRoute>
-                } 
+                }
               />
-              <Route 
-                path="/admin/case-studies" 
+              <Route
+                path="/admin/case-studies"
                 element={
                   <ProtectedRoute>
                     <CaseStudyList />
                   </ProtectedRoute>
-                } 
+                }
               />
-              <Route 
-                path="/admin/blogs" 
+              <Route
+                path="/admin/blogs"
                 element={
                   <ProtectedRoute>
                     <BlogList />
                   </ProtectedRoute>
-                } 
+                }
               />
-              <Route 
-                path="/admin/blogs/new" 
+              <Route
+                path="/admin/blogs/new"
                 element={
                   <ProtectedRoute>
                     <BlogForm />
                   </ProtectedRoute>
-                } 
+                }
               />
-              <Route 
-                path="/admin/blogs/edit/:id" 
+              <Route
+                path="/admin/blogs/edit/:id"
                 element={
                   <ProtectedRoute>
                     <BlogForm />
                   </ProtectedRoute>
-                } 
+                }
               />
               {/* <Route 
                 path="/admin/link-generator" 
@@ -181,13 +206,13 @@ const App = () => {
                   </ProtectedRoute>
                 } 
               /> */}
-              <Route 
-                path="/admin/webinar-management" 
+              <Route
+                path="/admin/webinar-management"
                 element={
                   <ProtectedRoute>
                     <WebinarManagement />
                   </ProtectedRoute>
-                } 
+                }
               />
               <Route path="*" element={<NotFound />} />
             </Routes>

@@ -1,14 +1,16 @@
-
-import { MessageCircle } from 'lucide-react';
-import { useState } from 'react';
+import { useState } from "react";
+import { IoLogoWhatsapp } from "react-icons/io";
 
 const FloatingWhatsAppButton = () => {
   const [isHovered, setIsHovered] = useState(false);
-  
+
   // WhatsApp configuration
-  const whatsappNumber = '919632953355';
-  const whatsappMessage = 'I would like to develop a software or app. I need to discuss with you more';
-  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+  const whatsappNumber = "919790035747";
+  const whatsappMessage =
+    "I would like to develop a software or app. I need to discuss with you more";
+  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+    whatsappMessage
+  )}`;
 
   return (
     <div className="fixed bottom-6 right-6 z-50">
@@ -24,7 +26,7 @@ const FloatingWhatsAppButton = () => {
         {/* Tooltip */}
         <div
           className={`absolute right-full mr-3 px-3 py-2 bg-gray-900 text-white text-sm rounded-lg shadow-lg whitespace-nowrap transition-all duration-300 transform ${
-            isHovered ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-2'
+            isHovered ? "opacity-100 translate-x-0" : "opacity-0 translate-x-2"
           }`}
         >
           Chat with us
@@ -32,12 +34,9 @@ const FloatingWhatsAppButton = () => {
         </div>
 
         {/* Button */}
-        <div className="w-14 h-14 bg-[#25D366] hover:bg-[#20BA5A] rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center transform hover:scale-110 animate-pulse">
-          <MessageCircle className="h-7 w-7 text-white" />
+        <div className="w-14 h-14 bg-[#25D366] hover:bg-[#20BA5A] rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center transform hover:scale-110">
+          <IoLogoWhatsapp size={35} />
         </div>
-
-        {/* Pulse animation ring */}
-        <div className="absolute inset-0 w-14 h-14 bg-[#25D366] rounded-full animate-ping opacity-20"></div>
       </a>
     </div>
   );

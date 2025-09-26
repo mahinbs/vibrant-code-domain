@@ -6,6 +6,7 @@ import ServicePortfolioSection from "@/components/ServicePortfolioSection";
 import ServiceCaseStudiesSection from "@/components/ServiceCaseStudiesSection";
 import ServicePricingSection from "@/components/ServicePricingSection";
 import SimpleContactForm from "@/components/forms/SimpleContactForm";
+import TestimonialsSection from "@/components/TestimonialsSection";
 
 const DataAnalyticsPage = () => {
   const navigate = useNavigate();
@@ -329,6 +330,9 @@ const DataAnalyticsPage = () => {
           <SimpleContactForm sourcePage="data-analytics-cta" className="max-w-2xl mx-auto" />
         </div>
       </section>
+
+      {/* Testimonials Section */}
+      <TestimonialsSection />
 
       <Footer />
     </div>

@@ -6,25 +6,49 @@ const TestimonialsSection = () => {
       name: "Sarah Johnson",
       company: "TechStart Solutions",
       image: "https://images.unsplash.com/photo-1494790108755-2616b612b03c?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
-      text: "BoostMySites created a responsive website that doubled our leads in 3 months! Their attention to detail and customer service is outstanding.",
+      text: "BoostMySites transformed our business with their exceptional development services. Their team's expertise and attention to detail exceeded our expectations. Highly recommended!",
       rating: 5,
-      result: "Doubled leads in 3 months"
+      result: "300% ROI in 6 months"
     },
     {
       name: "Michael Chen",
       company: "Digital Commerce Pro",
       image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
-      text: "Increased our e-commerce conversions by 42% after redesigning our website. The team delivered beyond our expectations.",
+      text: "Outstanding work! The team delivered a solution that perfectly matched our requirements. Their communication throughout the project was excellent and the final result exceeded our expectations.",
       rating: 5,
-      result: "42% increase in conversions"
+      result: "50% efficiency increase"
     },
     {
       name: "Lisa Rodriguez",
       company: "Growth Marketing Agency",
       image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
-      text: "Professional, fast, and delivered exactly what we needed. Our website now loads in under 2 seconds and looks amazing on mobile.",
+      text: "Professional, reliable, and incredibly talented team. They understood our vision and brought it to life better than we imagined. The ongoing support has been exceptional.",
       rating: 5,
-      result: "Under 2s loading time"
+      result: "40% cost reduction"
+    },
+    {
+      name: "David Kumar",
+      company: "Innovation Labs",
+      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
+      text: "Working with BoostMySites was a game-changer for our business. Their technical expertise and innovative approach helped us achieve results we never thought possible.",
+      rating: 5,
+      result: "200% growth in users"
+    },
+    {
+      name: "George Williams",
+      company: "Future Tech Corp",
+      image: "https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
+      text: "Exceptional service from start to finish. The team's dedication to quality and their ability to deliver on time and within budget made this project a huge success for us.",
+      rating: 5,
+      result: "99.9% uptime achieved"
+    },
+    {
+      name: "Alex Thompson",
+      company: "Digital Ventures",
+      image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
+      text: "BoostMySites delivered exactly what we needed and more. Their technical skills and business understanding helped us scale our operations significantly.",
+      rating: 5,
+      result: "5x faster processing"
     }
   ];
 

@@ -5,6 +5,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ServiceReviewsSection from "@/components/ServiceReviewsSection";
 import SimpleContactForm from '@/components/forms/SimpleContactForm';
+import TestimonialsSection from '@/components/TestimonialsSection';
 
 const AiAutomationPage = () => {
   const features = [
@@ -242,6 +243,9 @@ const AiAutomationPage = () => {
           <SimpleContactForm sourcePage="ai-automation-cta" className="max-w-2xl mx-auto" />
         </div>
       </section>
+
+      {/* Testimonials Section */}
+      <TestimonialsSection />
 
       <Footer />
     </div>

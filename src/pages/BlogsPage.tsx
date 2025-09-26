@@ -6,6 +6,7 @@ import BlogHero from '@/components/blog/BlogHero';
 import BlogGrid from '@/components/blog/BlogGrid';
 import BlogCategories from '@/components/blog/BlogCategories';
 import BlogSearch from '@/components/blog/BlogSearch';
+import TestimonialsSection from '@/components/TestimonialsSection';
 import { getCombinedBlogs, onBlogsChange } from '@/services/blogDataService';
 import { BlogPost } from '@/data/blogs';
 
@@ -86,6 +87,9 @@ const BlogsPage = () => {
           )}
         </div>
       </section>
+      
+      {/* Testimonials Section */}
+      <TestimonialsSection />
       
       <Footer />
     </div>
