@@ -12,6 +12,7 @@ import Footer from '@/components/Footer';
 import SimpleContactForm from '@/components/forms/SimpleContactForm';
 import ConversionStickyButton from '@/components/ConversionStickyButton';
 import MediaCoverage from '@/components/MediaCoverage';
+import TechnologyStrugglesSection from '@/components/TechnologyStrugglesSection';
 
 const Index = () => {
   return (
@@ -62,12 +63,15 @@ const Index = () => {
                </a>
              </div>
            </div>
-          </section>
-        
-        {/* Services Section */}
-        <div id="services">
-          <Services />
-        </div>
+           </section>
+         
+         {/* Technology Struggles Section */}
+         <TechnologyStrugglesSection />
+         
+         {/* Services Section */}
+         <div id="services">
+           <Services />
+         </div>
         
         {/* Media Coverage Section */}
         <MediaCoverage />
