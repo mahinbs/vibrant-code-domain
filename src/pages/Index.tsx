@@ -12,6 +12,7 @@ import FAQSection from '@/components/FAQSection';
 import Footer from '@/components/Footer';
 import SimpleContactForm from '@/components/forms/SimpleContactForm';
 import ConversionStickyButton from '@/components/ConversionStickyButton';
+import MediaCoverage from '@/components/MediaCoverage';
 
 const Index = () => {
   return (
@@ -71,6 +72,9 @@ const Index = () => {
         <div id="services">
           <Services />
         </div>
+        
+        {/* Media Coverage Section */}
+        <MediaCoverage />
         
         {/* Stats Grid Section */}
         <StatsGrid />
