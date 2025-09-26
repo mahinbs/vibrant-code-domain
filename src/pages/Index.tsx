@@ -62,22 +62,22 @@ const Index = () => {
                  <span>Schedule a Call Instead</span>
                </a>
              </div>
-           </div>
-            </section>
+            </div>
+             </section>
+          
+          {/* Problem + Solution Section */}
+          <ProblemSolution />
+          
+          {/* Services Section */}
+          <div id="services">
+            <Services />
+          </div>
          
-         {/* Services Section */}
-         <div id="services">
-           <Services />
-         </div>
-        
-        {/* Media Coverage Section */}
-        <MediaCoverage />
-        
-        {/* Stats Grid Section */}
-        <StatsGrid />
-        
-        {/* Problem + Solution Section */}
-        <ProblemSolution />
+         {/* Media Coverage Section */}
+         <MediaCoverage />
+         
+         {/* Stats Grid Section */}
+         <StatsGrid />
         <PortfolioSection />
         <WhyChooseUs />
         <TestimonialsSection />
