@@ -10,7 +10,6 @@ export const formSchema = z.object({
     .regex(/^[+]?[0-9\s-()]{10,15}$/, 'Please enter a valid phone number (10-15 digits)'),
   company: z.string().optional(),
   service_interest: z.string().min(1, 'Please select a service'),
-  budget_range: z.string().min(1, 'Please select a budget range'),
   project_timeline: z.string().min(1, 'Please select a timeline'),
   message: z.string().min(10, 'Message must be at least 10 characters'),
 });
@@ -42,13 +41,6 @@ export const services = [
   'Digital Transformation'
 ];
 
-export const budgetRanges = [
-  '$5,000 - $15,000',
-  '$15,000 - $50,000',
-  '$50,000 - $100,000',
-  '$100,000 - $250,000',
-  '$250,000+'
-];
 
 export const timelines = [
   'ASAP (Rush)',
