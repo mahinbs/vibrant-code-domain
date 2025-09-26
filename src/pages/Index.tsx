@@ -7,7 +7,7 @@ import Services from '@/components/Services';
 import PortfolioSection from '@/components/PortfolioSection';
 import WhyChooseUs from '@/components/WhyChooseUs';
 import TestimonialsSection from '@/components/TestimonialsSection';
-import FAQSection from '@/components/FAQSection';
+
 import Footer from '@/components/Footer';
 import SimpleContactForm from '@/components/forms/SimpleContactForm';
 import ConversionStickyButton from '@/components/ConversionStickyButton';
@@ -81,7 +81,7 @@ const Index = () => {
         <PortfolioSection />
         <WhyChooseUs />
         <TestimonialsSection />
-        <FAQSection />
+        
         
         {/* Final Contact Form Section */}
          <section id="final-contact-form" className="py-20 bg-gradient-to-r from-black via-gray-900 to-black relative">
