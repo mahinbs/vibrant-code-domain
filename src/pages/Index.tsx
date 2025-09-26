@@ -22,15 +22,6 @@ const Index = () => {
           <Hero />
         </div>
         
-        {/* Client Logos Section */}
-        <ClientLogos />
-        
-        {/* Stats Grid Section */}
-        <StatsGrid />
-        
-        {/* Problem + Solution Section */}
-        <ProblemSolution />
-        
          {/* First Contact Form Section */}
           <section id="contact-form" className="py-20 bg-gradient-to-r from-black via-gray-900 to-black relative">
             <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/5 to-blue-500/5"></div>
@@ -72,6 +63,15 @@ const Index = () => {
              </div>
            </div>
          </section>
+        
+        {/* Client Logos Section */}
+        <ClientLogos />
+        
+        {/* Stats Grid Section */}
+        <StatsGrid />
+        
+        {/* Problem + Solution Section */}
+        <ProblemSolution />
         
         <div id="services">
           <Services />
