@@ -7,8 +7,11 @@ const Hero = memo(() => {
   const vantaRef = useRef<HTMLDivElement>(null);
   const vantaEffect = useRef<any>(null);
 
-  const handleLaunchVision = () => {
-    navigate("/contact#form");
+  const handleGetConsultation = () => {
+    const element = document.getElementById('contact-form');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   // Initialize VANTA.WAVES background
@@ -72,21 +75,37 @@ const Hero = memo(() => {
               <br />
               <span className="text-4xl md:text-6xl">to Grow Your Business</span>
             </h1>
-            <p className="text-xl md:text-2xl text-gray-200 mb-8 leading-relaxed max-w-4xl mx-auto opacity-90">
+            <p className="text-xl md:text-2xl text-gray-200 mb-6 leading-relaxed max-w-4xl mx-auto opacity-90">
               Web Apps • Mobile Apps • AI Automation • SaaS Solutions • Blockchain • AR/VR • IoT • Games & More
               <br />
               <span className="text-lg md:text-xl text-cyan-300 mt-2 block">Built by Expert Developers & AI Specialists</span>
             </p>
 
+            {/* Trust Indicators */}
+            <div className="flex flex-wrap justify-center items-center gap-4 md:gap-8 mb-8 text-sm md:text-base">
+              <div className="flex items-center space-x-2 text-cyan-300">
+                <span className="text-yellow-400">★★★★★</span>
+                <span>4.9/5 Rating</span>
+              </div>
+              <div className="text-gray-300">•</div>
+              <div className="text-cyan-300">500+ Projects Delivered</div>
+              <div className="text-gray-300">•</div>
+              <div className="text-cyan-300">24hr Response Guarantee</div>
+            </div>
+
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16">
               <button
-                onClick={handleLaunchVision}
+                onClick={handleGetConsultation}
                 className="group relative bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-10 py-5 rounded-lg hover:from-cyan-400 hover:to-blue-500 transition-all duration-300 font-semibold flex items-center space-x-3 shadow-lg hover:shadow-cyan-500/25 transform hover:scale-105 gpu-accelerate"
               >
-                <span>Launch Your Vision</span>
+                <span>Get Free Consultation</span>
                 <ArrowRight className="h-6 w-6 group-hover:translate-x-2 transition-transform duration-300" />
                 <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-300"></div>
               </button>
+              <div className="text-center">
+                <div className="text-sm text-gray-400 mb-1">Quick Response</div>
+                <div className="text-xs text-cyan-400">Free quote in 24 hours</div>
+              </div>
             </div>
 
             <div
