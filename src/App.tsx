@@ -4,7 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
-import Index from "./pages/Index";
+import EnhancedIndex from "./pages/EnhancedIndex";
 import Portfolio from "./pages/Portfolio";
 import CaseStudy from "./pages/CaseStudy";
 import ContactPage from "./pages/ContactPage";
@@ -65,7 +65,7 @@ const App = () => {
                 path="/"
                 element={
                   <>
-                    <FloatingWhatsAppButton /> <Index />
+                    <FloatingWhatsAppButton /> <EnhancedIndex />
                   </>
                 }
               />
