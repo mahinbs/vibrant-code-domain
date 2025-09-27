@@ -6,9 +6,6 @@ import timesOfIndiaLogo from '../assets/logos/times-of-india.png';
 import businessInsiderColorLogo from '../assets/logos/business-insider-color.png';
 
 const MediaCoverage = () => {
-  const handleForbesClick = () => {
-    window.open('https://youtu.be/z8QmKfoBCWY?si=ilhlrWWADdzTuOFe', '_blank');
-  };
 
   return (
     <section className="py-12 relative overflow-hidden">
@@ -28,44 +25,28 @@ const MediaCoverage = () => {
         <div className="max-w-3xl mx-auto">
           {/* Prominent Forbes Video */}
           <div className="text-center mb-8">
-            <div 
-              onClick={handleForbesClick}
-              className="group inline-block cursor-pointer"
-            >
-              <div className="relative">
-                <div className="w-80 h-48 mx-auto bg-gradient-to-br from-red-500/20 to-red-600/20 rounded-2xl border border-red-500/30 flex items-center justify-center relative overflow-hidden group-hover:border-red-400/50 transition-all duration-300">
-                  <div className="absolute inset-0 bg-black/50"></div>
-                  <div className="relative z-10 text-center">
-                    <div className="w-20 h-20 bg-red-500 rounded-full flex items-center justify-center mb-4 mx-auto group-hover:scale-110 transition-transform duration-300 shadow-2xl">
-                      <Play className="h-8 w-8 text-white ml-1" fill="currentColor" />
-                    </div>
-                    <p className="text-white font-semibold text-lg">Watch Interview</p>
-                  </div>
-                  {/* Forbes Logo Overlay */}
-                  <div className="absolute top-4 left-4">
-                    <img 
-                      src={forbesColorLogo} 
-                      alt="Forbes" 
-                      className="h-8 w-auto object-contain"
-                    />
-                  </div>
-                  <div className="absolute top-4 right-4">
-                    <ExternalLink className="h-5 w-5 text-white/80 group-hover:text-white transition-colors duration-300" />
-                  </div>
-                </div>
+            <div className="relative w-full max-w-2xl mx-auto">
+              <div className="aspect-video rounded-2xl overflow-hidden border border-red-500/30 shadow-2xl">
+                <iframe
+                  width="100%"
+                  height="100%"
+                  src="https://www.youtube.com/embed/z8QmKfoBCWY?si=ilhlrWWADdzTuOFe"
+                  title="Forbes Interview"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                  className="w-full h-full"
+                ></iframe>
               </div>
             </div>
-            <p className="text-xl font-semibold text-white mt-4 mb-2">
+            <p className="text-xl font-semibold text-white mt-4">
               Watch our founder's interview with Forbes
-            </p>
-            <p className="text-gray-400">
-              Discussing the future of web development and AI integration
             </p>
           </div>
 
-          {/* Compact Press Logo Strip */}
-          <div className="bg-gray-900/60 backdrop-blur-sm rounded-xl border border-gray-700/20 p-6">
-            <p className="text-center text-gray-400 text-sm mb-4 uppercase tracking-wider">
+          {/* Featured Logos */}
+          <div className="text-center">
+            <p className="text-gray-400 text-sm mb-4 uppercase tracking-wider">
               Also Featured In
             </p>
             <div className="flex justify-center items-center gap-8 md:gap-12">

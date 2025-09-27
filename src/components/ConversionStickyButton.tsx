@@ -20,7 +20,7 @@ const ConversionStickyButton: React.FC = () => {
             className="px-6 py-3 text-sm bg-transparent hover:bg-white/10 text-white font-semibold transition-all duration-300 border-0"
           >
             <MessageCircle className="h-4 w-4 mr-2" />
-            Free Quote
+            Free Consultation
           </Button>
         </div>
         <div className="text-xs text-center mt-1 text-cyan-300 font-medium">24hr Response</div>

@@ -6,7 +6,7 @@ import ProblemSolution from '@/components/ProblemSolution';
 import Services from '@/components/Services';
 import PortfolioSection from '@/components/PortfolioSection';
 import WhyChooseUs from '@/components/WhyChooseUs';
-import TestimonialsSection from '@/components/TestimonialsSection';
+import TestimonialsCarousel from '@/components/TestimonialsCarousel';
 
 import Footer from '@/components/Footer';
 import SimpleContactForm from '@/components/forms/SimpleContactForm';
@@ -80,7 +80,7 @@ const Index = () => {
          <StatsGrid />
         <PortfolioSection />
         <WhyChooseUs />
-        <TestimonialsSection />
+        <TestimonialsCarousel />
         
         
         {/* Final Contact Form Section */}

@@ -1,7 +1,8 @@
-
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { preloadProject, preloadMultipleProjects } from '@/services/projectService';
-import { useEffect } from 'react';
+import { ChevronDown, ChevronUp } from 'lucide-react';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 
 interface Project {
   id: string;
@@ -48,12 +49,21 @@ const ProjectCard = ({
   handleProjectClick, 
   animationDelay 
 }: ProjectCardProps) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+  
   // Preload project data when card becomes visible
   useEffect(() => {
     if (isVisible) {
       preloadProject(project.id);
     }
   }, [isVisible, project.id]);
+
+  const truncateText = (text: string, maxLength: number) => {
+    if (text.length <= maxLength) return text;
+    return text.substring(0, maxLength) + '...';
+  };
+
+  const shouldShowReadMore = project.description.length > 100;
 
   const handleMouseEnter = () => {
     // Aggressively preload project data on hover
@@ -114,9 +124,22 @@ const ProjectCard = ({
             <h4 className={`text-lg sm:text-xl font-bold text-white group-hover:${colors.text} transition-colors duration-300 leading-tight`}>
               {project.title}
             </h4>
-            <p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300 text-sm leading-relaxed">
-              {project.description}
-            </p>
+            <Collapsible open={isExpanded} onOpenChange={setIsExpanded}>
+              <div className="space-y-2">
+                <p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300 text-sm leading-relaxed">
+                  {isExpanded ? project.description : truncateText(project.description, 100)}
+                </p>
+                {shouldShowReadMore && (
+                  <CollapsibleTrigger className="flex items-center text-xs text-cyan-400 hover:text-cyan-300 transition-colors duration-200">
+                    {isExpanded ? (
+                      <>Read less <ChevronUp className="h-3 w-3 ml-1" /></>
+                    ) : (
+                      <>Read more <ChevronDown className="h-3 w-3 ml-1" /></>
+                    )}
+                  </CollapsibleTrigger>
+                )}
+              </div>
+            </Collapsible>
             
             {/* Mobile Metrics */}
             <div className="flex flex-wrap gap-2">
@@ -147,9 +170,22 @@ const ProjectCard = ({
               <h4 className={`text-xl font-bold text-white mb-2 group-hover:${colors.text} transition-colors duration-300`}>
                 {project.title}
               </h4>
-              <p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300 text-sm leading-relaxed">
-                {project.description}
-              </p>
+              <Collapsible open={isExpanded} onOpenChange={setIsExpanded}>
+                <div className="space-y-2">
+                  <p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300 text-sm leading-relaxed">
+                    {isExpanded ? project.description : truncateText(project.description, 100)}
+                  </p>
+                  {shouldShowReadMore && (
+                    <CollapsibleTrigger className="flex items-center text-xs text-cyan-400 hover:text-cyan-300 transition-colors duration-200">
+                      {isExpanded ? (
+                        <>Read less <ChevronUp className="h-3 w-3 ml-1" /></>
+                      ) : (
+                        <>Read more <ChevronDown className="h-3 w-3 ml-1" /></>
+                      )}
+                    </CollapsibleTrigger>
+                  )}
+                </div>
+              </Collapsible>
             </div>
             <Link 
               to={`/case-study/${project.slug || project.id}`}

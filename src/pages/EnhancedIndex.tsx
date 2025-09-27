@@ -6,7 +6,7 @@ import EnhancedServices from '@/components/enhanced/EnhancedServices';
 import StatsGrid from '@/components/StatsGrid';
 import PortfolioSection from '@/components/PortfolioSection';
 import WhyChooseUs from '@/components/WhyChooseUs';
-import TestimonialsSection from '@/components/TestimonialsSection';
+import TestimonialsCarousel from '@/components/TestimonialsCarousel';
 import Footer from '@/components/Footer';
 import SimpleContactForm from '@/components/forms/SimpleContactForm';
 import ConversionStickyButton from '@/components/ConversionStickyButton';
@@ -119,7 +119,7 @@ const EnhancedIndex = () => {
           toGradient="from-black to-gray-900"
           type="slide"
         >
-          <TestimonialsSection />
+          <TestimonialsCarousel />
         </SectionTransition>
         
         <SectionTransition 
