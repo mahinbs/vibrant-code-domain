@@ -151,7 +151,7 @@ const PartnershipPage = () => {
             <Card className="bg-gradient-to-br from-gray-800 to-gray-900 border-cyan-500/30">
               <CardHeader className="text-center">
                 <CardTitle className="text-3xl font-bold text-white mb-4">
-                  ⚡ Why This is Special
+                  Why This is Special
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
@@ -170,7 +170,7 @@ const PartnershipPage = () => {
                     </h3>
                   </div>
                   <p className="text-center text-gray-300">
-                    🚀 Spots are extremely limited – once we close, we won't
+                    Spots are extremely limited – once we close, we won't
                     reopen soon.
                   </p>
                 </div>

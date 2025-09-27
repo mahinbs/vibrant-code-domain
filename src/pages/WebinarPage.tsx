@@ -461,7 +461,7 @@ const WebinarPage = () => {
               <div className="flex items-center justify-center gap-2">
                 <Zap className="w-4 h-4" />
                 <span className="font-semibold text-sm">
-                  ⚡ {Math.round(registrationCount / (webinar.registration_limit || 100) * 100)}% seats filled – Reserve your spot before registration closes!
+                  {Math.round(registrationCount / (webinar.registration_limit || 100) * 100)}% seats filled – Reserve your spot before registration closes!
                 </span>
               </div>
             </div>

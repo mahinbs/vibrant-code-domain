@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, memo } from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Rocket, Zap } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { useParallax } from "@/hooks/useParallax";
@@ -222,12 +222,12 @@ const EnhancedHero = memo(() => {
               </div>
               <div className="text-gray-500">|</div>
               <div className="flex items-center space-x-2">
-                <span>🚀</span>
+                <Rocket className="h-4 w-4 text-cyan-400" />
                 <span>500+ Projects Delivered</span>
               </div>
               <div className="text-gray-500">|</div>
               <div className="flex items-center space-x-2">
-                <span>⚡</span>
+                <Zap className="h-4 w-4 text-cyan-400" />
                 <span>24hr Response Guarantee</span>
               </div>
             </div>

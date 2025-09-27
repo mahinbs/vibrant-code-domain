@@ -1,4 +1,5 @@
 import Header from '@/components/Header';
+import { CheckCircle } from 'lucide-react';
 import EnhancedHero from '@/components/enhanced/EnhancedHero';
 import EnhancedProblemSolution from '@/components/enhanced/EnhancedProblemSolution';
 import EnhancedServices from '@/components/enhanced/EnhancedServices';
@@ -12,13 +13,12 @@ import ConversionStickyButton from '@/components/ConversionStickyButton';
 import MediaCoverage from '@/components/MediaCoverage';
 import { SectionTransition } from '@/components/ui/SectionTransition';
 import { ScrollProgress } from '@/components/ui/ScrollProgress';
-import { JourneyNavigation } from '@/components/ui/JourneyNavigation';
+
 
 const EnhancedIndex = () => {
   return (
     <div className="min-h-screen w-full overflow-x-hidden">
       <ScrollProgress />
-      <JourneyNavigation />
       <Header />
       <main className="w-full">
         <div id="hero">
@@ -35,7 +35,7 @@ const EnhancedIndex = () => {
             <div className="container mx-auto px-6 relative z-10">
               <div className="max-w-3xl mx-auto text-center mb-12">
                 <div className="inline-block px-4 py-2 bg-red-500/20 border border-red-400/30 rounded-full text-red-300 text-sm font-medium mb-4">
-                  ⚡ Limited Slots Available This Month
+                  Limited Slots Available This Month
                 </div>
                 <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
                   Get Your Free Consultation in 24 Hours!
@@ -45,15 +45,15 @@ const EnhancedIndex = () => {
                 </p>
                 <div className="flex justify-center items-center space-x-8 text-sm text-gray-400">
                   <div className="flex items-center space-x-2">
-                    <span className="text-green-400">✓</span>
+                    <CheckCircle className="h-4 w-4 text-green-400" />
                     <span>No Hidden Costs</span>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <span className="text-green-400">✓</span>
+                    <CheckCircle className="h-4 w-4 text-green-400" />
                     <span>Free Consultation</span>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <span className="text-green-400">✓</span>
+                    <CheckCircle className="h-4 w-4 text-green-400" />
                     <span>24hr Response</span>
                   </div>
                 </div>

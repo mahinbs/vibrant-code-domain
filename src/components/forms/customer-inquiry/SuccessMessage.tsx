@@ -20,7 +20,7 @@ const SuccessMessage = () => {
 
         {/* Main Heading */}
         <h2 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-white via-cyan-200 to-blue-300 bg-clip-text text-transparent animate-fade-in">
-          🚀 Your Vision is Our Mission!
+          Your Vision is Our Mission!
         </h2>
 
         {/* Motivational Subheading */}

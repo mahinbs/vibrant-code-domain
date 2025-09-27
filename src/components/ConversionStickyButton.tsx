@@ -29,7 +29,7 @@ const ConversionStickyButton: React.FC = () => {
       {/* Mobile sticky bottom bar with urgency */}
       <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 p-4 bg-gradient-to-t from-black/90 to-transparent backdrop-blur-sm">
         <div className="text-center mb-2">
-          <div className="text-xs text-cyan-400 font-medium">⚡ Limited Slots Available</div>
+          <div className="text-xs text-cyan-400 font-medium">Limited Slots Available</div>
         </div>
         <Button
           onClick={handleGetConsultation}

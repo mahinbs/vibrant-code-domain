@@ -124,14 +124,14 @@ const ProblemSolutionCard = ({ item, index }: { item: typeof challengeSolutions[
       onMouseEnter={() => !isMobile && setIsFlipped(true)}
       onMouseLeave={() => !isMobile && setIsFlipped(false)}
     >
-      <div className={`flip-card ${isFlipped ? 'flipped' : ''} relative w-full h-64 transition-transform duration-700 transform-style-preserve-3d cursor-pointer`}>
+      <div className={`flip-card ${isFlipped ? 'flipped' : ''} relative w-full h-48 transition-transform duration-700 transform-style-preserve-3d cursor-pointer`}>
         {/* Problem Side (Front) */}
-        <div className="flip-card-front absolute inset-0 backface-hidden bg-gradient-to-br from-gray-900/80 to-black/60 backdrop-blur-sm border border-red-400/20 rounded-2xl p-6 flex flex-col justify-center items-center text-center">
-          <div className="flex items-center justify-center w-16 h-16 rounded-full bg-red-500/20 border border-red-400/30 mb-4">
-            <X className="h-8 w-8 text-red-400" />
+        <div className="flip-card-front absolute inset-0 backface-hidden bg-gradient-to-br from-gray-900/80 to-black/60 backdrop-blur-sm border border-red-400/20 rounded-2xl p-4 flex flex-col justify-center items-center text-center">
+          <div className="flex items-center justify-center w-12 h-12 rounded-full bg-red-500/20 border border-red-400/30 mb-3">
+            <X className="h-6 w-6 text-red-400" />
           </div>
-          <h3 className="text-xl font-bold text-white mb-2">Problem</h3>
-          <p className="text-gray-300 text-lg leading-relaxed">
+          <h3 className="text-lg font-bold text-white mb-2">Problem</h3>
+          <p className="text-gray-300 text-sm leading-relaxed">
             {item.challenge}
           </p>
           {!isMobile && (
@@ -142,15 +142,15 @@ const ProblemSolutionCard = ({ item, index }: { item: typeof challengeSolutions[
         </div>
 
         {/* Solution Side (Back) */}
-        <div className={`flip-card-back absolute inset-0 backface-hidden bg-gradient-to-br ${item.color} rounded-2xl p-6 flex flex-col justify-center items-center text-center transform rotate-y-180`}>
-          <div className="flex items-center justify-center w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm mb-4">
-            <IconComponent className="h-8 w-8 text-white" />
+        <div className={`flip-card-back absolute inset-0 backface-hidden bg-gradient-to-br ${item.color} rounded-2xl p-4 flex flex-col justify-center items-center text-center transform rotate-y-180`}>
+          <div className="flex items-center justify-center w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm mb-3">
+            <IconComponent className="h-6 w-6 text-white" />
           </div>
-          <h3 className="text-xl font-bold text-white mb-2">Solution</h3>
-          <p className="text-white/90 text-lg leading-relaxed font-medium">
+          <h3 className="text-lg font-bold text-white mb-2">Solution</h3>
+          <p className="text-white/90 text-sm leading-relaxed font-medium">
             {item.solution}
           </p>
-          <CheckCircle className="h-6 w-6 text-white mt-4 opacity-80" />
+          <CheckCircle className="h-5 w-5 text-white mt-3 opacity-80" />
         </div>
 
         {/* Glow Effect */}
@@ -224,7 +224,7 @@ const EnhancedProblemSolution = () => {
   return (
     <section 
       ref={containerRef}
-      className="py-20 bg-gradient-to-b from-black to-gray-900 relative overflow-hidden"
+      className="py-12 bg-gradient-to-b from-black to-gray-900 relative overflow-hidden"
       id="problem-solution"
     >
       {/* Animated background elements */}
@@ -237,7 +237,7 @@ const EnhancedProblemSolution = () => {
       
       <div className="container mx-auto px-6 relative z-10">
         <ScrollReveal>
-          <div className="text-center mb-16">
+          <div className="text-center mb-10">
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
               Struggling With Technology That{" "}
               <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
@@ -256,7 +256,7 @@ const EnhancedProblemSolution = () => {
 
         {/* Interactive Problem-Solution Cards Grid */}
         <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {challengeSolutions.map((item, index) => (
               <ScrollReveal key={item.id} delay={index * 0.1}>
                 <ProblemSolutionCard item={item} index={index} />
@@ -267,7 +267,7 @@ const EnhancedProblemSolution = () => {
 
         {/* Enhanced CTA with animation */}
         <ScrollReveal delay={0.8}>
-          <div className="text-center mt-16 pt-8">
+          <div className="text-center mt-10 pt-6">
             <div className="inline-block px-6 py-3 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 border border-cyan-400/30 rounded-full mb-6">
               <p className="text-xl text-cyan-400 font-medium">
                 Ready to transform these challenges into opportunities?
