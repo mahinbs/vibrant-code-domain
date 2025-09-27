@@ -80,13 +80,7 @@ const EnhancedIndex = () => {
           <EnhancedProblemSolution />
         </SectionTransition>
         
-        <SectionTransition 
-          fromGradient="from-black to-gray-800" 
-          toGradient="from-gray-800 to-black"
-          type="scale"
-        >
-          <EnhancedServices />
-        </SectionTransition>
+        <EnhancedServices />
        
         <SectionTransition 
           fromGradient="from-gray-800 to-black" 
