@@ -48,7 +48,7 @@ const TestimonialsSection: React.FC = () => {
             <div key={index} className="bg-card/10 backdrop-blur-sm border border-border/20 rounded-xl p-6 hover:bg-card/15 transition-all duration-300">
               <div className="flex items-center gap-1 mb-4">
                 {[...Array(testimonial.rating)].map((_, i) => (
-                  <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                  <Star key={i} className="w-4 h-4 fill-cyan-400 text-cyan-400" />
                 ))}
               </div>
               <p className="text-foreground mb-4 italic">"{testimonial.text}"</p>
