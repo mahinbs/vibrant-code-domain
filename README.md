@@ -1,8 +1,24 @@
-# Welcome to your Lovable project
+# BoostMySites - Digital Solutions Platform
+
+A modern, responsive web application built with React, TypeScript, and Tailwind CSS, showcasing digital services including mobile app development, web applications, AI solutions, and more.
 
 ## Project info
 
 **URL**: https://lovable.dev/projects/e131830c-60b5-43b1-997a-e8d892c5764e
+
+## Recent Updates
+
+### Portfolio Card Improvements (Latest)
+- **75/25 Layout**: Portfolio cards now feature 75% image area and 25% information area
+- **Expandable Text**: Added "More/Less" functionality for project descriptions
+- **Fixed Overflow**: Resolved text overflow issue that was blocking the "View" button
+- **Consistent Design**: Applied improvements to both Mobile Apps and Web Apps portfolio sections
+- **Color Consistency**: Updated testimonials section to match header's cyan/blue color scheme
+
+### Mobile Apps Page Enhancements
+- **Inline Portfolio**: Portfolio content now loads inline without page navigation
+- **Collapsible Design**: Removed toggle button, portfolio is now permanently visible
+- **Improved UX**: Better user experience with seamless content flow
 
 ## How can I edit this code?
 
@@ -54,11 +70,23 @@ npm run dev
 
 This project is built with:
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+- **Frontend**: React 18, TypeScript, Vite
+- **Styling**: Tailwind CSS, shadcn-ui components
+- **Routing**: React Router DOM
+- **State Management**: React Hooks (useState, useEffect)
+- **Icons**: Lucide React
+- **Database**: Supabase (for portfolio and blog data)
+- **Deployment**: Vercel
+
+## Features
+
+- **Responsive Design**: Mobile-first approach with responsive layouts
+- **Portfolio Showcase**: Dynamic portfolio sections with expandable content
+- **Service Pages**: Dedicated pages for different services (Mobile Apps, Web Apps, AI, etc.)
+- **Contact Forms**: Integrated contact forms with form validation
+- **Blog System**: Dynamic blog with categories and search functionality
+- **Admin Panel**: Content management system for portfolio and blog posts
+- **SEO Optimized**: Meta tags, structured data, and performance optimization
 
 ## How can I deploy this project?
 

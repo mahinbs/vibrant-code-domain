@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ChevronDown, ChevronUp } from "lucide-react";
 import { adminDataService } from "@/services/adminDataService";
 import { Project } from "@/data/projects";
 
@@ -109,6 +109,7 @@ const ServicePortfolioSection = ({
   const accentClasses = getAccentClasses(accentColor);
   const [portfolioProjects, setPortfolioProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
+  const [expandedCards, setExpandedCards] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     const fetchPortfolioData = async () => {
@@ -134,6 +135,23 @@ const ServicePortfolioSection = ({
 
     fetchPortfolioData();
   }, [serviceId, fallbackProjects]);
+
+  const toggleCardExpansion = (projectId: string) => {
+    setExpandedCards(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(projectId)) {
+        newSet.delete(projectId);
+      } else {
+        newSet.add(projectId);
+      }
+      return newSet;
+    });
+  };
+
+  const truncateText = (text: string, maxLength: number) => {
+    if (text.length <= maxLength) return text;
+    return text.substring(0, maxLength) + '...';
+  };
 
   if (loading) {
     return (
@@ -207,60 +225,75 @@ const ServicePortfolioSection = ({
 
         {portfolioProjects.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {portfolioProjects.map((project, index) => (
-              <div
-                key={project.id}
-                className={`group bg-gray-800/50 rounded-2xl overflow-hidden border border-gray-700/50 hover:${accentClasses.border} transition-all duration-300`}
-              >
-                <div className="relative h-48 overflow-hidden">
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 to-transparent pointer-events-none"></div>
-                  <div className="absolute bottom-4 left-4">
-                    <span
-                      className={`px-3 py-1 ${accentClasses.bg} border border-${accentColor}-400/30 rounded-full text-sm ${accentClasses.tag}`}
-                    >
-                      {project.industry}
-                    </span>
-                  </div>
-                </div>
-                <div className="p-6">
-                  <h3
-                    className={`text-xl font-bold mb-3 group-${accentClasses.hover} transition-colors`}
-                  >
-                    {project.title}
-                  </h3>
-                  <p className="text-gray-400 mb-4 text-sm leading-relaxed">
-                    {project.description}
-                  </p>
-                  <div className="mb-4">
-                    <div className="flex flex-wrap gap-1 mb-3">
-                      {project.technologies.slice(0, 3).map((tech, idx) => (
-                        <span
-                          key={idx}
-                          className="text-xs px-2 py-1 bg-blue-500/20 text-blue-300 rounded"
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-                    <div className="text-sm text-gray-500">
-                      <div>Client: {project.client}</div>
-                      <div>Timeline: {project.timeline}</div>
+            {portfolioProjects.map((project, index) => {
+              const isExpanded = expandedCards.has(project.id);
+              const shouldShowMore = project.description.length > 120;
+              
+              return (
+                <div
+                  key={project.id}
+                  className={`group bg-gray-800/50 rounded-2xl overflow-hidden border border-gray-700/50 hover:${accentClasses.border} transition-all duration-300`}
+                >
+                  {/* Image Section - 75% */}
+                  <div className="relative h-64 overflow-hidden">
+                    <img
+                      src={project.image}
+                      alt={project.title}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 to-transparent pointer-events-none"></div>
+                    <div className="absolute bottom-4 left-4">
+                      <span
+                        className={`px-3 py-1 ${accentClasses.bg} border border-${accentColor}-400/30 rounded-full text-sm ${accentClasses.tag}`}
+                      >
+                        {project.industry}
+                      </span>
                     </div>
                   </div>
-                  <Link
-                    to={`/case-study/${project.slug || project.id}`}
-                    className={`inline-flex items-center ${accentClasses.text} ${accentClasses.hover} transition-colors text-sm font-medium`}
-                  >
-                    View Case Study <ArrowRight className="ml-1 h-4 w-4" />
-                  </Link>
+                  
+                  {/* Information Section - 25% */}
+                  <div className={`p-4 flex flex-col ${isExpanded ? 'min-h-32' : 'h-32'}`}>
+                    <div className="flex-1">
+                      <h3
+                        className={`text-lg font-bold mb-2 group-${accentClasses.hover} transition-colors line-clamp-1`}
+                      >
+                        {project.title}
+                      </h3>
+                      <p className="text-gray-400 text-xs leading-relaxed mb-3">
+                        {isExpanded ? project.description : truncateText(project.description, 80)}
+                      </p>
+                    </div>
+                    
+                    <div className="flex items-center justify-between mt-auto">
+                      <div className="flex items-center space-x-2">
+                        {shouldShowMore && (
+                          <button
+                            onClick={() => toggleCardExpansion(project.id)}
+                            className={`inline-flex items-center text-xs ${accentClasses.text} ${accentClasses.hover} transition-colors`}
+                          >
+                            {isExpanded ? (
+                              <>
+                                Less <ChevronUp className="ml-1 h-3 w-3" />
+                              </>
+                            ) : (
+                              <>
+                                More <ChevronDown className="ml-1 h-3 w-3" />
+                              </>
+                            )}
+                          </button>
+                        )}
+                      </div>
+                      <Link
+                        to={`/case-study/${project.slug || project.id}`}
+                        className={`inline-flex items-center text-xs ${accentClasses.text} ${accentClasses.hover} transition-colors font-medium`}
+                      >
+                        View <ArrowRight className="ml-1 h-3 w-3" />
+                      </Link>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         ) : (
           <div className="text-center py-12">

@@ -4,6 +4,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import SimpleContactForm from '@/components/forms/SimpleContactForm';
 import TestimonialsSection from '@/components/TestimonialsSection';
+import ServicePortfolioSection from '@/components/ServicePortfolioSection';
 
 const MobileAppsPage = () => {
   const navigate = useNavigate();
@@ -102,15 +103,16 @@ const MobileAppsPage = () => {
             <p className="text-gray-400 mb-6 max-w-md mx-auto">
               Explore our portfolio of successful projects and see what we can build for you.
             </p>
-            <Link 
-              to="/portfolio"
-              className="inline-flex items-center px-6 py-3 border border-purple-400/30 rounded-xl font-semibold hover:bg-purple-500/10 transition-all duration-300"
-            >
-              View Portfolio
-            </Link>
           </div>
         </div>
       </section>
+
+      {/* Portfolio Section */}
+      <ServicePortfolioSection 
+        serviceId="mobile-apps" 
+        serviceName="Mobile Applications"
+        accentColor="purple"
+      />
 
       {/* Features Section */}
       <section className="py-20 bg-gray-900/50">

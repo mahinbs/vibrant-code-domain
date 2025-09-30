@@ -54,11 +54,11 @@ const TestimonialsSection = () => {
 
   return (
     <section className="py-20 bg-gradient-to-b from-gray-900 to-black relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-r from-yellow-500/5 to-orange-500/5"></div>
+      <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/5 to-blue-500/5"></div>
       <div className="container mx-auto px-6 relative z-10">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-            What Our <span className="bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">Clients Say</span>
+            What Our <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Clients Say</span>
           </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
             Real results from real businesses who trusted us with their digital transformation
@@ -69,11 +69,11 @@ const TestimonialsSection = () => {
           {testimonials.map((testimonial, index) => (
             <div 
               key={index}
-              className="group bg-gray-900/70 backdrop-blur-sm border border-gray-700/50 rounded-2xl p-8 hover:border-yellow-400/50 transition-all duration-300 hover:transform hover:scale-105"
+              className="group bg-gray-900/70 backdrop-blur-sm border border-gray-700/50 rounded-2xl p-8 hover:border-cyan-400/50 transition-all duration-300 hover:transform hover:scale-105"
             >
               {/* Quote Icon */}
               <div className="mb-6">
-                <Quote className="h-10 w-10 text-yellow-400 opacity-60" />
+                <Quote className="h-10 w-10 text-cyan-400 opacity-60" />
               </div>
 
               {/* Testimonial Text */}
@@ -83,7 +83,7 @@ const TestimonialsSection = () => {
 
               {/* Result Badge */}
               <div className="mb-6">
-                <span className="px-4 py-2 bg-yellow-500/20 border border-yellow-400/30 rounded-full text-sm text-yellow-300 font-medium">
+                <span className="px-4 py-2 bg-cyan-500/20 border border-cyan-400/30 rounded-full text-sm text-cyan-300 font-medium">
                   ✨ {testimonial.result}
                 </span>
               </div>
@@ -91,7 +91,7 @@ const TestimonialsSection = () => {
               {/* Rating */}
               <div className="flex items-center mb-6">
                 {[...Array(testimonial.rating)].map((_, i) => (
-                  <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />
+                  <Star key={i} className="h-5 w-5 text-cyan-400 fill-current" />
                 ))}
               </div>
 
@@ -100,7 +100,7 @@ const TestimonialsSection = () => {
                 <img 
                   src={testimonial.image} 
                   alt={testimonial.name}
-                  className="w-12 h-12 rounded-full object-cover border-2 border-yellow-400/30"
+                  className="w-12 h-12 rounded-full object-cover border-2 border-cyan-400/30"
                 />
                 <div>
                   <div className="font-semibold text-white">{testimonial.name}</div>
@@ -113,10 +113,10 @@ const TestimonialsSection = () => {
 
         {/* Bottom Stats */}
         <div className="mt-16 text-center">
-          <div className="inline-flex items-center space-x-2 px-6 py-3 bg-yellow-500/20 border border-yellow-400/30 rounded-full">
-            <Star className="h-5 w-5 text-yellow-400 fill-current" />
-            <span className="text-yellow-300 font-medium">4.9/5 Average Rating</span>
-            <Star className="h-5 w-5 text-yellow-400 fill-current" />
+          <div className="inline-flex items-center space-x-2 px-6 py-3 bg-cyan-500/20 border border-cyan-400/30 rounded-full">
+            <Star className="h-5 w-5 text-cyan-400 fill-current" />
+            <span className="text-cyan-300 font-medium">4.9/5 Average Rating</span>
+            <Star className="h-5 w-5 text-cyan-400 fill-current" />
           </div>
           <p className="text-gray-400 mt-4">Based on 500+ client reviews</p>
         </div>
