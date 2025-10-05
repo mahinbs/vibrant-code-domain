@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { DateRange } from 'react-day-picker';
 import { isWithinInterval, parseISO, startOfDay, endOfDay } from 'date-fns';
 import { customerInquiryService, CustomerInquiry } from '@/services/customerInquiryService';
+import { useIsMobile } from '@/hooks/use-mobile';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -23,6 +24,7 @@ import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 
 const CustomerInquiries = () => {
+  const isMobile = useIsMobile();
   const [inquiries, setInquiries] = useState<CustomerInquiry[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('all');
@@ -153,7 +155,7 @@ const CustomerInquiries = () => {
     <AdminLayout>
       <div className="space-y-6">
         {/* Breadcrumb Navigation */}
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div className="space-y-3">
             <Breadcrumb>
               <BreadcrumbList>
@@ -170,71 +172,71 @@ const CustomerInquiries = () => {
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
-            <div className="flex items-center space-x-3">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3">
               <Button
                 asChild
                 variant="outline"
                 size="sm"
-                className="border-gray-600 text-gray-300 hover:bg-gray-700 hover:text-white"
+                className={`border-gray-600 text-gray-300 hover:bg-gray-700 hover:text-white ${isMobile ? 'w-full' : ''}`}
               >
                 <Link to="/admin">
                   <ArrowLeft className="h-4 w-4 mr-2" />
                   Back to Dashboard
                 </Link>
               </Button>
-              <h1 className="text-3xl font-bold text-white">Customer Inquiries</h1>
+              <h1 className="text-2xl md:text-3xl font-bold text-white">Customer Inquiries</h1>
             </div>
           </div>
           <Button 
             onClick={showDeleted ? loadDeletedInquiries : loadInquiries}
-            className="bg-cyan-500 hover:bg-cyan-600"
+            className={`bg-cyan-500 hover:bg-cyan-600 ${isMobile ? 'w-full' : ''}`}
           >
             Refresh
           </Button>
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
           <Card className="bg-gray-800 border-gray-700">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm text-gray-400">Total Inquiries</CardTitle>
+            <CardHeader className="pb-2 p-3 md:p-4">
+              <CardTitle className="text-xs md:text-sm text-gray-400">Total Inquiries</CardTitle>
             </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-white">{inquiryStats.total}</div>
+            <CardContent className="p-3 md:p-4 pt-0">
+              <div className="text-xl md:text-2xl font-bold text-white">{inquiryStats.total}</div>
             </CardContent>
           </Card>
           <Card className="bg-gray-800 border-gray-700">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm text-gray-400">New</CardTitle>
+            <CardHeader className="pb-2 p-3 md:p-4">
+              <CardTitle className="text-xs md:text-sm text-gray-400">New</CardTitle>
             </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-blue-400">{inquiryStats.new}</div>
+            <CardContent className="p-3 md:p-4 pt-0">
+              <div className="text-xl md:text-2xl font-bold text-blue-400">{inquiryStats.new}</div>
             </CardContent>
           </Card>
           <Card className="bg-gray-800 border-gray-700">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm text-gray-400">In Progress</CardTitle>
+            <CardHeader className="pb-2 p-3 md:p-4">
+              <CardTitle className="text-xs md:text-sm text-gray-400">In Progress</CardTitle>
             </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-yellow-400">{inquiryStats.in_progress}</div>
+            <CardContent className="p-3 md:p-4 pt-0">
+              <div className="text-xl md:text-2xl font-bold text-yellow-400">{inquiryStats.in_progress}</div>
             </CardContent>
           </Card>
           <Card className="bg-gray-800 border-gray-700">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm text-gray-400">Converted</CardTitle>
+            <CardHeader className="pb-2 p-3 md:p-4">
+              <CardTitle className="text-xs md:text-sm text-gray-400">Converted</CardTitle>
             </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-green-400">{inquiryStats.converted}</div>
+            <CardContent className="p-3 md:p-4 pt-0">
+              <div className="text-xl md:text-2xl font-bold text-green-400">{inquiryStats.converted}</div>
             </CardContent>
           </Card>
         </div>
 
         {/* Filters */}
-        <div className="flex flex-wrap gap-4 items-center">
-          <div className="flex items-center space-x-2">
-            <Filter className="h-4 w-4 text-gray-400" />
+        <div className="flex flex-col md:flex-row gap-3 md:gap-4">
+          <div className="flex items-center space-x-2 w-full md:w-auto">
+            <Filter className="h-4 w-4 text-gray-400 flex-shrink-0" />
             <Select value={filter} onValueChange={setFilter}>
-              <SelectTrigger className="w-40 bg-gray-800 border-gray-600 text-white">
+              <SelectTrigger className="w-full md:w-40 bg-gray-800 border-gray-600 text-white h-11">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent className="bg-gray-800 border-gray-600">
@@ -247,20 +249,20 @@ const CustomerInquiries = () => {
               </SelectContent>
             </Select>
           </div>
-          <div className="flex items-center space-x-2">
-            <CalendarIcon className="h-4 w-4 text-gray-400" />
+          <div className="flex items-center space-x-2 w-full md:w-auto">
+            <CalendarIcon className="h-4 w-4 text-gray-400 flex-shrink-0" />
             <DateRangePicker date={dateRange} onDateChange={setDateRange} />
           </div>
-          <div className="flex items-center space-x-2 flex-1 min-w-[250px]">
-            <Search className="h-4 w-4 text-gray-400" />
+          <div className="flex items-center space-x-2 flex-1">
+            <Search className="h-4 w-4 text-gray-400 flex-shrink-0" />
             <Input
               placeholder="Search inquiries..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="bg-gray-800 border-gray-600 text-white"
+              className="bg-gray-800 border-gray-600 text-white h-11"
             />
           </div>
-          <div className="flex items-center space-x-2 ml-auto">
+          <div className="flex items-center justify-between md:justify-start space-x-2 w-full md:w-auto">
             <Label htmlFor="show-deleted" className="text-gray-400">Show Deleted</Label>
             <Switch
               id="show-deleted"
@@ -281,47 +283,48 @@ const CustomerInquiries = () => {
           ) : (
             filteredInquiries.map((inquiry) => (
               <Card key={inquiry.id} className="bg-gray-800 border-gray-700">
-                <CardHeader>
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <CardTitle className="text-white text-lg">
+                <CardHeader className="p-4 md:p-6">
+                  <div className="flex flex-col md:flex-row md:justify-between gap-4">
+                    <div className="flex-1">
+                      <CardTitle className="text-white text-base md:text-lg">
                         {inquiry.first_name} {inquiry.last_name}
                         {inquiry.company && <span className="text-gray-400 ml-2">• {inquiry.company}</span>}
                       </CardTitle>
-                      <div className="flex items-center space-x-4 mt-2 text-sm text-gray-400">
+                      <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4 mt-2 text-xs md:text-sm text-gray-400">
                         <div className="flex items-center space-x-1">
-                          <Mail className="h-4 w-4" />
-                          <span>{inquiry.email}</span>
+                          <Mail className="h-4 w-4 flex-shrink-0" />
+                          <span className="truncate">{inquiry.email}</span>
                         </div>
                         {inquiry.phone && (
                           <div className="flex items-center space-x-1">
-                            <Phone className="h-4 w-4" />
+                            <Phone className="h-4 w-4 flex-shrink-0" />
                             <span>{inquiry.phone}</span>
                           </div>
                         )}
                         <div className="flex items-center space-x-1">
-                          <CalendarIcon className="h-4 w-4" />
+                          <CalendarIcon className="h-4 w-4 flex-shrink-0" />
                           <span>{new Date(inquiry.created_at!).toLocaleDateString()}</span>
                         </div>
                       </div>
                     </div>
-                    <div className="flex items-center space-x-2">
+                    <div className="flex flex-col md:flex-row gap-2 md:items-center">
                       {showDeleted ? (
                         <>
-                          <Badge variant="destructive">DELETED</Badge>
+                          <Badge variant="destructive" className="w-fit">DELETED</Badge>
                           <Button
                            variant="outline"
-                           size="sm"
+                           size={isMobile ? "default" : "sm"}
                            onClick={() => restoreInquiry(inquiry.id!)}
-                           className="text-white border-green-500 hover:bg-green-600"
+                           className="text-white border-green-500 hover:bg-green-600 h-11 md:h-9"
                           >
                            <RotateCcw className="h-4 w-4 mr-2" />
                             Restore
                           </Button>
                           <Button
                            variant="destructive"
-                           size="sm"
+                           size={isMobile ? "default" : "sm"}
                            onClick={() => hardDeleteInquiry(inquiry.id!)}
+                           className="h-11 md:h-9"
                           >
                            <Trash2 className="h-4 w-4 mr-2" />
                            Delete Permanently
@@ -329,14 +332,14 @@ const CustomerInquiries = () => {
                         </>
                       ) : (
                         <>
-                          <Badge className={`${getStatusBadgeColor(inquiry.status!)} text-white`}>
+                          <Badge className={`${getStatusBadgeColor(inquiry.status!)} text-white w-fit`}>
                             {inquiry.status?.replace('_', ' ').toUpperCase()}
                           </Badge>
                           <Select
                             value={inquiry.status}
                             onValueChange={(value) => updateStatus(inquiry.id!, value)}
                           >
-                            <SelectTrigger className="w-36 bg-gray-700 border-gray-600 text-white text-xs">
+                            <SelectTrigger className="w-full md:w-36 bg-gray-700 border-gray-600 text-white text-xs h-11 md:h-9">
                               <SelectValue />
                             </SelectTrigger>
                             <SelectContent className="bg-gray-800 border-gray-600">
@@ -349,8 +352,9 @@ const CustomerInquiries = () => {
                           </Select>
                           <Button
                             variant="destructive"
-                            size="sm"
+                            size={isMobile ? "default" : "sm"}
                             onClick={() => deleteInquiry(inquiry.id!)}
+                            className="h-11 md:h-9"
                           >
                             <Trash2 className="h-4 w-4" />
                           </Button>
@@ -359,45 +363,45 @@ const CustomerInquiries = () => {
                     </div>
                   </div>
                 </CardHeader>
-                <CardContent>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                    <div className="flex items-center space-x-2 text-sm">
-                      <Building className="h-4 w-4 text-cyan-400" />
+                <CardContent className="p-4 md:p-6">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 mb-4">
+                    <div className="flex items-center space-x-2 text-xs md:text-sm">
+                      <Building className="h-4 w-4 text-cyan-400 flex-shrink-0" />
                       <span className="text-gray-400">Service:</span>
-                      <span className="text-white">{inquiry.service_interest}</span>
+                      <span className="text-white truncate">{inquiry.service_interest}</span>
                     </div>
-                    <div className="flex items-center space-x-2 text-sm">
-                      <DollarSign className="h-4 w-4 text-green-400" />
+                    <div className="flex items-center space-x-2 text-xs md:text-sm">
+                      <DollarSign className="h-4 w-4 text-green-400 flex-shrink-0" />
                       <span className="text-gray-400">Budget:</span>
                       <span className="text-white">{inquiry.budget_range}</span>
                     </div>
-                    <div className="flex items-center space-x-2 text-sm">
-                      <Clock className="h-4 w-4 text-yellow-400" />
+                    <div className="flex items-center space-x-2 text-xs md:text-sm">
+                      <Clock className="h-4 w-4 text-yellow-400 flex-shrink-0" />
                       <span className="text-gray-400">Timeline:</span>
                       <span className="text-white">{inquiry.project_timeline}</span>
                     </div>
                   </div>
                   <div className="border-t border-gray-700 pt-4">
                     <div className="flex items-start space-x-2">
-                      <MessageSquare className="h-4 w-4 text-purple-400 mt-1" />
-                      <div>
-                        <span className="text-gray-400 text-sm">Message:</span>
-                        <p className="text-white mt-1">{inquiry.message}</p>
+                      <MessageSquare className="h-4 w-4 text-purple-400 mt-1 flex-shrink-0" />
+                      <div className="flex-1">
+                        <span className="text-gray-400 text-xs md:text-sm">Message:</span>
+                        <p className="text-white mt-1 text-sm md:text-base break-words">{inquiry.message}</p>
                       </div>
                     </div>
                   </div>
-                  <div className="flex justify-between items-center mt-4 pt-4 border-t border-gray-700">
-                    <span className="text-sm text-gray-400">
+                  <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-3 mt-4 pt-4 border-t border-gray-700">
+                    <span className="text-xs md:text-sm text-gray-400 break-words">
                       Source: {inquiry.source_page} | 
                       Created: {new Date(inquiry.created_at!).toLocaleString()}
                       {showDeleted && inquiry.deleted_at && (
                         <> | Deleted: {new Date(inquiry.deleted_at).toLocaleString()}</>
                       )}
                     </span>
-                    <div className="flex space-x-2">
+                    <div className="flex flex-col sm:flex-row gap-2 sm:space-x-2">
                       <Button
-                        size="sm"
-                        className="bg-blue-600 hover:bg-blue-700"
+                        size={isMobile ? "default" : "sm"}
+                        className="bg-blue-600 hover:bg-blue-700 h-11 md:h-9"
                         onClick={() => window.open(`mailto:${inquiry.email}`, '_blank')}
                       >
                         <Mail className="h-4 w-4 mr-2" />
@@ -405,8 +409,8 @@ const CustomerInquiries = () => {
                       </Button>
                       {inquiry.phone && (
                         <Button
-                          size="sm"
-                          className="bg-green-600 hover:bg-green-700"
+                          size={isMobile ? "default" : "sm"}
+                          className="bg-green-600 hover:bg-green-700 h-11 md:h-9"
                           onClick={() => window.open(`tel:${inquiry.phone}`, '_blank')}
                         >
                           <Phone className="h-4 w-4 mr-2" />
