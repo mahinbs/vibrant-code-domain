@@ -79,12 +79,12 @@ const Header = memo(() => {
     },
     {
       name: "About",
-      href: "/#about",
+      href: "/about",
       section: "about",
     },
     {
       name: "Contact",
-      href: "/#contact",
+      href: "/contact",
       section: "contact",
     },
   ];
@@ -93,10 +93,14 @@ const Header = memo(() => {
       if (isHomePage && href.startsWith("/#")) {
         const element = document.getElementById(sectionId);
         if (element) {
-          element.scrollIntoView({
-            behavior: "smooth",
-          });
+          // Close menu first
           setIsMenuOpen(false);
+          // Small delay to ensure menu is closed before scrolling
+          setTimeout(() => {
+            element.scrollIntoView({
+              behavior: "smooth",
+            });
+          }, 100);
           return;
         }
       }
@@ -139,7 +143,17 @@ const Header = memo(() => {
         return location.pathname === "/reviews";
       }
 
-      // Handle homepage sections (Services, About, Contact)
+      // Handle About page
+      if (item.name === "About") {
+        return location.pathname === "/about";
+      }
+
+      // Handle Contact page
+      if (item.name === "Contact") {
+        return location.pathname === "/contact";
+      }
+
+      // Handle homepage sections (Services only now)
       if (isHomePage && item.href.startsWith("/#")) {
         return activeSection === item.section;
       }
@@ -168,7 +182,15 @@ const Header = memo(() => {
             <div className="hidden lg:flex items-center space-x-6 xl:space-x-8 flex-1 justify-center">
               {menuItems.map((item) => {
                 const active = isActive(item);
-                if (item.name === "Home") {
+                // Handle pages that should always use Link (Home, Blogs, Reviews, About, Contact, Portfolio)
+                if (
+                  item.name === "Home" ||
+                  item.name === "Reviews" ||
+                  item.name === "Blogs" ||
+                  item.name === "About" ||
+                  item.name === "Contact" ||
+                  item.name === "Portfolio"
+                ) {
                   return (
                     <Link
                       key={item.name}
@@ -187,38 +209,8 @@ const Header = memo(() => {
                       ></span>
                     </Link>
                   );
-                } else if (
-                  item.name === "Reviews" ||
-                  item.name === "Blogs" ||
-                  (!isHomePage && !item.href.startsWith("/#"))
-                ) {
-                  return (
-                    <Link
-                      key={item.name}
-                      to={item.href}
-                      className={`transition-all duration-300 font-medium relative group text-sm xl:text-base ${
-                        active ||
-                        location.pathname === item.href ||
-                        (item.name === "Blogs" &&
-                          location.pathname.startsWith("/blog"))
-                          ? "text-cyan-400"
-                          : "text-gray-300 hover:text-cyan-400"
-                      }`}
-                    >
-                      {item.name}
-                      <span
-                        className={`absolute bottom-0 left-0 h-0.5 bg-cyan-400 transition-all duration-300 ${
-                          active ||
-                          location.pathname === item.href ||
-                          (item.name === "Blogs" &&
-                            location.pathname.startsWith("/blog"))
-                            ? "w-full"
-                            : "w-0 group-hover:w-full"
-                        }`}
-                      ></span>
-                    </Link>
-                  );
                 } else if (isHomePage && item.href.startsWith("/#")) {
+                  // Handle homepage sections (Services)
                   return (
                     <button
                       key={item.name}
@@ -240,6 +232,7 @@ const Header = memo(() => {
                     </button>
                   );
                 } else {
+                  // Fallback to anchor tag
                   return (
                     <a
                       key={item.name}
@@ -303,7 +296,15 @@ const Header = memo(() => {
             <div className="px-6 space-y-6 h-full overflow-y-auto">
               {menuItems.map((item) => {
                 const active = isActive(item);
-                if (item.name === "Home") {
+                // Handle pages that should always use Link (Home, Blogs, Reviews, About, Contact, Portfolio)
+                if (
+                  item.name === "Home" ||
+                  item.name === "Reviews" ||
+                  item.name === "Blogs" ||
+                  item.name === "About" ||
+                  item.name === "Contact" ||
+                  item.name === "Portfolio"
+                ) {
                   return (
                     <Link
                       key={item.name}
@@ -318,35 +319,14 @@ const Header = memo(() => {
                       {item.name}
                     </Link>
                   );
-                } else if (
-                  item.name === "Reviews" ||
-                  item.name === "Blogs" ||
-                  (!isHomePage && !item.href.startsWith("/#"))
-                ) {
-                  return (
-                    <Link
-                      key={item.name}
-                      to={item.href}
-                      className={`block text-lg font-medium py-3 px-4 rounded-lg transition-all duration-300 touch-manipulation ${
-                        active ||
-                        location.pathname === item.href ||
-                        (item.name === "Blogs" &&
-                          location.pathname.startsWith("/blog"))
-                          ? "text-cyan-400 bg-cyan-400/10"
-                          : "text-gray-300 hover:text-cyan-400 hover:bg-cyan-400/5"
-                      }`}
-                      onClick={closeMenu}
-                    >
-                      {item.name}
-                    </Link>
-                  );
                 } else if (isHomePage && item.href.startsWith("/#")) {
+                  // Handle homepage sections (Services)
                   return (
                     <button
                       key={item.name}
-                      onClick={() =>
-                        handleSmoothScroll(item.href, item.section)
-                      }
+                      onClick={() => {
+                        handleSmoothScroll(item.href, item.section);
+                      }}
                       className={`block w-full text-left text-lg font-medium py-3 px-4 rounded-lg transition-all duration-300 touch-manipulation ${
                         active
                           ? "text-cyan-400 bg-cyan-400/10"
@@ -357,6 +337,7 @@ const Header = memo(() => {
                     </button>
                   );
                 } else {
+                  // Fallback to anchor tag
                   return (
                     <a
                       key={item.name}

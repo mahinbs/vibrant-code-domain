@@ -8,6 +8,7 @@ import EnhancedIndex from "./pages/EnhancedIndex";
 import Portfolio from "./pages/Portfolio";
 import CaseStudy from "./pages/CaseStudy";
 import ContactPage from "./pages/ContactPage";
+import AboutPage from "./pages/AboutPage";
 import NotFound from "./pages/NotFound";
 import BlogsPage from "./pages/BlogsPage";
 import BlogPostPage from "./pages/BlogPostPage";
@@ -48,6 +49,7 @@ import SalespersonServicePage from "./pages/SalespersonServicePage";
 import WebinarPage from "./pages/WebinarPage";
 import GoogleAnalytics from "./components/GoogleAnalytics";
 import FloatingWhatsAppButton from "./components/ui/FloatingWhatsAppButton";
+import ScrollToTop from "./components/ScrollToTop";
 
 const queryClient = new QueryClient();
 
@@ -59,6 +61,7 @@ const App = () => {
           <Toaster />
           <Sonner />
           <BrowserRouter>
+            <ScrollToTop />
             <GoogleAnalytics />
             <Routes>
               <Route
@@ -69,52 +72,267 @@ const App = () => {
                   </>
                 }
               />
-              <Route path="/portfolio" element={<><FloatingWhatsAppButton /><Portfolio /></>} />
-              <Route path="/case-study/:slug" element={<><FloatingWhatsAppButton /><CaseStudy /></>} />
-              <Route path="/contact" element={<><FloatingWhatsAppButton /><ContactPage /></>} />
-              <Route path="/blogs" element={<><FloatingWhatsAppButton /><BlogsPage /></>} />
-              <Route path="/blog/:slug" element={<><FloatingWhatsAppButton /><BlogPostPage /></>} />
-              <Route path="/services" element={<><FloatingWhatsAppButton /><ServicesPage /></>} />
-              <Route path="/web-apps" element={<><FloatingWhatsAppButton /><WebAppsPage /></>} />
-              <Route path="/mobile-apps" element={<><FloatingWhatsAppButton /><MobileAppsPage /></>} />
-              <Route path="/ux-ui-design" element={<><FloatingWhatsAppButton /><UxuiDesignPage /></>} />
-              <Route path="/saas" element={<><FloatingWhatsAppButton /><SaasPage /></>} />
-              <Route path="/ai-development" element={<><FloatingWhatsAppButton /><AiDevelopmentPage /></>} />
+              <Route
+                path="/portfolio"
+                element={
+                  <>
+                    <FloatingWhatsAppButton />
+                    <Portfolio />
+                  </>
+                }
+              />
+              <Route
+                path="/case-study/:slug"
+                element={
+                  <>
+                    <FloatingWhatsAppButton />
+                    <CaseStudy />
+                  </>
+                }
+              />
+              <Route
+                path="/contact"
+                element={
+                  <>
+                    <FloatingWhatsAppButton />
+                    <ContactPage />
+                  </>
+                }
+              />
+              <Route
+                path="/about"
+                element={
+                  <>
+                    <FloatingWhatsAppButton />
+                    <AboutPage />
+                  </>
+                }
+              />
+              <Route
+                path="/blogs"
+                element={
+                  <>
+                    <FloatingWhatsAppButton />
+                    <BlogsPage />
+                  </>
+                }
+              />
+              <Route
+                path="/blog/:slug"
+                element={
+                  <>
+                    <FloatingWhatsAppButton />
+                    <BlogPostPage />
+                  </>
+                }
+              />
+              <Route
+                path="/services"
+                element={
+                  <>
+                    <FloatingWhatsAppButton />
+                    <ServicesPage />
+                  </>
+                }
+              />
+              <Route
+                path="/web-apps"
+                element={
+                  <>
+                    <FloatingWhatsAppButton />
+                    <WebAppsPage />
+                  </>
+                }
+              />
+              <Route
+                path="/mobile-apps"
+                element={
+                  <>
+                    <FloatingWhatsAppButton />
+                    <MobileAppsPage />
+                  </>
+                }
+              />
+              <Route
+                path="/ux-ui-design"
+                element={
+                  <>
+                    <FloatingWhatsAppButton />
+                    <UxuiDesignPage />
+                  </>
+                }
+              />
+              <Route
+                path="/saas"
+                element={
+                  <>
+                    <FloatingWhatsAppButton />
+                    <SaasPage />
+                  </>
+                }
+              />
+              <Route
+                path="/ai-development"
+                element={
+                  <>
+                    <FloatingWhatsAppButton />
+                    <AiDevelopmentPage />
+                  </>
+                }
+              />
               <Route
                 path="/game-development"
-                element={<><FloatingWhatsAppButton /><GameDevelopmentPage /></>}
+                element={
+                  <>
+                    <FloatingWhatsAppButton />
+                    <GameDevelopmentPage />
+                  </>
+                }
               />
               <Route
                 path="/ar-vr-development"
-                element={<><FloatingWhatsAppButton /><ArVrDevelopmentPage /></>}
+                element={
+                  <>
+                    <FloatingWhatsAppButton />
+                    <ArVrDevelopmentPage />
+                  </>
+                }
               />
               <Route
                 path="/blockchain-development"
-                element={<><FloatingWhatsAppButton /><BlockchainDevelopmentPage /></>}
+                element={
+                  <>
+                    <FloatingWhatsAppButton />
+                    <BlockchainDevelopmentPage />
+                  </>
+                }
               />
-              <Route path="/iot-development" element={<><FloatingWhatsAppButton /><IotDevelopmentPage /></>} />
-              <Route path="/data-analytics" element={<><FloatingWhatsAppButton /><DataAnalyticsPage /></>} />
-              <Route path="/cloud-computing" element={<><FloatingWhatsAppButton /><CloudComputingPage /></>} />
+              <Route
+                path="/iot-development"
+                element={
+                  <>
+                    <FloatingWhatsAppButton />
+                    <IotDevelopmentPage />
+                  </>
+                }
+              />
+              <Route
+                path="/data-analytics"
+                element={
+                  <>
+                    <FloatingWhatsAppButton />
+                    <DataAnalyticsPage />
+                  </>
+                }
+              />
+              <Route
+                path="/cloud-computing"
+                element={
+                  <>
+                    <FloatingWhatsAppButton />
+                    <CloudComputingPage />
+                  </>
+                }
+              />
               <Route
                 path="/chatbot-development"
-                element={<><FloatingWhatsAppButton /><ChatbotDevelopmentPage /></>}
+                element={
+                  <>
+                    <FloatingWhatsAppButton />
+                    <ChatbotDevelopmentPage />
+                  </>
+                }
               />
-              <Route path="/ai-automation" element={<><FloatingWhatsAppButton /><AiAutomationPage /></>} />
-              <Route path="/reviews" element={<><FloatingWhatsAppButton /><ReviewsPage /></>} />
-              <Route path="/thank-you" element={<><FloatingWhatsAppButton /><ThankYouPage /></>} />
-              <Route path="/privacy-policy" element={<><FloatingWhatsAppButton /><PrivacyPolicyPage /></>} />
-              <Route path="/partnership" element={<><FloatingWhatsAppButton /><PartnershipPage /></>} />
-              <Route path="/ai-freelancing" element={<><FloatingWhatsAppButton /><AiFreelancingPage /></>} />
+              <Route
+                path="/ai-automation"
+                element={
+                  <>
+                    <FloatingWhatsAppButton />
+                    <AiAutomationPage />
+                  </>
+                }
+              />
+              <Route
+                path="/reviews"
+                element={
+                  <>
+                    <FloatingWhatsAppButton />
+                    <ReviewsPage />
+                  </>
+                }
+              />
+              <Route
+                path="/thank-you"
+                element={
+                  <>
+                    <FloatingWhatsAppButton />
+                    <ThankYouPage />
+                  </>
+                }
+              />
+              <Route
+                path="/privacy-policy"
+                element={
+                  <>
+                    <FloatingWhatsAppButton />
+                    <PrivacyPolicyPage />
+                  </>
+                }
+              />
+              <Route
+                path="/partnership"
+                element={
+                  <>
+                    <FloatingWhatsAppButton />
+                    <PartnershipPage />
+                  </>
+                }
+              />
+              <Route
+                path="/ai-freelancing"
+                element={
+                  <>
+                    <FloatingWhatsAppButton />
+                    <AiFreelancingPage />
+                  </>
+                }
+              />
               <Route
                 path="/ai-freelancing/thank-you"
-                element={<><FloatingWhatsAppButton /><AiFreelancingThankYouPage /></>}
+                element={
+                  <>
+                    <FloatingWhatsAppButton />
+                    <AiFreelancingThankYouPage />
+                  </>
+                }
               />
-              <Route path="/ai-calling" element={<><FloatingWhatsAppButton /><AiCallingPage /></>} />
+              <Route
+                path="/ai-calling"
+                element={
+                  <>
+                    <FloatingWhatsAppButton />
+                    <AiCallingPage />
+                  </>
+                }
+              />
               <Route
                 path="/salesperson/:id"
-                element={<><FloatingWhatsAppButton /><SalespersonServicePage /></>}
+                element={
+                  <>
+                    <FloatingWhatsAppButton />
+                    <SalespersonServicePage />
+                  </>
+                }
               />
-              <Route path="/webinar/:id" element={<><FloatingWhatsAppButton /><WebinarPage /></>} />
+              <Route
+                path="/webinar/:id"
+                element={
+                  <>
+                    <FloatingWhatsAppButton />
+                    <WebinarPage />
+                  </>
+                }
+              />
 
               {/* Admin routes */}
               <Route path="/admin/login" element={<AdminLogin />} />
