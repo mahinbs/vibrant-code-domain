@@ -154,23 +154,226 @@ const AppIdeasLabPage = () => {
                 </div>
               </div>
 
-              {/* Problem & Solution */}
-              <div className="p-8 space-y-6">
-                <div>
-                  <h4 className="text-xl font-semibold mb-3 text-red-400">
-                    The Problem
+              {/* Description */}
+              <div className="p-8">
+                <p className="text-gray-300 text-lg leading-relaxed mb-8">
+                  TalkEarn is a global platform where users can pay to chat or video call with professionals, creators, or personalities — from mentors, therapists, and lawyers to influencers, doctors, or even just friendly listeners. It democratizes access to expertise while enabling professionals to monetize their time, creating a win-win marketplace for knowledge sharing and connection.
+                </p>
+
+                {/* Target Users */}
+                <div className="mb-8">
+                  <h4 className="text-2xl font-bold mb-4 text-cyan-400">
+                    Target Users
                   </h4>
-                  <p className="text-gray-300 text-lg leading-relaxed">
-                    Professionals, creators, and experts struggle to monetize their time and expertise effectively, while people seeking personalized advice or connections face barriers to accessing the right individuals. Traditional platforms lack a unified, secure way to facilitate paid one-on-one conversations across various industries and expertise levels.
-                  </p>
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div className="bg-gradient-to-br from-cyan-500/10 to-blue-500/10 border border-cyan-500/20 rounded-xl p-6">
+                      <h5 className="text-xl font-semibold mb-3 text-cyan-300">In India</h5>
+                      <ul className="space-y-2 text-gray-300">
+                        <li className="flex items-start gap-2">
+                          <span className="text-cyan-400 mt-1">•</span>
+                          <span>Students needing academic or career help.</span>
+                        </li>
+                        <li className="flex items-start gap-2">
+                          <span className="text-cyan-400 mt-1">•</span>
+                          <span>Content creators and influencers looking to monetize their following.</span>
+                        </li>
+                        <li className="flex items-start gap-2">
+                          <span className="text-cyan-400 mt-1">•</span>
+                          <span>Urban youth seeking emotional support or meaningful conversations.</span>
+                        </li>
+                      </ul>
+                    </div>
+                    <div className="bg-gradient-to-br from-blue-500/10 to-purple-500/10 border border-blue-500/20 rounded-xl p-6">
+                      <h5 className="text-xl font-semibold mb-3 text-blue-300">Globally</h5>
+                      <ul className="space-y-2 text-gray-300">
+                        <li className="flex items-start gap-2">
+                          <span className="text-blue-400 mt-1">•</span>
+                          <span>Freelance experts and coaches offering paid sessions.</span>
+                        </li>
+                        <li className="flex items-start gap-2">
+                          <span className="text-blue-400 mt-1">•</span>
+                          <span>Therapists, doctors, and consultants expanding international reach.</span>
+                        </li>
+                        <li className="flex items-start gap-2">
+                          <span className="text-blue-400 mt-1">•</span>
+                          <span>Fans and followers looking for one-on-one celebrity or creator interactions.</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
                 </div>
 
-                <div>
-                  <h4 className="text-xl font-semibold mb-3 text-green-400">
-                    The Solution
+                {/* Market Potential */}
+                <div className="mb-8">
+                  <h4 className="text-2xl font-bold mb-4 text-cyan-400">
+                    Market Potential
                   </h4>
-                  <p className="text-gray-300 text-lg leading-relaxed">
-                    TalkEarn is a global platform where users can pay to chat or video call with professionals, creators, or personalities — from mentors, therapists, and lawyers to influencers, doctors, or even just friendly listeners. It democratizes access to expertise while enabling professionals to monetize their time, creating a win-win marketplace for knowledge sharing and connection.
+                  <div className="bg-gradient-to-br from-purple-500/10 to-pink-500/10 border border-purple-500/20 rounded-xl p-6 space-y-4">
+                    <div>
+                      <h5 className="text-lg font-semibold mb-2 text-purple-300">Global Context:</h5>
+                      <ul className="space-y-2 text-gray-300 ml-4">
+                        <li className="flex items-start gap-2">
+                          <span className="text-purple-400 mt-1">•</span>
+                          <span>Online communication and creator economy markets exceed $100B+ combined.</span>
+                        </li>
+                        <li className="flex items-start gap-2">
+                          <span className="text-purple-400 mt-1">•</span>
+                          <span>Growing demand for instant expert access and mental wellness platforms.</span>
+                        </li>
+                      </ul>
+                    </div>
+                    <div>
+                      <h5 className="text-lg font-semibold mb-2 text-pink-300">Indian Context:</h5>
+                      <ul className="space-y-2 text-gray-300 ml-4">
+                        <li className="flex items-start gap-2">
+                          <span className="text-pink-400 mt-1">•</span>
+                          <span>150M+ creators, mentors, and professionals online.</span>
+                        </li>
+                        <li className="flex items-start gap-2">
+                          <span className="text-pink-400 mt-1">•</span>
+                          <span>Rising comfort with paid advice and digital therapy sessions.</span>
+                        </li>
+                        <li className="flex items-start gap-2">
+                          <span className="text-pink-400 mt-1">•</span>
+                          <span>Strong overlap with Tier 1–2 users spending on personalized digital services.</span>
+                        </li>
+                      </ul>
+                    </div>
+                    <p className="text-gray-300 italic">
+                      Projected early adoption in urban India and English-speaking countries, expanding to other markets as awareness and trust grow.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Revenue Model */}
+                <div className="mb-8">
+                  <h4 className="text-2xl font-bold mb-4 text-cyan-400">
+                    Revenue Model
+                  </h4>
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div className="bg-gradient-to-br from-green-500/10 to-emerald-500/10 border border-green-500/20 rounded-xl p-5">
+                      <h5 className="text-lg font-semibold mb-2 text-green-300">20% Commission</h5>
+                      <p className="text-gray-300 text-sm">Platform share per paid interaction.</p>
+                    </div>
+                    <div className="bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border border-blue-500/20 rounded-xl p-5">
+                      <h5 className="text-lg font-semibold mb-2 text-blue-300">Subscription Plans</h5>
+                      <p className="text-gray-300 text-sm">Premium placement for verified or top-rated profiles.</p>
+                    </div>
+                    <div className="bg-gradient-to-br from-purple-500/10 to-violet-500/10 border border-purple-500/20 rounded-xl p-5">
+                      <h5 className="text-lg font-semibold mb-2 text-purple-300">Sponsored Visibility</h5>
+                      <p className="text-gray-300 text-sm">Featured listing for top earners and niche experts.</p>
+                    </div>
+                    <div className="bg-gradient-to-br from-orange-500/10 to-amber-500/10 border border-orange-500/20 rounded-xl p-5">
+                      <h5 className="text-lg font-semibold mb-2 text-orange-300">Corporate Partnerships</h5>
+                      <p className="text-gray-300 text-sm">For training, therapy, and expert consulting at scale.</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Funding Requirement */}
+                <div className="mb-8">
+                  <h4 className="text-2xl font-bold mb-4 text-cyan-400">
+                    Funding Requirement
+                  </h4>
+                  <div className="bg-gradient-to-br from-cyan-500/10 to-blue-500/10 border border-cyan-500/20 rounded-xl p-6">
+                    <div className="mb-4">
+                      <span className="text-lg font-semibold text-cyan-300">Stage: </span>
+                      <span className="text-gray-300">Seed/Pre-Seed</span>
+                    </div>
+                    <div className="mb-4">
+                      <span className="text-lg font-semibold text-cyan-300">Estimated Funding Need: </span>
+                      <span className="text-gray-300">₹2–3 crore ($250,000–$350,000)</span>
+                    </div>
+                    <div>
+                      <h5 className="text-lg font-semibold mb-3 text-cyan-300">Utilization:</h5>
+                      <div className="space-y-2">
+                        <div className="flex justify-between items-center">
+                          <span className="text-gray-300">Product Development & Infrastructure</span>
+                          <span className="text-cyan-400 font-semibold">35%</span>
+                        </div>
+                        <div className="w-full bg-gray-800 rounded-full h-2">
+                          <div className="bg-cyan-500 h-2 rounded-full" style={{ width: '35%' }}></div>
+                        </div>
+                        
+                        <div className="flex justify-between items-center">
+                          <span className="text-gray-300">Marketing & User Acquisition</span>
+                          <span className="text-blue-400 font-semibold">25%</span>
+                        </div>
+                        <div className="w-full bg-gray-800 rounded-full h-2">
+                          <div className="bg-blue-500 h-2 rounded-full" style={{ width: '25%' }}></div>
+                        </div>
+                        
+                        <div className="flex justify-between items-center">
+                          <span className="text-gray-300">Verification & Compliance</span>
+                          <span className="text-purple-400 font-semibold">20%</span>
+                        </div>
+                        <div className="w-full bg-gray-800 rounded-full h-2">
+                          <div className="bg-purple-500 h-2 rounded-full" style={{ width: '20%' }}></div>
+                        </div>
+                        
+                        <div className="flex justify-between items-center">
+                          <span className="text-gray-300">Operations & Customer Support</span>
+                          <span className="text-green-400 font-semibold">10%</span>
+                        </div>
+                        <div className="w-full bg-gray-800 rounded-full h-2">
+                          <div className="bg-green-500 h-2 rounded-full" style={{ width: '10%' }}></div>
+                        </div>
+                        
+                        <div className="flex justify-between items-center">
+                          <span className="text-gray-300">Contingency & Scaling</span>
+                          <span className="text-orange-400 font-semibold">10%</span>
+                        </div>
+                        <div className="w-full bg-gray-800 rounded-full h-2">
+                          <div className="bg-orange-500 h-2 rounded-full" style={{ width: '10%' }}></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Revenue Projection */}
+                <div className="mb-8">
+                  <h4 className="text-2xl font-bold mb-4 text-cyan-400">
+                    Revenue Projection (First 3 Years)
+                  </h4>
+                  <div className="overflow-x-auto">
+                    <table className="w-full border border-cyan-500/20 rounded-xl overflow-hidden">
+                      <thead className="bg-gradient-to-r from-cyan-500/20 to-blue-500/20">
+                        <tr>
+                          <th className="px-4 py-3 text-left text-cyan-300 font-semibold border-b border-cyan-500/20">Year</th>
+                          <th className="px-4 py-3 text-left text-cyan-300 font-semibold border-b border-cyan-500/20">Active Users</th>
+                          <th className="px-4 py-3 text-left text-cyan-300 font-semibold border-b border-cyan-500/20">Avg Monthly Spend</th>
+                          <th className="px-4 py-3 text-left text-cyan-300 font-semibold border-b border-cyan-500/20">Gross Revenue</th>
+                          <th className="px-4 py-3 text-left text-cyan-300 font-semibold border-b border-cyan-500/20">Platform Share (20%)</th>
+                        </tr>
+                      </thead>
+                      <tbody className="bg-black/40">
+                        <tr className="border-b border-gray-800 hover:bg-cyan-500/5 transition-colors">
+                          <td className="px-4 py-3 text-gray-300 font-semibold">1</td>
+                          <td className="px-4 py-3 text-gray-300">50,000</td>
+                          <td className="px-4 py-3 text-gray-300">₹400</td>
+                          <td className="px-4 py-3 text-gray-300">₹2.4 crore</td>
+                          <td className="px-4 py-3 text-green-400 font-semibold">₹48 lakh</td>
+                        </tr>
+                        <tr className="border-b border-gray-800 hover:bg-cyan-500/5 transition-colors">
+                          <td className="px-4 py-3 text-gray-300 font-semibold">2</td>
+                          <td className="px-4 py-3 text-gray-300">2,00,000</td>
+                          <td className="px-4 py-3 text-gray-300">₹500</td>
+                          <td className="px-4 py-3 text-gray-300">₹12 crore</td>
+                          <td className="px-4 py-3 text-green-400 font-semibold">₹2.4 crore</td>
+                        </tr>
+                        <tr className="hover:bg-cyan-500/5 transition-colors">
+                          <td className="px-4 py-3 text-gray-300 font-semibold">3</td>
+                          <td className="px-4 py-3 text-gray-300">10,00,000</td>
+                          <td className="px-4 py-3 text-gray-300">₹600</td>
+                          <td className="px-4 py-3 text-gray-300">₹72 crore</td>
+                          <td className="px-4 py-3 text-green-400 font-semibold">₹14.4 crore</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <p className="text-gray-400 text-sm mt-4 italic">
+                    These estimates scale with international expansion and brand partnerships.
                   </p>
                 </div>
               </div>
