@@ -47,6 +47,7 @@ import AiFreelancingThankYouPage from "./pages/AiFreelancingThankYouPage";
 import AiCallingPage from "./pages/AiCallingPage";
 import SalespersonServicePage from "./pages/SalespersonServicePage";
 import WebinarPage from "./pages/WebinarPage";
+import AppIdeasLabPage from "./pages/AppIdeasLabPage";
 import GoogleAnalytics from "./components/GoogleAnalytics";
 import FloatingWhatsAppButton from "./components/ui/FloatingWhatsAppButton";
 import ScrollToTop from "./components/ScrollToTop";
@@ -330,6 +331,15 @@ const App = () => {
                   <>
                     <FloatingWhatsAppButton />
                     <WebinarPage />
+                  </>
+                }
+              />
+              <Route
+                path="/app-ideas-lab"
+                element={
+                  <>
+                    <FloatingWhatsAppButton />
+                    <AppIdeasLabPage />
                   </>
                 }
               />
