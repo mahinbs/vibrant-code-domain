@@ -2,17 +2,79 @@ import { Helmet } from "react-helmet-async";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import { Code2, Sparkles, Rocket, TrendingUp } from "lucide-react";
+import { Code2, Sparkles, Rocket, TrendingUp, Play, Pause, Square, Loader2 } from "lucide-react";
 import SimpleContactForm from "@/components/forms/SimpleContactForm";
+import videoThumb from '../assets/images/talkearn-video-thumbnail.webp'
+import video from '../assets/videos/TalkEarn Demo.mp4'
+import { useState, useRef, useEffect } from "react";
 
 const AppIdeasLabPage = () => {
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+  const [showThumbnail, setShowThumbnail] = useState(true);
+  const [showControls, setShowControls] = useState(true);
+  const [isHovering, setIsHovering] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const hideControlsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
+  const handleVideoLoaded = () => {
+    setIsVideoLoaded(true);
+  };
+
+  const handlePlay = () => {
+    if (videoRef.current) {
+      videoRef.current.play();
+      setIsVideoPlaying(true);
+      setShowThumbnail(false);
+    }
+  };
+
+  const handlePause = () => {
+    if (videoRef.current) {
+      videoRef.current.pause();
+      setIsVideoPlaying(false);
+    }
+  };
+
+  const handleStop = () => {
+    if (videoRef.current) {
+      videoRef.current.pause();
+      videoRef.current.currentTime = 0;
+      setIsVideoPlaying(false);
+      setShowThumbnail(true);
+    }
+  };
+
+  const handleMouseEnter = () => {
+    setIsHovering(true);
+    setShowControls(true);
+    // Clear any existing timeout
+    if (hideControlsTimeoutRef.current) {
+      clearTimeout(hideControlsTimeoutRef.current);
+      hideControlsTimeoutRef.current = null;
+    }
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovering(false);
+    // Set timeout to hide controls after 1.5 seconds
+    hideControlsTimeoutRef.current = setTimeout(() => {
+      setShowControls(false);
+    }, 1500);
+  };
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (hideControlsTimeoutRef.current) {
+        clearTimeout(hideControlsTimeoutRef.current);
+      }
+    };
+  }, []);
   return (
     <>
       <Helmet>
-        <title>
-          App Idea Lab | Innovation Showroom | boostmysites.in
-        </title>
+        <title>App Idea Lab | Innovation Showroom | boostmysites.in</title>
         <meta
           name="description"
           content="Explore Boostmysites' Idea Lab - where we prototype the future. Discover our next generation of AI-powered solutions and cutting-edge innovations."
@@ -82,9 +144,7 @@ const AppIdeasLabPage = () => {
               </div>
               <div className="bg-gradient-to-br from-purple-500/10 to-pink-500/10 border border-purple-500/20 rounded-xl p-6 text-center">
                 <TrendingUp className="w-12 h-12 text-purple-400 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold mb-2">
-                  Industry Impact
-                </h3>
+                <h3 className="text-xl font-semibold mb-2">Industry Impact</h3>
                 <p className="text-gray-400">
                   Solutions designed to transform businesses
                 </p>
@@ -104,6 +164,113 @@ const AppIdeasLabPage = () => {
             <div className="bg-gradient-to-br from-gray-900 to-black border border-cyan-500/30 rounded-2xl overflow-hidden shadow-2xl">
               {/* App Header */}
               <div className="p-8 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 border-b border-cyan-500/20">
+                {/* Video Demo */}
+                <div className="p-8 pt-0">
+                  <div className="mb-4 text-center">
+                    <span className="inline-flex items-center gap-2 px-4 py-2 bg-cyan-500/10 border border-cyan-500/30 rounded-full text-cyan-400 text-sm font-medium">
+                      <Sparkles className="w-4 h-4" />
+                      Watch the 2-Minute Demo below
+                    </span>
+                  </div>
+
+                  <div 
+                    className="relative aspect-video bg-black rounded-xl overflow-hidden border border-gray-800"
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}
+                  >
+                    {/* Video Element */}
+                    <video
+                      ref={videoRef}
+                      src={video}
+                      className="w-full h-full object-contain"
+                      onLoadedData={handleVideoLoaded}
+                      preload="auto"
+                    />
+
+                    {/* Thumbnail Overlay with Loading and Play Button */}
+                    {showThumbnail && (
+                      <div className="absolute inset-0 flex items-center justify-center bg-black">
+                        <img
+                          src={videoThumb}
+                          alt="Video Thumbnail"
+                          className="w-full h-full object-contain"
+                        />
+                        
+                        {/* Loading State */}
+                        {!isVideoLoaded && (
+                          <div className="absolute inset-0 flex items-center justify-center bg-black/60">
+                            <Loader2 className="w-16 h-16 text-cyan-400 animate-spin" />
+                          </div>
+                        )}
+
+                        {/* Play Button - Only shown after video is loaded */}
+                        {isVideoLoaded && (
+                          <button
+                            onClick={handlePlay}
+                            className="absolute inset-0 flex items-center justify-center group cursor-pointer"
+                            aria-label="Play video"
+                          >
+                            <div className="w-20 h-20 bg-cyan-500/90 hover:bg-cyan-500 rounded-full flex items-center justify-center transform transition-all duration-300 group-hover:scale-110 shadow-lg shadow-cyan-500/50">
+                              <Play className="w-10 h-10 text-white ml-1" fill="white" />
+                            </div>
+                          </button>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Video Controls - Shown when video is active (playing or paused) */}
+                    {!showThumbnail && (
+                      <div 
+                        className={`absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 transition-opacity duration-300 ${
+                          showControls ? 'opacity-100' : 'opacity-0'
+                        }`}
+                      >
+                        <div className="flex items-center justify-center gap-4">
+                          {isVideoPlaying ? (
+                            <button
+                              onClick={handlePause}
+                              className="flex items-center gap-2 px-4 py-2 bg-cyan-500/90 hover:bg-cyan-500 rounded-lg transition-all duration-300 shadow-lg"
+                              aria-label="Pause video"
+                            >
+                              <Pause className="w-5 h-5 text-white" />
+                              {/* <span className="text-white font-medium">Pause</span> */}
+                            </button>
+                          ) : (
+                            <button
+                              onClick={handlePlay}
+                              className="flex items-center gap-2 px-4 py-2 bg-cyan-500/90 hover:bg-cyan-500 rounded-lg transition-all duration-300 shadow-lg"
+                              aria-label="Play video"
+                            >
+                              <Play className="w-5 h-5 text-white" fill="white" />
+                              {/* <span className="text-white font-medium">Play</span> */}
+                            </button>
+                          )}
+                          <button
+                            onClick={handleStop}
+                            className="flex items-center gap-2 px-4 py-2 bg-red-500/90 hover:bg-red-500 rounded-lg transition-all duration-300 shadow-lg"
+                            aria-label="Stop video"
+                          >
+                            <Square className="w-5 h-5 text-white" fill="white" />
+                            {/* <span className="text-white font-medium">Stop</span> */}
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* CTA Button */}
+                <div className="p-8 pt-0 text-center">
+                  <Button
+                    onClick={() => {
+                      const form = document.getElementById("partnership-form");
+                      form?.scrollIntoView({ behavior: "smooth" });
+                    }}
+                    className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white px-8 py-6 text-lg rounded-xl shadow-lg hover:shadow-cyan-500/50 transition-all duration-300"
+                  >
+                    Inquire About This Idea
+                  </Button>
+                </div>
                 <div className="flex flex-wrap items-start justify-between gap-4 mb-4">
                   <div>
                     <h3 className="text-3xl font-bold mb-2 text-cyan-400">
@@ -157,7 +324,13 @@ const AppIdeasLabPage = () => {
               {/* Description */}
               <div className="p-8">
                 <p className="text-gray-300 text-lg leading-relaxed mb-8">
-                  TalkEarn is a global platform where users can pay to chat or video call with professionals, creators, or personalities — from mentors, therapists, and lawyers to influencers, doctors, or even just friendly listeners. It democratizes access to expertise while enabling professionals to monetize their time, creating a win-win marketplace for knowledge sharing and connection.
+                  TalkEarn is a global platform where users can pay to chat or
+                  video call with professionals, creators, or personalities —
+                  from mentors, therapists, and lawyers to influencers, doctors,
+                  or even just friendly listeners. It democratizes access to
+                  expertise while enabling professionals to monetize their time,
+                  creating a win-win marketplace for knowledge sharing and
+                  connection.
                 </p>
 
                 {/* Target Users */}
@@ -167,7 +340,9 @@ const AppIdeasLabPage = () => {
                   </h4>
                   <div className="grid md:grid-cols-2 gap-6">
                     <div className="bg-gradient-to-br from-cyan-500/10 to-blue-500/10 border border-cyan-500/20 rounded-xl p-6">
-                      <h5 className="text-xl font-semibold mb-3 text-cyan-300">In India</h5>
+                      <h5 className="text-xl font-semibold mb-3 text-cyan-300">
+                        In India
+                      </h5>
                       <ul className="space-y-2 text-gray-300">
                         <li className="flex items-start gap-2">
                           <span className="text-cyan-400 mt-1">•</span>
@@ -175,28 +350,45 @@ const AppIdeasLabPage = () => {
                         </li>
                         <li className="flex items-start gap-2">
                           <span className="text-cyan-400 mt-1">•</span>
-                          <span>Content creators and influencers looking to monetize their following.</span>
+                          <span>
+                            Content creators and influencers looking to monetize
+                            their following.
+                          </span>
                         </li>
                         <li className="flex items-start gap-2">
                           <span className="text-cyan-400 mt-1">•</span>
-                          <span>Urban youth seeking emotional support or meaningful conversations.</span>
+                          <span>
+                            Urban youth seeking emotional support or meaningful
+                            conversations.
+                          </span>
                         </li>
                       </ul>
                     </div>
                     <div className="bg-gradient-to-br from-blue-500/10 to-purple-500/10 border border-blue-500/20 rounded-xl p-6">
-                      <h5 className="text-xl font-semibold mb-3 text-blue-300">Globally</h5>
+                      <h5 className="text-xl font-semibold mb-3 text-blue-300">
+                        Globally
+                      </h5>
                       <ul className="space-y-2 text-gray-300">
                         <li className="flex items-start gap-2">
                           <span className="text-blue-400 mt-1">•</span>
-                          <span>Freelance experts and coaches offering paid sessions.</span>
+                          <span>
+                            Freelance experts and coaches offering paid
+                            sessions.
+                          </span>
                         </li>
                         <li className="flex items-start gap-2">
                           <span className="text-blue-400 mt-1">•</span>
-                          <span>Therapists, doctors, and consultants expanding international reach.</span>
+                          <span>
+                            Therapists, doctors, and consultants expanding
+                            international reach.
+                          </span>
                         </li>
                         <li className="flex items-start gap-2">
                           <span className="text-blue-400 mt-1">•</span>
-                          <span>Fans and followers looking for one-on-one celebrity or creator interactions.</span>
+                          <span>
+                            Fans and followers looking for one-on-one celebrity
+                            or creator interactions.
+                          </span>
                         </li>
                       </ul>
                     </div>
@@ -210,37 +402,57 @@ const AppIdeasLabPage = () => {
                   </h4>
                   <div className="bg-gradient-to-br from-purple-500/10 to-pink-500/10 border border-purple-500/20 rounded-xl p-6 space-y-4">
                     <div>
-                      <h5 className="text-lg font-semibold mb-2 text-purple-300">Global Context:</h5>
+                      <h5 className="text-lg font-semibold mb-2 text-purple-300">
+                        Global Context:
+                      </h5>
                       <ul className="space-y-2 text-gray-300 ml-4">
                         <li className="flex items-start gap-2">
                           <span className="text-purple-400 mt-1">•</span>
-                          <span>Online communication and creator economy markets exceed $100B+ combined.</span>
+                          <span>
+                            Online communication and creator economy markets
+                            exceed $100B+ combined.
+                          </span>
                         </li>
                         <li className="flex items-start gap-2">
                           <span className="text-purple-400 mt-1">•</span>
-                          <span>Growing demand for instant expert access and mental wellness platforms.</span>
+                          <span>
+                            Growing demand for instant expert access and mental
+                            wellness platforms.
+                          </span>
                         </li>
                       </ul>
                     </div>
                     <div>
-                      <h5 className="text-lg font-semibold mb-2 text-pink-300">Indian Context:</h5>
+                      <h5 className="text-lg font-semibold mb-2 text-pink-300">
+                        Indian Context:
+                      </h5>
                       <ul className="space-y-2 text-gray-300 ml-4">
                         <li className="flex items-start gap-2">
                           <span className="text-pink-400 mt-1">•</span>
-                          <span>150M+ creators, mentors, and professionals online.</span>
+                          <span>
+                            150M+ creators, mentors, and professionals online.
+                          </span>
                         </li>
                         <li className="flex items-start gap-2">
                           <span className="text-pink-400 mt-1">•</span>
-                          <span>Rising comfort with paid advice and digital therapy sessions.</span>
+                          <span>
+                            Rising comfort with paid advice and digital therapy
+                            sessions.
+                          </span>
                         </li>
                         <li className="flex items-start gap-2">
                           <span className="text-pink-400 mt-1">•</span>
-                          <span>Strong overlap with Tier 1–2 users spending on personalized digital services.</span>
+                          <span>
+                            Strong overlap with Tier 1–2 users spending on
+                            personalized digital services.
+                          </span>
                         </li>
                       </ul>
                     </div>
                     <p className="text-gray-300 italic">
-                      Projected early adoption in urban India and English-speaking countries, expanding to other markets as awareness and trust grow.
+                      Projected early adoption in urban India and
+                      English-speaking countries, expanding to other markets as
+                      awareness and trust grow.
                     </p>
                   </div>
                 </div>
@@ -252,20 +464,36 @@ const AppIdeasLabPage = () => {
                   </h4>
                   <div className="grid md:grid-cols-2 gap-4">
                     <div className="bg-gradient-to-br from-green-500/10 to-emerald-500/10 border border-green-500/20 rounded-xl p-5">
-                      <h5 className="text-lg font-semibold mb-2 text-green-300">20% Commission</h5>
-                      <p className="text-gray-300 text-sm">Platform share per paid interaction.</p>
+                      <h5 className="text-lg font-semibold mb-2 text-green-300">
+                        20% Commission
+                      </h5>
+                      <p className="text-gray-300 text-sm">
+                        Platform share per paid interaction.
+                      </p>
                     </div>
                     <div className="bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border border-blue-500/20 rounded-xl p-5">
-                      <h5 className="text-lg font-semibold mb-2 text-blue-300">Subscription Plans</h5>
-                      <p className="text-gray-300 text-sm">Premium placement for verified or top-rated profiles.</p>
+                      <h5 className="text-lg font-semibold mb-2 text-blue-300">
+                        Subscription Plans
+                      </h5>
+                      <p className="text-gray-300 text-sm">
+                        Premium placement for verified or top-rated profiles.
+                      </p>
                     </div>
                     <div className="bg-gradient-to-br from-purple-500/10 to-violet-500/10 border border-purple-500/20 rounded-xl p-5">
-                      <h5 className="text-lg font-semibold mb-2 text-purple-300">Sponsored Visibility</h5>
-                      <p className="text-gray-300 text-sm">Featured listing for top earners and niche experts.</p>
+                      <h5 className="text-lg font-semibold mb-2 text-purple-300">
+                        Sponsored Visibility
+                      </h5>
+                      <p className="text-gray-300 text-sm">
+                        Featured listing for top earners and niche experts.
+                      </p>
                     </div>
                     <div className="bg-gradient-to-br from-orange-500/10 to-amber-500/10 border border-orange-500/20 rounded-xl p-5">
-                      <h5 className="text-lg font-semibold mb-2 text-orange-300">Corporate Partnerships</h5>
-                      <p className="text-gray-300 text-sm">For training, therapy, and expert consulting at scale.</p>
+                      <h5 className="text-lg font-semibold mb-2 text-orange-300">
+                        Corporate Partnerships
+                      </h5>
+                      <p className="text-gray-300 text-sm">
+                        For training, therapy, and expert consulting at scale.
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -277,54 +505,97 @@ const AppIdeasLabPage = () => {
                   </h4>
                   <div className="bg-gradient-to-br from-cyan-500/10 to-blue-500/10 border border-cyan-500/20 rounded-xl p-6">
                     <div className="mb-4">
-                      <span className="text-lg font-semibold text-cyan-300">Stage: </span>
+                      <span className="text-lg font-semibold text-cyan-300">
+                        Stage:{" "}
+                      </span>
                       <span className="text-gray-300">Seed/Pre-Seed</span>
                     </div>
                     <div className="mb-4">
-                      <span className="text-lg font-semibold text-cyan-300">Estimated Funding Need: </span>
-                      <span className="text-gray-300">₹2–3 crore ($250,000–$350,000)</span>
+                      <span className="text-lg font-semibold text-cyan-300">
+                        Estimated Funding Need:{" "}
+                      </span>
+                      <span className="text-gray-300">
+                        ₹2–3 crore ($250,000–$350,000)
+                      </span>
                     </div>
                     <div>
-                      <h5 className="text-lg font-semibold mb-3 text-cyan-300">Utilization:</h5>
+                      <h5 className="text-lg font-semibold mb-3 text-cyan-300">
+                        Utilization:
+                      </h5>
                       <div className="space-y-2">
                         <div className="flex justify-between items-center">
-                          <span className="text-gray-300">Product Development & Infrastructure</span>
-                          <span className="text-cyan-400 font-semibold">35%</span>
+                          <span className="text-gray-300">
+                            Product Development & Infrastructure
+                          </span>
+                          <span className="text-cyan-400 font-semibold">
+                            35%
+                          </span>
                         </div>
                         <div className="w-full bg-gray-800 rounded-full h-2">
-                          <div className="bg-cyan-500 h-2 rounded-full" style={{ width: '35%' }}></div>
+                          <div
+                            className="bg-cyan-500 h-2 rounded-full"
+                            style={{ width: "35%" }}
+                          ></div>
                         </div>
-                        
+
                         <div className="flex justify-between items-center">
-                          <span className="text-gray-300">Marketing & User Acquisition</span>
-                          <span className="text-blue-400 font-semibold">25%</span>
+                          <span className="text-gray-300">
+                            Marketing & User Acquisition
+                          </span>
+                          <span className="text-blue-400 font-semibold">
+                            25%
+                          </span>
                         </div>
                         <div className="w-full bg-gray-800 rounded-full h-2">
-                          <div className="bg-blue-500 h-2 rounded-full" style={{ width: '25%' }}></div>
+                          <div
+                            className="bg-blue-500 h-2 rounded-full"
+                            style={{ width: "25%" }}
+                          ></div>
                         </div>
-                        
+
                         <div className="flex justify-between items-center">
-                          <span className="text-gray-300">Verification & Compliance</span>
-                          <span className="text-purple-400 font-semibold">20%</span>
+                          <span className="text-gray-300">
+                            Verification & Compliance
+                          </span>
+                          <span className="text-purple-400 font-semibold">
+                            20%
+                          </span>
                         </div>
                         <div className="w-full bg-gray-800 rounded-full h-2">
-                          <div className="bg-purple-500 h-2 rounded-full" style={{ width: '20%' }}></div>
+                          <div
+                            className="bg-purple-500 h-2 rounded-full"
+                            style={{ width: "20%" }}
+                          ></div>
                         </div>
-                        
+
                         <div className="flex justify-between items-center">
-                          <span className="text-gray-300">Operations & Customer Support</span>
-                          <span className="text-green-400 font-semibold">10%</span>
+                          <span className="text-gray-300">
+                            Operations & Customer Support
+                          </span>
+                          <span className="text-green-400 font-semibold">
+                            10%
+                          </span>
                         </div>
                         <div className="w-full bg-gray-800 rounded-full h-2">
-                          <div className="bg-green-500 h-2 rounded-full" style={{ width: '10%' }}></div>
+                          <div
+                            className="bg-green-500 h-2 rounded-full"
+                            style={{ width: "10%" }}
+                          ></div>
                         </div>
-                        
+
                         <div className="flex justify-between items-center">
-                          <span className="text-gray-300">Contingency & Scaling</span>
-                          <span className="text-orange-400 font-semibold">10%</span>
+                          <span className="text-gray-300">
+                            Contingency & Scaling
+                          </span>
+                          <span className="text-orange-400 font-semibold">
+                            10%
+                          </span>
                         </div>
                         <div className="w-full bg-gray-800 rounded-full h-2">
-                          <div className="bg-orange-500 h-2 rounded-full" style={{ width: '10%' }}></div>
+                          <div
+                            className="bg-orange-500 h-2 rounded-full"
+                            style={{ width: "10%" }}
+                          ></div>
                         </div>
                       </div>
                     </div>
@@ -340,84 +611,74 @@ const AppIdeasLabPage = () => {
                     <table className="w-full border border-cyan-500/20 rounded-xl overflow-hidden">
                       <thead className="bg-gradient-to-r from-cyan-500/20 to-blue-500/20">
                         <tr>
-                          <th className="px-4 py-3 text-left text-cyan-300 font-semibold border-b border-cyan-500/20">Year</th>
-                          <th className="px-4 py-3 text-left text-cyan-300 font-semibold border-b border-cyan-500/20">Active Users</th>
-                          <th className="px-4 py-3 text-left text-cyan-300 font-semibold border-b border-cyan-500/20">Avg Monthly Spend</th>
-                          <th className="px-4 py-3 text-left text-cyan-300 font-semibold border-b border-cyan-500/20">Gross Revenue</th>
-                          <th className="px-4 py-3 text-left text-cyan-300 font-semibold border-b border-cyan-500/20">Platform Share (20%)</th>
+                          <th className="px-4 py-3 text-left text-cyan-300 font-semibold border-b border-cyan-500/20">
+                            Year
+                          </th>
+                          <th className="px-4 py-3 text-left text-cyan-300 font-semibold border-b border-cyan-500/20">
+                            Active Users
+                          </th>
+                          <th className="px-4 py-3 text-left text-cyan-300 font-semibold border-b border-cyan-500/20">
+                            Avg Monthly Spend
+                          </th>
+                          <th className="px-4 py-3 text-left text-cyan-300 font-semibold border-b border-cyan-500/20">
+                            Gross Revenue
+                          </th>
+                          <th className="px-4 py-3 text-left text-cyan-300 font-semibold border-b border-cyan-500/20">
+                            Platform Share (20%)
+                          </th>
                         </tr>
                       </thead>
                       <tbody className="bg-black/40">
                         <tr className="border-b border-gray-800 hover:bg-cyan-500/5 transition-colors">
-                          <td className="px-4 py-3 text-gray-300 font-semibold">1</td>
+                          <td className="px-4 py-3 text-gray-300 font-semibold">
+                            1
+                          </td>
                           <td className="px-4 py-3 text-gray-300">50,000</td>
                           <td className="px-4 py-3 text-gray-300">₹400</td>
-                          <td className="px-4 py-3 text-gray-300">₹2.4 crore</td>
-                          <td className="px-4 py-3 text-green-400 font-semibold">₹48 lakh</td>
+                          <td className="px-4 py-3 text-gray-300">
+                            ₹2.4 crore
+                          </td>
+                          <td className="px-4 py-3 text-green-400 font-semibold">
+                            ₹48 lakh
+                          </td>
                         </tr>
                         <tr className="border-b border-gray-800 hover:bg-cyan-500/5 transition-colors">
-                          <td className="px-4 py-3 text-gray-300 font-semibold">2</td>
+                          <td className="px-4 py-3 text-gray-300 font-semibold">
+                            2
+                          </td>
                           <td className="px-4 py-3 text-gray-300">2,00,000</td>
                           <td className="px-4 py-3 text-gray-300">₹500</td>
                           <td className="px-4 py-3 text-gray-300">₹12 crore</td>
-                          <td className="px-4 py-3 text-green-400 font-semibold">₹2.4 crore</td>
+                          <td className="px-4 py-3 text-green-400 font-semibold">
+                            ₹2.4 crore
+                          </td>
                         </tr>
                         <tr className="hover:bg-cyan-500/5 transition-colors">
-                          <td className="px-4 py-3 text-gray-300 font-semibold">3</td>
+                          <td className="px-4 py-3 text-gray-300 font-semibold">
+                            3
+                          </td>
                           <td className="px-4 py-3 text-gray-300">10,00,000</td>
                           <td className="px-4 py-3 text-gray-300">₹600</td>
                           <td className="px-4 py-3 text-gray-300">₹72 crore</td>
-                          <td className="px-4 py-3 text-green-400 font-semibold">₹14.4 crore</td>
+                          <td className="px-4 py-3 text-green-400 font-semibold">
+                            ₹14.4 crore
+                          </td>
                         </tr>
                       </tbody>
                     </table>
                   </div>
                   <p className="text-gray-400 text-sm mt-4 italic">
-                    These estimates scale with international expansion and brand partnerships.
+                    These estimates scale with international expansion and brand
+                    partnerships.
                   </p>
                 </div>
-              </div>
-
-              {/* Video Demo */}
-              <div className="p-8 pt-0">
-                <div className="mb-4 text-center">
-                  <span className="inline-flex items-center gap-2 px-4 py-2 bg-cyan-500/10 border border-cyan-500/30 rounded-full text-cyan-400 text-sm font-medium">
-                    <Sparkles className="w-4 h-4" />
-                    Watch the 2-Minute Demo below
-                  </span>
-                </div>
-
-                <div className="relative aspect-video bg-black rounded-xl overflow-hidden border border-gray-800">
-                  <iframe
-                    src="https://drive.google.com/file/d/1iCv2SLiBqqs5Mj_InawvjPMFu6zQi3KX/preview"
-                    className="w-full h-full"
-                    allow="autoplay"
-                    allowFullScreen
-                  ></iframe>
-                </div>
-              </div>
-
-              {/* CTA Button */}
-              <div className="p-8 pt-0 text-center">
-                <Button
-                  onClick={() => {
-                    const form = document.getElementById("partnership-form");
-                    form?.scrollIntoView({ behavior: "smooth" });
-                  }}
-                  className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white px-8 py-6 text-lg rounded-xl shadow-lg hover:shadow-cyan-500/50 transition-all duration-300"
-                >
-                  Inquire About This Idea
-                </Button>
               </div>
             </div>
           </div>
         </section>
 
         {/* Partnership CTA Section */}
-        <section
-          id="partnership-form"
-          className="py-20 px-6 bg-black relative"
-        >
+        <section id="partnership-form" className="py-20 px-6 bg-black relative">
           <div className="container mx-auto max-w-4xl">
             <div className="text-center mb-12">
               <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
@@ -483,12 +744,11 @@ const AppIdeasLabPage = () => {
             <div className="bg-gradient-to-br from-gray-900 to-black border border-cyan-500/30 rounded-2xl p-8 shadow-2xl">
               <div className="mb-6 text-center">
                 <p className="text-gray-300 text-lg">
-                  Fill out the form below and we'll get back to you within 24 hours.
+                  Fill out the form below and we'll get back to you within 24
+                  hours.
                 </p>
               </div>
-              <SimpleContactForm 
-                sourcePage="app-ideas-lab"
-              />
+              <SimpleContactForm sourcePage="app-ideas-lab" />
             </div>
           </div>
         </section>
@@ -533,4 +793,3 @@ const AppIdeasLabPage = () => {
 };
 
 export default AppIdeasLabPage;
-
