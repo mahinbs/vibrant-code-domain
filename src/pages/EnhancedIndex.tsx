@@ -135,7 +135,9 @@ const EnhancedIndex = () => {
                 </div>
                 
                 <a 
-                  href="/app-ideas-lab"
+                  href="https://softwares-explorer.vercel.app"
+                  target='_blank'
+                  rel='noopener noreferrer'
                   className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-cyan-500/50 transition-all duration-300 transform hover:scale-105"
                 >
                   <span>Visit Our Innovation Lab</span>

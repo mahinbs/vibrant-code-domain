@@ -51,6 +51,7 @@ import AppIdeasLabPage from "./pages/AppIdeasLabPage";
 import GoogleAnalytics from "./components/GoogleAnalytics";
 import FloatingWhatsAppButton from "./components/ui/FloatingWhatsAppButton";
 import ScrollToTop from "./components/ScrollToTop";
+import ProjectsShowcase from "./pages/ProjectsShowcase";
 
 const queryClient = new QueryClient();
 
@@ -100,6 +101,15 @@ const App = () => {
                   </>
                 }
               />
+              {/* <Route
+                path="innovation-lab"
+                element={
+                  <>
+                    <FloatingWhatsAppButton />
+                    <ProjectsShowcase />
+                  </>
+                }
+              /> */}
               <Route
                 path="/about"
                 element={
