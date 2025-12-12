@@ -134,6 +134,14 @@ export default {
 			animationDelay: {
 				'1000': '1s',
 				'2000': '2s',
+			},
+			backgroundImage: {
+				'gradient-primary': 'var(--gradient-primary)',
+				'gradient-card': 'var(--gradient-card)',
+			},
+			boxShadow: {
+				'glow': 'var(--shadow-glow)',
+				'card': 'var(--shadow-card)',
 			}
 		}
 	},
