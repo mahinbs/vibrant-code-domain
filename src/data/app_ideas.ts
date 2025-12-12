@@ -1383,12 +1383,12 @@ export const mockProducts: DetailedProduct[] = [
     tagline: "Turn client needs into comprehensive, branded proposals in 30 seconds — powered by AI.",
     description: "AI Proposal Generator is a specialized SaaS platform designed for professional service agencies (Marketing, Web Dev, Design, Real Estate). It eliminates the time-sink of proposal writing by using AI to instantly generate comprehensive, custom sales documents. Users simply input the client's needs and select services; the platform automatically produces branded proposal PDFs, detailed quotation sheets, and even placeholder Figma mockups or case studies, all within 30 seconds.",
     author: "Boostmysites",
-    image: "/assets/projects/DreamLife AI-2.webp",
+    image: "/assets/projects/AI-Proposal-1.png",
     images: [
-      "/assets/projects/DreamLife AI-1.webp",
-      "/assets/projects/DreamLife AI-2.webp",
-      "/assets/projects/DreamLife AI-3.webp",
-      "/assets/projects/DreamLife AI-4.webp"
+      "/assets/projects/AI-Proposal-1.png",
+      "/assets/projects/AI-Proposal-2.png",
+      "/assets/projects/AI-Proposal-3.png",
+      "/assets/projects/AI-Proposal-4.png"
     ],
     rating: 4.9,
     overview: "AI Proposal Generator is a specialized SaaS platform designed for professional service agencies (Marketing, Web Dev, Design, Real Estate). It eliminates the time-sink of proposal writing by using AI to instantly generate comprehensive, custom sales documents. Users simply input the client's needs and select services; the platform automatically produces branded proposal PDFs, detailed quotation sheets, and even placeholder Figma mockups or case studies, all within 30 seconds.",
@@ -1787,12 +1787,12 @@ export const mockProducts: DetailedProduct[] = [
     tagline: "Automatically transcribe, summarize, and extract action items from your WhatsApp business calls.",
     description: "AI Meeting Notes for WhatsApp Calls is a workflow automation SaaS designed for professionals (Coaches, Consultants, Sales Teams) who conduct business over WhatsApp voice or video calls. It uses a proprietary desktop application or integration method to securely capture the audio, transcribe it in real-time, generate concise summaries, and automatically pull out actionable tasks, decisions, and follow-up items. The final notes are delivered instantly to the user's dashboard and synced to their favorite task managers.",
     author: "Boostmysites",
-    image: "/assets/projects/LoveAI-2.webp",
+    image: "/assets/projects/AI-Meeting-1.png",
     images: [
-      "/assets/projects/LoveAI-1.webp",
-      "/assets/projects/LoveAI-2.webp",
-      "/assets/projects/LoveAI-3.webp",
-      "/assets/projects/LoveAI-4.webp"
+      "/assets/projects/AI-Meeting-1.png",
+      "/assets/projects/AI-Meeting-2.png",
+      "/assets/projects/AI-Meeting-3.png",
+      "/assets/projects/AI-Meeting-4.png"
     ],
     rating: 4.7,
     overview: "AI Meeting Notes for WhatsApp Calls is a workflow automation SaaS designed for professionals (Coaches, Consultants, Sales Teams) who conduct business over WhatsApp voice or video calls. It uses a proprietary desktop application or integration method to securely capture the audio, transcribe it in real-time, generate concise summaries, and automatically pull out actionable tasks, decisions, and follow-up items. The final notes are delivered instantly to the user's dashboard and synced to their favorite task managers.",
@@ -1920,12 +1920,12 @@ export const mockProducts: DetailedProduct[] = [
     tagline: "Automate property brochures, WhatsApp follow-ups, and lead management—all in one affordable platform for real estate agents.",
     description: "The Real Estate Agent Workflow Hub is a focused Micro-SaaS platform designed specifically for individual real estate agents and small broker teams. It targets the repetitive, high-touch administrative tasks that distract agents from selling. The tool combines essential marketing automation (brochure generation, automated follow-up) with critical sales tools (loan calculator, project comparison), providing an indispensable, affordable toolkit that simplifies daily operations and ensures no lead is neglected.",
     author: "Boostmysites",
-    image: "/assets/projects/DreamLife AI-1.webp",
+    image: "/assets/projects/Real-Estate-Agent-1.png",
     images: [
-      "/assets/projects/DreamLife AI-1.webp",
-      "/assets/projects/DreamLife AI-2.webp",
-      "/assets/projects/DreamLife AI-3.webp",
-      "/assets/projects/DreamLife AI-4.webp"
+      "/assets/projects/Real-Estate-Agent-1.png",
+      "/assets/projects/Real-Estate-Agent-2.png",
+      "/assets/projects/Real-Estate-Agent-3.png",
+      "/assets/projects/Real-Estate-Agent-4.png"
     ],
     rating: 4.9,
     overview: "The Real Estate Agent Workflow Hub is a focused Micro-SaaS platform designed specifically for individual real estate agents and small broker teams. It targets the repetitive, high-touch administrative tasks that distract agents from selling. The tool combines essential marketing automation (brochure generation, automated follow-up) with critical sales tools (loan calculator, project comparison), providing an indispensable, affordable toolkit that simplifies daily operations and ensures no lead is neglected.",
@@ -2055,12 +2055,12 @@ export const mockProducts: DetailedProduct[] = [
     tagline: "Never miss a client renewal again. Automate tracking, reminders, and billing for subscription renewals.",
     description: "Freelancer Renewal Tracker & Billing Assistant is a micro-SaaS specifically designed for the individual freelancer (web designers, developers, digital marketers) or small agency. It solves the chronic problem of missed client-side subscription renewals (domains, hosting, premium SaaS tools) and the corresponding delay in billing the client for that renewal work. The tool centralizes all renewal dates, automatically sends proactive reminders, generates the necessary invoice, and drafts the client renewal message, turning administrative chaos into predictable, recurring revenue.",
     author: "Boostmysites",
-    image: "/assets/projects/TradeMind AI-2.webp",
+    image: "/assets/projects/Freelancer-Renewal-Tracker-1.png",
     images: [
-      "/assets/projects/TradeMind AI-1r.webp",
-      "/assets/projects/TradeMind AI-2.webp",
-      "/assets/projects/TradeMind AI-3.webp",
-      "/assets/projects/TradeMind AI-4.webp"
+      "/assets/projects/Freelancer-Renewal-Tracker-1.png",
+      "/assets/projects/Freelancer-Renewal-Tracker-2.png",
+      "/assets/projects/Freelancer-Renewal-Tracker-3.png",
+      "/assets/projects/Freelancer-Renewal-Tracker-4.png"
     ],
     rating: 4.8,
     overview: "Freelancer Renewal Tracker & Billing Assistant is a micro-SaaS specifically designed for the individual freelancer (web designers, developers, digital marketers) or small agency. It solves the chronic problem of missed client-side subscription renewals (domains, hosting, premium SaaS tools) and the corresponding delay in billing the client for that renewal work. The tool centralizes all renewal dates, automatically sends proactive reminders, generates the necessary invoice, and drafts the client renewal message, turning administrative chaos into predictable, recurring revenue.",
