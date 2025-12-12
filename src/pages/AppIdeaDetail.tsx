@@ -15,7 +15,7 @@ const AppIdeaDetail = () => {
 
     if (!product) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20 flex items-center justify-center p-4">
+            <div className="min-h-screen bg-gradient-to-br from-background via-background to-background flex items-center justify-center p-4">
                 <Card className="max-w-md w-full">
                     <CardContent className="p-8 text-center">
                         <div className="w-16 h-16 bg-destructive/10 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -34,7 +34,7 @@ const AppIdeaDetail = () => {
     }
 
     return (
-        <div className="dark min-h-screen bg-gradient-to-br from-background via-background to-muted/20 overflow-x-hidden text-foreground">
+        <div className="dark min-h-screen bg-gradient-to-br from-background via-background to-background overflow-x-hidden text-foreground">
             {/* Hero Section */}
             <div className="relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-accent/5 to-primary/5"></div>
