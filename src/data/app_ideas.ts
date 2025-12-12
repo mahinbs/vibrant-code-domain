@@ -450,7 +450,7 @@ export const mockProducts: DetailedProduct[] = [
       integrations: ["Stripe / Google Play Billing / App Store Subscriptions", "Mixpanel / Google Firebase Analytics"]
     },
     competitiveAdvantage: {
-    features: [
+      features: [
         "Emotional learning & memory",
         "AI voice notes (10+ voices)",
         "Video avatar calls",
@@ -600,7 +600,7 @@ export const mockProducts: DetailedProduct[] = [
       integrations: ["Stripe for payments", "Secure 2FA authentication", "Brokerage APIs", "News APIs"]
     },
     competitiveAdvantage: {
-    features: [
+      features: [
         "Real-time AI prediction",
         "Voice-based AI analyst",
         "Sentiment + event fusion",
@@ -749,7 +749,7 @@ export const mockProducts: DetailedProduct[] = [
       integrations: ["Stripe for payments", "Meta/Google Ads API for campaign setup", "Notion API for auto pitch deck + plan export"]
     },
     competitiveAdvantage: {
-    features: [
+      features: [
         "Full business setup",
         "Auto branding + website",
         "Investor deck generation",
@@ -895,7 +895,7 @@ export const mockProducts: DetailedProduct[] = [
       integrations: ["Stripe / Razorpay / PayPal", "Mixpanel / Google Firebase Analytics"]
     },
     competitiveAdvantage: {
-    features: [
+      features: [
         "Local discovery",
         "Instant checkout",
         "Seller dashboard",
@@ -1044,7 +1044,7 @@ export const mockProducts: DetailedProduct[] = [
       integrations: ["Mixpanel / Firebase Analytics", "E-commerce platform APIs", "Payment gateway integrations"]
     },
     competitiveAdvantage: {
-    features: [
+      features: [
         "Local store integration",
         "AI stylist recommendations",
         "In-app marketplace",
@@ -1195,7 +1195,7 @@ export const mockProducts: DetailedProduct[] = [
       integrations: ["Stripe / Razorpay / PayPal", "Mixpanel / Firebase Analytics", "Logistics APIs", "Payment gateway integrations"]
     },
     competitiveAdvantage: {
-    features: [
+      features: [
         "Free pickup & refurbish",
         "Certified warranty",
         "Donation program",
@@ -2576,6 +2576,1282 @@ export const mockProducts: DetailedProduct[] = [
       "Lead Capture & CRM Sync: Built-in forms to collect email leads, with one-click syncing to popular CRMs/Email tools (Mailchimp, Zapier)",
       "SEO & Analytics Ready: Automatically generates basic SEO metadata and integrates with Google Analytics/Search Console",
       "A/B Testing (Advanced): Ability to quickly generate and test variations of headlines and CTAs to optimize conversion"
+    ]
+  },
+  {
+    id: 19,
+    title: "AI WhatsApp CRM for Tutors & Coaches",
+    category: "Educational Platforms",
+    tagline: "Lightweight WhatsApp-first CRM that automates fees, attendance, homework, and class summaries for solo educators.",
+    description: "A specialized CRM for individual tutors and coaches who run their business on WhatsApp. It centralizes student data, automates fee reminders, homework nudges, attendance tracking, and AI-generated class summaries sent through the official WhatsApp Business API.",
+    author: "Boostmysites",
+    image: "/assets/projects/AI-WhatsApp-CRM-1.png",
+    images: [
+      "/assets/projects/AI-WhatsApp-CRM-1.png",
+      "/assets/projects/AI-WhatsApp-CRM-2.png",
+      "/assets/projects/AI-WhatsApp-CRM-3.png",
+      "/assets/projects/AI-WhatsApp-CRM-4.png"
+    ],
+    rating: 4.9,
+    overview: "The AI WhatsApp CRM for Tutors & Coaches is a lightweight, WhatsApp-native CRM that centralizes student info (payments, attendance, homework) and automates communication. It uses the official WhatsApp Business API to send fee reminders, homework prompts, attendance pings, and AI-generated class summaries so solo tutors can focus on teaching.",
+    problem: "Tutors and coaches waste time juggling spreadsheets and WhatsApp chats, leading to missed payments, scattered student data, and inconsistent communication that feels unprofessional. Manual reminders create awkwardness and cash flow issues, while attendance and homework tracking are error-prone and time-consuming.",
+    solution: "A simple CRM where the coach logs students and schedules, and the system handles the rest: automated WhatsApp fee alerts (7 days and 1 day before due), homework reminders, attendance check-ins, and AI-crafted class summaries from a quick note or voice snippet—delivered instantly to students or parents.",
+    coreFeatures: [
+      "WhatsApp Business API Integration: Official, compliant messaging for reminders and alerts",
+      "Fee Tracking & Automated Alerts: Sends personalized reminders 7 days and 1 day before due dates",
+      "Attendance Tracker: One-click attendance logging with weekly/monthly reports",
+      "AI Class Summary Generator: Turns a short note/voice input into a structured summary sent via WhatsApp",
+      "Homework Status Tracker: Assignments with due dates and completion status",
+      "Centralized Student Dashboard: Unified view of contact, payment history, attendance, and tasks"
+    ],
+    targetUsers: "Individual tutors, coaches, and small coaching centers that manage students primarily via WhatsApp and spreadsheets.",
+    marketOpportunity: [
+      "10M+ tutors/coaches globally rely on WhatsApp and spreadsheets",
+      "WhatsApp-dominant regions (India, SEA, LATAM) demand compliant automation",
+      "Price point $9–$49/month is justified by preventing a single missed fee",
+      "High daily usage potential (attendance, payments, homework) drives retention"
+    ],
+    monetizationModel: {
+      plans: [
+        "Micro ($9/month) - Up to 10 active students, fee tracking and basic reminders",
+        "Growth ($29/month) - Up to 50 students, AI summaries, attendance tracking",
+        "Academy ($49/month) - Unlimited students, team access, advanced reporting"
+      ],
+      pricing: [
+        "Micro: $9/month",
+        "Growth: $29/month",
+        "Academy: $49/month"
+      ],
+      revenue: [
+        "Target: 6,000 active subscribers at ~$25 ARPU → ~$150K MRR",
+        "Low churn expected (4–5%) due to mission-critical fee and comms automation"
+      ]
+    },
+    roiProjection: {
+      timeline: [
+        "Month 1–3: MVP launch, tutor community outreach, 1,200 subscribers → $15K–$20K MRR",
+        "Month 4–6: Ship AI summaries, 3,000 subscribers → $60K–$75K MRR",
+        "Month 7–12: Multi-language expansion, 6,000+ subscribers → $150K+ MRR"
+      ],
+      projections: [
+        "Year 1: $150K+ MRR target with WhatsApp-first growth",
+        "Year 2: $400K+ MRR by adding light course/curriculum planning"
+      ],
+      userROI: [
+        "Cash Flow: Automated reminders reduce payment delays by 30–50%",
+        "Time: Saves 5–10 hours/month on attendance, payments, and follow-ups",
+        "Professionalism: Consistent, branded summaries improve parent satisfaction"
+      ]
+    },
+    fundingOpportunities: {
+      stages: [
+        "Seed Funding Potential: Strong vertical SaaS/EdTech fit with clear retention drivers",
+        "Key Metrics for Seed: Fees tracked, daily attendance logging, AI summary adoption",
+        "Estimated Seed Raise: $300K – $700K for ~15% equity to harden WhatsApp + AI infra"
+      ],
+      amounts: [
+        "Seed: $300K – $700K"
+      ]
+    },
+    techStack: {
+      frontend: ["Next.js/React", "Mobile-responsive dashboard for on-the-go tutors"],
+      backend: ["Node.js (Express) or Python (FastAPI)", "Handles scheduling and AI calls"],
+      ai: ["GPT-3.5/4 for summarization and message drafting"],
+      database: ["PostgreSQL"],
+      hosting: ["AWS or Vercel"],
+      integrations: ["WhatsApp Business API via Twilio/360Dialog", "Cron/queue for scheduled reminders"]
+    },
+    competitiveAdvantage: {
+      features: [
+        "WhatsApp-native automation for fees, attendance, homework",
+        "AI-generated class summaries from quick notes/voice",
+        "Built for solo tutors/coaches with minimal setup"
+      ],
+      comparisons: [
+        "vs Spreadsheets: Automation + centralized data vs manual, fragmented tracking",
+        "vs Generic CRMs: Purpose-built for tutoring workflows vs sales pipelines",
+        "vs Manual Reminders: Scheduled, consistent WhatsApp delivery vs ad-hoc follow-ups"
+      ],
+      uniqueSelling: [
+        "WhatsApp as the operational hub",
+        "Cash-flow-first focus (fee reminders) reduces churn",
+        "Lightweight, affordable plans tailored to solo educators"
+      ]
+    },
+    developmentBudget: {
+      mvp: [
+        "Student dashboard, fee tracking, basic WhatsApp fee reminders",
+        "Cost: $10K–$20K"
+      ],
+      standard: [
+        "Attendance tracking, basic AI summaries, homework tracker",
+        "Cost: $25K–$40K"
+      ],
+      premium: [
+        "Multi-language, team access/reporting, simple invoicing integration",
+        "Cost: $50K–$75K+"
+      ]
+    },
+    vision: "We are building the essential back-office for educators, letting them spend less time on admin and more time teaching.",
+    features: [
+      "WhatsApp Business API Integration for alerts and summaries",
+      "Automated fee reminders (7d/1d before due)",
+      "One-click attendance logging with reports",
+      "AI class summaries from short notes or voice",
+      "Homework assignment and completion tracking",
+      "Centralized student dashboard for payments, attendance, and tasks"
+    ]
+  },
+  {
+    id: 20,
+    title: "The Inbox Engine: AI Email Warm-Up & Deliverability Booster",
+    category: "Business Management Tools",
+    tagline: "AI-driven warm-up, template testing, and reputation monitoring to keep cold emails out of spam from day one.",
+    description: "A Micro-SaaS built for sales agencies, SaaS founders, and B2B marketers who rely on cold email. It automates inbox warm-up, simulates human engagement, monitors domain health, and tests real templates against spam filters to ensure maximum inbox placement.",
+    author: "Boostmysites",
+    image: "/assets/projects/InboxEngine-1.png",
+    images: [
+      "/assets/projects/InboxEngine-1.png",
+      "/assets/projects/InboxEngine-2.png",
+      "/assets/projects/InboxEngine-3.png",
+      "/assets/projects/InboxEngine-4.png"
+    ],
+    rating: 4.9,
+    overview: "The Inbox Engine prevents cold emails from landing in spam by automating warm-up, adaptive sending, and content testing. It enrolls new inboxes into a high-quality private network, simulates human interactions, monitors sender reputation, and scores your actual templates before launch.",
+    problem: "Cold inboxes lack reputation and get flagged as spam. Manual warm-up is tedious and error-prone, domain health decays without monitoring, and aggressive sales copy often triggers filters with no easy way to test real templates.",
+    solution: "Connect Gmail/Outlook/SMTP in seconds, auto-enroll in a trusted peer network for human-like opens/replies, adapt sending volume based on real-time reputation, and test real cold email templates for an Inbox Score before campaigns go live.",
+    coreFeatures: [
+      "Adaptive AI Warm-Up: Dynamically adjusts send volume, opens, and replies based on domain/IP reputation",
+      "Private Peer-to-Peer Network: High-quality real inboxes for authentic engagement (no cheap bot farms)",
+      "Spam/Content Testing: Scores real cold email copy and subject lines across major providers",
+      "Reputation Monitoring Dashboard: Inbox/Spam/Promotions visibility and domain health trends",
+      "Authentication Audit: SPF/DKIM/DMARC guidance and alerts",
+      "Template Rotation: Rotates warm-up content and subjects to avoid pattern detection"
+    ],
+    targetUsers: "Sales agencies, SaaS founders, B2B marketers, and outbound teams launching or scaling cold email across many inboxes.",
+    marketOpportunity: [
+      "$1.2B+ and growing cold email/deliverability market (9–15% CAGR)",
+      "Every dollar in cold outreach is wasted if emails hit spam; deliverability is mission-critical",
+      "Power users run multiple inboxes and value consistent performance over low price",
+      "Competitive edge via AI adaptability + real template testing in a mid-range price band"
+    ],
+    monetizationModel: {
+      plans: [
+        "Starter ($29/mo) - 1 inbox, 50 warm-up/day",
+        "Professional ($79/mo) - 5 inboxes, 100 warm-up/day",
+        "Enterprise ($199/mo) - 20 inboxes, 250 warm-up/day",
+        "Custom (Contact) - 50+ inboxes, unlimited warm-up"
+      ],
+      pricing: [
+        "Starter: $29/month",
+        "Professional: $79/month",
+        "Enterprise: $199/month",
+        "Custom: Contact sales"
+      ],
+      revenue: [
+        "Target: 3,500 subscribers @ ~$75 ARPU → ~$262.5K MRR",
+        "Churn expected 5% monthly due to mission-critical nature"
+      ]
+    },
+    roiProjection: {
+      timeline: [
+        "Month 1–3: MVP + communities → 800 subs → $20K–$30K MRR",
+        "Month 4–6: Template testing + analytics → 2,000 subs → $90K–$120K MRR",
+        "Month 7–12: Sales platform integrations → 3,500+ subs → $250K+ MRR"
+      ],
+      projections: [
+        "Year 1: ~$250K MRR with multi-inbox adoption",
+        "Year 2: Upsell via advanced analytics and larger peer network"
+      ],
+      userROI: [
+        "One closed client ($5K) from inbox placement can pay for years",
+        "Reduces warm-up from 30–60 days to under 10 days",
+        "Protects against blacklisting that can halt an org’s sales"
+      ]
+    },
+    fundingOpportunities: {
+      stages: [
+        "Seed: Strong fit for vertical SaaS with clear retention from inbox health metrics",
+        "Key proof: High template-test usage, stable warm-up success rate, low churn"
+      ],
+      amounts: [
+        "Seed: $300K – $800K"
+      ]
+    },
+    techStack: {
+      frontend: ["React/Next.js", "Dashboard-heavy UI for deliverability metrics"],
+      backend: ["Python with robust queue management"],
+      ai: ["GPT-3.5/4 for human-like replies and content rotation"],
+      database: ["Time-series DB (e.g., InfluxDB) for reputation metrics"],
+      hosting: ["Secure, dedicated infra; Vercel/AWS for app layer"],
+      integrations: ["SMTP + OAuth (Google/Microsoft APIs)", "Spam testing + reputation monitoring services"]
+    },
+    competitiveAdvantage: {
+      features: [
+        "Template-first deliverability testing",
+        "Adaptive volume based on live reputation score",
+        "High-quality private warm-up network"
+      ],
+      comparisons: [
+        "vs Basic Warm-Up: AI adaptation + template testing vs static sends",
+        "vs All-in-One Sales Platforms: Deliverability-first vs sequence execution",
+        "vs Low-cost bot networks: Real inbox interactions vs low-quality patterns"
+      ],
+      uniqueSelling: [
+        "80%+ opens from day one on new inboxes",
+        "Proactive domain health guardrails",
+        "Template safety scoring before launch"
+      ]
+    },
+    developmentBudget: {
+      mvp: [
+        "Account connect, basic warm-up scheduler, simple health dashboard",
+        "Cost: $15K–$25K"
+      ],
+      standard: [
+        "Template testing, advanced analytics, adaptive volume tuning",
+        "Cost: $30K–$50K"
+      ],
+      premium: [
+        "Large peer network scaling, sales platform integrations, advanced security",
+        "Cost: $60K–$90K+"
+      ]
+    },
+    vision: "We are building the trust layer of internet sales communications so every legitimate cold email gets a fair shot at the primary inbox.",
+    features: [
+      "Adaptive AI warm-up with human-like opens/replies",
+      "Private peer network of high-reputation inboxes",
+      "Spam/content testing with Inbox Placement Score",
+      "Reputation monitoring dashboard and alerts",
+      "SPF/DKIM/DMARC audit and guidance",
+      "Template rotation to avoid pattern detection"
+    ]
+  },
+  {
+    id: 21,
+    title: "AI Legal Generator for SMBs (Local Focus)",
+    category: "Business Management Tools",
+    tagline: "Locally compliant NDAs, MSAs, and MoUs with guided Q&A, e-sign, and secure PDF export—built for emerging-market SMBs.",
+    description: "A Micro-SaaS that generates region-specific legal documents for small businesses, freelancers, and startups. It replaces expensive lawyers and risky templates with AI-driven, locally compliant contracts plus integrated e-signatures and tamper-proof PDFs.",
+    author: "Boostmysites",
+    image: "/assets/projects/AI-Legal-Generator-1.png",
+    images: [
+      "/assets/projects/AI-Legal-Generator-1.png",
+      "/assets/projects/AI-Legal-Generator-2.png",
+      "/assets/projects/AI-Legal-Generator-3.png",
+      "/assets/projects/AI-Legal-Generator-4.png"
+    ],
+    rating: 4.9,
+    overview: "AI Legal Generator provides fast, affordable, locally compliant contracts (NDA, MSA, MoU, Employment) for SMBs in markets like India and the Middle East. A guided questionnaire feeds a local-law-aware AI engine, then routes the document through built-in e-sign and secure PDF export for a paperless, compliant workflow.",
+    problem: "SMBs avoid legal protection due to high lawyer fees and fear of non-compliant templates. Drafting from scratch is slow and inconsistent, and manual print/sign/scan workflows add friction and risk.",
+    solution: "Guided Q&A selects document type and key terms, AI drafts a locally compliant contract, built-in e-sign collects signatures legally, and a tamper-proof PDF with audit trail is stored in a searchable library—reducing cost and time from days to minutes.",
+    coreFeatures: [
+      "Locally Compliant AI Generator: NDA, MSA, MoU, Employment Agreement tailored to regional laws",
+      "Guided Questionnaire: Business-focused inputs instead of legal jargon",
+      "Integrated E-Signature: Legally valid e-sign with audit trails (e.g., IT Act compliance in India)",
+      "Secured PDF Export: Non-editable, tamper-proof PDF with signatures and audit log",
+      "Contract Library & Storage: Centralized, searchable repository for generated and signed docs",
+      "Jurisdiction Clauses: Choose city/state for arbitration/jurisdiction"
+    ],
+    targetUsers: "Small businesses, freelancers, startups in emerging markets (India, Middle East, SE Asia) needing affordable, compliant contracts.",
+    marketOpportunity: [
+      "Millions of SMBs lack accessible legal tools; underserved in India/Middle East",
+      "At $19–$79/mo it’s a tenth of a single lawyer consult",
+      "Digital-first, paperless shift boosts demand for built-in e-sign",
+      "High retention once core contracts and storage live inside the platform"
+    ],
+    monetizationModel: {
+      plans: [
+        "Micro ($19/mo) - 5 docs/month, generate & export",
+        "SMB Growth ($49/mo) - 20 docs/month, e-sign + storage",
+        "Pro Legal ($79/mo) - Unlimited, team access, branding, API"
+      ],
+      pricing: [
+        "Micro: $19/month",
+        "SMB Growth: $49/month",
+        "Pro Legal: $79/month"
+      ],
+      revenue: [
+        "Target: 5,000 subs @ ~$40 ARPU → ~$200K MRR",
+        "Low churn expected (4–6%) due to mission-critical documents"
+      ]
+    },
+    roiProjection: {
+      timeline: [
+        "Month 1–3: MVP (NDA/MoU), India focus → 1,000 subs → $20K–$30K MRR",
+        "Month 4–6: Add Service/Employment + e-sign → 2,500 subs → $90K–$110K MRR",
+        "Month 7–12: Middle East localization + AI Q&A chatbot → 5,000+ subs → $200K+ MRR"
+      ],
+      projections: [
+        "Year 1: $200K+ MRR target",
+        "Year 2: $500K+ MRR with IP and litigation templates"
+      ],
+      userROI: [
+        "Avoids ₹10K–₹50K per contract in lawyer fees",
+        "Cuts drafting/signing from days to under 5 minutes",
+        "Reduces legal risk with compliant, standardized documents"
+      ]
+    },
+    fundingOpportunities: {
+      stages: [
+        "Seed potential: LegalTech vertical with clear compliance moat",
+        "Key metrics: Compliance audits passed, e-sign volume, low incident reports"
+      ],
+      amounts: [
+        "Seed: $500K – $1.0M for ~15% to fund legal review and secure infra"
+      ]
+    },
+    techStack: {
+      frontend: ["React/Next.js", "Form-based guided flows"],
+      backend: ["Python (Django/FastAPI) for templating and routing"],
+      ai: ["GPT-4 / fine-tuned LLM on local legal corpus"],
+      database: ["PostgreSQL for secure contract data"],
+      hosting: ["AWS/Vercel with strong security posture"],
+      integrations: ["Adobe Sign API or local-compliant e-sign (e.g., Aadhaar e-Sign)", "PDF generation via Puppeteer/PDF libraries"]
+    },
+    competitiveAdvantage: {
+      features: [
+        "Local-law-aware drafting with jurisdiction clauses",
+        "Built-in, compliant e-sign with audit trail",
+        "Secure PDF and centralized contract storage"
+      ],
+      comparisons: [
+        "vs Generic templates: Local compliance + guided Q&A vs risky generic forms",
+        "vs Local lawyers: 10x cheaper and instant vs expensive and slow",
+        "vs US-focused sites: Regional compliance and e-sign built-in"
+      ],
+      uniqueSelling: [
+        "Legal access at scale for emerging-market SMBs",
+        "End-to-end: generate, sign, store—paperless",
+        "Low risk, high value versus lawyer fees"
+      ]
+    },
+    developmentBudget: {
+      mvp: [
+        "Basic NDA/MoU generator, guided flow, simple export",
+        "Cost: $15K–$25K"
+      ],
+      standard: [
+        "Service/Employment agreements, integrated e-sign, storage",
+        "Cost: $40K–$70K"
+      ],
+      premium: [
+        "Multi-region/language, AI legal chatbot, custom branding",
+        "Cost: $80K–$120K+"
+      ]
+    },
+    vision: "We are building the legal co-founder for every small business in emerging markets, making compliance instant, affordable, and paperless.",
+    features: [
+      "Locally compliant NDA/MSA/MoU/Employment generation",
+      "Guided Q&A to collect business terms",
+      "Legally valid e-sign with audit trail",
+      "Secure, tamper-proof PDF export",
+      "Searchable contract library and storage",
+      "Jurisdiction selection for arbitration/venue"
+    ]
+  },
+  {
+    id: 22,
+    title: "Apartment Society Complaint + Billing SaaS",
+    category: "Business Management Tools",
+    tagline: "Digitize complaints, automate billing, and drive collections with WhatsApp-first alerts for residential communities.",
+    description: "A vertical SaaS for housing societies and apartment complexes to centralize complaint tracking, automate task assignment, generate monthly maintenance bills, and collect payments with high-visibility WhatsApp/SMS alerts.",
+    author: "Boostmysites",
+    image: "/assets/projects/Apartment-Society-SaaS-1.png",
+    images: [
+      "/assets/projects/Apartment-Society-SaaS-1.png",
+      "/assets/projects/Apartment-Society-SaaS-2.png",
+      "/assets/projects/Apartment-Society-SaaS-3.png",
+      "/assets/projects/Apartment-Society-SaaS-4.png"
+    ],
+    rating: 4.9,
+    overview: "Apartment Society Complaint + Billing SaaS is a central hub for residents to raise and track issues while management automates staff assignments, monthly bill generation, collections, and urgent communications—eliminating paper chaos with WhatsApp-first alerts.",
+    problem: "Complaints get lost across calls, chats, and paper; billing is manual and late; staff lack clear assignments; managers struggle to deliver notices and bills with confirmation and reminders.",
+    solution: "Digitize complaints with SLA-driven tasking, auto-generate itemized monthly bills, deliver them via WhatsApp with payment links, and send automated reminders for due/late payments while keeping residents and staff in sync.",
+    coreFeatures: [
+      "Digital Complaint Tracker with status from submission to resolution",
+      "Automated Task Assignment & Reminders for staff with SLA nudges",
+      "Monthly Bill Generation for maintenance, utilities, and late fees",
+      "WhatsApp/SMS Alerts for bills, dues, urgent notices, and ticket updates",
+      "Online Payment Integration with local gateways and payment links",
+      "PDF Bill Download and ledger history for residents",
+      "Digital Notice Board for broadcasts, polls, and documents"
+    ],
+    targetUsers: "Housing societies, apartment complexes, and resident welfare associations needing simple, high-visibility ops and billing.",
+    marketOpportunity: [
+      "Every apartment building is a potential customer; classic vertical PropTech SaaS",
+      "Urbanization in Asia/Middle East is accelerating digitization of society admin",
+      "Maintenance fees are mandatory, making spend non-discretionary",
+      "$29–$149/month is trivial when split across 50–200 residents"
+    ],
+    monetizationModel: {
+      plans: [
+        "Starter ($29/mo) - <50 units; complaint tracker + basic billing",
+        "Standard ($69/mo) - 51–150 units; WhatsApp alerts + online payments",
+        "Premium ($149/mo) - 151+ units; staff management + advanced reporting"
+      ],
+      pricing: [
+        "Starter: $29/month",
+        "Standard: $69/month",
+        "Premium: $149/month"
+      ],
+      revenue: [
+        "Target: 3,000 societies @ ~$70 ARPU → ~$210K MRR",
+        "Churn expected ~5% given centralized financial/ops workflow"
+      ]
+    },
+    roiProjection: {
+      timeline: [
+        "Month 1–3: MVP for local societies → 300 subs → $15K–$20K MRR",
+        "Month 4–6: Payment gateway integration → 1,200 subs → $50K–$75K MRR",
+        "Month 7–12: Staff/vendor modules → 3,000+ subs → $200K+ MRR"
+      ],
+      projections: [
+        "Year 1: $200K+ MRR target",
+        "Year 2: $500K+ MRR with visitor/security modules"
+      ],
+      userROI: [
+        "Saves 10–20 hours/month on billing, collections, and follow-ups",
+        "Improves on-time collection by 15–30% via WhatsApp reminders",
+        "$69 subscription < cost of admin assistant; reduces disputes and delays",
+        "Higher resident satisfaction from faster resolutions and transparency"
+      ]
+    },
+    fundingOpportunities: {
+      stages: [
+        "Seed-ready PropTech vertical SaaS with clear collection lift metrics",
+        "Key metrics: on-time collection increase, low churn, units per society"
+      ],
+      amounts: [
+        "Seed: $300K – $750K for ~15% to scale gateway integrations and sales"
+      ]
+    },
+    techStack: {
+      frontend: ["React Native/Flutter for resident and staff apps"],
+      backend: ["Node.js (Express) for real-time tasks and schedulers"],
+      ai: [],
+      database: ["PostgreSQL for financial and ticket data"],
+      hosting: ["AWS/Vercel"],
+      integrations: ["WhatsApp Business API", "Local payment gateways (Razorpay/PayU/Stripe)", "PDF generation for bills/reports"]
+    },
+    competitiveAdvantage: {
+      features: [
+        "WhatsApp-first billing and alerts",
+        "End-to-end complaints + billing in one tool",
+        "Simple UX for non-technical committees"
+      ],
+      comparisons: [
+        "vs Manual/Excel: Automated billing + reminders vs manual chase",
+        "vs Legacy systems: Fast deploy, mobile-first, lower cost",
+        "vs Generic tools: Verticalized for society workflows and collections"
+      ],
+      uniqueSelling: [
+        "WhatsApp as the primary collection channel",
+        "Dual focus on ops (complaints) and finance (billing)",
+        "Designed for quick adoption by committees and staff"
+      ]
+    },
+    developmentBudget: {
+      mvp: [
+        "Web complaint tracker, basic billing calc, simple PDF export",
+        "Cost: $12K–$20K"
+      ],
+      standard: [
+        "Resident/staff mobile apps, WhatsApp alerts, payment gateway integration",
+        "Cost: $40K–$65K"
+      ],
+      premium: [
+        "Staff reminders, financial reporting, visitor management module",
+        "Cost: $70K–$110K+"
+      ]
+    },
+    vision: "We are building the digital backbone for community living so every issue is resolved and every maintenance rupee is collected efficiently.",
+    features: [
+      "Complaint logging with SLA tracking",
+      "Automated staff tasking and reminders",
+      "Monthly maintenance billing and late fee automation",
+      "WhatsApp/SMS delivery with payment links",
+      "Online payments and ledger history",
+      "PDF bills and digital notice board"
+    ]
+  },
+  {
+    id: 23,
+    title: "AI Hiring Assistant for SMEs",
+    category: "Business Management Tools",
+    tagline: "AI shortlists the top candidates and auto-schedules interviews via WhatsApp so managers only meet the best fits.",
+    description: "A recruitment Micro-SaaS for SMEs that ingests resumes, scores them against a job description, generates concise candidate summaries, and coordinates preliminary interviews over WhatsApp with calendar sync.",
+    author: "Boostmysites",
+    image: "/assets/projects/AI-Hiring-Assistant-1.png",
+    images: [
+      "/assets/projects/AI-Hiring-Assistant-1.png",
+      "/assets/projects/AI-Hiring-Assistant-2.png",
+      "/assets/projects/AI-Hiring-Assistant-3.png",
+      "/assets/projects/AI-Hiring-Assistant-4.png"
+    ],
+    rating: 4.9,
+    overview: "AI Hiring Assistant streamlines top-of-funnel hiring for SMEs by parsing resumes, ranking them against the JD, creating standardized summaries, and handling interview scheduling through WhatsApp and calendar integrations.",
+    problem: "SMEs drown in irrelevant resumes, lack consistent scoring, and burn time on back-and-forth scheduling—slowing hiring and losing top candidates to faster competitors.",
+    solution: "Upload the JD and resumes (or connect inbox/ATS); AI scores and shortlists the top N; generates concise summaries; then pings candidates via WhatsApp to collect availability and books slots on the manager’s calendar.",
+    coreFeatures: [
+      "Intelligent Resume Ingestion & Scoring across PDF/DOCX",
+      "AI Candidate Summaries with standardized bullet points",
+      "Top-N Shortlisting (5/10/20) with customizable weighting",
+      "Automated WhatsApp Interview Scheduling with calendar sync",
+      "Custom Skill Weighting (e.g., boost AWS/Python 5×)",
+      "Rejection/Confirmation Automation via WhatsApp/Email"
+    ],
+    targetUsers: "SMEs, startup founders, and small HR teams needing faster, objective screening and WhatsApp-based coordination.",
+    marketOpportunity: [
+      "Millions of SMEs lack budget for enterprise ATS but need automation",
+      "Resume screening and scheduling are universal pain points",
+      "WhatsApp dominance in many markets makes scheduling a differentiator",
+      "$49–$199/mo is a fraction of recruiter/assistant cost"
+    ],
+    monetizationModel: {
+      plans: [
+        "Starter ($49/mo) - 1 job post, 250 resumes/month",
+        "Growth ($99/mo) - 5 job posts, 1,000 resumes/month",
+        "Enterprise ($199/mo) - Unlimited posts and resumes"
+      ],
+      pricing: [
+        "Starter: $49/month",
+        "Growth: $99/month",
+        "Enterprise: $199/month"
+      ],
+      revenue: [
+        "Target: 3,000 subs @ ~$100 ARPU → ~$300K MRR",
+        "Churn ~6–8% but lower during active hiring cycles"
+      ]
+    },
+    roiProjection: {
+      timeline: [
+        "Month 1–3: MVP, focus tech/startup hubs → 500 subs → $25K–$35K MRR",
+        "Month 4–6: WhatsApp scheduling live → 1,500 subs → $100K–$150K MRR",
+        "Month 7–12: Job board integrations → 3,000+ subs → $300K+ MRR"
+      ],
+      projections: [
+        "Year 1: ~$300K MRR with SME adoption",
+        "Year 2: Growth via deeper ATS/job board APIs and analytics"
+      ],
+      userROI: [
+        "Saves 10–20 hours per role on screening/scheduling ($500–$1,000 value)",
+        "Cuts time-to-hire from ~1 week to ~1 day for screenings",
+        "Improves quality by surfacing objectively best-matched resumes"
+      ]
+    },
+    fundingOpportunities: {
+      stages: [
+        "Seed potential in HRTech automation with clear time-to-hire reduction",
+        "Key metrics: WhatsApp scheduling usage, time-to-hire delta, cost/resume screened"
+      ],
+      amounts: [
+        "Seed: $500K – $1.2M for ~15% to scale multilingual parsing and integrations"
+      ]
+    },
+    techStack: {
+      frontend: ["React/Next.js for hiring dashboard"],
+      backend: ["Python (Django/FastAPI) for parsing and scoring workloads"],
+      ai: ["GPT-4 / custom models for parsing, skill extraction, summaries"],
+      database: ["PostgreSQL for candidate/job data"],
+      hosting: ["AWS/Vercel"],
+      integrations: ["WhatsApp Business API", "Google/Outlook Calendar API", "Resume storage on S3/R2"]
+    },
+    competitiveAdvantage: {
+      features: [
+        "WhatsApp-native scheduling and comms",
+        "AI summaries to avoid opening every resume",
+        "Custom weighted scoring tuned to each JD"
+      ],
+      comparisons: [
+        "vs Enterprise ATS: SME-focused, faster, cheaper",
+        "vs Manual screening: Objective scoring + automation vs subjective/manual",
+        "vs Basic keyword filters: Semantic, weighted scoring + summaries"
+      ],
+      uniqueSelling: [
+        "WhatsApp scheduling removes coordination friction",
+        "Standardized summaries for rapid manager decisions",
+        "Built for simplicity and speed for small teams"
+      ]
+    },
+    developmentBudget: {
+      mvp: [
+        "Resume upload, basic keyword scoring, manual email scheduling",
+        "Cost: $15K–$25K"
+      ],
+      standard: [
+        "AI summaries, WhatsApp scheduling, calendar sync",
+        "Cost: $40K–$70K"
+      ],
+      premium: [
+        "Custom weighting UI, job board APIs, advanced analytics",
+        "Cost: $80K–$120K+"
+      ]
+    },
+    vision: "We are empowering every small business to hire world-class talent faster by automating the tedious top-of-funnel work.",
+    features: [
+      "Resume parsing and weighted scoring",
+      "AI-generated candidate summaries",
+      "Top-N shortlists with custom weights",
+      "WhatsApp-based scheduling with calendar sync",
+      "Automated candidate comms (confirm/reject)",
+      "Dashboard for quick manager review"
+    ]
+  },
+  {
+    id: 24,
+    title: "Micro-SaaS for Clinics: Appointment + Prescription Generator",
+    category: "Healthcare Solutions",
+    tagline: "Smart scheduling, digital prescriptions, and WhatsApp dosage reminders for small clinics.",
+    description: "Clinic Flow Manager is a vertical Micro-SaaS for single-doctor clinics and small practices in WhatsApp-first markets. It automates appointments, generates compliant digital prescriptions/EMR, and sends mandatory WhatsApp reminders for visits and medication adherence.",
+    author: "Boostmysites",
+    image: "/assets/projects/Clinic-Flow-Manager-1.png",
+    images: [
+      "/assets/projects/Clinic-Flow-Manager-1.png",
+      "/assets/projects/Clinic-Flow-Manager-2.png",
+      "/assets/projects/Clinic-Flow-Manager-3.png",
+      "/assets/projects/Clinic-Flow-Manager-4.png"
+    ],
+    rating: 4.9,
+    overview: "Clinic Flow Manager centralizes appointments, prescriptions, and follow-ups for small clinics. Patients book via link or WhatsApp chatbot, receive automated reminders, and get secure digital prescriptions; doctors generate EMR-ready scripts in seconds and automate dosage reminders.",
+    problem: "Manual calls cause double-bookings and no-shows; paper prescriptions are slow and non-searchable; patients forget meds and follow-ups; clinics lack compliant, secure digital workflows.",
+    solution: "Smart scheduling with WhatsApp reminders, a digital prescription generator with templates and EMR storage, secure delivery via WhatsApp, and automated medicine/follow-up reminders to boost adherence and reduce no-shows.",
+    coreFeatures: [
+      "Smart Scheduling & Queue Management with WhatsApp/SMS reminders",
+      "Digital Prescription/EMR Generator with compliant format and digital signature",
+      "WhatsApp Patient Alerts for appointments, dosage times, and follow-ups",
+      "Billing & Invoicing with digital receipts",
+      "Customizable Prescription Templates for common conditions",
+      "Telemedicine Links (WhatsApp Video/Google Meet) for remote consults"
+    ],
+    targetUsers: "Solo practitioners, small clinics, and polyclinics (1–5 doctors) in WhatsApp-dominant regions needing lightweight EMR + reminders.",
+    marketOpportunity: [
+      "Localized healthcare SaaS gap with compliance needs (e.g., DPDP in India)",
+      "Affordable entry ($29–$99) for clinics priced out of enterprise HMS",
+      "WhatsApp-first patient comms drives high adoption and adherence",
+      "Data lock-in via EMR lowers churn"
+    ],
+    monetizationModel: {
+      plans: [
+        "Solo ($29/mo) - 1 practitioner; appointment + EMR, basic reminders",
+        "Plus ($59/mo) - Up to 3 practitioners; medicine tracker, billing, templates",
+        "Advanced ($99/mo) - Up to 5 practitioners; telemedicine, analytics, multi-location"
+      ],
+      pricing: [
+        "Solo: $29/month",
+        "Plus: $59/month",
+        "Advanced: $99/month"
+      ],
+      revenue: [
+        "Target: 4,000 practitioners @ ~$50 ARPU → ~$200K MRR",
+        "Churn ~5% due to EMR/records lock-in"
+      ]
+    },
+    roiProjection: {
+      timeline: [
+        "Month 1–3: MVP (appointments + basic prescription) → 500 subs → $15K–$20K MRR",
+        "Month 4–6: Medicine tracker/dosage alerts → 1,500 subs → $50K–$80K MRR",
+        "Month 7–12: Multi-clinic + advanced EMR search → 4,000+ subs → $200K+ MRR"
+      ],
+      projections: [
+        "Year 1: $200K+ MRR target",
+        "Year 2: $400K–$500K MRR with IP/analytics add-ons"
+      ],
+      userROI: [
+        "30% no-show reduction via reminders boosts revenue",
+        "Saves 3–5 minutes per patient on writing/scheduling (2–4 more patients/day)",
+        "Better adherence drives retention and reviews"
+      ]
+    },
+    fundingOpportunities: {
+      stages: [
+        "Seed-worthy HealthTech vertical with compliance moat",
+        "Key metrics: no-show reduction, adherence reminder usage, EMR retention"
+      ],
+      amounts: [
+        "Seed: $500K – $1.2M for ~15% to fund legal/compliance review and messaging infra"
+      ]
+    },
+    techStack: {
+      frontend: ["React/Next.js dashboard", "React Native for doctor/patient apps"],
+      backend: ["Python (Django/FastAPI) for secure EMR and search"],
+      ai: [],
+      database: ["AWS RDS/PostgreSQL with encryption"],
+      hosting: ["AWS/Vercel; HIPAA/DPDP-aware posture"],
+      integrations: ["WhatsApp Business API", "Secure PDF generation", "Optional telemedicine (Meet/WhatsApp Video)"]
+    },
+    competitiveAdvantage: {
+      features: [
+        "WhatsApp-native reminders for appointments and dosage",
+        "Template-driven digital prescriptions with EMR storage",
+        "Lightweight, fast setup for small clinics"
+      ],
+      comparisons: [
+        "vs Enterprise HMS: Lower cost, faster setup, WhatsApp-first",
+        "vs Manual/paper: Automated reminders, searchable EMR, no handwriting errors",
+        "vs Generic schedulers: Healthcare-specific prescriptions + adherence tracking"
+      ],
+      uniqueSelling: [
+        "Medicine tracker automation via WhatsApp",
+        "Affordable compliance bundle for small clinics",
+        "End-to-end: book, consult, prescribe, remind"
+      ]
+    },
+    developmentBudget: {
+      mvp: [
+        "Appointments, basic prescription generator, simple PDF export",
+        "Cost: $12K–$20K"
+      ],
+      standard: [
+        "Medicine tracker, billing, WhatsApp alerts, template library",
+        "Cost: $40K–$65K"
+      ],
+      premium: [
+        "Multi-location, advanced EMR search, telemedicine, analytics",
+        "Cost: $80K–$120K+"
+      ]
+    },
+    vision: "To be the digital assistant for every independent practitioner—handling bookings, prescriptions, and adherence so doctors focus on care.",
+    features: [
+      "Online booking with queue management and reminders",
+      "Digital prescription + EMR storage with compliant signatures",
+      "WhatsApp dosage and follow-up reminders",
+      "Billing and invoicing",
+      "Template library for fast prescription drafting",
+      "Telemedicine link generation"
+    ]
+  },
+  {
+    id: 25,
+    title: "Airbnb Host Automation Tool: The Co-Host Assistant",
+    category: "Business Management Tools",
+    tagline: "Automate messaging, check-ins, and reviews to maximize Superhost status and profitability.",
+    description: "A specialized Micro-SaaS for independent Airbnb hosts and small property managers (1-10 listings) that automates high-volume communication and administrative tasks. It handles pre-booking inquiries, check-in instructions, mid-stay follow-ups, and post-checkout review requests using AI-powered smart replies and scheduled automation.",
+    author: "Boostmysites",
+    image: "/assets/projects/Airbnb-CoHost-1.png",
+    images: [
+      "/assets/projects/Airbnb-CoHost-1.png",
+      "/assets/projects/Airbnb-CoHost-2.png",
+      "/assets/projects/Airbnb-CoHost-3.png",
+      "/assets/projects/Airbnb-CoHost-4.png"
+    ],
+    rating: 4.9,
+    overview: "The Co-Host Assistant integrates with Airbnb to automate 90%+ of routine host tasks. It uses AI to answer pre-booking inquiries instantly, sends automated check-in packages with dynamic codes, manages the review loop to maximize ratings, and provides a real-time occupancy dashboard—all while maintaining the personalized touch guests expect.",
+    problem: "Hosts struggle with 24/7 responsiveness: slow replies hurt conversion and rankings; repetitive messaging consumes hours weekly; delayed instructions lead to negative reviews; missed review requests stall Superhost status; and hosts lack simple occupancy tracking.",
+    solution: "AI-powered smart replies handle inquiries instantly; automated scheduled messages deliver check-in packages at critical times; review loop automation maximizes ratings; unified inbox consolidates all communication; and a simple dashboard shows occupancy and performance at a glance.",
+    coreFeatures: [
+      "Smart Reply/Unified Inbox: AI-powered responses to common questions using property-specific data",
+      "Automated Check-in Package: Digital instruction guide with dynamic access codes and smart lock integration",
+      "Review Request Automation: Auto-sends host reviews and prompts guests, increasing review rates by 20%+",
+      "Occupancy Dashboard: Real-time view of bookings, occupancy rates, and average nightly rate",
+      "Template Library: Pre-written, high-conversion message templates with dynamic fields",
+      "Cleaning & Task Alerts: SMS/Email notifications to cleaners/co-hosts upon booking and checkout"
+    ],
+    targetUsers: "Independent Airbnb hosts and small property managers handling 1-10 listings who need automation without the complexity of enterprise PMS systems.",
+    marketOpportunity: [
+      "Millions of hosts globally, with the largest segment being small-time operators (1-4 listings)",
+      "Managing messages is the biggest time drain for hosts, making this a direct pain point solution",
+      "Affordable pricing ($19–$99/month) is easily justified by time savings and improved Superhost status",
+      "Network effect potential through host community forums and recommendations"
+    ],
+    monetizationModel: {
+      plans: [
+        "Solo ($19/month) - Single property; basic automation, template library, digital check-in guide",
+        "Growth ($49/month) - Up to 5 listings; AI smart replies, review automation, cleaner alerts",
+        "Pro ($99/month) - Up to 10 listings; multi-channel sync, performance dashboard, advanced features"
+      ],
+      pricing: [
+        "Solo: $19/month for 1 listing",
+        "Growth: $49/month for up to 5 listings",
+        "Pro: $99/month for up to 10 listings"
+      ],
+      revenue: [
+        "Target: 5,000 active subscribers (average ARPU $50)",
+        "Potential MRR: $250,000/month",
+        "Churn: Expected to be moderate (6–8% monthly) due to seasonal nature, but stable for professional users"
+      ]
+    },
+    roiProjection: {
+      timeline: [
+        "Month 1–3: MVP Launch (Messaging Automation Only), 1,000 Subscribers → $20K–$30K MRR",
+        "Month 4–6: Integration with Airbnb Review API, AI Smart Reply Functionality, 2,500 Subscribers → $90K–$120K MRR",
+        "Month 7–12: Smart Lock Integration (Auto Code Generation), 5,000+ Subscribers → $250K+ MRR"
+      ],
+      projections: [
+        "Year 1: $250K+ MRR target",
+        "Year 2: $500K+ MRR expansion (adding Vrbo integration, advanced analytics)",
+        "Estimated Profit Margin: 75% (API costs manageable at scale)"
+      ],
+      userROI: [
+        "Time Saved: Saves the host 5–10 hours per week on manual messaging and coordination",
+        "Review Boost: Automated review requests increase review rate by 20%+, directly improving visibility and booking rates",
+        "Superhost Status: Maintaining the critical < 1-hour response rate required for Superhost status is achieved effortlessly",
+        "Cost vs. Saving: The $49 subscription pays for itself with just 1-2 hours of saved time per month"
+      ]
+    },
+    fundingOpportunities: {
+      stages: [
+        "Seed Funding Potential: Strong candidate for PropTech and automation-focused VCs, given the large, identifiable host market",
+        "Key Metrics for Seed: High message automation usage, documented review rate increases, low churn for active hosts",
+        "Estimated Seed Raise: $300K – $700K for 15% equity, focused on building robust AI reply models and scaling Airbnb API infrastructure"
+      ],
+      amounts: [
+        "Seed: $300K – $700K",
+        "Total raised potential: $1M+"
+      ],
+      valuations: [
+        "Early stage: $3M – $7M",
+        "Exit potential: $20M+"
+      ]
+    },
+    techStack: {
+      frontend: ["React/Vue.js", "Intuitive dashboard for template setup and occupancy overview"],
+      backend: ["Node.js/Go", "High performance for handling real-time API requests and message processing"],
+      ai: ["Small fine-tuned LLM", "Used for understanding guest inquiries and generating accurate, natural replies based on property data"],
+      database: ["PostgreSQL/Redis", "For reliable storage of templates, property data, and fast access to reservation schedules"],
+      hosting: ["AWS or Google Cloud", "CloudFront CDN"],
+      integrations: ["Airbnb API (Official Partner Tools)", "Mandatory for accessing reservation details and sending messages securely", "Smart Lock APIs (August/Yale) for auto code generation"]
+    },
+    competitiveAdvantage: {
+      features: [
+        "AI-Powered Inbox: Real-time problem solving for pre-booking inquiries",
+        "Review Loop Mastery: End-to-end review process management",
+        "Micro-SaaS Focus: Essential automation without complex PMS features"
+      ],
+      comparisons: [
+        "vs Large PMS (Guesty, Hostaway): Affordable & Simple ($19–$99) vs Expensive ($100s/month + setup fees), Plug-and-Play vs Requires Days of Onboarding",
+        "vs Airbnb Native Automation: AI Smart Replies vs Just Scheduled Templates, Review Loop Automation vs Limited Functionality, Multi-Channel Ready vs Single Platform"
+      ],
+      uniqueSelling: [
+        "AI-Powered Inbox: Focuses on the real-time problem of pre-booking inquiries, which native tools fail to solve effectively",
+        "Review Loop Mastery: Aggressively manages the review process end-to-end to maximize the host's most valuable asset: their public reputation",
+        "Micro-SaaS Focus: Provides essential automation without the complex, costly, and unnecessary features of a full Property Management System (PMS)"
+      ]
+    },
+    developmentBudget: {
+      mvp: [
+        "Basic messaging automation, template library, simple scheduled messages",
+        "Cost: $10K–$18K"
+      ],
+      standard: [
+        "AI smart replies, review automation, check-in package generator, occupancy dashboard",
+        "Cost: $30K–$50K"
+      ],
+      premium: [
+        "Smart lock integration, multi-channel sync (Vrbo), advanced analytics, cleaner alerts",
+        "Cost: $60K–$90K+"
+      ]
+    },
+    vision: "To be the invisible co-pilot for every Airbnb Superhost, turning guest communication from a chore into an effortless source of five-star reviews.",
+    features: [
+      "AI-powered smart replies to guest inquiries",
+      "Automated check-in package with dynamic codes",
+      "Review request automation (host + guest)",
+      "Unified inbox for all Airbnb messages",
+      "Occupancy dashboard with real-time metrics",
+      "Template library with dynamic fields",
+      "Cleaning and task alerts for co-hosts"
+    ]
+  },
+  {
+    id: 26,
+    title: "AI Influencer Finder for Small Brands",
+    category: "Business Management Tools",
+    tagline: "Find your ideal micro-influencer in 10 seconds with AI-powered discovery and automated outreach.",
+    description: "A performance-focused Micro-SaaS platform for SMBs and e-commerce startups that democratizes influencer discovery. It replaces time-consuming manual searching with fast, automated AI workflows, delivering instant lists of micro-influencers (1K-50K followers) with high engagement, pricing estimates, and automated communication tools.",
+    author: "Boostmysites",
+    image: "/assets/projects/AI-Influencer-Finder-1.png",
+    images: [
+      "/assets/projects/AI-Influencer-Finder-1.png",
+      "/assets/projects/AI-Influencer-Finder-2.png",
+      "/assets/projects/AI-Influencer-Finder-3.png",
+      "/assets/projects/AI-Influencer-Finder-4.png"
+    ],
+    rating: 4.9,
+    overview: "The AI Influencer Finder turns a complex, weeks-long process into a 10-second action. Brands enter a niche, and the AI searches social platforms (Instagram, TikTok, YouTube) for relevant micro-influencers, filters by engagement and authenticity, provides pricing estimates, and enables automated personalized outreach sequences—all from one platform.",
+    problem: "Small brands struggle with influencer marketing: finding relevant micro-influencers is a tedious manual task; pricing is a black box leading to budget overruns; manual outreach has low response rates; and fake followers waste marketing spend without access to expensive enterprise tools.",
+    solution: "AI-powered niche search delivers instant lists of vetted micro-influencers with engagement data, authenticity scores, and pricing estimates. Automated outreach sequences with personalized messaging increase response rates, while built-in CRM tracks campaign status from discovery to collaboration.",
+    coreFeatures: [
+      "AI Niche Search & Discovery: Searches social platforms based on keywords, demographics, and content relevance (200+ micro-influencers per search)",
+      "Influencer Profile Snapshot: Follower count & growth, engagement rate (ER) vs. peers, authenticity score (fraud detection), primary audience demographics",
+      "Estimated Pricing Tool: AI-driven collaboration cost estimates based on platform data and creator ER",
+      "Contact Email & Data Enrichment: Automatically surfaces publicly available contact information (emails, social handles)",
+      "Automated Outreach Sequences: Personalized email or DM sequences with follow-ups sent directly to shortlisted influencers",
+      "CRM & List Management: Track communication history and outreach campaign status (Sent, Replied, Interested)"
+    ],
+    targetUsers: "Small and medium-sized businesses (SMBs), e-commerce startups, and marketing agencies focused on micro-influencer campaigns (1K-50K followers) with limited budgets.",
+    marketOpportunity: [
+      "Massive SMB need: Small brands have limited budgets but rely on authentic content, making micro-influencers their ideal channel",
+      "Focus on micro-influencers: Exclusively targets the micro-tier, avoiding noise and high costs of enterprise tools",
+      "Low-cost barrier: $29–$149/month pricing is perfect for small brand marketing budgets with immediate ROI on time saved",
+      "AI/automation hype: The AI-powered search and automation pitch resonates strongly with modern marketing teams"
+    ],
+    monetizationModel: {
+      plans: [
+        "Starter ($29/month) - Testing the waters; 5 AI searches/month, 100 contacts/outreach",
+        "Growth ($79/month) - Active campaigns; 25 AI searches/month, 500 contacts/outreach",
+        "Pro ($149/month) - Agency/high volume; Unlimited searches, 1,500 contacts/outreach"
+      ],
+      pricing: [
+        "Starter: $29/month for 5 searches and 100 contacts",
+        "Growth: $79/month for 25 searches and 500 contacts",
+        "Pro: $149/month for unlimited searches and 1,500 contacts"
+      ],
+      revenue: [
+        "Target: 4,500 active subscribers (average ARPU $75)",
+        "Potential MRR: $337,500/month",
+        "Churn: Expected to be moderate (6-7%), as usage is campaign-dependent, but low for agencies and consistently growing e-commerce stores"
+      ]
+    },
+    roiProjection: {
+      timeline: [
+        "Month 1–3: MVP Launch (AI Search + Basic Snapshot), 700 Subscribers → $20K–$30K MRR",
+        "Month 4–6: Implement Automated Outreach + Estimated Pricing, 2,000 Subscribers → $90K–$150K MRR",
+        "Month 7–12: Multi-Platform (TikTok/YouTube) Search, Authenticity Scoring, 4,500+ Subscribers → $300K+ MRR"
+      ],
+      projections: [
+        "Year 1: $300K+ MRR target",
+        "Year 2: $600K+ MRR expansion (adding campaign management, performance tracking)",
+        "Estimated Profit Margin: 70% (API and scraping costs manageable at scale)"
+      ],
+      userROI: [
+        "Time Saved: Reduces influencer prospecting time from 10–20 hours per month to less than 1 hour",
+        "Cost Savings: Estimated pricing feature prevents overpaying by providing negotiation leverage and market rate transparency",
+        "Higher Response Rate: Personalized, automated outreach sequences increase reply rate (and conversion rate) of influencer contacts",
+        "ROI Improvement: The $79 subscription pays for itself with just one successful collaboration that would have taken days to find manually"
+      ]
+    },
+    fundingOpportunities: {
+      stages: [
+        "Seed Funding Potential: Strong candidate for MarTech and AI-focused VCs, given the large SMB market and clear automation value proposition",
+        "Key Metrics for Seed: High search volume per user, documented time savings, high outreach conversion rates, low churn for active users",
+        "Estimated Seed Raise: $500K – $1.2M for 15% equity, focused on scaling AI models for multi-platform search, improving authenticity detection, and building robust outreach infrastructure"
+      ],
+      amounts: [
+        "Seed: $500K – $1.2M",
+        "Series A: $3M – $5M for global expansion and enterprise features",
+        "Total raised potential: $10M+"
+      ],
+      valuations: [
+        "Early stage: $5M – $12M",
+        "Series A: $20M – $40M",
+        "Exit potential: $50M+"
+      ]
+    },
+    techStack: {
+      frontend: ["Next.js/Vue.js", "Fast, responsive web application focused on rapid search results and list viewing"],
+      backend: ["Python (FastAPI/Django)", "Critical: Best for running complex AI/ML models, web scraping, and data processing"],
+      ai: ["Custom LLM/OpenAI APIs", "Used for processing niche text input, content analysis, and generating price estimates"],
+      database: ["ElasticSearch/MongoDB", "For lightning-fast, keyword-based search and retrieval of millions of creator profiles"],
+      hosting: ["AWS or Google Cloud", "CloudFront CDN"],
+      integrations: ["Custom APIs/Scraping Tools", "Mandatory for efficiently accessing public social media data (must be legally compliant and ethical)", "SendGrid/Postmark/Custom SMTP", "For reliable, tracked sending of personalized outreach emails/sequences"]
+    },
+    competitiveAdvantage: {
+      features: [
+        "\"Find in 10 Seconds\": Instant, actionable results vs. tedious manual work",
+        "Estimated Pricing: Provides cost transparency that SMBs lack",
+        "Micro-Focus: Tailored filters optimized for high-engagement micro-creators"
+      ],
+      comparisons: [
+        "vs Large Platforms (HypeAuditor, Upfluence): Low & Simple ($29–$149/month) vs High ($500+/month, annual contracts), Instant List + Outreach Automation vs Deep Analytics/Campaign Management, Micro-Focus vs Macro-Influencer Focus",
+        "vs Manual Search (Hashtags/DMs): Automated AI Discovery vs Subjective Vetting, Authenticity Score & ER Benchmark vs Guesswork, Time Saved (10-20 hours → <1 hour) vs Extremely High Time/Labor Cost"
+      ],
+      uniqueSelling: [
+        "\"Find in 10 Seconds\": The promise of instant, actionable results is the main differentiator against tedious manual work and complex enterprise interfaces",
+        "Estimated Pricing: Provides the one piece of data SMBs lack—cost transparency—making it an indispensable budget tool",
+        "Micro-Focus: Tailored filters and search parameters specifically optimized for finding the sweet spot of high-engagement micro-creators"
+      ]
+    },
+    developmentBudget: {
+      mvp: [
+        "AI niche search, basic influencer snapshot (follower count, ER), simple list export",
+        "Cost: $15K–$25K"
+      ],
+      standard: [
+        "Authenticity scoring, estimated pricing tool, automated outreach sequences, CRM tracking",
+        "Cost: $40K–$70K"
+      ],
+      premium: [
+        "Multi-platform search (TikTok/YouTube), advanced analytics, campaign performance tracking, API access",
+        "Cost: $80K–$120K+"
+      ]
+    },
+    vision: "To become the launchpad for every small brand's influencer marketing success, making the right partnership effortless and affordable.",
+    features: [
+      "AI-powered niche search across Instagram, TikTok, YouTube",
+      "Influencer profile snapshots with engagement rates and authenticity scores",
+      "Estimated collaboration pricing based on engagement data",
+      "Automated contact discovery and data enrichment",
+      "Personalized outreach sequences with follow-ups",
+      "CRM for tracking communication and campaign status",
+      "List management and export capabilities"
+    ]
+  },
+  {
+    id: 27,
+    title: "AI Script Generator for TikTok/Instagram Reels",
+    category: "Social Media",
+    tagline: "Eliminate creative burnout with instant 30-day content calendars, viral-ready scripts, and trending sound suggestions.",
+    description: "A high-velocity Micro-SaaS that solves the chronic content production headache for creators, coaches, and marketing agencies. Users input their niche, and the AI instantly generates a complete strategic content calendar with viral-ready scripts, compelling captions, high-engagement hooks, and suggestions for currently trending audio tracks.",
+    author: "Boostmysites",
+    image: "/assets/projects/AI-Script-Generator-1.png",
+    images: [
+      "/assets/projects/AI-Script-Generator-1.png",
+      "/assets/projects/AI-Script-Generator-2.png",
+      "/assets/projects/AI-Script-Generator-3.png",
+      "/assets/projects/AI-Script-Generator-4.png"
+    ],
+    rating: 4.9,
+    overview: "The AI Script Generator acts as an always-on content strategist and copywriter, automating the creative planning process. It generates 30-day content calendars with diverse content pillars, full minute-by-minute scripts with optimized 3-second hooks, trending audio suggestions, and SEO-optimized captions and hashtags—all tailored to the user's niche and target audience.",
+    problem: "Creating short-form video content is mandatory but highly demanding: creators face idea exhaustion and burnout; manual scripting is time-consuming; trend blindness prevents viral opportunities; and lack of strategic planning leads to poor performance despite high effort.",
+    solution: "AI-powered content calendar generation with strategic planning, automated scriptwriting including critical hooks, real-time trend integration for viral audio suggestions, and complete caption/hashtag automation—allowing creators to move directly from calendar to filming.",
+    coreFeatures: [
+      "30-Day Content Calendar Planner: Generates structured calendar with varied content types to prevent audience fatigue",
+      "AI Scriptwriting: Full video scripts tailored to niche, including voiceover text and on-screen text overlays",
+      "High-Impact Hook Generator: Focuses on generating the critical first 3-5 seconds designed for immediate stop/scroll engagement",
+      "Trending Sound Suggestion: Analyzes current viral audio/music tracks and suggests integration into generated scripts",
+      "Caption & Hashtag Automation: Creates engagement-driving captions and mix of popular/niche hashtags for optimal reach",
+      "Template Library: Library of viral formats (e.g., '5 Things You Didn't Know,' 'Before vs. After') that AI adapts to any niche"
+    ],
+    targetUsers: "Content creators, coaches, consultants, influencers, and marketing agencies managing multiple clients who need consistent, trend-aware short-form video content.",
+    marketOpportunity: [
+      "Massive creator economy: The creator market is exploding, and short-form video is its primary engine for growth",
+      "High-value time saver: $9–$49/month price is easily justified, saving creators 10+ hours per month of manual ideation and scripting",
+      "Agencies as power users: Marketing agencies managing multiple clients represent a huge, high-retention revenue source",
+      "Low barrier to entry: Simple, fast product addressing universal pain point (content burnout)"
+    ],
+    monetizationModel: {
+      plans: [
+        "Creator ($9/month) - Solo creator/coach; 1 content calendar/month, basic scripts, hooks, captions",
+        "Pro ($29/month) - Power creator/small agency; 5 content calendars/month, trending sound suggestions, calendar planning",
+        "Agency ($49/month) - Multi-client agency; 15 content calendars/month, team access, CSV export, custom brand voice"
+      ],
+      pricing: [
+        "Creator: $9/month for 1 content calendar",
+        "Pro: $29/month for 5 content calendars",
+        "Agency: $49/month for 15 content calendars"
+      ],
+      revenue: [
+        "Target: 8,000 active subscribers (average ARPU $25)",
+        "Potential MRR: $200,000/month",
+        "Churn: Expected to be moderate (6-8%), as content creation can be cyclical, but low price point mitigates cancellations"
+      ]
+    },
+    roiProjection: {
+      timeline: [
+        "Month 1–3: MVP Launch (Scripts + Hooks), Target solo coaches, 1,500 Subscribers → $15K–$25K MRR",
+        "Month 4–6: Implement Trending Sound API, Agency Tier Launch, 3,500 Subscribers → $80K–$120K MRR",
+        "Month 7–12: Advanced Niche & Demographic Targeting, 8,000+ Subscribers → $200K+ MRR"
+      ],
+      projections: [
+        "Year 1: $200K+ MRR target",
+        "Year 2: $500K+ MRR expansion (adding video editing suggestions, thumbnail generation)",
+        "Estimated Profit Margin: 75% (AI API costs manageable at scale)"
+      ],
+      userROI: [
+        "Time Saved: Frees up hours of creative planning time, allowing creators to focus on filming, editing, or client work",
+        "Consistency: Allows creators to maintain consistent posting schedule (key factor for platform algorithms)",
+        "Trend Capturing: Dramatically increases chances of videos going viral by integrating current, high-reach trending audio",
+        "Cost vs. Saving: The $29 subscription pays for itself with just 2-3 hours of saved scripting time per month"
+      ]
+    },
+    fundingOpportunities: {
+      stages: [
+        "Seed Funding Potential: Strong candidate for Creator Economy and AI-focused VCs, given the massive creator market and clear automation value",
+        "Key Metrics for Seed: High calendar generation volume, documented time savings, high agency retention, viral content success stories",
+        "Estimated Seed Raise: $400K – $900K for 15% equity, focused on scaling AI models for multi-platform trend analysis, improving hook generation, and building agency collaboration features"
+      ],
+      amounts: [
+        "Seed: $400K – $900K",
+        "Series A: $2M – $4M for global expansion and enterprise features",
+        "Total raised potential: $8M+"
+      ],
+      valuations: [
+        "Early stage: $4M – $9M",
+        "Series A: $15M – $30M",
+        "Exit potential: $40M+"
+      ]
+    },
+    techStack: {
+      frontend: ["React/Next.js", "Fast, modern dashboard for easy calendar viewing and script editing"],
+      backend: ["Python (FastAPI/Django)", "Critical: Best for running large-scale LLM calls and managing content calendar data"],
+      ai: ["GPT-4/Custom LLM", "Mandatory for complex, creative output generation (scripts, hooks, captions)"],
+      database: ["PostgreSQL", "For secure storage of calendars, niche preferences, and user data"],
+      hosting: ["AWS or Vercel", "CloudFront CDN"],
+      integrations: ["Custom Web Scraping/Social Media APIs", "Essential for identifying and updating trending audio/sounds in real-time"]
+    },
+    competitiveAdvantage: {
+      features: [
+        "Full 30-Day Calendar: Complete strategic plan vs. individual scripts",
+        "Hook Specialization: Optimized 3-second hooks for viral potential",
+        "Trend Integration: Real-time trending sound suggestions"
+      ],
+      comparisons: [
+        "vs Generic AI Copywriter (e.g., Jasper): Full 30-Day Calendar + Scripts vs Short Text Blocks (Requires assembly), Direct Trending Sound Suggestions vs None (Static text output), Optimized for Reels/TikTok (Hooks) vs General purpose (Blog posts, Ads), Low price ($9–$49/month) vs Often higher, based on word count",
+        "vs Manual Research/Ideation: Automated AI generation vs Requires 10+ hours/week, Real-time trend integration vs Manual, time-consuming research, Strategic calendar planning vs Relies on user's expertise, Low monthly cost vs High cost of labor and burnout"
+      ],
+      uniqueSelling: [
+        "The Full Calendar: Providing a complete, strategic 30-day plan is the ultimate friction remover",
+        "The Hook Specialization: The focus on generating the critical 3-second hook is the highest-value feature for viral potential",
+        "Low Price for High Output: Accessible for even the smallest creators and coaches"
+      ]
+    },
+    developmentBudget: {
+      mvp: [
+        "Basic script generation, hook generator, simple calendar view",
+        "Cost: $12K–$20K"
+      ],
+      standard: [
+        "30-day calendar planner, trending sound API integration, caption/hashtag automation, template library",
+        "Cost: $35K–$60K"
+      ],
+      premium: [
+        "Advanced niche targeting, team collaboration, CSV export, custom brand voice, analytics dashboard",
+        "Cost: $70K–$110K+"
+      ]
+    },
+    vision: "To eliminate creative burnout for every short-form video creator by making viral ideation instant, automated, and strategic.",
+    features: [
+      "30-day strategic content calendar generation",
+      "AI-powered scriptwriting with voiceover and on-screen text",
+      "High-impact hook generator (3-5 second optimization)",
+      "Trending sound/audio suggestions from real-time platform data",
+      "Automated caption and hashtag generation",
+      "Template library of viral content formats",
+      "Niche and demographic targeting customization"
+    ]
+  },
+  {
+    id: 28,
+    title: "Vendor Payment Reminder + Auto Tracking SaaS: PaySure",
+    category: "Business Management Tools",
+    tagline: "Eliminate late fees and vendor friction with automated payment reminders and Google Sheets sync.",
+    description: "PaySure is an ultra-focused Micro-SaaS for cash-flow sensitive small businesses (restaurants, salons, manufacturers) that moves vendor payment tracking from messy notebooks to a simple, automated digital system. It ensures timely payments through automated reminders, Google Sheets integration, and WhatsApp alerts for immediate internal communication.",
+    author: "Boostmysites",
+    image: "/assets/projects/PaySure-1.png",
+    images: [
+      "/assets/projects/PaySure-1.png",
+      "/assets/projects/PaySure-2.png",
+      "/assets/projects/PaySure-3.png",
+      "/assets/projects/PaySure-4.png"
+    ],
+    rating: 4.9,
+    overview: "PaySure is a highly accessible digital ledger that automates payment compliance and team coordination. Users input invoice details (vendor, due date, amount), and the system sends automated reminders via Email and WhatsApp 7 days, 3 days, and 1 day before due dates. All transactions sync automatically to Google Sheets for simple bookkeeping, and users can upload payment proof to maintain a clean audit trail.",
+    problem: "Small businesses face severe AP bottlenecks: manual tracking leads to human error and missed deadlines; late payments damage vendor relationships and lose early payment discounts; owners lack real-time visibility into upcoming liabilities; no accountability system for payment follow-ups; and manual processes make reconciliation difficult.",
+    solution: "Simple invoice data entry with automated multi-channel reminders (Email/WhatsApp), real-time due date dashboard showing upcoming payments, automatic Google Sheets sync for bookkeeping, payment status tracking with proof upload, and recurring payment setup for fixed monthly costs.",
+    coreFeatures: [
+      "Simple Invoice Data Entry: Clean interface for quickly adding vendor, amount, due date, and payment terms",
+      "Automated Multi-Channel Reminders: Sends custom internal alerts via Email and WhatsApp to designated staff/owner before payment deadline (7 days, 3 days, 1 day)",
+      "Real-Time Due Date Dashboard: Single, color-coded dashboard showing next 30 days of upcoming payments and total outstanding liability",
+      "Automatic Google Sheets Sync: Seamless integration that exports all transaction data (Paid/Due) to secure, shareable Google Sheet for easy bookkeeping",
+      "Payment Status & Proof: Allows uploading confirmation image/PDF to permanently mark invoice as paid and provide audit trail",
+      "Recurring Payment Setup: Automatically regenerates invoices for fixed monthly costs like rent, utilities, and subscriptions"
+    ],
+    targetUsers: "Small, cash-flow sensitive businesses like restaurants, salons, small manufacturers, and clinics that use spreadsheets or paper for vendor payment tracking.",
+    marketOpportunity: [
+      "Niche vertical focus: Targets massive, underserved market of small local businesses that use spreadsheets or paper, not complex enterprise AP software",
+      "High pain point, low cost: Threat of late fees, penalties, and damaged vendor relationships far outweighs low monthly price ($9–$39/month)",
+      "WhatsApp adoption: Leveraging WhatsApp for critical alerts is perfect for busy, non-desk-based small business owners",
+      "SME automation trend: Global vendor management software market for SMEs expected to grow significantly, driven by cloud-based, affordable solutions"
+    ],
+    monetizationModel: {
+      plans: [
+        "Starter ($9/month) - Solo operator/very small salon; 20 active invoices/month, basic reminders (Email/WhatsApp), dashboard view",
+        "Growth ($19/month) - Restaurant/small manufacturer; 100 active invoices/month, Google Sheets sync, recurring payments, 2 users",
+        "Pro ($39/month) - Multi-location/high volume; Unlimited invoices, team access (5 users), invoice OCR upload, advanced reporting"
+      ],
+      pricing: [
+        "Starter: $9/month for up to 20 active invoices",
+        "Growth: $19/month for up to 100 active invoices",
+        "Pro: $39/month for unlimited invoices"
+      ],
+      revenue: [
+        "Target: 6,000 active subscribers (average ARPU $20)",
+        "Potential MRR: $120,000/month",
+        "Churn: Expected to be relatively low (5-7%), as the system becomes central to the business's financial hygiene"
+      ]
+    },
+    roiProjection: {
+      timeline: [
+        "Month 1–3: MVP Launch (Manual Entry + Basic Reminders), Target 500 local restaurants → $5K–$10K MRR",
+        "Month 4–6: Implement WhatsApp Alerts + Google Sheet Sync, 2,000 Subscribers → $30K–$40K MRR",
+        "Month 7–12: Launch OCR/Image Upload Feature, Target small manufacturing/salons, 6,000+ Subscribers → $120K+ MRR"
+      ],
+      projections: [
+        "Year 1: $120K+ MRR target",
+        "Year 2: $300K+ MRR expansion (adding bank integration, payment automation)",
+        "Estimated Profit Margin: 80%+ (Low compute cost, high recurring subscription value)"
+      ],
+      userROI: [
+        "Late Fee Avoidance: Assuming business avoids just one $50 late fee per month, system pays for itself five times over, even on Pro plan",
+        "Early Payment Discounts: Helps capture 1-2% discounts offered by vendors for early payment, directly boosting profit margins",
+        "Time Saved: Eliminates owner/manager spending 2–3 hours per week manually checking due dates and chasing bills",
+        "Vendor Relationship: Consistent on-time payments maintain strong supplier relationships, preventing supply chain disruptions"
+      ]
+    },
+    fundingOpportunities: {
+      stages: [
+        "Seed Funding Potential: Strong candidate for FinTech and SMB-focused VCs, given the large underserved market and clear cash flow value proposition",
+        "Key Metrics for Seed: Documented late fee reduction, high Google Sheets sync usage, low churn, high user retention",
+        "Estimated Seed Raise: $300K – $600K for 15% equity, focused on scaling WhatsApp API infrastructure, improving OCR accuracy, and building bank integration partnerships"
+      ],
+      amounts: [
+        "Seed: $300K – $600K",
+        "Series A: $1.5M – $3M for payment automation features",
+        "Total raised potential: $5M+"
+      ],
+      valuations: [
+        "Early stage: $3M – $6M",
+        "Series A: $12M – $25M",
+        "Exit potential: $30M+"
+      ]
+    },
+    techStack: {
+      frontend: ["React/Next.js", "Simple, mobile-first interface optimized for speed and easy data input"],
+      backend: ["Node.js/Python (FastAPI)", "High-performance for managing alerts, scheduling, and external API calls"],
+      ai: [],
+      database: ["PostgreSQL", "Robust and scalable for storing invoice details and payment history"],
+      hosting: ["AWS or Google Cloud", "CloudFront CDN"],
+      integrations: ["WhatsApp Business API + Twilio/SendGrid", "Mandatory integration with official WhatsApp API for reliable, non-spammy alerts", "Google Sheets API/OAuth", "Critical for seamless, low-friction sync with primary accounting record", "Google Vision API/Tesseract (OCR)", "For automated data extraction from uploaded invoice photos/PDFs"]
+    },
+    competitiveAdvantage: {
+      features: [
+        "WhatsApp & Google Sheets Native: Built for SMB workflows",
+        "Focus on Due Date Tracking: Single critical function done better",
+        "Ultra-Affordable Pricing: $9–$39/month vs. enterprise AP systems"
+      ],
+      comparisons: [
+        "vs Large AP Systems (e.g., RazorpayX, Bill.com): Ultra-Affordable ($9–$39/month) vs Expensive ($100s/month + transaction fees), Zero Complexity vs High (Focus on Workflow, Approvals, Reconciliation), WhatsApp & Google Sheets Integration vs ERPs (SAP, NetSuite), QuickBooks/Xero, Owner/Manager Non-Finance Expert vs Dedicated Finance Team/Accountants",
+        "vs Manual/Excel Tracking: Automated Reminders vs Time-Consuming, Error-Prone, Real-Time Dashboard vs Manual Calendar Entries, Google Sheets Sync vs Manual Data Entry, Payment Proof Upload vs No Audit Trail"
+      ],
+      uniqueSelling: [
+        "The WhatsApp Hook: Using the owner's primary communication channel for urgent alerts ensures reminders are seen and acted upon immediately",
+        "Google Sheet Native: Recognizes that target market (SMB) relies on Google Sheets, making sync and collaboration simple and non-intimidating",
+        "Focus on Due Dates: Avoids complexity of full-scale accounting/AP, delivering single critical function better and cheaper than any oversized solution"
+      ]
+    },
+    developmentBudget: {
+      mvp: [
+        "Manual invoice entry, basic email reminders, simple dashboard view",
+        "Cost: $8K–$15K"
+      ],
+      standard: [
+        "WhatsApp alerts, Google Sheets sync, recurring payments, payment proof upload",
+        "Cost: $25K–$45K"
+      ],
+      premium: [
+        "OCR invoice upload, team access, advanced reporting, bank integration readiness",
+        "Cost: $50K–$80K+"
+      ]
+    },
+    vision: "To eliminate the cost of forgetfulness for every small business owner, ensuring cash flow is managed proactively, one timely payment at a time.",
+    features: [
+      "Simple invoice data entry with vendor, amount, due date",
+      "Automated multi-channel reminders (Email/WhatsApp) 7, 3, and 1 day before due",
+      "Real-time due date dashboard with color-coded status",
+      "Automatic Google Sheets sync for bookkeeping",
+      "Payment status tracking with proof upload",
+      "Recurring payment setup for fixed monthly costs"
     ]
   }
 ];
