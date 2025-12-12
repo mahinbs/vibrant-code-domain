@@ -24,9 +24,9 @@ const EnhancedIndex = () => {
         <div id="hero">
           <EnhancedHero />
         </div>
-        
-        <SectionTransition 
-          fromGradient="from-black to-gray-900" 
+
+        <SectionTransition
+          fromGradient="from-black to-gray-900"
           toGradient="from-gray-900 to-black"
           type="fade"
         >
@@ -61,7 +61,7 @@ const EnhancedIndex = () => {
               <SimpleContactForm sourcePage="home" className="max-w-2xl mx-auto" />
               <div className="text-center mt-8">
                 <p className="text-gray-400 mb-4">Prefer to talk directly?</p>
-                <a 
+                <a
                   href="#final-contact-form"
                   className="inline-flex items-center space-x-2 px-6 py-3 border border-cyan-400/30 rounded-xl font-semibold hover:bg-cyan-500/10 transition-all duration-300"
                 >
@@ -71,19 +71,19 @@ const EnhancedIndex = () => {
             </div>
           </section>
         </SectionTransition>
-          
-        <SectionTransition 
-          fromGradient="from-gray-900 to-black" 
+
+        <SectionTransition
+          fromGradient="from-gray-900 to-black"
           toGradient="from-black to-gray-800"
           type="slide"
         >
           <EnhancedProblemSolution />
         </SectionTransition>
-        
+
         <EnhancedServices />
-       
-        <SectionTransition 
-          fromGradient="from-gray-800 to-black" 
+
+        <SectionTransition
+          fromGradient="from-gray-800 to-black"
           toGradient="from-black to-gray-900"
           type="scale"
         >
@@ -94,7 +94,7 @@ const EnhancedIndex = () => {
               <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl"></div>
               <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl"></div>
             </div>
-            
+
             <div className="container mx-auto max-w-5xl relative z-10">
               <div className="text-center">
                 <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-cyan-500/10 to-purple-500/10 border border-cyan-500/30 rounded-full text-cyan-400 text-sm font-medium mb-6">
@@ -104,15 +104,15 @@ const EnhancedIndex = () => {
                   </span>
                   Innovation Showcase
                 </div>
-                
+
                 <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 bg-clip-text text-transparent">
                   Explore Our App Ideas Lab
                 </h2>
-                
+
                 <p className="text-xl text-gray-300 leading-relaxed mb-8 max-w-3xl mx-auto">
                   Step into our innovation showcase where we're prototyping the future. Discover cutting-edge AI solutions and groundbreaking app concepts before they become industry standards. From marketplace platforms to AI-powered tools — see what's next in tech innovation.
                 </p>
-                
+
                 <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
                   <div className="flex items-center gap-2 text-gray-400">
                     <svg className="w-5 h-5 text-cyan-400" fill="currentColor" viewBox="0 0 20 20">
@@ -133,11 +133,9 @@ const EnhancedIndex = () => {
                     <span>Exclusive Access</span>
                   </div>
                 </div>
-                
-                <a 
-                  href="https://softwares-explorer.vercel.app"
-                  target='_blank'
-                  rel='noopener noreferrer'
+
+                <a
+                  href="/app-ideas"
                   className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-cyan-500/50 transition-all duration-300 transform hover:scale-105"
                 >
                   <span>Visit Our Innovation Lab</span>
@@ -149,49 +147,49 @@ const EnhancedIndex = () => {
             </div>
           </section>
         </SectionTransition>
-        
-        <SectionTransition 
-          fromGradient="from-black to-gray-900" 
+
+        <SectionTransition
+          fromGradient="from-black to-gray-900"
           toGradient="from-gray-900 to-black"
           type="fade"
         >
           <MediaCoverage />
         </SectionTransition>
-        
-        <SectionTransition 
-          fromGradient="from-gray-900 to-black" 
+
+        <SectionTransition
+          fromGradient="from-gray-900 to-black"
           toGradient="from-black to-gray-900"
           type="slide"
         >
           <StatsGrid />
         </SectionTransition>
-        
-        <SectionTransition 
-          fromGradient="from-black to-gray-900" 
+
+        <SectionTransition
+          fromGradient="from-black to-gray-900"
           toGradient="from-gray-900 to-black"
           type="scale"
         >
           <PortfolioSection />
         </SectionTransition>
-        
-        <SectionTransition 
-          fromGradient="from-gray-900 to-black" 
+
+        <SectionTransition
+          fromGradient="from-gray-900 to-black"
           toGradient="from-black to-gray-800"
           type="fade"
         >
           <WhyChooseUs />
         </SectionTransition>
-        
-        <SectionTransition 
-          fromGradient="from-black to-gray-800" 
+
+        <SectionTransition
+          fromGradient="from-black to-gray-800"
           toGradient="from-gray-800 to-black"
           type="slide"
         >
           <TestimonialsCarousel />
         </SectionTransition>
-        
-        <SectionTransition 
-          fromGradient="from-gray-800 to-black" 
+
+        <SectionTransition
+          fromGradient="from-gray-800 to-black"
           toGradient="from-black to-gray-900"
           type="fade"
         >
