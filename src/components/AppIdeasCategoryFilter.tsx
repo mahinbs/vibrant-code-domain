@@ -12,7 +12,7 @@ const CategoryFilter = ({ categories, activeCategory, onCategoryChange }: Catego
             <div className="container mx-auto px-4 py-6">
                 <div>
                     <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
-                        <span className="text-accent">📱</span> Software Categories
+                        Software Categories
                     </h2>
                     <div className="flex flex-wrap gap-3">
                         {categories.map((category, index) => (

@@ -49,9 +49,13 @@ const AppIdeaDetail = () => {
                             <ArrowLeft className="w-4 h-4" />
                             Back to Marketplace
                         </Button>
-                        <Badge variant="secondary" className="bg-gradient-primary border-0 text-white">
-                            {product.category}
-                        </Badge>
+                        <div className="flex gap-2">
+                            {product.categories.map((cat, i) => (
+                                <Badge key={i} variant="secondary" className="bg-gradient-primary border-0 text-white">
+                                    {cat}
+                                </Badge>
+                            ))}
+                        </div>
                     </div>
 
                     <div className="text-center mb-12">
@@ -79,7 +83,7 @@ const AppIdeaDetail = () => {
             {/* First Image Section */}
             <div className="container mx-auto px-4 py-8">
                 <div className="max-w-2xl mx-auto">
-                    <div className="aspect-square overflow-hidden rounded-2xl bg-gradient-to-br from-primary/10 to-accent/10 border-2 border-primary/20 shadow-xl">
+                    <div className="aspect-auto max-h-[600px] overflow-hidden rounded-2xl bg-gradient-to-br from-primary/10 to-accent/10 border-2 border-primary/20 shadow-xl">
                         <img
                             src={product.images[0]}
                             alt={`${product.title} - Main View`}
@@ -114,7 +118,7 @@ const AppIdeaDetail = () => {
                         {/* Second Image Section */}
                         <div className="container mx-auto px-4 py-6">
                             <div className="max-w-xl mx-auto">
-                                <div className="aspect-square overflow-hidden rounded-2xl bg-gradient-to-br from-primary/10 to-accent/10 border-2 border-primary/20 shadow-xl">
+                                <div className="aspect-auto max-h-[600px] overflow-hidden rounded-2xl bg-gradient-to-br from-primary/10 to-accent/10 border-2 border-primary/20 shadow-xl">
                                     <img
                                         src={product.images[1]}
                                         alt={`${product.title} - Feature View`}
@@ -196,7 +200,7 @@ const AppIdeaDetail = () => {
                         {/* Third Image Section */}
                         <div className="container mx-auto px-4 py-6">
                             <div className="max-w-xl mx-auto">
-                                <div className="aspect-square overflow-hidden rounded-2xl bg-gradient-to-br from-primary/10 to-accent/10 border-2 border-primary/20 shadow-xl">
+                                <div className="aspect-auto max-h-[600px] overflow-hidden rounded-2xl bg-gradient-to-br from-primary/10 to-accent/10 border-2 border-primary/20 shadow-xl">
                                     <img
                                         src={product.images[2]}
                                         alt={`${product.title} - Interface View`}
@@ -575,7 +579,7 @@ const AppIdeaDetail = () => {
                         {/* Fourth Image Section */}
                         <div className="container mx-auto px-4 py-6">
                             <div className="max-w-2xl mx-auto">
-                                <div className="aspect-square overflow-hidden rounded-2xl bg-gradient-to-br from-primary/10 to-accent/10 border-2 border-primary/20 shadow-xl">
+                                <div className="aspect-auto max-h-[600px] overflow-hidden rounded-2xl bg-gradient-to-br from-primary/10 to-accent/10 border-2 border-primary/20 shadow-xl">
                                     <img
                                         src={product.images[3]}
                                         alt={`${product.title} - Use Case View`}
@@ -659,9 +663,13 @@ const AppIdeaDetail = () => {
                                             <Calendar className="w-5 h-5 text-blue-400" />
                                             <span className="font-medium">Category</span>
                                         </div>
-                                        <Badge variant="secondary" className="bg-gradient-primary border-0 text-white">
-                                            {product.category}
-                                        </Badge>
+                                        <div className="flex flex-wrap gap-2 justify-end">
+                                            {product.categories.map((cat, i) => (
+                                                <Badge key={i} variant="secondary" className="bg-gradient-primary border-0 text-white">
+                                                    {cat}
+                                                </Badge>
+                                            ))}
+                                        </div>
                                     </div>
                                 </div>
                             </CardContent>

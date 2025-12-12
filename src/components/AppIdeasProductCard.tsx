@@ -3,11 +3,12 @@ import { Card } from "@/components/ui/card";
 export interface Product {
     id: number;
     title: string;
-    category: string;
+    categories: string[];
     description: string;
     author: string;
     image: string;
     rating: number;
+    price: number;
     // sales: number;
     features: string[];
 }
@@ -49,6 +50,9 @@ const ProductCard = ({ product }: ProductCardProps) => {
                         <span className="text-yellow-400">★</span>
                         <span className="text-sm font-medium">{product.rating}</span>
                     </div>
+                    <span className="text-sm font-semibold text-primary">
+                        ${product.price.toLocaleString()}
+                    </span>
                     {/* <span className="text-xs text-muted-foreground">{product.sales} sales</span> */}
                 </div>
             </div>
