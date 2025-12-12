@@ -40,7 +40,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
                 />
             </div>
             <div className="p-5">
-                <h3 className="font-semibold text-lg mb-2 text-foreground group-hover:text-accent transition-colors line-clamp-2">
+                <h3 className="font-semibold text-lg mb-2 text-foreground group-hover:text-blue-500 transition-colors line-clamp-2">
                     {product.title}
                 </h3>
                 <p className="text-sm text-muted-foreground mb-3">by {product.author}</p>
