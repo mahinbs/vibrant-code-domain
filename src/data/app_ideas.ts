@@ -5128,7 +5128,7 @@ export const mockProducts: DetailedProduct[] = [
     categories: ["Micro SaaS", "Productivity"],
     tagline: "Improve email deliverability instantly.",
     description: "A utility tool that scans email marketing lists (CSV or Mailchimp/Klaviyo integration) to identify and remove invalid, spam-trap, or temporary email addresses, ensuring your domain reputation stays high.",
-    author: "Boostmysites", 
+    author: "Boostmysites",
     image: "/assets/projects/AI Email List Cleaner-1.png",
     images: ["/assets/projects/AI Email List Cleaner-1.png"],
     rating: 4.8,
@@ -5567,6 +5567,1156 @@ export const mockProducts: DetailedProduct[] = [
       "Visual Regression",
       "Cross-Browser"
     ]
+  },
+
+  // the below are new ideas
+  {
+    id: 44,
+    title: "PropelAI – AI RFP Auto-Responder",
+    categories: ["Micro SaaS", "Business"],
+    tagline: "Cut 40 hours of proposal writing down to 10 minutes.",
+    description: "PropelAI is an AI SaaS platform designed to automate the painful, time-consuming process of responding to complex Government and Corporate Request for Proposals (RFPs).",
+    author: "Boostmysites",
+    image: "/assets/projects/PropelAI-1.png",
+    images: ["/assets/projects/PropelAI-1.png", "/assets/projects/PropelAI-2.png", "/assets/projects/PropelAI-3.png", "/assets/projects/PropelAI-4.png"],
+    rating: 4.9,
+    price: 82000,
+    overview: "PropelAI ingests 50-page RFP PDFs and the client company's past proposal data, case studies, and corporate knowledge base to automatically draft high-quality, relevant answers, reducing manual effort by over 90%.",
+    problem: "Filling out large, technical RFPs is a massive barrier to winning high-value contracts. A single technical RFP can take 40-100 hours of manual labor, often requiring input from multiple department heads. High cost, inconsistency, and lost opportunities are common.",
+    solution: "Users upload the RFP document (PDF) and the company's knowledge base. The AI instantly analyzes the RFP questions and matches them to the best-fit answers from the company data. The platform generates a near-final draft ready for quick review and export.",
+    coreFeatures: [
+      "Intelligent RFP Parser: Ingests complex PDF/DOCX files, identifying specific questions, requirements, and compliance clauses",
+      "Knowledge Base Linking: Integrates with SharePoint, Google Drive, or local storage to securely search and retrieve relevant past answers",
+      "AI Response Generator: Drafts context-aware, tailored answers for each RFP question using source documents",
+      "Compliance Checker: Flags sections where auto-filled answers might contradict key RFP requirements",
+      "Collaboration & Review Tool: Simple interface for team members to quickly review and approve AI-generated responses",
+      "Export & Formatting: Exports final document in required format (PDF, DOCX) with professional formatting"
+    ],
+    marketOpportunity: [
+      "High-Value Market: Targets industries (Construction, Defense, IT Consulting) where single contracts are worth millions",
+      "Massive Time Savings: Cost of 40 hours of specialized staff time (₹320K–₹640K) saved for subscription of ₹16K–₹40K/month",
+      "Global Tender Volume: Governments and large corporations issue millions of RFPs annually",
+      "High Churn Prevention: Once a company wins a major contract using PropelAI, the tool becomes indispensable"
+    ],
+    monetizationModel: {
+      plans: [
+        "Basic Plan (₹16K/month): Up to 5 RFPs/month, Basic AI drafting, 1 user license",
+        "Pro Plan (₹28K/month): Unlimited RFPs, Compliance Checker, Knowledge Base Linking (5 sources), 5 user licenses",
+        "Enterprise Plan (₹40K/month): Advanced AI training, API access, White-label options, Unlimited licenses"
+      ],
+      pricing: [
+        "Basic: ₹16K/month for 500 users = ₹80L MRR",
+        "Pro: ₹28K/month for 200 users = ₹56L MRR",
+        "Total: ₹1.3Cr+ MRR possible"
+      ],
+      revenue: [
+        "Total: ₹1.3Cr+ MRR possible",
+        "High average deal size (₹24K+ ARPU)",
+        "Low churn due to mission-critical nature",
+        "Estimated profit margin: 70–80%"
+      ]
+    },
+    roiProjection: {
+      timeline: [
+        "Month 1–3: MVP launch + onboarding 50 IT consultancies → ₹12L MRR",
+        "Month 4–6: Implement Knowledge Base Linking + target 200 construction firms → ₹60L MRR",
+        "Month 7–12: Launch Compliance Checker + target Defense/Govt. contractors → ₹1.4Cr+ MRR"
+      ],
+      projections: [
+        "Year 1: ₹1.4Cr+ MRR target",
+        "Year 2: ₹4.8Cr+ MRR expansion",
+        "Year 3: ₹12Cr+ MRR global scale"
+      ],
+      userROI: [
+        "Average ROI: 10x–50x based on cost savings and contract wins",
+        "Cost Savings: ₹320K to ₹640K per RFP in labor costs",
+        "Winning one mid-sized contract (₹2Cr value) covers subscription cost for years"
+      ]
+    },
+    fundingOpportunities: {
+      stages: [
+        "Seed Funding: Qualifies for B2B SaaS, AI Productivity, and GovTech funding",
+        "VCs value solutions that unlock huge revenue opportunities for established companies"
+      ],
+      amounts: [
+        "Seed: ₹40L – ₹1.2Cr for 10–20% equity at early traction",
+        "Series A: ₹4Cr–₹8Cr once achieving ₹16Cr ARR"
+      ],
+      valuations: [
+        "Early traction: ₹4Cr – ₹12Cr",
+        "Series A: ₹24Cr – ₹40Cr"
+      ]
+    },
+    techStack: {
+      frontend: ["Next.js"],
+      backend: ["Python (FastAPI)"],
+      ai: ["LLM (Fine-tuned for Q&A/Compliance)", "OCR Libraries"],
+      database: ["PostgreSQL", "Secure Database for knowledge base storage"],
+      hosting: ["AWS"],
+      integrations: ["SharePoint API", "Google Drive API"]
+    },
+    competitiveAdvantage: {
+      features: [
+        "Auto-Answer Drafting",
+        "Knowledge Base Integration",
+        "Compliance Checker",
+        "Secure Document Vault"
+      ],
+      comparisons: [
+        "vs Manual: Cuts 40 hours down to 10 minutes",
+        "vs Agencies: Automated error detection, higher consistency",
+        "vs Competitors: Built-in security for sensitive corporate data"
+      ],
+      uniqueSelling: [
+        "Fact-Based RFP Automation",
+        "High-Value Target Market",
+        "Complete proposal automation"
+      ]
+    },
+    developmentBudget: {
+      mvp: [
+        "PDF Ingest + Simple LLM Q&A Response + Basic Export",
+        "Cost: ₹20K–₹32K"
+      ],
+      standard: [
+        "Knowledge Base Linking + Compliance Checker + Review Workflow",
+        "Cost: ₹40K–₹64K"
+      ],
+      premium: [
+        "Custom AI Training on client data + API Access + Enterprise Security Features",
+        "Cost: ₹72K–₹1.2L+"
+      ]
+    },
+    vision: "To be the critical path automation tool that allows any business to effortlessly win high-value, complex government and corporate tenders.",
+    features: [
+      "Intelligent RFP Parser",
+      "Knowledge Base Linking",
+      "AI Response Generator",
+      "Compliance Checker",
+      "Collaboration & Review Tool",
+      "Export & Formatting"
+    ]
+  },
+  {
+    id: 45,
+    title: "SiteLogger – Construction Voice-to-Log Bot",
+    categories: ["Micro SaaS", "Productivity"],
+    tagline: "Zero-typing site updates.",
+    description: "SiteLogger is an AI SaaS tool designed to solve the problem of manual reporting on construction sites using voice notes via WhatsApp/SMS.",
+    author: "Boostmysites",
+    image: "/assets/projects/SiteLogger-1.png",
+    images: ["/assets/projects/SiteLogger-1.png", "/assets/projects/SiteLogger-2.png", "/assets/projects/SiteLogger-3.png", "/assets/projects/SiteLogger-4.png"],
+    rating: 4.7,
+    price: 78000,
+    overview: "Site supervisors simply send a voice note describing the day's activities. The AI instantly parses the speech, structures the data, and generates a clean Daily Progress Report (DPR) PDF and updates a digital inventory log.",
+    problem: "Paperwork and reporting are major sources of inefficiency and cost overruns in construction. Manual typing, delayed/inaccurate reports, inventory mismanagement, and compliance risk are common issues.",
+    solution: "Supervisors record a voice note detailing progress and usage, send it to the SiteLogger WhatsApp number. The AI uses Speech-to-Text and NLP to extract entities (material, quantity, location, labor). Supervisors save 30–60 minutes per day.",
+    coreFeatures: [
+      "Voice-to-Text & Entity Extraction: Converts spoken language into structured data fields",
+      "Daily Progress Report (DPR) Generator: Automatically compiles structured data into professional, exportable PDF report",
+      "Real-Time Inventory & Labor Update: Automatically deducts used materials and tracks labor hours/absences",
+      "WhatsApp/SMS Integration: Allows supervisors to submit reports using voice notes",
+      "Custom Project Templates: Pre-defined fields for consistency across projects",
+      "Photo Documentation Link: Enables supervisors to attach site photos via WhatsApp"
+    ],
+    marketOpportunity: [
+      "Vast SMB Market: Targets small to mid-sized construction firms and interior designers",
+      "High ROI on Time: Saving 30 minutes daily is worth ₹32K-₹64K per month per project",
+      "Global Need: Construction is a physical industry worldwide",
+      "Criticality: Accurate reporting is essential for billing and cost control"
+    ],
+    monetizationModel: {
+      plans: [
+        "Basic Plan (₹4K/month): 1 project license, Basic voice-to-PDF report",
+        "Growth Plan (₹8K/month): 5 project licenses, Entity Extraction, WhatsApp Integration, Real-time inventory update",
+        "Pro Plan (₹12K/month): Unlimited projects, Custom Templates, Photo Documentation Link, Advanced labor tracking"
+      ],
+      pricing: [
+        "Basic/Growth: ₹6.4K/month average for 2,500 users = ₹1.6Cr MRR",
+        "Total: ₹1.6Cr+ MRR possible"
+      ],
+      revenue: [
+        "Total: ₹1.6Cr+ MRR possible",
+        "High retention because tool solves daily, high-friction problem",
+        "Estimated profit margin: 65–75%"
+      ]
+    },
+    roiProjection: {
+      timeline: [
+        "Month 1–3: MVP launch + onboarding 500 small contractors → ₹28L MRR",
+        "Month 4–6: Implement WhatsApp Integration + target interior designers → ₹80L MRR",
+        "Month 7–12: Launch Inventory Update + target mid-sized commercial projects → ₹1.76Cr+ MRR"
+      ],
+      projections: [
+        "Year 1: ₹1.76Cr+ MRR target",
+        "Year 2: ₹6Cr+ MRR expansion",
+        "Year 3: ₹12Cr+ MRR global scale"
+      ],
+      userROI: [
+        "Average ROI: 5x–10x based on saved labor time and cost control",
+        "Labor Savings: ₹32K–₹64K/month per project in supervisor time",
+        "Preventing one inventory miscount can save thousands"
+      ]
+    },
+    fundingOpportunities: {
+      stages: [
+        "Seed Funding: Qualifies for ConTech, AI Productivity, and Vertical SaaS funding",
+        "VCs value solutions that digitize traditional, low-tech industries"
+      ],
+      amounts: [
+        "Seed: ₹32L – ₹80L for 10–20% equity at early traction",
+        "Series A: ₹4Cr–₹8Cr once achieving ₹16Cr ARR"
+      ],
+      valuations: [
+        "Early traction: ₹3.2Cr – ₹8Cr",
+        "Series A: ₹20Cr – ₹40Cr"
+      ]
+    },
+    techStack: {
+      frontend: ["Minimal Web App"],
+      backend: ["Python (FastAPI/Django)"],
+      ai: ["Speech-to-Text API (Twilio/Google/AWS)", "NLP (for Entity Recognition)"],
+      database: ["PostgreSQL"],
+      hosting: ["AWS"],
+      integrations: ["WhatsApp API", "Twilio (for SMS)", "PDF Generator Library"]
+    },
+    competitiveAdvantage: {
+      features: [
+        "Voice Note Input",
+        "Seamless WhatsApp Integration",
+        "Entity Extraction",
+        "Auto-Update of Inventory & Labor"
+      ],
+      comparisons: [
+        "vs Manual Apps: Zero typing required, highest user adoption on site",
+        "vs Simple Transcription: Structures data automatically",
+        "vs Manual PDF Creation: Instant, standardized report generation"
+      ],
+      uniqueSelling: [
+        "Automated DPR",
+        "Focus on Non-Desk Workers",
+        "Complete site reporting automation"
+      ]
+    },
+    developmentBudget: {
+      mvp: [
+        "Basic Speech-to-Text + Simple PDF Report",
+        "Cost: ₹12K–₹20K"
+      ],
+      standard: [
+        "NLP Entity Extraction + WhatsApp/SMS Integration + Digital Inventory Log",
+        "Cost: ₹28K–₹48K"
+      ],
+      premium: [
+        "Custom Accent/Jargon Model + Photo Linking + Advanced Labor Tracking",
+        "Cost: ₹56K–₹96K+"
+      ]
+    },
+    vision: "To eliminate paperwork from the job site, making site reporting instantaneous and 100% accurate.",
+    features: [
+      "Voice-to-Text & Entity Extraction",
+      "Daily Progress Report Generator",
+      "Real-Time Inventory & Labor Update",
+      "WhatsApp/SMS Integration",
+      "Custom Project Templates",
+      "Photo Documentation Link"
+    ]
+  },
+  {
+    id: 46,
+    title: "CurateFlow – AI Newsletter Curator",
+    categories: ["Micro SaaS", "Productivity"],
+    tagline: "Your industry news, curated on autopilot.",
+    description: "CurateFlow is an AI SaaS tool for Thought Leaders and Newsletter Writers who need to constantly find and summarize top trending content.",
+    author: "Boostmysites",
+    image: "/assets/projects/CurateFlow-1.png",
+    images: ["/assets/projects/CurateFlow-1.png", "/assets/projects/CurateFlow-2.png", "/assets/projects/CurateFlow-3.png", "/assets/projects/CurateFlow-4.png"],
+    rating: 4.8,
+    price: 85000,
+    overview: "Users define their specific sources (Twitter accounts, subreddits, RSS feeds), and the AI scrapes them daily, summarizes the top 5 most relevant/trending stories, and drafts a fully structured, ready-to-publish newsletter.",
+    problem: "Curating a high-quality, niche newsletter is time-consuming. Information overload, curation time sink (2–4 hours per edition), inconsistent quality, and generic AI content are major pain points.",
+    solution: "Users input their target sources and preferred tone/style. The AI autonomously runs the discovery, filtering, and drafting process daily. The expert receives a finished draft ready for a final 10-minute review and publishing.",
+    coreFeatures: [
+      "Hyper-Specific Source Ingestion: Connects to proprietary sources (Subreddits, Twitter lists, RSS feeds, niche forums)",
+      "Relevance & Trend Scoring AI: Uses NLP to score articles by topic, engagement and authority",
+      "AI Summarization & Drafting: Generates concise summaries and drafts newsletter structure in user's voice",
+      "Publishing Platform Export: Exports HTML/Markdown directly to Substack, ConvertKit, Beehiiv",
+      "Personalized Tone Replication: Analyzes past newsletters to match writing style",
+      "Source Authority Monitoring: Tracks output volume and quality to suggest adding/removing feeds"
+    ],
+    marketOpportunity: [
+      "Booming Creator Economy: Millions use newsletters as primary revenue and authority channel",
+      "High-Value User: Thought leaders charge high rates, making time-saving tools highly valuable",
+      "Subscription Stickiness: Content curation is a continuous, daily need",
+      "Pricing Acceptance: ₹2.3K–₹6.3K/month price is low friction for creators"
+    ],
+    monetizationModel: {
+      plans: [
+        "Starter Plan (₹2.3K/month): 5 Sources, 1 Draft/Week, Basic Summarization",
+        "Pro Plan (₹3.9K/month): 25 Sources, Daily Drafts, Trend Scoring AI, Style Replication",
+        "Curator Plan (₹6.3K/month): Unlimited Sources, Team Access, Export Integration"
+      ],
+      pricing: [
+        "Pro/Curator: ₹4.4K/month average for 4,000 users = ₹1.76Cr MRR",
+        "Total: ₹1.76Cr+ MRR possible"
+      ],
+      revenue: [
+        "Total: ₹1.76Cr+ MRR possible",
+        "High volume, low ARPU subscription model",
+        "Estimated profit margin: 70–80%"
+      ]
+    },
+    roiProjection: {
+      timeline: [
+        "Month 1–3: MVP launch + onboarding 1,000 niche newsletter writers → ₹28L MRR",
+        "Month 4–6: Implement Publishing Export + target 3,000 thought leaders → ₹96L MRR",
+        "Month 7–12: Launch Trend Scoring AI + target content agencies → ₹1.84Cr+ MRR"
+      ],
+      projections: [
+        "Year 1: ₹1.84Cr+ MRR target",
+        "Year 2: ₹6.4Cr+ MRR expansion",
+        "Year 3: ₹12Cr+ MRR with white-labeling"
+      ],
+      userROI: [
+        "Average ROI: 5x–10x based on saved time",
+        "Time Saved: Reduces 2–4 hours to 10 minutes of review",
+        "Ensures consistent, high-quality content boosting subscriber retention"
+      ]
+    },
+    fundingOpportunities: {
+      stages: [
+        "Seed Funding: Qualifies for Creator Economy, MediaTech, and AI Content funding",
+        "VCs value tools that empower niche authorities and scale personalized content"
+      ],
+      amounts: [
+        "Seed: ₹24L – ₹64L for 10–20% equity at early traction",
+        "Series A: ₹4Cr–₹8Cr once achieving ₹1.2Cr ARR"
+      ],
+      valuations: [
+        "Early traction: ₹3.2Cr – ₹6.4Cr",
+        "Series A: ₹20Cr – ₹40Cr"
+      ]
+    },
+    techStack: {
+      frontend: ["React/Next.js"],
+      backend: ["Python (Scrapy/FastAPI)"],
+      ai: ["LLM (Fine-tuned for summarization/style transfer)", "NLP (for trend analysis)"],
+      database: ["PostgreSQL"],
+      hosting: ["AWS"],
+      integrations: ["Substack API", "ConvertKit API", "Beehiiv API", "RSS/Social Media APIs"]
+    },
+    competitiveAdvantage: {
+      features: [
+        "Hyper-Niche Sourcing",
+        "Personalized Tone Replication AI",
+        "Full Draft Generation",
+        "Trend Scoring AI"
+      ],
+      comparisons: [
+        "vs General Tools: Finds authoritative, hard-to-find content",
+        "vs Simple Summarizers: Creates entire newsletter structure ready to publish",
+        "vs Manual Curation: Ensures content is both relevant and currently popular"
+      ],
+      uniqueSelling: [
+        "Integrated Publishing Export",
+        "Focus on Niche Thought Leaders",
+        "Complete newsletter automation"
+      ]
+    },
+    developmentBudget: {
+      mvp: [
+        "RSS/Reddit Ingestion + Basic Summarization + Text Export",
+        "Cost: ₹8K–₹16K"
+      ],
+      standard: [
+        "X/Twitter Integration + Trend Scoring AI + Tone Replication + HTML Export",
+        "Cost: ₹24K–₹40K"
+      ],
+      premium: [
+        "Full Publishing Platform API Integration + Team Access + Advanced Content Monitoring",
+        "Cost: ₹48K–₹72K+"
+      ]
+    },
+    vision: "To make every niche expert a high-volume, high-authority publisher with zero curation effort.",
+    features: [
+      "Hyper-Specific Source Ingestion",
+      "Relevance & Trend Scoring AI",
+      "AI Summarization & Drafting",
+      "Publishing Platform Export",
+      "Personalized Tone Replication",
+      "Source Authority Monitoring"
+    ]
+  },
+  {
+    id: 47,
+    title: "RefundSavior – E-commerce Returns Rescue Bot",
+    categories: ["Micro SaaS", "Business"],
+    tagline: "Turn refunds into retained revenue.",
+    description: "RefundSavior is an AI chat widget for Shopify/WooCommerce stores that intercepts return requests and negotiates to save the refund.",
+    author: "Boostmysites",
+    image: "/assets/projects/RefundSavior-1.png",
+    images: ["/assets/projects/RefundSavior-1.png", "/assets/projects/RefundSavior-2.png", "/assets/projects/RefundSavior-3.png", "/assets/projects/RefundSavior-4.png"],
+    rating: 4.9,
+    price: 79000,
+    overview: "When a customer initiates a return, this widget automatically pops up to engage the customer in negotiation. It instantly offers troubleshooting tips, store credit bonuses for exchanges, or instant exchanges to prevent cash-outflow.",
+    problem: "E-commerce returns are a massive, costly problem. High cash outflow, lack of negotiation, customer confusion, and lost Lifetime Value (LTV) are major issues. Returns kill profitability.",
+    solution: "Install the widget on return page. Set negotiation rules (e.g., 'Offer 110% store credit for exchanges'). The AI intercepts the return request and deploys personalized, multi-step dialogue to retain revenue. Reduces cash refunds by 15–30%.",
+    coreFeatures: [
+      "Return Interception Widget: Embeds directly on return request page to initiate negotiation",
+      "AI Negotiation Dialogue: Uses NLP to understand return reason and offers persuasive retention alternative",
+      "Dynamic Store Credit Offer: Automatically offers bonus store credit to encourage exchange",
+      "Troubleshooting & Defect Diagnosis: Serves up targeted help articles or videos based on return reason",
+      "Retained Revenue Tracking: Dashboard calculating exact amount of revenue saved",
+      "Shopify/WooCommerce Integration: Seamlessly syncs with order data and inventory"
+    ],
+    marketOpportunity: [
+      "Massive E-commerce Market: Global e-commerce with returns averaging 15–30% of sales",
+      "Clear ROI: Saving just 10 returns/month at ₹8K AOV = ₹80K saved",
+      "High Pain Point: Reducing returns is fastest way to increase profit margins",
+      "Scalable Pricing: ₹4K–₹16K/month + % of saved revenue aligns with merchant profit"
+    ],
+    monetizationModel: {
+      plans: [
+        "Basic Plan (₹4K/month): Up to 100 Return Interceptions, Basic dialogue",
+        "Growth Plan (₹10.3K/month): Unlimited Interceptions, AI Negotiation Dialogue, Dynamic Store Credit Offer, 1% of Saved Revenue Fee",
+        "Pro Plan (₹16K/month): Multi-Store Support, Advanced Reporting, A/B Testing, 0.5% of Saved Revenue Fee"
+      ],
+      pricing: [
+        "Growth/Pro (Subscription): ₹12K/month average for 2,000 users = ₹2.4Cr MRR",
+        "Variable Fee (1% of ₹8Cr saved revenue): ₹8L/month",
+        "Total: ₹2.48Cr+ MRR possible"
+      ],
+      revenue: [
+        "Total: ₹2.48Cr+ MRR possible",
+        "High value, mission-critical SaaS model with built-in variable fee growth",
+        "Estimated profit margin: 70–80%"
+      ]
+    },
+    roiProjection: {
+      timeline: [
+        "Month 1–3: MVP launch + onboarding 500 small Shopify stores → ₹40L MRR",
+        "Month 4–6: Implement AI Negotiation + launch Saved Revenue Fee → ₹1.2Cr MRR",
+        "Month 7–12: Launch WooCommerce + target mid-market D2C brands → ₹2.8Cr+ MRR"
+      ],
+      projections: [
+        "Year 1: ₹2.8Cr+ MRR target",
+        "Year 2: ₹9.6Cr+ MRR expansion",
+        "Year 3: ₹24Cr+ MRR with expansion to major marketplaces"
+      ],
+      userROI: [
+        "Average ROI: 20x–50x based on prevented cash outflow",
+        "Revenue Saved: Reduces cash refunds by 15–30%",
+        "Merchant with ₹40L monthly sales and 15% return rate saves ₹90K by reducing returns by 15%"
+      ]
+    },
+    fundingOpportunities: {
+      stages: [
+        "Seed Funding: Qualifies for E-commerce Enablers, FinTech, and AI Chatbot funding",
+        "VCs love direct, measurable impact on cash flow and profitability"
+      ],
+      amounts: [
+        "Seed: ₹48L – ₹1.6Cr for 10–20% equity at early traction",
+        "Series A: ₹5.6Cr–₹12Cr once achieving ₹2.4Cr ARR"
+      ],
+      valuations: [
+        "Early traction: ₹8Cr – ₹16Cr",
+        "Series A: ₹32Cr – ₹64Cr"
+      ]
+    },
+    techStack: {
+      frontend: ["React/Vue.js"],
+      backend: ["Node.js"],
+      ai: ["LLM (Fine-tuned for negotiation/persuasion)", "NLP (for intent analysis)"],
+      database: ["PostgreSQL"],
+      hosting: ["AWS"],
+      integrations: ["Shopify API", "WooCommerce API", "Stripe/Payment Processor APIs"]
+    },
+    competitiveAdvantage: {
+      features: [
+        "Refund Interception",
+        "% of Saved Revenue Pricing Model",
+        "AI Negotiation",
+        "Dynamic Store Credit Offers"
+      ],
+      comparisons: [
+        "vs Standard Forms: Intercepts and negotiates before cash outflow",
+        "vs Human Chat: Instant, 24/7, data-driven offers for every customer",
+        "vs Competitors: Provides clear ROI on cash saved and LTV retained"
+      ],
+      uniqueSelling: [
+        "Revenue Tracking",
+        "Direct E-commerce Platform Integration",
+        "Complete refund prevention automation"
+      ]
+    },
+    developmentBudget: {
+      mvp: [
+        "Shopify App + Basic Interception Widget + Static Troubleshooting Links",
+        "Cost: ₹12K–₹20K"
+      ],
+      standard: [
+        "AI Negotiation Dialogue + Dynamic Store Credit Offer + Saved Revenue Tracking",
+        "Cost: ₹32K–₹56K"
+      ],
+      premium: [
+        "WooCommerce/Custom Platform API + A/B Testing + Advanced Customer Segmentation",
+        "Cost: ₹64K–₹1.12L+"
+      ]
+    },
+    vision: "To transform the returns process from a cash drain into a customer retention opportunity for every e-commerce business.",
+    features: [
+      "Return Interception Widget",
+      "AI Negotiation Dialogue",
+      "Dynamic Store Credit Offer",
+      "Troubleshooting & Defect Diagnosis",
+      "Retained Revenue Tracking",
+      "Shopify/WooCommerce Integration"
+    ]
+  },
+  {
+    id: 48,
+    title: "ContentForge – AI Video-to-Blog Repurposer",
+    categories: ["Micro SaaS", "Productivity"],
+    tagline: "Turn one video into a week of SEO traffic.",
+    description: "ContentForge is an AI SaaS platform for YouTubers, Podcasters, and Content Agencies to solve the problem of content repurposing and SEO.",
+    author: "Boostmysites",
+    image: "/assets/projects/ContentForge-1.png",
+    images: ["/assets/projects/ContentForge-1.png", "/assets/projects/ContentForge-2.png", "/assets/projects/ContentForge-3.png", "/assets/projects/ContentForge-4.png"],
+    rating: 4.8,
+    price: 83000,
+    overview: "User submits a YouTube URL or video file. The AI automatically transcribes the video, captures key visual screenshots, and formats the content into a fully SEO-optimized blog post with headers, images, and keywords.",
+    problem: "Video creators have rich content but often ignore a massive traffic source—Google SEO. Repurposing time (3–5 hours per video), high labor cost, and missed traffic are major issues.",
+    solution: "Paste a YouTube link or upload a file. The AI handles the entire process (Transcription → Keyword Optimization → Formatting → Image Insertion). User receives a WordPress/HTML ready draft in minutes.",
+    coreFeatures: [
+      "YouTube/File Transcription: Accurately converts video speech into text, cleaning filler words",
+      "SEO Optimization AI: Analyzes topic and optimizes post structure, suggests keywords, writes meta description",
+      "Automated Screenshot Capture: Identifies key visual moments and inserts them into blog text",
+      "WordPress/HTML Ready Export: Exports final blog post in clean HTML or Markdown format",
+      "Content Calendar Integration: Syncs with content calendars (Trello, Asana) to track repurposing output",
+      "Multi-Format Output: Offers variants for social media captions, email summaries, and LinkedIn posts"
+    ],
+    marketOpportunity: [
+      "Vast Creator/Agency Market: Millions of YouTubers and Podcasters constantly scale content",
+      "SEO is Gold: Organic search traffic has highest intent and conversion rate",
+      "Clear ROI: Saving 3–5 hours per video is worth ₹8K-₹40K per piece",
+      "High Retention: Content repurposing is continuous, weekly need"
+    ],
+    monetizationModel: {
+      plans: [
+        "Basic Plan (₹2.3K/month): 5 Video-to-Blog Conversions/month, Basic Transcription/Text Export",
+        "Pro Plan (₹4.7K/month): 20 Conversions/month, SEO Optimization AI, Automated Screenshot Capture, WordPress Export",
+        "Agency Plan (₹7.9K/month): Unlimited Conversions, Multi-Format Output, Team Access, Content Calendar Sync"
+      ],
+      pricing: [
+        "Pro/Agency: ₹5.6K/month average for 4,500 users = ₹2.52Cr MRR",
+        "Total: ₹2.52Cr+ MRR possible"
+      ],
+      revenue: [
+        "Total: ₹2.52Cr+ MRR possible",
+        "High volume, low-friction entry point model",
+        "Estimated profit margin: 65–75%"
+      ]
+    },
+    roiProjection: {
+      timeline: [
+        "Month 1–3: MVP launch + onboarding 1,000 individual YouTubers → ₹32L MRR",
+        "Month 4–6: Implement SEO Optimization + target 3,000 podcasters → ₹1.2Cr MRR",
+        "Month 7–12: Launch Agency Plan + target digital content marketing firms → ₹2.64Cr+ MRR"
+      ],
+      projections: [
+        "Year 1: ₹2.64Cr+ MRR target",
+        "Year 2: ₹8Cr+ MRR expansion",
+        "Year 3: ₹20Cr+ MRR with white-labeling for large MCNs"
+      ],
+      userROI: [
+        "Average ROI: 5x–15x based on saved labor cost and new traffic",
+        "Labor Savings: Saves 3–5 hours of highly paid labor per video",
+        "SEO traffic from one high-ranking blog post can lead to hundreds in revenue monthly"
+      ]
+    },
+    fundingOpportunities: {
+      stages: [
+        "Seed Funding: Qualifies for Creator Economy, MediaTech, and AI Productivity funding",
+        "VCs value tools that directly monetize and scale existing content libraries"
+      ],
+      amounts: [
+        "Seed: ₹32L – ₹80L for 10–20% equity at early traction",
+        "Series A: ₹4.8Cr–₹9.6Cr once achieving ₹1.6Cr ARR"
+      ],
+      valuations: [
+        "Early traction: ₹4.8Cr – ₹8Cr",
+        "Series A: ₹24Cr – ₹48Cr"
+      ]
+    },
+    techStack: {
+      frontend: ["Next.js"],
+      backend: ["Python (Celery/FastAPI)"],
+      ai: ["Speech-to-Text API (Google/Whisper)", "LLM (for SEO and formatting)", "Computer Vision (for screenshot detection)"],
+      database: ["PostgreSQL"],
+      hosting: ["AWS"],
+      integrations: ["YouTube Data API", "WordPress API", "Various Social Media APIs"]
+    },
+    competitiveAdvantage: {
+      features: [
+        "Automated Screenshots",
+        "Full SEO Optimization (Headers/Keywords)",
+        "Multi-Format Output",
+        "Clean Content Export"
+      ],
+      comparisons: [
+        "vs Manual: Captures and places visuals perfectly, increasing blog engagement",
+        "vs Transcribers: Creates full suite of content (blog, social, email) from one source",
+        "vs Raw Transcription: Ready to paste, requiring minimal cleanup"
+      ],
+      uniqueSelling: [
+        "All-in-One Repurposing Engine",
+        "Focus on Creator/Agency Scalability",
+        "Complete content repurposing automation"
+      ]
+    },
+    developmentBudget: {
+      mvp: [
+        "YouTube URL → Transcription → Text Export",
+        "Cost: ₹8K–₹16K"
+      ],
+      standard: [
+        "SEO Optimization AI + Automated Screenshot Capture + WordPress/HTML Export",
+        "Cost: ₹24K–₹40K"
+      ],
+      premium: [
+        "Multi-Format Output + Content Calendar Sync + High-Accuracy Jargon/Accent Model",
+        "Cost: ₹48K–₹80K+"
+      ]
+    },
+    vision: "To unlock the massive potential of video and audio content, making SEO traffic effortless and automatic for every creator.",
+    features: [
+      "YouTube/File Transcription",
+      "SEO Optimization AI",
+      "Automated Screenshot Capture",
+      "WordPress/HTML Ready Export",
+      "Content Calendar Integration",
+      "Multi-Format Output"
+    ]
+  },
+  {
+    id: 49,
+    title: "AeroSwap – Competitor Lead Miner",
+    categories: ["Micro SaaS", "Business"],
+    tagline: "Steal dissatisfied customers from your competitors.",
+    description: "AeroSwap transforms competitor social media complaints into actionable sales leads.",
+    author: "Boostmysites",
+    image: "/assets/projects/AeroSwap-1.png",
+    images: ["/assets/projects/AeroSwap-1.png", "/assets/projects/AeroSwap-2.png", "/assets/projects/AeroSwap-3.png", "/assets/projects/AeroSwap-4.png"],
+    rating: 4.9,
+    price: 81000,
+    overview: "Continuously monitors competitor social media. When AI detects high-intent negative comments, it flags the user and drafts a tailored DM offering your solution.",
+    problem: "High-intent leads are hidden in competitor feedback. Manual tracking is impossible. Slow response time loses leads.",
+    solution: "Input competitor handles. AI monitors and scores comments. Platform drafts personalized DM referencing pain point.",
+    coreFeatures: ["Social Listener & Sentiment Scorer", "Intent-Based Filtering", "AI DM/Email Drafter", "Lead Scoring Dashboard", "One-Click Outreach"],
+    marketOpportunity: ["Growth Agencies focus on reducing CPA", "Global SaaS Growth market", "'Steal-the-customer' strategies have highest conversion"],
+    monetizationModel: {
+      plans: ["Starter (₹8K/month)", "Pro (₹16K/month)", "Enterprise (₹24K/month)"],
+      pricing: ["₹16K/month average for 2,000 users = ₹3.2Cr MRR"],
+      revenue: ["₹3.2Cr+ MRR possible", "70–80% profit margin"]
+    },
+    roiProjection: {
+      timeline: ["Month 1–3: ₹40L MRR", "Month 4–6: ₹1.6Cr MRR", "Month 7–12: ₹3.6Cr+ MRR"],
+      projections: ["Year 1: ₹3.6Cr+", "Year 2: ₹12Cr+", "Year 3: ₹24Cr+"],
+      userROI: ["10x–50x ROI based on CPA reduction"]
+    },
+    fundingOpportunities: {
+      stages: ["B2B SaaS, SalesTech funding"],
+      amounts: ["Seed: ₹40L–₹1.2Cr", "Series A: ₹4Cr–₹8Cr"],
+      valuations: ["Early: ₹8Cr–₹16Cr", "Series A: ₹24Cr–₹40Cr"]
+    },
+    techStack: {
+      frontend: ["Next.js"],
+      backend: ["Python (FastAPI)"],
+      ai: ["LLM", "NLP/Sentiment Analysis"],
+      database: ["PostgreSQL"],
+      hosting: ["AWS"],
+      integrations: ["Twitter API", "Facebook API", "CRM"]
+    },
+    competitiveAdvantage: {
+      features: ["High-Intent Lead Filtering", "AI Outreach", "Real-Time Monitoring"],
+      comparisons: ["vs Manual: Automated", "vs Paid Ads: Cheaper"],
+      uniqueSelling: ["Focus on Competitor Churn"]
+    },
+    developmentBudget: {
+      mvp: ["Social monitoring + sentiment", "₹16K–₹28K"],
+      standard: ["AI DM + Lead scoring", "₹36K–₹60K"],
+      premium: ["CRM integration", "₹68K–₹1.12L+"]
+    },
+    vision: "Transform competitor churn into growth.",
+    features: ["Social Listener", "Intent Filtering", "AI DM Drafter", "Lead Scoring"]
+  },
+  {
+    id: 50,
+    title: "GeoFlow Ads – Local Event Trigger Ads",
+    categories: ["Micro SaaS", "Business"],
+    tagline: "Ads that react to the real world.",
+    description: "GeoFlow Ads automates local advertising based on real-world triggers (weather, sports scores, traffic).",
+    author: "Boostmysites",
+    image: "/assets/projects/GeoFlow-1.png",
+    images: ["/assets/projects/GeoFlow-1.png", "/assets/projects/GeoFlow-2.png", "/assets/projects/GeoFlow-3.png", "/assets/projects/GeoFlow-4.png"],
+    rating: 4.8,
+    price: 77000,
+    overview: "Users connect ad accounts and define rules: If temp > 30°C → increase 'Ice Cream' ad budget by 50%. Maximizes spend when local demand is highest.",
+    problem: "Ad budgets are static, failing to capitalize on demand spikes. Businesses miss local events driving traffic.",
+    solution: "Define local area and triggers. AI monitors external APIs (weather, sports, traffic) and adjusts campaigns automatically.",
+    coreFeatures: ["Dynamic Trigger Builder", "Local Data API Integrations", "Meta/Google Ads API Sync", "Ad Creative Switching", "Budget Optimization Engine"],
+    marketOpportunity: ["Local businesses spend billions on digital ads", "Measurable ROI", "Perfect for chains with 5–50 locations"],
+    monetizationModel: {
+      plans: ["Basic (₹4K/month)", "Chain (₹8K/month)", "Enterprise (₹12K/month)"],
+      pricing: ["₹8K/month average for 5,000 locations = ₹4Cr MRR"],
+      revenue: ["₹4Cr+ MRR possible", "75–85% profit margin"]
+    },
+    roiProjection: {
+      timeline: ["Month 1–3: ₹40L MRR", "Month 4–6: ₹1.6Cr MRR", "Month 7–12: ₹4.4Cr+ MRR"],
+      projections: ["Year 1: ₹4.4Cr+", "Year 2: ₹12Cr+", "Year 3: ₹24Cr+"],
+      userROI: ["5x–10x based on ad efficiency"]
+    },
+    fundingOpportunities: {
+      stages: ["MarTech, Local Commerce, AdTech funding"],
+      amounts: ["Seed: ₹32L–₹80L", "Series A: ₹4Cr–₹8Cr"],
+      valuations: ["Early: ₹6.4Cr–₹12Cr", "Series A: ₹24Cr–₹40Cr"]
+    },
+    techStack: {
+      frontend: ["React"],
+      backend: ["Python/Node.js"],
+      ai: ["Decision Tree/ML"],
+      database: ["PostgreSQL"],
+      hosting: ["AWS"],
+      integrations: ["Meta Ads API", "Google Ads API", "Weather API", "Sports Score APIs"]
+    },
+    competitiveAdvantage: {
+      features: ["Real-World Trigger Sync", "Ad Creative Switching", "Rule-Based Automation"],
+      comparisons: ["vs Standard Automation: Reactive to local demand", "vs Agencies: Instantaneous response"],
+      uniqueSelling: ["Hyper-Local Focus", "Direct ROI on Saved Ad Spend"]
+    },
+    developmentBudget: {
+      mvp: ["Basic triggers + ad sync", "₹12K–₹24K"],
+      standard: ["Multi-trigger + budget optimization", "₹32K–₹56K"],
+      premium: ["Creative switching + POS integration", "₹64K–₹1.04L+"]
+    },
+    vision: "Make every local business advertise as smartly as global brands.",
+    features: ["Dynamic Trigger Builder", "Local Data APIs", "Ad API Sync", "Creative Switching"]
+  },
+  {
+    id: 51,
+    title: "SOP-Pilot – AI SOP Generator",
+    categories: ["Micro SaaS", "Productivity"],
+    tagline: "Clone your best employee's brain instantly.",
+    description: "SOP-Pilot generates Standard Operating Procedures from video recordings of tasks.",
+    author: "Boostmysites",
+    image: "/assets/projects/SOP-Pilot-1.png",
+    images: ["/assets/projects/SOP-Pilot-1.png", "/assets/projects/SOP-Pilot-2.png", "/assets/projects/SOP-Pilot-3.png", "/assets/projects/SOP-Pilot-4.png"],
+    rating: 4.8,
+    price: 84000,
+    overview: "Manager records a Loom/video performing a task. AI analyzes actions and voiceover, generates clear, step-by-step SOP with screenshots.",
+    problem: "Small businesses suffer from lack of documentation. Writing SOPs is tedious and seen as low-priority.",
+    solution: "Record task video and upload. AI's Computer Vision and ASR analyze video to identify steps. AI generates finished, searchable SOP document.",
+    coreFeatures: ["Video Ingestion & ASR", "Computer Vision Step Detection", "AI SOP Structuring", "Screenshot Cropping & Annotation", "Document Export", "SOP Library & Search"],
+    marketOpportunity: ["Global SOP Software market: ₹2.16Cr by 2032", "Massive time savings", "Essential for scaling businesses"],
+    monetizationModel: {
+      plans: ["Basic (₹3.1K/month)", "Pro (₹6.3K/month)", "Team (₹10.3K/month)"],
+      pricing: ["₹6.8K/month average for 4,000 users = ₹2.72Cr MRR"],
+      revenue: ["₹2.72Cr+ MRR possible", "60–70% profit margin"]
+    },
+    roiProjection: {
+      timeline: ["Month 1–3: ₹40L MRR", "Month 4–6: ₹1.44Cr MRR", "Month 7–12: ₹3.04Cr+ MRR"],
+      projections: ["Year 1: ₹3.04Cr+", "Year 2: ₹9.6Cr+", "Year 3: ₹24Cr+"],
+      userROI: ["5x–10x based on time saved", "Reduces onboarding time by 50%"]
+    },
+    fundingOpportunities: {
+      stages: ["Vertical SaaS, Future of Work, AI Productivity funding"],
+      amounts: ["Seed: ₹24L–₹80L", "Series A: ₹4Cr–₹8Cr"],
+      valuations: ["Early: ₹4.8Cr–₹10Cr", "Series A: ₹24Cr–₹40Cr"]
+    },
+    techStack: {
+      frontend: ["Vue.js"],
+      backend: ["Go/Python"],
+      ai: ["Computer Vision (OpenCV)", "ASR (Whisper)", "LLM"],
+      database: ["PostgreSQL"],
+      hosting: ["AWS"],
+      integrations: ["Loom API", "Notion API", "PDF Generation"]
+    },
+    competitiveAdvantage: {
+      features: ["Video-to-SOP Automation", "Computer Vision Step Detection", "Automated Screenshot Insertion"],
+      comparisons: ["vs Manual: 10x faster", "vs Transcribers: Delivers formatted final document"],
+      uniqueSelling: ["Focus on Operational Knowledge Transfer", "Low Friction for Managers"]
+    },
+    developmentBudget: {
+      mvp: ["Basic transcription + PDF", "₹12K–₹20K"],
+      standard: ["Computer Vision + screenshots", "₹28K–₹48K"],
+      premium: ["Advanced tracking + compliance", "₹56K–₹96K+"]
+    },
+    vision: "Make operational knowledge transfer effortless.",
+    features: ["Video Ingestion", "Computer Vision Detection", "AI SOP Structuring", "Document Export"]
+  },
+  {
+    id: 52,
+    title: "StayAI – WhatsApp Concierge for Hotels",
+    categories: ["Micro SaaS", "Business"],
+    tagline: "5-star service without 24/7 staff.",
+    description: "StayAI is an AI-powered digital concierge operating on WhatsApp for boutique hotels and Airbnbs.",
+    author: "Boostmysites",
+    image: "/assets/projects/StayAI-1.png",
+    images: ["/assets/projects/StayAI-1.png", "/assets/projects/StayAI-2.png", "/assets/projects/StayAI-3.png", "/assets/projects/StayAI-4.png"],
+    rating: 4.9,
+    price: 86000,
+    overview: "Guests ask questions via WhatsApp. AI answers using property-specific knowledge base, delivering 5-star service without 24/7 human staff.",
+    problem: "Boutique properties can't afford 24/7 concierge. Staff waste time on repetitive questions. Slow responses frustrate guests.",
+    solution: "Upload property manual and local guides. Connect WhatsApp number. AI handles ~80% of inquiries instantly, escalating complex issues to staff.",
+    coreFeatures: ["Property-Specific Knowledge Base", "WhatsApp/Messaging Integration", "Multilingual Support", "Contextual Recommendation Engine", "Human Handoff & Alert System", "Performance Dashboard"],
+    marketOpportunity: ["Global concierge services market growing", "Cost of night-shift concierge: ₹2.4L–₹4.8L/month", "Global Airbnb growth"],
+    monetizationModel: {
+      plans: ["Basic (₹3.9K/property/month)", "Boutique (₹7.9K/property/month)", "Luxury (₹11.9K/property/month)"],
+      pricing: ["₹8.8K/month average for 4,000 properties = ₹3.52Cr MRR"],
+      revenue: ["₹3.52Cr+ MRR possible", "70–80% profit margin"]
+    },
+    roiProjection: {
+      timeline: ["Month 1–3: ₹24L MRR", "Month 4–6: ₹1.2Cr MRR", "Month 7–12: ₹3.84Cr+ MRR"],
+      projections: ["Year 1: ₹3.84Cr+", "Year 2: ₹12Cr+", "Year 3: ₹24Cr+"],
+      userROI: ["10x–30x based on saved labor", "Prevents negative reviews"]
+    },
+    fundingOpportunities: {
+      stages: ["TravelTech, Hospitality SaaS, AI Chatbot funding"],
+      amounts: ["Seed: ₹24L–₹64L", "Series A: ₹4Cr–₹8Cr"],
+      valuations: ["Early: ₹4Cr–₹8Cr", "Series A: ₹24Cr–₹40Cr"]
+    },
+    techStack: {
+      frontend: ["Minimal Web App"],
+      backend: ["Node.js"],
+      ai: ["RAG with LLM"],
+      database: ["PostgreSQL"],
+      hosting: ["AWS"],
+      integrations: ["WhatsApp Business API", "Twilio/SMS API", "Google Places API"]
+    },
+    competitiveAdvantage: {
+      features: ["Trained Property Knowledge Base", "WhatsApp-Native Operation", "Automated Human Handoff", "Multilingual Support"],
+      comparisons: ["vs General Chatbots: Property-specific answers", "vs Staff: Handles 80% of volume", "vs Concierge: 24/7/365 at low cost"],
+      uniqueSelling: ["Direct ROI on Labor Cost"]
+    },
+    developmentBudget: {
+      mvp: ["Basic Q&A + WhatsApp", "₹12K–₹20K"],
+      standard: ["Multilingual + recommendations", "₹28K–₹48K"],
+      premium: ["PMS integration + voice", "₹56K–₹96K+"]
+    },
+    vision: "Make premium hospitality accessible to every property.",
+    features: ["Property Knowledge Base", "WhatsApp Integration", "Multilingual", "Human Handoff"]
+  },
+  {
+    id: 53,
+    title: "DeductBot – AI Tax Deduction Finder",
+    categories: ["Micro SaaS", "Productivity"],
+    tagline: "Find money you didn't know you could save.",
+    description: "DeductBot maximizes tax savings for Freelancers and Gig Workers by identifying potential deductions.",
+    author: "Boostmysites",
+    image: "/assets/projects/DeductBot-1.png",
+    images: ["/assets/projects/DeductBot-1.png", "/assets/projects/DeductBot-2.png", "/assets/projects/DeductBot-3.png", "/assets/projects/DeductBot-4.png"],
+    rating: 4.8,
+    price: 75000,
+    overview: "User uploads bank statements. AI scans line items, categorizes transactions, identifies potential tax write-offs in accountant-ready summary.",
+    problem: "Gig workers lose billions due to unclaimed deductions. Complex rules, manual tracking is painful, data overload.",
+    solution: "Upload bank/credit card statements. AI uses NLP and tax model to identify and categorize every write-off. User reviews and approves.",
+    coreFeatures: ["PDF/CSV Statement Ingestion", "AI Deduction Spotter", "Custom Category Mapping", "Accountant-Ready Export", "Audit Confidence Score", "Secure Data Handling"],
+    marketOpportunity: ["Over 40L individuals in US receive gig work returns", "Direct financial ROI", "Low-friction price point"],
+    monetizationModel: {
+      plans: ["Starter (₹1.5K/month)", "Pro (₹2.3K/month)", "Elite (₹3.9K/month)"],
+      pricing: ["₹2.8K/month average for 10,000 users = ₹2.8Cr MRR"],
+      revenue: ["₹2.8Cr+ MRR possible", "75–85% profit margin"]
+    },
+    roiProjection: {
+      timeline: ["Month 1–3: ₹40L MRR", "Month 4–6: ₹1.6Cr MRR", "Month 7–12: ₹3.2Cr+ MRR"],
+      projections: ["Year 1: ₹3.2Cr+", "Year 2: ₹9.6Cr+", "Year 3: ₹24Cr+"],
+      userROI: ["20x–100x based on tax savings", "Finds ₹80K–₹4L in missed deductions annually"]
+    },
+    fundingOpportunities: {
+      stages: ["FinTech, AI Accounting, Gig Economy funding"],
+      amounts: ["Seed: ₹40L–₹1.2Cr", "Series A: ₹5.6Cr–₹12Cr"],
+      valuations: ["Early: ₹6.4Cr–₹12Cr", "Series A: ₹32Cr–₹56Cr"]
+    },
+    techStack: {
+      frontend: ["React Native/Vue.js"],
+      backend: ["Python/Django"],
+      ai: ["OCR (Tesseract/Google Cloud Vision)", "NLP", "Custom Tax ML Model"],
+      database: ["PostgreSQL"],
+      hosting: ["AWS"],
+      integrations: ["Plaid", "Tax Software APIs"]
+    },
+    competitiveAdvantage: {
+      features: ["AI Deduction Spotter", "Simple PDF/CSV Upload", "Accountant-Ready Export", "Low-Friction Pricing"],
+      comparisons: ["vs Manual: Finds hidden write-offs", "vs Spreadsheets: Categorized document ready for filing", "vs Accountants: Democratizes expense optimization"],
+      uniqueSelling: ["Focus on Self-Employed Tax Code", "Direct Financial ROI"]
+    },
+    developmentBudget: {
+      mvp: ["Basic OCR + categorization", "₹12K–₹20K"],
+      standard: ["Custom mapping + export", "₹28K–₹48K"],
+      premium: ["Audit score + tax software integration", "₹56K–₹96K+"]
+    },
+    vision: "Maximize legally claimable deductions for every gig worker.",
+    features: ["Statement Ingestion", "AI Deduction Spotter", "Custom Category Mapping", "Accountant Export"]
+  },
+  {
+    id: 54,
+    title: "VowSync – Wedding Vendor Sync Dashboard",
+    categories: ["Micro SaaS", "Business"],
+    tagline: "Stop the wedding chaos.",
+    description: "VowSync is an AI-powered coordination hub for wedding and event planners acting as the single source of truth for event timelines.",
+    author: "Boostmysites",
+    image: "/assets/projects/VowSync-1.png",
+    images: ["/assets/projects/VowSync-1.png", "/assets/projects/VowSync-2.png", "/assets/projects/VowSync-3.png", "/assets/projects/VowSync-4.png"],
+    rating: 4.9,
+    price: 80000,
+    overview: "When main event schedule or critical details are updated, AI instantly communicates changes across all vendors' preferred channels (WhatsApp, Email, SMS).",
+    problem: "Wedding chaos stems from decentralized communication. Timeline drift, costly errors, and planner overload are common.",
+    solution: "Planner inputs Master Timeline. When changed, AI calculates ripple effect and sends personalized messages to affected vendors on their registered channel.",
+    coreFeatures: ["Centralized Master Timeline", "AI Sync & Ripple-Effect Logic", "Multi-Channel AI Communication", "Vendor-Specific Filtering", "Change Log & Confirmation Tracking", "Document Hub"],
+    marketOpportunity: ["Global Wedding Planning Software Market: ₹4Cr+", "11.2% CAGR growth", "High-touch service providers pay premium"],
+    monetizationModel: {
+      plans: ["Basic Planner (₹3.1K/month)", "Pro Planner (₹5.5K/month)", "Agency/Venue (₹7.9K/month)"],
+      pricing: ["₹6K/month average for 5,000 planners = ₹3Cr MRR"],
+      revenue: ["₹3Cr+ MRR possible", "70–80% profit margin"]
+    },
+    roiProjection: {
+      timeline: ["Month 1–3: ₹32L MRR", "Month 4–6: ₹1.2Cr MRR", "Month 7–12: ₹3.2Cr+ MRR"],
+      projections: ["Year 1: ₹3.2Cr+", "Year 2: ₹8Cr+", "Year 3: ₹16Cr+"],
+      userROI: ["Tool becomes indispensable on event day"]
+    },
+    fundingOpportunities: {
+      stages: ["EventTech, AI Productivity funding"],
+      amounts: ["Seed: ₹24L–₹80L", "Series A: ₹3.2Cr–₹6.4Cr"],
+      valuations: ["Early: ₹4Cr–₹8Cr", "Series A: ₹16Cr–₹32Cr"]
+    },
+    techStack: {
+      frontend: ["Vue.js/React"],
+      backend: ["Python (Django)"],
+      ai: ["Simple LLM/Rules Engine"],
+      database: ["PostgreSQL"],
+      hosting: ["AWS"],
+      integrations: ["WhatsApp Business API", "Twilio (SMS)", "Email APIs"]
+    },
+    competitiveAdvantage: {
+      features: ["Centralized Timeline", "AI Sync Logic", "Multi-Channel Communication"],
+      comparisons: ["vs Manual: Eliminates communication bottleneck", "vs Spreadsheets: Real-time sync"],
+      uniqueSelling: ["Vendor-specific filtering", "Change tracking"]
+    },
+    developmentBudget: {
+      mvp: ["Basic timeline + email/SMS", "₹12K–₹20K"],
+      standard: ["AI sync + WhatsApp + tracking", "₹28K–₹48K"],
+      premium: ["Multi-user + branded portal + CRM", "₹56K–₹88K+"]
+    },
+    vision: "Eliminate wedding day chaos through intelligent coordination.",
+    features: ["Master Timeline", "AI Sync", "Multi-Channel Communication", "Vendor Filtering"]
+  },
+  {
+    id: 55,
+    title: "ProofFolio – AI Before & After Case Study Generator",
+    categories: ["Micro SaaS", "Business"],
+    tagline: "Prove your results with one click.",
+    description: "ProofFolio transforms before/after photos and rough notes into professional, branded PDF case studies.",
+    author: "Boostmysites",
+    image: "/assets/projects/ProofFolio-1.png",
+    images: ["/assets/projects/ProofFolio-1.png", "/assets/projects/ProofFolio-2.png", "/assets/projects/ProofFolio-3.png", "/assets/projects/ProofFolio-4.png"],
+    rating: 4.8,
+    price: 76000,
+    overview: "User uploads Before/After photos and bullet points. AI transforms input into clean, branded PDF case study with compelling problem-solution narrative.",
+    problem: "Service businesses struggle to convert visually impressive work into persuasive sales material. Time-consuming, inconsistent quality, low volume.",
+    solution: "Upload images and notes. Select template. AI structures content into narrative: Challenge → Solution → Result. Download branded PDF/link.",
+    coreFeatures: ["Visual Input Processing", "AI Narrative Generator", "Branding Engine", "Template Library", "Export Options", "Results Library"],
+    marketOpportunity: ["Large vertical market for aesthetic clinics, contractors", "Direct sales impact", "Single case study costs ₹40K–₹1.6L from freelancer"],
+    monetizationModel: {
+      plans: ["Starter (₹2.3K/month)", "Pro (₹4.7K/month)", "Agency/Franchise (₹7.1K/month)"],
+      pricing: ["₹4.8K/month average for 5,000 users = ₹2.4Cr MRR"],
+      revenue: ["₹2.4Cr+ MRR possible", "70–80% profit margin"]
+    },
+    roiProjection: {
+      timeline: ["Month 1–3: ₹28L MRR", "Month 4–6: ₹1Cr MRR", "Month 7–12: ₹2.56Cr+ MRR"],
+      projections: ["Year 1: ₹2.56Cr+", "Year 2: ₹6.4Cr+", "Year 3: ₹12.8Cr+"],
+      userROI: ["Increases conversion rates for sales teams"]
+    },
+    fundingOpportunities: {
+      stages: ["MarTech, AI Content funding"],
+      amounts: ["Seed: ₹20L–₹64L", "Series A: ₹3.2Cr–₹6.4Cr"],
+      valuations: ["Early: ₹3.2Cr–₹6.4Cr", "Series A: ₹16Cr–₹32Cr"]
+    },
+    techStack: {
+      frontend: ["Next.js"],
+      backend: ["Python/Node.js"],
+      ai: ["LLM (narrative generation)", "Computer Vision (image quality/cropping)"],
+      database: ["PostgreSQL"],
+      hosting: ["AWS"],
+      integrations: ["PDF Generation Library", "CMS/CRM Integration"]
+    },
+    competitiveAdvantage: {
+      features: ["Visual Processing", "AI Narrative", "Branding Engine", "Template Library"],
+      comparisons: ["vs Manual: 100x faster", "vs Freelancers: Consistent quality"],
+      uniqueSelling: ["Industry-specific templates", "Web-linkable output"]
+    },
+    developmentBudget: {
+      mvp: ["Image upload + basic template + PDF", "₹10K–₹18K"],
+      standard: ["AI narrative + branding + web export", "₹24K–₹42K"],
+      premium: ["Multi-user + CRM sync + tracking", "₹48K–₹76K+"]
+    },
+    vision: "Make professional case studies accessible to every service business.",
+    features: ["Visual Input Processing", "AI Narrative Generator", "Branding Engine", "Template Library"]
+  },
+  {
+    id: 56,
+    title: "SalesPrep AI – Cold Call Objection Trainer",
+    categories: ["Micro SaaS", "Business"],
+    tagline: "Train your sales team without burning real leads.",
+    description: "SalesPrep AI is an AI Voice Bot that replaces traditional sales role-playing with realistic practice scenarios.",
+    author: "Boostmysites",
+    image: "/assets/projects/SalesPrep-1.png",
+    images: ["/assets/projects/SalesPrep-1.png", "/assets/projects/SalesPrep-2.png", "/assets/projects/SalesPrep-3.png", "/assets/projects/SalesPrep-4.png"],
+    rating: 4.9,
+    price: 88000,
+    overview: "SDR practices cold calls by speaking to bot acting as difficult prospect. AI uses ASR to transcribe response, analyzes tone/content, generates score and feedback.",
+    problem: "Traditional sales training is inefficient. New reps burn leads, coaching is subjective, lack of repetition, ineffective role-play.",
+    solution: "Rep chooses scenario. AI voice bot initiates call. Rep responds via microphone. AI dynamically reacts. Session ends with score on confidence, discovery questions, framework adherence.",
+    coreFeatures: ["Dynamic AI Voice Bot", "Objection Library & Scenario Builder", "Real-Time ASR & NLP Analysis", "Performance Scoring Dashboard", "Role-Play Recording & Review", "Persona Training"],
+    marketOpportunity: ["High B2B spend on sales training", "Clear ROI on rep ramp-up speed", "AI training is future of sales enablement"],
+    monetizationModel: {
+      plans: ["Team Starter (₹7.9K/month)", "Pro Agency (₹23.9K/month)", "Enterprise (₹31.9K/month)"],
+      pricing: ["₹24K/month average for 2,500 teams = ₹6Cr MRR"],
+      revenue: ["₹6Cr+ MRR possible", "70–80% profit margin"]
+    },
+    roiProjection: {
+      timeline: ["Month 1–3: ₹60L MRR", "Month 4–6: ₹2Cr MRR", "Month 7–12: ₹6.4Cr+ MRR"],
+      projections: ["Year 1: ₹6.4Cr+", "Year 2: ₹16Cr+", "Year 3: ₹32Cr+"],
+      userROI: ["Increased rep readiness", "Faster ramp-up", "Measurable sales improvement"]
+    },
+    fundingOpportunities: {
+      stages: ["SalesTech, AI Training funding"],
+      amounts: ["Seed: ₹40L–₹1.2Cr", "Series A: ₹4Cr–₹8Cr"],
+      valuations: ["Early: ₹6.4Cr–₹12Cr", "Series A: ₹24Cr–₹48Cr"]
+    },
+    techStack: {
+      frontend: ["React"],
+      backend: ["Python (Flask/Django)"],
+      ai: ["ASR (Deepgram/Google Speech)", "LLM (dialogue & feedback)", "NLP/Sentiment Analysis"],
+      database: ["PostgreSQL"],
+      hosting: ["AWS"],
+      integrations: ["WebRTC", "CRM/LMS APIs"]
+    },
+    competitiveAdvantage: {
+      features: ["Human-like voice", "Dynamic dialogue", "Performance scoring", "Framework adherence tracking"],
+      comparisons: ["vs Manual role-play: Consistent difficulty", "vs Video training: Interactive practice"],
+      uniqueSelling: ["Custom persona training", "Real-time feedback"]
+    },
+    developmentBudget: {
+      mvp: ["Basic voice bot + transcription + scoring", "₹20K–₹36K"],
+      standard: ["Dynamic dialogue + scenario builder + recording", "₹44K–₹76K"],
+      premium: ["Custom personas + CRM/LMS integration + analytics", "₹88K–₹1.44L+"]
+    },
+    vision: "Make every sales rep practice-ready before their first real call.",
+    features: ["Dynamic AI Voice Bot", "Objection Library", "Real-Time Analysis", "Performance Scoring"]
+  },
+  {
+    id: 57,
+    title: "FleetSnap – Fleet Driver Shift & Fuel Tracker",
+    categories: ["Micro SaaS", "Productivity"],
+    tagline: "Track your fleet using only WhatsApp.",
+    description: "FleetSnap offers low-cost fleet tracking via WhatsApp using odometer and fuel receipt photos.",
+    author: "Boostmysites",
+    image: "/assets/projects/FleetSnap-1.png",
+    images: ["/assets/projects/FleetSnap-1.png", "/assets/projects/FleetSnap-2.png", "/assets/projects/FleetSnap-3.png", "/assets/projects/FleetSnap-4.png"],
+    rating: 4.7,
+    price: 72000,
+    overview: "Drivers send odometer and fuel receipt photos via WhatsApp. AI uses OCR to extract mileage, time, fuel/cost data, updating centralized dashboard and flagging anomalies.",
+    problem: "Small fleet operators face high telematics costs, manual data entry errors, data discrepancies, and driver resistance to GPS tracking.",
+    solution: "Driver takes two photos and sends to FleetSnap WhatsApp. OCR extracts key data. Data logged to dashboard. Anomaly detection flags suspicious activity.",
+    coreFeatures: ["WhatsApp OCR Gateway", "Odometer & Receipt OCR", "Anomaly Detection Engine", "Centralized Fleet Dashboard", "Driver Profile & Shift Log", "Reporting & Export"],
+    marketOpportunity: ["Huge small fleet market", "₹800–₹1.6K/vehicle/month vs hardware cost", "Instant ROI eliminating manual entry", "Global WhatsApp dominance"],
+    monetizationModel: {
+      plans: ["Starter Fleet (₹800/vehicle/month)", "Pro Fleet (₹1.2K/vehicle/month)", "Enterprise (₹1.6K/vehicle/month)"],
+      pricing: ["₹1.2K/vehicle/month for 20,000 vehicles = ₹2.4Cr MRR"],
+      revenue: ["₹2.4Cr+ MRR possible", "70–80% profit margin"]
+    },
+    roiProjection: {
+      timeline: ["Month 1–3: ₹24L MRR", "Month 4–6: ₹96L MRR", "Month 7–12: ₹2.56Cr+ MRR"],
+      projections: ["Year 1: ₹2.56Cr+", "Year 2: ₹6.4Cr+", "Year 3: ₹12.8Cr+"],
+      userROI: ["Prevents fuel theft", "Eliminates manual entry labor"]
+    },
+    fundingOpportunities: {
+      stages: ["LogisticsTech, AI Productivity funding"],
+      amounts: ["Seed: ₹20L–₹64L", "Series A: ₹3.2Cr–₹6.4Cr"],
+      valuations: ["Early: ₹3.2Cr–₹6.4Cr", "Series A: ₹16Cr–₹32Cr"]
+    },
+    techStack: {
+      frontend: ["Angular/React"],
+      backend: ["Node.js/Python"],
+      ai: ["OCR (Trained for Receipts/Odometer)", "ML (Anomaly Detection)"],
+      database: ["PostgreSQL/MongoDB"],
+      hosting: ["AWS"],
+      integrations: ["WhatsApp Business API"]
+    },
+    competitiveAdvantage: {
+      features: ["WhatsApp-based", "No hardware cost", "Anomaly detection", "Simple driver workflow"],
+      comparisons: ["vs Hardware telematics: 10x cheaper", "vs Manual logs: Automated and accurate"],
+      uniqueSelling: ["Global WhatsApp reach", "Zero installation"]
+    },
+    developmentBudget: {
+      mvp: ["WhatsApp OCR + basic dashboard", "₹12K–₹20K"],
+      standard: ["Anomaly detection + shift logging", "₹28K–₹48K"],
+      premium: ["Custom OCR training + API + multi-user", "₹56K–₹88K+"]
+    },
+    vision: "Make fleet management accessible to every small operator.",
+    features: ["WhatsApp OCR Gateway", "Odometer & Receipt OCR", "Anomaly Detection", "Fleet Dashboard"]
+  },
+  {
+    id: 58,
+    title: "RentScore AI – AI Tenant Screening",
+    categories: ["Micro SaaS", "Business"],
+    tagline: "Enterprise-grade screening for the little guy.",
+    description: "RentScore AI democratizes tenant screening for independent landlords with sophisticated risk analysis.",
+    author: "Boostmysites",
+    image: "/assets/projects/RentScore-1.png",
+    images: ["/assets/projects/RentScore-1.png", "/assets/projects/RentScore-2.png", "/assets/projects/RentScore-3.png", "/assets/projects/RentScore-4.png"],
+    rating: 4.8,
+    price: 74000,
+    overview: "Landlord uploads applicant details. AI checks public records, sends automated verification emails, synthesizes data into comprehensive Risk Score for objective decision-making.",
+    problem: "Independent landlords make high-stakes decisions with inadequate screening, bias risk, verification gaps. Single bad tenant costs ₹4L–₹12L.",
+    solution: "Input tenant application. AI initiates automated checks and verification requests. AI aggregates data and calculates Risk Score. Landlord receives summary PDF.",
+    coreFeatures: ["Comprehensive Data Aggregation", "Automated Income/Employment Verification", "AI Risk Scoring Engine", "Fair Housing/Compliance Check", "Objective Summary Report", "Social & Public Behavior Scan"],
+    marketOpportunity: ["Millions of individuals own 1–4 rental properties", "High-value transaction", "Flexible pricing", "AI-driven objectivity in litigious market"],
+    monetizationModel: {
+      plans: ["Per-Check Fee (₹3.9K/check, ₹2.3K/check for volume)", "Landlord Pro (₹3.9K/month)"],
+      pricing: ["Mixed model: ₹2Cr+ MRR possible"],
+      revenue: ["₹2Cr+ MRR possible", "60–70% profit margin"]
+    },
+    roiProjection: {
+      timeline: ["Month 1–3: ₹20L MRR", "Month 4–6: ₹80L MRR", "Month 7–12: ₹2.16Cr+ MRR"],
+      projections: ["Year 1: ₹2.16Cr+", "Year 2: ₹5.6Cr+", "Year 3: ₹11.2Cr+"],
+      userROI: ["Avoiding one bad tenant pays for years of service"]
+    },
+    fundingOpportunities: {
+      stages: ["PropTech, FinTech, AI Compliance funding"],
+      amounts: ["Seed: ₹24L–₹80L", "Series A: ₹3.2Cr–₹6.4Cr"],
+      valuations: ["Early: ₹4Cr–₹8Cr", "Series A: ₹16Cr–₹32Cr"]
+    },
+    techStack: {
+      frontend: ["Angular/React"],
+      backend: ["Java/Python"],
+      ai: ["ML (Risk Scoring)", "NLP (verification text analysis)"],
+      database: ["PostgreSQL"],
+      hosting: ["AWS"],
+      integrations: ["Credit Bureau APIs", "Public Records APIs", "Email/SMS API"]
+    },
+    competitiveAdvantage: {
+      features: ["Comprehensive data aggregation", "Automated verification", "AI risk scoring", "Compliance check"],
+      comparisons: ["vs Manual: Objective and thorough", "vs Basic credit check: Comprehensive analysis"],
+      uniqueSelling: ["Fair Housing compliance", "Audit trail"]
+    },
+    developmentBudget: {
+      mvp: ["Basic credit + public records + manual verification", "₹16K–₹28K"],
+      standard: ["Automated verification + risk scoring", "₹36K–₹60K"],
+      premium: ["Social scan + compliance + API", "₹68K–₹1.08L+"]
+    },
+    vision: "Make professional tenant screening accessible to every landlord.",
+    features: ["Data Aggregation", "Automated Verification", "AI Risk Scoring", "Compliance Check"]
   }
 ];
 
