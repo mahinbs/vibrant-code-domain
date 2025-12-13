@@ -51,7 +51,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
                         <span className="text-sm font-medium">{product.rating}</span>
                     </div>
                     <span className="text-sm font-semibold text-primary">
-                        ${product.price.toLocaleString()}
+                    ₹{product.price.toLocaleString()}
                     </span>
                     {/* <span className="text-xs text-muted-foreground">{product.sales} sales</span> */}
                 </div>
