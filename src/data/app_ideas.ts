@@ -64,7 +64,7 @@ export const mockProducts: DetailedProduct[] = [
       "/assets/projects/AutoAdGen-4.webp"
     ],
     rating: 4.9,
-    price: 83827,
+    price: 850000,
     // sales: 2500,
     overview: "AutoAdGen is an AI SaaS platform that empowers small businesses to instantly create and launch profitable ad campaigns on Facebook, Instagram, and Google — using just a product link or a few images. It automates ad copy generation, AI video ads with voiceovers, audience & budget prediction, and one-click publishing via Meta and Google APIs.",
     problem: "Small businesses waste ₹100B+ globally on ineffective ads each year. They struggle with writing compelling ad copy, choosing the right target audience, setting optimal budgets, and hiring expensive marketing agencies. AutoAdGen solves all of it — instantly.",
@@ -514,7 +514,7 @@ export const mockProducts: DetailedProduct[] = [
       "/assets/projects/TradeMind AI-4.webp"
     ],
     rating: 4.8,
-    price: 83198,
+    price: 950000,
     // sales: 4200,
     overview: "TradeMind AI is a cutting-edge SaaS and mobile app that predicts stock market movements using advanced AI models trained on live market data, financial news, social sentiment, and historical trends. It helps traders, investors, and fund managers make data-backed trading decisions by forecasting short-term and long-term price movements, volatility, and buy/sell signals — all visualized on an intuitive dashboard and mobile app. Users can connect their brokerage accounts, get real-time alerts, and access deep predictive insights — making professional-level analysis accessible to everyone.",
     problem: "Even experienced traders lose money due to emotional decision-making, information overload, lack of predictive insights, and no AI-driven analysis of news, events, and sentiment. Most retail investors rely on intuition instead of intelligence. TradeMind AI changes that — giving them the predictive edge once reserved for hedge funds.",
@@ -666,7 +666,7 @@ export const mockProducts: DetailedProduct[] = [
       "/assets/projects/DreamLife AI-4.webp"
     ],
     rating: 4.9,
-    price: 75996,
+    price: 1000000,
     overview: "DreamLife AI is the world's first AI cofounder that builds your entire business from a single idea prompt. You simply describe your dream business — a SaaS, mobile app, e-commerce brand, or AI startup — and DreamLife AI instantly builds everything you need to launch and grow it. From concept to company, DreamLife AI does what usually takes months — in minutes.",
     problem: "Starting a business is hard — not because people lack ideas, but because execution takes technical skills (website, app, automation), branding and design knowledge, marketing strategy, investor documentation, time and capital. Most dreamers never even start — 95% of ideas die before execution. DreamLife AI solves this by becoming the cofounder you always needed — one that executes instantly and tirelessly.",
     solution: "DreamLife AI is your automated company creator. You tell it what you want to build — for example: 'I want to create an app that helps freelancers manage clients.' Within minutes, it delivers: 1. Business Plan – Market research, competitor analysis, pricing model 2. Branding Kit – Logo, colors, typography, tagline 3. Website + Landing Page – Built, hosted, and published automatically 4. Pitch Deck – Investor-ready slides with market data & projections 5. Ad Campaigns – Facebook, Google, and Instagram ads with copy & visuals 6. MVP or Product Demo – AI-generated UI prototype or working web app. You literally go from idea → execution → launch in under 5 minutes.",
@@ -813,7 +813,7 @@ export const mockProducts: DetailedProduct[] = [
       "/assets/projects/ShopStream-4.jpg"
     ],
     rating: 4.8,
-    price: 76636,
+    price: 750000,
     overview: "ShopStream is a mobile-first live shopping platform that empowers small shop owners, local artisans, and street vendors to sell their products through live video streams — just like Instagram Live or TikTok Shop, but hyper-focused on the local community market. Sellers simply go live, showcase their items, interact with buyers in real time, and receive instant payments. Buyers can chat, ask questions, and purchase instantly — all while watching the live stream. ShopStream bridges the gap between traditional local shops and digital e-commerce, bringing personality, trust, and excitement back to online shopping.",
     problem: "Small business owners and local sellers face major challenges: They can't afford e-commerce setups or marketing agencies, they lack visibility beyond foot traffic, they lose customers to large marketplaces. Social media live selling works, but it's not optimized for transactions — there's no seamless cart, payment, or buyer tracking. ShopStream solves this by combining livestreaming + instant checkout + community discovery in one platform.",
     solution: "ShopStream enables any shop owner or artisan to start selling live within minutes. How It Works: 1. Create Seller Profile: Register your shop or brand 2. Go Live: Start streaming products using your phone 3. Engage Viewers: Chat with buyers, answer questions 4. Sell Instantly: Viewers click on-screen product links to buy 5. Track Orders: Real-time order management and payout dashboard. Buyers can: Discover nearby live shops by location, Watch, chat, and buy instantly, Save favorite sellers for updates and promotions",
@@ -961,7 +961,7 @@ export const mockProducts: DetailedProduct[] = [
       "/assets/projects/RoomFit-4.png"
     ],
     rating: 4.9,
-    price: 81983,
+    price: 900000,
     overview: "RoomFit is a next-generation Augmented Reality (AR) furniture shopping app that lets users visualize how furniture and home décor items will look and fit inside their rooms — using just their smartphone camera. Customers can browse thousands of furniture items, place them virtually in their space, walk around them in real time, and instantly see how they blend with their interiors before making a purchase. RoomFit bridges the gap between online furniture shopping and in-store experience, giving buyers total confidence in their purchase decisions while helping furniture retailers boost conversions and reduce returns.",
     problem: "Furniture shopping online comes with three big pain points: Customers can't visualize size, fit, or color in their rooms. Retailers face high product return rates (30–40%) due to buyer dissatisfaction. In-store visits are time-consuming and limited by geography. Buyers want to 'see before they buy,' but standard e-commerce sites can't offer that level of realism. RoomFit solves this with immersive AR visualization and in-app purchasing, making furniture buying simple, confident, and fun.",
     solution: "With RoomFit, users can instantly place 3D furniture models in their real-world environment using their phone's camera. How It Works: 1. Open Your Camera: Launch RoomFit and scan your room. 2. Choose Furniture: Select from an AR-enabled catalog of sofas, beds, tables, etc. 3. Place in Real Space: Tap to drop the item into your room virtually. 4. View, Move, Rotate: Walk around it, resize it, or switch colors in real-time. 5. Buy Instantly: Add to cart and order directly from partnered brands.",
@@ -1111,7 +1111,7 @@ export const mockProducts: DetailedProduct[] = [
       "/assets/projects/ReCircle-4.png"
     ],
     rating: 4.8,
-    price: 82976,
+    price: 800000,
     overview: "ReCircle is a sustainability-driven online marketplace and mobile app that allows people to sell, donate, or buy gently used goods — from smartphones and laptops to clothes, furniture, and appliances. The platform manages everything from pickup to refurbishment and resale, ensuring that items get a second life, sellers get cash instantly, and buyers get affordable, quality-checked products. It's not just a marketplace — it's a circular economy platform that combines commerce + recycling + social impact.",
     problem: "Millions of usable items are thrown away every year, while millions of people can't afford new ones. The problems are: No easy way to sell or donate used goods, Trust and quality concerns in second-hand purchases, Lack of standardized refurbishment and warranty, Unorganized market dominated by unreliable resellers. ReCircle creates a trusted, tech-enabled system that benefits sellers, buyers, and the planet.",
     solution: "ReCircle makes it effortless to sell, donate, or buy refurbished products — with complete logistics and quality assurance handled by the platform. How It Works: 1. For Sellers: List used items or schedule a free pickup, ReCircle inspects and refurbishes them, You get paid or donate to charity 2. For Buyers: Shop certified refurbished goods with warranty, 30–60% cheaper than new products, Free delivery and return policy 3. For Donors: Donate unused goods, Get tax benefits or social impact points. Every product passes through quality, sanitization, and certification checks before being listed on the marketplace.",
@@ -1941,7 +1941,7 @@ export const mockProducts: DetailedProduct[] = [
       "/assets/projects/Real-Estate-Agent-4.png"
     ],
     rating: 4.9,
-    price: 81373,
+    price: 550000,
     overview: "The Real Estate Agent Workflow Hub is a focused Micro-SaaS platform designed specifically for individual real estate agents and small broker teams. It targets the repetitive, high-touch administrative tasks that distract agents from selling. The tool combines essential marketing automation (brochure generation, automated follow-up) with critical sales tools (loan calculator, project comparison), providing an indispensable, affordable toolkit that simplifies daily operations and ensures no lead is neglected.",
     problem: "Real estate agents are constantly struggling to balance sales activities with burdensome administration: Wasted Design Time: Creating high-quality, branded property brochures or comparison sheets is time-consuming, requiring design skills or costly agency fees. Lead Neglect: Leads from open houses or portals often cool down because agents are too busy to manually initiate timely, personalized WhatsApp or email follow-ups. Manual Calculations: Repeatedly calculating Equated Monthly Installment (EMI) or comparing various development projects (like a comparison table) is slow, manual, and prone to errors. Pipeline Blind Spots: Agents often lack a simple, visual pipeline to track which stage each lead is in, leading to missed opportunities and poor time management. The problem is a lack of automation for high-impact, low-skill tasks, severely limiting an agent's ability to scale their client base.",
     solution: "The Real Estate Agent Workflow Hub automates the time-consuming tasks and centralizes sales data: Listing Input: Agent uploads property photos and basic details into the Hub. Instant Assets: The Hub instantly generates a branded Property Brochure PDF and a customizable Project Comparison PDF (for buyers weighing options). Automated Nurturing: Leads are tagged (e.g., 'Open House Lead') and instantly enrolled in a predefined WhatsApp Follow-up sequence. Workflow & Tools: Agents manage leads via a visual Lead Pipeline and use the integrated Loan EMI Calculator on the fly during client meetings. Result → Agents save hours daily, maintain constant contact with leads, and deliver high-quality, professional assets instantly, all from one affordable platform.",
@@ -2862,7 +2862,7 @@ export const mockProducts: DetailedProduct[] = [
       "/assets/projects/AI-Legal-Generator-4.jpg"
     ],
     rating: 4.9,
-    price: 79508,
+    price: 650000,
     overview: "AI Legal Generator provides fast, affordable, locally compliant contracts (NDA, MSA, MoU, Employment) for SMBs in markets like India and the Middle East. A guided questionnaire feeds a local-law-aware AI engine, then routes the document through built-in e-sign and secure PDF export for a paperless, compliant workflow.",
     problem: "SMBs avoid legal protection due to high lawyer fees and fear of non-compliant templates. Drafting from scratch is slow and inconsistent, and manual print/sign/scan workflows add friction and risk.",
     solution: "Guided Q&A selects document type and key terms, AI drafts a locally compliant contract, built-in e-sign collects signatures legally, and a tamper-proof PDF with audit trail is stored in a searchable library—reducing cost and time from days to minutes.",
@@ -2986,7 +2986,7 @@ export const mockProducts: DetailedProduct[] = [
       "/assets/projects/Apartment-Society-SaaS-4.jpg"
     ],
     rating: 4.9,
-    price: 77703,
+    price: 600000,
     overview: "Apartment Society Complaint + Billing SaaS is a central hub for residents to raise and track issues while management automates staff assignments, monthly bill generation, collections, and urgent communications—eliminating paper chaos with WhatsApp-first alerts.",
     problem: "Complaints get lost across calls, chats, and paper; billing is manual and late; staff lack clear assignments; managers struggle to deliver notices and bills with confirmation and reminders.",
     solution: "Digitize complaints with SLA-driven tasking, auto-generate itemized monthly bills, deliver them via WhatsApp with payment links, and send automated reminders for due/late payments while keeping residents and staff in sync.",
@@ -3112,7 +3112,7 @@ export const mockProducts: DetailedProduct[] = [
       "/assets/projects/AI-Hiring-Assistant-4.jpg"
     ],
     rating: 4.9,
-    price: 76848,
+    price: 580000,
     overview: "AI Hiring Assistant streamlines top-of-funnel hiring for SMEs by parsing resumes, ranking them against the JD, creating standardized summaries, and handling interview scheduling through WhatsApp and calendar integrations.",
     problem: "SMEs drown in irrelevant resumes, lack consistent scoring, and burn time on back-and-forth scheduling—slowing hiring and losing top candidates to faster competitors.",
     solution: "Upload the JD and resumes (or connect inbox/ATS); AI scores and shortlists the top N; generates concise summaries; then pings candidates via WhatsApp to collect availability and books slots on the manager’s calendar.",
@@ -3236,7 +3236,7 @@ export const mockProducts: DetailedProduct[] = [
       "/assets/projects/Clinic-Flow-Manager-4.jpg"
     ],
     rating: 4.9,
-    price: 78882,
+    price: 700000,
     overview: "Clinic Flow Manager centralizes appointments, prescriptions, and follow-ups for small clinics. Patients book via link or WhatsApp chatbot, receive automated reminders, and get secure digital prescriptions; doctors generate EMR-ready scripts in seconds and automate dosage reminders.",
     problem: "Manual calls cause double-bookings and no-shows; paper prescriptions are slow and non-searchable; patients forget meds and follow-ups; clinics lack compliant, secure digital workflows.",
     solution: "Smart scheduling with WhatsApp reminders, a digital prescription generator with templates and EMR storage, secure delivery via WhatsApp, and automated medicine/follow-up reminders to boost adherence and reduce no-shows.",
