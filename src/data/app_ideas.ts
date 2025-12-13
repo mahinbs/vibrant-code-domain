@@ -2606,9 +2606,9 @@ export const mockProducts: DetailedProduct[] = [
     image: "/assets/projects/AI-WhatsApp-CRM-1.png",
     images: [
       "/assets/projects/AI-WhatsApp-CRM-1.png",
-      "/assets/projects/AI-WhatsApp-CRM-2.png",
-      "/assets/projects/AI-WhatsApp-CRM-3.png",
-      "/assets/projects/AI-WhatsApp-CRM-4.png"
+      "/assets/projects/AI-WhatsApp-CRM-2.jpg",
+      "/assets/projects/AI-WhatsApp-CRM-3.jpg",
+      "/assets/projects/AI-WhatsApp-CRM-4.jpg"
     ],
     rating: 4.9,
     price: 84779,
@@ -2731,9 +2731,9 @@ export const mockProducts: DetailedProduct[] = [
     image: "/assets/projects/InboxEngine-1.png",
     images: [
       "/assets/projects/InboxEngine-1.png",
-      "/assets/projects/InboxEngine-2.png",
-      "/assets/projects/InboxEngine-3.png",
-      "/assets/projects/InboxEngine-4.png"
+      "/assets/projects/InboxEngine-2.jpg",
+      "/assets/projects/InboxEngine-3.jpg",
+      "/assets/projects/InboxEngine-4.jpg"
     ],
     rating: 4.9,
     price: 80503,
@@ -2857,9 +2857,9 @@ export const mockProducts: DetailedProduct[] = [
     image: "/assets/projects/AI-Legal-Generator-1.png",
     images: [
       "/assets/projects/AI-Legal-Generator-1.png",
-      "/assets/projects/AI-Legal-Generator-2.png",
-      "/assets/projects/AI-Legal-Generator-3.png",
-      "/assets/projects/AI-Legal-Generator-4.png"
+      "/assets/projects/AI-Legal-Generator-2.jpg",
+      "/assets/projects/AI-Legal-Generator-3.jpg",
+      "/assets/projects/AI-Legal-Generator-4.jpg"
     ],
     rating: 4.9,
     price: 79508,
@@ -2981,9 +2981,9 @@ export const mockProducts: DetailedProduct[] = [
     image: "/assets/projects/Apartment-Society-SaaS-1.png",
     images: [
       "/assets/projects/Apartment-Society-SaaS-1.png",
-      "/assets/projects/Apartment-Society-SaaS-2.png",
-      "/assets/projects/Apartment-Society-SaaS-3.png",
-      "/assets/projects/Apartment-Society-SaaS-4.png"
+      "/assets/projects/Apartment-Society-SaaS-2.jpg",
+      "/assets/projects/Apartment-Society-SaaS-3.jpg",
+      "/assets/projects/Apartment-Society-SaaS-4.jpg"
     ],
     rating: 4.9,
     price: 77703,
@@ -3107,9 +3107,9 @@ export const mockProducts: DetailedProduct[] = [
     image: "/assets/projects/AI-Hiring-Assistant-1.png",
     images: [
       "/assets/projects/AI-Hiring-Assistant-1.png",
-      "/assets/projects/AI-Hiring-Assistant-2.png",
-      "/assets/projects/AI-Hiring-Assistant-3.png",
-      "/assets/projects/AI-Hiring-Assistant-4.png"
+      "/assets/projects/AI-Hiring-Assistant-2.jpg",
+      "/assets/projects/AI-Hiring-Assistant-3.jpg",
+      "/assets/projects/AI-Hiring-Assistant-4.jpg"
     ],
     rating: 4.9,
     price: 76848,
@@ -3231,9 +3231,9 @@ export const mockProducts: DetailedProduct[] = [
     image: "/assets/projects/Clinic-Flow-Manager-1.png",
     images: [
       "/assets/projects/Clinic-Flow-Manager-1.png",
-      "/assets/projects/Clinic-Flow-Manager-2.png",
-      "/assets/projects/Clinic-Flow-Manager-3.png",
-      "/assets/projects/Clinic-Flow-Manager-4.png"
+      "/assets/projects/Clinic-Flow-Manager-2.jpg",
+      "/assets/projects/Clinic-Flow-Manager-3.jpg",
+      "/assets/projects/Clinic-Flow-Manager-4.jpg"
     ],
     rating: 4.9,
     price: 78882,
@@ -3355,9 +3355,9 @@ export const mockProducts: DetailedProduct[] = [
     image: "/assets/projects/Airbnb-CoHost-1.png",
     images: [
       "/assets/projects/Airbnb-CoHost-1.png",
-      "/assets/projects/Airbnb-CoHost-2.png",
-      "/assets/projects/Airbnb-CoHost-3.png",
-      "/assets/projects/Airbnb-CoHost-4.png"
+      "/assets/projects/Airbnb-CoHost-2.jpg",
+      "/assets/projects/Airbnb-CoHost-3.jpg",
+      "/assets/projects/Airbnb-CoHost-4.jpg"
     ],
     rating: 4.9,
     price: 82205,
@@ -3488,9 +3488,9 @@ export const mockProducts: DetailedProduct[] = [
     image: "/assets/projects/AI-Influencer-Finder-1.png",
     images: [
       "/assets/projects/AI-Influencer-Finder-1.png",
-      "/assets/projects/AI-Influencer-Finder-2.png",
-      "/assets/projects/AI-Influencer-Finder-3.png",
-      "/assets/projects/AI-Influencer-Finder-4.png"
+      "/assets/projects/AI-Influencer-Finder-2.jpg",
+      "/assets/projects/AI-Influencer-Finder-3.jpg",
+      "/assets/projects/AI-Influencer-Finder-4.jpg"
     ],
     rating: 4.9,
     price: 80269,
@@ -3623,9 +3623,9 @@ export const mockProducts: DetailedProduct[] = [
     image: "/assets/projects/AI-Script-Generator-1.png",
     images: [
       "/assets/projects/AI-Script-Generator-1.png",
-      "/assets/projects/AI-Script-Generator-2.png",
-      "/assets/projects/AI-Script-Generator-3.png",
-      "/assets/projects/AI-Script-Generator-4.png"
+      "/assets/projects/AI-Script-Generator-2.jpg",
+      "/assets/projects/AI-Script-Generator-3.jpg",
+      "/assets/projects/AI-Script-Generator-4.jpg"
     ],
     rating: 4.9,
     price: 79089,
@@ -3758,9 +3758,9 @@ export const mockProducts: DetailedProduct[] = [
     image: "/assets/projects/PaySure-1.png",
     images: [
       "/assets/projects/PaySure-1.png",
-      "/assets/projects/PaySure-2.png",
-      "/assets/projects/PaySure-3.png",
-      "/assets/projects/PaySure-4.png"
+      "/assets/projects/PaySure-2.jpg",
+      "/assets/projects/PaySure-3.jpg",
+      "/assets/projects/PaySure-4.jpg"
     ],
     rating: 4.9,
     price: 77651,
