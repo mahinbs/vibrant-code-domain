@@ -3890,7 +3890,7 @@ export const mockProducts: DetailedProduct[] = [
     description: "A specialized reputation management tool that auto-fetches customer details from your CRM, sends personalized high-conversion WhatsApp messages, collects authentic reviews, and instantly pushes 4+ star ratings to Google Maps while filtering negative feedback.",
     author: "Boostmysites",
     image: "/assets/projects/AI WhatsApp Review Collector-1.png",
-    images: ["/assets/projects/AI WhatsApp Review Collector-1.png"],
+    images: ["/assets/projects/AI WhatsApp Review Collector-1.png", "/assets/projects/AI WhatsApp Review Collector-2.jpg", "/assets/projects/AI WhatsApp Review Collector-3.jpg", "/assets/projects/AI WhatsApp Review Collector-4.jpg"],
     rating: 4.8,
     price: 81250,
     overview: "This tool is a lifeline for local businesses like restaurants, salons, and dental clinics that rely on Google Reviews for foot traffic but struggle to collect them manually. By leveraging WhatsApp—the most opened messaging app—it automates the entire feedback loop, ensuring a steady stream of positive reviews that boost local SEO rankings.",
@@ -4005,7 +4005,7 @@ export const mockProducts: DetailedProduct[] = [
     description: "A sophisticated warm-up tool that mimics human behavior on LinkedIn to gradually increase account activity limits, ensuring your outreach campaigns never get flagged as spam.",
     author: "Boostmysites",
     image: "/assets/projects/AI LinkedIn DM Warmer-1.png",
-    images: ["/assets/projects/AI LinkedIn DM Warmer-1.png"],
+    images: ["/assets/projects/AI LinkedIn DM Warmer-1.png", "/assets/projects/AI LinkedIn DM Warmer-2.jpg", "/assets/projects/AI LinkedIn DM Warmer-3.jpg", "/assets/projects/AI LinkedIn DM Warmer-4.jpg"],
     rating: 4.7,
     price: 78500,
     overview: "Designed for B2B founders, recruiters, and sales agencies, this tool handles the delicate process of 'warming up' a LinkedIn account. It performs seemingly random human actions—scrolling, liking, wishing happy birthday, endorsing skills—to build a trust score with LinkedIn's algorithm, allowing for higher daily connection request limits.",
@@ -4118,7 +4118,7 @@ export const mockProducts: DetailedProduct[] = [
     description: "A streamlined app where users select a project type and inputs basic client details, and the AI generates a branded, comprehensive proposal with pricing, timeline, and scope, then auto-sends it to the client for signature.",
     author: "Boostmysites",
     image: "/assets/projects/AI Auto-Proposal Generator-1.png",
-    images: ["/assets/projects/AI Auto-Proposal Generator-1.png"],
+    images: ["/assets/projects/AI Auto-Proposal Generator-1.png", "/assets/projects/AI Auto-Proposal Generator-2.jpg", "/assets/projects/AI Auto-Proposal Generator-3.jpg", "/assets/projects/AI Auto-Proposal Generator-4.jpg"],
     rating: 4.9,
     price: 82000,
     overview: "For agencies and freelancers, speed is often the deciding factor in winning a deal. This tool removes the friction of proposal writing. By answering 5 simple questions about the client's needs, the AI stitches together a professional, persuasive proposal from high-converting templates, customizes the pricing section, and prepares it for e-signature.",
@@ -4230,7 +4230,7 @@ export const mockProducts: DetailedProduct[] = [
     description: "An intelligent 24/7 AI sales assistant that engages incoming leads from WhatsApp, Instagram, and Facebook ads. It chats with them to qualify budget, location, and intent, filtering out tire-kickers and scheduling appointments only with serious buyers.",
     author: "Boostmysites",
     image: "/assets/projects/AI Lead Qualifier-1.png",
-    images: ["/assets/projects/AI Lead Qualifier-1.png"],
+    images: ["/assets/projects/AI Lead Qualifier-1.png", "/assets/projects/AI Lead Qualifier-2.jpg", "/assets/projects/AI Lead Qualifier-3.jpg", "/assets/projects/AI Lead Qualifier-4.jpg"],
     rating: 4.8,
     price: 84500,
     overview: "Real estate agents are overwhelmed by low-quality leads from digital ads. This tool acts as a powerful barrier and filter. It engages leads immediately (speed to lead), asks the hard questions (budget, timeframe, pre-approval status), and serves the agent only the 'Golden Leads' that are ready to transact.",
@@ -4342,7 +4342,7 @@ export const mockProducts: DetailedProduct[] = [
     description: "A voice-enabled AI recruiter that calls applicants, conducts a 10-minute standardized pre-screening interview, records responses, transcribes them, and ranks candidates based on their answers, delivering a shortlist of top talent to the human HR team.",
     author: "Boostmysites",
     image: "/assets/projects/AI HR Pre-Screening Bot-1.png",
-    images: ["/assets/projects/AI HR Pre-Screening Bot-1.png"],
+    images: ["/assets/projects/AI HR Pre-Screening Bot-1.png", "/assets/projects/AI HR Pre-Screening Bot-2.jpg", "/assets/projects/AI HR Pre-Screening Bot-3.jpg", "/assets/projects/AI HR Pre-Screening Bot-4.jpg"],
     rating: 4.7,
     price: 79900,
     overview: "Hiring efficiently is a major challenge for SMEs. This tool effectively replaces the 'Phone Screen' stage of recruitment. Instead of an HR manager spending 30 minutes on the phone asking the same questions 50 times, the AI does it simultaneously for all candidates, unbiased and consistent.",
@@ -4454,7 +4454,7 @@ export const mockProducts: DetailedProduct[] = [
     description: "An AI plugged into Shopify that predicts exactly what stock an e-commerce store needs to order and when. It analyzes past sales trends, seasonality, and delivery lead times to provide actionable purchasing plans, preventing stock-outs and reducing dead inventory.",
     author: "Boostmysites",
     image: "/assets/projects/Shopify Inventory Prediction AI-1.png",
-    images: ["/assets/projects/Shopify Inventory Prediction AI-1.png"],
+    images: ["/assets/projects/Shopify Inventory Prediction AI-1.png", "/assets/projects/Shopify Inventory Prediction AI-2.jpg", "/assets/projects/Shopify Inventory Prediction AI-3.jpg", "/assets/projects/Shopify Inventory Prediction AI-4.jpg"],
     rating: 4.8,
     price: 81000,
     overview: "Inventory is the biggest cash-killer for e-commerce. Store owners either buy too much (cash tied up in dead stock) or too little (lost revenue from running out). This tool solves the 'how much should I buy?' dilemma with mathematical precision.",
@@ -4567,7 +4567,7 @@ export const mockProducts: DetailedProduct[] = [
     description: "An AI paralegal for freelancers and SMEs that scans contracts (NDAs, Service Agreements) in seconds. It highlights risky clauses (like 'unlimited liability' or ' IP ownership transfer') and suggests safer, fairer wording.",
     author: "Boostmysites",
     image: "/assets/projects/AI Contract & Legal Document Checker-1.png",
-    images: ["/assets/projects/AI Contract & Legal Document Checker-1.png"],
+    images: ["/assets/projects/AI Contract & Legal Document Checker-1.png", "/assets/projects/AI Contract & Legal Document Checker-2.jpg", "/assets/projects/AI Contract & Legal Document Checker-3.jpg", "/assets/projects/AI Contract & Legal Document Checker-4.jpg"],
     rating: 4.7,
     price: 80500,
     overview: "Small businesses often sign contracts they don't understand because lawyers are too expensive (₹300+/hr). This leads to terrible outcomes like not getting paid or losing ownership of work. This tool brings legal safety to the 99%.",
@@ -4681,7 +4681,7 @@ export const mockProducts: DetailedProduct[] = [
     description: "An automated system for service businesses (dentists, salons, physios) that detects last-minute cancellations and instantly blasts a discount offer to a 'Waitlist' of flexible customers via SMS/WhatsApp to fill the slot.",
     author: "Boostmysites",
     image: "/assets/projects/AI Appointment Filler-1.png",
-    images: ["/assets/projects/AI Appointment Filler-1.png"],
+    images: ["/assets/projects/AI Appointment Filler-1.png", "/assets/projects/AI Appointment Filler-2.jpg", "/assets/projects/AI Appointment Filler-3.jpg", "/assets/projects/AI Appointment Filler-4.jpg"],
     rating: 4.8,
     price: 79200,
     overview: "Empty slots due to last-minute cancellations destroy profit margins for service businesses. Staff is paid to stand around. This tool proactively manages a dynamic waitlist and fills those gaps autonomously.",
@@ -4793,7 +4793,7 @@ export const mockProducts: DetailedProduct[] = [
     description: "An analytics tool for SaaS and subscription boxes (e.g., meal kits) that analyzes user activity patterns to predict who is about to cancel. It then triggers automated retention campaigns (discounts, check-in emails) to save them.",
     author: "Boostmysites",
     image: "/assets/projects/AI Subscription Churn Predictor-1.png",
-    images: ["/assets/projects/AI Subscription Churn Predictor-1.png"],
+    images: ["/assets/projects/AI Subscription Churn Predictor-1.png", "/assets/projects/AI Subscription Churn Predictor-2.png", "/assets/projects/AI Subscription Churn Predictor-3.png", "/assets/projects/AI Subscription Churn Predictor-4.png"],
     rating: 4.9,
     price: 83000,
     overview: "Churn is the silent killer of subscription businesses. Often, businesses don't know a customer is unhappy until they see the cancellation notice. This tool shifts retention from reactive to proactive.",
@@ -4905,7 +4905,7 @@ export const mockProducts: DetailedProduct[] = [
     description: "A marketing tool that discovers micro-influencers who matches your brand aesthetic and values. It scrapes TikTok/Instagram/YouTube, analyzes engagement authenticity (spotting fake followers), constructs personalized pitch emails, and manages the collaboration workflow.",
     author: "Boostmysites",
     image: "/assets/projects/AI Influencer Outreach Engine-1.png",
-    images: ["/assets/projects/AI Influencer Outreach Engine-1.png"],
+    images: ["/assets/projects/AI Influencer Outreach Engine-1.png", "/assets/projects/AI Influencer Outreach Engine-2.jpg", "/assets/projects/AI Influencer Outreach Engine-3.jpg", "/assets/projects/AI Influencer Outreach Engine-4.jpg"],
     rating: 4.7,
     price: 81500,
     overview: "Influencer marketing is effective but manual. Brands spend weeks scrolling Instagram to find partners. This engine automates the discovery and outreach, allowing a single marketer to run a campaign that would normally require an agency.",
@@ -5012,285 +5012,67 @@ export const mockProducts: DetailedProduct[] = [
   },
   {
     id: 39,
-    title: "AI Podcast Editor (Text to Audio Edit)",
-    categories: ["Micro SaaS", "Productivity"],
-    tagline: "Edit audio by deleting text.",
-    description: "A tool that transcribes your podcast recording into a document. When you delete a sentence in the text editor, the AI automatically cuts that audio segment from the file, smoothing out the transition.",
-    author: "Boostmysites",
-    image: "/assets/projects/AI Podcast Editor-1.png",
-    images: ["/assets/projects/AI Podcast Editor-1.png"],
-    rating: 4.8,
-    price: 81800,
-    overview: "Podcasting is booming, but editing is a technical nightmare. Creators spend hours removing 'ums', 'ahs', and awkward pauses. This tool makes audio editing as simple as editing a Google Doc.",
-    problem: "To edit a podcast, you need to learn complex software like Adobe Audition or Audacity. It's time-consuming (1 hour of audio = 4 hours of editing) and requires listening to the whole track multiple times.",
-    solution: "Upload MP3 -> AI transcribes it -> You see the text: 'So, um, I think that... actually, let me restart.' -> You highlight and delete 'So, um, I think that...' -> The exported audio file sounds perfect.",
-    coreFeatures: [
-      "Text-Based Editing: The core 'Descript-like' feature where text edits reflect in audio",
-      "Filler Word Removal: One-click button to remove all 'ums', 'uhs', and 'likes' instantly",
-      "Studio Sound: AI filter that removes background noise and echo, making a bedroom recording sound like a studio",
-      "Speaker Detection: Automatically labels who is speaking (Host vs Guest)"
-    ],
-    marketOpportunity: [
-      "Creator Economy: 4M+ podcasts globally; most are hobbyists who hate editing",
-      "Corporate: Internal comms and webinars need quick cleanup",
-      "Accessibility: Auto-generated show notes and captions"
-    ],
-    monetizationModel: {
-      plans: [
-        "Creator (₹15/month) - 3 hours of transcription/month",
-        "Pro (₹30/month) - 10 hours/month, Studio Sound, 4k video export",
-        "Team (₹99/month) - Shared workspace, comment history"
-      ],
-      pricing: [
-        "Creator: ₹15/month",
-        "Pro: ₹30/month"
-      ],
-      revenue: [
-        "Target: 10k users",
-        "Upsell: Human review service for perfect transcripts"
-      ]
-    },
-    roiProjection: {
-      timeline: [
-        "Day 1: Edit your first episode in 20 mins instead of 2 hours",
-        "Month 1: Increase content output (weekly -> daily)",
-        "Month 3: Better audio quality leads to higher listener retention"
-      ],
-      projections: [
-        "Time Saved: 80% reduction in editing time",
-        "Cost: Cheaper than hiring an editor (₹100/episode)"
-      ],
-      userROI: [
-        "Get time back to focus on Content, not Codecs",
-        "Professional sound quality without expensive gear"
-      ]
-    },
-    fundingOpportunities: {
-      stages: [
-        "Seed: Refine the 'cross-fading' audio engine for smooth cuts",
-        "Series A: Video support (edit video by text)"
-      ],
-      amounts: [
-        "Seed: ₹2M",
-        "Series A: ₹10M"
-      ],
-      valuations: [
-        "Seed: ₹10M",
-        "Series A: ₹50M"
-      ]
-    },
-    techStack: {
-      frontend: ["Eletron/React", "Desktop app experience on web"],
-      backend: ["Python (FFmpeg)", "Audio processing"],
-      ai: ["Whisper (transcription)", "PyTorch (Audio inpainting)"],
-      database: ["PostgreSQL", "User projects"],
-      hosting: ["AWS S3", "Large file storage"],
-      integrations: ["Spotify for Podcasters", "Buzzsprout"]
-    },
-    competitiveAdvantage: {
-      features: [
-        "Browser-based (no heavy software install)",
-        "Cheaper price point than Descript"
-      ],
-      comparisons: [
-        "Audacity is hard to learn",
-        "Descript is becoming expensive/enterprise focused"
-      ],
-      uniqueSelling: [
-        "Simplicity first. No multi-track complexity."
-      ]
-    },
-    developmentBudget: {
-      mvp: [
-        "Transcription + Cut logic",
-        "Cost: ₹25k"
-      ],
-      standard: [
-        "Speaker diarization + Studio Sound",
-        "Cost: ₹50k"
-      ],
-      premium: [
-        "Video editing capabilities",
-        "Cost: ₹100k"
-      ]
-    },
-    vision: "If you can type, you can produce a podcast.",
-    features: [
-      "Text-Based Editing",
-      "Filler Word Removal",
-      "Studio Sound",
-      "Speaker Detection"
-    ]
-  },
-  {
-    id: 40,
-    title: "AI Email List Cleaner (Dead Lead Remover)",
-    categories: ["Micro SaaS", "Productivity"],
-    tagline: "Improve email deliverability instantly.",
-    description: "A utility tool that scans email marketing lists (CSV or Mailchimp/Klaviyo integration) to identify and remove invalid, spam-trap, or temporary email addresses, ensuring your domain reputation stays high.",
-    author: "Boostmysites",
-    image: "/assets/projects/AI Email List Cleaner-1.png",
-    images: ["/assets/projects/AI Email List Cleaner-1.png"],
-    rating: 4.8,
-    price: 77500,
-    overview: "Email marketing relies on reputation. If you send emails to dead addresses, Gmail/Outlook marks you as spam. This tool cleans your list before you hit 'Send', protecting your business.",
-    problem: "Lists decay by 22% every year. People change jobs, domains expire. Sending to these bounces hurts your deliverability for everyone else.",
-    solution: "Connect Klaviyo -> AI Pings each email (SMTP check without sending mail) -> Identifies 'Hard Bounces', 'Spam Traps', and 'Catch-all' servers -> Removes them automatically.",
-    coreFeatures: [
-      "Real-time Verification: Checks syntax, DNS records, and mailbox existence",
-      "Spam Trap Detection: Identifies addresses known to be used by blacklists to catch spammers",
-      "Disposable Email Filter: Removes 'temp-mail' addresses that will never convert",
-      "Suggest Fix: Fixes typos (e.g., 'gmal.com' -> 'gmail.com')"
-    ],
-    marketOpportunity: [
-      "Universal Need: Every business with a newsletter needs this",
-      "Compliance: Google/Yahoo's 2024 spam rules make this mandatory",
-      "High Volume: B2B lead gen agencies need to clean millions of rows"
-    ],
-    monetizationModel: {
-      plans: [
-        "Pay-as-you-go (₹0.003/email) - For occasional scrubbing",
-        "Monthly (₹49/month) - 10,000 credits/month, automatic daily sync",
-        "Enterprise (₹499/month) - 1M credits, API access"
-      ],
-      pricing: [
-        "Pay-as-you-go: ₹0.003/email",
-        "Monthly: ₹49/month"
-      ],
-      revenue: [
-        "Target: ₹20k MRR",
-        "Upsell: selling 'verified' B2B leads"
-      ]
-    },
-    roiProjection: {
-      timeline: [
-        "Day 1: Clean list, bounce rate drops from 8% to <1%",
-        "Week 2: Open rates increase because you aren't in the spam folder",
-        "Month 1: Domain reputation recovers from 'Poor' to 'High'"
-      ],
-      projections: [
-        "Cost of bad data: If you get blacklisted, revenue drops to ₹0",
-        "Tool Cost: Negligible compared to risk"
-      ],
-      userROI: [
-        "Protect the primary revenue channel (Email)",
-        "Lower email service provider bills (don't pay for dead subs)"
-      ]
-    },
-    fundingOpportunities: {
-      stages: [
-        "Bootstrapped: It's a utility tool",
-        "Angel: If moving into 'Data Enrichment' (adding names/titles to emails)"
-      ],
-      amounts: [
-        "Angel: ₹100k"
-      ],
-      valuations: [
-        "N/A"
-      ]
-    },
-    techStack: {
-      frontend: ["Vue.js", "Drag-and-drop CSV upload"],
-      backend: ["Go (Golang)", "High-speed concurrent networking"],
-      ai: ["Pattern Recognition", "Detecting bot-generated emails"],
-      database: ["Redis", "Caching DNS lookups"],
-      hosting: ["DigitalOcean", "Multiple IPs for rotating checks"],
-      integrations: ["Mailchimp", "Klaviyo", "HubSpot"]
-    },
-    competitiveAdvantage: {
-      features: [
-        "Direct integration (Click 'Clean' inside Mailchimp)",
-        "Cheaper bulk rates than ZeroBounce/NeverBounce"
-      ],
-      comparisons: [
-        "Faster processing speed",
-        "Better UI for non-technical marketers"
-      ],
-      uniqueSelling: [
-        "Focus on 'Safety' and 'Deliverability Education' for the user"
-      ]
-    },
-    developmentBudget: {
-      mvp: [
-        "SMTP verification engine",
-        "Cost: ₹8k"
-      ],
-      standard: [
-        "Integrations with ESPs",
-        "Cost: ₹15k"
-      ],
-      premium: [
-        "API for real-time validation on signup forms",
-        "Cost: ₹25k"
-      ]
-    },
-    vision: "Ensure every marketing email reaches the inbox.",
-    features: [
-      "Real-time Verification",
-      "Spam Trap Detection",
-      "Disposable Email Filter",
-      "Suggest Fix"
-    ]
-  },
-  {
-    id: 41,
-    title: "AI SEO Content Updater",
+    title: "Restaurant Menu Intelligence",
     categories: ["Micro SaaS", "Business"],
-    tagline: "Keep your rankings, automatically.",
-    description: "An AI agent that monitors your top-performing blog posts. When their rankings drop or the information becomes outdated (e.g., 'Top Tools of 2023'), it rewrites sections, updates statistics, adds new keywords, and refreshes the 'Last Updated' date.",
+    tagline: "Optimize your menu for maximum profit.",
+    description: "Upload menu → AI analyzes pricing gaps, suggests price optimization, calculates food cost, recommends best-seller strategy.",
     author: "Boostmysites",
-    image: "/assets/projects/AI SEO Content Updater-1.png",
-    images: ["/assets/projects/AI SEO Content Updater-1.png"],
-    rating: 4.7,
-    price: 84000,
-    overview: "Google loves fresh content. Search rankings decay over time as competitors publish newer articles. This tool automates the process of 'Content Maintenance', which is boring but critical for SEO survival.",
-    problem: "You write a great post, it ranks #1. Six months later, it slides to #5 because the data is old. Updating hundreds of posts manually is full-time work.",
-    solution: "Connect Google Search Console -> AI detects traffic drop on 'Best CRM 2023' -> AI researches 'Best CRM 2024' -> AI updates the intro, stats, and year in the title -> Pushes update to WordPress.",
+    image: "/assets/projects/Restaurant Menu Intelligence-1.png",
+    images: ["/assets/projects/Restaurant Menu Intelligence-1.png", "/assets/projects/Restaurant Menu Intelligence-2.jpg", "/assets/projects/Restaurant Menu Intelligence-3.jpg", "/assets/projects/Restaurant Menu Intelligence-4.jpg"],
+    rating: 4.8,
+    price: 79000,
+    overview: "Restaurant profitability is often hidden in menu engineering. This tool analyzes your menu scientifically to identify underpriced items, overpriced losers, and strategic opportunities to boost margins without losing customers.",
+    problem: "Restaurant owners price items based on gut feel or competitor copying. They don't realize that their 'popular' burger is actually losing money, while an underpriced pasta could be a goldmine.",
+    solution: "Upload your menu PDF or connect your POS system. AI calculates food cost percentages, identifies pricing anomalies, suggests optimal price points based on psychology and competition, and recommends which items to promote or remove.",
     coreFeatures: [
-      "Rank Watch: Alerts when a specific keyword drops position",
-      "Fact Checker: AI browses the web to find the latest stats to replace old ones",
-      "Content Refresh: Rewrites stale paragraphs to improve 'Freshness' score",
-      "Internal Linker: Adds links to your newer articles automatically"
+      "Menu Analysis: Scans menu to identify all items, prices, and categories",
+      "Food Cost Calculator: Helps calculate ingredient costs and suggests target margins",
+      "Pricing Optimization: Recommends price adjustments based on market data and psychology",
+      "Best-Seller Strategy: Identifies which items to promote for maximum profitability",
+      "Competitor Benchmarking: Compares your prices against local competitors",
+      "Menu Engineering Matrix: Categorizes items as Stars, Plowhorses, Puzzles, or Dogs"
     ],
     marketOpportunity: [
-      "Content Marketing: Major investment for most B2B companies",
-      "Publishers: Affiliate sites (NerdWallet style) die if content isn't fresh",
-      "Efficiency: Replaces the need for a 'Junior Editor'"
+      "Massive Market: Millions of restaurants globally struggling with thin margins",
+      "High ROI: A 5% price increase on the right items can double profit",
+      "Recurring Need: Menus need constant optimization as costs change"
     ],
     monetizationModel: {
       plans: [
-        "Blogger (₹29/month) - Monitor 20 posts",
-        "Agency (₹149/month) - Monitor 500 posts, auto-publish enabled",
-        "Enterprise (₹499/month) - Custom crawl frequency"
+        "Single Restaurant (₹29/month): 1 location, monthly analysis",
+        "Multi-Location (₹149/month): Up to 10 locations, weekly analysis, POS integration",
+        "Enterprise (₹299/month): Unlimited locations, API access, custom reporting"
       ],
       pricing: [
-        "Blogger: ₹29/month",
-        "Agency: ₹149/month"
+        "Single: ₹29/month",
+        "Multi: ₹149/month",
+        "Enterprise: ₹299/month"
       ],
       revenue: [
-        "Target: ₹15k MRR",
-        "High retention because stopping means losing rankings"
+        "Target: ₹50k MRR in Year 1",
+        "Low churn due to continuous value delivery"
       ]
     },
     roiProjection: {
       timeline: [
-        "Day 1: Audit site for 'decaying' content",
-        "Month 1: Refresh 10 old posts -> Traffic recovers by 20%",
-        "Month 3: Consistent traffic growth without writing new articles"
+        "Day 1: Upload menu and get instant analysis",
+        "Week 1: Implement price changes and see immediate margin improvement",
+        "Month 1: 10-15% increase in overall profitability"
       ],
       projections: [
-        "Traffic Value: Saving 1000 organic visits/month = ₹2000 in PPC value",
-        "Cost: ₹29/mo"
+        "Year 1: ₹50k MRR",
+        "Year 2: ₹200k MRR",
+        "Year 3: ₹500k MRR"
       ],
       userROI: [
-        "Maintain dominant market position",
-        "Extend the lifespan of content assets from 1 year to 5 years"
+        "Average restaurant increases profit by 10-20%",
+        "Tool pays for itself with first price optimization"
       ]
     },
     fundingOpportunities: {
       stages: [
-        "Seed: Build WordPress/Shopify plugins",
-        "Series A: Scale to enterprise CMS (Adobe AEM)"
+        "Seed: Build POS integrations and expand market reach",
+        "Series A: Scale to enterprise restaurant chains"
       ],
       amounts: [
         "Seed: ₹500k",
@@ -5302,270 +5084,527 @@ export const mockProducts: DetailedProduct[] = [
       ]
     },
     techStack: {
-      frontend: ["React", "Dashboard showing 'Health' of content"],
-      backend: ["Node.js", "CMS API management"],
-      ai: ["GPT-4 (Writing)", "Perplexity/Browsing (Research)"],
-      database: ["PostgreSQL", "Rank history"],
-      hosting: ["Vercel", "Serverless"],
-      integrations: ["Google Search Console", "WordPress", "Webflow"]
+      frontend: ["React", "Interactive menu visualization"],
+      backend: ["Python", "Data analysis and optimization algorithms"],
+      ai: ["GPT-4", "Menu analysis and recommendations"],
+      database: ["PostgreSQL", "Menu and pricing data"],
+      hosting: ["AWS", "Scalable infrastructure"],
+      integrations: ["Square POS", "Toast POS", "Clover"]
     },
     competitiveAdvantage: {
       features: [
-        "Auto-update (actually changing the CMS)",
-        "Focus on 'Maintenance' not 'Creation' (less crowded market)"
+        "AI-powered pricing psychology",
+        "Real-time competitor monitoring",
+        "Actionable recommendations, not just data"
       ],
       comparisons: [
-        "SurferSEO tells you what to do; this tool DOES it",
-        "Cheaper than hiring a VA"
+        "vs Manual: 100x faster analysis",
+        "vs Consultants: 1/10th the cost with ongoing support"
       ],
       uniqueSelling: [
-        "Set it and forget it SEO defense."
+        "Only tool that combines menu engineering with AI pricing optimization"
       ]
     },
     developmentBudget: {
       mvp: [
-        "GSC integration + Content suggestion engine",
-        "Cost: ₹10k"
+        "Menu upload + basic analysis",
+        "Cost: ₹15k"
       ],
       standard: [
-        "WordPress Write Access + Fact Checking",
-        "Cost: ₹25k"
+        "POS integration + competitor benchmarking",
+        "Cost: ₹35k"
       ],
       premium: [
-        "Smart Internal Linking graphs",
-        "Cost: ₹40k"
+        "Advanced AI recommendations + multi-location support",
+        "Cost: ₹60k"
       ]
     },
-    vision: "End the concept of 'Outdated Content'.",
+    vision: "Help every restaurant maximize profitability through data-driven menu optimization.",
     features: [
-      "Rank Watch",
-      "Fact Checker",
-      "Content Refresh",
-      "Internal Linker"
+      "Menu Analysis",
+      "Food Cost Calculator",
+      "Pricing Optimization",
+      "Best-Seller Strategy",
+      "Competitor Benchmarking",
+      "Menu Engineering Matrix"
+    ]
+  },
+  {
+    id: 40,
+    title: "AI Course Builder for Coaches",
+    categories: ["Micro SaaS", "Productivity"],
+    tagline: "Turn your expertise into a course in minutes.",
+    description: "Coaches enter topic → AI generates modules, lessons, slides, quizzes → exports to PDF/video script.",
+    author: "Boostmysites",
+    image: "/assets/projects/AI Course Builder-1.png",
+    images: ["/assets/projects/AI Course Builder-1.png", "/assets/projects/AI Course Builder-2.jpg", "/assets/projects/AI Course Builder-3.jpg", "/assets/projects/AI Course Builder-4.jpg"],
+    rating: 4.9,
+    price: 82000,
+    overview: "Coaches and trainers have valuable knowledge but struggle to package it into structured courses. This tool uses AI to transform their expertise into professional course content complete with modules, lessons, slides, and assessments.",
+    problem: "Creating a course takes months of work: outlining modules, writing lessons, designing slides, creating quizzes. Most coaches give up or hire expensive instructional designers.",
+    solution: "Enter your course topic and key points. AI generates a complete course structure with detailed lessons, presentation slides, quiz questions, and even video scripts. Export everything ready to upload to your LMS or sell.",
+    coreFeatures: [
+      "Course Structure Generator: Creates logical module and lesson flow",
+      "Lesson Content Writer: Generates detailed lesson content based on topic",
+      "Slide Designer: Creates professional presentation slides automatically",
+      "Quiz Generator: Produces relevant quiz questions and answers",
+      "Video Script Writer: Generates engaging video scripts for each lesson",
+      "Multi-Format Export: Exports to PDF, PowerPoint, Google Slides, or LMS formats"
+    ],
+    marketOpportunity: [
+      "Booming Creator Economy: Millions of coaches want to create online courses",
+      "High Willingness to Pay: Course creators earn thousands, making tools affordable",
+      "Recurring Use: Successful coaches create multiple courses"
+    ],
+    monetizationModel: {
+      plans: [
+        "Starter (₹29/month): 2 courses/month, basic templates",
+        "Pro (₹149/month): Unlimited courses, custom branding, advanced AI",
+        "Agency (₹299/month): White-label, team access, API integration"
+      ],
+      pricing: [
+        "Starter: ₹29/month",
+        "Pro: ₹149/month",
+        "Agency: ₹299/month"
+      ],
+      revenue: [
+        "Target: ₹75k MRR in Year 1",
+        "High expansion revenue from successful course creators"
+      ]
+    },
+    roiProjection: {
+      timeline: [
+        "Day 1: Generate first complete course in 30 minutes",
+        "Week 1: Launch course and start earning revenue",
+        "Month 1: Create 3-5 courses that would have taken months"
+      ],
+      projections: [
+        "Year 1: ₹75k MRR",
+        "Year 2: ₹300k MRR",
+        "Year 3: ₹800k MRR"
+      ],
+      userROI: [
+        "Save 100+ hours per course creation",
+        "Launch courses 10x faster than manual creation"
+      ]
+    },
+    fundingOpportunities: {
+      stages: [
+        "Seed: Enhance AI quality and add more templates",
+        "Series A: Build marketplace for course creators"
+      ],
+      amounts: [
+        "Seed: ₹750k",
+        "Series A: ₹4M"
+      ],
+      valuations: [
+        "Seed: ₹4M",
+        "Series A: ₹20M"
+      ]
+    },
+    techStack: {
+      frontend: ["Next.js", "Rich text editor for course content"],
+      backend: ["Node.js", "Content generation pipeline"],
+      ai: ["GPT-4", "Course content and structure generation"],
+      database: ["MongoDB", "Flexible course data storage"],
+      hosting: ["Vercel", "Fast global delivery"],
+      integrations: ["Teachable", "Thinkific", "Kajabi", "Google Slides", "PowerPoint"]
+    },
+    competitiveAdvantage: {
+      features: [
+        "Complete course generation, not just outlines",
+        "Professional slide design included",
+        "Video script generation for easy recording"
+      ],
+      comparisons: [
+        "vs Manual: 100x faster",
+        "vs Templates: Fully customized to your topic",
+        "vs Hiring: 1/20th the cost of instructional designers"
+      ],
+      uniqueSelling: [
+        "Only tool that generates complete courses from topic to delivery-ready content"
+      ]
+    },
+    developmentBudget: {
+      mvp: [
+        "Basic course outline + lesson generator",
+        "Cost: ₹20k"
+      ],
+      standard: [
+        "Slide generation + quiz creation + export options",
+        "Cost: ₹45k"
+      ],
+      premium: [
+        "Video scripts + LMS integration + white-label",
+        "Cost: ₹75k"
+      ]
+    },
+    vision: "Democratize course creation so every expert can share their knowledge profitably.",
+    features: [
+      "Course Structure Generator",
+      "Lesson Content Writer",
+      "Slide Designer",
+      "Quiz Generator",
+      "Video Script Writer",
+      "Multi-Format Export"
+    ]
+  },
+  {
+    id: 41,
+    title: "AI CRM Cleaner",
+    categories: ["Micro SaaS", "Productivity"],
+    tagline: "Clean, enrich, and organize your CRM automatically.",
+    description: "Cleans duplicate leads → enriches contacts → fills missing data → tags hot/warm/cold.",
+    author: "Boostmysites",
+    image: "/assets/projects/AI CRM Cleaner-1.png",
+    images: ["/assets/projects/AI CRM Cleaner-1.png", "/assets/projects/AI CRM Cleaner-2.jpg", "/assets/projects/AI CRM Cleaner-3.jpg", "/assets/projects/AI CRM Cleaner-4.jpg"],
+    rating: 4.7,
+    price: 78000,
+    overview: "CRMs become messy over time with duplicate contacts, missing information, and outdated data. This tool automatically cleans, enriches, and organizes your CRM data so your sales team can focus on selling instead of data entry.",
+    problem: "Sales teams waste hours cleaning CRM data. Duplicates cause confusion, missing emails prevent outreach, and poor organization means hot leads get ignored while cold leads get pestered.",
+    solution: "Connect your CRM and let AI do the heavy lifting: merge duplicates intelligently, find missing email addresses and phone numbers, enrich contacts with company data, and automatically tag leads based on engagement and fit.",
+    coreFeatures: [
+      "Duplicate Detection & Merge: Finds and merges duplicate contacts intelligently",
+      "Data Enrichment: Fills in missing emails, phone numbers, job titles, and company info",
+      "Lead Scoring: Automatically tags contacts as hot/warm/cold based on engagement",
+      "Data Validation: Verifies email addresses and phone numbers are valid",
+      "Bulk Updates: Updates outdated information across thousands of contacts",
+      "CRM Integration: Works with Salesforce, HubSpot, Pipedrive, and more"
+    ],
+    marketOpportunity: [
+      "Universal Pain Point: Every company with a CRM struggles with data quality",
+      "High Value: Clean data directly impacts sales conversion rates",
+      "Recurring Revenue: CRMs need constant maintenance"
+    ],
+    monetizationModel: {
+      plans: [
+        "Startup (₹29/month): Up to 1,000 contacts, basic cleaning",
+        "Growth (₹99/month): Up to 10,000 contacts, data enrichment, lead scoring",
+        "Enterprise (Custom): Unlimited contacts, custom integrations, dedicated support"
+      ],
+      pricing: [
+        "Startup: ₹29/month",
+        "Growth: ₹99/month"
+      ],
+      revenue: [
+        "Target: ₹40k MRR in Year 1",
+        "High retention due to ongoing data maintenance needs"
+      ]
+    },
+    roiProjection: {
+      timeline: [
+        "Day 1: Clean and organize entire CRM database",
+        "Week 1: Sales team productivity increases by 30%",
+        "Month 1: Conversion rates improve due to better data quality"
+      ],
+      projections: [
+        "Year 1: ₹40k MRR",
+        "Year 2: ₹160k MRR",
+        "Year 3: ₹400k MRR"
+      ],
+      userROI: [
+        "Save 10+ hours per week on manual data cleaning",
+        "Increase sales conversion by 15-20% with better data"
+      ]
+    },
+    fundingOpportunities: {
+      stages: [
+        "Seed: Build advanced AI enrichment capabilities",
+        "Series A: Expand to enterprise CRM platforms"
+      ],
+      amounts: [
+        "Seed: ₹400k",
+        "Series A: ₹2.5M"
+      ],
+      valuations: [
+        "Seed: ₹2.5M",
+        "Series A: ₹12M"
+      ]
+    },
+    techStack: {
+      frontend: ["React", "CRM data visualization dashboard"],
+      backend: ["Python", "Data processing and enrichment"],
+      ai: ["Machine Learning", "Duplicate detection and lead scoring"],
+      database: ["PostgreSQL", "Temporary data storage"],
+      hosting: ["AWS", "Secure data processing"],
+      integrations: ["Salesforce", "HubSpot", "Pipedrive", "Clearbit", "Hunter.io"]
+    },
+    competitiveAdvantage: {
+      features: [
+        "Intelligent duplicate merging (not just exact matches)",
+        "Multi-source data enrichment",
+        "Automated lead scoring based on behavior"
+      ],
+      comparisons: [
+        "vs Manual: 100x faster",
+        "vs Basic tools: Smarter duplicate detection",
+        "vs Enrichment services: All-in-one solution"
+      ],
+      uniqueSelling: [
+        "Only tool that cleans, enriches, and scores in one platform"
+      ]
+    },
+    developmentBudget: {
+      mvp: [
+        "Duplicate detection + basic enrichment",
+        "Cost: ₹18k"
+      ],
+      standard: [
+        "Lead scoring + validation + CRM integrations",
+        "Cost: ₹40k"
+      ],
+      premium: [
+        "Advanced AI + custom workflows + enterprise features",
+        "Cost: ₹70k"
+      ]
+    },
+    vision: "Make CRM data quality effortless for every sales team.",
+    features: [
+      "Duplicate Detection & Merge",
+      "Data Enrichment",
+      "Lead Scoring",
+      "Data Validation",
+      "Bulk Updates",
+      "CRM Integration"
     ]
   },
   {
     id: 42,
-    title: "AI Pitch Deck Analyzer for Founders",
+    title: "Local Business Ads Generator",
     categories: ["Micro SaaS", "Business"],
-    tagline: "Get funded faster.",
-    description: "An AI VC Associate that reviews your startup pitch deck. It analyzes narrative flow, market sizing logic, and design consistency, providing brutal, honest feedback and predicting the questions investors will ask.",
+    tagline: "Professional ads in minutes, not hours.",
+    description: "Business enters service → AI generates ad creative (image + text), audience, budget plan → export to Meta Ads Manager.",
     author: "Boostmysites",
-    image: "/assets/projects/AI Pitch Deck Analyzer for Founders-1.png",
-    images: ["/assets/projects/AI Pitch Deck Analyzer for Founders-1.png"],
+    image: "/assets/projects/Local Business Ads-1.png",
+    images: ["/assets/projects/Local Business Ads-1.png", "/assets/projects/Local Business Ads-2.jpg", "/assets/projects/Local Business Ads-3.jpg", "/assets/projects/Local Business Ads-4.jpg"],
     rating: 4.8,
-    price: 80000,
-    overview: "Founders often send decks that are unclear, too long, or missing key metrics. They get rejected without knowing why. This tool bridges the gap between a founder's vision and an investor's checklist.",
-    problem: "VCs spend <3 minutes on a deck. If the 'Problem' isn't clear on slide 2, they close it. Founders rarely get feedback on 'Why' they were rejected.",
-    solution: "Upload PDF Deck -> AI scans text and visual hierarchy -> AI Scores each section (Team, Market, Product) -> AI generates a 'Roast' report: 'Your TAM calculation is vague. Use bottom-up sizing.'",
+    price: 81000,
+    overview: "Small local businesses want to advertise on Facebook and Instagram but don't have the skills or budget for professional ad creation. This tool generates complete ad campaigns with images, copy, targeting, and budget recommendations.",
+    problem: "Local businesses know they need digital ads but hiring an agency costs thousands. DIY attempts fail because they don't know how to write copy, design images, or target the right audience.",
+    solution: "Enter your business type and service. AI generates professional ad images, writes compelling copy, suggests target audience parameters, and creates a complete campaign ready to upload to Meta Ads Manager.",
     coreFeatures: [
-      "Narrative Arc Check: Ensures the story flows logically (Problem -> Solution -> Why Now)",
-      "Red Flag Detector: Highlights buzzwords ('We are the Uber for X') and unrealistic projections",
-      "Q&A Prep: Generates a list of 20 tough questions investors will ask based on the deck's weak points",
-      "Design Audit: Checks for font consistency and readability"
+      "Ad Creative Generator: Creates professional ad images with your branding",
+      "Copywriting AI: Writes compelling ad headlines and descriptions",
+      "Audience Builder: Suggests detailed targeting based on your business type",
+      "Budget Planner: Recommends optimal budget allocation",
+      "Campaign Export: Exports directly to Meta Ads Manager format",
+      "A/B Test Variants: Generates multiple ad variations for testing"
     ],
     marketOpportunity: [
-      "Startup Boom: Millions of new startups annually",
-      "Accelerators: YC/Techstars applicants need this to stand out",
-      "Service Layer: Consultants and advisors can use this to vet clients"
+      "Massive Market: Millions of small businesses need affordable ad solutions",
+      "High Pain Point: Digital advertising is intimidating for non-experts",
+      "Recurring Need: Businesses need fresh ads monthly"
     ],
     monetizationModel: {
       plans: [
-        "Free (Teaser) - Score on first 3 slides",
-        "Founder (₹49) - Full deck audit + Q&A prep",
-        "Raise (₹199) - Rewrite suggestions + Design fix templates"
+        "Basic (₹29/month): 5 ad campaigns/month, basic templates",
+        "Pro (₹149/month): Unlimited campaigns, custom branding, A/B testing",
+        "Agency (₹299/month): White-label, client management, API access"
       ],
       pricing: [
-        "Founder: ₹49",
-        "Raise: ₹199"
+        "Basic: ₹29/month",
+        "Pro: ₹149/month",
+        "Agency: ₹299/month"
       ],
       revenue: [
-        "Transactional model (Founders only need it once every 18 months)",
-        "Partnership revenue (referring high-scoring startups to VCs)"
+        "Target: ₹60k MRR in Year 1",
+        "Agency tier drives high ARPU"
       ]
     },
     roiProjection: {
       timeline: [
-        "Instant: Feedback in 2 minutes",
-        "Week 1: Founder revises deck -> Conversion to meeting improves X%"
+        "Day 1: Create first professional ad campaign in 10 minutes",
+        "Week 1: Launch ads and start getting leads",
+        "Month 1: ROI positive from increased customer acquisition"
       ],
       projections: [
-        "Value: Getting one VC meeting is worth infinite ROI",
-        "Cost: Negligible compared to capital raised"
+        "Year 1: ₹60k MRR",
+        "Year 2: ₹240k MRR",
+        "Year 3: ₹600k MRR"
       ],
       userROI: [
-        "Confidence in the pitch",
-        "Avoiding embarrassing mistakes"
+        "Save ₹5,000+ per month vs hiring agency",
+        "Generate 3-5x more leads with professional ads"
       ]
     },
     fundingOpportunities: {
       stages: [
-        "Angel: Built by ex-VCs for credibility",
-        "Seed: Build a 'Deal Flow' marketplace"
+        "Seed: Expand to Google Ads and other platforms",
+        "Series A: Build marketplace connecting businesses with agencies"
       ],
       amounts: [
-        "Angel: ₹200k",
-        "Seed: ₹1.5M"
+        "Seed: ₹600k",
+        "Series A: ₹3.5M"
       ],
       valuations: [
-        "Angel: ₹2M",
-        "Seed: ₹8M"
+        "Seed: ₹3.5M",
+        "Series A: ₹18M"
       ]
     },
     techStack: {
-      frontend: ["Next.js", "PDF viewer overlay"],
-      backend: ["Python", "Computer Vision (layout analysis)"],
-      ai: ["GPT-4 Vision", "Trained on YC successful decks"],
-      database: ["PostgreSQL", "Deck storage (secure)"],
-      hosting: ["AWS", "Encrypted"],
-      integrations: ["DocSend", "Canva"]
+      frontend: ["Next.js", "Visual ad builder interface"],
+      backend: ["Node.js", "Campaign generation logic"],
+      ai: ["DALL-E/Midjourney", "Image generation", "GPT-4", "Copywriting"],
+      database: ["MongoDB", "Campaign templates and user data"],
+      hosting: ["Vercel", "Fast content delivery"],
+      integrations: ["Meta Ads API", "Google Ads API", "Canva"]
     },
     competitiveAdvantage: {
       features: [
-        "Trained on 'Winner' data (knows what a Series A deck looks like)",
-        "Brutally honest (Simulation of a skeptical investor)"
+        "Complete campaign generation (creative + copy + targeting)",
+        "Industry-specific templates and best practices",
+        "Direct export to ad platforms"
       ],
       comparisons: [
-        "Design tools (Canva) don't judge content",
-        "Consultants cost ₹2k+"
+        "vs Agencies: 1/10th the cost",
+        "vs DIY: Professional results without expertise",
+        "vs Canva: Includes targeting and strategy, not just design"
       ],
       uniqueSelling: [
-        "The first 'Test Flight' for your fundraising."
+        "Only tool that generates complete ad campaigns ready to launch"
       ]
     },
     developmentBudget: {
       mvp: [
-        "Deck upload + Text Analysis",
-        "Cost: ₹10k"
+        "Basic ad generator + template library",
+        "Cost: ₹22k"
       ],
       standard: [
-        "Vision API for design check",
-        "Cost: ₹20k"
+        "AI image generation + audience builder + export",
+        "Cost: ₹50k"
       ],
       premium: [
-        "Interactive Q&A roleplay mode",
-        "Cost: ₹35k"
+        "Multi-platform support + white-label + analytics",
+        "Cost: ₹85k"
       ]
     },
-    vision: "Level the playing field for fundraising.",
+    vision: "Democratize professional advertising for every local business.",
     features: [
-      "Narrative Arc Check",
-      "Red Flag Detector",
-      "Q&A Prep",
-      "Design Audit"
+      "Ad Creative Generator",
+      "Copywriting AI",
+      "Audience Builder",
+      "Budget Planner",
+      "Campaign Export",
+      "A/B Test Variants"
     ]
   },
   {
     id: 43,
-    title: "AI User Testing agent",
+    title: "AI Warranty & Receipt Vault",
     categories: ["Micro SaaS", "Productivity"],
-    tagline: "User testing without users.",
-    description: "An AI-powered quality assurance bot that navigates your website or app like a human user. It clicks buttons, fills forms, and attempts to 'break' your user flow, reporting bugs and UX friction points instantly.",
+    tagline: "Never lose a warranty or receipt again.",
+    description: "Users store receipts → AI tracks warranty periods → sends reminders → auto-files claims.",
     author: "Boostmysites",
-    image: "/assets/projects/AI User Testing agent-1.png",
-    images: ["/assets/projects/AI User Testing agent-1.png"],
-    rating: 4.8,
-    price: 82500,
-    overview: "Testing software is tedious. Developers write code, but often forget to check if the 'Sign Up' button works on Mobile Safari. This AI agent acts as a chaotic or methodical user to find bugs before real customers do.",
-    problem: "QA teams are expensive. Automated tests (Selenium) are brittle and hard to write. Founders launch products that break immediately.",
-    solution: "Give the URL -> AI Agent spawns -> It tries to achieve a goal (e.g., 'Buy a T-shirt') -> It records a video of its session -> Reports: 'I couldn't checkout because the button is covered by the chat widget on mobile.'",
+    image: "/assets/projects/Warranty Vault-1.png",
+    images: ["/assets/projects/Warranty Vault-1.png", "/assets/projects/Warranty Vault-2.jpg", "/assets/projects/Warranty Vault-3.jpg", "/assets/projects/Warranty Vault-4.jpg"],
+    rating: 4.7,
+    price: 75000,
+    overview: "People lose thousands in warranty claims because they can't find receipts or forget about expiring warranties. This app stores all receipts digitally, tracks warranty periods, sends timely reminders, and even helps file claims automatically.",
+    problem: "Consumers lose money on warranty claims because receipts get lost, warranty periods are forgotten, and filing claims is complicated. Families waste hundreds annually on repairs that should be covered.",
+    solution: "Snap a photo of any receipt or forward purchase emails. AI extracts product info, warranty length, and stores everything securely. Get reminders before warranties expire and guided assistance to file claims when needed.",
     coreFeatures: [
-      "Autonomous Exploration: AI crawls the site, understanding context (this is a login form, this is a cart)",
-      "Goal-Based Testing: Give instructions like 'Try to subscribe to the newsletter'",
-      "Visual Regression: Detects if layout is broken (text overlapping)",
-      "Cross-Browser: Simulates Chrome, Safari, Mobile views simultaneously"
+      "Receipt Scanner: Snap photos or forward emails to digitize receipts",
+      "Warranty Tracker: AI identifies warranty periods and tracks expiration dates",
+      "Smart Reminders: Alerts before warranties expire so you can use them",
+      "Claim Assistant: Guides you through filing warranty claims step-by-step",
+      "Product Database: Maintains organized library of all your purchases",
+      "Family Sharing: Share warranty info with household members"
     ],
     marketOpportunity: [
-      "Dev Tools: Huge market (GitHub/GitLab integrations)",
-      "Web Agencies: Need to QA client sites before handover",
-      "No-Code Makers: Build sites but don't know how to write tests"
+      "Universal Need: Every household buys electronics and appliances",
+      "High Value: Average family loses ₹5,000+ annually in unclaimed warranties",
+      "Sticky Product: Once receipts are stored, users won't switch"
     ],
     monetizationModel: {
       plans: [
-        "Indie (₹39/month) - 50 test runs/month",
-        "Team (₹149/month) - Integrates with CI/CD pipeline (GitHub Actions), Slack alerts",
-        " Enterprise (₹599/month) - Private cloud, detailed security testing"
+        "Free: 10 receipts, basic tracking",
+        "Premium (₹9/month): Unlimited receipts, claim assistance, family sharing",
+        "Family (₹29/month): Up to 5 users, priority support, extended storage"
       ],
       pricing: [
-        "Indie: ₹39/month",
-        "Team: ₹149/month"
+        "Premium: ₹9/month",
+        "Family: ₹29/month"
       ],
       revenue: [
-        "Target: ₹30k MRR",
-        "Expansion: Automated Security Penetration Testing"
+        "Target: ₹30k MRR in Year 1",
+        "Freemium model drives high conversion"
       ]
     },
     roiProjection: {
       timeline: [
-        "Day 1: Catch 3 critical bugs on landing page",
-        "Month 1: Reduce QA time by 90%",
-        "Month 6: Zero 'Hotfix' deploys due to pre-release catching"
+        "Day 1: Upload all existing receipts and warranties",
+        "Month 1: Get first warranty expiration reminder",
+        "Year 1: Successfully claim warranty worth 10x the subscription cost"
       ],
       projections: [
-        "Cost of a bug: Lost customer = LTV (₹500+)",
-        "Tool Cost: ₹39",
-        "ROI: Immediate"
+        "Year 1: ₹30k MRR",
+        "Year 2: ₹120k MRR",
+        "Year 3: ₹300k MRR"
       ],
       userROI: [
-        "Ship faster with confidence",
-        "No more 'It works on my machine' excuses"
+        "Save ₹5,000+ annually in warranty claims",
+        "Peace of mind knowing all receipts are safe"
       ]
     },
     fundingOpportunities: {
       stages: [
-        "Seed: Build robust browser agent (Puppeteer/Playwright)",
-        "Series A: Scale infrastructure to handle thousands of concurrent browsers"
+        "Seed: Build mobile apps and expand features",
+        "Series A: Partner with retailers for automatic receipt capture"
       ],
       amounts: [
-        "Seed: ₹2M",
-        "Series A: ₹8M"
+        "Seed: ₹300k",
+        "Series A: ₹2M"
       ],
       valuations: [
-        "Seed: ₹10M",
-        "Series A: ₹40M"
+        "Seed: ₹2M",
+        "Series A: ₹10M"
       ]
     },
     techStack: {
-      frontend: ["Next.js", "Video player for test results"],
-      backend: ["Node.js", "Orchestrator"],
-      ai: ["Multi-modal Agents (Gemini/GPT-4V)", "Vision to 'see' the UI"],
-      database: ["PostgreSQL", "Test logs"],
-      hosting: ["AWS Lambda", "Headless browsers"],
-      integrations: ["GitHub", "Linear", "Slack", "Jira"]
+      frontend: ["React Native", "Cross-platform mobile app"],
+      backend: ["Node.js", "Receipt processing and notifications"],
+      ai: ["OCR (Tesseract/Google Vision)", "Receipt data extraction"],
+      database: ["Firebase", "Real-time sync across devices"],
+      hosting: ["Google Cloud", "Secure document storage"],
+      integrations: ["Email (Gmail/Outlook)", "Cloud storage (Google Drive/iCloud)"]
     },
     competitiveAdvantage: {
       features: [
-        "No-code setup (Just give URL)",
-        "Visual understanding (Finds UI bugs, not just logic bugs)"
+        "Warranty tracking, not just receipt storage",
+        "Proactive reminders before expiration",
+        "Claim filing assistance"
       ],
       comparisons: [
-        "Easier than Cypress/Selenium",
-        "Cheaper than Rainforest QA (Human testers)"
+        "vs Paper: Never lose a receipt again",
+        "vs Generic scanners: Warranty-specific intelligence",
+        "vs Manual tracking: Automated reminders"
       ],
       uniqueSelling: [
-        "Your 24/7 QA intern that never sleeps."
+        "Only app that actively helps you use warranties before they expire"
       ]
     },
     developmentBudget: {
       mvp: [
-        "Basic crawler + LLM vision check",
-        "Cost: ₹30k"
+        "Receipt scanner + basic storage",
+        "Cost: ₹12k"
       ],
       standard: [
-        "Video recording + CI/CD integration",
-        "Cost: ₹60k"
+        "Warranty tracking + reminders + mobile app",
+        "Cost: ₹30k"
       ],
       premium: [
-        "Complex goal execution (Payment flow testing)",
-        "Cost: ₹100k"
+        "Claim assistant + family sharing + retailer integrations",
+        "Cost: ₹55k"
       ]
     },
-    vision: "Software that tests itself.",
+    vision: "Help families save money by never missing a warranty claim.",
     features: [
-      "Autonomous Exploration",
-      "Goal-Based Testing",
-      "Visual Regression",
-      "Cross-Browser"
+      "Receipt Scanner",
+      "Warranty Tracker",
+      "Smart Reminders",
+      "Claim Assistant",
+      "Product Database",
+      "Family Sharing"
     ]
   },
 
