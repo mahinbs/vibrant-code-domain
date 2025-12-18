@@ -12,12 +12,20 @@ const FloatingWhatsAppButton = () => {
     whatsappMessage
   )}`;
 
+  
+  const buttonClick = () => {
+    console.log(data)
+  }
+
+  
+
   return (
     <div className="fixed bottom-6 right-6 z-50">
       <a
-        href={whatsappUrl}
-        target="_blank"
-        rel="noopener noreferrer"
+      onClick={buttonClick}
+        // href={whatsappUrl}
+        // target="_blank"
+        // rel="noopener noreferrer"
         className="group relative flex items-center"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
