@@ -5010,6 +5010,8 @@ export const mockProducts: DetailedProduct[] = [
       "Auto-Drip"
     ]
   },
+
+  // need to add other images except first one
   {
     id: 39,
     title: "Restaurant Menu Intelligence",
