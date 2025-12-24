@@ -5011,7 +5011,7 @@ export const mockProducts: DetailedProduct[] = [
     ]
   },
 
-  // need to add other images except first one
+  // the below are new ideas
   {
     id: 39,
     title: "Restaurant Menu Intelligence",
@@ -5610,7 +5610,6 @@ export const mockProducts: DetailedProduct[] = [
     ]
   },
 
-  // the below are new ideas
   {
     id: 44,
     title: "PropelAI – AI RFP Auto-Responder",

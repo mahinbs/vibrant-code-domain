@@ -29,6 +29,7 @@ import AiAutomationPage from "./pages/AiAutomationPage";
 import ReviewsPage from "./pages/ReviewsPage";
 import ThankYouPage from "./pages/ThankYouPage";
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
+import TermsAndConditions from "./pages/TermsAndConditions";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import CustomerInquiries from "./pages/admin/CustomerInquiries";
@@ -54,6 +55,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import ProjectsShowcase from "./pages/ProjectsShowcase";
 import AppIdeas from "./pages/AppIdeas";
 import AppIdeaDetail from "./pages/AppIdeaDetail";
+import Signup from "./pages/Signup";
 
 const queryClient = new QueryClient();
 
@@ -293,6 +295,15 @@ const App = () => {
                 }
               />
               <Route
+                path="/terms-and-conditions"
+                element={
+                  <>
+                    <FloatingWhatsAppButton />
+                    <TermsAndConditions />
+                  </>
+                }
+              />
+              <Route
                 path="/partnership"
                 element={
                   <>
@@ -370,6 +381,15 @@ const App = () => {
                   <>
                     <FloatingWhatsAppButton />
                     <AppIdeaDetail />
+                  </>
+                }
+              />
+              <Route
+                path="/signup"
+                element={
+                  <>
+                    <FloatingWhatsAppButton />
+                    <Signup />
                   </>
                 }
               />
