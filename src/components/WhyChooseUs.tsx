@@ -4,7 +4,7 @@ const WhyChooseUs = () => {
   const reasons = [
     {
       icon: Clock,
-      title: "5+ Years Experience",
+      title: "9+ Years Experience",
       description: "Proven track record with 500+ successful projects delivered",
       color: "cyan"
     },
