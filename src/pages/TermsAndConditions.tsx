@@ -32,93 +32,6 @@ const TermsAndConditions = () => {
 
           {/* Content Sections */}
           <div className="space-y-8 text-gray-300 leading-relaxed">
-            {/* Agreement Header */}
-            <section className="bg-gradient-to-br from-cyan-500/10 via-blue-500/10 to-purple-500/10 border border-cyan-400/30 rounded-lg p-6">
-              <h2 className="text-2xl font-semibold mb-4 text-white">Agreement</h2>
-              <p className="mb-4">
-                This Agreement is entered into as of{" "}
-                <span className="font-bold text-cyan-400">((Date))</span> by and between{" "}
-                <span className="font-bold text-cyan-400">((Name))</span>,{" "}
-                <span className="font-bold text-cyan-400">((Address))</span>, and{" "}
-                <span className="font-bold text-cyan-400">
-                  TRIPLE-SEVEN BOOSTMYSITES AI SOLUTIONS LLP
-                </span>
-                , located at House No: 137, 3rd Main, 3rd Cross, 4th Phase,
-                Dollars Colony, JP Nagar, Bangalore South, Bengaluru, Karnataka
-                560078.
-              </p>
-            </section>
-
-            {/* Definitions */}
-            <section className="bg-gradient-to-br from-cyan-500/10 via-blue-500/10 to-purple-500/10 border border-cyan-400/30 rounded-lg p-6">
-              <h2 className="text-2xl font-semibold mb-4 text-white">Definitions</h2>
-              <ul className="list-disc pl-6 space-y-2">
-                <li>
-                  <span className="font-bold text-cyan-400">AIE:</span> Artificial Intelligence
-                  Expert
-                </li>
-                <li>
-                  <span className="font-bold text-cyan-400">Subscriber:</span> Recipient of this
-                  agreement
-                </li>
-                <li>
-                  <span className="font-bold text-cyan-400">Subscription:</span> Structure of
-                  the business model
-                </li>
-                <li>
-                  <span className="font-bold text-cyan-400">Service Provider:</span>{" "}
-                  TRIPLE-SEVEN BOOSTMYSITES AI SOLUTIONS LLP
-                </li>
-                <li>
-                  <span className="font-bold text-cyan-400">CM:</span> Client Manager
-                </li>
-                <li>
-                  <span className="font-bold text-cyan-400">POC:</span> Point of Contact
-                </li>
-                <li>
-                  <span className="font-bold text-cyan-400">TTA:</span> Technical Team Access
-                </li>
-              </ul>
-            </section>
-
-            {/* Scope of Services */}
-            <section className="bg-gradient-to-br from-cyan-500/10 via-blue-500/10 to-purple-500/10 border border-cyan-400/30 rounded-lg p-6">
-              <h2 className="text-2xl font-semibold mb-4 text-white">Scope of Services</h2>
-              <p className="mb-4">
-                TRIPLE-SEVEN BOOSTMYSITES AI SOLUTIONS LLP agrees to provide
-                infrastructure as a service (IAAS) under the 'AIE Subscription'
-                model to <span className="font-bold text-cyan-400">((Name))</span>, provided
-                that all terms and conditions are agreed upon and signed.
-              </p>
-            </section>
-
-            {/* Service Description */}
-            <section className="bg-gradient-to-br from-cyan-500/10 via-blue-500/10 to-purple-500/10 border border-cyan-400/30 rounded-lg p-6">
-              <h2 className="text-2xl font-semibold mb-4 text-white">Service Description</h2>
-              <ul className="list-disc pl-6 space-y-2">
-                <li>
-                  The AIE Subscription is valid for{" "}
-                  <span className="font-bold text-cyan-400">One Month</span> from the start{" "}
-                  <span className="font-bold text-cyan-400">((Date))</span> with the option to
-                  renew.
-                </li>
-                <li>
-                  Upon slot booking and payment of{" "}
-                  <span className="font-bold text-cyan-400">Rs. 10,000</span>, the Subscriber
-                  can opt for EMI. The booking amount will be deducted from the
-                  total subscription fee.
-                </li>
-                <li>
-                  The Service Provider reserves the right to adjust subscription
-                  fees.
-                </li>
-                <li>
-                  Renewal requires the Subscriber to pay the current renewal fee
-                  at the end of the tenure.
-                </li>
-              </ul>
-            </section>
-
             {/* AIE Subscription Slot Booking Terms and Conditions */}
             <section className="bg-gradient-to-br from-cyan-500/10 via-blue-500/10 to-purple-500/10 border border-cyan-400/30 rounded-lg p-6">
               <h2 className="text-2xl font-semibold mb-4 text-white">
@@ -311,6 +224,93 @@ const TermsAndConditions = () => {
                   </p>
                 </div>
               </div>
+            </section>
+
+            {/* Agreement Header */}
+            <section className="bg-gradient-to-br from-cyan-500/10 via-blue-500/10 to-purple-500/10 border border-cyan-400/30 rounded-lg p-6">
+              <h2 className="text-2xl font-semibold mb-4 text-white">Agreement</h2>
+              <p className="mb-4">
+                This Agreement is entered into as of{" "}
+                <span className="font-bold text-cyan-400">((Date))</span> by and between{" "}
+                <span className="font-bold text-cyan-400">((Name))</span>,{" "}
+                <span className="font-bold text-cyan-400">((Address))</span>, and{" "}
+                <span className="font-bold text-cyan-400">
+                  TRIPLE-SEVEN BOOSTMYSITES AI SOLUTIONS LLP
+                </span>
+                , located at House No: 137, 3rd Main, 3rd Cross, 4th Phase,
+                Dollars Colony, JP Nagar, Bangalore South, Bengaluru, Karnataka
+                560078.
+              </p>
+            </section>
+
+            {/* Definitions */}
+            <section className="bg-gradient-to-br from-cyan-500/10 via-blue-500/10 to-purple-500/10 border border-cyan-400/30 rounded-lg p-6">
+              <h2 className="text-2xl font-semibold mb-4 text-white">Definitions</h2>
+              <ul className="list-disc pl-6 space-y-2">
+                <li>
+                  <span className="font-bold text-cyan-400">AIE:</span> Artificial Intelligence
+                  Expert
+                </li>
+                <li>
+                  <span className="font-bold text-cyan-400">Subscriber:</span> Recipient of this
+                  agreement
+                </li>
+                <li>
+                  <span className="font-bold text-cyan-400">Subscription:</span> Structure of
+                  the business model
+                </li>
+                <li>
+                  <span className="font-bold text-cyan-400">Service Provider:</span>{" "}
+                  TRIPLE-SEVEN BOOSTMYSITES AI SOLUTIONS LLP
+                </li>
+                <li>
+                  <span className="font-bold text-cyan-400">CM:</span> Client Manager
+                </li>
+                <li>
+                  <span className="font-bold text-cyan-400">POC:</span> Point of Contact
+                </li>
+                <li>
+                  <span className="font-bold text-cyan-400">TTA:</span> Technical Team Access
+                </li>
+              </ul>
+            </section>
+
+            {/* Scope of Services */}
+            <section className="bg-gradient-to-br from-cyan-500/10 via-blue-500/10 to-purple-500/10 border border-cyan-400/30 rounded-lg p-6">
+              <h2 className="text-2xl font-semibold mb-4 text-white">Scope of Services</h2>
+              <p className="mb-4">
+                TRIPLE-SEVEN BOOSTMYSITES AI SOLUTIONS LLP agrees to provide
+                infrastructure as a service (IAAS) under the 'AIE Subscription'
+                model to <span className="font-bold text-cyan-400">((Name))</span>, provided
+                that all terms and conditions are agreed upon and signed.
+              </p>
+            </section>
+
+            {/* Service Description */}
+            <section className="bg-gradient-to-br from-cyan-500/10 via-blue-500/10 to-purple-500/10 border border-cyan-400/30 rounded-lg p-6">
+              <h2 className="text-2xl font-semibold mb-4 text-white">Service Description</h2>
+              <ul className="list-disc pl-6 space-y-2">
+                <li>
+                  The AIE Subscription is valid for{" "}
+                  <span className="font-bold text-cyan-400">One Month</span> from the start{" "}
+                  <span className="font-bold text-cyan-400">((Date))</span> with the option to
+                  renew.
+                </li>
+                <li>
+                  Upon slot booking and payment of{" "}
+                  <span className="font-bold text-cyan-400">Rs. 10,000</span>, the Subscriber
+                  can opt for EMI. The booking amount will be deducted from the
+                  total subscription fee.
+                </li>
+                <li>
+                  The Service Provider reserves the right to adjust subscription
+                  fees.
+                </li>
+                <li>
+                  Renewal requires the Subscriber to pay the current renewal fee
+                  at the end of the tenure.
+                </li>
+              </ul>
             </section>
 
             {/* Assigned Teams and Responsibilities */}
