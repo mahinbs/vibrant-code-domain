@@ -119,6 +119,200 @@ const TermsAndConditions = () => {
               </ul>
             </section>
 
+            {/* AIE Subscription Slot Booking Terms and Conditions */}
+            <section className="bg-gradient-to-br from-cyan-500/10 via-blue-500/10 to-purple-500/10 border border-cyan-400/30 rounded-lg p-6">
+              <h2 className="text-2xl font-semibold mb-4 text-white">
+                AIE Subscription Slot Booking Terms and Conditions
+              </h2>
+
+              <div className="space-y-6">
+                {/* 1. Nature of Payment and Slot Booking */}
+                <div>
+                  <h3 className="text-xl font-semibold mb-3 text-cyan-400">
+                    1. Nature of Payment and Slot Booking
+                  </h3>
+                  <p className="mb-4">
+                    The payment made towards the AIE Subscription is strictly for slot booking
+                    only and confirms the allocation of a one-year subscription slot to the
+                    candidate. This payment does not represent a product purchase, service
+                    delivery, or training commencement at the time of payment.
+                  </p>
+                </div>
+
+                {/* 2. Non-Refundable Policy */}
+                <div>
+                  <h3 className="text-xl font-semibold mb-3 text-cyan-400">
+                    2. Non-Refundable Policy
+                  </h3>
+                  <p className="mb-3">
+                    All payments made to the Company, including but not limited to full payments,
+                    partial payments, advance payments, booking fees, or installment payments,
+                    are strictly non-refundable under any circumstances.
+                  </p>
+                  <p className="mb-3">This includes, but is not limited to:</p>
+                  <ul className="list-disc pl-6 space-y-2 mb-3">
+                    <li>Change of mind</li>
+                    <li>Delay in start by the candidate</li>
+                    <li>Inability to attend or participate</li>
+                    <li>Personal, professional, medical, or financial reasons</li>
+                    <li>Dissatisfaction at any stage</li>
+                    <li>Failure to utilize the subscription after activation</li>
+                  </ul>
+                  <p>
+                    No refunds, chargebacks, reversals, or payment disputes will be entertained
+                    once a payment is made.
+                  </p>
+                </div>
+
+                {/* 3. Partial Payments */}
+                <div>
+                  <h3 className="text-xl font-semibold mb-3 text-cyan-400">
+                    3. Partial Payments
+                  </h3>
+                  <p>
+                    Any partial payment made towards the AIE Subscription shall also be treated
+                    as final and non-refundable. Partial payment does not grant any right to
+                    cancel, pause, or claim a refund for the remaining or paid amount.
+                  </p>
+                </div>
+
+                {/* 4. Subscription Start Flexibility */}
+                <div>
+                  <h3 className="text-xl font-semibold mb-3 text-cyan-400">
+                    4. Subscription Start Flexibility
+                  </h3>
+                  <p className="mb-3">
+                    The candidate is allowed to choose or defer the start date of the AIE
+                    Subscription within the validity period communicated by the Company.
+                    However:
+                  </p>
+                  <ul className="list-disc pl-6 space-y-2">
+                    <li>
+                      The subscription duration remains fixed at one year from the activation
+                      date.
+                    </li>
+                    <li>
+                      Deferring the start date does not extend the subscription validity beyond
+                      the agreed period.
+                    </li>
+                    <li>
+                      Failure to activate or start the subscription within the permitted
+                      timeframe will result in forfeiture of the slot without refund.
+                    </li>
+                  </ul>
+                </div>
+
+                {/* 5. No Transferability */}
+                <div>
+                  <h3 className="text-xl font-semibold mb-3 text-cyan-400">
+                    5. No Transferability
+                  </h3>
+                  <p className="mb-3">
+                    The AIE Subscription slot is strictly non-transferable.
+                  </p>
+                  <ul className="list-disc pl-6 space-y-2">
+                    <li>
+                      The slot cannot be transferred, sold, gifted, assigned, or reassigned to
+                      another individual, entity, or organization.
+                    </li>
+                    <li>
+                      Change of name, nominee, or ownership is not permitted under any
+                      circumstances.
+                    </li>
+                    <li>
+                      The subscription is valid only for the individual whose details were
+                      provided at the time of booking.
+                    </li>
+                  </ul>
+                </div>
+
+                {/* 6. No Cancellation */}
+                <div>
+                  <h3 className="text-xl font-semibold mb-3 text-cyan-400">
+                    6. No Cancellation
+                  </h3>
+                  <p>
+                    Once the slot is booked, the subscription cannot be cancelled by the
+                    candidate for any reason whatsoever. The Company is under no obligation to
+                    offer refunds, credits, substitutions, or future adjustments.
+                  </p>
+                </div>
+
+                {/* 7. Company Discretion */}
+                <div>
+                  <h3 className="text-xl font-semibold mb-3 text-cyan-400">
+                    7. Company Discretion
+                  </h3>
+                  <p className="mb-3">
+                    The Company reserves the absolute right to:
+                  </p>
+                  <ul className="list-disc pl-6 space-y-2">
+                    <li>
+                      Modify, update, or revise the subscription structure, benefits, timelines,
+                      or delivery methods without prior notice.
+                    </li>
+                    <li>
+                      Accept or reject any subscription application at its sole discretion.
+                    </li>
+                    <li>
+                      Suspend or terminate access in case of violation of terms without any
+                      refund.
+                    </li>
+                  </ul>
+                </div>
+
+                {/* 8. Limitation of Liability */}
+                <div>
+                  <h3 className="text-xl font-semibold mb-3 text-cyan-400">
+                    8. Limitation of Liability
+                  </h3>
+                  <p className="mb-3">
+                    The Company shall not be held liable for any direct, indirect, incidental,
+                    consequential, or perceived losses arising from:
+                  </p>
+                  <ul className="list-disc pl-6 space-y-2 mb-3">
+                    <li>Non-utilization of the subscription</li>
+                    <li>Delayed participation by the candidate</li>
+                    <li>Business outcomes, earnings, or expectations</li>
+                  </ul>
+                  <p>No guarantees, assurances, or warranties of results are provided.</p>
+                </div>
+
+                {/* 9. No Legal Claims or Disputes */}
+                <div>
+                  <h3 className="text-xl font-semibold mb-3 text-cyan-400">
+                    9. No Legal Claims or Disputes
+                  </h3>
+                  <p className="mb-3">
+                    By proceeding with payment, the candidate expressly agrees that:
+                  </p>
+                  <ul className="list-disc pl-6 space-y-2">
+                    <li>
+                      They will not initiate any legal proceedings, consumer complaints,
+                      chargebacks, or disputes against the Company regarding refunds or
+                      cancellations.
+                    </li>
+                    <li>
+                      All payments are made with full understanding and acceptance of these
+                      terms.
+                    </li>
+                  </ul>
+                </div>
+
+                {/* 10. Acceptance of Terms */}
+                <div>
+                  <h3 className="text-xl font-semibold mb-3 text-cyan-400">
+                    10. Acceptance of Terms
+                  </h3>
+                  <p>
+                    Completion of payment constitutes full and unconditional acceptance of all
+                    terms and conditions stated above. The candidate confirms that they have
+                    read, understood, and agreed to these terms before making the payment.
+                  </p>
+                </div>
+              </div>
+            </section>
+
             {/* Assigned Teams and Responsibilities */}
             <section className="bg-gradient-to-br from-cyan-500/10 via-blue-500/10 to-purple-500/10 border border-cyan-400/30 rounded-lg p-6">
               <h2 className="text-2xl font-semibold mb-4 text-white">

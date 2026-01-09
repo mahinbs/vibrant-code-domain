@@ -304,6 +304,15 @@ const App = () => {
                 }
               />
               <Route
+                path="/index.php/aie-termsconditions"
+                element={
+                  <>
+                    <FloatingWhatsAppButton />
+                    <TermsAndConditions />
+                  </>
+                }
+              />
+              <Route
                 path="/partnership"
                 element={
                   <>
