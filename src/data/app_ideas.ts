@@ -5010,8 +5010,6 @@ export const mockProducts: DetailedProduct[] = [
       "Auto-Drip"
     ]
   },
-
-  // the below are new ideas
   {
     id: 39,
     title: "Restaurant Menu Intelligence",
@@ -6853,6 +6851,379 @@ export const mockProducts: DetailedProduct[] = [
       "Website widget with auto-placement suggestions",
       "Simple analytics for conversion impact"
     ]
+  },
+  {
+    id: 60,
+    title: "SubSentry – Unified Subscription Tracking & Reminder App",
+    categories: ["Micro SaaS", "B2C"],
+    tagline: "Know where your money goes before it goes.",
+    description: "SubSentry is a smart mobile application that detects and lists all active subscriptions in one place, sends timely reminders before payments, and helps users cancel unused services to stop silent money leakage.",
+    author: "Boostmysites",
+    image: "/assets/projects/SubSentry-1.png",
+    images: ["/assets/projects/SubSentry-1.png"],
+    rating: 4.8,
+    price: 45000,
+    overview: "SubSentry acts as a centralized dashboard for all your recurring payments. It automatically fetches subscription data via UPI mandates, SMS parsing, and recurring patterns to give you full visibility of your spending. With smart alerts for upcoming bills and price hikes, and direct cancellation assistance, it ensures you never pay for an unused service again.",
+    problem: "Users subscribe to multiple services (OTT, SaaS, Fitness) and forget about them, leading to silent money leakage. Banks provide poor visibility, cancellations are difficult, and manual tracking is impractical.",
+    solution: "A single app that detects all subscriptions, shows billing details, sends proactive reminders 3-5 days before debit, and provides actionable insights to save money.",
+    coreFeatures: [
+      "Subscription Detection via UPI/SMS/Email",
+      "Unified Subscription Dashboard (Active/Upcoming/Cancelled)",
+      "Smart Alerts & Reminders (3-5 days prior)",
+      "Cancellation Assistance with deep links",
+      "Monthly & Yearly Spend Summary",
+      "AI Spending Insights (Phase 2)"
+    ],
+    targetUsers: "Young professionals, Students, Freelancers, SaaS Founders, Families with shared subscriptions.",
+    marketOpportunity: [
+      "Subscription economy is booming globally",
+      "Users lose significant money on forgotten subscriptions",
+      "High retention due to direct financial savings"
+    ],
+    monetizationModel: {
+      plans: [
+        "Free Tier: Track up to 5 subscriptions",
+        "Premium (₹99-₹199/month): Unlimited tracking, Smart alerts, Family support"
+      ],
+      pricing: [
+        "Premium: ₹99-₹199/month"
+      ],
+      revenue: [
+        "Recurring subscription revenue",
+        "High volume B2C potential"
+      ]
+    },
+    techStack: {
+      frontend: ["React Native/Flutter"],
+      backend: ["Node.js/Python"],
+      ai: ["Pattern detection engine"],
+      database: ["PostgreSQL"],
+      hosting: ["AWS"],
+      integrations: ["SMS Parser", "Gmail API", "UPI"]
+    },
+    developmentBudget: {
+      mvp: ["Mobile App & Backend: ₹40,000"],
+      standard: ["AI Insights: +₹20,000"],
+      premium: ["Full Integrations: +₹30,000"]
+    },
+    roiProjection: {
+      timeline: ["Month 1-6: User acquisition", "Month 12: Profitability"],
+      projections: ["High LTV due to utility"],
+      userROI: ["Save ₹4000-₹5000/year by cancelling unused apps"]
+    },
+    vision: "To become the money-protection tool for the subscription economy.",
+    features: ["Auto-detection", "Smart Reminders", "Spend Analytics", "Cancellation Support"]
+  },
+  {
+    id: 61,
+    title: "SalonFlow AI – Smart CRM & Growth System for Salons",
+    categories: ["Micro SaaS", "B2B"],
+    tagline: "The central operating system for modern salons.",
+    description: "SalonFlow AI is a micro SaaS built specifically for salons to manage appointments, customers, staff, payments, and repeat marketing from one simple dashboard, helping owners reduce no-shows and increase retention.",
+    author: "Boostmysites",
+    image: "/assets/projects/SalonFlow-1.png",
+    images: ["/assets/projects/SalonFlow-1.png"],
+    rating: 4.9,
+    price: 48000,
+    overview: "SalonFlow AI digitizes salon operations, replacing manual registers with a smart system. It handles online bookings, sends automated WhatsApp reminders, tracks staff commissions, and manages customer history to drive repeat business.",
+    problem: "Salons rely on manual methods leading to missed appointments, no customer data, and poor staff accountability. Existing tools are too complex or expensive for local businesses.",
+    solution: "A unified platform for appointments, CRM, billing, and marketing that is easy to use for non-technical salon owners.",
+    coreFeatures: [
+      "Online appointment booking page",
+      "Customer CRM with visit history",
+      "Automated WhatsApp/SMS reminders",
+      "Digital billing & payment records",
+      "Staff schedule & commission tracking",
+      "Repeat-customer offers & loyalty points"
+    ],
+    targetUsers: "Local salons, Spas, Unisex salons, Independent stylists, Salon chains.",
+    marketOpportunity: [
+      "Large offline market shifting digital",
+      "Direct revenue impact for owners",
+      "Low churn daily-use product"
+    ],
+    monetizationModel: {
+      plans: [
+        "Starter: ₹799/month (1 branch)",
+        "Pro: ₹1,499/month (CRM + Automation)",
+        "Multi-branch: ₹2,999/month"
+      ],
+      pricing: [
+        "Starter: ₹799/mo",
+        "Pro: ₹1,499/mo"
+      ],
+      revenue: [
+        "Recurring SaaS revenue",
+        "Setup fees: ₹5,000 - ₹15,000"
+      ]
+    },
+    techStack: {
+      frontend: ["React/Next.js"],
+      backend: ["Node.js"],
+      ai: ["Basic analytics"],
+      database: ["PostgreSQL"],
+      hosting: ["Vercel"],
+      integrations: ["WhatsApp API"]
+    },
+    developmentBudget: {
+      mvp: ["Frontend: ₹15,000", "Backend: ₹18,000", "API/Misc: ₹15,000"],
+      standard: ["Total ~₹48,000"],
+      premium: ["Advanced Features: +₹20,000"]
+    },
+    roiProjection: {
+      timeline: ["Month 3: Break-even"],
+      projections: ["Steady growth via referrals"],
+      userROI: ["Reduce no-shows by 30%", "Increase repeat rate by 20%"]
+    },
+    vision: "To digitize every local salon and empower them with enterprise-grade tools.",
+    features: ["Online Booking", "CRM", "Staff Tracking", "Marketing Automation"]
+  },
+  {
+    id: 62,
+    title: "Loophole – Industrial Waste Matchmaking Marketplace",
+    categories: ["B2B", "Sustainability"],
+    tagline: "Turn waste into resource. Industrial matchmaking for a circular economy.",
+    description: "Loophole is a B2B platform that turns one company's waste into another's raw material. It functions as a geo-fenced marketplace connecting producers of by-products with businesses that can use them.",
+    author: "Boostmysites",
+    image: "/assets/projects/Loophole-1.png",
+    images: ["/assets/projects/Loophole-1.png"],
+    rating: 4.7,
+    price: 60000,
+    overview: "Loophole uses AI to match industrial waste streams (sawdust, peels, fabric scraps) with potential buyers. It handles the 'waste-to-resource' connection including logistics, helping businesses reduce disposal costs and discover cheap raw materials.",
+    problem: "Millions of tons of usable industrial by-products end up in landfills because there is no localized marketplace to connect producers with potential users. Disposal is a cost center.",
+    solution: "A marketplace where 'Producers' list waste, AI matches it to 'Recipients', and the app integrates local freight for 'Last-Mile' transfer.",
+    coreFeatures: [
+      "The 'Upcycle' Algorithm for material matching",
+      "Geo-fenced marketplace for local trade",
+      "Carbon Credit Tracker for emissions saved",
+      "Recurring Subscription Contracts for pickups",
+      "Logistics integration for transport"
+    ],
+    targetUsers: "Small-to-Medium Manufacturers, Eco-Startups, Artisans, Municipalities.",
+    marketOpportunity: [
+      "Growing demand for circular economy solutions",
+      "Tax incentives for waste reduction",
+      "Corporate ESG goals"
+    ],
+    monetizationModel: {
+      plans: [
+        "Subscription for recurring pickups",
+        "Transaction fee on sales"
+      ],
+      pricing: [
+        "Custom B2B pricing"
+      ],
+      revenue: [
+        "Marketplace commissions",
+        "SaaS fees for logicstics management"
+      ]
+    },
+    techStack: {
+      frontend: ["React/Web"],
+      backend: ["Python/Django"],
+      ai: ["Matching Algorithm"],
+      database: ["PostgreSQL"],
+      hosting: ["AWS"],
+      integrations: ["Freight APIs"]
+    },
+    developmentBudget: {
+      mvp: ["Platform: ₹50,000"],
+      standard: ["AI Matching: +₹30,000"],
+      premium: ["Full Logistics: +₹50,000"]
+    },
+    roiProjection: {
+      timeline: ["Month 6-12: Network effect kick-in"],
+      projections: ["High volume potential in industrial zones"],
+      userROI: ["Eliminate dumping fees", "Sourcing cheaper materials"]
+    },
+    vision: "To creat a zero-waste industrial ecosystem where every by-product has a value.",
+    features: ["Waste Matching", "Carbon Tracking", "Logistics Coordination", "Recurring Pickups"]
+  },
+  {
+    id: 63,
+    title: "PriceSense – AI Pricing Intelligence for SMEs",
+    categories: ["B2B", "SaaS"],
+    tagline: "Data-driven pricing for the Indian SME.",
+    description: "PriceSense is an AI-powered pricing intelligence platform that helps SMEs decide the right selling price by combining cost structures, demand signals, and market intelligence.",
+    author: "Boostmysites",
+    image: "/assets/projects/PriceSense-1.png",
+    images: ["/assets/projects/PriceSense-1.png"],
+    rating: 4.8,
+    price: 55000,
+    overview: "PriceSense moves SMEs away from gut-instinct pricing. It provides clear recommendations on the minimum safe price, optimal margin price, and competitive options based on real-time cost breakups and market conditions.",
+    problem: "SMEs price products using outdated Excel sheets or gut instinct, leading to margin erosion and lost deals in a volatile market.",
+    solution: "An AI tool that inputs costs and market data to output the optimal price for today, protecting margins and maximizing competitiveness.",
+    coreFeatures: [
+      "Cost Intelligence (SKU-level breakup)",
+      "AI Price Recommendations (Safe/Optimal/Competitive)",
+      "Demand & Seasonality Insights",
+      "Scenario Simulation (Impact of discounts/cost changes)",
+      "Explainable Logic for recommendations"
+    ],
+    targetUsers: "Small & medium manufacturers, Wholesale traders, Export-oriented SMEs.",
+    marketOpportunity: [
+      "60+ million MSMEs in India",
+      "Pricing accuracy directly improves ROI",
+      "Underserved market for BI tools"
+    ],
+    monetizationModel: {
+      plans: [
+        "SaaS Subscription: ₹2,500 – ₹6,000/month",
+        "Add-ons: Industry benchmarks, Export modules"
+      ],
+      pricing: [
+        "Standard: ₹2,500/mo",
+        "Pro: ₹6,000/mo"
+      ],
+      revenue: [
+        "High ARPU B2B SaaS",
+        "Performance-linked upsides"
+      ]
+    },
+    techStack: {
+      frontend: ["React/Next.js"],
+      backend: ["Python (Pandas/Scikit-learn)"],
+      ai: ["Pricing Models"],
+      database: ["PostgreSQL"],
+      hosting: ["AWS"],
+      integrations: ["ERP (Optional)", "Excel Import"]
+    },
+    developmentBudget: {
+      mvp: ["Core Engine: ₹40,000"],
+      standard: ["Advanced AI: +₹30,000"],
+      premium: ["Full Benchmarking: +₹30,000"]
+    },
+    roiProjection: {
+      timeline: ["Month 6: 50 Customers"],
+      projections: ["₹2.5L MRR by Year 1"],
+      userROI: ["2-3% margin improvement delivers 10x ROI"]
+    },
+    vision: "To become the default pricing decision system for Indian SMEs.",
+    features: ["Cost Analysis", "Price Recommendation", "Scenario Planning", "Market Insights"]
+  },
+  {
+    id: 64,
+    title: "QueueSure AI – Smart Queue & Appointment Optimization",
+    categories: ["Micro SaaS", "B2B"],
+    tagline: "Stop waiting. Start living.",
+    description: "QueueSure AI is an intelligent queue management system that uses AI to predict waiting times, optimize service flow, and reduce overcrowding via QR check-ins and real-time alerts.",
+    author: "Boostmysites",
+    image: "/assets/projects/QueueSure-1.png",
+    images: ["/assets/projects/QueueSure-1.png"],
+    rating: 4.8,
+    price: 49000,
+    overview: "QueueSure AI helps high-footfall businesses like clinics and banks manage crowds. Customers check in via QR, see predicted wait times, and get notified when it's their turn, eliminating physical lines.",
+    problem: "Overcrowding and long wait times lead to customer dissatisfaction and lost revenue. Traditional token systems are dumb and lack visibility.",
+    solution: "Predictive queue management that balances load and notifies users, reducing anxiety and physical crowding.",
+    coreFeatures: [
+      "AI-based wait time prediction",
+      "QR & online check-in",
+      "Live queue status & SMS/WhatsApp notifications",
+      "Staff and peak-hour analytics",
+      "Zero hardware requirement"
+    ],
+    targetUsers: "Hospitals, Clinics, Banks, Government offices, Temples, Salons.",
+    marketOpportunity: [
+      "Universal problem in service sectors",
+      "High scalability across geographies",
+      "Operationally critical tool"
+    ],
+    monetizationModel: {
+      plans: [
+        "B2B Subscription: ₹999 - ₹9,999/month",
+        "Enterprise Licensing"
+      ],
+      pricing: [
+        "Basic: ₹999/mo",
+        "Premium: ₹9,999/mo"
+      ],
+      revenue: [
+        "Recurring SaaS",
+        "Setup fees"
+      ]
+    },
+    techStack: {
+      frontend: ["React/Mobile Web"],
+      backend: ["Node.js"],
+      ai: ["Time series prediction"],
+      database: ["Firebase/PostgreSQL"],
+      hosting: ["Cloud-agnostic"],
+      integrations: ["WhatsApp API"]
+    },
+    developmentBudget: {
+      mvp: ["Functional System: <₹50,000"],
+      standard: ["Advanced Analytics: +₹20,000"],
+      premium: ["Enterprise Features: +₹50,000"]
+    },
+    roiProjection: {
+      timeline: ["Month 3: Pilot traction"],
+      projections: ["Strong retention due to operational reliance"],
+      userROI: ["Better experience = Customer retention"]
+    },
+    vision: "To make waiting in line a thing of the past.",
+    features: ["Smart Queue", "Wait Prediction", "Remote Check-in", "staff Analytics"]
+  },
+  {
+    id: 65,
+    title: "RevenueGuard – Creator Affiliate Revenue Protector",
+    categories: ["Micro SaaS", "Creator Economy"],
+    tagline: "The automated revenue guard for high-volume creators.",
+    description: "RevenueGuard continuously monitors affiliate links across a creator's content library. It detects broken links, out-of-stock products, or changed URLs and instantly notifies the team to prevent revenue loss.",
+    author: "Boostmysites",
+    image: "/assets/projects/RevenueGuard-1.png",
+    images: ["/assets/projects/RevenueGuard-1.png"],
+    rating: 4.9,
+    price: 52000,
+    overview: "For creators with years of content, checking links is impossible. RevenueGuard simulates user clicks to verify product availability across YouTube, Blogs, and Link-in-Bios, calculating potential lost revenue and alerting you to swap links immediately.",
+    problem: "Creators lose massive passive income when affiliate products go out of stock or links break in old viral videos. Manual checking is impossible at scale.",
+    solution: "An automated engine that audits all links 24/7, detecting 'soft' errors like 'Out of Stock' and 'Page Not Found', ensuring every click counts.",
+    coreFeatures: [
+      "Multi-Platform Scanning (YouTube, Web, Linktree)",
+      "'Out-of-Stock' Intelligence",
+      "Broken Link Detection",
+      "ROI Dashboard (Lost Revenue Calculator)",
+      "Instant Alerts (Email/Slack)"
+    ],
+    targetUsers: "Tech & Lifestyle Influencers, Affiliate Entrepreneurs, Creator Management Agencies.",
+    marketOpportunity: [
+      "Exploding creator economy",
+      "Affiliate income is a major revenue stream",
+      "High pain point for established creators"
+    ],
+    monetizationModel: {
+      plans: [
+        "Starter: Monitor up to 1000 links",
+        "Pro: Monitor up to 10,000 links",
+        "Agency: Unlimited + Multi-account"
+      ],
+      pricing: [
+        "Tiered SaaS pricing (e.g. $29 - $199/mo)"
+      ],
+      revenue: [
+        "High margin SaaS",
+        "Sticky utility for high-earners"
+      ]
+    },
+    techStack: {
+      frontend: ["React Dashboard"],
+      backend: ["Node.js/Python Scrapers"],
+      ai: ["Stock status detection"],
+      database: ["PostgreSQL"],
+      hosting: ["AWS/Vercel"],
+      integrations: ["YouTube API", "Slack API"]
+    },
+    developmentBudget: {
+      mvp: ["Scraper Engine + Dashboard: ₹40,000"],
+      standard: ["Platform Integrations: +₹20,000"],
+      premium: ["Agency Features: +₹30,000"]
+    },
+    roiProjection: {
+      timeline: ["Immediate value realization"],
+      projections: ["High conversion for pro creators"],
+      userROI: ["recover $1000s in lost commissions"]
+    },
+    vision: "To ensure creators never lose a dollar they earned.",
+    features: ["Link Audit", "Stock Monitor", "Revenue Calc", "Smart Alerts"]
   }
 ];
 
