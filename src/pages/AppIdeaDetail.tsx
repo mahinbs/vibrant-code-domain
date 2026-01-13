@@ -116,7 +116,7 @@ const AppIdeaDetail = () => {
                         </div>
 
                         {/* Second Image Section */}
-                        <div className="container mx-auto px-4 py-6">
+                        {product.images[1] ? <div className="container mx-auto px-4 py-6">
                             <div className="max-w-xl mx-auto">
                                 <div className="aspect-auto max-h-[600px] overflow-hidden rounded-2xl bg-gradient-to-br from-primary/10 to-accent/10 border-2 border-primary/20 shadow-xl">
                                     <img
@@ -126,7 +126,7 @@ const AppIdeaDetail = () => {
                                     />
                                 </div>
                             </div>
-                        </div>
+                        </div> : null}
 
                         {/* Problem Section */}
                         <div>
@@ -198,7 +198,7 @@ const AppIdeaDetail = () => {
                         </div>
 
                         {/* Third Image Section */}
-                        <div className="container mx-auto px-4 py-6">
+                        {product.images[2] ? <div className="container mx-auto px-4 py-6">
                             <div className="max-w-xl mx-auto">
                                 <div className="aspect-auto max-h-[600px] overflow-hidden rounded-2xl bg-gradient-to-br from-primary/10 to-accent/10 border-2 border-primary/20 shadow-xl">
                                     <img
@@ -208,7 +208,7 @@ const AppIdeaDetail = () => {
                                     />
                                 </div>
                             </div>
-                        </div>
+                        </div> : null}
 
                         {/* Target Users Section */}
                         {product.targetUsers && (
@@ -577,7 +577,7 @@ const AppIdeaDetail = () => {
                         </div>
 
                         {/* Fourth Image Section */}
-                        <div className="container mx-auto px-4 py-6">
+                        {product.images[3] ? <div className="container mx-auto px-4 py-6">
                             <div className="max-w-2xl mx-auto">
                                 <div className="aspect-auto max-h-[600px] overflow-hidden rounded-2xl bg-gradient-to-br from-primary/10 to-accent/10 border-2 border-primary/20 shadow-xl">
                                     <img
@@ -587,7 +587,7 @@ const AppIdeaDetail = () => {
                                     />
                                 </div>
                             </div>
-                        </div>
+                        </div> : null}
 
                         {/* Vision Section */}
                         <div>

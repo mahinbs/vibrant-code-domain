@@ -6757,6 +6757,102 @@ export const mockProducts: DetailedProduct[] = [
     },
     vision: "Make professional tenant screening accessible to every landlord.",
     features: ["Data Aggregation", "Automated Verification", "AI Risk Scoring", "Compliance Check"]
+  },
+  {
+    id: 59,
+    title: "Proofly AI – Smart Testimonials & Trust Builder",
+    categories: ["Micro SaaS", "Business"],
+    tagline: "Smart Testimonials & Trust Builder",
+    description: "Proofly AI is a micro SaaS that helps small businesses, freelancers, agencies, and SaaS founders automatically collect, manage, and display customer testimonials with AI-powered credibility scoring and smart placement suggestions.",
+    author: "Boostmysites",
+    image: "/assets/projects/Proofly AI-1.png",
+    images: [
+      "/assets/projects/Proofly AI-1.png"
+    ],
+    rating: 4.9,
+    price: 49000,
+    overview: "Proofly AI collects testimonials via simple links or WhatsApp, enhances them using AI, verifies authenticity, and shows them on websites in high-conversion positions using lightweight widgets.",
+    problem: "Most small businesses struggle to convert visitors into customers because they lack trust. They either have no testimonials or poorly displayed ones. Existing tools are expensive, complex, or overkill for small teams.",
+    solution: "Proofly AI collects testimonials via simple links or WhatsApp, enhances them using AI, verifies authenticity, and shows them on websites in high-conversion positions using lightweight widgets.",
+    coreFeatures: [
+      "One-click testimonial collection link",
+      "WhatsApp and email testimonial requests",
+      "AI-powered testimonial rewriting for clarity and impact",
+      "Trust score based on content quality and customer details",
+      "Website widget with auto-placement suggestions",
+      "Simple analytics for conversion impact"
+    ],
+    targetUsers: "Freelancers, agencies, course creators, coaches, micro SaaS founders, local businesses, and consultants.",
+    marketOpportunity: [
+      "Trust directly increases sales",
+      "Businesses are willing to pay small monthly fees",
+      "Low churn, high perceived value",
+      "Easy upsell potential"
+    ],
+    roiProjection: {
+      timeline: [
+        "Month 1-3: 100 users = ₹50,000 MRR",
+        "Month 6: 500 users = ₹250,000 MRR",
+        "Month 12: 1000 users = ₹500,000 MRR"
+      ],
+      projections: [
+        "Year 1: ₹50L+ ARR",
+        "Year 2: ₹1.5Cr+ ARR"
+      ],
+      userROI: [
+        "Increase conversion rates by 10-20%",
+        "Build trust instantly with visitors",
+        "Automated collection saves hours per week"
+      ]
+    },
+    monetizationModel: {
+      plans: [
+        "Starter: ₹499/month",
+        "Pro: ₹999/month",
+        "Agency: ₹2,499/month",
+        "White-label add-on: ₹5,000/year"
+      ],
+      pricing: [
+        "Starter: ₹499/month",
+        "Pro: ₹999/month",
+        "Agency: ₹2,499/month",
+        "White-label add-on: ₹5,000/year"
+      ],
+      revenue: [
+        "Trust directly increases sales",
+        "Low churn, high perceived value",
+        "Easy upsell potential"
+      ]
+    },
+    techStack: {
+      frontend: ["React/Next.js", "TailwindCSS"],
+      backend: ["Node.js/Python"],
+      ai: ["OpenAI API"],
+      database: ["PostgreSQL/MongoDB"],
+      hosting: ["Vercel/AWS"],
+      integrations: ["WhatsApp API", "Email Services"]
+    },
+    developmentBudget: {
+      mvp: [
+        "Frontend: ₹15,000"
+      ],
+      standard: [
+        "Backend: ₹20,000",
+        "AI API & Hosting: ₹10,000"
+      ],
+      premium: [
+        "Design & Misc: ₹5,000"
+      ]
+    },
+    vision: "To become the standard for building trust online for small businesses.",
+    features: [
+      "One-click testimonial collection link",
+      "WhatsApp and email testimonial requests",
+      "AI-powered testimonial rewriting",
+      "Trust score based on content quality",
+      "Website widget with auto-placement suggestions",
+      "Simple analytics for conversion impact"
+    ]
   }
 ];
 
