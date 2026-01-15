@@ -255,6 +255,14 @@ const Header = memo(() => {
               })}
             </div>
 
+            <Link
+              to="https://saas.boostmysites.com"
+              target="_blank"
+              className="lg:flex hidden group relative bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-6 py-2 rounded-lg hover:from-cyan-400 hover:to-blue-500 transition-all duration-300 font-semibold text-sm items-center space-x-3 shadow-lg hover:shadow-cyan-500/25 transform hover:scale-105 gpu-accelerate"
+            >
+              Start Your Own Saas Business
+            </Link>
+
             {/* Mobile Menu Button */}
             <button
               className="lg:hidden p-2 z-50 relative touch-manipulation"
@@ -354,6 +362,13 @@ const Header = memo(() => {
                   );
                 }
               })}
+              <Link
+                to="https://saas.boostmysites.com"
+                target="_blank"
+                className="flex lg:hidden group relative bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-6 py-2 rounded-lg hover:from-cyan-400 hover:to-blue-500 transition-all duration-300 font-semibold text-sm items-center space-x-3 shadow-lg hover:shadow-cyan-500/25 transform hover:scale-105 gpu-accelerate"
+              >
+                Start Your Own Saas Business
+              </Link>
             </div>
           </div>
         </>
