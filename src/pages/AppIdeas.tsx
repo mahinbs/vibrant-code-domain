@@ -9,7 +9,7 @@ const AppIdeas = () => {
     const [activeCategory, setActiveCategory] = useState("Micro SaaS");
     const [searchQuery, setSearchQuery] = useState("");
 
-    const filteredProducts = mockProducts.filter((product) => {
+    const filteredProducts = mockProducts.sort((a, b) => b.id - a.id).filter((product) => {
         const matchesCategory = activeCategory === "Micro SaaS"
             ? true
             : product.categories.includes(activeCategory);

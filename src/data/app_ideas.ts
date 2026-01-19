@@ -7224,6 +7224,1053 @@ export const mockProducts: DetailedProduct[] = [
     },
     vision: "To ensure creators never lose a dollar they earned.",
     features: ["Link Audit", "Stock Monitor", "Revenue Calc", "Smart Alerts"]
+  },
+  {
+    id: 66,
+    title: "NoShowGuard – SaaS Idea Overview",
+    categories: ["Micro SaaS", "Business"],
+    tagline: "A SaaS platform that helps service businesses reduce customer no-shows using smart advance commitments and accountability tools.",
+    description: "NoShowGuard introduces a commitment-based booking system with small advance payments, automated reminders, customer no-show tracking, and smart rescheduling to protect business income.",
+    author: "Boostmysites",
+    image: "/assets/projects/NoShowGuard-1.png",
+    images: ["/assets/projects/NoShowGuard-1.png"],
+    rating: 4.7,
+    price: 50000,
+    overview: "NoShowGuard is a SaaS platform that helps service businesses reduce customer no-shows using smart advance commitments and accountability tools. It introduces a commitment-based booking system with small advance payments, automated reminders, customer no-show tracking, and smart rescheduling to protect business income.",
+    problem: "Indian service businesses lose 30–40% of revenue due to customer no-shows. Existing booking tools only schedule appointments and fail to prevent or penalize repeat defaulters, forcing businesses to absorb losses.",
+    solution: "NoShowGuard introduces a commitment-based booking system with small advance payments, automated reminders, customer no-show tracking, and smart rescheduling to protect business income. Businesses reduce no-shows by up to 70%, recover partial revenue from cancellations, and fill empty slots faster—leading to higher monthly income without new customer acquisition.",
+    howItWorks: "1. Customer books appointment with advance payment commitment. 2. System sends automated WhatsApp & SMS reminders. 3. Tracks no-shows and maintains customer score dashboard. 4. Auto rebooking and waitlist fill for empty slots. 5. Refund and partial charge rules applied automatically. 6. GST-ready invoices generated.",
+    coreFeatures: [
+      "Advance booking amount collection",
+      "WhatsApp & SMS reminders",
+      "Auto rebooking and waitlist fill",
+      "Customer no-show score dashboard",
+      "Refund and partial charge rules",
+      "Shareable booking links",
+      "GST-ready invoices"
+    ],
+    targetUsers: "Clinics, salons, coaching centers, consultants, fitness trainers, freelancers, and appointment-based SMBs across urban and tier-2 cities in India.",
+    marketOpportunity: [
+      "30–40% revenue loss due to no-shows affects millions of Indian service businesses",
+      "Widespread problem across clinics, salons, coaching centers, and consultants",
+      "Advance payments are culturally accepted in India",
+      "High WhatsApp adoption makes reminders effective",
+      "SMBs strongly value cash-flow protection",
+      "1,000 businesses paying ₹1,999/month can generate nearly ₹20 lakhs per month",
+      "Scaling to 5,000 businesses creates strong ARR potential"
+    ],
+    monetizationModel: {
+      plans: [
+        "Basic Plan: ₹999/month - Core booking and reminders",
+        "Pro Plan: ₹1,999/month - Advanced features + analytics",
+        "Premium Plan: ₹3,999/month - Full suite + priority support"
+      ],
+      pricing: [
+        "Subscription plans starting from ₹999/month to ₹3,999/month",
+        "Optional per-booking transaction fees",
+        "1,000 businesses × ₹1,999/month = ₹19.99 lakhs MRR",
+        "5,000 businesses × ₹1,999/month = ₹99.95 lakhs MRR"
+      ],
+      revenue: [
+        "Strong ARR potential with 5,000+ businesses",
+        "Recurring subscription model with high retention",
+        "Transaction fees provide additional revenue stream",
+        "Target: ₹20 lakhs+ MRR with 1,000 businesses"
+      ]
+    },
+    techStack: {
+      frontend: ["React/Flutter"],
+      backend: ["Node.js/Python"],
+      database: ["Firebase/Supabase"],
+      hosting: ["AWS/Vercel"],
+      integrations: ["Razorpay", "WhatsApp API", "SMS Gateway"]
+    },
+    competitiveAdvantage: {
+      features: [
+        "Commitment-based booking system",
+        "No-show tracking and scoring",
+        "Automated reminder system",
+        "Smart rescheduling and waitlist"
+      ],
+      comparisons: [
+        "vs Traditional booking tools: Prevents no-shows, not just schedules",
+        "vs Manual systems: Automated reminders and tracking",
+        "vs Competitors: Focus on revenue protection"
+      ],
+      uniqueSelling: [
+        "Reduces no-shows by up to 70%",
+        "Recovers partial revenue from cancellations",
+        "Fills empty slots faster with waitlist",
+        "Culturally adapted for Indian market"
+      ]
+    },
+    developmentBudget: {
+      mvp: [
+        "Core booking system + advance payment + basic reminders",
+        "Cost: ₹40,000 – ₹60,000 using React/Flutter, Firebase/Supabase, Razorpay, and WhatsApp API"
+      ],
+      standard: [
+        "Advanced features + analytics + no-show tracking",
+        "Cost: +₹20,000 for additional features"
+      ],
+      premium: [
+        "Full suite + integrations + white-label options",
+        "Cost: +₹30,000 for premium features"
+      ]
+    },
+    roiProjection: {
+      timeline: [
+        "Month 1–3: MVP launch + onboarding 50 businesses → ₹1 lakh MRR",
+        "Month 4–6: Scale via partnerships + referrals → ₹5 lakhs MRR",
+        "Month 7–12: Market expansion → ₹20 lakhs+ MRR"
+      ],
+      projections: [
+        "Year 1: ₹20 lakhs+ MRR target with 1,000 businesses",
+        "Year 2: ₹1 crore+ MRR with 5,000 businesses",
+        "Strong ARR potential with subscription model"
+      ],
+      userROI: [
+        "Businesses reduce no-shows by up to 70%",
+        "Recover partial revenue from cancellations",
+        "Fill empty slots faster—leading to higher monthly income",
+        "No new customer acquisition needed for revenue growth",
+        "ROI: Businesses see immediate impact on cash flow"
+      ]
+    },
+    vision: "To make no-shows a thing of the past for Indian service businesses, ensuring every booked slot generates revenue and protects business income.",
+    features: [
+      "Advance booking amount collection",
+      "WhatsApp & SMS reminders",
+      "Auto rebooking and waitlist fill",
+      "Customer no-show score dashboard",
+      "Refund and partial charge rules",
+      "Shareable booking links",
+      "GST-ready invoices"
+    ]
+  },
+  {
+    id: 67,
+    title: "ClinicDesk AI – Smart Clinic Operations & Patient CRM",
+    categories: ["Micro SaaS", "Business"],
+    tagline: "The operating system for clinics. Manage appointments, patients, billing, and follow-ups from one simple system.",
+    description: "ClinicDesk AI is a micro SaaS built for small clinics, dental clinics, and diagnostic centers to manage appointments, patients, billing, and follow-ups from one simple system. It helps doctors reduce waiting time, increase repeat visits, and run clinics more professionally without hiring extra staff.",
+    author: "Boostmysites",
+    image: "/assets/projects/ClinicDesk AI-1.jpeg",
+    images: ["/assets/projects/ClinicDesk AI-1.jpeg"],
+    rating: 4.8,
+    price: 48000,
+    overview: "ClinicDesk AI becomes the operating system for clinics. It manages online and walk-in appointments, complete patient history, automated reminders, billing, and real-time clinic dashboards — all on web and mobile. It helps doctors reduce waiting time, increase repeat visits, and run clinics more professionally without hiring extra staff.",
+    problem: "Most small and mid-size clinics still operate on manual registers, phone-based appointments, and scattered patient records. This causes long waiting times, lost data, missed follow-ups, revenue leakage, and poor patient experience. Existing hospital software is too expensive, too complex, and built for big hospitals — not clinics.",
+    solution: "ClinicDesk AI becomes the operating system for clinics. It manages online and walk-in appointments, complete patient history, automated reminders, billing, and real-time clinic dashboards — all on web and mobile. Doctors can reduce waiting time, increase repeat visits, and run clinics more professionally without hiring extra staff.",
+    howItWorks: "1. Clinic sets up account and adds doctor/staff profiles. 2. Patients book appointments online or walk-in gets token. 3. System tracks patient history, prescriptions, and reports. 4. Automated WhatsApp/SMS reminders for appointments and follow-ups. 5. Digital billing and payment tracking. 6. Real-time dashboard shows clinic performance and patient metrics.",
+    coreFeatures: [
+      "Appointment & token system (online + walk-in)",
+      "Patient CRM (history, reports, prescriptions, notes)",
+      "Automated WhatsApp/SMS reminders",
+      "Digital prescriptions & visit records",
+      "Billing & payment tracking",
+      "Follow-up and re-visit automation",
+      "Doctor & staff management",
+      "Clinic performance dashboard"
+    ],
+    targetUsers: "Small clinics, dental clinics, skin & cosmetic clinics, diagnostic centers, Ayurveda & homeopathy clinics, and multi-doctor clinics.",
+    marketOpportunity: [
+      "Massive offline healthcare market in India",
+      "Thousands of small and mid-size clinics need digital solutions",
+      "Healthcare businesses have very high lifetime value",
+      "Daily-use software means very low churn",
+      "Direct impact on patient experience and clinic revenue",
+      "Easy expansion into labs, pharmacies, and hospitals",
+      "Strong referral potential between doctors"
+    ],
+    monetizationModel: {
+      plans: [
+        "Starter: ₹999/month (single doctor clinic)",
+        "Pro: ₹1,999/month (multi-doctor + automation)",
+        "Clinic Plus: ₹3,499/month (reports + advanced CRM)"
+      ],
+      pricing: [
+        "Starter: ₹999/month for single doctor clinic",
+        "Pro: ₹1,999/month for multi-doctor + automation",
+        "Clinic Plus: ₹3,499/month for reports + advanced CRM",
+        "One-time setup & training: ₹5,000 – ₹20,000"
+      ],
+      revenue: [
+        "High lifetime value from healthcare businesses",
+        "Very low churn due to daily-use software",
+        "Recurring subscription revenue model",
+        "One-time setup fees provide additional revenue",
+        "Strong potential for upselling to higher tiers"
+      ]
+    },
+    techStack: {
+      frontend: ["React/Next.js", "Mobile-responsive design"],
+      backend: ["Node.js/Python"],
+      database: ["PostgreSQL/MongoDB"],
+      hosting: ["AWS/Vercel"],
+      integrations: ["WhatsApp API", "SMS Gateway", "Payment Gateway"]
+    },
+    competitiveAdvantage: {
+      features: [
+        "Built specifically for small clinics, not big hospitals",
+        "Simple and affordable vs complex hospital software",
+        "Complete clinic management in one system",
+        "Automated reminders and follow-ups"
+      ],
+      comparisons: [
+        "vs Hospital software: Affordable, simple, clinic-focused",
+        "vs Manual systems: Digital, automated, efficient",
+        "vs Competitors: Complete solution at lower cost"
+      ],
+      uniqueSelling: [
+        "Easy to explain to doctors and investors",
+        "Solves a painful, visible problem",
+        "Massive offline healthcare market",
+        "Can scale into full healthcare SaaS ecosystem"
+      ]
+    },
+    developmentBudget: {
+      mvp: [
+        "Core appointment system + patient CRM + basic billing",
+        "Frontend: ₹15,000",
+        "Backend & database: ₹18,000",
+        "WhatsApp/SMS API + hosting (initial): ₹10,000",
+        "UI/UX, testing & deployment: ₹5,000",
+        "Estimated total: ₹48,000"
+      ],
+      standard: [
+        "Advanced features + analytics + multi-doctor support",
+        "Cost: +₹20,000 for additional features"
+      ],
+      premium: [
+        "Full suite + reports + advanced CRM + integrations",
+        "Cost: +₹30,000 for premium features"
+      ]
+    },
+    roiProjection: {
+      timeline: [
+        "Month 1–3: MVP launch + onboarding 20 clinics → ₹20K MRR",
+        "Month 4–6: Scale via doctor referrals → ₹1 lakh MRR",
+        "Month 7–12: Market expansion → ₹5 lakhs+ MRR"
+      ],
+      projections: [
+        "Year 1: ₹5 lakhs+ MRR target with 250+ clinics",
+        "Year 2: ₹25 lakhs+ MRR with 1,250+ clinics",
+        "Strong ARR potential with healthcare subscription model"
+      ],
+      userROI: [
+        "Doctors reduce waiting time significantly",
+        "Increase repeat visits through automated follow-ups",
+        "Run clinics more professionally without extra staff",
+        "Better patient experience leads to higher revenue",
+        "Digital records prevent data loss and revenue leakage"
+      ]
+    },
+    vision: "To make every clinic run like a modern healthcare facility, empowering doctors to focus on patient care while technology handles operations.",
+    features: [
+      "Appointment & token system (online + walk-in)",
+      "Patient CRM (history, reports, prescriptions, notes)",
+      "Automated WhatsApp/SMS reminders",
+      "Digital prescriptions & visit records",
+      "Billing & payment tracking",
+      "Follow-up and re-visit automation",
+      "Doctor & staff management",
+      "Clinic performance dashboard"
+    ]
+  },
+  {
+    id: 68,
+    title: "CropSathi AI – AI-Powered Farming Assistant",
+    categories: ["Micro SaaS", "Business"],
+    tagline: "A simple AI-powered assistant that helps farmers get instant, crop-specific farming guidance based on cultivation stage, using text-based chat in regional languages.",
+    description: "CropSathi AI is a simple AI-powered assistant that helps farmers get instant, crop-specific farming guidance based on cultivation stage, using text-based chat in regional languages. It provides instant answers to farmer queries by combining verified agricultural knowledge with AI.",
+    author: "Boostmysites",
+    image: "/assets/projects/CropSathi AI-1.jpeg",
+    images: ["/assets/projects/CropSathi AI-1.jpeg"],
+    rating: 4.6,
+    price: 95000,
+    overview: "CropSathi AI provides instant answers to farmer queries by combining verified agricultural knowledge with AI. Farmers can select their crop and growth stage and ask questions in simple language to receive practical, easy-to-understand guidance. It helps farmers save time, reduce dependency on middlemen, and get reliable information related to crop cultivation, pests, diseases, irrigation, and fertilizers.",
+    problem: "Farmers often lack timely and reliable information related to crop cultivation, pests, diseases, irrigation, and fertilizers. Access to agriculture officers or experts is limited, delayed, or inconsistent, leading to poor yield and higher losses.",
+    solution: "CropSathi AI provides instant answers to farmer queries by combining verified agricultural knowledge with AI. Farmers can select their crop and growth stage and ask questions in simple language to receive practical, easy-to-understand guidance. Organizations can support thousands of farmers digitally, and NGOs and companies can offer CropSathi AI as a value-added service.",
+    howItWorks: "1. Farmer selects crop and growth stage. 2. Asks questions in simple language (English or regional language). 3. AI provides instant, crop-specific farming guidance. 4. Answers combine verified agricultural knowledge with AI. 5. Practical, easy-to-understand guidance delivered instantly. 6. Admin panel manages crop content and knowledge base.",
+    coreFeatures: [
+      "AI-based farming Q&A chatbot",
+      "Crop and growth-stage–specific guidance",
+      "Support for 3–5 major crops",
+      "English + 1 regional language",
+      "Mobile-first web application",
+      "Knowledge-based answers with AI fallback",
+      "Admin panel to manage crop content",
+      "Safety disclaimer for responsible use"
+    ],
+    targetUsers: "Small and marginal farmers, farmer producer organizations (FPOs), agriculture NGOs, agri-input companies, and government pilot programs. India has over 14 crore farmers, making this a highly scalable solution.",
+    marketOpportunity: [
+      "India has over 14 crore farmers, making this highly scalable",
+      "Agriculture is a core sector in India",
+      "High mobile penetration among farmers",
+      "Growing acceptance of digital advisory tools",
+      "Strong demand for local-language solutions",
+      "Low-cost MVP with high real-world impact",
+      "10 organizations paying ₹10,000/month = ₹1,00,000/month",
+      "Recurring revenue with low operational cost"
+    ],
+    monetizationModel: {
+      plans: [
+        "Starter Plan: ₹5,000/month (up to 500 farmers)",
+        "Pro Plan: ₹10,000/month (up to 2,000 farmers)",
+        "Custom pricing for NGOs & government pilots"
+      ],
+      pricing: [
+        "Starter: ₹5,000/month for up to 500 farmers",
+        "Pro: ₹10,000/month for up to 2,000 farmers",
+        "Custom pricing available for NGOs & government pilots",
+        "10 organizations × ₹10,000/month = ₹1,00,000 MRR"
+      ],
+      revenue: [
+        "B2B subscription model targeting organizations",
+        "Recurring revenue with low operational cost",
+        "Scales easily by adding crops and languages",
+        "High lifetime value from agricultural organizations",
+        "Strong potential for government contracts"
+      ]
+    },
+    techStack: {
+      frontend: ["React/Next.js", "Mobile-first design"],
+      backend: ["Node.js/Python"],
+      ai: ["GPT/Claude API", "Agricultural knowledge base"],
+      database: ["PostgreSQL/MongoDB"],
+      hosting: ["AWS/Vercel"],
+      integrations: ["AI APIs", "Translation APIs", "SMS Gateway"]
+    },
+    competitiveAdvantage: {
+      features: [
+        "Crop and growth-stage–specific guidance",
+        "Regional language support",
+        "Verified agricultural knowledge base",
+        "Mobile-first design for farmers"
+      ],
+      comparisons: [
+        "vs Manual advisory: Instant, 24/7 availability",
+        "vs Generic AI: Crop-specific, verified knowledge",
+        "vs Competitors: Regional language support, affordable"
+      ],
+      uniqueSelling: [
+        "Instant answers to farming queries",
+        "Regional language support for accessibility",
+        "Crop and growth-stage–specific guidance",
+        "Low-cost MVP with high real-world impact"
+      ]
+    },
+    developmentBudget: {
+      mvp: [
+        "Development (Frontend + Backend): ₹45,000",
+        "AI Integration & APIs: ₹15,000",
+        "Knowledge Base Creation: ₹15,000",
+        "UI/UX & Testing: ₹10,000",
+        "Hosting & Maintenance (3 months): ₹10,000",
+        "Total Approx Cost: ₹95,000"
+      ],
+      standard: [
+        "Additional crops and languages: +₹20,000",
+        "Advanced analytics and reporting: +₹15,000"
+      ],
+      premium: [
+        "Full suite + multiple languages + advanced features: +₹30,000",
+        "Government pilot program features: +₹25,000"
+      ]
+    },
+    roiProjection: {
+      timeline: [
+        "Month 1–3: MVP launch + onboarding 3 organizations → ₹30K MRR",
+        "Month 4–6: Scale via FPO partnerships → ₹1 lakh MRR",
+        "Month 7–12: Market expansion + government pilots → ₹5 lakhs+ MRR"
+      ],
+      projections: [
+        "Year 1: ₹5 lakhs+ MRR target with 50+ organizations",
+        "Year 2: ₹25 lakhs+ MRR with 250+ organizations",
+        "Strong ARR potential with B2B subscription model"
+      ],
+      userROI: [
+        "Farmers save time and reduce dependency on middlemen",
+        "Organizations can support thousands of farmers digitally",
+        "NGOs and companies can offer CropSathi AI as value-added service",
+        "Better crop yield through timely and reliable information",
+        "Reduced losses from pests, diseases, and poor practices"
+      ]
+    },
+    vision: "To make reliable agricultural guidance accessible to every farmer in India, empowering them with instant, crop-specific knowledge that improves yield and reduces losses.",
+    features: [
+      "AI-based farming Q&A chatbot",
+      "Crop and growth-stage–specific guidance",
+      "Support for 3–5 major crops",
+      "English + 1 regional language",
+      "Mobile-first web application",
+      "Knowledge-based answers with AI fallback",
+      "Admin panel to manage crop content",
+      "Safety disclaimer for responsible use"
+    ]
+  },
+  {
+    id: 69,
+    title: "OptimaGrid AI – The 'Human-First' Master Scheduler",
+    categories: ["Micro SaaS", "Business", "Productivity"],
+    tagline: "A high-performance scheduling engine that uses AI to optimize for Cognitive Load and Teacher Wellbeing, moving away from the 'logic-only' approach of legacy software.",
+    description: "OptimaGrid AI is a high-performance scheduling engine that moves away from the 'logic-only' approach of legacy software. Instead of just ensuring no two classes are in the same room, it uses AI to optimize for Cognitive Load and Teacher Wellbeing, generating multiple timetable options and unique, syncable dashboards for every teacher and student.",
+    author: "Boostmysites",
+    image: "/assets/projects/OptimaGrid AI-1.jpeg",
+    images: ["/assets/projects/OptimaGrid AI-1.jpeg"],
+    rating: 4.9,
+    price: 120000,
+    overview: "OptimaGrid AI is a high-performance scheduling engine that uses AI to optimize for Cognitive Load (e.g., not putting Math and Physics back-to-back for students) and Teacher Wellbeing (e.g., ensuring fair distribution of 'free periods'). The administrator uploads three CSV files: Staff, Rooms, and Student Requests. The AI then runs millions of permutations using a Genetic Algorithm, providing three optimized timetable options: Space Saver, Student Choice, and Balanced Path.",
+    problem: "School Principals & Registrars currently spend 3–4 weeks every summer manually moving magnetic tiles on a board or fighting with clunky Excel sheets. Legacy systems like ASC Timetables or Unitis are powerful but look like they were built in 1995. They have a steep learning curve and high setup costs. Standard ERP systems can't handle complex, non-traditional curriculums that K-12 Private & Charter Schools, Vocational & Technical Colleges require.",
+    solution: "OptimaGrid AI uses AI and Genetic Algorithms to generate optimized timetables in under an hour. It provides three options: Space Saver (minimal room usage), Student Choice (maximizes 1st-choice electives), and Balanced Path (prevents heavy subjects from clumping). The system ensures Cognitive Load balancing, resolves elective conflicts automatically, maintains Teacher-Symmetry, and syncs with Google Calendar, Outlook, and Apple Calendar.",
+    howItWorks: "1. Administrator uploads three CSV files: Staff (with specialties and contract hours), Rooms (with capacities and equipment), and Student Requests (for electives). 2. AI runs millions of permutations using a Genetic Algorithm. 3. System generates three optimized timetable options: Space Saver, Student Choice, and Balanced Path. 4. Admin selects preferred version. 5. System generates unique, syncable dashboards for every teacher and student. 6. Real-time push to Google Calendar, Outlook, and Apple Calendar for every individual user.",
+    coreFeatures: [
+      "The 'Cognitive Load' Balancer: Algorithm that 'weights' subjects by difficulty, ensuring students don't have four 'High-Intensity' subjects on a Monday",
+      "Elective Conflict Resolver: Finds 'Best Fit' blocks to ensure 99% of student choices are met without manual intervention",
+      "'Teacher-Symmetry' Logic: Ensures teachers don't have a 'Swiss Cheese' schedule with large gaps",
+      "Live 'What-If' Sandbox: Toggle 'Room Unavailable' switch and AI repairs timetable with minimal changes",
+      "Automated Sync: Real-time push to Google Calendar, Outlook, and Apple Calendar for every user",
+      "Multiple Optimization Options: Space Saver, Student Choice, and Balanced Path timetables",
+      "CSV-based Data Import: Simple upload of Staff, Rooms, and Student Requests",
+      "Individual Dashboards: Unique, syncable dashboards for every teacher and student"
+    ],
+    targetUsers: "School Principals & Registrars, K-12 Private & Charter Schools, Vocational & Technical Colleges, and Department Heads who need to ensure staff are assigned classes that match their specific certifications and seniority levels.",
+    marketOpportunity: [
+      "Thousands of schools worldwide struggle with manual timetable creation",
+      "Legacy systems are outdated and expensive",
+      "Complex curriculums require sophisticated scheduling",
+      "High demand for modern UI/UX in education technology",
+      "Recurring annual subscription model (schools need timetables every year)",
+      "Scalable to international markets",
+      "Strong word-of-mouth potential in education sector"
+    ],
+    monetizationModel: {
+      plans: [
+        "Starter Plan: ₹9,999/year (up to 500 students, basic features)",
+        "Pro Plan: ₹19,999/year (up to 2,000 students, all features)",
+        "Enterprise Plan: ₹49,999/year (unlimited students, custom integrations)"
+      ],
+      pricing: [
+        "Starter: ₹9,999/year for up to 500 students",
+        "Pro: ₹19,999/year for up to 2,000 students",
+        "Enterprise: ₹49,999/year for unlimited students",
+        "One-time setup fee: ₹10,000 – ₹25,000 (optional training and customization)"
+      ],
+      revenue: [
+        "Annual subscription model with high retention",
+        "Schools need timetables every year, ensuring recurring revenue",
+        "Low operational cost after initial development",
+        "Strong potential for upselling to higher tiers",
+        "Additional revenue from training and customization services"
+      ]
+    },
+    techStack: {
+      frontend: ["React/Next.js", "Modern UI/UX design"],
+      backend: ["Node.js/Python", "Genetic Algorithm engine"],
+      ai: ["AI optimization algorithms", "Machine learning for pattern recognition"],
+      database: ["PostgreSQL", "Time-series data optimization"],
+      hosting: ["AWS/Vercel", "High-performance computing"],
+      integrations: ["Google Calendar API", "Outlook API", "Apple Calendar API", "CSV import/export"]
+    },
+    competitiveAdvantage: {
+      features: [
+        "Cognitive Load balancing (unique to OptimaGrid)",
+        "Teacher-Symmetry logic",
+        "Multiple optimization options",
+        "Modern UI/UX vs legacy systems"
+      ],
+      comparisons: [
+        "vs Legacy systems (ASC Timetables, Unitis): Modern UI, faster setup, lower cost",
+        "vs Excel/Manual: Automated, AI-powered, saves weeks of work",
+        "vs Standard ERP: Handles complex curriculums, elective conflicts"
+      ],
+      uniqueSelling: [
+        "Human-first approach focusing on Cognitive Load and Teacher Wellbeing",
+        "Go from 'Data Upload' to 'Full Timetable' in under an hour",
+        "Automated data cleaning and conflict resolution",
+        "Real-time calendar sync for all users"
+      ]
+    },
+    developmentBudget: {
+      mvp: [
+        "Core scheduling engine + Genetic Algorithm: ₹50,000",
+        "Frontend dashboard + CSV import: ₹30,000",
+        "Basic optimization options: ₹20,000",
+        "UI/UX & Testing: ₹15,000",
+        "Total MVP Cost: ₹115,000"
+      ],
+      standard: [
+        "Advanced features + calendar integrations: +₹30,000",
+        "What-If sandbox + advanced analytics: +₹25,000"
+      ],
+      premium: [
+        "Full suite + custom integrations + training: +₹40,000",
+        "Enterprise features + white-label options: +₹50,000"
+      ]
+    },
+    roiProjection: {
+      timeline: [
+        "Month 1–3: MVP launch + onboarding 5 schools → ₹50K ARR",
+        "Month 4–6: Scale via education partnerships → ₹2.5 lakhs ARR",
+        "Month 7–12: Market expansion → ₹10 lakhs+ ARR"
+      ],
+      projections: [
+        "Year 1: ₹10 lakhs+ ARR target with 50+ schools",
+        "Year 2: ₹50 lakhs+ ARR with 250+ schools",
+        "Strong ARR potential with annual subscription model"
+      ],
+      userROI: [
+        "School administrators save 3–4 weeks of manual work every summer",
+        "Reduced cognitive load for students improves learning outcomes",
+        "Better teacher wellbeing through fair schedule distribution",
+        "99% of student elective choices met automatically",
+        "Real-time calendar sync eliminates PDF checking"
+      ]
+    },
+    vision: "To transform timetable creation from a weeks-long manual process into an hour-long automated experience, prioritizing human wellbeing and learning outcomes over mere logistical constraints.",
+    features: [
+      "The 'Cognitive Load' Balancer",
+      "Elective Conflict Resolver",
+      "'Teacher-Symmetry' Logic",
+      "Live 'What-If' Sandbox",
+      "Automated Calendar Sync",
+      "Multiple Optimization Options",
+      "CSV-based Data Import",
+      "Individual Dashboards"
+    ]
+  },
+  {
+    id: 70,
+    title: "ProofPay Vault – Payment-Proof and Accountability Platform",
+    categories: ["Micro SaaS", "Business"],
+    tagline: "A secure, time-stamped record of work delivery, client acknowledgement, and payment commitment — helping businesses get paid faster.",
+    description: "ProofPay Vault is a payment-proof and accountability platform for freelancers, vendors, agencies, and MSMEs. It creates a secure, time-stamped record of work delivery, client acknowledgement, and payment commitment — helping businesses get paid faster.",
+    author: "Boostmysites",
+    image: "/assets/projects/ProofPay Vault-1.jpeg",
+    images: ["/assets/projects/ProofPay Vault-1.jpeg"],
+    rating: 4.7,
+    price: 47000,
+    overview: "ProofPay Vault provides a simple digital flow where vendors upload work proof, clients acknowledge delivery through a secure link, and payment commitments are recorded with time, date, and IP address. A downloadable proof certificate is generated for negotiation or legal use. It helps freelancers, vendors, agencies, and MSMEs get paid faster by creating secure, time-stamped records of work delivery and client acknowledgement.",
+    problem: "In India, freelancers and small vendors often face delayed or denied payments due to verbal commitments, lack of written acceptance, and vague approval processes. Invoices alone do not prove work acceptance, and legal action is expensive and impractical for small amounts.",
+    solution: "ProofPay Vault provides a simple digital flow where vendors upload work proof, clients acknowledge delivery through a secure link, and payment commitments are recorded with time, date, and IP address. A downloadable proof certificate is generated for negotiation or legal use. Automated reminders via WhatsApp & Email ensure timely follow-ups.",
+    howItWorks: "1. Vendor uploads work proof (files, links, service confirmation). 2. System generates secure link for client acknowledgement. 3. Client acknowledges delivery without login requirement. 4. Payment date confirmation is recorded. 5. Time-stamp and IP logging creates secure record. 6. Proof certificate (PDF) is generated for download. 7. Automated reminders sent via WhatsApp & Email.",
+    coreFeatures: [
+      "Work delivery upload (files, links, service confirmation)",
+      "Client acknowledgement without login",
+      "Payment date confirmation",
+      "Time-stamp and IP logging",
+      "Proof certificate (PDF)",
+      "Automated reminders via WhatsApp & Email",
+      "Secure link generation",
+      "Downloadable proof certificate for legal use"
+    ],
+    targetUsers: "Freelancers, consultants, agencies, small service vendors, MSMEs, event vendors, and job-work suppliers across India.",
+    marketOpportunity: [
+      "Millions of freelancers and small vendors in India face payment delays",
+      "Delayed payments are a widespread emotional and financial problem",
+      "Users are willing to pay for peace of mind and income protection",
+      "High perceived value for professional credibility",
+      "Recurring subscription model with strong retention",
+      "Scalable to international markets",
+      "Strong word-of-mouth potential in freelancer and vendor communities"
+    ],
+    monetizationModel: {
+      plans: [
+        "Solo Plan: ₹299/month (individual freelancers)",
+        "Agency Plan: ₹699/month (agencies and teams)",
+        "Pay-per-proof: ₹49 per certificate (one-time use)"
+      ],
+      pricing: [
+        "Monthly subscriptions: ₹299 Solo / ₹699 Agency",
+        "Pay-per-proof model: ₹49 per certificate",
+        "White-label solution for agencies: Custom pricing",
+        "1,000 Solo users × ₹299 = ₹2.99 lakhs MRR",
+        "500 Agency users × ₹699 = ₹3.5 lakhs MRR"
+      ],
+      revenue: [
+        "Recurring subscription revenue with high retention",
+        "Pay-per-proof model provides additional revenue stream",
+        "White-label solution for agencies creates enterprise revenue",
+        "Low operational cost after initial development",
+        "Strong potential for upselling to Agency plan"
+      ]
+    },
+    techStack: {
+      frontend: ["React/Next.js", "Modern UI/UX"],
+      backend: ["Node.js/Python"],
+      database: ["PostgreSQL/MongoDB"],
+      hosting: ["AWS/Vercel"],
+      integrations: ["WhatsApp API", "Email Service", "PDF Generator", "Payment Gateway"]
+    },
+    competitiveAdvantage: {
+      features: [
+        "Time-stamped and IP-logged proof certificates",
+        "Client acknowledgement without login requirement",
+        "Automated reminders via WhatsApp & Email",
+        "Secure, downloadable PDF certificates"
+      ],
+      comparisons: [
+        "vs Invoices alone: Provides work acceptance proof, not just billing",
+        "vs Legal action: Affordable, practical solution for small amounts",
+        "vs Manual tracking: Automated, secure, time-stamped records"
+      ],
+      uniqueSelling: [
+        "Simple, easy-to-explain solution for widespread problem",
+        "Low development cost with high perceived value",
+        "Recurring revenue potential with strong retention",
+        "Ideal for B2B client pitching"
+      ]
+    },
+    developmentBudget: {
+      mvp: [
+        "UI/UX Design: ₹8,000",
+        "Frontend Development: ₹12,000",
+        "Backend Development: ₹10,000",
+        "PDF Generator: ₹5,000",
+        "WhatsApp/Email Integration: ₹5,000",
+        "Hosting & Domain: ₹3,000",
+        "Testing & Deployment: ₹4,000",
+        "Total: ~₹47,000"
+      ],
+      standard: [
+        "Advanced features + analytics: +₹15,000",
+        "White-label options: +₹20,000"
+      ],
+      premium: [
+        "Full suite + enterprise features: +₹30,000",
+        "API access + custom integrations: +₹25,000"
+      ]
+    },
+    roiProjection: {
+      timeline: [
+        "Month 1–3: MVP launch + onboarding 100 users → ₹30K MRR",
+        "Month 4–6: Scale via freelancer communities → ₹1.5 lakhs MRR",
+        "Month 7–12: Market expansion → ₹5 lakhs+ MRR"
+      ],
+      projections: [
+        "Year 1: ₹5 lakhs+ MRR target with 1,000+ users",
+        "Year 2: ₹25 lakhs+ MRR with 5,000+ users",
+        "Strong ARR potential with subscription model"
+      ],
+      userROI: [
+        "Freelancers and vendors get paid faster",
+        "Reduced payment disputes through secure proof",
+        "Professional credibility and peace of mind",
+        "Income protection through documented commitments",
+        "Affordable alternative to expensive legal action"
+      ]
+    },
+    vision: "To ensure every freelancer and vendor gets paid for their work by creating secure, legally-valid proof of delivery and payment commitment.",
+    features: [
+      "Work delivery upload (files, links, service confirmation)",
+      "Client acknowledgement without login",
+      "Payment date confirmation",
+      "Time-stamp and IP logging",
+      "Proof certificate (PDF)",
+      "Automated reminders via WhatsApp & Email",
+      "Secure link generation",
+      "Downloadable proof certificate"
+    ]
+  },
+  {
+    id: 71,
+    title: "DailyOps AI – Daily Business Follow-ups and Task Closure",
+    categories: ["Micro SaaS", "Business", "Productivity"],
+    tagline: "A simple but powerful micro SaaS that helps founders, sales teams, freelancers, and service businesses never forget follow ups, commitments, or tasks discussed on calls, WhatsApp chats, or meetings.",
+    description: "DailyOps AI is a simple but powerful micro SaaS that helps founders, sales teams, freelancers, consultants, and service businesses never forget follow ups, commitments, or tasks discussed on calls, WhatsApp chats, or meetings. The product converts conversations into actionable follow ups and reminds users until closure.",
+    author: "Boostmysites",
+    image: "/assets/projects/DailyOps AI-1.jpeg",
+    images: ["/assets/projects/DailyOps AI-1.jpeg"],
+    rating: 4.8,
+    price: 500000,
+    overview: "DailyOps AI listens, reads, or scans conversations and automatically creates follow ups, reminders, and task nudges. Users do not manage tasks, the system manages execution for them. It focuses on execution, not project management. The product converts conversations into actionable follow ups and reminds users until closure, helping businesses never lose money due to forgotten follow ups.",
+    problem: "Most people lose money not because they lack leads, but because they forget to follow up. WhatsApp chats, calls, Zoom meetings, and voice notes create commitments that are never tracked. Existing tools like CRMs and task managers are heavy and require manual entry, so people stop using them.",
+    solution: "DailyOps AI listens, reads, or scans conversations and automatically creates follow ups, reminders, and task nudges. Users do not manage tasks, the system manages execution for them. It converts conversations into actionable follow ups and reminds users until closure, focusing on execution rather than complex project management.",
+    howItWorks: "1. User forwards WhatsApp/email messages or records voice notes. 2. AI automatically creates tasks and follow ups from conversations. 3. System generates AI-powered follow up reminders with suggested message drafts. 4. Daily execution dashboard shows only what must be closed today. 5. Auto reminders sent until task is marked done. 6. Simple analytics track money saved, deals closed, and follow ups completed.",
+    coreFeatures: [
+      "WhatsApp and email message forwarding to create tasks automatically",
+      "Voice note to task conversion",
+      "AI generated follow up reminders with suggested message drafts",
+      "Daily execution dashboard showing only what must be closed today",
+      "Auto reminders until marked done",
+      "Simple analytics: money saved, deals closed, follow ups completed",
+      "Conversation scanning and intent detection",
+      "Calendar integration for meeting follow ups"
+    ],
+    targetUsers: "Freelancers, consultants, solopreneurs, agency owners, small sales teams, coaches, real estate brokers, insurance agents, recruiters, and founders. India has millions of such users. Globally, this problem exists in every service-driven economy.",
+    marketOpportunity: [
+      "Millions of freelancers and service businesses in India",
+      "Global market in every service-driven economy",
+      "High retention due to daily use value",
+      "Users get value every single day because missed follow ups cost money",
+      "Extremely high retention compared to typical SaaS tools",
+      "10,000 Indian users × ₹299 = ₹2.99 lakhs MRR",
+      "2,000 global users × $19 = $38,000 MRR",
+      "Achievable without enterprise sales"
+    ],
+    monetizationModel: {
+      plans: [
+        "Starter (India): ₹299/month - Individual users",
+        "Pro (India): ₹999/month - Advanced features + analytics",
+        "Starter (Global): $7/month - Individual users",
+        "Pro (Global): $19/month - Advanced features + analytics",
+        "Teams plan: Available later for multi-user collaboration"
+      ],
+      pricing: [
+        "India pricing: Starter ₹299/month, Pro ₹999/month",
+        "Global pricing: Starter $7/month, Pro $19/month",
+        "Teams plan: Custom pricing for multi-user",
+        "10,000 Indian users × ₹299 = ₹2.99 lakhs MRR",
+        "2,000 global users × $19 = $38,000 MRR"
+      ],
+      revenue: [
+        "High perceived ROI makes churn low",
+        "Recurring subscription revenue with high retention",
+        "Daily-use product ensures consistent engagement",
+        "Strong potential for upselling to Pro plan",
+        "Teams plan creates additional revenue stream"
+      ]
+    },
+    techStack: {
+      frontend: ["React/Next.js"],
+      backend: ["Node.js/FastAPI"],
+      ai: ["LLM for intent detection and follow up generation"],
+      database: ["PostgreSQL/MongoDB"],
+      hosting: ["AWS/GCP"],
+      integrations: ["WhatsApp API", "Gmail API", "Calendar API", "Voice note processing"]
+    },
+    competitiveAdvantage: {
+      features: [
+        "Automatic task creation from conversations",
+        "AI-generated follow up reminders",
+        "Daily execution dashboard",
+        "Voice note to task conversion"
+      ],
+      comparisons: [
+        "vs CRMs: Lightweight, automatic, no manual entry",
+        "vs Task managers: Focuses on execution, not project management",
+        "vs Manual tracking: Automated, AI-powered, conversation-based"
+      ],
+      uniqueSelling: [
+        "Converts conversations into actionable follow ups automatically",
+        "High retention due to daily use value",
+        "Simple story, obvious pain, fast MVP",
+        "Low support requirements, recurring revenue"
+      ]
+    },
+    developmentBudget: {
+      mvp: [
+        "MVP can be built in 30 to 45 days",
+        "Estimated cost: ₹3 to 5 lakh INR if outsourced",
+        "Lower cost if built internally",
+        "Core features: WhatsApp/email forwarding, voice notes, AI reminders, dashboard"
+      ],
+      standard: [
+        "Advanced analytics and reporting: +₹1 lakh",
+        "Team workflows and collaboration: +₹1.5 lakhs"
+      ],
+      premium: [
+        "Full suite + enterprise features: +₹2 lakhs",
+        "API access + custom integrations: +₹1.5 lakhs"
+      ]
+    },
+    roiProjection: {
+      timeline: [
+        "Month 1–3: MVP launch + validate with 100 users → ₹30K MRR",
+        "Month 4–6: Scale via affiliates + improve reminder intelligence → ₹1.5 lakhs MRR",
+        "Month 7–12: Market expansion + team workflows → ₹5 lakhs+ MRR"
+      ],
+      projections: [
+        "Year 1: ₹5 lakhs+ MRR target with 1,000+ users",
+        "Year 2: ₹25 lakhs+ MRR with 5,000+ users",
+        "Global expansion: $38,000+ MRR with 2,000 global users"
+      ],
+      userROI: [
+        "Users never lose money due to forgotten follow ups",
+        "Increased deal closure through consistent follow ups",
+        "Time saved on manual task management",
+        "Better client relationships through timely follow ups",
+        "Money saved stories drive word-of-mouth growth"
+      ]
+    },
+    vision: "To ensure no business ever loses money due to forgotten follow ups, making execution effortless through AI-powered conversation tracking and automated reminders.",
+    features: [
+      "WhatsApp and email message forwarding",
+      "Voice note to task conversion",
+      "AI generated follow up reminders",
+      "Daily execution dashboard",
+      "Auto reminders until closure",
+      "Simple analytics and insights",
+      "Conversation scanning",
+      "Calendar integration"
+    ]
+  },
+  {
+    id: 72,
+    title: "SiteTrackr – Smart Site & Project Management System for Construction & Real Estate",
+    categories: ["Micro SaaS", "Business"],
+    tagline: "A micro SaaS built for builders, contractors, and real-estate developers to manage construction sites, workers, materials, and project progress from one simple dashboard.",
+    description: "SiteTrackr is a micro SaaS built for builders, contractors, and real-estate developers to manage construction sites, workers, materials, and project progress from one simple dashboard. It brings structure, accountability, and transparency to an industry that still runs on calls, WhatsApp, and paper.",
+    author: "Boostmysites",
+    image: "/assets/projects/SiteTrackr-1.jpeg",
+    images: ["/assets/projects/SiteTrackr-1.jpeg"],
+    rating: 4.7,
+    price: 48000,
+    overview: "SiteTrackr becomes the operating system for construction sites. It enables daily progress tracking, labour and material management, issue reporting, and budget monitoring through a simple mobile and web system. It brings structure, accountability, and transparency to an industry that still runs on calls, WhatsApp, and paper.",
+    problem: "Construction and real-estate teams face no real-time visibility of site progress, poor labour tracking, material wastage, delayed projects, and no centralized reporting. This results in cost overruns, disputes, missed deadlines, and poor investor confidence. Most existing tools are built for large enterprises, not local builders.",
+    solution: "SiteTrackr becomes the operating system for construction sites. It enables daily progress tracking, labour and material management, issue reporting, and budget monitoring through a simple mobile and web system. Builders get real-time visibility, better accountability, and transparent reporting for investors and owners.",
+    howItWorks: "1. Builder sets up project and site dashboard. 2. Daily progress reporting with photos, videos, and notes. 3. Labour attendance and task tracking. 4. Contractor and vendor management. 5. Material and inventory logs. 6. Delay and issue tracking system. 7. Budget vs actual tracking. 8. Investor/owner reporting panel for transparency.",
+    coreFeatures: [
+      "Project & site dashboard",
+      "Daily progress reporting (photos, videos, notes)",
+      "Labour attendance & task tracking",
+      "Contractor & vendor management",
+      "Material & inventory logs",
+      "Delay & issue tracking system",
+      "Budget vs actual tracking",
+      "Investor/owner reporting panel"
+    ],
+    targetUsers: "Real estate developers, construction companies, civil contractors, interior fit-out companies, infrastructure project managers, and individual builders managing multiple sites.",
+    marketOpportunity: [
+      "Thousands of builders and contractors in India need digital solutions",
+      "Construction industry still runs on calls, WhatsApp, and paper",
+      "High-value customers with long project durations",
+      "Very low churn due to long projects",
+      "Clear ROI from cost control and delay reduction",
+      "High expansion potential (AI, IoT, compliance)",
+      "Strong referral-based sales in construction industry",
+      "Scalable across cities and builders"
+    ],
+    monetizationModel: {
+      plans: [
+        "Starter: ₹1,499/month (1 site)",
+        "Growth: ₹3,999/month (up to 5 sites)",
+        "Pro: ₹7,999/month (multi-site + analytics)"
+      ],
+      pricing: [
+        "Starter: ₹1,499/month for 1 site",
+        "Growth: ₹3,999/month for up to 5 sites",
+        "Pro: ₹7,999/month for multi-site + analytics",
+        "Setup, training & customization: ₹10,000 – ₹50,000",
+        "500 builders × ₹3,999 = ₹19.95 lakhs MRR"
+      ],
+      revenue: [
+        "High-ticket subscription potential",
+        "Very low churn due to long projects",
+        "Clear ROI from cost control and delay reduction",
+        "Additional revenue from setup and customization",
+        "Strong potential for upselling to higher tiers"
+      ]
+    },
+    techStack: {
+      frontend: ["React/Next.js", "Mobile-responsive design"],
+      backend: ["Node.js/Python"],
+      database: ["PostgreSQL/MongoDB"],
+      hosting: ["AWS/GCP"],
+      integrations: ["Media storage APIs", "Payment Gateway", "SMS/WhatsApp API"]
+    },
+    competitiveAdvantage: {
+      features: [
+        "Built for local builders, not large enterprises",
+        "Simple mobile and web system",
+        "Real-time progress tracking",
+        "Investor/owner reporting panel"
+      ],
+      comparisons: [
+        "vs Enterprise tools: Affordable, simple, builder-focused",
+        "vs Manual/WhatsApp: Structured, accountable, transparent",
+        "vs Competitors: Complete solution at lower cost"
+      ],
+      uniqueSelling: [
+        "Solves very expensive operational problem",
+        "High-ticket subscription potential",
+        "Clear business and investor value",
+        "Can grow into full real-estate tech platform"
+      ]
+    },
+    developmentBudget: {
+      mvp: [
+        "Frontend (web + mobile panel): ₹15,000",
+        "Backend & database: ₹18,000",
+        "Media storage & APIs: ₹10,000",
+        "UI/UX, testing & deployment: ₹5,000",
+        "Estimated total: ₹48,000"
+      ],
+      standard: [
+        "Advanced analytics and reporting: +₹20,000",
+        "Multi-site management features: +₹25,000"
+      ],
+      premium: [
+        "Full suite + AI features + IoT integration: +₹40,000",
+        "Compliance and regulatory features: +₹30,000"
+      ]
+    },
+    roiProjection: {
+      timeline: [
+        "Month 1–3: MVP launch + onboarding 20 builders → ₹80K MRR",
+        "Month 4–6: Scale via referrals + partnerships → ₹4 lakhs MRR",
+        "Month 7–12: Market expansion → ₹20 lakhs+ MRR"
+      ],
+      projections: [
+        "Year 1: ₹20 lakhs+ MRR target with 500+ builders",
+        "Year 2: ₹1 crore+ MRR with 2,500+ builders",
+        "Strong ARR potential with construction subscription model"
+      ],
+      userROI: [
+        "Real-time visibility of site progress",
+        "Reduced cost overruns through budget tracking",
+        "Better labour and material management",
+        "Improved investor confidence through transparency",
+        "Reduced disputes and missed deadlines"
+      ]
+    },
+    vision: "To bring structure, accountability, and transparency to construction and real-estate industry, making every project visible, trackable, and profitable.",
+    features: [
+      "Project & site dashboard",
+      "Daily progress reporting (photos, videos, notes)",
+      "Labour attendance & task tracking",
+      "Contractor & vendor management",
+      "Material & inventory logs",
+      "Delay & issue tracking system",
+      "Budget vs actual tracking",
+      "Investor/owner reporting panel"
+    ]
+  },
+  {
+    id: 73,
+    title: "AI-Powered Doubt Solver for Students – Conversational Avatar Platform",
+    categories: ["Micro SaaS", "Business"],
+    tagline: "An AI-powered Conversational Avatar Platform designed to act as a 24×7 personal doubt-solving tutor for students, providing instant, human-like doubt solving with voice-based interaction.",
+    description: "The platform introduces an AI Conversational Avatar that behaves like a friendly, patient teacher. Students can ask doubts using voice or text, receive spoken explanations from an expressive avatar, ask unlimited follow-up questions, and learn at their own pace without judgment.",
+    author: "Boostmysites",
+    image: "/assets/projects/AI-Powered Doubt Solver-1.jpeg",
+    images: ["/assets/projects/AI-Powered Doubt Solver-1.jpeg"],
+    rating: 4.8,
+    price: 150000,
+    overview: "The platform introduces an AI Conversational Avatar that behaves like a friendly, patient teacher. Students can ask doubts using voice or text, receive spoken explanations from an expressive avatar, ask unlimited follow-up questions, and learn at their own pace without judgment. The system ensures a continuous, natural conversation flow, similar to a real tutor-student interaction.",
+    problem: "Students often hesitate to ask questions in live classes, struggle with one-to-many teaching formats, and lack access to affordable, on-demand tutors. Current learning systems face challenges: students hesitate to ask doubts due to fear or time constraints, recorded content lacks interactivity, human doubt-solving teams are expensive and non-scalable, text-based chatbots feel impersonal and disengaging, and lack of multilingual and voice-based support, especially in India.",
+    solution: "The platform introduces an AI Conversational Avatar that behaves like a friendly, patient teacher. Students can ask doubts using voice or text, receive spoken explanations from an expressive avatar, ask unlimited follow-up questions, and learn at their own pace without judgment. The system provides instant, human-like doubt solving, enables voice-based interaction with a virtual teacher avatar, delivers personalized explanations aligned with student level and curriculum, and makes quality doubt-solving accessible, scalable, and affordable.",
+    howItWorks: "1. Student asks a question via voice or text. 2. Speech-to-text converts spoken input. 3. AI understands context, topic, and difficulty level. 4. Large Language Model generates structured explanation. 5. Avatar delivers the response using voice, expressions, and visuals. 6. Student asks follow-up questions, enabling continuous learning.",
+    coreFeatures: [
+      "Conversational AI Avatar with lip-synced speech, facial expressions, and gestures",
+      "Smart Doubt Solving with step-by-step explanations and adaptive difficulty levels",
+      "Multilingual Support: English, Hindi, Hinglish, and regional languages",
+      "Curriculum Awareness: NCERT/CBSE/ICSE/State Boards, competitive exams (JEE, NEET)",
+      "Personalization Engine: Tracks weak areas, remembers past interactions, adjusts teaching style",
+      "Voice and text-based interaction",
+      "Unlimited follow-up questions",
+      "Grade-specific understanding"
+    ],
+    targetUsers: "EdTech platforms, coaching institutes, schools and colleges, direct-to-student subscription users, and tier-2 and tier-3 city students.",
+    marketOpportunity: [
+      "Millions of students in India need affordable doubt-solving support",
+      "EdTech market rapidly shifting towards digital-first and personalized learning",
+      "Real-time doubt resolution remains a major challenge",
+      "High demand for multilingual and voice-based support in India",
+      "Scalable solution for EdTech platforms and coaching institutes",
+      "B2B SaaS licensing for institutes and B2C subscription for students",
+      "Strong potential in tier-2 and tier-3 cities"
+    ],
+    monetizationModel: {
+      plans: [
+        "B2B SaaS Licensing: Monthly/annual plans for institutes",
+        "B2C Subscription: ₹299 – ₹999 per month",
+        "Pay-per-minute: ₹2 – ₹5 per minute",
+        "White-label Solution: Custom pricing for enterprises",
+        "Exam Packs: JEE/NEET/Board-specific bundles"
+      ],
+      pricing: [
+        "B2B SaaS: Custom monthly/annual plans for institutes",
+        "B2C: ₹299 – ₹999 per month for students",
+        "Pay-per-minute: ₹2 – ₹5 per minute",
+        "White-label: Custom pricing for enterprises",
+        "Exam Packs: JEE/NEET/Board-specific bundles"
+      ],
+      revenue: [
+        "B2B SaaS licensing with high-value EdTech platforms",
+        "B2C subscription model with recurring revenue",
+        "Pay-per-minute model for occasional users",
+        "White-label solutions for enterprises",
+        "Exam-specific bundles create additional revenue"
+      ]
+    },
+    techStack: {
+      frontend: ["React/Next.js", "Avatar rendering engine"],
+      backend: ["Node.js/Python", "FastAPI"],
+      ai: ["Large Language Models (GPT/Claude)", "Speech-to-text", "Text-to-speech", "Avatar animation"],
+      database: ["PostgreSQL/MongoDB"],
+      hosting: ["AWS/GCP"],
+      integrations: ["Voice APIs", "Avatar SDKs", "Curriculum databases"]
+    },
+    competitiveAdvantage: {
+      features: [
+        "Human-like learning experience with expressive avatar",
+        "Voice-first approach for natural interaction",
+        "Multilingual support (English, Hindi, Hinglish)",
+        "Curriculum-aware explanations"
+      ],
+      comparisons: [
+        "vs Text-based chatbots: Human-like, engaging, voice-based",
+        "vs Human tutors: Always available, scalable, affordable",
+        "vs Recorded content: Interactive, personalized, doubt-solving"
+      ],
+      uniqueSelling: [
+        "Human-like learning experience with conversational avatar",
+        "Always available, no fatigue, highly scalable",
+        "Voice-first approach for natural interaction",
+        "India-focused pricing and language support",
+        "Reduces dependency on large teaching teams"
+      ]
+    },
+    developmentBudget: {
+      mvp: [
+        "Phase 1 (MVP): Core avatar, voice-based doubt solving, English + Hindi",
+        "Avatar development: ₹40,000",
+        "AI integration (LLM, speech-to-text, text-to-speech): ₹50,000",
+        "Frontend and backend: ₹35,000",
+        "UI/UX and testing: ₹15,000",
+        "Total MVP Cost: ~₹140,000"
+      ],
+      standard: [
+        "Phase 2: Curriculum mapping, personalization, analytics dashboard: +₹40,000",
+        "Advanced features and integrations: +₹30,000"
+      ],
+      premium: [
+        "Phase 3: Advanced avatars, marketplace, regional languages: +₹50,000",
+        "White-label solution and enterprise features: +₹40,000"
+      ]
+    },
+    roiProjection: {
+      timeline: [
+        "Month 1–3: MVP launch + onboarding 5 EdTech platforms → ₹2.5 lakhs ARR",
+        "Month 4–6: Scale via partnerships + B2C launch → ₹10 lakhs ARR",
+        "Month 7–12: Market expansion + exam packs → ₹50 lakhs+ ARR"
+      ],
+      projections: [
+        "Year 1: ₹50 lakhs+ ARR target with 50+ institutes and 1,000+ students",
+        "Year 2: ₹2 crores+ ARR with 200+ institutes and 10,000+ students",
+        "Strong ARR potential with B2B and B2C models"
+      ],
+      userROI: [
+        "Students get instant, affordable doubt-solving support",
+        "Improved student confidence and understanding",
+        "EdTech platforms reduce dependency on large teaching teams",
+        "Cost-effective alternative to traditional doubt-solving models",
+        "24×7 availability without fatigue"
+      ]
+    },
+    vision: "To make quality doubt-solving accessible, scalable, and affordable for every student in India, delivering personalized, engaging learning support through AI-powered conversational avatars.",
+    features: [
+      "Conversational AI Avatar with expressions",
+      "Smart Doubt Solving with step-by-step explanations",
+      "Multilingual Support (English, Hindi, Hinglish)",
+      "Curriculum Awareness (NCERT/CBSE/ICSE/Competitive exams)",
+      "Personalization Engine",
+      "Voice and text-based interaction",
+      "Unlimited follow-up questions",
+      "Exam Mode and Revision Mode"
+    ]
   }
 ];
 
