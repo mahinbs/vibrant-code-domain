@@ -1,9 +1,9 @@
 // vite.config.ts
-import { defineConfig } from "file:///C:/PRANAV/VS%20Code/Boostmysites/BMS/boostmysites.in%20(vibrant-code-domain)/node_modules/vite/dist/node/index.js";
-import react from "file:///C:/PRANAV/VS%20Code/Boostmysites/BMS/boostmysites.in%20(vibrant-code-domain)/node_modules/@vitejs/plugin-react-swc/index.mjs";
+import { defineConfig } from "file:///C:/PRANAV/VS%20Code/Boostmysites/BMS/boostmysites.com%20(vibrant-code-domain)/node_modules/vite/dist/node/index.js";
+import react from "file:///C:/PRANAV/VS%20Code/Boostmysites/BMS/boostmysites.com%20(vibrant-code-domain)/node_modules/@vitejs/plugin-react-swc/index.mjs";
 import path from "path";
-import { componentTagger } from "file:///C:/PRANAV/VS%20Code/Boostmysites/BMS/boostmysites.in%20(vibrant-code-domain)/node_modules/lovable-tagger/dist/index.js";
-var __vite_injected_original_dirname = "C:\\PRANAV\\VS Code\\Boostmysites\\BMS\\boostmysites.in (vibrant-code-domain)";
+import { componentTagger } from "file:///C:/PRANAV/VS%20Code/Boostmysites/BMS/boostmysites.com%20(vibrant-code-domain)/node_modules/lovable-tagger/dist/index.js";
+var __vite_injected_original_dirname = "C:\\PRANAV\\VS Code\\Boostmysites\\BMS\\boostmysites.com (vibrant-code-domain)";
 var vite_config_default = defineConfig(({ mode }) => ({
   server: {
     host: "::",

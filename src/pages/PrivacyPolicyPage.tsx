@@ -7,7 +7,7 @@ const PrivacyPolicyPage = () => {
   useEffect(() => {
     // Update page title and meta description
     document.title = 'Privacy Policy - Boostmysites';
-    
+
     // Send GTM event for page tracking
     if (typeof window !== 'undefined' && window.dataLayer) {
       window.dataLayer.push({
@@ -39,12 +39,12 @@ const PrivacyPolicyPage = () => {
 
           {/* Content Sections */}
           <div className="space-y-8 text-gray-300 leading-relaxed">
-            
+
             {/* Introduction */}
             <section>
               <h2 className="text-2xl font-semibold mb-4 text-white">1. Introduction</h2>
               <p className="mb-4">
-                Boostmysites ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website boostmysites.in and use our services.
+                Boostmysites ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website boostmysites.com and use our services.
               </p>
               <p>
                 By using our website and services, you consent to the practices described in this Privacy Policy. If you do not agree with this policy, please do not use our services.
@@ -54,7 +54,7 @@ const PrivacyPolicyPage = () => {
             {/* Information We Collect */}
             <section>
               <h2 className="text-2xl font-semibold mb-4 text-white">2. Information We Collect</h2>
-              
+
               <h3 className="text-xl font-medium mb-3 text-cyan-400">2.1 Personal Information</h3>
               <p className="mb-4">We may collect personal information that you provide directly to us, including:</p>
               <ul className="list-disc list-inside mb-4 space-y-2 ml-4">
@@ -108,7 +108,7 @@ const PrivacyPolicyPage = () => {
             <section>
               <h2 className="text-2xl font-semibold mb-4 text-white">4. Information Sharing and Disclosure</h2>
               <p className="mb-4">We do not sell, trade, or rent your personal information. We may share your information in the following circumstances:</p>
-              
+
               <h3 className="text-xl font-medium mb-3 text-cyan-400">4.1 Service Providers</h3>
               <p className="mb-4">We may share information with trusted third-party service providers who assist us in:</p>
               <ul className="list-disc list-inside mb-4 space-y-2 ml-4">
@@ -133,7 +133,7 @@ const PrivacyPolicyPage = () => {
             <section>
               <h2 className="text-2xl font-semibold mb-4 text-white">5. Third-Party Services</h2>
               <p className="mb-4">Our website integrates with the following third-party services:</p>
-              
+
               <h3 className="text-xl font-medium mb-3 text-cyan-400">5.1 Google Analytics</h3>
               <p className="mb-4">
                 We use Google Analytics to analyze website traffic and user behavior. Google Analytics may collect and process data according to their privacy policy.
@@ -260,7 +260,7 @@ const PrivacyPolicyPage = () => {
                 <div className="space-y-2">
                   <p><strong>Email:</strong> chairman@boostmysites.com</p>
                   <p><strong>Phone:</strong> +919632953355</p>
-                  <p><strong>Website:</strong> boostmysites.in</p>
+                  <p><strong>Website:</strong> boostmysites.com</p>
                   <p><strong>Privacy Officer:</strong> chairman@boostmysites.com</p>
                 </div>
               </div>

@@ -16,13 +16,13 @@ const AboutPage = () => {
           name="keywords"
           content="about boostmysites, digital solutions provider, web development company, software development expertise, global presence, company mission"
         />
-        <link rel="canonical" href="https://boostmysites.in/about" />
+        <link rel="canonical" href="https://boostmysites.com/about" />
         <meta property="og:title" content="About Us - BoostMySites" />
         <meta
           property="og:description"
           content="Learn about BoostMySites - your trusted partner for web development, mobile apps, AI solutions, and digital transformation services."
         />
-        <meta property="og:url" content="https://boostmysites.in/about" />
+        <meta property="og:url" content="https://boostmysites.com/about" />
         <meta property="og:type" content="website" />
       </Helmet>
       <div className="min-h-screen bg-black">

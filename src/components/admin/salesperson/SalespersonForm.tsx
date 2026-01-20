@@ -53,7 +53,7 @@ export const SalespersonForm: React.FC<SalespersonFormProps> = ({
 
   const onSubmit = async (data: SalespersonFormData) => {
     setIsSubmitting(true);
-    
+
     try {
       if (salesperson?.id) {
         await salespersonLinkService.updateSalespersonLink(salesperson.id, data);
@@ -130,7 +130,7 @@ export const SalespersonForm: React.FC<SalespersonFormProps> = ({
                     <Input
                       {...field}
                       type="email"
-                      placeholder="john@boostmysites.in"
+                      placeholder="john@boostmysites.com"
                       className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500"
                     />
                   </FormControl>
@@ -151,11 +151,11 @@ export const SalespersonForm: React.FC<SalespersonFormProps> = ({
                       type="tel"
                       placeholder="+91 98765 43210"
                       className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500"
-                                              onChange={(e) => {
-                          // Only allow numbers, spaces, hyphens, parentheses, and plus sign
-                          const value = e.target.value.replace(/[^0-9\s\-()]/g, '');
-                          field.onChange(value);
-                        }}
+                      onChange={(e) => {
+                        // Only allow numbers, spaces, hyphens, parentheses, and plus sign
+                        const value = e.target.value.replace(/[^0-9\s\-()]/g, '');
+                        field.onChange(value);
+                      }}
                     />
                   </FormControl>
                   <FormMessage className="text-red-400" />
@@ -214,16 +214,16 @@ export const SalespersonForm: React.FC<SalespersonFormProps> = ({
             />
 
             <div className="flex gap-2">
-              <Button 
-                type="submit" 
+              <Button
+                type="submit"
                 disabled={isSubmitting}
                 className="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white shadow-lg hover:shadow-cyan-500/25 transition-all duration-300"
               >
                 {isSubmitting ? 'Saving...' : (salesperson ? 'Update' : 'Create')}
               </Button>
-              <Button 
-                type="button" 
-                variant="outline" 
+              <Button
+                type="button"
+                variant="outline"
                 onClick={onCancel}
                 className="border-gray-600 text-gray-300 hover:bg-gray-700 hover:text-white"
               >

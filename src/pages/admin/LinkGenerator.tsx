@@ -68,8 +68,8 @@ export const LinkGenerator = () => {
         <div className="flex items-center justify-between">
           <div>
             <div className="flex items-center gap-4 mb-2">
-              <Link 
-                to="/admin" 
+              <Link
+                to="/admin"
                 className="flex items-center text-gray-400 hover:text-cyan-400 transition-colors"
               >
                 <ArrowLeft className="h-4 w-4 mr-1" />
@@ -84,7 +84,7 @@ export const LinkGenerator = () => {
             </p>
           </div>
           {!showForm && (
-            <Button 
+            <Button
               onClick={handleAdd}
               className="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-medium shadow-lg transition-all duration-200"
             >
@@ -94,38 +94,38 @@ export const LinkGenerator = () => {
           )}
         </div>
 
-      {showForm ? (
-        <SalespersonForm
-          salesperson={editingSalesperson}
-          onSuccess={handleFormSuccess}
-          onCancel={handleFormCancel}
-        />
-      ) : (
-        <>
-          <Card className="bg-gray-800 border-gray-700">
-            <CardHeader>
-              <CardTitle className="text-white">How it works</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-300">
-                Add salespersons to generate personalized links in the format: 
-                <code className="mx-1 px-2 py-1 bg-gray-700 text-cyan-300 rounded border border-gray-600">
-                  services.boostmysites.in/[salesperson-name]/[service]
-                </code>
-              </p>
-              <p className="text-gray-300 mt-2">
-                Each salesperson can have links for multiple services. Use these links for tracking and personalized landing pages.
-              </p>
-            </CardContent>
-          </Card>
-
-          <SalespersonList
-            salespersons={salespersons}
-            onEdit={handleEdit}
-            onRefresh={loadSalespersons}
+        {showForm ? (
+          <SalespersonForm
+            salesperson={editingSalesperson}
+            onSuccess={handleFormSuccess}
+            onCancel={handleFormCancel}
           />
-        </>
-      )}
+        ) : (
+          <>
+            <Card className="bg-gray-800 border-gray-700">
+              <CardHeader>
+                <CardTitle className="text-white">How it works</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-300">
+                  Add salespersons to generate personalized links in the format:
+                  <code className="mx-1 px-2 py-1 bg-gray-700 text-cyan-300 rounded border border-gray-600">
+                    services.boostmysites.in/[salesperson-name]/[service]
+                  </code>
+                </p>
+                <p className="text-gray-300 mt-2">
+                  Each salesperson can have links for multiple services. Use these links for tracking and personalized landing pages.
+                </p>
+              </CardContent>
+            </Card>
+
+            <SalespersonList
+              salespersons={salespersons}
+              onEdit={handleEdit}
+              onRefresh={loadSalespersons}
+            />
+          </>
+        )}
       </div>
     </AdminLayout>
   );

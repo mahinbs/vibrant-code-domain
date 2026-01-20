@@ -74,7 +74,7 @@ const AppIdeasLabPage = () => {
   return (
     <>
       <Helmet>
-        <title>App Idea Lab | Innovation Showroom | boostmysites.in</title>
+        <title>App Idea Lab | Innovation Showroom | boostmysites.com</title>
         <meta
           name="description"
           content="Explore Boostmysites' Idea Lab - where we prototype the future. Discover our next generation of AI-powered solutions and cutting-edge innovations."
@@ -173,7 +173,7 @@ const AppIdeasLabPage = () => {
                     </span>
                   </div>
 
-                  <div 
+                  <div
                     className="relative aspect-video bg-black rounded-xl overflow-hidden border border-gray-800"
                     onMouseEnter={handleMouseEnter}
                     onMouseLeave={handleMouseLeave}
@@ -195,7 +195,7 @@ const AppIdeasLabPage = () => {
                           alt="Video Thumbnail"
                           className="w-full h-full object-contain"
                         />
-                        
+
                         {/* Loading State */}
                         {!isVideoLoaded && (
                           <div className="absolute inset-0 flex items-center justify-center bg-black/60">
@@ -220,10 +220,9 @@ const AppIdeasLabPage = () => {
 
                     {/* Video Controls - Shown when video is active (playing or paused) */}
                     {!showThumbnail && (
-                      <div 
-                        className={`absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 transition-opacity duration-300 ${
-                          showControls ? 'opacity-100' : 'opacity-0'
-                        }`}
+                      <div
+                        className={`absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 transition-opacity duration-300 ${showControls ? 'opacity-100' : 'opacity-0'
+                          }`}
                       >
                         <div className="flex items-center justify-center gap-4">
                           {isVideoPlaying ? (
@@ -762,7 +761,7 @@ const AppIdeasLabPage = () => {
               </h3>
               <p className="text-sm text-gray-400 leading-relaxed">
                 The ideas presented here are prototypes and proof-of-concepts
-                developed by the boostmysites.in team. They are presented for
+                developed by the boostmysites.com team. They are presented for
                 illustrative purposes and are subject to availability,
                 customization, and final development scope upon engagement.
               </p>
