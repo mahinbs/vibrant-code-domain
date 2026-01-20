@@ -56,6 +56,7 @@ import ProjectsShowcase from "./pages/ProjectsShowcase";
 import AppIdeas from "./pages/AppIdeas";
 import AppIdeaDetail from "./pages/AppIdeaDetail";
 import Signup from "./pages/Signup";
+import TechCompanyLanding from "./pages/landingPages/TechCompanyLanding";
 
 const queryClient = new QueryClient();
 
@@ -399,6 +400,16 @@ const App = () => {
                   <>
                     <FloatingWhatsAppButton />
                     <Signup />
+                  </>
+                }
+              />
+
+              <Route
+                path="/build-tech-company"
+                element={
+                  <>
+                    <FloatingWhatsAppButton />
+                    <TechCompanyLanding />
                   </>
                 }
               />
