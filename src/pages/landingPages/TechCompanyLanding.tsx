@@ -3,12 +3,87 @@ import { Helmet } from 'react-helmet-async';
 import { Button } from '@/components/ui/button';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Share2, Rocket, Code, Database, TrendingUp, Users, DollarSign, CheckCircle, ArrowRight } from 'lucide-react';
+import { Share2, Rocket, Code, Database, TrendingUp, Users, DollarSign, CheckCircle, ArrowRight, Target, Briefcase, Gem } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { SectionTransition } from '@/components/ui/SectionTransition';
 
 
+
+// --- Custom Animated SVG Components ---
+
+const AnimatedRocket = () => (
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-16 h-16 group-hover:scale-110 transition-transform duration-300">
+        <path d="M12 2.5C12 2.5 5 12 5 16C5 20 8 22 12 22C16 22 19 20 19 16C19 12 12 2.5 12 2.5Z" fill="url(#rocket_grad)" stroke="#22d3ee" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M12 16C12 16 9 19 8 22" stroke="#22d3ee" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="animate-rocket-thrust" />
+        <path d="M12 16C12 16 15 19 16 22" stroke="#22d3ee" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="animate-rocket-thrust-2" />
+        <circle cx="12" cy="12" r="3" fill="#0ea5e9" fillOpacity="0.2" stroke="#0ea5e9" strokeWidth="1" />
+        <defs>
+            <linearGradient id="rocket_grad" x1="12" y1="2" x2="12" y2="22" gradientUnits="userSpaceOnUse">
+                <stop stopColor="#22d3ee" stopOpacity="0.2" />
+                <stop offset="1" stopColor="#3b82f6" stopOpacity="0.1" />
+            </linearGradient>
+        </defs>
+        <style>{`
+            .animate-rocket-thrust { animation: thrust 1s infinite alternate; }
+            .animate-rocket-thrust-2 { animation: thrust 1s infinite alternate-reverse; }
+            @keyframes thrust { from { opacity: 0.5; transform: translateY(0); } to { opacity: 1; transform: translateY(2px); } }
+        `}</style>
+    </svg>
+);
+
+const AnimatedBrain = () => (
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-16 h-16 group-hover:scale-110 transition-transform duration-300">
+        <path d="M9.5 3C7 3 4 5 4 9C4 14 6 16 6 16M14.5 3C17 3 20 5 20 9C20 14 18 16 18 16M9.5 3L14.5 3M6 16C6 16 8 18 8 20C8 21.5 9.5 22 12 22C14.5 22 16 21.5 16 20C16 18 18 16 18 16M6 16H18" stroke="#a855f7" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M12 6V12" stroke="#d8b4fe" strokeWidth="1.5" strokeLinecap="round" className="animate-pulse" />
+        <path d="M9 8L12 12L15 8" stroke="#d8b4fe" strokeWidth="1.5" strokeLinecap="round" className="animate-pulse" style={{ animationDelay: '0.5s' }} />
+        <circle cx="12" cy="12" r="2" fill="#a855f7" fillOpacity="0.4" className="animate-ping" style={{ animationDuration: '3s' }} />
+    </svg>
+);
+
+const AnimatedTools = () => (
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-16 h-16 group-hover:scale-110 transition-transform duration-300">
+        <g className="animate-spin-slow origin-center">
+            <circle cx="12" cy="12" r="4" stroke="#3b82f6" strokeWidth="1.5" strokeDasharray="4 2" />
+            <path d="M12 2V4M12 20V22M2 12H4M20 12H22" stroke="#3b82f6" strokeWidth="1.5" strokeLinecap="round" />
+        </g>
+        <path d="M14.7 6.3L17.7 3.3C18.1 2.9 18.7 2.9 19.1 3.3L20.7 4.9C21.1 5.3 21.1 5.9 20.7 6.3L17.7 9.3" stroke="#60a5fa" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="animate-tool-move" />
+        <path d="M9.3 17.7L6.3 20.7C5.9 21.1 5.3 21.1 4.9 20.7L3.3 19.1C2.9 18.7 2.9 18.1 3.3 17.7L6.3 14.7" stroke="#60a5fa" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="animate-tool-move" />
+        <style>{`
+            .animate-spin-slow { animation: spin 10s linear infinite; transform-origin: center; }
+            .animate-tool-move { animation: tool 2s ease-in-out infinite alternate; }
+            @keyframes tool { from { transform: translate(0,0); } to { transform: translate(1px, 1px); } }
+            @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        `}</style>
+    </svg>
+);
+
+const AnimatedIncome = () => (
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-16 h-16 group-hover:scale-110 transition-transform duration-300">
+        <rect x="4" y="4" width="16" height="12" rx="2" stroke="#4ade80" strokeWidth="1.5" />
+        <path d="M12 22V16" stroke="#4ade80" strokeWidth="1.5" strokeLinecap="round" />
+        <path d="M8 22H16" stroke="#4ade80" strokeWidth="1.5" strokeLinecap="round" />
+        <circle cx="12" cy="10" r="2.5" stroke="#22c55e" strokeWidth="1.5" />
+        <path d="M12 6V14" stroke="#22c55e" strokeWidth="0.5" className="animate-money-grow" />
+        <style>{`
+            .animate-money-grow { animation: grow 2s infinite ease-out; }
+            @keyframes grow { 0% { stroke-dasharray: 0 10; } 100% { stroke-dasharray: 10 0; } }
+        `}</style>
+    </svg>
+);
+
+const AnimatedScale = () => (
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-16 h-16 group-hover:scale-110 transition-transform duration-300">
+        <path d="M3 21H21" stroke="#fb923c" strokeWidth="1.5" strokeLinecap="round" />
+        <path d="M3 15L9 9L13 13L21 5" stroke="#f97316" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" strokeDasharray="30" strokeDashoffset="30" className="animate-draw-graph" />
+        <path d="M21 5L17 5" stroke="#f97316" strokeWidth="1.5" strokeLinecap="round" />
+        <path d="M21 5L21 9" stroke="#f97316" strokeWidth="1.5" strokeLinecap="round" />
+        <style>{`
+            .animate-draw-graph { animation: draw 3s infinite ease-in-out; }
+            @keyframes draw { 0% { stroke-dashoffset: 30; } 50% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: 0; } }
+        `}</style>
+    </svg>
+);
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -184,7 +259,7 @@ const TechCompanyLanding = () => {
                             </Button>
                         </div>
                     </div>
-                    <div ref={heroImageRef} className="relative group">
+                    <div ref={heroImageRef} className="relative group lg:-rotate-12">
                         <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-1000 group-hover:duration-200"></div>
                         <div className="relative rounded-2xl border border-white/10 overflow-hidden shadow-2xl bg-black">
                             <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-blue-600/10 mix-blend-overlay z-10"></div>
@@ -282,25 +357,55 @@ const TechCompanyLanding = () => {
                 `}</style>
             </section>
 
-            {/* Why Boostmysites */}
+            {/* How You Generate Revenue */}
             <SectionTransition fromGradient="from-black to-gray-900" toGradient="from-gray-900 to-black" type="fade">
                 <section className="py-24 bg-black relative">
                     <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gray-800 to-transparent"></div>
                     <div className="container mx-auto px-4 relative z-10">
-                        <h2 className="text-3xl md:text-5xl font-bold text-center mb-20 bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent">Why Build With <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Boostmysites</span>?</h2>
+                        <div className="text-center mb-20">
+                            <h2 className="text-3xl md:text-5xl font-bold bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent mb-4">How You Generate <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Revenue</span></h2>
+                            <p className="text-xl text-gray-400">Build Once. Earn Every Month.</p>
+                        </div>
 
-                        <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6">
+                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                             {[
-                                { emoji: "🚀", title: "Minimal Investment", desc: "Start lean." },
-                                { emoji: "🧠", title: "No Tech Knowledge", desc: "We bridge the gap." },
-                                { emoji: "🛠️", title: "End-to-End Support", desc: "Idea to Exit." },
-                                { emoji: "💰", title: "Passive Income", desc: "Recurring revenue." },
-                                { emoji: "📈", title: "Built to Scale", desc: "Global infrastructure." },
+                                {
+                                    icon: <AnimatedIncome />,
+                                    title: "Recurring Subscriptions",
+                                    desc: "The holy grail of SaaS. Users pay monthly or annual fees for access, creating a predictable, steady income that hits your account like clockwork."
+                                },
+                                {
+                                    icon: <AnimatedScale />,
+                                    title: "Pay-As-You-Go",
+                                    desc: "Scale your income alongside your users’ success. Charge based on activity—like AI credits used or messages sent. When their business grows, so does your profit."
+                                },
+                                {
+                                    icon: <AnimatedRocket />,
+                                    title: "Premium Upgrades",
+                                    desc: "Convert \"free\" users into \"paying\" fans. Lock your most powerful features behind a \"Pro\" wall and watch your Average Revenue Per User (ARPU) soar."
+                                },
+                                {
+                                    icon: <Target className="w-12 h-12 text-red-400 group-hover:text-cyan-400 transition-colors duration-300 group-hover:scale-110" />,
+                                    title: "Targeted Ad Revenue",
+                                    desc: "Monetize your free traffic. Integrate non-intrusive native ads, video rewards, or sponsorships. It’s the perfect way to earn from every single user."
+                                },
+                                {
+                                    icon: <Briefcase className="w-12 h-12 text-amber-400 group-hover:text-cyan-400 transition-colors duration-300 group-hover:-translate-y-2" />,
+                                    title: "Investor Funding",
+                                    desc: "Your app isn't just a tool; it's a \"Venture-Ready\" business. We build with a tech stack that investors love, helping you secure Seed or Series A funding."
+                                },
+                                {
+                                    icon: <Gem className="w-12 h-12 text-purple-400 group-hover:text-cyan-400 transition-colors duration-300 group-hover:rotate-12" />,
+                                    title: "The 10x Exit",
+                                    desc: "This is the ultimate goal. You own 100% of a digital asset that increases in value daily. Successful apps often sell for 5x to 10x their annual revenue."
+                                },
                             ].map((item, idx) => (
-                                <div key={idx} className="text-center p-8 rounded-2xl bg-gradient-to-b from-gray-900 to-black border border-gray-800 hover:border-cyan-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-900/20 group">
-                                    <div className="text-4xl mb-6 transform group-hover:scale-110 transition-transform duration-300">{item.emoji}</div>
-                                    <h4 className="font-bold text-lg mb-3 text-white">{item.title}</h4>
-                                    <p className="text-sm text-gray-400 leading-relaxed">{item.desc}</p>
+                                <div key={idx} className="p-8 rounded-2xl bg-gradient-to-b from-gray-900 to-black border border-gray-800 hover:border-cyan-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-900/20 group">
+                                    <div className="mb-6 inline-flex p-4 rounded-full bg-gray-900/50 group-hover:bg-cyan-900/20 transition-colors duration-500 ring-1 ring-gray-800 group-hover:ring-cyan-500/30">
+                                        {item.icon}
+                                    </div>
+                                    <h4 className="font-bold text-xl mb-3 text-white group-hover:text-cyan-400 transition-colors">{item.title}</h4>
+                                    <p className="text-sm text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors">{item.desc}</p>
                                 </div>
                             ))}
                         </div>
@@ -387,9 +492,9 @@ const TechCompanyLanding = () => {
                         <h2 className="text-3xl md:text-5xl font-bold text-center mb-16 text-white">Real People. Real Results.</h2>
                         <div className="grid md:grid-cols-3 gap-8">
                             {[
-                                { quote: "I had zero tech background. Today, I own a SaaS product generating monthly revenue.", author: "Startup Founder", img: "/assets/landing-page/avatars/avatar_1.png" },
-                                { quote: "Boostmysites handled everything — development, launch, and growth.", author: "First-time Tech Entrepreneur", img: "/assets/landing-page/avatars/avatar_2.png" },
-                                { quote: "I never imagined owning an app business would be this easy.", author: "Non-Tech Founder", img: "/assets/landing-page/avatars/avatar_3.png" },
+                                { quote: "I had zero tech background. Today, I own a SaaS product generating monthly revenue.", author: "Rahul Sharma", img: "/assets/landing-page/avatars/indian_avatar_1.jpg" },
+                                { quote: "Boostmysites handled everything — development, launch, and growth.", author: "Priya Patel", img: "/assets/landing-page/avatars/indian_avatar_2.png" },
+                                { quote: "I never imagined owning an app business would be this easy.", author: "Vikram Singh", img: "/assets/landing-page/avatars/indian_avatar_3.jpg" },
                             ].map((testi, i) => (
                                 <div key={i} className="p-8 bg-black/60 border border-gray-800 rounded-2xl relative group hover:border-cyan-500/30 hover:bg-black/90 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_10px_40px_-10px_rgba(6,182,212,0.2)]">
                                     <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl"></div>

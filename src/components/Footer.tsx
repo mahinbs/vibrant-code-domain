@@ -51,11 +51,11 @@ const Footer = () => {
             <div className="space-y-3 text-gray-400">
               <div className="flex items-center space-x-3">
                 <Mail className="h-4 w-4 flex-shrink-0" />
-                <span>chairman@boostmysites.com</span>
+                <a href="mailto:chairman@boostmysites.com" className='hover:text-blue-500 transition-colors duration-200'>chairman@boostmysites.com</a>
               </div>
               <div className="flex items-center space-x-3">
                 <Phone className="h-4 w-4 flex-shrink-0" />
-                <span>+919632953355</span>
+                <a href="tel:919632953355" className='hover:text-blue-500 transition-colors duration-200'>+919632953355</a>
               </div>
             </div>
           </div>

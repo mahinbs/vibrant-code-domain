@@ -405,7 +405,7 @@ const App = () => {
               />
 
               <Route
-                path="/build-tech-company"
+                path="/build-your-tech-company"
                 element={
                   <>
                     <FloatingWhatsAppButton />
