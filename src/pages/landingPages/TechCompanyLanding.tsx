@@ -523,7 +523,11 @@ const TechCompanyLanding = () => {
                     <div className="container mx-auto px-4 relative z-10">
                         <h2 className="text-4xl md:text-6xl font-bold mb-8 bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent">Your Tech Company Starts Here.</h2>
                         <p className="text-xl text-gray-400 mb-12 max-w-2xl mx-auto">Don’t just invest. Build something you own.</p>
-                        <Button size="lg" className="bg-white text-black hover:bg-gray-200 text-xl px-12 py-8 rounded-full shadow-[0_0_40px_rgba(255,255,255,0.15)] hover:shadow-[0_0_60px_rgba(255,255,255,0.3)] transition-all duration-300 transform hover:scale-105">
+                        <Button
+                            size="lg"
+                            className="bg-white text-black hover:bg-gray-200 text-xl px-12 py-8 rounded-full shadow-[0_0_40px_rgba(255,255,255,0.15)] hover:shadow-[0_0_60px_rgba(255,255,255,0.3)] transition-all duration-300 transform hover:scale-105"
+                            onClick={() => window.location.href = "mailto:ceo@boostmysites.com?subject=Enquiry%3A%20Launching%20a%20Tech%20Company&body=Hi%20Team%2C%0A%0AI%20am%20interested%20in%20launching%20my%20own%20tech%20company%2FSaaS%20with%20Boostmysites.%0A%0APlease%20let%20me%20know%20the%20next%20steps.%0A%0ABest%20regards%2C"}
+                        >
                             Launch Yours Today <ArrowRight className="ml-2" />
                         </Button>
                     </div>
