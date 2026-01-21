@@ -365,6 +365,7 @@ const TechCompanyLanding = () => {
                         <div className="text-center mb-20">
                             <h2 className="text-3xl md:text-5xl font-bold bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent mb-4">How You Generate <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Revenue</span></h2>
                             <p className="text-xl text-gray-400">Build Once. Earn Every Month.</p>
+                            <p className="text-lg text-cyan-400 mt-4 font-medium">How do you make money?</p>
                         </div>
 
                         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -387,17 +388,17 @@ const TechCompanyLanding = () => {
                                 {
                                     icon: <Target className="w-12 h-12 text-red-400 group-hover:text-cyan-400 transition-colors duration-300 group-hover:scale-110" />,
                                     title: "Targeted Ad Revenue",
-                                    desc: "Monetize your free traffic. Integrate non-intrusive native ads, video rewards, or sponsorships. It’s the perfect way to earn from every single user."
+                                    desc: "Monetize your free traffic. Integrate non-intrusive native ads, video rewards, or sponsorships. It’s the perfect way to earn from every single user, even if they never reach for their credit card."
                                 },
                                 {
                                     icon: <Briefcase className="w-12 h-12 text-amber-400 group-hover:text-cyan-400 transition-colors duration-300 group-hover:-translate-y-2" />,
                                     title: "Investor Funding",
-                                    desc: "Your app isn't just a tool; it's a \"Venture-Ready\" business. We build with a tech stack that investors love, helping you secure Seed or Series A funding."
+                                    desc: "Your app isn't just a tool; it's a \"Venture-Ready\" business. We build with a tech stack that investors love, helping you secure Seed or Series A funding to explode your growth."
                                 },
                                 {
                                     icon: <Gem className="w-12 h-12 text-purple-400 group-hover:text-cyan-400 transition-colors duration-300 group-hover:rotate-12" />,
                                     title: "The 10x Exit",
-                                    desc: "This is the ultimate goal. You own 100% of a digital asset that increases in value daily. Successful apps often sell for 5x to 10x their annual revenue."
+                                    desc: "This is the ultimate goal. You own 100% of a digital asset that increases in value daily. Successful apps often sell for 5x to 10x their annual revenue, leading to a life-changing payout."
                                 },
                             ].map((item, idx) => (
                                 <div key={idx} className="p-8 rounded-2xl bg-gradient-to-b from-gray-900 to-black border border-gray-800 hover:border-cyan-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-900/20 group">
