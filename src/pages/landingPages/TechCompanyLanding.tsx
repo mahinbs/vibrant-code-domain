@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -191,6 +192,7 @@ const TechCompanyLanding = () => {
     const heroRef = useRef(null);
     const heroTextRef = useRef(null);
     const heroImageRef = useRef(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const tl = gsap.timeline();
@@ -272,6 +274,43 @@ const TechCompanyLanding = () => {
                     </div>
                 </div>
             </section>
+
+            {/* Video Section */}
+            <SectionTransition fromGradient="from-black to-gray-900" toGradient="from-gray-900 to-black" type="fade">
+                <section className="py-24 bg-black relative overflow-hidden">
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-cyan-900/10 via-black to-black opacity-40 z-0"></div>
+                    <div className="container mx-auto px-4 text-center z-10 relative space-y-7">
+
+                        <h2 className="text-3xl md:text-5xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+                                Get your idea now
+                            </h2>
+                        <div className="max-w-4xl mx-auto rounded-3xl overflow-hidden border border-cyan-500/30 shadow-[0_0_50px_rgba(6,182,212,0.15)] relative group">
+                            <div className="absolute inset-0 bg-cyan-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+                            <div className="aspect-video w-full">
+                                <iframe
+                                    className="w-full h-full"
+                                    src="https://www.youtube.com/embed/00wfHdHV4gU"
+                                    title="YouTube video player"
+                                    frameBorder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    allowFullScreen
+                                ></iframe>
+                            </div>
+                        </div>
+
+                        <div className="mt-12 space-y-8">
+                           
+                            <Button
+                                size="lg"
+                                className="bg-white text-black hover:bg-gray-200 text-xl px-12 py-6 rounded-full shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_40px_rgba(255,255,255,0.2)] transition-all duration-300 transform hover:scale-105"
+                                onClick={() => navigate('/app-ideas')}
+                            >
+                                Explore App Ideas <ArrowRight className="ml-2" />
+                            </Button>
+                        </div>
+                    </div>
+                </section>
+            </SectionTransition>
 
             {/* Subheading Section */}
             <SectionTransition fromGradient="from-black to-gray-900" toGradient="from-gray-900 to-black" type="fade">
