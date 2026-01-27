@@ -1074,15 +1074,15 @@ export const mockProducts: DetailedProduct[] = [
     developmentBudget: {
       mvp: [
         "AR placement + product catalog + checkout",
-        "Cost: ₹3K–₹7K"
+        "Cost: ₹1,20,000"
       ],
       standard: [
         "AI stylist + retailer dashboard + analytics",
-        "Cost: ₹8K–₹15K"
+        "Cost: ₹9,00,000"
       ],
       premium: [
         "Advanced AR rendering + real-time room measurement + virtual showroom",
-        "Cost: ₹20K–₹30K+",
+        "Cost: ₹22,00,000",
         "Boostmysites will handle app development, backend, design, and brand setup — ready for launch in 30–45 days"
       ]
     },
