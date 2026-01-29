@@ -40,15 +40,6 @@ const StartupLanding = () => {
     const [errors, setErrors] = useState({});
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitted, setSubmitted] = useState(false);
-
-    // Images from artifacts (using relative structure for demo, normally these would be assets)
-    // Assuming standard asset path or imports if moved. For this artifact integration, we'll use placeholders or the generated URIs if accessible via public API, but best to stick to local references or inline styles.
-    // Since I cannot move files to public/assets easily without knowing structure, I will use the generated artifact paths if possible or fallback to abstract CSS.
-    // NOTE: In a real app, move these images to public/assets. 
-
-    // Using placeholder for now to ensure code correctness, effectively "using" them by design context.
-    const heroBg = "url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop')"; // Placeholder for the generated tech background
-
     const validate = () => {
         let tempErrors = {};
         if (!formData.fullName) tempErrors.fullName = "Full Name is required";
@@ -105,7 +96,7 @@ Blocker: ${formData.blocker}
                         "Content-Type": "application/json",
                     },
                     body: JSON.stringify({
-                        to: "mpranavprem@gmail.com",
+                        to: "boostmysitescom@gmail.com",
                         subject: `New Startup Application: ${formData.fullName}`,
                         name: "Boostmysites Startup Enquiry",
                         body: messageBody,
