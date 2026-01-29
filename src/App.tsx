@@ -57,6 +57,7 @@ import AppIdeas from "./pages/AppIdeas";
 import AppIdeaDetail from "./pages/AppIdeaDetail";
 import Signup from "./pages/Signup";
 import TechCompanyLanding from "./pages/landingPages/TechCompanyLanding";
+import StartupLanding from "./pages/landingPages/StartupLanding";
 
 const queryClient = new QueryClient();
 
@@ -410,6 +411,16 @@ const App = () => {
                   <>
                     <FloatingWhatsAppButton />
                     <TechCompanyLanding />
+                  </>
+                }
+              />
+
+              <Route
+                path="/startup-launch"
+                element={
+                  <>
+                    <FloatingWhatsAppButton />
+                    <StartupLanding />
                   </>
                 }
               />
