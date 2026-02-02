@@ -25,6 +25,7 @@ const FloatingCube = () => (
 
 const StartupLanding = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [currentStep, setCurrentStep] = useState(1);
     const [formData, setFormData] = useState({
         fullName: '',
         email: '',
@@ -37,11 +38,12 @@ const StartupLanding = () => {
         blocker: ''
     });
 
-    const [errors, setErrors] = useState({});
+    const [errors, setErrors] = useState<Record<string, string>>({});
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitted, setSubmitted] = useState(false);
-    const validate = () => {
-        let tempErrors = {};
+
+    const validateStep1 = () => {
+        const tempErrors: Record<string, string> = {};
         if (!formData.fullName) tempErrors.fullName = "Full Name is required";
         if (!formData.email) {
             tempErrors.email = "Email is required";
@@ -53,15 +55,31 @@ const StartupLanding = () => {
         } else if (!/^\d{10,}$/.test(formData.whatsapp.replace(/\D/g, ''))) {
             tempErrors.whatsapp = "Enter a valid phone number (at least 10 digits)";
         }
+        setErrors(tempErrors);
+        return Object.keys(tempErrors).length === 0;
+    };
+
+    const validateStep2 = () => {
+        const tempErrors: Record<string, string> = {};
         if (!formData.context) tempErrors.context = "Please select an option";
         if (!formData.ideaClarity) tempErrors.ideaClarity = "Please select an option";
         if (!formData.problem) tempErrors.problem = "Please describe the problem";
         if (!formData.budget) tempErrors.budget = "Please select a budget range";
         if (!formData.timeline) tempErrors.timeline = "Please select a timeline";
         if (!formData.blocker) tempErrors.blocker = "Please select your biggest blocker";
-
         setErrors(tempErrors);
         return Object.keys(tempErrors).length === 0;
+    };
+
+    const handleNextStep = () => {
+        if (currentStep === 1 && validateStep1()) {
+            setCurrentStep(2);
+        }
+    };
+
+    const handlePreviousStep = () => {
+        setCurrentStep(1);
+        setErrors({});
     };
 
     const handleChange = (e) => {
@@ -74,7 +92,7 @@ const StartupLanding = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (validate()) {
+        if (validateStep2()) {
             setIsSubmitting(true);
 
             const messageBody = `
@@ -128,8 +146,14 @@ Blocker: ${formData.blocker}
             <Header />
 
             {/* Application Modal */}
-            <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-                <DialogContent className="bg-gray-900 border border-gray-800 text-white sm:max-w-xl max-h-[90vh] overflow-hidden flex flex-col p-6 rounded-2xl">
+            <Dialog open={isModalOpen} onOpenChange={(open) => {
+                setIsModalOpen(open);
+                if (!open) {
+                    setCurrentStep(1);
+                    setErrors({});
+                }
+            }}>
+                <DialogContent className="bg-gray-900 border border-gray-800 text-white sm:max-w-xl max-h-[90vh] flex flex-col p-6 rounded-2xl">
                     <DialogHeader className="mb-4">
                         <DialogTitle className="text-2xl font-bold text-center">Let's build this together</DialogTitle>
                         <DialogDescription className="text-center text-gray-400">
@@ -144,106 +168,206 @@ Blocker: ${formData.blocker}
                             </div>
                             <h2 className="text-2xl font-bold text-white mb-2">Application Received</h2>
                             <p className="text-gray-400 mb-6">
-                                We’re reviewing your responses.<br />You’ll hear from us shortly on WhatsApp.
+                                We're reviewing your responses.<br />You'll hear from us shortly on WhatsApp.
                             </p>
                             <Button onClick={() => setIsModalOpen(false)} className="bg-gray-800 hover:bg-gray-700">
                                 Close
                             </Button>
                         </div>
                     ) : (
-                        <form onSubmit={handleSubmit} className="space-y-6 max-h-[70vh] overflow-y-auto pr-2 custom-scrollbar">
-                            <div className="space-y-4">
-                                <h3 className="text-lg font-semibold text-cyan-400 border-b border-gray-800 pb-2">1. Basic Details</h3>
-                                <div className="grid md:grid-cols-2 gap-4">
-                                    <div className="space-y-1">
-                                        <label className="text-xs font-medium text-gray-400">Full Name *</label>
-                                        <input name="fullName" value={formData.fullName} onChange={handleChange} placeholder="Your name" className={`w-full bg-black/50 border ${errors.fullName ? 'border-red-500' : 'border-gray-700'} rounded-lg p-3 text-sm text-white focus:border-cyan-500 focus:outline-none`} />
-                                        {errors.fullName && <p className="text-red-500 text-xs">{errors.fullName}</p>}
-                                    </div>
-                                    <div className="space-y-1">
-                                        <label className="text-xs font-medium text-gray-400">Email Address *</label>
-                                        <input name="email" value={formData.email} onChange={handleChange} placeholder="Email" className={`w-full bg-black/50 border ${errors.email ? 'border-red-500' : 'border-gray-700'} rounded-lg p-3 text-sm text-white focus:border-cyan-500 focus:outline-none`} />
-                                        {errors.email && <p className="text-red-500 text-xs">{errors.email}</p>}
-                                    </div>
-                                    <div className="space-y-1 md:col-span-2">
-                                        <label className="text-xs font-medium text-gray-400">WhatsApp Number *</label>
-                                        <input name="whatsapp" value={formData.whatsapp} onChange={handleChange} placeholder="We send next steps here" className={`w-full bg-black/50 border ${errors.whatsapp ? 'border-red-500' : 'border-gray-700'} rounded-lg p-3 text-sm text-white focus:border-cyan-500 focus:outline-none`} />
-                                        {errors.whatsapp && <p className="text-red-500 text-xs">{errors.whatsapp}</p>}
-                                    </div>
+                        <div className="flex flex-col space-y-4">
+                            {/* Progress Indicator */}
+                            <div className="flex items-center justify-center gap-2">
+                                <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep >= 1 ? 'bg-cyan-500 text-white' : 'bg-gray-700 text-gray-400'} font-semibold text-sm transition-all`}>
+                                    {currentStep > 1 ? <CheckCircle className="w-5 h-5" /> : '1'}
+                                </div>
+                                <div className={`h-1 w-16 ${currentStep >= 2 ? 'bg-cyan-500' : 'bg-gray-700'} rounded-full transition-all duration-300`}></div>
+                                <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep >= 2 ? 'bg-cyan-500 text-white' : 'bg-gray-700 text-gray-400'} font-semibold text-sm transition-all`}>
+                                    2
                                 </div>
                             </div>
 
-                            <div className="space-y-4">
-                                <h3 className="text-lg font-semibold text-cyan-400 border-b border-gray-800 pb-2">2. Your Startup Goals</h3>
-                                <div className="space-y-3">
-                                    <label className="text-xs font-medium text-gray-400">What best describes you?</label>
-                                    <select name="context" value={formData.context} onChange={handleChange} className="w-full bg-black/50 border border-gray-700 rounded-lg p-3 text-sm text-white focus:border-cyan-500 focus:outline-none">
-                                        <option value="">Select option</option>
-                                        <option value="Working professional">Working professional</option>
-                                        <option value="Business owner">Business owner</option>
-                                        <option value="Student / early career">Student / early career</option>
-                                        <option value="Freelancer / consultant">Freelancer / consultant</option>
-                                        <option value="Other">Other</option>
-                                    </select>
-                                    {errors.context && <p className="text-red-500 text-xs">{errors.context}</p>}
-                                </div>
-
-                                <div className="space-y-3">
-                                    <label className="text-xs font-medium text-gray-400">Startup Idea Status</label>
-                                    <div className="grid grid-cols-1 gap-2">
-                                        {["Yes, clearly defined", "Somewhat, still fuzzy", "No, I need help from scratch"].map(opt => (
-                                            <button type="button" key={opt} onClick={() => handleChange({ target: { name: 'ideaClarity', value: opt } })} className={`text-left text-sm p-3 rounded-lg border transition-all ${formData.ideaClarity === opt ? 'bg-cyan-900/30 border-cyan-500 text-cyan-100' : 'bg-black/30 border-gray-800 hover:border-gray-600'}`}>{opt}</button>
-                                        ))}
+                            <div className="overflow-y-auto flex-1 pr-2" style={{ maxHeight: 'calc(90vh - 280px)' }}>
+                                {/* Step 1: Basic Details */}
+                                {currentStep === 1 && (
+                                    <div className="space-y-4 animate-in fade-in slide-in-from-right duration-300">
+                                        <h3 className="text-lg font-semibold text-cyan-400 border-b border-gray-800 pb-2">1. Basic Details</h3>
+                                        <div className="grid md:grid-cols-2 gap-4">
+                                            <div className="space-y-1">
+                                                <label className="text-xs font-medium text-gray-400">Full Name *</label>
+                                                <input 
+                                                    name="fullName" 
+                                                    value={formData.fullName} 
+                                                    onChange={handleChange} 
+                                                    placeholder="Your name" 
+                                                    className={`w-full bg-black/50 border ${errors.fullName ? 'border-red-500' : 'border-gray-700'} rounded-lg p-3 text-sm text-white focus:border-cyan-500 focus:outline-none`} 
+                                                />
+                                                {errors.fullName && <p className="text-red-500 text-xs">{errors.fullName}</p>}
+                                            </div>
+                                            <div className="space-y-1">
+                                                <label className="text-xs font-medium text-gray-400">Email Address *</label>
+                                                <input 
+                                                    name="email" 
+                                                    value={formData.email} 
+                                                    onChange={handleChange} 
+                                                    placeholder="Email" 
+                                                    className={`w-full bg-black/50 border ${errors.email ? 'border-red-500' : 'border-gray-700'} rounded-lg p-3 text-sm text-white focus:border-cyan-500 focus:outline-none`} 
+                                                />
+                                                {errors.email && <p className="text-red-500 text-xs">{errors.email}</p>}
+                                            </div>
+                                            <div className="space-y-1 md:col-span-2">
+                                                <label className="text-xs font-medium text-gray-400">WhatsApp Number *</label>
+                                                <input 
+                                                    name="whatsapp" 
+                                                    value={formData.whatsapp} 
+                                                    onChange={handleChange} 
+                                                    placeholder="We send next steps here" 
+                                                    className={`w-full bg-black/50 border ${errors.whatsapp ? 'border-red-500' : 'border-gray-700'} rounded-lg p-3 text-sm text-white focus:border-cyan-500 focus:outline-none`} 
+                                                />
+                                                {errors.whatsapp && <p className="text-red-500 text-xs">{errors.whatsapp}</p>}
+                                            </div>
+                                        </div>
                                     </div>
-                                    {errors.ideaClarity && <p className="text-red-500 text-xs">{errors.ideaClarity}</p>}
-                                </div>
+                                )}
 
-                                <div className="space-y-1">
-                                    <label className="text-xs font-medium text-gray-400">What problem do you want to solve? *</label>
-                                    <textarea name="problem" value={formData.problem} onChange={handleChange} placeholder="Briefly describe..." rows={2} className={`w-full bg-black/50 border ${errors.problem ? 'border-red-500' : 'border-gray-700'} rounded-lg p-3 text-sm text-white focus:border-cyan-500 focus:outline-none`} />
-                                    {errors.problem && <p className="text-red-500 text-xs">{errors.problem}</p>}
-                                </div>
+                                {/* Step 2: Your Startup Goals */}
+                                {currentStep === 2 && (
+                                    <div className="space-y-4 animate-in fade-in slide-in-from-right duration-300">
+                                        <h3 className="text-lg font-semibold text-cyan-400 border-b border-gray-800 pb-2">2. Your Startup Goals</h3>
+                                        <div className="space-y-3">
+                                            <label className="text-xs font-medium text-gray-400">What best describes you? *</label>
+                                            <select 
+                                                name="context" 
+                                                value={formData.context} 
+                                                onChange={handleChange} 
+                                                className={`w-full bg-black/50 border ${errors.context ? 'border-red-500' : 'border-gray-700'} rounded-lg p-3 text-sm text-white focus:border-cyan-500 focus:outline-none`}
+                                            >
+                                                <option value="">Select option</option>
+                                                <option value="Working professional">Working professional</option>
+                                                <option value="Business owner">Business owner</option>
+                                                <option value="Student / early career">Student / early career</option>
+                                                <option value="Freelancer / consultant">Freelancer / consultant</option>
+                                                <option value="Other">Other</option>
+                                            </select>
+                                            {errors.context && <p className="text-red-500 text-xs">{errors.context}</p>}
+                                        </div>
 
-                                <div className="space-y-3">
-                                    <label className="text-xs font-medium text-gray-400">Investment Budget</label>
-                                    <div className="grid grid-cols-2 gap-2">
-                                        {["₹50,000 (Micro SaaS)", "₹2–5 Lakhs (Full Build)", "₹10 Lakhs+ (Scale)", "Not sure yet"].map(opt => (
-                                            <button type="button" key={opt} onClick={() => handleChange({ target: { name: 'budget', value: opt } })} className={`text-left text-xs p-2 rounded-lg border transition-all ${formData.budget === opt ? 'bg-cyan-900/30 border-cyan-500 text-cyan-100' : 'bg-black/30 border-gray-800 hover:border-gray-600'}`}>{opt}</button>
-                                        ))}
+                                        <div className="space-y-3">
+                                            <label className="text-xs font-medium text-gray-400">Startup Idea Status *</label>
+                                            <div className="grid grid-cols-1 gap-2">
+                                                {["Yes, clearly defined", "Somewhat, still fuzzy", "No, I need help from scratch"].map(opt => (
+                                                    <button 
+                                                        type="button" 
+                                                        key={opt} 
+                                                        onClick={() => handleChange({ target: { name: 'ideaClarity', value: opt } })} 
+                                                        className={`text-left text-sm p-3 rounded-lg border transition-all ${formData.ideaClarity === opt ? 'bg-cyan-900/30 border-cyan-500 text-cyan-100' : 'bg-black/30 border-gray-800 hover:border-gray-600'}`}
+                                                    >
+                                                        {opt}
+                                                    </button>
+                                                ))}
+                                            </div>
+                                            {errors.ideaClarity && <p className="text-red-500 text-xs">{errors.ideaClarity}</p>}
+                                        </div>
+
+                                        <div className="space-y-1">
+                                            <label className="text-xs font-medium text-gray-400">What problem do you want to solve? *</label>
+                                            <textarea 
+                                                name="problem" 
+                                                value={formData.problem} 
+                                                onChange={handleChange} 
+                                                placeholder="Briefly describe..." 
+                                                rows={2} 
+                                                className={`w-full bg-black/50 border ${errors.problem ? 'border-red-500' : 'border-gray-700'} rounded-lg p-3 text-sm text-white focus:border-cyan-500 focus:outline-none`} 
+                                            />
+                                            {errors.problem && <p className="text-red-500 text-xs">{errors.problem}</p>}
+                                        </div>
+
+                                        <div className="space-y-3">
+                                            <label className="text-xs font-medium text-gray-400">Investment Budget *</label>
+                                            <div className="grid grid-cols-2 gap-2">
+                                                {["₹50,000 (Micro SaaS)", "₹2–5 Lakhs (Full Build)", "₹10 Lakhs+ (Scale)", "Not sure yet"].map(opt => (
+                                                    <button 
+                                                        type="button" 
+                                                        key={opt} 
+                                                        onClick={() => handleChange({ target: { name: 'budget', value: opt } })} 
+                                                        className={`text-left text-xs p-2 rounded-lg border transition-all ${formData.budget === opt ? 'bg-cyan-900/30 border-cyan-500 text-cyan-100' : 'bg-black/30 border-gray-800 hover:border-gray-600'}`}
+                                                    >
+                                                        {opt}
+                                                    </button>
+                                                ))}
+                                            </div>
+                                            {errors.budget && <p className="text-red-500 text-xs">{errors.budget}</p>}
+                                        </div>
+
+                                        <div className="space-y-3">
+                                            <label className="text-xs font-medium text-gray-400">Launch Timeline *</label>
+                                            <div className="flex flex-wrap gap-2">
+                                                {["Immediately", "Within 30 days", "1–3 months", "Just exploring"].map(opt => (
+                                                    <button 
+                                                        type="button" 
+                                                        key={opt} 
+                                                        onClick={() => handleChange({ target: { name: 'timeline', value: opt } })} 
+                                                        className={`text-xs px-3 py-2 rounded-full border transition-all ${formData.timeline === opt ? 'bg-cyan-900/30 border-cyan-500 text-cyan-100' : 'bg-black/30 border-gray-800 hover:border-gray-600'}`}
+                                                    >
+                                                        {opt}
+                                                    </button>
+                                                ))}
+                                            </div>
+                                            {errors.timeline && <p className="text-red-500 text-xs">{errors.timeline}</p>}
+                                        </div>
+
+                                        <div className="space-y-3">
+                                            <label className="text-xs font-medium text-gray-400">Biggest Blocker *</label>
+                                            <select 
+                                                name="blocker" 
+                                                value={formData.blocker} 
+                                                onChange={handleChange} 
+                                                className={`w-full bg-black/50 border ${errors.blocker ? 'border-red-500' : 'border-gray-700'} rounded-lg p-3 text-sm text-white focus:border-cyan-500 focus:outline-none`}
+                                            >
+                                                <option value="">Select option</option>
+                                                <option value="No technical skills">No technical skills</option>
+                                                <option value="No clear idea">No clear idea</option>
+                                                <option value="No time to manage execution">No time to manage execution</option>
+                                                <option value="Fear of wasting money">Fear of wasting money</option>
+                                                <option value="Tried before and failed">Tried before and failed</option>
+                                            </select>
+                                            {errors.blocker && <p className="text-red-500 text-xs">{errors.blocker}</p>}
+                                        </div>
                                     </div>
-                                    {errors.budget && <p className="text-red-500 text-xs">{errors.budget}</p>}
-                                </div>
-
-                                <div className="space-y-3">
-                                    <label className="text-xs font-medium text-gray-400">Launch Timeline</label>
-                                    <div className="flex flex-wrap gap-2">
-                                        {["Immediately", "Within 30 days", "1–3 months", "Just exploring"].map(opt => (
-                                            <button type="button" key={opt} onClick={() => handleChange({ target: { name: 'timeline', value: opt } })} className={`text-xs px-3 py-2 rounded-full border transition-all ${formData.timeline === opt ? 'bg-cyan-900/30 border-cyan-500 text-cyan-100' : 'bg-black/30 border-gray-800 hover:border-gray-600'}`}>{opt}</button>
-                                        ))}
-                                    </div>
-                                    {errors.timeline && <p className="text-red-500 text-xs">{errors.timeline}</p>}
-                                </div>
-
-                                <div className="space-y-3">
-                                    <label className="text-xs font-medium text-gray-400">Biggest Blocker</label>
-                                    <select name="blocker" value={formData.blocker} onChange={handleChange} className="w-full bg-black/50 border border-gray-700 rounded-lg p-3 text-sm text-white focus:border-cyan-500 focus:outline-none">
-                                        <option value="">Select option</option>
-                                        <option value="No technical skills">No technical skills</option>
-                                        <option value="No clear idea">No clear idea</option>
-                                        <option value="No time to manage execution">No time to manage execution</option>
-                                        <option value="Fear of wasting money">Fear of wasting money</option>
-                                        <option value="Tried before and failed">Tried before and failed</option>
-                                    </select>
-                                    {errors.blocker && <p className="text-red-500 text-xs">{errors.blocker}</p>}
-                                </div>
+                                )}
                             </div>
 
-                            <div className="sticky bottom-0 bg-gray-900 pt-4 pb-2 border-t border-gray-800 -mx-2 px-2">
-                                <Button type="submit" disabled={isSubmitting} className="w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold py-6 rounded-xl">
-                                    {isSubmitting ? "Submitting..." : "Submit Application"}
-                                </Button>
+                            {/* Navigation Buttons */}
+                            <div className="bg-gray-900 pt-4 pb-2 border-t border-gray-800 flex gap-3">
+                                {currentStep === 2 && (
+                                    <Button 
+                                        type="button" 
+                                        onClick={handlePreviousStep}
+                                        className="w-1/3 bg-gray-800 hover:bg-gray-700 text-white font-bold py-6 rounded-xl"
+                                    >
+                                        Previous
+                                    </Button>
+                                )}
+                                {currentStep === 1 ? (
+                                    <Button 
+                                        type="button" 
+                                        onClick={handleNextStep}
+                                        className="w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold py-6 rounded-xl"
+                                    >
+                                        Next Step
+                                    </Button>
+                                ) : (
+                                    <Button 
+                                        type="button"
+                                        onClick={handleSubmit}
+                                        disabled={isSubmitting} 
+                                        className="flex-1 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold py-6 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed"
+                                    >
+                                        {isSubmitting ? "Submitting..." : "Submit Application"}
+                                    </Button>
+                                )}
                             </div>
-                        </form>
+                        </div>
                     )}
                 </DialogContent>
             </Dialog>
@@ -285,7 +409,7 @@ Blocker: ${formData.blocker}
                             onClick={() => setIsModalOpen(true)}
                             className="bg-cyan-500 text-black hover:bg-cyan-400 text-lg px-10 py-8 rounded-full font-bold shadow-[0_0_40px_rgba(6,182,212,0.3)] hover:shadow-[0_0_60px_rgba(6,182,212,0.5)] transition-all duration-300 transform hover:scale-105"
                         >
-                            Check if you’re a fit
+                            Check if you're a fit
                         </Button>
                         <Button
                             variant="ghost"
@@ -303,7 +427,7 @@ Blocker: ${formData.blocker}
                 <div className="container mx-auto px-4 z-10 relative">
                     <div className="max-w-4xl mx-auto text-center mb-16">
                         <h2 className="text-3xl md:text-5xl font-bold mb-6">Built for founders who want <span className="text-cyan-400">execution</span>, not theory</h2>
-                        <p className="text-gray-400 text-lg">If you’re looking to “just explore ideas,” this isn’t for you.</p>
+                        <p className="text-gray-400 text-lg">If you're looking to "just explore ideas," this isn't for you.</p>
                     </div>
 
                     <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -375,7 +499,7 @@ Blocker: ${formData.blocker}
                 <div className="container mx-auto px-4 text-center">
                     <h2 className="text-4xl md:text-5xl font-bold mb-6">Your <span className="text-cyan-400">tech co-founder</span> on demand</h2>
                     <p className="text-xl text-gray-400 max-w-3xl mx-auto mb-20 leading-relaxed">
-                        We don’t just build what you ask for. <span className="text-white font-bold">We build what can actually make money.</span><br />
+                        We don't just build what you ask for. <span className="text-white font-bold">We build what can actually make money.</span><br />
                         Our team handles ideation, product decisions, development, launch strategy, and company setup.
                     </p>
 
