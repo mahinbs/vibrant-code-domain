@@ -58,6 +58,7 @@ import AppIdeaDetail from "./pages/AppIdeaDetail";
 import Signup from "./pages/Signup";
 import TechCompanyLanding from "./pages/landingPages/TechCompanyLanding";
 import StartupLanding from "./pages/landingPages/StartupLanding";
+import AiStockPrediction from "./pages/landingPages/AiStockPrediction";
 
 const queryClient = new QueryClient();
 
@@ -421,6 +422,16 @@ const App = () => {
                   <>
                     <FloatingWhatsAppButton />
                     <StartupLanding />
+                  </>
+                }
+              />
+
+              <Route
+                path="/ai-stock-prediction"
+                element={
+                  <>
+                    <FloatingWhatsAppButton />
+                    <AiStockPrediction />
                   </>
                 }
               />
