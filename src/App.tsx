@@ -59,6 +59,7 @@ import Signup from "./pages/Signup";
 import TechCompanyLanding from "./pages/landingPages/TechCompanyLanding";
 import StartupLanding from "./pages/landingPages/StartupLanding";
 import AiStockPrediction from "./pages/landingPages/AiStockPrediction";
+import FintechLanding from "./pages/landingPages/FintechLanding";
 
 const queryClient = new QueryClient();
 
@@ -432,6 +433,16 @@ const App = () => {
                   <>
                     <FloatingWhatsAppButton />
                     <AiStockPrediction />
+                  </>
+                }
+              />
+
+              <Route
+                path="/fintech-founder"
+                element={
+                  <>
+                    <FloatingWhatsAppButton />
+                    <FintechLanding />
                   </>
                 }
               />
