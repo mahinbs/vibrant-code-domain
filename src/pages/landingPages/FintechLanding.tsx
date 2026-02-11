@@ -51,16 +51,16 @@ const FintechLanding = () => {
 
     useEffect(() => {
         const tl = gsap.timeline();
-        
-        tl.fromTo(heroTextRef.current, 
+
+        tl.fromTo(heroTextRef.current,
             { opacity: 0, y: 30 },
             { opacity: 1, y: 0, duration: 1, ease: "power3.out" }
         )
-        .fromTo(heroButtonsRef.current,
-            { opacity: 0, y: 20 },
-            { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" },
-            "-=0.5"
-        );
+            .fromTo(heroButtonsRef.current,
+                { opacity: 0, y: 20 },
+                { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" },
+                "-=0.5"
+            );
     }, []);
 
     const validateStep1 = () => {
@@ -174,7 +174,7 @@ Blocker: ${formData.blocker}
                     setErrors({});
                 }
             }}>
-                <DialogContent className="bg-gray-900 border border-gray-800 text-white sm:max-w-xl max-h-[90vh] flex flex-col p-6 rounded-2xl">
+                <DialogContent className="bg-gray-900/95 border border-gray-800 text-white sm:max-w-xl max-h-[90vh] flex flex-col p-6 rounded-3xl backdrop-blur-xl shadow-2xl shadow-cyan-500/10 duration-500 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0 data-[state=open]:zoom-in-85 data-[state=closed]:zoom-out-85 data-[state=open]:slide-in-from-top-4 data-[state=closed]:slide-out-to-top-4">
                     <DialogHeader className="mb-4">
                         <DialogTitle className="text-2xl font-bold text-center">Let's build your FinTech product</DialogTitle>
                         <DialogDescription className="text-center text-gray-400">
@@ -216,34 +216,34 @@ Blocker: ${formData.blocker}
                                         <div className="grid md:grid-cols-2 gap-4">
                                             <div className="space-y-1">
                                                 <label className="text-xs font-medium text-gray-400">Full Name *</label>
-                                                <input 
-                                                    name="fullName" 
-                                                    value={formData.fullName} 
-                                                    onChange={handleChange} 
-                                                    placeholder="Your name" 
-                                                    className={`w-full bg-black/50 border ${errors.fullName ? 'border-red-500' : 'border-gray-700'} rounded-lg p-3 text-sm text-white focus:border-cyan-500 focus:outline-none`} 
+                                                <input
+                                                    name="fullName"
+                                                    value={formData.fullName}
+                                                    onChange={handleChange}
+                                                    placeholder="Your name"
+                                                    className={`w-full bg-black/50 border ${errors.fullName ? 'border-red-500' : 'border-gray-700'} rounded-lg p-3 text-sm text-white focus:border-cyan-500 focus:outline-none`}
                                                 />
                                                 {errors.fullName && <p className="text-red-500 text-xs">{errors.fullName}</p>}
                                             </div>
                                             <div className="space-y-1">
                                                 <label className="text-xs font-medium text-gray-400">Email Address *</label>
-                                                <input 
-                                                    name="email" 
-                                                    value={formData.email} 
-                                                    onChange={handleChange} 
-                                                    placeholder="Email" 
-                                                    className={`w-full bg-black/50 border ${errors.email ? 'border-red-500' : 'border-gray-700'} rounded-lg p-3 text-sm text-white focus:border-cyan-500 focus:outline-none`} 
+                                                <input
+                                                    name="email"
+                                                    value={formData.email}
+                                                    onChange={handleChange}
+                                                    placeholder="Email"
+                                                    className={`w-full bg-black/50 border ${errors.email ? 'border-red-500' : 'border-gray-700'} rounded-lg p-3 text-sm text-white focus:border-cyan-500 focus:outline-none`}
                                                 />
                                                 {errors.email && <p className="text-red-500 text-xs">{errors.email}</p>}
                                             </div>
                                             <div className="space-y-1 md:col-span-2">
                                                 <label className="text-xs font-medium text-gray-400">WhatsApp Number *</label>
-                                                <input 
-                                                    name="whatsapp" 
-                                                    value={formData.whatsapp} 
-                                                    onChange={handleChange} 
-                                                    placeholder="We send next steps here" 
-                                                    className={`w-full bg-black/50 border ${errors.whatsapp ? 'border-red-500' : 'border-gray-700'} rounded-lg p-3 text-sm text-white focus:border-cyan-500 focus:outline-none`} 
+                                                <input
+                                                    name="whatsapp"
+                                                    value={formData.whatsapp}
+                                                    onChange={handleChange}
+                                                    placeholder="We send next steps here"
+                                                    className={`w-full bg-black/50 border ${errors.whatsapp ? 'border-red-500' : 'border-gray-700'} rounded-lg p-3 text-sm text-white focus:border-cyan-500 focus:outline-none`}
                                                 />
                                                 {errors.whatsapp && <p className="text-red-500 text-xs">{errors.whatsapp}</p>}
                                             </div>
@@ -259,10 +259,10 @@ Blocker: ${formData.blocker}
                                             <label className="text-xs font-medium text-gray-400">Do you already have a FinTech idea? *</label>
                                             <div className="grid grid-cols-1 gap-2">
                                                 {["Yes, clearly defined", "Somewhat, still researching", "No, looking for ideas"].map(opt => (
-                                                    <button 
-                                                        type="button" 
-                                                        key={opt} 
-                                                        onClick={() => handleChange({ target: { name: 'ideaClarity', value: opt } })} 
+                                                    <button
+                                                        type="button"
+                                                        key={opt}
+                                                        onClick={() => handleChange({ target: { name: 'ideaClarity', value: opt } })}
                                                         className={`text-left text-sm p-3 rounded-lg border transition-all ${formData.ideaClarity === opt ? 'bg-cyan-900/30 border-cyan-500 text-cyan-100' : 'bg-black/30 border-gray-800 hover:border-gray-600'}`}
                                                     >
                                                         {opt}
@@ -274,13 +274,13 @@ Blocker: ${formData.blocker}
 
                                         <div className="space-y-1">
                                             <label className="text-xs font-medium text-gray-400">Briefly describe the problem or market *</label>
-                                            <textarea 
-                                                name="problem" 
-                                                value={formData.problem} 
-                                                onChange={handleChange} 
-                                                placeholder="e.g. Stock market analysis tool for beginners..." 
-                                                rows={2} 
-                                                className={`w-full bg-black/50 border ${errors.problem ? 'border-red-500' : 'border-gray-700'} rounded-lg p-3 text-sm text-white focus:border-cyan-500 focus:outline-none`} 
+                                            <textarea
+                                                name="problem"
+                                                value={formData.problem}
+                                                onChange={handleChange}
+                                                placeholder="e.g. Stock market analysis tool for beginners..."
+                                                rows={2}
+                                                className={`w-full bg-black/50 border ${errors.problem ? 'border-red-500' : 'border-gray-700'} rounded-lg p-3 text-sm text-white focus:border-cyan-500 focus:outline-none`}
                                             />
                                             {errors.problem && <p className="text-red-500 text-xs">{errors.problem}</p>}
                                         </div>
@@ -289,10 +289,10 @@ Blocker: ${formData.blocker}
                                             <label className="text-xs font-medium text-gray-400">Budget Range *</label>
                                             <div className="grid grid-cols-2 gap-2">
                                                 {["₹50,000 (Micro MVP)", "₹2–5 Lakhs (Full Build)", "₹10 Lakhs+ (Scale)", "Not sure yet"].map(opt => (
-                                                    <button 
-                                                        type="button" 
-                                                        key={opt} 
-                                                        onClick={() => handleChange({ target: { name: 'budget', value: opt } })} 
+                                                    <button
+                                                        type="button"
+                                                        key={opt}
+                                                        onClick={() => handleChange({ target: { name: 'budget', value: opt } })}
                                                         className={`text-left text-xs p-2 rounded-lg border transition-all ${formData.budget === opt ? 'bg-cyan-900/30 border-cyan-500 text-cyan-100' : 'bg-black/30 border-gray-800 hover:border-gray-600'}`}
                                                     >
                                                         {opt}
@@ -306,10 +306,10 @@ Blocker: ${formData.blocker}
                                             <label className="text-xs font-medium text-gray-400">Timeline to Launch *</label>
                                             <div className="flex flex-wrap gap-2">
                                                 {["Immediately", "Within 30 days", "1–3 months", "Just exploring"].map(opt => (
-                                                    <button 
-                                                        type="button" 
-                                                        key={opt} 
-                                                        onClick={() => handleChange({ target: { name: 'timeline', value: opt } })} 
+                                                    <button
+                                                        type="button"
+                                                        key={opt}
+                                                        onClick={() => handleChange({ target: { name: 'timeline', value: opt } })}
                                                         className={`text-xs px-3 py-2 rounded-full border transition-all ${formData.timeline === opt ? 'bg-cyan-900/30 border-cyan-500 text-cyan-100' : 'bg-black/30 border-gray-800 hover:border-gray-600'}`}
                                                     >
                                                         {opt}
@@ -325,8 +325,8 @@ Blocker: ${formData.blocker}
                             {/* Navigation Buttons */}
                             <div className="bg-gray-900 pt-4 pb-2 border-t border-gray-800 flex gap-3">
                                 {currentStep === 2 && (
-                                    <Button 
-                                        type="button" 
+                                    <Button
+                                        type="button"
                                         onClick={handlePreviousStep}
                                         className="w-1/3 bg-gray-800 hover:bg-gray-700 text-white font-bold py-6 rounded-xl"
                                     >
@@ -334,18 +334,18 @@ Blocker: ${formData.blocker}
                                     </Button>
                                 )}
                                 {currentStep === 1 ? (
-                                    <Button 
-                                        type="button" 
+                                    <Button
+                                        type="button"
                                         onClick={handleNextStep}
                                         className="w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold py-6 rounded-xl"
                                     >
                                         Next Step
                                     </Button>
                                 ) : (
-                                    <Button 
+                                    <Button
                                         type="button"
                                         onClick={handleSubmit}
-                                        disabled={isSubmitting} 
+                                        disabled={isSubmitting}
                                         className="flex-1 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold py-6 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed"
                                     >
                                         {isSubmitting ? "Submitting..." : "Submit Application"}
@@ -387,7 +387,7 @@ Blocker: ${formData.blocker}
 
                         <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto mb-10 leading-relaxed relative z-10 font-light">
                             We turn ideas into scalable SaaS products without you hiring developers, managing teams, or guessing what to build.
-                            <br/><span className="text-cyan-400 font-medium">From concept to users, we handle everything.</span>
+                            <br /><span className="text-cyan-400 font-medium">From concept to users, we handle everything.</span>
                         </p>
                     </div>
 
@@ -488,14 +488,14 @@ Blocker: ${formData.blocker}
             <SectionTransition type="scale" fromGradient="from-black to-gray-900" toGradient="from-gray-900 to-black">
                 <section className="py-24 bg-gradient-to-b from-gray-900 to-black relative border-t border-gray-800">
                     <div className="container mx-auto px-4 text-center">
-                        <h2 className="text-4xl md:text-5xl font-bold mb-6">We don’t just build apps. <br/>We build <span className="text-cyan-400">FinTech businesses</span>.</h2>
+                        <h2 className="text-4xl md:text-5xl font-bold mb-6">We don’t just build apps. <br />We build <span className="text-cyan-400">FinTech businesses</span>.</h2>
                         <p className="text-xl text-gray-400 max-w-3xl mx-auto mb-20 leading-relaxed">
                             FinTech products fail when founders focus only on development.
                             <br /><span className="text-white font-bold">We focus on the full journey from idea validation to real users and revenue.</span>
                         </p>
 
                         <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-                             {[
+                            {[
                                 { title: "Product Ideation", icon: <Zap size={24} />, desc: "We refine your concept for market fit." },
                                 { title: "SaaS Development", icon: <Layers size={24} />, desc: "Secure, scalable, compliance-ready code." },
                                 { title: "Monetisation Models", icon: <DollarSign size={24} />, desc: "Strategies that actually generate revenue." }
@@ -538,30 +538,30 @@ Blocker: ${formData.blocker}
             </SectionTransition>
 
             {/* Why Founders Choose You */}
-             <SectionTransition type="slide" fromGradient="from-zinc-950 to-black" toGradient="from-black to-zinc-950">
+            <SectionTransition type="slide" fromGradient="from-zinc-950 to-black" toGradient="from-black to-zinc-950">
                 <section className="py-24 bg-zinc-950 relative border-t border-gray-800">
                     <div className="container mx-auto px-4 text-center">
-                         <h2 className="text-3xl md:text-5xl font-bold mb-8">Why not freelancers or agencies?</h2>
-                         <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto text-left">
+                        <h2 className="text-3xl md:text-5xl font-bold mb-8">Why not freelancers or agencies?</h2>
+                        <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto text-left">
                             <div className="bg-red-900/10 border border-red-900/30 p-8 rounded-2xl">
                                 <h3 className="text-red-400 font-bold text-xl mb-4">Freelancers & Agencies</h3>
                                 <ul className="space-y-3 text-gray-400">
-                                    <li className="flex gap-2"><X className="text-red-500 w-5 h-5"/> Just write code, don't care about business</li>
-                                    <li className="flex gap-2"><X className="text-red-500 w-5 h-5"/> Charge for every small change</li>
-                                    <li className="flex gap-2"><X className="text-red-500 w-5 h-5"/> No post-launch support or growth strategy</li>
+                                    <li className="flex gap-2"><X className="text-red-500 w-5 h-5" /> Just write code, don't care about business</li>
+                                    <li className="flex gap-2"><X className="text-red-500 w-5 h-5" /> Charge for every small change</li>
+                                    <li className="flex gap-2"><X className="text-red-500 w-5 h-5" /> No post-launch support or growth strategy</li>
                                 </ul>
                             </div>
                             <div className="bg-cyan-900/10 border border-cyan-500/30 p-8 rounded-2xl relative overflow-hidden">
                                 <div className="absolute top-0 right-0 bg-cyan-500 text-black text-xs font-bold px-3 py-1 rounded-bl-lg">US</div>
                                 <h3 className="text-cyan-400 font-bold text-xl mb-4">Boostmysites</h3>
                                 <ul className="space-y-3 text-gray-300">
-                                    <li className="flex gap-2"><CheckCircle className="text-cyan-500 w-5 h-5"/> Tech co-founder approach, not vendor</li>
-                                    <li className="flex gap-2"><CheckCircle className="text-cyan-500 w-5 h-5"/> Decisions based on business outcomes</li>
-                                    <li className="flex gap-2"><CheckCircle className="text-cyan-500 w-5 h-5"/> One team for product, tech, and growth</li>
+                                    <li className="flex gap-2"><CheckCircle className="text-cyan-500 w-5 h-5" /> Tech co-founder approach, not vendor</li>
+                                    <li className="flex gap-2"><CheckCircle className="text-cyan-500 w-5 h-5" /> Decisions based on business outcomes</li>
+                                    <li className="flex gap-2"><CheckCircle className="text-cyan-500 w-5 h-5" /> One team for product, tech, and growth</li>
                                 </ul>
                             </div>
-                         </div>
-                         <p className="mt-10 text-xl font-medium text-white">We build what can make money, not just what sounds good.</p>
+                        </div>
+                        <p className="mt-10 text-xl font-medium text-white">We build what can make money, not just what sounds good.</p>
                     </div>
                 </section>
             </SectionTransition>
