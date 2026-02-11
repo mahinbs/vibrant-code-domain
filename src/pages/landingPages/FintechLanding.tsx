@@ -174,7 +174,7 @@ Blocker: ${formData.blocker}
                     setErrors({});
                 }
             }}>
-                <DialogContent className="bg-gray-900/95 border border-gray-800 text-white sm:max-w-xl max-h-[90vh] flex flex-col p-6 rounded-3xl backdrop-blur-xl shadow-2xl shadow-cyan-500/10 duration-500 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0 data-[state=open]:zoom-in-85 data-[state=closed]:zoom-out-85 data-[state=open]:slide-in-from-top-4 data-[state=closed]:slide-out-to-top-4">
+                <DialogContent className="bg-gray-900/95 border border-gray-800 text-white sm:max-w-xl max-h-[90vh] flex flex-col p-6 rounded-3xl backdrop-blur-xl shadow-2xl shadow-cyan-500/10 duration-500 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0 data-[state=open]:zoom-in-85 data-[state=closed]:zoom-out-85 data-[state=open]:slide-in-from-top-8 data-[state=closed]:slide-out-to-top-8">
                     <DialogHeader className="mb-4">
                         <DialogTitle className="text-2xl font-bold text-center">Let's build your FinTech product</DialogTitle>
                         <DialogDescription className="text-center text-gray-400">
