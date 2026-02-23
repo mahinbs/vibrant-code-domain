@@ -19,6 +19,7 @@ interface FintechLandingFormModalProps {
     /** The email address that receives the lead. Passed from the parent page. */
     mailTo: string;
     onSuccess?: () => void;
+    telegramId: string;
 }
 
 interface FormValues {
@@ -64,6 +65,7 @@ const FintechLandingFormModal: React.FC<FintechLandingFormModalProps> = ({
     variant,
     mailTo,
     onSuccess,
+    telegramId,
 }) => {
     const config = VARIANT_CONFIG[variant];
 
@@ -83,7 +85,7 @@ const FintechLandingFormModal: React.FC<FintechLandingFormModalProps> = ({
     }, [open, reset]);
 
     const onSubmit: SubmitHandler<FormValues> = async (data) => {
-        const body = `Name: ${data.name}\nPhone: ${data.phone}\nEmail: ${data.email}\nRole: ${data.role === 'professional' ? 'Professional Trader' : 'Other'}`;
+        const body = `Name: ${data.name}\nPhone: ${data.phone}\nEmail: ${data.email}\nRole: ${data.role === 'professional' ? 'Professional Trader' : 'Other'}\nTelegram ID: ${data.telegramId || 'N/A'}`;
 
         try {
             const response = await fetch(
@@ -216,7 +218,7 @@ const FintechLandingFormModal: React.FC<FintechLandingFormModalProps> = ({
                     </div>
 
                     {/* Telegram */}
-                    {/* <div>
+                    <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
                             Telegram ID <span className="text-gray-400 text-xs font-normal">(optional)</span>
                         </label>
@@ -232,7 +234,7 @@ const FintechLandingFormModal: React.FC<FintechLandingFormModalProps> = ({
                             })}
                         />
                         {errors.telegramId && <p className="mt-1 text-xs text-red-600">{errors.telegramId.message}</p>}
-                    </div> */}
+                    </div>
 
                     {/* Actions */}
                     <div className="pt-4 space-y-4">
@@ -252,6 +254,23 @@ const FintechLandingFormModal: React.FC<FintechLandingFormModalProps> = ({
                                 {isSubmitting ? 'Submitting…' : 'Submit'}
                             </button>
                         </div>
+
+                    {/* Divider */}
+                        <div className="flex items-center gap-3">
+                            <span className="flex-1 border-t border-gray-200" />
+                            <span className="text-sm text-gray-500 font-medium">or</span>
+                            <span className="flex-1 border-t border-gray-200" />
+                        </div>
+
+                        {/* Telegram CTA */}
+                        <a
+                            href={`https://t.me/${telegramId}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center justify-center w-full py-3 rounded-lg border-2 border-[#0088cc] text-[#0088cc] font-semibold hover:bg-[#0088cc] hover:text-white transition-colors text-sm"
+                        >
+                            Text us on Telegram
+                        </a>
                     </div>
                 </form>
             </DialogContent>

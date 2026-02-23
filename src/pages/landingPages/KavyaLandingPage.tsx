@@ -16,7 +16,7 @@ import {
 
 import { gsap } from 'gsap';
 import { SectionTransition } from '@/components/ui/SectionTransition';
-import DarshanContactFormModal from '@/components/landingpage/FintechLandingFormModal';
+import FintechLandingFormModal from '@/components/landingpage/FintechLandingFormModal';
 
 /* ─────────────────────────────────────────────────────────
    Config — change the lead destination here
@@ -75,11 +75,12 @@ const KavyaLandingPage = () => {
             </header>
 
             {/* ── Contact / Lead Modal ─────────────────────────────── */}
-            <DarshanContactFormModal
+            <FintechLandingFormModal
                 open={modalOpen}
                 onOpenChange={setModalOpen}
                 variant={modalVariant}
                 mailTo={LEAD_EMAIL}
+                telegramId="Kaavya777"
             />
 
             {/* ═══════════════════════════════════════════════════════
