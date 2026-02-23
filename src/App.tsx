@@ -61,6 +61,8 @@ import StartupLanding from "./pages/landingPages/StartupLanding";
 import AiStockPrediction from "./pages/landingPages/AiStockPrediction";
 import FintechLanding from "./pages/landingPages/FintechLanding";
 import ReshabLandingPage from "./pages/landingPages/ReshabLandingPage";
+import DarshanLandingPage from "./pages/landingPages/DarshanLandingPage";
+import KavyaLandingPage from "./pages/landingPages/KavyaLandingPage";
 
 const queryClient = new QueryClient();
 
@@ -452,6 +454,18 @@ const App = () => {
                 path="/rsb-fintech-founder"
                 element={
                   <ReshabLandingPage />
+                }
+              />
+              <Route
+                path="/dsn-fintech-founder"
+                element={
+                  <DarshanLandingPage />
+                }
+              />
+              <Route
+                path="/kvy-fintech-founder"
+                element={
+                  <KavyaLandingPage />
                 }
               />
 
