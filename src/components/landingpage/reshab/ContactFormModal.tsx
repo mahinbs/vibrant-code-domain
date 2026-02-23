@@ -105,7 +105,7 @@ Telegram ID : ${data.telegramId || 'N/A'}`;
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        to: 'mpranavprem@gmail.com',
+                        to: 'boostmysitescom@gmail.com',
                         subject: `${config.subject} — ${data.name}`,
                         name: 'Boostmysites',
                         body,
