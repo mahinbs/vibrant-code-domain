@@ -69,7 +69,7 @@ const DarshanLandingPage = () => {
                         onClick={openLicense}
                         className="bg-cyan-500 hover:bg-cyan-400 text-black text-xs sm:text-sm font-bold px-4 py-2 rounded-full transition-all hover:scale-105"
                     >
-                        Build My Platform
+                        7 days free trial
                     </button>
                 </div>
             </header>

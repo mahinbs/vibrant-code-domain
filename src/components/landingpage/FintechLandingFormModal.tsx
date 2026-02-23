@@ -103,21 +103,9 @@ const FintechLandingFormModal: React.FC<FintechLandingFormModalProps> = ({
             );
 
             if (response.ok) {
-                toast.success("Thank you! We'll be in touch soon.", {
-                    duration: 4000,
-                    position: 'top-center',
-                    style: {
-                        background: '#fff',
-                        color: '#1a1a2e',
-                        fontWeight: 600,
-                        borderRadius: '10px',
-                        padding: '14px 20px',
-                        boxShadow: '0 4px 20px rgba(0,0,0,0.12)',
-                    },
-                    iconTheme: { primary: '#06b6d4', secondary: '#fff' },
-                });
                 onOpenChange(false);
                 onSuccess?.();
+                window.location.href = '/thank-you';
             } else {
                 throw new Error('Server error');
             }
@@ -255,7 +243,7 @@ const FintechLandingFormModal: React.FC<FintechLandingFormModalProps> = ({
                             </button>
                         </div>
 
-                    {/* Divider */}
+                        {/* Divider */}
                         <div className="flex items-center gap-3">
                             <span className="flex-1 border-t border-gray-200" />
                             <span className="text-sm text-gray-500 font-medium">or</span>

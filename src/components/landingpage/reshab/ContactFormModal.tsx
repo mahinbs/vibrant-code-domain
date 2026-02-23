@@ -114,21 +114,9 @@ Telegram ID : ${data.telegramId || 'N/A'}`;
             );
 
             if (response.ok) {
-                toast.success("Thank you! We'll be in touch soon.", {
-                    duration: 4000,
-                    position: 'top-center',
-                    style: {
-                        background: '#fff',
-                        color: '#1a1a2e',
-                        fontWeight: 600,
-                        borderRadius: '10px',
-                        padding: '14px 20px',
-                        boxShadow: '0 4px 20px rgba(0,0,0,0.12)',
-                    },
-                    iconTheme: { primary: '#22c55e', secondary: '#fff' },
-                });
                 onOpenChange(false);
                 onSuccess?.();
+                window.location.href = '/thank-you';
             } else {
                 throw new Error('Server error');
             }
