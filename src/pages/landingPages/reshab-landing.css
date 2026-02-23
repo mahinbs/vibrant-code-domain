@@ -1,0 +1,237 @@
+/* ============================================================
+   reshab-landing.css
+   Scoped styles for ReshabLandingPage only.
+   ALL rules live under the .reshab-page wrapper class so they
+   cannot bleed into any other page or component.
+   ============================================================ */
+
+/* ---------- Design-system CSS variables (scoped) ---------- */
+.reshab-page {
+  font-family: 'Inter', sans-serif;
+
+  /* Core palette */
+  --background: 0 0% 6%;
+  --foreground: 0 0% 95%;
+
+  --card: 0 0% 8%;
+  --card-foreground: 0 0% 95%;
+
+  --popover: 0 0% 8%;
+  --popover-foreground: 0 0% 95%;
+
+  --primary: 217 91% 60%;
+  --primary-foreground: 0 0% 100%;
+
+  --secondary: 0 0% 12%;
+  --secondary-foreground: 0 0% 95%;
+
+  --muted: 0 0% 12%;
+  --muted-foreground: 0 0% 60%;
+
+  --accent: 142 76% 36%;
+  --accent-foreground: 0 0% 100%;
+
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+
+  --border: 0 0% 15%;
+  --input: 0 0% 15%;
+  --ring: 217 91% 60%;
+
+  --trading-green: 142 76% 36%;
+  --trading-red: 0 84% 60%;
+  --trading-blue: 217 91% 60%;
+  --trading-dark: 0 0% 6%;
+  --chart-bg: 0 0% 6%;
+
+  --radius: 0.5rem;
+
+  /* Gradient helpers */
+  --gradient-primary:  linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--primary)/0.8) 100%);
+  --gradient-success:  linear-gradient(135deg, hsl(var(--trading-green)) 0%, hsl(var(--trading-green)/0.8) 100%);
+  --gradient-danger:   linear-gradient(135deg, hsl(var(--trading-red)) 0%, hsl(var(--trading-red)/0.8) 100%);
+  --gradient-glass:    linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+
+  /* Base */
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  overflow-x: hidden;
+}
+
+/* ---------- Dark-mode overrides (scoped) ---------- */
+.reshab-page.dark {
+  --background: 0 0% 4%;
+  --foreground: 0 0% 98%;
+
+  --card: 0 0% 6%;
+  --card-foreground: 0 0% 98%;
+
+  --popover: 0 0% 6%;
+  --popover-foreground: 0 0% 98%;
+
+  --primary: 217 91% 65%;
+  --primary-foreground: 0 0% 100%;
+
+  --secondary: 0 0% 10%;
+  --secondary-foreground: 0 0% 98%;
+
+  --muted: 0 0% 10%;
+  --muted-foreground: 0 0% 65%;
+
+  --accent: 142 76% 40%;
+  --accent-foreground: 0 0% 100%;
+
+  --destructive: 0 84% 65%;
+  --destructive-foreground: 0 0% 100%;
+
+  --border: 0 0% 12%;
+  --input: 0 0% 12%;
+  --ring: 217 91% 65%;
+
+  --trading-green: 142 76% 40%;
+  --trading-red: 0 84% 65%;
+  --trading-blue: 217 91% 65%;
+  --trading-dark: 0 0% 4%;
+  --chart-bg: 0 0% 4%;
+}
+
+/* ---------- All child elements ---------- */
+.reshab-page * {
+  font-family: 'Inter', sans-serif;
+  border-color: hsl(var(--border));
+}
+
+/* ---------- Typography helpers ---------- */
+.reshab-page .text-heading {
+  color: #181B22;
+}
+.reshab-page .text-content {
+  color: #2A3452;
+}
+
+/* ---------- Button ---------- */
+.reshab-page .btn-primary {
+  background-color: hsl(var(--primary));
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  transition: background-color 0.2s ease;
+}
+.reshab-page .btn-primary:hover {
+  background-color: hsl(var(--primary) / 0.85);
+}
+
+/* ---------- Container ---------- */
+.reshab-page .container-custom {
+  max-width: 88rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+@media (min-width: 640px) {
+  .reshab-page .container-custom {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+@media (min-width: 1024px) {
+  .reshab-page .container-custom {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+/* ---------- Glassmorphism ---------- */
+.reshab-page .glass-card {
+  background-color: hsl(var(--card) / 0.5);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.reshab-page .glass-effect {
+  position: relative;
+  overflow: hidden;
+}
+.reshab-page .glass-effect::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom right, rgba(255,255,255,0.05), transparent);
+  pointer-events: none;
+}
+
+/* ---------- Sheen animation ---------- */
+.reshab-page .sheen {
+  position: relative;
+  overflow: hidden;
+}
+.reshab-page .sheen::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  background: linear-gradient(
+    45deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 70%
+  );
+  transform: translateX(-100%);
+  animation: reshab-sheen 2s infinite;
+}
+.reshab-page .sheen:hover::after {
+  opacity: 1;
+}
+
+/* ---------- Scroll animations ---------- */
+@keyframes reshab-sheen {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes reshab-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes reshab-drop {
+  0%   { transform: translateY(-100%); opacity: 0; }
+  50%  { opacity: 1; }
+  100% { transform: translateY(1000px); opacity: 0; }
+}
+
+.reshab-page .animate-scroll {
+  animation: reshab-scroll 30s linear infinite;
+}
+.reshab-page .animate-drop {
+  animation: reshab-drop linear forwards;
+}
+
+/* ---------- Mobile optimisations (scoped) ---------- */
+@media (max-width: 768px) {
+  .reshab-page .mobile-stepper {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Minimum 44 px touch targets */
+  .reshab-page button,
+  .reshab-page [role="button"],
+  .reshab-page input,
+  .reshab-page select {
+    min-height: 44px;
+  }
+
+  /* Safe-area support */
+  .reshab-page .container {
+    padding-left:  max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
+  }
+
+  /* Smooth touch scrolling */
+  .reshab-page * {
+    -webkit-overflow-scrolling: touch;
+  }
+}

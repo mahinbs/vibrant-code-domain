@@ -60,6 +60,7 @@ import TechCompanyLanding from "./pages/landingPages/TechCompanyLanding";
 import StartupLanding from "./pages/landingPages/StartupLanding";
 import AiStockPrediction from "./pages/landingPages/AiStockPrediction";
 import FintechLanding from "./pages/landingPages/FintechLanding";
+import ReshabLandingPage from "./pages/landingPages/ReshabLandingPage";
 
 const queryClient = new QueryClient();
 
@@ -444,6 +445,13 @@ const App = () => {
                     <FloatingWhatsAppButton />
                     <FintechLanding />
                   </>
+                }
+              />
+
+              <Route
+                path="/rsb-fintech-founder"
+                element={
+                  <ReshabLandingPage />
                 }
               />
 
