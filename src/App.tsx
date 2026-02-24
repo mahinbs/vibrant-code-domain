@@ -63,6 +63,7 @@ import FintechLanding from "./pages/landingPages/FintechLanding";
 import ReshabLandingPage from "./pages/landingPages/ReshabLandingPage";
 import DarshanLandingPage from "./pages/landingPages/DarshanLandingPage";
 import KavyaLandingPage from "./pages/landingPages/KavyaLandingPage";
+import MahinLandingPage from "./pages/landingPages/MahinLandingPage";
 
 const queryClient = new QueryClient();
 
@@ -471,7 +472,7 @@ const App = () => {
               <Route
                 path="/mhn-fintech-founder"
                 element={
-                  <KavyaLandingPage />
+                  <MahinLandingPage />
                 }
               />
 
