@@ -27,6 +27,8 @@ const Pricing = () => {
                             price: "$999",
                             originalPrice: "$1,499",
                             duration: "/ 1 year",
+                            inrPrice: "₹90,900",
+                            inrDuration: "/ 1 year",
                             badge: "Standard",
                             badgeColor: "bg-gray-700",
                             isRecommended: false
@@ -36,6 +38,8 @@ const Pricing = () => {
                             price: "$1,999",
                             originalPrice: "$2,499",
                             duration: "/ 2 years",
+                            inrPrice: "₹1,81,900",
+                            inrDuration: "/ 2 years",
                             badge: "Popular",
                             badgeColor: "bg-blue-600",
                             isRecommended: false
@@ -45,6 +49,8 @@ const Pricing = () => {
                             price: "$3,399",
                             originalPrice: "$4,999",
                             duration: "/ 5 years",
+                            inrPrice: "₹3,09,500",
+                            inrDuration: "/ 5 years",
                             badge: "Best Value",
                             badgeColor: "bg-primary",
                             isRecommended: true
@@ -67,6 +73,7 @@ const Pricing = () => {
                                         <span className="text-3xl sm:text-4xl font-bold text-white">{plan.price}</span>
                                         <span className="text-gray-400 font-medium text-sm">{plan.duration}</span>
                                     </div>
+                                    <p className="text-gray-400 text-sm mt-1">or {plan.inrPrice}{plan.inrDuration}</p>
                                 </div>
                                 <p className="text-gray-400 mt-4 text-sm">Start your own software business. Sell licenses and keep the profits.</p>
                             </div>
