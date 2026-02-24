@@ -468,6 +468,12 @@ const App = () => {
                   <KavyaLandingPage />
                 }
               />
+              <Route
+                path="/mhn-fintech-founder"
+                element={
+                  <KavyaLandingPage />
+                }
+              />
 
               {/* Admin routes */}
               <Route path="/admin/login" element={<AdminLogin />} />
