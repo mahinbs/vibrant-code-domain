@@ -64,6 +64,7 @@ import ReshabLandingPage from "./pages/landingPages/ReshabLandingPage";
 import DarshanLandingPage from "./pages/landingPages/DarshanLandingPage";
 import KavyaLandingPage from "./pages/landingPages/KavyaLandingPage";
 import MahinLandingPage from "./pages/landingPages/MahinLandingPage";
+import MeghanaLandingPage from "./pages/landingPages/MeghanaLandingPage";
 
 const queryClient = new QueryClient();
 
@@ -473,6 +474,12 @@ const App = () => {
                 path="/mhn-fintech-founder"
                 element={
                   <MahinLandingPage />
+                }
+              />
+              <Route
+                path="/mgh-fintech-founder"
+                element={
+                  <MeghanaLandingPage />
                 }
               />
 

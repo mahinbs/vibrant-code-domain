@@ -21,7 +21,7 @@ import FintechLandingFormModal from '@/components/landingpage/FintechLandingForm
 /* ─────────────────────────────────────────────────────────
    Config — change the lead destination here
 ───────────────────────────────────────────────────────── */
-const LEAD_EMAIL = 'mahinstlucia@gmail.com';
+const LEAD_EMAIL = 'meghana@tradingsmart.ai';
 
 /* ─────────────────────────────────────────────────────────
    Revenue table data
@@ -35,7 +35,7 @@ const revenueRows = [
 /* ─────────────────────────────────────────────────────────
    Component
 ───────────────────────────────────────────────────────── */
-const MahinLandingPage = () => {
+const MeghanaLandingPage = () => {
     const [modalOpen, setModalOpen] = useState(false);
     const [modalVariant, setModalVariant] = useState<'license' | 'demo'>('license');
 
@@ -80,7 +80,7 @@ const MahinLandingPage = () => {
                 onOpenChange={setModalOpen}
                 variant={modalVariant}
                 mailTo={LEAD_EMAIL}
-                telegramId="mahinbs777"
+                telegramId=""
             />
 
             {/* ═══════════════════════════════════════════════════════
@@ -529,4 +529,4 @@ const MahinLandingPage = () => {
     );
 };
 
-export default MahinLandingPage;
+export default MeghanaLandingPage;
