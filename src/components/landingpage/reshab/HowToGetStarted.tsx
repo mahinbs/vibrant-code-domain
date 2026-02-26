@@ -11,7 +11,10 @@ const HowToGetStarted = ({ whatsappNumber }: HowToGetStartedProps) => {
     const isDark = theme === 'dark';
     const [modalOpen, setModalOpen] = useState(false);
 
-    const whatsappHref = whatsappNumber ? `https://wa.me/${whatsappNumber.replace(/\D/g, '')}` : null;
+    const whatsappPresetMessage = 'Hey, I want to start my AI trading SaaS business';
+    const whatsappHref = whatsappNumber
+        ? `https://wa.me/${whatsappNumber.replace(/\D/g, '')}?text=${encodeURIComponent(whatsappPresetMessage)}`
+        : null;
 
     return (
         <section id="contact" className={`py-10 md:py-24 px-4 sm:px-7 ${isDark ? 'bg-[#0a0e17]' : 'bg-white'}`}>

@@ -265,7 +265,7 @@ Role : ${data.role === 'professional' ? 'Professional Trader' : 'Other'}`;
 
                         {/* WhatsApp CTA */}
                         <a
-                            href="https://wa.me/919790035747"
+                            href={`https://wa.me/919790035747?text=${encodeURIComponent('Hey, I want to start my AI trading SaaS business')}`}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="inline-flex items-center justify-center w-full py-3 rounded-lg border-2 border-[#25D366] text-[#25D366] font-semibold hover:bg-[#25D366] hover:text-white transition-colors text-sm"

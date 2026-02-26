@@ -7,7 +7,9 @@ interface LayoutProps {
     children: React.ReactNode;
 }
 
-const WHATSAPP_URL = 'https://wa.me/919790035747';
+const WHATSAPP_NUMBER = '919790035747';
+const WHATSAPP_PRESET_MESSAGE = 'Hey, I want to start my AI trading SaaS business';
+const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_PRESET_MESSAGE)}`;
 
 const LayoutContent: React.FC<LayoutProps> = ({ children }) => {
     const { theme } = useLandingTheme();
