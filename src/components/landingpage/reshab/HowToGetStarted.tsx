@@ -2,10 +2,16 @@ import { useState } from 'react';
 import { useLandingTheme } from '../../../contexts/ThemeContext';
 import ContactFormModal from './ContactFormModal';
 
-const HowToGetStarted = () => {
+interface HowToGetStartedProps {
+    whatsappNumber?: string;
+}
+
+const HowToGetStarted = ({ whatsappNumber }: HowToGetStartedProps) => {
     const { theme } = useLandingTheme();
     const isDark = theme === 'dark';
     const [modalOpen, setModalOpen] = useState(false);
+
+    const whatsappHref = whatsappNumber ? `https://wa.me/${whatsappNumber.replace(/\D/g, '')}` : null;
 
     return (
         <section id="contact" className={`py-10 md:py-24 px-4 sm:px-7 ${isDark ? 'bg-[#0a0e17]' : 'bg-white'}`}>
@@ -34,14 +40,17 @@ const HowToGetStarted = () => {
                             >
                                 Get Started Now
                             </button>
-                            <a
-                                href="https://t.me/ceoboii"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center justify-center py-3.5 px-8 rounded-xl border-2 border-[#0088cc] text-[#0088cc] font-semibold hover:bg-[#0088cc] hover:text-white transition-colors w-full sm:w-auto"
-                            >
-                                Text us on Telegram
-                            </a>
+                            
+                            {whatsappHref && (
+                                <a
+                                    href={whatsappHref}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center justify-center py-3.5 px-8 rounded-xl border-2 border-[#25D366] text-[#25D366] font-semibold hover:bg-[#25D366] hover:text-white transition-colors w-full sm:w-auto"
+                                >
+                                    Chat on WhatsApp
+                                </a>
+                            )}
                         </div>
                     </div>
                 </div>

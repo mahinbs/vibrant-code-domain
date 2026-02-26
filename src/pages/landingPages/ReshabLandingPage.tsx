@@ -22,7 +22,7 @@ const ReshabLandingPage = () => {
                 <WhyUs />
                 <WorkSlider />
                 <Pricing />
-                <HowToGetStarted />
+                <HowToGetStarted whatsappNumber="+919790035747" />
             </Layout>
         </div>
     )
