@@ -24,10 +24,10 @@ const Pricing = () => {
                     {[
                         {
                             name: "1 Year License",
-                            price: "$999",
-                            originalPrice: "$1,499",
+                            price: "$1,999",
+                            originalPrice: "$2,499",
                             duration: "/ 1 year",
-                            inrPrice: "₹90,900",
+                            inrPrice: "₹1,81,909",
                             inrDuration: "/ 1 year",
                             badge: "Standard",
                             badgeColor: "bg-gray-700",
@@ -35,10 +35,10 @@ const Pricing = () => {
                         },
                         {
                             name: "2 Year License",
-                            price: "$1,999",
-                            originalPrice: "$2,499",
+                            price: "$2,499",
+                            originalPrice: "$2,999",
                             duration: "/ 2 years",
-                            inrPrice: "₹1,81,900",
+                            inrPrice: "₹2,27,409",
                             inrDuration: "/ 2 years",
                             badge: "Popular",
                             badgeColor: "bg-blue-600",
