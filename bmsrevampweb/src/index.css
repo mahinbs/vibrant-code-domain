@@ -1,0 +1,286 @@
+@import "tailwindcss";
+
+@theme {
+  /* Brand primaries: indigo-blue base (token names unchanged for Tailwind) */
+  --color-purple: rgb(72, 118, 255);
+  --color-bright-purple: rgb(108, 148, 255);
+  --color-dark-purple: rgb(22, 36, 74);
+  --color-darker-purple: rgb(14, 26, 52);
+  --color-deepest: rgb(6, 10, 22);
+
+  --font-sans: "Inter", sans-serif;
+  --font-paytone: "Paytone One", sans-serif;
+  --font-quantico: "Quantico", sans-serif;
+  /* Display-font tokens preserved as aliases of the sans stack so existing
+     classes like `font-satoshi` keep rendering cleanly without external CDN. */
+  --font-satoshi: "Inter", sans-serif;
+  --font-panchang: "Inter", sans-serif;
+  --font-switzer: "Inter", sans-serif;
+  --font-chillax: "Inter", sans-serif;
+
+  --animate-ticker: ticker 18s linear infinite;
+  --animate-float1: float1 6s ease-in-out infinite;
+
+  @keyframes ticker {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+  @keyframes float1 {
+    0%,
+    100% {
+      transform: translateY(0) rotate(0);
+    }
+    50% {
+      transform: translateY(-12px) rotate(3deg);
+    }
+  }
+}
+
+/* Fixed viewport backdrop (grid + moving squares + drops) — z-0, content above */
+@keyframes site-backdrop-glow-pulse {
+  0%,
+  100% {
+    opacity: 0.38;
+  }
+  50% {
+    opacity: 0.72;
+  }
+}
+
+@keyframes site-backdrop-drop {
+  from {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  to {
+    transform: translateY(calc(100vh + 220px));
+    opacity: 0;
+  }
+}
+
+.build-marquee-track {
+  animation: build-marquee 30s linear infinite;
+  will-change: transform;
+}
+
+.build-marquee-track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes build-marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes morph-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+.site-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.site-backdrop__grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(
+      to right,
+      rgba(68, 114, 255, 0.075) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      rgba(68, 114, 255, 0.075) 1px,
+      transparent 1px
+    );
+  background-size: 80px 80px;
+}
+
+.site-backdrop__glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(70vw, 640px);
+  height: min(70vw, 640px);
+  transform: translate(-50%, -50%);
+  border-radius: 999px;
+  background: rgba(55, 115, 220, 0.14);
+  filter: blur(120px);
+  animation: site-backdrop-glow-pulse 3s ease-in-out infinite;
+  opacity: 0.75;
+}
+
+.site-backdrop__squares {
+  position: absolute;
+  inset: 0;
+}
+
+.site-backdrop__square {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  background: rgba(68, 120, 255, 0.1);
+  border: 1px solid rgba(82, 128, 255, 0.16);
+  border-radius: 4px;
+  transition: top 1s ease, left 1s ease, opacity 1s ease;
+  will-change: transform, opacity;
+}
+
+.site-backdrop__drops {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.site-backdrop__drop {
+  position: absolute;
+  top: -150px;
+  width: 2px;
+  height: 150px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(96, 142, 255, 0.78)
+  );
+  animation-name: site-backdrop-drop;
+  animation-timing-function: linear;
+  animation-fill-mode: both;
+}
+
+.site-backdrop__spotlight {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    520px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(72, 130, 255, 0.1),
+    transparent 42%
+  );
+  transition: opacity 0.25s ease;
+}
+
+.site-backdrop__noise {
+  position: absolute;
+  inset: 0;
+  opacity: 0.028;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .build-marquee-track {
+    animation: none;
+    transform: none;
+  }
+  .site-backdrop__glow {
+    animation: none;
+    opacity: 0.45;
+  }
+  .site-backdrop__square {
+    transition: none;
+  }
+  .site-backdrop__spotlight {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  html,
+  body {
+    background: #000;
+    color: #fff;
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+  img,
+  video {
+    display: block;
+  }
+  button,
+  input,
+  textarea {
+    font-family: inherit;
+    border: none;
+    outline: none;
+  }
+  *:focus-visible {
+    outline: 2px solid rgba(96, 142, 255, 0.55);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  .text-gradient {
+    background-image: radial-gradient(
+      80% 134% at 1.6% -10%,
+      rgba(255, 255, 255, 0.55) 0%,
+      #fff 100%
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  .purple-wash::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--color-purple);
+    mix-blend-mode: soft-light;
+    pointer-events: none;
+  }
+
+  .btn-gloss::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      147deg,
+      rgba(255, 255, 255, 0) 41%,
+      rgba(0, 0, 0, 0.5) 100%
+    );
+    border-radius: inherit;
+    pointer-events: none;
+  }
+}

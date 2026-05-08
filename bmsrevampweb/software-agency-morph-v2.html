@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Code To Product Morph V2</title>
+<style>
+:root{
+  --bg:#06101c;
+  --bg2:#0c1628;
+  --panel:#0f2138;
+  --panel2:#132947;
+  --text:#e8f0fb;
+  --muted:rgba(232,240,251,.62);
+  --line:rgba(148,163,184,.16);
+  --green:#63e6be;
+  --blue:#74c0fc;
+  --violet:#c0a2ff;
+  --amber:#ffd166;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{min-height:100vh;display:grid;place-items:center;background:#02060d;padding:20px;font-family:Inter,ui-sans-serif,system-ui,sans-serif}
+.stage{position:relative;width:min(1320px,100%);aspect-ratio:16/7;border-radius:26px;overflow:hidden;background:radial-gradient(circle at 28% 18%, #142a4e 0%, #09131f 48%, #040810 100%);box-shadow:0 40px 100px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.05)}
+canvas{position:absolute;inset:0;width:100%;height:100%}
+.ui{position:absolute;inset:0;pointer-events:none}
+.title{position:absolute;top:26px;left:28px;max-width:430px}
+.title h1{font-size:21px;line-height:1.02;letter-spacing:-.03em;color:var(--text);font-weight:700}
+.title p{margin-top:8px;font-size:12px;line-height:1.5;color:var(--muted)}
+.badge{position:absolute;top:24px;left:50%;transform:translateX(-50%);padding:10px 16px;border-radius:999px;background:rgba(7,13,23,.58);border:1px solid rgba(148,163,184,.2);backdrop-filter:blur(10px);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.note{position:absolute;right:28px;top:26px;width:280px;padding:16px 18px;border-radius:18px;background:rgba(7,13,23,.52);border:1px solid rgba(148,163,184,.16);backdrop-filter:blur(10px)}
+.note strong{display:block;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--text);margin-bottom:8px}
+.note p{font-size:12px;line-height:1.55;color:var(--muted)}
+.progress{position:absolute;left:50%;bottom:84px;transform:translateX(-50%);width:min(300px,44vw);height:4px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden}
+.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--green),var(--blue),var(--violet));border-radius:inherit;box-shadow:0 0 20px rgba(116,192,252,.4)}
+.timeline{position:absolute;left:28px;right:28px;bottom:22px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.step{display:flex;align-items:center;gap:10px;padding:11px 12px;border-radius:14px;background:rgba(7,13,23,.38);border:1px solid rgba(148,163,184,.11);backdrop-filter:blur(8px)}
+.step .dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.16);box-shadow:0 0 0 6px rgba(255,255,255,.02)}
+.step.active .dot{background:var(--green);box-shadow:0 0 0 6px rgba(99,230,190,.08),0 0 18px rgba(99,230,190,.45)}
+.step span{font-size:11px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+@media (max-width: 940px){.note{display:none}.title{max-width:320px}.timeline{grid-template-columns:1fr 1fr}}
+@media (max-width: 640px){body{padding:0}.stage{width:100vw;height:100vh;border-radius:0;aspect-ratio:auto}.title{top:18px;left:18px;right:18px;max-width:none}.title h1{font-size:16px}.badge{top:18px}.timeline{left:18px;right:18px;bottom:18px;gap:8px}.step{padding:8px 10px}.step span{font-size:10px}.progress{bottom:118px;width:72vw}}
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+  <canvas id="canvas"></canvas>
+  <div class="ui">
+    <div class="title">
+      <h1>Code becomes product architecture.</h1>
+      <p>Structured engineering stays visible while wireframes build on top, then every code block resolves into a reusable dashboard or mobile component.</p>
+    </div>
+    <div class="badge" id="badge">01 / Raw code</div>
+    <div class="note"><strong>Agency narrative</strong><p id="note">Random implementation turns into a system, then into a complete product interface.</p></div>
+    <div class="progress"><i id="fill"></i></div>
+    <div class="timeline">
+      <div class="step active" id="s0"><i class="dot"></i><span>Raw code</span></div>
+      <div class="step" id="s1"><i class="dot"></i><span>Structured code</span></div>
+      <div class="step" id="s2"><i class="dot"></i><span>Wireframe overlay</span></div>
+      <div class="step" id="s3"><i class="dot"></i><span>Components</span></div>
+    </div>
+  </div>
+</div>
+<script>
+const stage=document.getElementById('stage');
+const canvas=document.getElementById('canvas');
+const ctx=canvas.getContext('2d');
+const badge=document.getElementById('badge');
+const fill=document.getElementById('fill');
+const note=document.getElementById('note');
+const steps=[0,1,2,3].map(i=>document.getElementById('s'+i));
+let W=0,H=0,DPR=Math.min(window.devicePixelRatio||1,2);
+
+const phaseDefs=[
+  {label:'01 / Raw code',dur:4.2,note:'Code ideas drift in as scattered snippets: API calls, components, database queries, and deploy logic.'},
+  {label:'02 / Structured code',dur:4.0,note:'The noise organizes into a stable engineering grid. Nothing disappears — the code becomes the foundation.'},
+  {label:'03 / Wireframe overlay',dur:4.1,note:'Wireframes draw directly on top of the structured code, showing product architecture emerging from implementation.'},
+  {label:'04 / Components',dur:5.2,note:'Each code row maps into a specific UI component, completing a dashboard and companion mobile app.'}
+];
+const totalDuration=phaseDefs.reduce((sum,p)=>sum+p.dur,0);
+
+const codeSamples=[
+  'import { useMemo, useState } from "react"',
+  'router.post("/api/signin", authController)',
+  'const data = await fetchAnalytics()',
+  'SELECT team, mrr, churn FROM accounts',
+  'type CardProps = { title:string; value:number }',
+  'docker compose up --build',
+  'const schema = z.object({ email:z.string() })',
+  'git checkout -b feature/dashboard-shell',
+  'return <Sidebar items={navItems} />',
+  'await queue.publish("sync.crm")',
+  'const trend = series.map(normalize)',
+  'export function AppShell(){ return ... }',
+  'const token = jwt.sign(payload, secret)',
+  'useEffect(syncRealtimeFeed, [])',
+  'paymentIntent.status === "succeeded"',
+  'CREATE INDEX idx_events_created_at',
+  'interface UserProfile { role:string }',
+  'response.json({ ok:true, items })',
+  'const chart = new TrendChart()',
+  'return <MobileSummary cards={cards} />'
+];
+
+const particles=[];
+const componentTargets=[];
+for(let i=0;i<20;i++){
+  particles.push({
+    text:codeSamples[i],
+    x:0,y:0,ox:0,oy:0,sx:0,sy:0,tx:0,ty:0,
+    hue:i%3,seed:Math.random()*10,
+    size:11+Math.random()*1.6,
+    alpha:.24+Math.random()*.28,
+    dx:(Math.random()-.5)*34,dy:(Math.random()-.5)*18,
+    target:null
+  });
+}
+
+function resize(){
+  const r=stage.getBoundingClientRect();
+  W=r.width;H=r.height;
+  canvas.width=W*DPR;canvas.height=H*DPR;
+  canvas.style.width=W+'px';canvas.style.height=H+'px';
+  ctx.setTransform(DPR,0,0,DPR,0,0);
+  layoutScene();
+}
+window.addEventListener('resize',resize);
+
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const lerp=(a,b,t)=>a+(b-a)*t;
+const easeInOut=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
+const easeOut=t=>1-Math.pow(1-t,3);
+
+function rr(x,y,w,h,r){
+  ctx.beginPath();
+  ctx.moveTo(x+r,y);
+  ctx.arcTo(x+w,y,x+w,y+h,r);
+  ctx.arcTo(x+w,y+h,x,y+h,r);
+  ctx.arcTo(x,y+h,x,y,r);
+  ctx.arcTo(x,y,x+w,y,r);
+  ctx.closePath();
+}
+
+function layoutScene(){
+  const sx=W*0.08, sy=H*0.16, sw=W*0.42, rowH=Math.min(24,H*0.043);
+  particles.forEach((p,i)=>{
+    p.sx=sx + (i%2)*(sw*0.52);
+    p.sy=sy + Math.floor(i/2)*rowH;
+    if(!p.ox && !p.oy){
+      p.ox=W*(.08+Math.random()*.82);
+      p.oy=H*(.12+Math.random()*.68);
+      p.x=p.ox;p.y=p.oy;
+    }
+  });
+
+  const dashX=W*0.55,dashY=H*0.13,dashW=W*0.29,dashH=H*0.62;
+  const phoneW=Math.min(W*0.16,176), phoneH=Math.min(H*0.6,340), phoneX=W*0.79, phoneY=H*0.17;
+  const slots=[
+    {kind:'header',x:dashX+18,y:dashY+18,w:dashW-36,h:56},
+    {kind:'kpi',x:dashX+18,y:dashY+92,w:dashW*0.42,h:108},
+    {kind:'kpi',x:dashX+dashW*0.47,y:dashY+92,w:dashW*0.47,h:108},
+    {kind:'chart',x:dashX+18,y:dashY+218,w:dashW-36,h:124},
+    {kind:'list',x:dashX+18,y:dashY+360,w:dashW*0.28,h:98},
+    {kind:'list',x:dashX+dashW*0.34,y:dashY+360,w:dashW*0.28,h:98},
+    {kind:'stat',x:dashX+dashW*0.66,y:dashY+360,w:dashW*0.22,h:98},
+    {kind:'phone-header',x:phoneX+16,y:phoneY+20,w:phoneW-32,h:18},
+    {kind:'phone-card',x:phoneX+16,y:phoneY+54,w:phoneW-32,h:58},
+    {kind:'phone-card',x:phoneX+16,y:phoneY+126,w:phoneW-32,h:58},
+    {kind:'phone-card',x:phoneX+16,y:phoneY+198,w:phoneW-32,h:58},
+    {kind:'phone-footer',x:phoneX+16,y:phoneY+274,w:phoneW-32,h:26}
+  ];
+  componentTargets.length=0;
+  particles.forEach((p,i)=>{
+    const slot=slots[i%slots.length];
+    componentTargets.push(slot);
+    p.target=slot;
+    p.tx=slot.x+12;
+    p.ty=slot.y+Math.min(slot.h*.6,32);
+  });
+}
+
+function getPhase(time){
+  let acc=0;
+  for(let i=0;i<phaseDefs.length;i++){
+    const end=acc+phaseDefs[i].dur;
+    if(time<end) return {index:i,local:(time-acc)/phaseDefs[i].dur};
+    acc=end;
+  }
+  return {index:phaseDefs.length-1,local:1};
+}
+
+function drawBackground(t){
+  const g=ctx.createLinearGradient(0,0,W,H);
+  g.addColorStop(0,'#06101c');
+  g.addColorStop(.52,'#0a1526');
+  g.addColorStop(1,'#040810');
+  ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+
+  const r1=ctx.createRadialGradient(W*.72,H*.26,0,W*.72,H*.26,Math.max(W,H)*.54);
+  r1.addColorStop(0,'rgba(116,192,252,.12)');
+  r1.addColorStop(1,'rgba(116,192,252,0)');
+  ctx.fillStyle=r1;ctx.fillRect(0,0,W,H);
+
+  const r2=ctx.createRadialGradient(W*.2,H*.75,0,W*.2,H*.75,Math.max(W,H)*.46);
+  r2.addColorStop(0,'rgba(99,230,190,.08)');
+  r2.addColorStop(1,'rgba(99,230,190,0)');
+  ctx.fillStyle=r2;ctx.fillRect(0,0,W,H);
+
+  const grid=Math.max(34,Math.min(52,W/26));
+  ctx.strokeStyle='rgba(148,163,184,.06)';
+  ctx.lineWidth=1;
+  for(let x=0;x<W;x+=grid){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+  for(let y=0;y<H;y+=grid){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+}
+
+function drawStructuredArea(phase,local){
+  if(phase<1) return;
+  const t=phase===1?easeInOut(local):1;
+  const x=W*0.06,y=H*0.12,w=W*0.46,h=H*0.62;
+  ctx.save();
+  ctx.globalAlpha=.08*t;
+  rr(x,y,w,h,18);ctx.fillStyle='rgba(9,20,35,.9)';ctx.fill();
+  ctx.globalAlpha=.22*t;
+  ctx.strokeStyle='rgba(99,230,190,.55)';ctx.lineWidth=1;rr(x,y,w,h,18);ctx.stroke();
+  for(let i=1;i<10;i++){
+    ctx.globalAlpha=.12*t;
+    ctx.beginPath();ctx.moveTo(x+14,y+18+i*(h-36)/10);ctx.lineTo(x+w-14,y+18+i*(h-36)/10);ctx.stroke();
+  }
+  ctx.restore();
+}
+
+function drawCode(phase,local,time){
+  const colors=['rgba(192,162,255,','rgba(116,192,252,','rgba(99,230,190,'];
+  particles.forEach((p,i)=>{
+    let x=p.ox + Math.sin(time*0.9+p.seed)*p.dx;
+    let y=p.oy + Math.cos(time*0.8+p.seed)*p.dy;
+    let alpha=p.alpha;
+    let size=p.size;
+    if(phase>=1){
+      const t=phase===1?easeInOut(local):1;
+      x=lerp(x,p.sx,t);
+      y=lerp(y,p.sy,t);
+      alpha=lerp(alpha,.92,t);
+    }
+    if(phase===2){
+      alpha=.84;
+    }
+    if(phase===3){
+      const t=easeInOut(local);
+      x=lerp(p.sx,p.tx,t);
+      y=lerp(p.sy,p.ty,t);
+      size=lerp(p.size,10,t);
+      alpha=lerp(.84,.12,t);
+    }
+    ctx.save();
+    ctx.globalAlpha=alpha;
+    ctx.font=`${size}px ui-monospace,SFMono-Regular,Menlo,monospace`;
+    ctx.fillStyle=colors[p.hue]+(0.68)+')';
+    ctx.fillText(p.text,x,y);
+    if(phase>=2){
+      const lineAlpha=phase===2?.18:.08;
+      ctx.strokeStyle='rgba(99,230,190,'+lineAlpha+')';
+      ctx.lineWidth=1;
+      ctx.beginPath();
+      ctx.moveTo(x+6,y+4);
+      ctx.lineTo(p.target.x+8,p.target.y+8);
+      ctx.stroke();
+    }
+    ctx.restore();
+  });
+}
+
+function drawWireframeSlot(slot,progress){
+  const d=clamp(progress,0,1);
+  if(d<=0) return;
+  ctx.save();
+  ctx.globalAlpha=.92*d;
+  ctx.strokeStyle='rgba(148,163,184,.52)';
+  ctx.lineWidth=1.1;
+  rr(slot.x,slot.y,slot.w,slot.h,slot.kind.includes('phone')?14:14);
+  ctx.stroke();
+  ctx.globalAlpha=.08*d;
+  rr(slot.x,slot.y,slot.w,slot.h,14);ctx.fillStyle='rgba(255,255,255,.07)';ctx.fill();
+  ctx.restore();
+}
+
+function drawWireframes(phase,local){
+  if(phase<2) return;
+  const t=phase===2?easeInOut(local):1;
+  const dashX=W*0.55,dashY=H*0.13,dashW=W*0.29,dashH=H*0.62;
+  const phoneW=Math.min(W*0.16,176), phoneH=Math.min(H*0.6,340), phoneX=W*0.79, phoneY=H*0.17;
+  ctx.save();
+  ctx.globalAlpha=.94*t;
+  ctx.strokeStyle='rgba(148,163,184,.42)';
+  ctx.lineWidth=1.2;
+  rr(dashX,dashY,dashW,dashH,18);ctx.stroke();
+  rr(phoneX,phoneY,phoneW,phoneH,28);ctx.stroke();
+  ctx.restore();
+  componentTargets.slice(0,12).forEach((slot,idx)=>{
+    const p=(t*1.25)-idx*.055;
+    drawWireframeSlot(slot,p);
+  });
+}
+
+function drawComponent(slot,progress,time,index){
+  const t=clamp(progress,0,1);
+  if(t<=0) return;
+  ctx.save();
+  ctx.globalAlpha=t;
+  rr(slot.x,slot.y,slot.w,slot.h,slot.kind.includes('phone')?14:14);
+  ctx.fillStyle='rgba(15,33,56,.96)';
+  ctx.fill();
+  ctx.strokeStyle='rgba(148,163,184,.12)';
+  ctx.stroke();
+
+  if(slot.kind==='header'){
+    ctx.fillStyle='rgba(232,240,251,.92)';ctx.font='600 14px Inter, sans-serif';ctx.fillText('Operations performance dashboard',slot.x+16,slot.y+22);
+    ctx.fillStyle='rgba(232,240,251,.52)';ctx.font='12px Inter, sans-serif';ctx.fillText('Reusable product components generated from clean engineering structure',slot.x+16,slot.y+42);
+  }
+  if(slot.kind==='kpi'){
+    const label=index===1?'Active users':'Conversion';
+    const value=index===1?'12.8K':'24.6%';
+    const col=index===1?'#63e6be':'#74c0fc';
+    ctx.fillStyle='rgba(232,240,251,.52)';ctx.font='11px Inter, sans-serif';ctx.fillText(label,slot.x+14,slot.y+20);
+    ctx.fillStyle=col;ctx.font='700 29px Inter, sans-serif';ctx.fillText(value,slot.x+14,slot.y+58);
+    ctx.fillStyle='rgba(255,255,255,.08)';rr(slot.x+14,slot.y+74,slot.w-28,8,4);ctx.fill();
+    ctx.fillStyle=col;rr(slot.x+14,slot.y+74,(slot.w-28)*(index===1?.72:.46),8,4);ctx.fill();
+  }
+  if(slot.kind==='chart'){
+    ctx.strokeStyle='rgba(148,163,184,.16)';ctx.lineWidth=1;
+    for(let i=0;i<4;i++){ctx.beginPath();ctx.moveTo(slot.x+14,slot.y+98-i*18);ctx.lineTo(slot.x+slot.w-14,slot.y+98-i*18);ctx.stroke();}
+    ctx.beginPath();
+    for(let i=0;i<=22;i++){
+      const x=slot.x+14+((slot.w-28)/22)*i;
+      const y=slot.y+94-(16+Math.sin(i*.45+time*2.2)*18+Math.cos(i*.2)*6)*t;
+      i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    }
+    ctx.strokeStyle='#63e6be';ctx.lineWidth=2.2;ctx.stroke();
+    ctx.fillStyle='rgba(232,240,251,.52)';ctx.font='11px Inter, sans-serif';ctx.fillText('Growth trend',slot.x+14,slot.y+20);
+  }
+  if(slot.kind==='list'){
+    ctx.fillStyle='rgba(232,240,251,.52)';ctx.font='11px Inter, sans-serif';ctx.fillText(index===4?'Pipeline':'Tasks',slot.x+12,slot.y+18);
+    for(let i=0;i<5;i++){
+      rr(slot.x+12,slot.y+30+i*11,slot.w-24-(i*10),5,2.5);
+      ctx.fillStyle=i%2?'rgba(116,192,252,.22)':'rgba(192,162,255,.18)';ctx.fill();
+    }
+  }
+  if(slot.kind==='stat'){
+    ctx.fillStyle='rgba(232,240,251,.52)';ctx.font='11px Inter, sans-serif';ctx.fillText('Uptime',slot.x+12,slot.y+18);
+    ctx.fillStyle='#63e6be';ctx.font='700 24px Inter, sans-serif';ctx.fillText('99.98%',slot.x+12,slot.y+56);
+  }
+  if(slot.kind==='phone-header'){
+    ctx.fillStyle='rgba(232,240,251,.84)';ctx.font='600 10px Inter, sans-serif';ctx.fillText('Mobile summary',slot.x+10,slot.y+12.5);
+  }
+  if(slot.kind==='phone-card'){
+    const labels=['Revenue today','Tasks due','Deploy health'];
+    const vals=['$18.4K','12','Healthy'];
+    const cols=['#63e6be','#74c0fc','#c0a2ff'];
+    const idx = slot.y < H ? Math.max(0, Math.min(2, Math.round((slot.y-(H*0.17+54))/72))) : 0;
+    ctx.fillStyle='rgba(232,240,251,.52)';ctx.font='10px Inter, sans-serif';ctx.fillText(labels[idx],slot.x+12,slot.y+18);
+    ctx.fillStyle=cols[idx];ctx.font='700 22px Inter, sans-serif';ctx.fillText(vals[idx],slot.x+12,slot.y+42);
+  }
+  if(slot.kind==='phone-footer'){
+    ctx.beginPath();ctx.arc(slot.x+14,slot.y+13,4,0,Math.PI*2);ctx.fillStyle='#63e6be';ctx.fill();
+    ctx.fillStyle='rgba(232,240,251,.72)';ctx.font='600 10px Inter, sans-serif';ctx.fillText('Synced with dashboard',slot.x+24,slot.y+16);
+  }
+  ctx.restore();
+}
+
+function drawComponents(phase,local,time){
+  if(phase<3) return;
+  componentTargets.slice(0,12).forEach((slot,idx)=>{
+    const p=(local*1.35)-idx*.055;
+    drawComponent(slot,easeOut(clamp(p,0,1)),time,idx);
+  });
+}
+
+let start=null;
+function render(ts){
+  if(!start) start=ts;
+  const time=((ts-start)/1000)%totalDuration;
+  const {index:phase,local}=getPhase(time);
+  badge.textContent=phaseDefs[phase].label;
+  note.textContent=phaseDefs[phase].note;
+  fill.style.width=((time/totalDuration)*100)+'%';
+  steps.forEach((el,i)=>el.classList.toggle('active',i===phase));
+  drawBackground(time);
+  drawStructuredArea(phase,local);
+  drawCode(phase,local,time);
+  drawWireframes(phase,local);
+  drawComponents(phase,local,time);
+  requestAnimationFrame(render);
+}
+resize();
+requestAnimationFrame(render);
+</script>
+</body>
+</html>
