@@ -4,7 +4,7 @@ A modern, responsive web application built with React, TypeScript, and Tailwind 
 
 ## Project info
 
-**URL**: https://lovable.dev/projects/e131830c-60b5-43b1-997a-e8d892c5764e
+**URL**: https://lovable.dev/projects/e131830c-60b5-43b1-997a-e8d892c5764e 
 
 ## Recent Updates
 
