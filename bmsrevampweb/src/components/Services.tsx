@@ -8,7 +8,7 @@ export function Services() {
   return (
     <section
       id="services"
-      className="w-full max-w-[min(1500px,96vw)] overflow-x-hidden pt-[120px] px-10 pb-10 flex flex-col gap-4 relative max-md:pt-20 max-md:px-5"
+      className="w-full max-w-[min(1920px,96vw)] overflow-x-hidden pt-[120px] px-10 pb-10 flex flex-col gap-4 relative max-md:pt-20 max-md:px-5"
       style={{
         background:
           "radial-gradient(50% 40% at 50% 30%, var(--color-dark-purple) 0%, rgba(0,0,0,0) 100%)",

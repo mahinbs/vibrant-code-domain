@@ -31,7 +31,7 @@ export function VerticalPortfolioLanding({
     <>
       <SiteBackground />
       <Nav />
-      <main className="relative z-10 w-full max-w-[min(1500px,96vw)] mx-auto flex flex-col items-center pt-[130px] pb-[80px] px-10 max-md:px-5">
+      <main className="relative z-10 w-full max-w-[min(1920px,96vw)] mx-auto flex flex-col items-center pt-[130px] pb-[80px] px-10 max-md:px-5">
         <section className="w-full border border-white/12 rounded-[16px] bg-black/40 backdrop-blur-[8px] p-8 max-md:p-6">
           <p className="text-[11px] uppercase tracking-[0.12em] text-white/60">{eyebrow}</p>
           <h1 className="mt-2 text-[44px] font-medium -tracking-[0.03em] leading-[1.06em] text-white max-md:text-[32px]">

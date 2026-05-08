@@ -441,7 +441,7 @@ export function IndustryLandingPage({
     <>
       <SiteBackground />
       <Nav />
-      <main className="relative z-10 mx-auto flex w-full max-w-[min(1500px,96vw)] flex-col items-center px-5 pb-[80px] pt-[120px] md:px-10">
+      <main className="relative z-10 mx-auto flex w-full max-w-[min(1920px,96vw)] flex-col items-center px-5 pb-[80px] pt-[120px] md:px-10">
         <section
           className="relative w-full overflow-hidden rounded-[20px] border border-white/15 p-6 md:p-10"
           style={{

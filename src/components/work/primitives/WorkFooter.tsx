@@ -33,7 +33,7 @@ const sections = [
 
 export function WorkFooter() {
   return (
-    <footer className="mt-20 w-full max-w-[min(1500px,96vw)] px-10 pb-10 max-md:px-5">
+    <footer className="mt-20 w-full max-w-[min(1920px,96vw)] px-10 pb-10 max-md:px-5">
       <div className="glass-card flex flex-col gap-10 p-10 max-md:p-6">
         <div className="grid grid-cols-4 gap-10 max-md:grid-cols-2 max-sm:grid-cols-1">
           <div className="flex flex-col gap-3">

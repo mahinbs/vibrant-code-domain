@@ -49,7 +49,7 @@ export function Portfolio() {
   return (
     <section
       id="work"
-      className="w-full max-w-[min(1500px,96vw)] pt-[120px] px-10 pb-10 flex flex-col items-center gap-12 max-md:pt-20 max-md:px-5"
+      className="w-full max-w-[min(1920px,96vw)] pt-[120px] px-10 pb-10 flex flex-col items-center gap-12 max-md:pt-20 max-md:px-5"
     >
       <div className="flex flex-col items-center gap-5 text-center max-w-[640px]">
         <div className="inline-flex items-center gap-1.5 bg-black/60 border border-white/15 rounded-full py-2 px-3.5 backdrop-blur-[5px] text-[12px] font-medium text-purple uppercase tracking-[0.08em] w-fit">

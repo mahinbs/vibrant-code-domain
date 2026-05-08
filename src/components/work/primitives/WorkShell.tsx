@@ -38,10 +38,10 @@ export function WorkShell({ children, documentTitle }: Props) {
         aria-hidden
       />
       <WorkNav />
-      <main className="relative z-10 mx-auto flex w-full max-w-[min(1600px,96vw)] flex-col items-center pt-[88px] pb-[80px]">
+      <main className="relative z-10 mx-auto flex w-full max-w-[min(1920px,96vw)] flex-col items-center pt-[88px] pb-[80px]">
         {children}
       </main>
-      <div className="relative z-10 mx-auto flex w-full max-w-[min(1600px,96vw)] flex-col items-center">
+      <div className="relative z-10 mx-auto flex w-full max-w-[min(1920px,96vw)] flex-col items-center">
         <WorkFooter />
       </div>
     </div>

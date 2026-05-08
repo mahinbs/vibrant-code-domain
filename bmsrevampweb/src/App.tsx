@@ -20,7 +20,7 @@ function HomePage() {
     <>
       <SiteBackground />
       <Nav />
-      <main className="relative z-10 w-full max-w-[min(1600px,96vw)] mx-auto flex flex-col items-center pb-[80px]">
+      <main className="relative z-10 w-full max-w-[min(1920px,96vw)] mx-auto flex flex-col items-center pb-[80px]">
         <Hero />
         <Stats />
         <FintechHealthcareSection />

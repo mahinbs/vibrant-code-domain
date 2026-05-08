@@ -93,7 +93,7 @@ export default function WorkCaseStudyPage() {
 
   return (
     <WorkShell documentTitle={`${project.title} — Case study | Boostmysites`}>
-      <div className="flex w-full max-w-[min(1500px,96vw)] flex-col">
+      <div className="flex w-full max-w-[min(1920px,96vw)] flex-col">
         <CaseStudyHero project={project} />
         <CaseStudyChallenge
           challenge={project.challenge}
@@ -114,7 +114,7 @@ export default function WorkCaseStudyPage() {
 
 function CaseStudySkeleton() {
   return (
-    <div className="w-full max-w-[min(1500px,96vw)] px-10 pt-12 max-md:px-5">
+    <div className="w-full max-w-[min(1920px,96vw)] px-10 pt-12 max-md:px-5">
       <div className="glass-card mb-8 h-6 w-40 animate-pulse opacity-50" />
       <div className="grid grid-cols-12 gap-8 max-lg:grid-cols-1">
         <div className="col-span-7 flex flex-col gap-4 max-lg:col-span-1">
@@ -140,7 +140,7 @@ function CaseStudySkeleton() {
 
 function CaseStudyNotFound() {
   return (
-    <section className="w-full max-w-[min(1500px,96vw)] px-10 pt-[80px] pb-12 max-md:px-5">
+    <section className="w-full max-w-[min(1920px,96vw)] px-10 pt-[80px] pb-12 max-md:px-5">
       <div className="glass-card flex flex-col items-center gap-4 px-10 py-16 text-center max-md:px-6 max-md:py-12">
         <span className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-black/60 px-3.5 py-2 text-[12px] font-medium uppercase tracking-[0.08em] text-[color:var(--wk-bright)] backdrop-blur-[5px]">
           Case study not found

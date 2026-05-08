@@ -12,7 +12,7 @@ export function WorkHero({ totalProjects, totalIndustries }: Props) {
           "radial-gradient(50% 40% at 50% 30%, var(--wk-dark) 0%, rgba(0,0,0,0) 100%)",
       }}
     >
-      <div className="relative z-[2] mx-auto flex max-w-[min(1500px,96vw)] flex-col gap-6">
+      <div className="relative z-[2] mx-auto flex max-w-[min(1920px,96vw)] flex-col gap-6">
         <p
           aria-hidden
           className="work-watermark pointer-events-none select-none whitespace-nowrap text-left leading-none"

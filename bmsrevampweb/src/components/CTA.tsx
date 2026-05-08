@@ -9,7 +9,7 @@ export function CTA() {
       className="w-full p-10 flex items-center justify-center max-md:px-5 max-md:pt-16"
     >
       <div
-        className="relative overflow-hidden flex-1 max-w-[min(1600px,96vw)] border border-white/15 rounded-[16px] py-[80px] px-[80px] flex flex-col items-center gap-10 max-md:p-8"
+        className="relative overflow-hidden flex-1 max-w-[min(1920px,96vw)] border border-white/15 rounded-[16px] py-[80px] px-[80px] flex flex-col items-center gap-10 max-md:p-8"
         style={{
           background:
             "radial-gradient(60% 100% at 50% 0%, var(--color-dark-purple) 0%, #000 75%)",

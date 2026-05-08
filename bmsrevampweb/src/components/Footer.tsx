@@ -9,7 +9,7 @@ const socials = [
 
 export function Footer() {
   return (
-    <footer className="w-full max-w-[min(1500px,96vw)] border-t border-white/12 px-5 pt-10 pb-8 flex flex-col gap-6 max-md:px-4">
+    <footer className="w-full max-w-[min(1920px,96vw)] border-t border-white/12 px-5 pt-10 pb-8 flex flex-col gap-6 max-md:px-4">
       <div className="flex items-start justify-between flex-wrap gap-8 max-md:flex-col">
         <div className="flex flex-col gap-3 max-w-[320px]">
           <div className="flex items-center gap-2.5">

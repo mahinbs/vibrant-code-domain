@@ -81,7 +81,7 @@ export function FounderForbesSection() {
   return (
     <section
       id="founder"
-      className="relative flex w-full max-w-[min(1600px,96vw)] flex-col gap-4 overflow-x-hidden px-10 pb-10 pt-[120px] max-md:px-5 max-md:pt-20"
+      className="relative flex w-full max-w-[min(1920px,96vw)] flex-col gap-4 overflow-x-hidden px-10 pb-10 pt-[120px] max-md:px-5 max-md:pt-20"
       style={{
         background:
           "radial-gradient(50% 40% at 50% 30%, var(--color-dark-purple) 0%, rgba(0,0,0,0) 100%)",

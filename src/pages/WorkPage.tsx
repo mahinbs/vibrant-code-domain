@@ -120,7 +120,7 @@ export default function WorkPage() {
       <div
         className={`sticky top-[88px] z-20 w-screen ml-[calc(50%-50vw)] border-b border-white/[0.07] ${WORK_GLASS_BG_BLUR}`}
       >
-        <div className="mx-auto w-full max-w-[min(1500px,96vw)] px-10 py-4 max-md:px-5">
+        <div className="mx-auto w-full max-w-[min(1920px,96vw)] px-10 py-4 max-md:px-5">
           <WorkServiceFilter
             active={activeFilter}
             onSelect={handleFilterSelect}
@@ -129,7 +129,7 @@ export default function WorkPage() {
         </div>
       </div>
 
-      <div className="flex w-full max-w-[min(1500px,96vw)] flex-col">
+      <div className="flex w-full max-w-[min(1920px,96vw)] flex-col">
         {visibleIds.map((id) => (
           <WorkCategorySection
             key={id}
@@ -143,7 +143,7 @@ export default function WorkPage() {
         ))}
       </div>
 
-      <div className="w-full max-w-[min(1500px,96vw)]">
+      <div className="w-full max-w-[min(1920px,96vw)]">
         <WorkCTA />
       </div>
     </WorkShell>

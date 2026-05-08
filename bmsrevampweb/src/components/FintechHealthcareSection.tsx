@@ -13,7 +13,7 @@ export function FintechHealthcareSection() {
 
   return (
     <section
-      className="w-full max-w-[min(1500px,96vw)] px-10 pb-10 max-md:px-5"
+      className="w-full max-w-[min(1920px,96vw)] px-10 pb-10 max-md:px-5"
       style={
         {
           "--color-text-primary": "#f4f7ff",

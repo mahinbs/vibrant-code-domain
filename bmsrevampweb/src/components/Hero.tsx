@@ -51,7 +51,7 @@ export function Hero() {
   return (
     <div id="top" className="w-full flex items-center justify-center pt-2">
       <div
-        className="relative flex-1 min-w-0 h-[820px] max-w-[min(1600px,96vw)] rounded-[20px] border border-white/15 overflow-hidden flex flex-col justify-center gap-[60px] px-[100px] pt-[120px] pb-[150px] will-change-transform max-md:h-auto max-md:px-5 max-md:py-24 max-md:gap-10"
+        className="relative flex-1 min-w-0 h-[820px] max-w-[min(1920px,96vw)] rounded-[20px] border border-white/15 overflow-hidden flex flex-col justify-center gap-[60px] px-[100px] pt-[120px] pb-[150px] will-change-transform max-md:h-auto max-md:px-5 max-md:py-24 max-md:gap-10"
         style={{
           background:
             "radial-gradient(108% 100% at 100% 100.6%, var(--color-purple) 12.8%, rgb(8,16,40) 69.1%, #000 98.2%)",
