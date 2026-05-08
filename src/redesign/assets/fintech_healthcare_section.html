@@ -1,7 +1,8 @@
 
 <style>
 .sec-wrap{padding:1rem 0 2rem;width:100%}
-/* Match Services.tsx “WHAT WE BUILD” layout. */
+/* Match Services.tsx “WHAT WE BUILD” layout: watermark vertically centered on the intro row,
+ * headline block floats right beside it (same gradient text + opacity pattern). */
 .sec-header{
   position:relative;
   width:100%;
@@ -162,6 +163,7 @@
 .comp-label{font-size:11px;color:var(--color-text-secondary);align-self:center}
 
 @media (max-width:768px){
+  /* Same as Services: hide giant watermark on small screens — headline stacks clean */
   .sec-watermark{display:none}
   .sec-header{margin-bottom:.75rem}
   .sec-header-content{

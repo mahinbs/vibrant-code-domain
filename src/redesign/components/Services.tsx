@@ -25,7 +25,7 @@ export function Services() {
     <>
       <section
         id="services"
-        className="w-full max-w-[min(1920px,96vw)] overflow-x-hidden pt-[120px] px-10 pb-10 flex flex-col gap-4 relative max-md:pt-20 max-md:px-5"
+        className="w-full max-w-[1920px] overflow-x-hidden pt-[120px] px-10 pb-10 flex flex-col gap-4 relative max-md:pt-20 max-md:px-5"
         style={{
           background:
             "radial-gradient(50% 40% at 50% 30%, var(--color-dark-purple) 0%, rgba(0,0,0,0) 100%)",
@@ -35,7 +35,7 @@ export function Services() {
         {/* Large watermark — blue gradient, behind headline */}
         <p
           aria-hidden
-          className="pointer-events-none absolute left-0 top-[40%] z-0 w-full max-w-none -translate-y-1/2 select-none text-left font-bold uppercase leading-[0.88] tracking-[0.02em] opacity-[0.32] max-md:top-[36%] max-md:opacity-[0.26]"
+          className="pointer-events-none absolute left-0 top-[40%] z-0 hidden w-full max-w-none -translate-y-1/2 select-none text-left font-bold uppercase leading-[0.88] tracking-[0.02em] opacity-[0.32] md:block"
           style={{
             fontSize: "clamp(2.5rem, min(12vw, 11rem), 11rem)",
             /* Top → bottom: brighter blue → deeper navy (letters only) */
@@ -49,7 +49,7 @@ export function Services() {
           WHAT WE BUILD
         </p>
 
-        <div className="relative z-[2] ml-auto mt-[clamp(2.75rem,9vw,6.5rem)] flex max-w-[680px] flex-col items-end gap-5 pt-1 text-right">
+        <div className="relative z-[2] ml-auto flex max-w-[680px] flex-col items-end gap-5 pt-1 text-right md:mt-[clamp(2.75rem,9vw,6.5rem)] max-md:items-start max-md:text-left">
           <h2 className="text-[44px] font-medium -tracking-[0.04em] leading-[1.05em] text-white max-md:text-3xl">
             One studio. Six ways to ship.
           </h2>
@@ -129,7 +129,6 @@ export function Services() {
               <div className="mt-2 flex items-center gap-2">
                 <a
                   href={workUrl(s.id)}
-                  target="_top"
                   rel="noopener"
                   className="inline-flex h-11 shrink-0 items-center justify-center rounded-[10px] border border-white/20 bg-black/55 px-3 text-[12px] font-semibold text-white/95 transition-colors hover:bg-black/70"
                 >

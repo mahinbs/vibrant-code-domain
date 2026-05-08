@@ -1007,3 +1007,212 @@ video {
 .work-shell {
   scroll-behavior: smooth;
 }
+
+/* ===========================================================================
+   Redesign homepage shell (ported from bmsrevampweb).
+   All rules below are scoped under `.redesign-shell` so they never bleed into
+   the legacy site. The shell wraps the inline RedesignHomePage component used
+   by `/`, `/fintech-landing`, `/healthcare-landing`.
+   ========================================================================*/
+
+@keyframes redesign-build-marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes redesign-morph-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes redesign-glow-pulse {
+  0%, 100% { opacity: 0.38; }
+  50% { opacity: 0.72; }
+}
+
+@keyframes redesign-drop {
+  from { transform: translateY(0); opacity: 0; }
+  15% { opacity: 1; }
+  to { transform: translateY(calc(100vh + 220px)); opacity: 0; }
+}
+
+.redesign-shell {
+  /* Brand color tokens - mirror Tailwind 4 @theme auto-vars from bmsrevampweb.
+   * Components reference these via `var(--color-purple)` etc. in inline gradients. */
+  --color-purple: rgb(72, 118, 255);
+  --color-bright-purple: rgb(108, 148, 255);
+  --color-dark-purple: rgb(22, 36, 74);
+  --color-darker-purple: rgb(14, 26, 52);
+  --color-deepest: rgb(6, 10, 22);
+  position: relative;
+  background: #000;
+  color: #fff;
+  font-family: "Inter", "Inter Placeholder", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  isolation: isolate;
+}
+
+.redesign-shell *:focus-visible {
+  outline: 2px solid rgba(96, 142, 255, 0.55);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+.redesign-shell .build-marquee-track {
+  animation: redesign-build-marquee 30s linear infinite;
+  will-change: transform;
+}
+.redesign-shell .build-marquee-track:hover {
+  animation-play-state: paused;
+}
+
+.redesign-shell .text-gradient {
+  background-image: radial-gradient(
+    80% 134% at 1.6% -10%,
+    rgba(255, 255, 255, 0.55) 0%,
+    #fff 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.redesign-shell .purple-wash::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgb(72, 118, 255);
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+}
+
+.redesign-shell .btn-gloss {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+.redesign-shell .btn-gloss::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    147deg,
+    rgba(255, 255, 255, 0) 41%,
+    rgba(0, 0, 0, 0.5) 100%
+  );
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Site backdrop (grid + glow + squares + drops + spotlight + noise) */
+.redesign-shell .site-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.redesign-shell .site-backdrop__grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(68, 114, 255, 0.075) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(68, 114, 255, 0.075) 1px, transparent 1px);
+  background-size: 80px 80px;
+}
+.redesign-shell .site-backdrop__glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(70vw, 640px);
+  height: min(70vw, 640px);
+  transform: translate(-50%, -50%);
+  border-radius: 999px;
+  background: rgba(55, 115, 220, 0.14);
+  filter: blur(120px);
+  animation: redesign-glow-pulse 3s ease-in-out infinite;
+  opacity: 0.75;
+}
+.redesign-shell .site-backdrop__squares { position: absolute; inset: 0; }
+.redesign-shell .site-backdrop__square {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  background: rgba(68, 120, 255, 0.1);
+  border: 1px solid rgba(82, 128, 255, 0.16);
+  border-radius: 4px;
+  transition: top 1s ease, left 1s ease, opacity 1s ease;
+  will-change: transform, opacity;
+}
+.redesign-shell .site-backdrop__drops { position: absolute; inset: 0; overflow: hidden; }
+.redesign-shell .site-backdrop__drop {
+  position: absolute;
+  top: -150px;
+  width: 2px;
+  height: 150px;
+  background: linear-gradient(to bottom, transparent, rgba(96, 142, 255, 0.78));
+  animation-name: redesign-drop;
+  animation-timing-function: linear;
+  animation-fill-mode: both;
+}
+.redesign-shell .site-backdrop__spotlight {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    520px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(72, 130, 255, 0.1),
+    transparent 42%
+  );
+  transition: opacity 0.25s ease;
+}
+.redesign-shell .site-backdrop__noise {
+  position: absolute;
+  inset: 0;
+  opacity: 0.028;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* The SiteBackground component still references `site-backdrop-drop` keyframes
+ * via element.style.animationName - keep that name as an alias of redesign-drop. */
+@keyframes site-backdrop-drop {
+  from { transform: translateY(0); opacity: 0; }
+  15% { opacity: 1; }
+  to { transform: translateY(calc(100vh + 220px)); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .redesign-shell .build-marquee-track {
+    animation: none;
+    transform: none;
+  }
+  .redesign-shell .site-backdrop__glow {
+    animation: none;
+    opacity: 0.45;
+  }
+  .redesign-shell .site-backdrop__square {
+    transition: none;
+  }
+  .redesign-shell .site-backdrop__spotlight {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+/* The redesign relies on its own typography rules - opt out of the parent
+ * site's "all p/span/div = white" override that lives in the base layer
+ * above. The redesign already styles every text element with explicit
+ * Tailwind color utilities (text-white, text-white/65, etc.), so resetting
+ * to inherit avoids surprise color overrides. */
+.redesign-shell p,
+.redesign-shell span,
+.redesign-shell div,
+.redesign-shell li,
+.redesign-shell td,
+.redesign-shell th,
+.redesign-shell label,
+.redesign-shell small {
+  color: inherit;
+}

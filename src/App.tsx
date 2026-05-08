@@ -62,6 +62,9 @@ import StartupLanding from "./pages/landingPages/StartupLanding";
 import AiStockPrediction from "./pages/landingPages/AiStockPrediction";
 import FintechLanding from "./pages/landingPages/FintechLanding";
 import HealthcareLanding from "./pages/landingPages/HealthcareLanding";
+import RedesignFintechLanding from "./redesign/pages/FintechPortfolioLanding";
+import RedesignHealthcareLanding from "./redesign/pages/HealthcarePortfolioLanding";
+import { RedesignShell } from "./redesign/RedesignShell";
 import ReshabLandingPage from "./pages/landingPages/ReshabLandingPage";
 import DarshanLandingPage from "./pages/landingPages/DarshanLandingPage";
 import KavyaLandingPage from "./pages/landingPages/KavyaLandingPage";
@@ -80,6 +83,8 @@ const App = () => {
   const useNewHomepageUi = shouldUseNewUiForRoute("/", hostname);
   const useNewWorkUi = shouldUseNewUiForRoute("/work", hostname);
   const useNewWorkCaseStudyUi = shouldUseNewUiForRoute("/work/sample", hostname);
+  const useNewFintechLanding = shouldUseNewUiForRoute("/", hostname);
+  const useNewHealthcareLanding = useNewFintechLanding;
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -498,19 +503,31 @@ const App = () => {
               <Route
                 path="/fintech-landing"
                 element={
-                  <>
-                    <FloatingWhatsAppButton />
-                    <FintechLanding />
-                  </>
+                  useNewFintechLanding ? (
+                    <RedesignShell>
+                      <RedesignFintechLanding />
+                    </RedesignShell>
+                  ) : (
+                    <>
+                      <FloatingWhatsAppButton />
+                      <FintechLanding />
+                    </>
+                  )
                 }
               />
               <Route
                 path="/healthcare-landing"
                 element={
-                  <>
-                    <FloatingWhatsAppButton />
-                    <HealthcareLanding />
-                  </>
+                  useNewHealthcareLanding ? (
+                    <RedesignShell>
+                      <RedesignHealthcareLanding />
+                    </RedesignShell>
+                  ) : (
+                    <>
+                      <FloatingWhatsAppButton />
+                      <HealthcareLanding />
+                    </>
+                  )
                 }
               />
 

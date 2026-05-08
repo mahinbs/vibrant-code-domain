@@ -1,5 +1,6 @@
 
 import type { Config } from "tailwindcss";
+import defaultColors from "tailwindcss/colors";
 
 export default {
 	darkMode: ["class"],
@@ -72,7 +73,19 @@ export default {
 					blue: '#0080ff',
 					purple: '#8000ff',
 					pink: '#ff0080'
-				}
+				},
+				// Redesign tokens (ported from bmsrevampweb @theme).
+				// `purple` keeps Tailwind's default palette shades while adding
+				// a DEFAULT so `bg-purple`, `text-purple/70` resolve correctly
+				// in the redesign components.
+				purple: {
+					...defaultColors.purple,
+					DEFAULT: 'rgb(72, 118, 255)',
+				},
+				'bright-purple': 'rgb(108, 148, 255)',
+				'dark-purple': 'rgb(22, 36, 74)',
+				'darker-purple': 'rgb(14, 26, 52)',
+				'deepest': 'rgb(6, 10, 22)',
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -121,6 +134,14 @@ export default {
 					'50%': {
 						transform: 'translateY(-20px)'
 					}
+				},
+				'ticker': {
+					'0%': { transform: 'translateX(0)' },
+					'100%': { transform: 'translateX(-50%)' }
+				},
+				'float1': {
+					'0%, 100%': { transform: 'translateY(0) rotate(0)' },
+					'50%': { transform: 'translateY(-12px) rotate(3deg)' }
 				}
 			},
 			animation: {
@@ -130,6 +151,8 @@ export default {
 				'glow': 'glow 2s ease-in-out infinite',
 				'float': 'float 3s ease-in-out infinite',
 				'ping': 'ping 1s cubic-bezier(0, 0, 0.2, 1) infinite',
+				'ticker': 'ticker 18s linear infinite',
+				'float1': 'float1 6s ease-in-out infinite',
 			},
 			animationDelay: {
 				'1000': '1s',
