@@ -1,4 +1,4 @@
-# BoostMySites - Digital Solutions Platform
+# Boostmysites - Digital Solutions Platform
 
 A modern, responsive web application built with React, TypeScript, and Tailwind CSS, showcasing digital services including mobile app development, web applications, AI solutions, and more.
 

@@ -559,7 +559,7 @@ const AiFreelancingPage = () => {
               </div>
             </div>
             
-            {/* Powered by BoostMySites BaaS - Within Hero */}
+            {/* Powered by Boostmysites BaaS - Within Hero */}
             <div className="mt-12">
               <div className="text-center mb-4">
                 <h3 className="text-2xl font-bold text-white mb-1">
@@ -627,11 +627,11 @@ const AiFreelancingPage = () => {
 
       <SectionDivider />
 
-      {/* What you can sell with BoostMySites BaaS Section */}
+      {/* What you can sell with Boostmysites BaaS Section */}
       <section className="py-20 relative overflow-hidden">
         <div className="container mx-auto px-6 relative z-20">
           <div className="max-w-4xl mx-auto text-center mb-16">
-            <Title className="text-4xl mb-4">What you can sell with BoostMySites BaaS</Title>
+            <Title className="text-4xl mb-4">What you can sell with Boostmysites BaaS</Title>
             <p className="text-xl text-muted-foreground mb-6">Premium services ready for you to resell</p>
           </div>
           <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-6xl mx-auto mb-12">

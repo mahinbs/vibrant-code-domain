@@ -7,20 +7,20 @@ const AboutPage = () => {
   return (
     <>
       <Helmet>
-        <title>About Us - BoostMySites | Leading Digital Solutions Provider</title>
+        <title>About Us - Boostmysites | Leading Digital Solutions Provider</title>
         <meta
           name="description"
-          content="Learn about BoostMySites - your trusted partner for web development, mobile apps, AI solutions, and digital transformation services. Discover our mission, expertise, and global presence."
+          content="Learn about Boostmysites - your trusted partner for web development, mobile apps, AI solutions, and digital transformation services. Discover our mission, expertise, and global presence."
         />
         <meta
           name="keywords"
           content="about boostmysites, digital solutions provider, web development company, software development expertise, global presence, company mission"
         />
         <link rel="canonical" href="https://boostmysites.com/about" />
-        <meta property="og:title" content="About Us - BoostMySites" />
+        <meta property="og:title" content="About Us - Boostmysites" />
         <meta
           property="og:description"
-          content="Learn about BoostMySites - your trusted partner for web development, mobile apps, AI solutions, and digital transformation services."
+          content="Learn about Boostmysites - your trusted partner for web development, mobile apps, AI solutions, and digital transformation services."
         />
         <meta property="og:url" content="https://boostmysites.com/about" />
         <meta property="og:type" content="website" />

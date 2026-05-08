@@ -41,8 +41,8 @@ const journeySteps: JourneyStep[] = [
   {
     id: 'step-2',
     number: 2,
-    title: 'Personal Landing Page (Branded by BoostMySites)',
-    description: 'We create a professional landing page under our brand name that instantly boosts your credibility, showcasing BoostMySites\' portfolios and client testimonials.',
+    title: 'Personal Landing Page (Branded by Boostmysites)',
+    description: 'We create a professional landing page under our brand name that instantly boosts your credibility, showcasing Boostmysites\' portfolios and client testimonials.',
     icon: <Monitor className="w-8 h-8" />,
     mockup: 'Clients convert 2.5x faster when shown a branded portfolio page',
     direction: 'right'
@@ -87,7 +87,7 @@ const journeySteps: JourneyStep[] = [
     id: 'step-7',
     number: 7,
     title: 'High-Converting Sales Assets',
-    description: 'You\'re equipped with professionally designed landing pages, funnels, portfolio assets, testimonials, and case studies under BoostMySites brand to close clients faster.',
+    description: 'You\'re equipped with professionally designed landing pages, funnels, portfolio assets, testimonials, and case studies under Boostmysites brand to close clients faster.',
     icon: <Monitor className="w-8 h-8" />,
     mockup: 'Boosted to 67% conversion rates with optimized sales pages',
     direction: 'left'

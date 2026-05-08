@@ -4,68 +4,68 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { ArrowRight, MessageCircle } from "lucide-react";
 import { WorkShell } from "@/components/work/primitives/WorkShell";
 import { WorkHeroFrame } from "@/components/work/primitives/WorkHeroFrame";
-import ProjectContactForm from "@/components/forms/ProjectContactForm";
+import SimpleContactForm from "@/components/forms/SimpleContactForm";
 
 const scrollToForm = () => {
   document.getElementById("contact-form")?.scrollIntoView({ behavior: "smooth", block: "start" });
 };
 
-const fintechCapabilities = [
+const healthcareSolutions = [
   {
-    title: "Payment Infrastructure",
-    body: "PSP integrations, payment gateways, split settlements, wallets, and reconciliation systems.",
+    title: "Telemedicine Platforms",
+    body: "Video consultations, secure messaging, prescriptions, and appointment systems.",
   },
   {
-    title: "Lending Platforms",
-    body: "Loan origination systems, underwriting dashboards, and repayment engines.",
+    title: "EHR / EMR Integrations",
+    body: "FHIR APIs, HL7 interoperability, and medical record synchronization.",
   },
   {
-    title: "Wealth & Investing",
-    body: "Portfolio dashboards, trading interfaces, and robo-advisory experiences.",
+    title: "Remote Patient Monitoring",
+    body: "Wearables integration, health tracking, alerts, and realtime monitoring.",
   },
   {
-    title: "Compliance & Risk",
-    body: "KYC, AML, fraud detection, audit trails, and RBI-ready workflows.",
+    title: "Patient Portals",
+    body: "Scheduling, reports, billing, and communication systems for patients and staff.",
   },
   {
-    title: "Banking Infrastructure",
-    body: "Neo-bank experiences, virtual accounts, card systems, and treasury dashboards.",
+    title: "AI in Healthcare",
+    body: "Voice agents, intake automation, document extraction, and clinical workflows.",
   },
 ];
 
 const buildItems = [
-  "Neo-banking apps",
-  "Payment gateways",
-  "Wallet systems",
-  "Expense management tools",
-  "Lending platforms",
-  "Insurance tech products",
-  "Investment dashboards",
-  "Merchant settlement systems",
+  "Telehealth apps",
+  "Clinic management systems",
+  "Hospital dashboards",
+  "Mental health platforms",
+  "ePrescription systems",
+  "Patient engagement apps",
+  "AI medical assistants",
+  "Healthcare SaaS products",
 ];
 
 const caseStudies = [
-  { title: "Realtime Ledger System", result: "Reduced reconciliation time by 87%." },
-  { title: "Lending Dashboard", result: "Scaled to 1M+ loan evaluations per month." },
-  { title: "Wallet Infrastructure", result: "Processed ₹120Cr+ in annual transaction volume." },
+  { title: "AI Receptionist for Clinics", result: "Booked 4,200+ appointments automatically." },
+  { title: "Remote Monitoring App", result: "Improved patient adherence by 38%." },
+  { title: "Telehealth Platform", result: "Scaled to 100k+ monthly consultations." },
 ];
 
 const faqs = [
-  "How do you handle PCI compliance?",
-  "Can you integrate with banks and PSPs?",
-  "Do you work with startups or enterprises?",
-  "What is your typical timeline?",
-  "Can you modernize existing fintech systems?",
+  "Do you sign BAAs?",
+  "Can you integrate with existing EMRs?",
+  "How do you secure patient data?",
+  "Do you support telemedicine workflows?",
+  "Can you modernize legacy healthcare software?",
 ];
 
-const FintechLanding = () => {
+const HealthcareLanding = () => {
   return (
-    <WorkShell documentTitle="Fintech Software Development | Boostmysites">
+    <WorkShell documentTitle="Healthcare Software Development | Boostmysites">
       <Helmet>
-        <title>Fintech Software Development | Boostmysites</title>
+        <title>Healthcare Software Development | Boostmysites</title>
         <meta
           name="description"
-          content="Financial infrastructure engineered for scale, security, and compliance. Talk to our fintech product team."
+          content="Healthcare software built for patients, providers, and compliance. Build secure, interoperable products faster."
         />
       </Helmet>
 
@@ -73,14 +73,14 @@ const FintechLanding = () => {
         <WorkHeroFrame>
           <div className="space-y-5">
             <p className="inline-flex w-fit items-center rounded-full border border-white/20 bg-white/5 px-3 py-1 text-xs font-semibold tracking-wide text-cyan-100">
-              Fintech product engineering
+              Healthcare product engineering
             </p>
             <h1 className="max-w-4xl text-3xl font-semibold leading-tight text-white md:text-5xl">
-              Financial infrastructure engineered for scale, security, and compliance.
+              Healthcare software built for patients, providers, and compliance.
             </h1>
             <p className="max-w-3xl text-base text-slate-200 md:text-lg">
-              From payments and lending to wallets and compliance systems, we help fintech teams ship faster without
-              compromising trust.
+              We design and develop HIPAA-ready healthcare platforms, telemedicine products, and interoperable health
+              systems.
             </p>
           </div>
 
@@ -99,7 +99,7 @@ const FintechLanding = () => {
           </div>
 
           <div className="grid grid-cols-2 gap-3 text-sm text-slate-100 md:grid-cols-4">
-            {["PCI-DSS Ready", "SOC 2 & ISO 27001 workflows", "35+ fintech products shipped", "Trusted across 56+ cities"].map(
+            {["HIPAA-ready workflows", "HL7 & FHIR integrations", "25+ healthcare products shipped", "24/7 support coverage"].map(
               (item) => (
                 <div key={item} className="glass-card-soft rounded-xl px-3 py-2">
                   {item}
@@ -111,11 +111,9 @@ const FintechLanding = () => {
 
         <section className="glass-card space-y-4 rounded-2xl p-6">
           <h2 className="text-2xl font-semibold text-white">Trusted By</h2>
-          <p className="text-slate-200">
-            Trusted by fintech founders, operators, and regulated teams globally.
-          </p>
-          <div className="grid grid-cols-2 gap-3 text-center text-sm text-slate-300 md:grid-cols-5">
-            {["Fintech startups", "Banks", "NBFCs", "Payment companies", "Growth-stage teams"].map((item) => (
+          <p className="text-slate-200">Trusted by healthcare innovators and care providers globally.</p>
+          <div className="grid grid-cols-2 gap-3 text-center text-sm text-slate-300 md:grid-cols-4">
+            {["Healthcare startups", "Clinics", "Hospitals", "Wellness brands"].map((item) => (
               <div key={item} className="rounded-xl border border-white/10 bg-black/25 px-3 py-3">
                 {item}
               </div>
@@ -124,13 +122,27 @@ const FintechLanding = () => {
         </section>
 
         <section className="space-y-4">
-          <h2 className="text-2xl font-semibold text-white">Fintech Capabilities</h2>
+          <h2 className="text-2xl font-semibold text-white">Healthcare Solutions</h2>
           <div className="grid gap-4 md:grid-cols-2">
-            {fintechCapabilities.map((item) => (
+            {healthcareSolutions.map((item) => (
               <article key={item.title} className="glass-card-soft rounded-2xl p-5">
                 <h3 className="text-lg font-semibold text-white">{item.title}</h3>
                 <p className="mt-2 text-slate-200">{item.body}</p>
               </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="glass-card rounded-2xl p-6">
+          <h2 className="text-2xl font-semibold text-white">Patient data security built into every layer.</h2>
+          <p className="mt-3 text-slate-200">
+            Audit logging, role-based access control, secure infrastructure, and encrypted health data pipelines.
+          </p>
+          <div className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-3">
+            {["HIPAA", "HL7 FHIR", "DISHA", "ISO 13485", "GDPR", "End-to-end encryption"].map((item) => (
+              <div key={item} className="rounded-xl border border-white/15 bg-black/30 px-3 py-2 text-sm text-slate-100">
+                {item}
+              </div>
             ))}
           </div>
         </section>
@@ -147,29 +159,20 @@ const FintechLanding = () => {
         </section>
 
         <section className="glass-card rounded-2xl p-6">
-          <h2 className="text-2xl font-semibold text-white">Tech Stack</h2>
-          <div className="mt-4 grid gap-4 md:grid-cols-2">
-            <div>
-              <h3 className="text-sm font-semibold uppercase tracking-wide text-cyan-200">Frontend</h3>
-              <p className="mt-1 text-slate-200">React, Next.js, TypeScript</p>
-            </div>
-            <div>
-              <h3 className="text-sm font-semibold uppercase tracking-wide text-cyan-200">Backend</h3>
-              <p className="mt-1 text-slate-200">Node.js, Python, Go</p>
-            </div>
-            <div>
-              <h3 className="text-sm font-semibold uppercase tracking-wide text-cyan-200">Infra</h3>
-              <p className="mt-1 text-slate-200">AWS, GCP, Kubernetes, Kafka</p>
-            </div>
-            <div>
-              <h3 className="text-sm font-semibold uppercase tracking-wide text-cyan-200">Integrations</h3>
-              <p className="mt-1 text-slate-200">Stripe, Plaid, Razorpay, Visa APIs, Open Banking APIs</p>
-            </div>
+          <h2 className="text-2xl font-semibold text-white">Healthcare systems that actually talk to each other.</h2>
+          <div className="mt-4 grid gap-3 md:grid-cols-3">
+            {["HL7 integration", "FHIR APIs", "EHR synchronization", "Insurance workflows", "Lab integrations", "Pharmacy integrations"].map(
+              (item) => (
+                <div key={item} className="rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-slate-100">
+                  {item}
+                </div>
+              ),
+            )}
           </div>
         </section>
 
         <section className="space-y-4">
-          <h2 className="text-2xl font-semibold text-white">Our Works</h2>
+          <h2 className="text-2xl font-semibold text-white">Case Studies</h2>
           <div className="grid gap-4 md:grid-cols-3">
             {caseStudies.map((item) => (
               <article key={item.title} className="glass-card-soft rounded-2xl p-5">
@@ -181,13 +184,13 @@ const FintechLanding = () => {
         </section>
 
         <section className="glass-card rounded-2xl p-6">
-          <h2 className="text-2xl font-semibold text-white">Why Fintech Teams Choose You</h2>
+          <h2 className="text-2xl font-semibold text-white">Why Healthcare Teams Choose You</h2>
           <div className="mt-4 grid gap-3 md:grid-cols-2">
             {[
-              "Fast Delivery: Weekly demos and transparent sprints.",
-              "Compliance-First: Architecture designed for audits and security reviews.",
-              "Scale Ready: Built for high throughput and uptime.",
-              "Product Thinking: UX, growth, and operational workflows included.",
+              "HIPAA-Ready Architecture: Built with healthcare compliance in mind.",
+              "Better Patient Experiences: Simple UX for patients and providers.",
+              "Interoperability Expertise: Deep experience with healthcare standards.",
+              "Reliable Delivery: Fast execution with production-grade systems.",
             ].map((item) => (
               <p key={item} className="rounded-xl border border-white/10 bg-black/25 px-4 py-3 text-slate-100">
                 {item}
@@ -198,10 +201,8 @@ const FintechLanding = () => {
 
         <section className="space-y-3 rounded-2xl border border-white/15 bg-black/30 p-6">
           <h2 className="text-2xl font-semibold text-white">Process</h2>
-          <p className="text-slate-200">Discover → Architecture → Build → Compliance Review → Launch</p>
-          <p className="text-sm text-slate-300">
-            Code ownership, documentation, and deployment pipelines included.
-          </p>
+          <p className="text-slate-200">Discovery → UX & Compliance → Development → Security Testing → Launch & Support</p>
+          <p className="text-sm text-slate-300">From MVPs to enterprise healthcare systems.</p>
         </section>
 
         <section className="glass-card rounded-2xl p-6">
@@ -210,13 +211,13 @@ const FintechLanding = () => {
             {faqs.map((question, index) => (
               <AccordionItem
                 key={question}
-                value={`fintech-faq-${index}`}
+                value={`healthcare-faq-${index}`}
                 className="rounded-xl border border-white/10 bg-black/30 px-4"
               >
                 <AccordionTrigger className="text-left text-slate-100">{question}</AccordionTrigger>
                 <AccordionContent className="text-slate-300">
-                  We map your current requirements, propose the quickest compliant architecture, and align delivery to
-                  your business timeline.
+                  We scope your workflows, align security and interoperability requirements early, and deliver in
+                  production-ready weekly milestones.
                 </AccordionContent>
               </AccordionItem>
             ))}
@@ -224,9 +225,9 @@ const FintechLanding = () => {
         </section>
 
         <section className="glass-card rounded-2xl p-6 text-center">
-          <h2 className="text-3xl font-semibold text-white md:text-4xl">Building the next fintech category leader?</h2>
+          <h2 className="text-3xl font-semibold text-white md:text-4xl">Building the future of digital healthcare?</h2>
           <p className="mx-auto mt-3 max-w-3xl text-slate-200">
-            Talk to a team that understands compliance, scale, and shipping velocity.
+            Partner with a product team experienced in healthcare compliance, interoperability, and patient-first UX.
           </p>
           <div className="mt-5 flex flex-wrap justify-center gap-3">
             <Button onClick={scrollToForm} className="btn-gloss">
@@ -239,13 +240,16 @@ const FintechLanding = () => {
           </div>
         </section>
 
-        <ProjectContactForm
-          formHeading="Start your fintech project"
-          formSubheading="Fill this form and get your proposal in 24 hours."
-        />
+        <section id="contact-form" className="glass-card rounded-2xl p-6">
+          <div className="mb-4 text-center">
+            <h2 className="text-2xl font-semibold text-white">Start your healthcare project</h2>
+            <p className="mt-2 text-slate-300">Share your use case and we will map your roadmap in 24 hours.</p>
+          </div>
+          <SimpleContactForm sourcePage="healthcare-landing" />
+        </section>
       </div>
     </WorkShell>
   );
 };
 
-export default FintechLanding;
+export default HealthcareLanding;

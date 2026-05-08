@@ -506,12 +506,12 @@ const WebinarPage = () => {
                 <div className="flex items-center justify-center gap-3 mb-4">
                   <img 
                     src="/logo.png" 
-                    alt="BoostMySites Logo" 
+                    alt="Boostmysites Logo" 
                     className="w-12 h-12 object-contain"
                   />
                   <div className="text-left">
-                    <div className="text-white font-bold text-lg">BoostMySites</div>
-                    <div className="text-white/80 text-sm">Hosted by BoostMySites</div>
+                    <div className="text-white font-bold text-lg">Boostmysites</div>
+                    <div className="text-white/80 text-sm">Hosted by Boostmysites</div>
                   </div>
                 </div>
               </div>

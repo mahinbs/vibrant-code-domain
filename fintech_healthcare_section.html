@@ -1,0 +1,365 @@
+
+<style>
+.sec-wrap{padding:1rem 0 2rem;width:100%}
+.sec-header{position:relative;min-height:280px;margin-bottom:2.5rem;overflow:visible}
+.sec-watermark{
+  pointer-events:none;
+  position:absolute;
+  left:0;
+  top:0;
+  width:100%;
+  max-width:none;
+  user-select:none;
+  text-align:left;
+  font-weight:700;
+  text-transform:uppercase;
+  line-height:.88;
+  letter-spacing:.02em;
+  opacity:.32;
+  font-size:clamp(2.5rem, min(12vw, 11rem), 11rem);
+  background-image:linear-gradient(180deg, rgb(140, 178, 255) 0%, rgb(88, 132, 255) 28%, rgb(48, 88, 210) 58%, rgb(18, 32, 72) 88%, rgb(8, 14, 36) 100%);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+.sec-header-content{position:relative;z-index:2;margin-left:auto;margin-top:0;display:flex;max-width:680px;flex-direction:column;align-items:flex-end;gap:10px;padding-top:0;text-align:right}
+.sec-eyebrow{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--color-text-secondary);margin-bottom:.3rem}
+.sec-eyebrow i{font-size:14px}
+.sec-h2{font-size:44px;font-weight:500;letter-spacing:-.04em;line-height:1.05em;color:var(--color-text-primary);margin:0}
+.sec-sub{font-size:18px;color:var(--color-text-secondary);max-width:540px;margin:0;line-height:1.6}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.col-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.5rem;display:flex;flex-direction:column;gap:1.25rem}
+.col-card{
+  position:relative;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:20px;
+  background:linear-gradient(180deg, rgba(18,38,96,.55) 0%, rgba(6,12,30,.92) 52%, rgba(0,0,0,.98) 100%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.08);
+}
+.col-card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  opacity:.45;
+  background-image:
+    linear-gradient(rgba(120,145,220,.10) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(120,145,220,.10) 1px, transparent 1px);
+  background-size:28px 28px;
+}
+.col-card > *{position:relative;z-index:1}
+.col-card:first-child{border-top:2px solid #7F77DD}
+.col-card:last-child{border-top:2px solid #1D9E75}
+.col-header{display:flex;align-items:flex-start;justify-content:space-between}
+.col-title-group{}
+.vert-label{font-size:11px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;margin:0 0 4px}
+.fin-label{color:#534AB7}
+.hlt-label{color:#0F6E56}
+.col-title{font-size:16px;font-weight:500;color:var(--color-text-primary);margin:0}
+.col-badge{font-size:11px;font-weight:600;padding:5px 11px;border-radius:999px;border:1px solid rgba(255,255,255,.24);background:rgba(255,255,255,.85)}
+.fin-badge{color:#3C3489}
+.hlt-badge{color:#085041}
+.phone-frame{
+  width:100%;aspect-ratio:9/16;max-height:280px;
+  border-radius:24px;
+  border:1.5px solid var(--color-border-secondary);
+  background:var(--color-background-secondary);
+  overflow:hidden;position:relative;
+  display:flex;flex-direction:column;
+  align-self:center;
+}
+.phone-notch{
+  width:60px;height:8px;background:var(--color-border-secondary);
+  border-radius:0 0 8px 8px;margin:8px auto 0;flex-shrink:0;align-self:center;
+}
+.phone-screen{flex:1;display:flex;flex-direction:column;gap:6px;padding:10px 10px 6px;overflow:hidden}
+.screen-row{display:flex;align-items:center;gap:6px}
+.avatar-sm{width:24px;height:24px;border-radius:50%;flex-shrink:0}
+.fin-av{background:#AFA9EC}
+.hlt-av{background:#9FE1CB}
+.txt-sm{height:8px;border-radius:4px;background:var(--color-border-tertiary)}
+.txt-xs{height:6px;border-radius:3px;background:var(--color-border-tertiary);opacity:.6}
+.balance-card{
+  border-radius:10px;padding:10px 12px;margin:2px 0;
+}
+.fin-card-bg{background:#EEEDFE}
+.hlt-card-bg{background:#E1F5EE}
+.balance-label{font-size:9px;font-weight:500;margin:0 0 2px}
+.fin-text{color:#534AB7}
+.hlt-text{color:#0F6E56}
+.balance-amount{font-size:16px;font-weight:500;margin:0}
+.fin-amount{color:#3C3489}
+.hlt-amount{color:#085041}
+.mini-row{display:flex;gap:4px;margin:2px 0}
+.mini-card{flex:1;border-radius:6px;padding:5px 6px;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary)}
+.mini-label{font-size:8px;color:var(--color-text-secondary);margin:0 0 2px}
+.mini-val{font-size:10px;font-weight:500;color:var(--color-text-primary);margin:0}
+.tx-list{display:flex;flex-direction:column;gap:4px;margin-top:2px}
+.tx-row{display:flex;align-items:center;justify-content:space-between}
+.tx-dot{width:18px;height:18px;border-radius:50%;flex-shrink:0}
+.tx-info{flex:1;margin-left:6px;display:flex;flex-direction:column;gap:1px}
+.tx-name{height:6px;border-radius:3px;background:var(--color-border-secondary);width:60%}
+.tx-sub{height:5px;border-radius:2px;background:var(--color-border-tertiary);width:40%;opacity:.5}
+.tx-amt{font-size:9px;font-weight:500}
+.fin-tx{color:#3C3489}
+.hlt-tx{color:#085041}
+.apt-row{display:flex;align-items:center;gap:6px;background:var(--color-background-primary);border-radius:6px;padding:5px 6px;border:0.5px solid var(--color-border-tertiary)}
+.apt-time{font-size:9px;font-weight:500;color:#0F6E56;width:28px;flex-shrink:0}
+.apt-info{flex:1;display:flex;flex-direction:column;gap:1px}
+.apt-name{height:6px;border-radius:3px;background:var(--color-border-secondary);width:70%}
+.apt-type{height:5px;border-radius:2px;background:#9FE1CB;width:45%;opacity:.8}
+.apt-av{width:18px;height:18px;border-radius:50%;background:#9FE1CB;flex-shrink:0}
+.vitals-row{display:grid;grid-template-columns:1fr 1fr;gap:4px}
+.vital-card{border-radius:6px;padding:5px 6px;display:flex;flex-direction:column;gap:2px;border:0.5px solid var(--color-border-tertiary);background:var(--color-background-primary)}
+.vital-icon{font-size:12px;color:#1D9E75;margin-bottom:1px}
+.vital-val{font-size:11px;font-weight:500;color:var(--color-text-primary);margin:0}
+.vital-label{font-size:8px;color:var(--color-text-secondary);margin:0}
+.capabilities{display:flex;flex-direction:column;gap:8px}
+.cap-item{display:flex;align-items:flex-start;gap:8px}
+.cap-icon{width:28px;height:28px;border-radius:var(--border-radius-md);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.fin-icon{background:#EEEDFE}
+.fin-icon i{color:#534AB7;font-size:14px}
+.hlt-icon{background:#E1F5EE}
+.hlt-icon i{color:#0F6E56;font-size:14px}
+.cap-text{}
+.cap-title{font-size:13px;font-weight:600;color:var(--color-text-primary);margin:0 0 1px}
+.cap-desc{font-size:12px;color:var(--color-text-secondary);margin:0;line-height:1.5}
+.compliance-row{display:flex;flex-wrap:wrap;gap:6px;border-top:0.5px solid var(--color-border-tertiary);padding-top:1rem}
+.comp-badge{font-size:11px;font-weight:600;padding:4px 9px;border-radius:999px;border:0.5px solid}
+.fin-comp{background:#EEEDFE;color:#3C3489;border-color:#AFA9EC}
+.hlt-comp{background:#E1F5EE;color:#085041;border-color:#5DCAA5}
+.card-cta{margin-top:10px;display:inline-flex;align-items:center;justify-content:center;width:100%;min-height:42px;border-radius:10px;text-decoration:none;font-size:13px;font-weight:700;letter-spacing:.01em;border:0.5px solid transparent;transition:transform .2s ease,filter .2s ease}
+.card-cta:hover{transform:translateY(-1px);filter:brightness(1.04)}
+.card-cta:focus-visible{outline:none;box-shadow:0 0 0 2px rgba(143,178,255,.45)}
+.fin-cta{background:#EEEDFE;color:#2A1D8F;border-color:#AFA9EC}
+.hlt-cta{background:#E1F5EE;color:#0F6E56;border-color:#5DCAA5}
+.comp-label{font-size:11px;color:var(--color-text-secondary);align-self:center}
+
+@media (max-width:768px){
+  .sec-header{min-height:auto}
+  .sec-watermark{
+    top:0;
+    opacity:.26;
+  }
+  .sec-header-content{
+    max-width:100%;
+  }
+  .sec-h2{font-size:32px}
+  .sec-sub{font-size:16px}
+}
+</style>
+
+<div class="sec-wrap">
+  <div class="sec-header">
+    <p class="sec-watermark" aria-hidden="true">OUR EXPERTISE</p>
+  </div>
+
+  <div class="cols">
+
+    <!-- FINTECH COLUMN -->
+    <div class="col-card">
+      <div class="col-header">
+        <div class="col-title-group">
+          <p class="vert-label fin-label">Fintech</p>
+          <p class="col-title">Financial infrastructure<br>built to be trusted.</p>
+        </div>
+        <span class="col-badge fin-badge">35+ shipped</span>
+      </div>
+
+      <!-- Phone mockup -->
+      <div style="display:flex;justify-content:center">
+      <div class="phone-frame" style="max-width:160px">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <div class="screen-row">
+            <div class="avatar-sm fin-av"></div>
+            <div style="flex:1;display:flex;flex-direction:column;gap:3px">
+              <div class="txt-sm" style="width:50%"></div>
+              <div class="txt-xs" style="width:35%"></div>
+            </div>
+            <i class="ti ti-bell" style="font-size:14px;color:var(--color-text-secondary)" aria-hidden="true"></i>
+          </div>
+          <div class="balance-card fin-card-bg">
+            <p class="balance-label fin-text">Total portfolio</p>
+            <p class="balance-amount fin-amount">$84,230.50</p>
+            <div style="display:flex;gap:4px;margin-top:4px;align-items:center">
+              <i class="ti ti-trending-up" style="font-size:11px;color:#534AB7" aria-hidden="true"></i>
+              <span style="font-size:9px;color:#534AB7;font-weight:500">+12.4% this month</span>
+            </div>
+          </div>
+          <div class="mini-row">
+            <div class="mini-card"><p class="mini-label">Savings</p><p class="mini-val fin-text">$12.4k</p></div>
+            <div class="mini-card"><p class="mini-label">Invested</p><p class="mini-val fin-text">$71.8k</p></div>
+            <div class="mini-card"><p class="mini-label">P&L</p><p class="mini-val fin-text">+8.3%</p></div>
+          </div>
+          <div class="tx-list">
+            <div class="tx-row">
+              <div class="tx-dot" style="background:#EEEDFE"></div>
+              <div class="tx-info"><div class="tx-name"></div><div class="tx-sub"></div></div>
+              <span class="tx-amt fin-tx">-$42.00</span>
+            </div>
+            <div class="tx-row">
+              <div class="tx-dot" style="background:#EEEDFE"></div>
+              <div class="tx-info"><div class="tx-name" style="width:50%"></div><div class="tx-sub" style="width:30%"></div></div>
+              <span class="tx-amt fin-tx">+$320</span>
+            </div>
+            <div class="tx-row">
+              <div class="tx-dot" style="background:#EEEDFE"></div>
+              <div class="tx-info"><div class="tx-name" style="width:45%"></div><div class="tx-sub" style="width:35%"></div></div>
+              <span class="tx-amt fin-tx">-$156</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+
+      <!-- Capabilities -->
+      <div class="capabilities">
+        <div class="cap-item">
+          <div class="cap-icon fin-icon"><i class="ti ti-credit-card" aria-hidden="true"></i></div>
+          <div class="cap-text">
+            <p class="cap-title">Payment infrastructure</p>
+            <p class="cap-desc">PSP integrations, wallets, split settlements, and reconciliation at scale.</p>
+          </div>
+        </div>
+        <div class="cap-item">
+          <div class="cap-icon fin-icon"><i class="ti ti-chart-candle" aria-hidden="true"></i></div>
+          <div class="cap-text">
+            <p class="cap-title">Lending & wealth platforms</p>
+            <p class="cap-desc">Credit scoring, loan origination, portfolio dashboards, and trading UIs.</p>
+          </div>
+        </div>
+        <div class="cap-item">
+          <div class="cap-icon fin-icon"><i class="ti ti-fingerprint" aria-hidden="true"></i></div>
+          <div class="cap-text">
+            <p class="cap-title">KYC / AML compliance</p>
+            <p class="cap-desc">Identity verification flows, sanctions screening, and audit trail logging.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Compliance badges -->
+      <div class="compliance-row">
+        <span class="comp-label">Compliant with</span>
+        <span class="comp-badge fin-comp">PCI-DSS</span>
+        <span class="comp-badge fin-comp">ISO 27001</span>
+        <span class="comp-badge fin-comp">SOC 2</span>
+        <span class="comp-badge fin-comp">RBI guidelines</span>
+      </div>
+      <a class="card-cta fin-cta" href="/fintech-landing" target="_top" rel="noopener noreferrer">See fintech landing page</a>
+    </div>
+
+    <!-- HEALTHCARE COLUMN -->
+    <div class="col-card">
+      <div class="col-header">
+        <div class="col-title-group">
+          <p class="vert-label hlt-label">Healthcare</p>
+          <p class="col-title">Patient-first products,<br>regulation-ready.</p>
+        </div>
+        <span class="col-badge hlt-badge">25+ shipped</span>
+      </div>
+
+      <!-- Phone mockup -->
+      <div style="display:flex;justify-content:center">
+      <div class="phone-frame" style="max-width:160px">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <div class="screen-row">
+            <div class="avatar-sm hlt-av"></div>
+            <div style="flex:1;display:flex;flex-direction:column;gap:3px">
+              <div class="txt-sm" style="width:55%"></div>
+              <div class="txt-xs" style="width:40%"></div>
+            </div>
+            <i class="ti ti-bell" style="font-size:14px;color:var(--color-text-secondary)" aria-hidden="true"></i>
+          </div>
+          <div class="balance-card hlt-card-bg">
+            <p class="balance-label hlt-text">Next appointment</p>
+            <p class="balance-amount hlt-amount" style="font-size:13px;margin:2px 0">Dr. Priya Nair</p>
+            <div style="display:flex;gap:4px;margin-top:3px;align-items:center">
+              <i class="ti ti-calendar" style="font-size:11px;color:#0F6E56" aria-hidden="true"></i>
+              <span style="font-size:9px;color:#0F6E56;font-weight:500">Tomorrow, 10:30 AM · Cardiology</span>
+            </div>
+          </div>
+          <div class="vitals-row">
+            <div class="vital-card">
+              <i class="ti ti-heart" class="vital-icon" style="font-size:12px;color:#1D9E75" aria-hidden="true"></i>
+              <p class="vital-val">72 bpm</p>
+              <p class="vital-label">Heart rate</p>
+            </div>
+            <div class="vital-card">
+              <i class="ti ti-activity" class="vital-icon" style="font-size:12px;color:#1D9E75" aria-hidden="true"></i>
+              <p class="vital-val">118/76</p>
+              <p class="vital-label">Blood pressure</p>
+            </div>
+            <div class="vital-card">
+              <i class="ti ti-droplet" class="vital-icon" style="font-size:12px;color:#1D9E75" aria-hidden="true"></i>
+              <p class="vital-val">98 mg/dL</p>
+              <p class="vital-label">Blood glucose</p>
+            </div>
+            <div class="vital-card">
+              <i class="ti ti-lungs" class="vital-icon" style="font-size:12px;color:#1D9E75" aria-hidden="true"></i>
+              <p class="vital-val">99%</p>
+              <p class="vital-label">SpO₂</p>
+            </div>
+          </div>
+          <div class="tx-list">
+            <div class="apt-row">
+              <span class="apt-time">10:30</span>
+              <div class="apt-info"><div class="apt-name"></div><div class="apt-type"></div></div>
+              <div class="apt-av"></div>
+            </div>
+            <div class="apt-row">
+              <span class="apt-time">02:00</span>
+              <div class="apt-info"><div class="apt-name" style="width:60%"></div><div class="apt-type" style="width:35%"></div></div>
+              <div class="apt-av"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+
+      <!-- Capabilities -->
+      <div class="capabilities">
+        <div class="cap-item">
+          <div class="cap-icon hlt-icon"><i class="ti ti-file-medical" aria-hidden="true"></i></div>
+          <div class="cap-text">
+            <p class="cap-title">EHR / EMR integrations</p>
+            <p class="cap-desc">HL7 and FHIR API work that connects your product to existing health records.</p>
+          </div>
+        </div>
+        <div class="cap-item">
+          <div class="cap-icon hlt-icon"><i class="ti ti-device-mobile" aria-hidden="true"></i></div>
+          <div class="cap-text">
+            <p class="cap-title">Telehealth platforms</p>
+            <p class="cap-desc">Video consult, async messaging, e-prescriptions, and remote monitoring apps.</p>
+          </div>
+        </div>
+        <div class="cap-item">
+          <div class="cap-icon hlt-icon"><i class="ti ti-shield-lock" aria-hidden="true"></i></div>
+          <div class="cap-text">
+            <p class="cap-title">Compliant data architecture</p>
+            <p class="cap-desc">Encryption at rest and in transit, role-based access, and full audit logs.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Compliance badges -->
+      <div class="compliance-row">
+        <span class="comp-label">Compliant with</span>
+        <span class="comp-badge hlt-comp">HIPAA</span>
+        <span class="comp-badge hlt-comp">HL7 FHIR</span>
+        <span class="comp-badge hlt-comp">DISHA</span>
+        <span class="comp-badge hlt-comp">ISO 13485</span>
+      </div>
+      <a class="card-cta hlt-cta" href="/healthcare-landing" target="_top" rel="noopener noreferrer">See healthcare landing page</a>
+    </div>
+
+  </div>
+
+  <div class="sec-header-content" style="margin:1.75rem auto 0;align-items:center;text-align:center;max-width:860px;padding-top:0">
+    <h2 class="sec-h2">Where compliance meets code.</h2>
+    <p class="sec-sub" style="max-width:860px">60+ products shipped in the two hardest-to-build verticals. We know the standards before we write the first line.</p>
+  </div>
+</div>

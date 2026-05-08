@@ -781,3 +781,229 @@ video {
   white-space: nowrap;
   display: inline-block;
 }
+
+/* ===========================================================================
+   Work / Case Study (new design language ported from bmsrevampweb).
+   All rules below are scoped to .work-shell so they cannot affect any of the
+   existing pages. The shell wraps the new /work and /work/:slug routes only.
+   =========================================================================*/
+
+.work-shell {
+  --wk-purple: rgb(72, 118, 255);
+  --wk-bright: rgb(108, 148, 255);
+  --wk-dark: rgb(22, 36, 74);
+  --wk-darker: rgb(14, 26, 52);
+  --wk-deepest: rgb(6, 10, 22);
+  position: relative;
+  min-height: 100vh;
+  background: #000;
+  color: #fff;
+  font-family: "Inter", "Inter Placeholder", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  isolation: isolate;
+}
+
+.work-shell *:focus-visible {
+  outline: 2px solid rgba(96, 142, 255, 0.55);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+@keyframes work-glow-pulse {
+  0%, 100% { opacity: 0.38; }
+  50% { opacity: 0.72; }
+}
+
+@keyframes work-drop {
+  from { transform: translateY(0); opacity: 0; }
+  15% { opacity: 1; }
+  to { transform: translateY(calc(100vh + 220px)); opacity: 0; }
+}
+
+.work-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.work-backdrop__grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(68, 114, 255, 0.075) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(68, 114, 255, 0.075) 1px, transparent 1px);
+  background-size: 80px 80px;
+}
+
+.work-backdrop__glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(70vw, 640px);
+  height: min(70vw, 640px);
+  transform: translate(-50%, -50%);
+  border-radius: 999px;
+  background: rgba(55, 115, 220, 0.14);
+  filter: blur(120px);
+  animation: work-glow-pulse 3s ease-in-out infinite;
+  opacity: 0.75;
+}
+
+.work-backdrop__squares { position: absolute; inset: 0; }
+.work-backdrop__square {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  background: rgba(68, 120, 255, 0.1);
+  border: 1px solid rgba(82, 128, 255, 0.16);
+  border-radius: 4px;
+  transition: top 1s ease, left 1s ease, opacity 1s ease;
+  will-change: transform, opacity;
+}
+
+.work-backdrop__drops { position: absolute; inset: 0; overflow: hidden; }
+.work-backdrop__drop {
+  position: absolute;
+  top: -150px;
+  width: 2px;
+  height: 150px;
+  background: linear-gradient(to bottom, transparent, rgba(96, 142, 255, 0.78));
+  animation-name: work-drop;
+  animation-timing-function: linear;
+  animation-fill-mode: both;
+}
+
+.work-backdrop__spotlight {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    520px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(72, 130, 255, 0.1),
+    transparent 42%
+  );
+  transition: opacity 0.25s ease;
+}
+
+.work-backdrop__noise {
+  position: absolute;
+  inset: 0;
+  opacity: 0.028;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .work-backdrop__glow { animation: none; opacity: 0.45; }
+  .work-backdrop__square { transition: none; }
+  .work-backdrop__spotlight { opacity: 0; visibility: hidden; }
+}
+
+.work-shell .text-gradient {
+  background-image: radial-gradient(
+    80% 134% at 1.6% -10%,
+    rgba(255, 255, 255, 0.55) 0%,
+    #fff 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.work-shell .btn-gloss {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+.work-shell .btn-gloss::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    147deg,
+    rgba(255, 255, 255, 0) 41%,
+    rgba(0, 0, 0, 0.5) 100%
+  );
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.work-shell .work-watermark {
+  pointer-events: none;
+  user-select: none;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  line-height: 0.88;
+  font-size: clamp(2.5rem, min(12vw, 11rem), 11rem);
+  background-image: linear-gradient(
+    180deg,
+    rgb(140, 178, 255) 0%,
+    rgb(88, 132, 255) 28%,
+    rgb(48, 88, 210) 58%,
+    rgb(18, 32, 72) 88%,
+    rgb(8, 14, 36) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  opacity: 0.32;
+}
+@media (max-width: 768px) {
+  .work-shell .work-watermark { opacity: 0.26; }
+}
+
+.work-shell .glass-card {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.04) 0%,
+    rgba(0, 0, 0, 0.5) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+}
+
+.work-shell .glass-card-soft {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.04) 0%,
+    rgba(0, 0, 0, 0.45) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+}
+
+.work-shell .work-icon-tile {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  background: radial-gradient(
+    120% 100% at 50% 0%,
+    rgba(72, 118, 255, 0.45),
+    rgba(0, 0, 0, 0.6)
+  );
+}
+
+.work-shell p,
+.work-shell span,
+.work-shell div,
+.work-shell li,
+.work-shell td,
+.work-shell th,
+.work-shell label,
+.work-shell small {
+  color: inherit;
+}
+
+/* Smooth in-page scroll for the focus deep-link only on the new shell */
+.work-shell {
+  scroll-behavior: smooth;
+}

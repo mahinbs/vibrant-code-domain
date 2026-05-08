@@ -1,0 +1,185 @@
+
+<style>
+  .morph-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1rem;
+    min-height: 220px;
+  }
+  .terminal-line {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    font-family: var(--font-mono, 'Courier New', monospace);
+  }
+  .prompt {
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    margin-right: 2px;
+    user-select: none;
+  }
+  .morph-text {
+    font-size: 36px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    letter-spacing: -0.5px;
+    min-width: 2ch;
+  }
+  .cursor {
+    display: inline-block;
+    width: 3px;
+    height: 38px;
+    background: var(--color-text-primary);
+    margin-left: 3px;
+    vertical-align: middle;
+    border-radius: 1px;
+    animation: blink 1s step-end infinite;
+  }
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+  .label-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .label-pill {
+    font-family: var(--font-mono, monospace);
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    border: 0.5px solid var(--color-border-secondary);
+    color: var(--color-text-tertiary);
+    transition: all 0.3s ease;
+    cursor: default;
+  }
+  .label-pill.active {
+    border-color: var(--color-border-primary);
+    color: var(--color-text-primary);
+    background: var(--color-background-secondary);
+  }
+</style>
+
+<h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Morphing text animation cycling through fintech product categories</h2>
+
+<div class="morph-wrap">
+  <div class="terminal-line">
+    <span class="prompt">&gt;&nbsp;</span>
+    <span class="morph-text" id="morph"></span>
+    <span class="cursor" id="cur"></span>
+  </div>
+  <div class="label-row" id="pills"></div>
+</div>
+
+<script>
+const words = [
+  { label: "fintech", display: "fintech" },
+  { label: "stock_market", display: "stock_market" },
+  { label: "platform", display: "platform" },
+  { label: "payment_gateways", display: "payment_gateways" },
+  { label: "lending_platforms", display: "lending_platforms" },
+];
+
+const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%&*!<>/{}[]";
+const el = document.getElementById("morph");
+const pillsEl = document.getElementById("pills");
+const curEl = document.getElementById("cur");
+
+let current = 0;
+
+words.forEach((w, i) => {
+  const p = document.createElement("span");
+  p.className = "label-pill" + (i === 0 ? " active" : "");
+  p.textContent = w.label;
+  p.id = "pill-" + i;
+  pillsEl.appendChild(p);
+});
+
+function setActivePill(idx) {
+  words.forEach((_, i) => {
+    document.getElementById("pill-" + i).className = "label-pill" + (i === idx ? " active" : "");
+  });
+}
+
+function scramble(from, to, onDone) {
+  const maxLen = Math.max(from.length, to.length);
+  let frame = 0;
+  const totalFrames = 18;
+  curEl.style.animation = "none";
+  curEl.style.opacity = "1";
+
+  const tick = setInterval(() => {
+    frame++;
+    const progress = frame / totalFrames;
+    let result = "";
+    for (let i = 0; i < maxLen; i++) {
+      if (i < to.length) {
+        if (Math.random() < progress * 1.4 || frame > totalFrames - 3) {
+          result += to[i];
+        } else {
+          result += CHARS[Math.floor(Math.random() * CHARS.length)];
+        }
+      }
+    }
+    el.textContent = result;
+    if (frame >= totalFrames) {
+      clearInterval(tick);
+      el.textContent = to;
+      curEl.style.animation = "blink 1s step-end infinite";
+      onDone();
+    }
+  }, 40);
+}
+
+function typeIn(text, onDone) {
+  let i = 0;
+  el.textContent = "";
+  curEl.style.animation = "blink 1s step-end infinite";
+  const tick = setInterval(() => {
+    i++;
+    el.textContent = text.slice(0, i);
+    if (i >= text.length) {
+      clearInterval(tick);
+      setTimeout(onDone, 1400);
+    }
+  }, 60);
+}
+
+function deleteOut(text, onDone) {
+  let i = text.length;
+  curEl.style.animation = "none";
+  curEl.style.opacity = "1";
+  const tick = setInterval(() => {
+    i--;
+    el.textContent = text.slice(0, i);
+    if (i <= 0) {
+      clearInterval(tick);
+      setTimeout(onDone, 120);
+    }
+  }, 38);
+}
+
+function run() {
+  const word = words[current].display;
+  setActivePill(current);
+
+  typeIn(word, () => {
+    deleteOut(word, () => {
+      current = (current + 1) % words.length;
+      const next = words[current].display;
+      setActivePill(current);
+      scramble("", next, () => {
+        setTimeout(run, 200);
+      });
+    });
+  });
+}
+
+setTimeout(run, 400);
+</script>
