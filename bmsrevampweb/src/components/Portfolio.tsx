@@ -82,7 +82,7 @@ export function Portfolio() {
       </div>
 
       <div className="grid grid-cols-3 gap-5 w-full max-md:grid-cols-2 max-sm:grid-cols-1">
-        {filteredCards.map((p) => (
+        {filteredCards.slice(0, 3).map((p) => (
           <a
             key={p.id}
             href={workCaseStudyUrl(p.slug)}
@@ -145,10 +145,10 @@ export function Portfolio() {
         href={workUrl()}
         target="_top"
         rel="noopener"
-        className="inline-flex items-center gap-2 px-5 py-3 rounded-[10px] border border-white/15 bg-white/5 text-sm font-medium text-white/90 transition-colors hover:bg-white/10 hover:text-white"
+        className="btn-gloss relative inline-flex items-center gap-2 overflow-hidden rounded-[10px] border border-[#4b78ff]/70 bg-[linear-gradient(180deg,#2f5eff_0%,#254dcf_100%)] px-5 py-3 text-sm font-semibold text-white shadow-[inset_0_0_8px_2px_rgba(255,255,255,0.18)]"
       >
-        View full portfolio
-        <ArrowRightIcon className="size-4" />
+        <span className="relative z-[2]">View portfolio</span>
+        <ArrowRightIcon className="relative z-[2] size-4" />
       </a>
     </section>
   );

@@ -5,9 +5,9 @@ export function FintechHealthcareSection() {
   const revampOrigin =
     typeof window !== "undefined" ? window.location.origin : "";
   const sectionHtml = fintechHealthcareSectionHtml
-    .replaceAll('href="/fintech-landing"', `href="${revampOrigin}/fintech-landing"`)
-    .replaceAll(
-      'href="/healthcare-landing"',
+    .replace(/href="\/fintech-landing"/g, `href="${revampOrigin}/fintech-landing"`)
+    .replace(
+      /href="\/healthcare-landing"/g,
       `href="${revampOrigin}/healthcare-landing"`,
     );
 

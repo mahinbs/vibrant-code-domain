@@ -27,7 +27,7 @@ export function Process() {
           HOW WE WORK
         </p>
 
-        <div className="relative z-[2] ml-auto mt-[clamp(2.75rem,9vw,6.5rem)] flex max-w-[680px] flex-col items-end gap-5 pt-1 text-right">
+        <div className="relative z-[2] ml-auto mt-[clamp(5.5rem,14vw,10rem)] flex max-w-[680px] flex-col items-end gap-5 pt-1 text-right">
           <h2 className="text-[44px] font-medium -tracking-[0.04em] leading-[1.05em] text-white max-md:text-3xl">
             From kickoff to launch in four steps.
           </h2>
