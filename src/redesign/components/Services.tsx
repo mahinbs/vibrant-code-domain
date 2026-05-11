@@ -25,7 +25,7 @@ export function Services() {
     <>
       <section
         id="services"
-        className="w-full max-w-[1920px] overflow-x-hidden pt-[120px] px-10 pb-10 flex flex-col gap-4 relative max-md:pt-20 max-md:px-5"
+        className="relative flex w-full max-w-[1920px] flex-col gap-4 overflow-x-hidden px-5 py-16 md:px-10 md:py-24"
         style={{
           background:
             "radial-gradient(50% 40% at 50% 30%, var(--color-dark-purple) 0%, rgba(0,0,0,0) 100%)",

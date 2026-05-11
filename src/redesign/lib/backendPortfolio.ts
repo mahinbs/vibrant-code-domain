@@ -48,6 +48,7 @@ export function normalizeBackendPortfolio(rows: RawPortfolioRow[]): PortfolioIte
     const id = asText(row.id) || slug;
     const industry = asText(row.industry) || "Portfolio";
     const outcome = asText(row.outcome) || asText(row.impact) || asText(row.business_result) || "Delivered measurable results.";
+    const description = asText(row.description);
     const stack = parseStack(row.stack ?? row.technologies ?? row.tech_stack);
     const image = asText(row.image) || undefined;
     const serviceId = asText(row.service_id) || undefined;
@@ -61,6 +62,7 @@ export function normalizeBackendPortfolio(rows: RawPortfolioRow[]): PortfolioIte
       title,
       industry: industry || vertical || category || "Portfolio",
       outcome,
+      ...(description ? { description } : {}),
       stack,
       image,
       gradient,

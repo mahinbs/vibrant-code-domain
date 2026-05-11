@@ -18,7 +18,7 @@ export function RedesignHomePage() {
     <RedesignShell>
       <SiteBackground />
       <Nav />
-      <main className="relative z-10 w-full max-w-[1920px] mx-auto flex flex-col items-center pb-[80px] overflow-x-hidden">
+      <main className="relative z-10 mx-auto flex w-full max-w-[1920px] flex-col items-center overflow-x-hidden pb-16 md:pb-24">
         <Hero />
         <Stats />
         <FintechHealthcareSection />

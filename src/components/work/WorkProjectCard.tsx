@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import type { WorkProject } from "@/data/workMock";
+import { WORK_PRIMARY_GLOSS_CTA_H10, WORK_PRIMARY_GLOSS_CTA_INNER } from "./primitives/ctaStyles";
 import { ArrowRightIcon } from "./primitives/icons";
 
 type Props = {
@@ -63,12 +64,11 @@ export function WorkProjectCard({ project }: Props) {
         </div>
 
         <div className="mt-auto flex items-center justify-between">
-          <Link
-            to={`/work/${project.slug}`}
-            className="btn-gloss group/btn relative inline-flex h-10 items-center gap-1.5 overflow-hidden rounded-[10px] border border-[#4b78ff]/70 bg-[linear-gradient(180deg,#2f5eff_0%,#254dcf_100%)] px-3 text-[12px] font-semibold text-white shadow-[inset_0_0_8px_2px_rgba(255,255,255,0.18)] transition-opacity hover:opacity-95"
-          >
-            <span className="relative z-[2]">View case study</span>
-            <ArrowRightIcon className="relative z-[2] size-3.5 transition-transform group-hover/btn:translate-x-0.5" />
+          <Link to={`/work/${project.slug}`} className={WORK_PRIMARY_GLOSS_CTA_H10}>
+            <span className={WORK_PRIMARY_GLOSS_CTA_INNER}>View case study</span>
+            <ArrowRightIcon
+              className={`${WORK_PRIMARY_GLOSS_CTA_INNER} size-3.5 transition-transform group-hover/btn:translate-x-0.5`}
+            />
           </Link>
           <span className="text-[11px] uppercase tracking-[0.08em] text-white/45">
             {project.timeline}

@@ -50,25 +50,58 @@ export default function HealthcarePortfolioLanding() {
         { title: "AI Medical Assistants", description: "Intake, triage support, and documentation acceleration layers." },
         { title: "Healthcare SaaS", description: "Multi-tenant healthcare products with compliance-first architecture." },
       ]}
-      differentiatorTitle="Built differently from traditional agencies"
-      differentiatorItems={[
-        "Senior-only product and engineering teams",
-        "Weekly shipping cadence with sprint visibility",
-        "Compliance-aware architecture from sprint one",
-        "Full IP transfer and code ownership",
-        "Embedded QA, observability, and release discipline",
-        "24/7 operational support for critical flows",
+      operatingModelPillars={[
+        {
+          title: "Sprint visibility",
+          body: "Weekly demos and transparent execution—clinical and product stakeholders stay aligned as you ship.",
+        },
+        {
+          title: "HIPAA-aware architecture",
+          body: "PHI boundaries, audit trails, and secure workflows from day one—not bolt-on compliance after launch.",
+        },
+        {
+          title: "Senior engineering teams",
+          body: "Senior-heavy product and engineering with full IP transfer—no junior-heavy outsourcing pipeline.",
+        },
+        {
+          title: "Production discipline",
+          body: "Observability, QA, CI/CD guardrails, rollback planning, and operational readiness for always-on care systems.",
+        },
       ]}
       scaleTitle="Built for scale from day one"
-      scaleItems={[
-        "Uptime-focused infrastructure and incident playbooks",
-        "Observability with logs, metrics, and trace visibility",
-        "RBAC and secure access boundaries across environments",
-        "CI/CD pipelines with release guardrails",
-        "Encrypted data handling and secrets management",
-        "Disaster recovery strategy and rollback safety",
-        "Audit log integrity and compliance reporting hooks",
-        "Cloud-native architecture for high-throughput workloads",
+      scaleArchitecture={[
+        {
+          label: "Uptime & incidents",
+          detail: "Uptime-focused infrastructure and incident playbooks",
+        },
+        {
+          label: "Observability",
+          detail: "Observability with logs, metrics, and trace visibility",
+        },
+        {
+          label: "RBAC & access",
+          detail: "RBAC and secure access boundaries across environments",
+        },
+        {
+          label: "CI/CD guardrails",
+          detail: "CI/CD pipelines with release guardrails",
+        },
+        {
+          label: "Encryption & secrets",
+          detail: "Encrypted data handling and secrets management",
+        },
+        {
+          label: "Disaster recovery",
+          detail: "Disaster recovery strategy and rollback safety",
+        },
+        {
+          label: "Audit & compliance hooks",
+          detail: "Audit log integrity and compliance reporting hooks",
+        },
+        {
+          label: "Cloud-native scale",
+          detail: "Cloud-native architecture for high-throughput workloads",
+        },
       ]}
       caseStudies={[
         {
@@ -103,13 +136,6 @@ export default function HealthcarePortfolioLanding() {
             "radial-gradient(120% 100% at 50% 0%, rgba(14,26,52,0.88), rgba(0,0,0,0.9) 70%)",
         },
       ]}
-      whyChooseTitle="Why healthcare teams choose Boostmysites"
-      whyChooseItems={[
-        "HIPAA-Ready Architecture: Built with healthcare compliance in mind.",
-        "Better Patient Experiences: Simple UX for patients and providers.",
-        "Interoperability Expertise: Deep experience with healthcare standards.",
-        "Reliable Delivery: Fast-moving execution with production-grade systems.",
-      ]}
       processTitle="From idea to production in four stages."
       processSteps={[
         {
@@ -132,25 +158,67 @@ export default function HealthcarePortfolioLanding() {
       faqGroups={[
         {
           category: "Compliance",
-          questions: ["Do you sign BAAs?", "How do you secure patient data?"],
+          items: [
+            {
+              question: "Do you sign BAAs?",
+              answer:
+                "Yes, when the engagement involves access to PHI we execute BAAs with covered entities and business associates as required, with clear data-flow diagrams and subprocessors documented up front.",
+            },
+            {
+              question: "How do you secure patient data?",
+              answer:
+                "Encryption in transit and at rest, scoped service accounts, break-glass procedures, audit logging, and least-privilege IAM are baseline. We align retention and de-identification to your policy—not ours in isolation.",
+            },
+          ],
         },
         {
           category: "Delivery",
-          questions: ["Do you support telemedicine workflows?", "What is a typical launch timeline?"],
+          items: [
+            {
+              question: "Do you support telemedicine workflows?",
+              answer:
+                "Scheduling, intake, video visits, asynchronous messaging, and payer-aware eligibility hooks—implemented with reliability and privacy UX that clinicians will actually adopt.",
+            },
+            {
+              question: "What is a typical launch timeline?",
+              answer:
+                "Pilot-ready telehealth flows can land in weeks; enterprise-grade programs with integrations and validation cycles stretch longer. You always get weekly demos and explicit scope cut lines.",
+            },
+          ],
         },
         {
           category: "Tech",
-          questions: ["Can you integrate with existing EMRs?", "Do you support HL7 and FHIR workflows?"],
+          items: [
+            {
+              question: "Can you integrate with existing EMRs?",
+              answer:
+                "We integrate through vendor APIs, SMART on FHIR where available, and pragmatic HL7 bridges when legacy systems are part of the reality—always with monitoring around sync health.",
+            },
+            {
+              question: "Do you support HL7 and FHIR workflows?",
+              answer:
+                "Yes—resource modeling, subscriptions, bulk export patterns, and operational monitoring so clinical data keeps moving without silent drift or duplicate-of-truth issues.",
+            },
+          ],
         },
         {
           category: "Pricing",
-          questions: ["How do your engagement models work?", "What is included after launch?"],
+          items: [
+            {
+              question: "How do your engagement models work?",
+              answer:
+                "Dedicated product-engineering squads on monthly retainers are the default; fixed phases exist when discovery has already locked scope. Billing maps to how your clinical and IT stakeholders make decisions.",
+            },
+            {
+              question: "What is included after launch?",
+              answer:
+                "Incident response paths, observability tuning, backlog grooming for the next release train, and optional on-call coverage—so go-live is not the moment engineering disappears.",
+            },
+          ],
         },
       ]}
       finalTitle="Building the future of digital healthcare?"
       finalSubtitle="We help healthcare teams launch secure, compliant products without slowing innovation."
-      formHeading="Start your healthcare project"
-      formSubheading="Fill this form and get your proposal in 24 hours."
     />
   );
 }

@@ -26,18 +26,19 @@ export function CaseStudyChallenge({ challenge, bullets }: Props) {
           <h2 className="text-[40px] font-medium -tracking-[0.04em] leading-[1.05em] text-white max-md:text-3xl">
             What we walked into.
           </h2>
-          <p className="text-[15px] leading-[1.55em] text-white/65">{challenge}</p>
-          <ul className="flex flex-col gap-2 text-[14px] text-white/75">
-            {bullets.map((b) => (
-              <li
-                key={b}
-                className="flex items-start gap-2"
-              >
-                <CheckIcon className="size-[14px] text-[color:var(--wk-bright)] mt-[3px]" />
-                <span>{b}</span>
-              </li>
-            ))}
-          </ul>
+          {challenge.trim() ? (
+            <p className="max-w-[720px] text-[15px] leading-[1.55em] text-white/65">{challenge}</p>
+          ) : null}
+          {bullets.length > 0 ? (
+            <ul className="flex max-w-[720px] flex-col gap-2 text-[14px] text-white/75">
+              {bullets.map((b, i) => (
+                <li key={`${i}-${b.slice(0, 24)}`} className="flex items-start gap-2">
+                  <CheckIcon className="mt-[3px] size-[14px] shrink-0 text-[color:var(--wk-bright)]" />
+                  <span>{b}</span>
+                </li>
+              ))}
+            </ul>
+          ) : null}
         </div>
       </div>
     </section>

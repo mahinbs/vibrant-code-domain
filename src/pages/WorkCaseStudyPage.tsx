@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { WorkShell } from "@/components/work/primitives/WorkShell";
 import { CaseStudyHero } from "@/components/work/CaseStudyHero";
 import { CaseStudyChallenge } from "@/components/work/CaseStudyChallenge";
+import { CaseStudySolution } from "@/components/work/CaseStudySolution";
 import { CaseStudyApproach } from "@/components/work/CaseStudyApproach";
 import { CaseStudyFeatures } from "@/components/work/CaseStudyFeatures";
 import { CaseStudyTechStack } from "@/components/work/CaseStudyTechStack";
@@ -17,6 +18,11 @@ import {
   getProjectBySlug,
   type WorkProject,
 } from "@/data/workMock";
+import {
+  WORK_PRIMARY_GLOSS_CTA_H12,
+  WORK_PRIMARY_GLOSS_CTA_INNER,
+  WORK_SECTION_GLOSS_BADGE_LARGE,
+} from "@/components/work/primitives/ctaStyles";
 import { ArrowLeftIcon } from "@/components/work/primitives/icons";
 
 type LoadState =
@@ -99,6 +105,7 @@ export default function WorkCaseStudyPage() {
           challenge={project.challenge}
           bullets={project.challengeBullets}
         />
+        <CaseStudySolution solution={project.solution} />
         <CaseStudyApproach steps={project.approach} />
         <CaseStudyGallery images={project.gallery} />
         <CaseStudyFeatures features={project.features} />
@@ -142,8 +149,8 @@ function CaseStudyNotFound() {
   return (
     <section className="w-full max-w-[min(1920px,96vw)] px-10 pt-[80px] pb-12 max-md:px-5">
       <div className="glass-card flex flex-col items-center gap-4 px-10 py-16 text-center max-md:px-6 max-md:py-12">
-        <span className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-black/60 px-3.5 py-2 text-[12px] font-medium uppercase tracking-[0.08em] text-[color:var(--wk-bright)] backdrop-blur-[5px]">
-          Case study not found
+        <span className={WORK_SECTION_GLOSS_BADGE_LARGE}>
+          <span className={WORK_PRIMARY_GLOSS_CTA_INNER}>Case study not found</span>
         </span>
         <h1 className="text-[40px] font-medium -tracking-[0.04em] leading-[1.05em] text-white max-md:text-3xl">
           We couldn't find that project.
@@ -152,12 +159,9 @@ function CaseStudyNotFound() {
           The case study you're looking for may have moved or been retired.
           Browse the rest of the work to find what you need.
         </p>
-        <Link
-          to="/work"
-          className="btn-gloss group relative inline-flex h-12 items-center gap-2 overflow-hidden rounded-[10px] border border-[#4b78ff]/70 bg-[linear-gradient(180deg,#2f5eff_0%,#254dcf_100%)] px-5 text-[13px] font-semibold text-white shadow-[inset_0_0_8px_2px_rgba(255,255,255,0.18)] transition-opacity hover:opacity-95"
-        >
-          <ArrowLeftIcon className="relative z-[2] size-4" />
-          <span className="relative z-[2]">Back to all work</span>
+        <Link to="/work" className={WORK_PRIMARY_GLOSS_CTA_H12}>
+          <ArrowLeftIcon className={`${WORK_PRIMARY_GLOSS_CTA_INNER} size-4`} />
+          <span className={WORK_PRIMARY_GLOSS_CTA_INNER}>Back to all work</span>
         </Link>
       </div>
     </section>

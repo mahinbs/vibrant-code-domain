@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { WORK_PRIMARY_GLOSS_CTA_INNER, WORK_PRIMARY_GLOSS_CTA_NAV } from "./ctaStyles";
 import { WORK_GLASS_BG_BLUR } from "./workChrome";
 import { WhatsAppIcon } from "./icons";
 
@@ -56,12 +57,8 @@ export function WorkNav() {
           >
             <WhatsAppIcon className="size-[18px] fill-white" />
           </a>
-          <Link
-            to="/contact"
-            className="btn-gloss relative overflow-hidden inline-flex items-center px-3.5 py-2 rounded-lg border border-white/15 text-[13px] font-medium text-white shadow-[inset_0_0_6px_3px_rgba(255,255,255,0.18)]"
-            style={{ background: "rgba(72, 118, 255, 0.6)" }}
-          >
-            <span className="relative z-[2]">{PRIMARY_CTA_LABEL}</span>
+          <Link to="/contact" className={WORK_PRIMARY_GLOSS_CTA_NAV}>
+            <span className={WORK_PRIMARY_GLOSS_CTA_INNER}>{PRIMARY_CTA_LABEL}</span>
           </Link>
         </div>
       </nav>

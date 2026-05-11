@@ -49,7 +49,7 @@ export function Portfolio() {
   return (
     <section
       id="work"
-      className="w-full max-w-[1920px] pt-[120px] px-10 pb-10 flex flex-col items-center gap-12 max-md:pt-20 max-md:px-5"
+      className="flex w-full max-w-[1920px] flex-col items-center gap-12 px-5 py-16 md:px-10 md:py-24"
     >
       <div className="flex flex-col items-center gap-5 text-center max-w-[640px]">
         <div className="inline-flex items-center gap-1.5 bg-black/60 border border-white/15 rounded-full py-2 px-3.5 backdrop-blur-[5px] text-[12px] font-medium text-purple uppercase tracking-[0.08em] w-fit">
@@ -82,7 +82,11 @@ export function Portfolio() {
       </div>
 
       <div className="grid grid-cols-3 gap-5 w-full max-md:grid-cols-2 max-sm:grid-cols-1">
-        {filteredCards.slice(0, 3).map((p) => (
+        {filteredCards.slice(0, 3).map((p) => {
+          const maxTags = 4;
+          const stackShown = p.stack.slice(0, maxTags);
+          const stackMore = p.stack.length - stackShown.length;
+          return (
           <a
             key={p.id}
             href={workCaseStudyUrl(p.slug)}
@@ -123,18 +127,24 @@ export function Portfolio() {
               </h3>
               <p className="text-sm text-white/80">{p.outcome}</p>
               <div className="flex flex-wrap gap-1.5 pt-1">
-                {p.stack.map((t) => (
+                {stackShown.map((t, i) => (
                   <span
-                    key={t}
+                    key={`${p.id}-stack-${i}-${t}`}
                     className="text-[11px] font-medium px-2 py-1 rounded-md border border-white/15 text-white/85 bg-black/30 backdrop-blur-[3px]"
                   >
                     {t}
                   </span>
                 ))}
+                {stackMore > 0 ? (
+                  <span className="text-[11px] font-medium px-2 py-1 rounded-md border border-white/12 text-white/55 bg-black/25 backdrop-blur-[3px]">
+                    +{stackMore} more
+                  </span>
+                ) : null}
               </div>
             </div>
           </a>
-        ))}
+          );
+        })}
       </div>
       {filteredCards.length === 0 ? (
         <p className="text-sm text-white/60">No projects found for this category yet.</p>

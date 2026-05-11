@@ -4,6 +4,8 @@ export type PortfolioItem = {
   title: string;
   industry: string;
   outcome: string;
+  /** Case study / marketing body from DB; shown under headline outcome on industry landings. */
+  description?: string;
   stack: string[];
   gradient: string;
   image?: string;

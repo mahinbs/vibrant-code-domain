@@ -73,7 +73,7 @@ import MeghanaLandingPage from "./pages/landingPages/MeghanaLandingPage";
 import NewHomepagePreview from "./pages/NewHomepagePreview";
 import WorkPage from "./pages/WorkPage";
 import WorkCaseStudyPage from "./pages/WorkCaseStudyPage";
-import { shouldUseNewUiForRoute } from "./lib/domainRouting";
+import { shouldUseNewUiForRoute, shouldUseRedesignIndustryLanding } from "./lib/domainRouting";
 
 const queryClient = new QueryClient();
 
@@ -83,7 +83,7 @@ const App = () => {
   const useNewHomepageUi = shouldUseNewUiForRoute("/", hostname);
   const useNewWorkUi = shouldUseNewUiForRoute("/work", hostname);
   const useNewWorkCaseStudyUi = shouldUseNewUiForRoute("/work/sample", hostname);
-  const useNewFintechLanding = shouldUseNewUiForRoute("/", hostname);
+  const useNewFintechLanding = shouldUseRedesignIndustryLanding(hostname);
   const useNewHealthcareLanding = useNewFintechLanding;
 
   return (

@@ -54,7 +54,7 @@ const initial: LeadInput = {
   gotOtherQuote: "",
 };
 
-type LeadFormProps = {
+export type LeadFormProps = {
   initialProjectTypeValue?: string;
   initialProjectTypeLabel?: string;
 };
@@ -116,7 +116,7 @@ export function LeadForm({
     const res = await submitLead(values);
     if (res.ok) {
       setStatus("success");
-      setValues(initial);
+      setValues({ ...initial, projectType: initialProjectTypeValue });
       setStep(1);
     } else {
       setStatus("error");

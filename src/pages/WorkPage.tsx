@@ -6,6 +6,7 @@ import {
   orderedServiceIds,
   parseFocusParam,
   reorderWithFocus,
+  serviceMeta,
   type ServiceId,
 } from "@/components/work/primitives/serviceMeta";
 import { WorkHero } from "@/components/work/WorkHero";
@@ -126,6 +127,28 @@ export default function WorkPage() {
             onSelect={handleFilterSelect}
             counts={counts}
           />
+          {activeFilter === null ? (
+            <p className="mt-3 max-w-[720px] text-[13px] leading-relaxed text-white/55">
+              <span className="font-medium text-white/75">{totalProjects} projects</span> appear
+              below,{" "}
+              <strong className="font-medium text-white/80">grouped by service</strong> (Web,
+              SaaS, Mobile, etc.). The first block may show fewer than {totalProjects} — scroll to
+              see every category.
+            </p>
+          ) : (
+            <p className="mt-3 max-w-[720px] text-[13px] leading-relaxed text-white/55">
+              Showing{" "}
+              <span className="font-medium text-white/75">
+                {counts[activeFilter]} of {totalProjects}
+              </span>{" "}
+              projects in{" "}
+              <span className="font-medium text-white/75">
+                {serviceMeta[activeFilter].title}
+              </span>
+              . Tap <span className="font-medium text-white/75">All work</span> to browse every
+              project grouped by service.
+            </p>
+          )}
         </div>
       </div>
 

@@ -6,6 +6,7 @@ import {
   ArrowRightIcon,
   ExternalLinkIcon,
 } from "./primitives/icons";
+import { WORK_PRIMARY_GLOSS_CTA_H12, WORK_PRIMARY_GLOSS_CTA_INNER } from "./primitives/ctaStyles";
 import { WorkHeroFrame } from "./primitives/WorkHeroFrame";
 
 type Props = {
@@ -75,10 +76,10 @@ export function CaseStudyHero({ project }: Props) {
                   href={project.liveUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn-gloss group relative inline-flex h-12 items-center gap-2 overflow-hidden rounded-[10px] border border-[#4b78ff]/70 bg-[linear-gradient(180deg,#2f5eff_0%,#254dcf_100%)] px-5 text-[13px] font-semibold text-white shadow-[inset_0_0_8px_2px_rgba(255,255,255,0.18)] transition-opacity hover:opacity-95"
+                  className={WORK_PRIMARY_GLOSS_CTA_H12}
                 >
-                  <span className="relative z-[2]">Visit live site</span>
-                  <ExternalLinkIcon className="relative z-[2] size-4" />
+                  <span className={WORK_PRIMARY_GLOSS_CTA_INNER}>Visit live site</span>
+                  <ExternalLinkIcon className={`${WORK_PRIMARY_GLOSS_CTA_INNER} size-4`} />
                 </a>
               ) : null}
               <Link
@@ -118,12 +119,16 @@ export function CaseStudyHero({ project }: Props) {
         </div>
 
         <div className="grid grid-cols-4 gap-5 max-md:grid-cols-2">
-          {project.topMetrics.map((metric) => (
+          {project.topMetrics.map((metric, idx) => (
             <div
-              key={metric.label}
+              key={`${metric.label}-${idx}`}
               className="glass-card flex flex-col items-start gap-1 px-5 py-6"
             >
-              <span className="text-[40px] font-medium leading-none -tracking-[0.04em] text-gradient max-md:text-3xl">
+              <span
+                className={`text-[40px] font-medium leading-none -tracking-[0.04em] max-md:text-3xl ${
+                  metric.valueIsPlaceholder === true ? "text-white/40" : "text-white"
+                }`}
+              >
                 {metric.value}
               </span>
               <span className="text-[12px] font-semibold uppercase tracking-[0.1em] text-white/55">

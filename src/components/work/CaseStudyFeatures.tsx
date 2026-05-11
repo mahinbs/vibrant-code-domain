@@ -1,4 +1,5 @@
 import type { FeatureItem } from "@/data/workMock";
+import { WORK_PRIMARY_GLOSS_CTA_INNER, WORK_SECTION_GLOSS_BADGE } from "./primitives/ctaStyles";
 import { CheckIcon } from "./primitives/icons";
 
 type Props = {
@@ -9,8 +10,8 @@ export function CaseStudyFeatures({ features }: Props) {
   return (
     <section className="relative w-full px-10 pt-[80px] pb-6 max-md:px-5 max-md:pt-12">
       <div className="flex max-w-[680px] flex-col gap-3">
-        <span className="inline-flex items-center gap-1.5 self-start rounded-full border border-white/15 bg-black/60 px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.12em] text-[color:var(--wk-bright)] backdrop-blur-[5px]">
-          What we built
+        <span className={`${WORK_SECTION_GLOSS_BADGE} self-start`}>
+          <span className={WORK_PRIMARY_GLOSS_CTA_INNER}>What we built</span>
         </span>
         <h2 className="text-[36px] font-medium -tracking-[0.04em] leading-[1.05em] text-white max-md:text-2xl">
           Every surface, considered.

@@ -1,77 +1,63 @@
 import { problems } from "../data/problems";
+import { ArrowRightIcon } from "./icons";
 
 export function ProblemSolution() {
   return (
-    <section className="w-full max-w-[1920px] pt-[120px] px-10 pb-10 flex flex-col items-center gap-12 max-md:pt-20 max-md:px-5">
-      <div className="flex flex-col items-center gap-5 text-center max-w-[640px]">
-        <div className="inline-flex items-center gap-1.5 bg-black/60 border border-white/15 rounded-full py-2 px-3.5 backdrop-blur-[5px] text-[12px] font-medium text-purple uppercase tracking-[0.08em] w-fit">
+    <section className="flex w-full max-w-[1920px] flex-col items-center gap-12 px-5 py-16 md:px-10 md:py-24">
+      <div className="flex max-w-[640px] flex-col items-center gap-5 text-center">
+        <div className="inline-flex w-fit items-center gap-1.5 rounded-full border border-white/15 bg-black/60 px-3.5 py-2 text-[12px] font-medium uppercase tracking-[0.08em] text-purple backdrop-blur-[5px]">
           The challenge
         </div>
-        <h2 className="text-[44px] font-medium -tracking-[0.04em] leading-[1.05em] text-white max-md:text-3xl">
-          Tech holding your business back?
+        <h2 className="text-[36px] font-medium leading-[1.05] -tracking-[0.04em] text-white md:text-[44px]">
+          We&apos;ve seen this before.
           <br />
-          <span className="text-white/60">We've fixed it 500+ times.</span>
+          <span className="text-white/60">
+            Most of the friction slowing you down has shipped solutions already.
+          </span>
         </h2>
-        <p className="text-base text-white/60 max-w-[520px]">
-          Hover any card to see the way out.
-        </p>
       </div>
 
-      <div className="grid grid-cols-3 gap-5 w-full max-md:grid-cols-2 max-sm:grid-cols-1">
-        {problems.map((p, i) => (
-          <FlipCard key={i} problem={p.problem} solution={p.solution} />
+      <div className="grid w-full grid-cols-1 gap-5 lg:grid-cols-2">
+        {problems.map((p) => (
+          <article
+            key={p.problem}
+            className="relative grid gap-4 rounded-[16px] border border-white/10 p-6 md:grid-cols-[1fr_auto_1fr] md:items-start md:gap-8 md:p-8"
+            style={{
+              background:
+                "linear-gradient(180deg, rgba(255,255,255,0.04) 0%, rgba(0,0,0,0.5) 100%)",
+            }}
+          >
+            <div className="min-w-0">
+              <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-white/45">
+                The pain
+              </span>
+              <p className="mt-2 text-lg font-medium leading-snug text-white">
+                {p.problem}
+              </p>
+            </div>
+
+            <ArrowRightIcon
+              aria-hidden
+              className="hidden self-center size-5 text-purple/70 md:block"
+            />
+
+            {/* Mobile divider so the two halves read as separate even when stacked */}
+            <div
+              aria-hidden
+              className="h-px w-full bg-white/10 md:hidden"
+            />
+
+            <div className="min-w-0">
+              <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-purple">
+                What we do
+              </span>
+              <p className="mt-2 text-base leading-relaxed text-white/80">
+                {p.solution}
+              </p>
+            </div>
+          </article>
         ))}
       </div>
     </section>
-  );
-}
-
-function FlipCard({
-  problem,
-  solution,
-}: {
-  problem: string;
-  solution: string;
-}) {
-  return (
-    <div className="group relative h-[200px] [perspective:1000px]">
-      <div className="relative size-full transition-transform duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)] group-focus-within:[transform:rotateY(180deg)]">
-        {/* Front */}
-        <div
-          className="absolute inset-0 [backface-visibility:hidden] rounded-[14px] border border-white/15 p-6 flex flex-col justify-between bg-black/40 backdrop-blur-[3px]"
-          style={{
-            background:
-              "linear-gradient(180deg, rgba(255,255,255,0.04) 0%, rgba(0,0,0,0.5) 100%)",
-          }}
-        >
-          <span className="text-[11px] font-semibold tracking-[0.12em] uppercase text-white/40">
-            Problem
-          </span>
-          <p className="text-xl font-medium -tracking-[0.01em] leading-[1.25em] text-white">
-            {problem}
-          </p>
-          <span className="text-[12px] text-white/50">
-            Hover to see solution
-          </span>
-        </div>
-
-        {/* Back */}
-        <div
-          className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] rounded-[14px] border border-purple/40 p-6 flex flex-col justify-between"
-          style={{
-            background:
-              "radial-gradient(120% 100% at 0% 0%, rgba(72,118,255,0.5), rgba(6,10,22,0.95) 70%)",
-          }}
-        >
-          <span className="text-[11px] font-semibold tracking-[0.12em] uppercase text-white">
-            Solution
-          </span>
-          <p className="text-xl font-medium -tracking-[0.01em] leading-[1.25em] text-white">
-            {solution}
-          </p>
-          <span className="text-[12px] text-white/70">By Boostmysites</span>
-        </div>
-      </div>
-    </div>
   );
 }

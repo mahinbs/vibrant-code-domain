@@ -25,13 +25,17 @@ export function Nav() {
 
   return (
     <>
-      <div className="fixed top-5 left-1/2 -translate-x-1/2 w-[760px] max-w-[calc(100vw-20px)] z-20">
-        <nav className="flex items-center justify-between gap-3 p-2 bg-black/70 backdrop-blur-[10px] rounded-[14px] border border-white/15 shadow-[0_5px_20px_rgba(0,0,0,0.35)]">
+      {/* Sticky avoids iOS Safari's `position: fixed` re-anchoring bug when an
+       *  ancestor has transform/filter/backdrop-filter/will-change. Outer
+       *  wrapper is pointer-events-none so the gap above the pill never
+       *  blocks taps on hero CTAs. */}
+      <div className="sticky top-0 z-40 w-full pointer-events-none pt-[max(env(safe-area-inset-top),0.75rem)] pb-2">
+        <nav className="pointer-events-auto mx-auto flex w-[760px] max-w-[calc(100vw-20px)] items-center justify-between gap-3 p-2 bg-black/85 backdrop-blur-[10px] rounded-[14px] border border-white/15 shadow-[0_5px_20px_rgba(0,0,0,0.35)]">
           <a href="#top" className="flex items-center gap-2 pl-1 shrink-0">
             <img
               src="/logo-B3Maab4W.png"
               alt={`${site.brand} logo`}
-              className="size-[38px] rounded-[10px] object-contain"
+              className="size-9 object-contain"
               loading="eager"
             />
             <span className="text-[15px] font-semibold tracking-[-0.01em] text-white max-sm:hidden">
@@ -108,16 +112,16 @@ export function Nav() {
       {open ? (
         <div
           id="redesign-mobile-menu"
-          className="fixed inset-0 z-[19] md:hidden"
+          className="fixed inset-0 z-[45] md:hidden"
           role="dialog"
           aria-modal="true"
           aria-label="Mobile navigation"
         >
           <div
-            className="absolute inset-0 bg-black/80 backdrop-blur-[6px]"
+            className="absolute inset-0 min-h-[100dvh] bg-black/80 backdrop-blur-[6px]"
             onClick={() => setOpen(false)}
           />
-          <div className="absolute left-0 right-0 top-[88px] mx-3 rounded-[14px] border border-white/15 bg-black/85 p-3 shadow-[0_15px_40px_rgba(0,0,0,0.5)]">
+          <div className="absolute left-0 right-0 top-[calc(env(safe-area-inset-top,0px)+88px)] mx-3 rounded-[14px] border border-white/15 bg-black/85 p-3 shadow-[0_15px_40px_rgba(0,0,0,0.5)]">
             <div className="flex flex-col">
               {navLinks.map(({ label, href }) => (
                 <a

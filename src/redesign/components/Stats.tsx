@@ -2,7 +2,7 @@ import { stats } from "../data/stats";
 
 export function Stats() {
   return (
-    <section className="w-full max-w-[1920px] pt-[80px] pb-0 flex flex-col items-center max-md:pt-12 max-md:px-5">
+    <section className="flex w-full max-w-[1920px] flex-col items-center pb-0 pt-[80px] max-md:px-5 max-md:pt-12">
       <div
         className="relative w-full rounded-[16px] border border-white/15 overflow-hidden"
         style={{

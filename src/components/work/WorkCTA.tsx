@@ -1,4 +1,9 @@
 import { Link } from "react-router-dom";
+import {
+  WORK_PRIMARY_GLOSS_CTA_H12,
+  WORK_PRIMARY_GLOSS_CTA_INNER,
+  WORK_SECTION_GLOSS_BADGE_LARGE,
+} from "./primitives/ctaStyles";
 import { ArrowRightIcon, WhatsAppIcon } from "./primitives/icons";
 
 const WHATSAPP_HREF =
@@ -15,8 +20,8 @@ export function WorkCTA() {
             "radial-gradient(80% 120% at 50% 0%, rgba(72,118,255,0.18), rgba(0,0,0,0.55) 60%)",
         }}
       >
-        <span className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-black/60 px-3.5 py-2 text-[12px] font-medium uppercase tracking-[0.08em] text-[color:var(--wk-bright)] backdrop-blur-[5px]">
-          Let's build
+        <span className={WORK_SECTION_GLOSS_BADGE_LARGE}>
+          <span className={WORK_PRIMARY_GLOSS_CTA_INNER}>Let's build</span>
         </span>
         <h2 className="max-w-[680px] text-[44px] font-medium -tracking-[0.04em] leading-[1.05em] text-white max-md:text-3xl">
           Have a project that deserves the same treatment?
@@ -26,12 +31,11 @@ export function WorkCTA() {
           scope, timeline, and price. No pitch decks.
         </p>
         <div className="flex flex-wrap items-center justify-center gap-3">
-          <Link
-            to="/contact"
-            className="btn-gloss group relative inline-flex h-12 items-center gap-2 overflow-hidden rounded-[10px] border border-[#4b78ff]/70 bg-[linear-gradient(180deg,#2f5eff_0%,#254dcf_100%)] px-5 text-[13px] font-semibold text-white shadow-[inset_0_0_8px_2px_rgba(255,255,255,0.18)] transition-opacity hover:opacity-95"
-          >
-            <span className="relative z-[2]">Get a free consultation</span>
-            <ArrowRightIcon className="relative z-[2] size-4 transition-transform group-hover:translate-x-0.5" />
+          <Link to="/contact" className={WORK_PRIMARY_GLOSS_CTA_H12}>
+            <span className={WORK_PRIMARY_GLOSS_CTA_INNER}>Get a free consultation</span>
+            <ArrowRightIcon
+              className={`${WORK_PRIMARY_GLOSS_CTA_INNER} size-4 transition-transform group-hover:translate-x-0.5`}
+            />
           </Link>
           <a
             href={WHATSAPP_HREF}

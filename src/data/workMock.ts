@@ -5,6 +5,8 @@ export type Metric = {
   value: string;
   label: string;
   description?: string;
+  /** True when value was synthesized (e.g. em dash) because DB had no scalar. */
+  valueIsPlaceholder?: boolean;
 };
 
 export type FeatureItem = {
@@ -56,6 +58,8 @@ export type WorkProject = {
     company: string;
     avatar?: string;
   };
+  /** Full case-study solution body; set for DB-backed projects for the Solution section. */
+  solution?: string;
 };
 
 const projects: WorkProject[] = [
@@ -704,26 +708,196 @@ function asArray(value: unknown): string[] {
   return [];
 }
 
+/** Lines after the first markdown-style list item become bullets; text before stays as the challenge paragraph. */
+const LIST_LINE =
+  /^\s*(?:[-*•]\s+|\d+[.)]\s+)(.+)$/;
+
+function splitChallengeFromDb(raw: string): { narrative: string; bullets: string[] } {
+  const text = raw.trim();
+  if (!text) return { narrative: raw, bullets: [] };
+
+  const lines = text.split(/\r?\n/).map((l) => l.trim());
+  const firstListIdx = lines.findIndex((l) => l.length > 0 && LIST_LINE.test(l));
+
+  if (firstListIdx === -1) {
+    return { narrative: text, bullets: [] };
+  }
+
+  const head = lines.slice(0, firstListIdx).filter(Boolean).join("\n\n").trim();
+  const bulletLines = lines
+    .slice(firstListIdx)
+    .filter((l) => LIST_LINE.test(l))
+    .map((l) => l.replace(LIST_LINE, "$1").trim())
+    .filter(Boolean)
+    .slice(0, 8);
+
+  if (bulletLines.length === 0) {
+    return { narrative: text, bullets: [] };
+  }
+
+  const narrative = head.length > 0 ? head : "";
+  return { narrative, bullets: bulletLines };
+}
+
+const APPROACH_STEPS_DB: ApproachStep[] = [
+  { number: "01", title: "Discover", description: "Goals, constraints, and scope alignment." },
+  { number: "02", title: "Design", description: "Product and architecture decisions validated early." },
+  {
+    number: "03",
+    title: "Build",
+    description: "Weekly demos, transparent sprints, and code you fully own at the end.",
+  },
+  { number: "04", title: "Scale", description: "Observability, quality, and handover." },
+];
+
+/** CMS often stores "~", "—", or "TBD" in `value`; treat as empty so we can fill or fall back. */
+function sanitizeMetricDisplayValue(s: string): string {
+  let t = s.trim().replace(/^[~–—\s_.…]+/gu, "").trim();
+  if (!t) return "";
+  if (/^n\/?a$/i.test(t)) return "";
+  if (/^tbd$/i.test(t)) return "";
+  if (/^[\s~–—\-_.…]+$/u.test(t)) return "";
+  return t;
+}
+
+/** Coerce JSON metric values (Supabase often stores numbers). */
+function scalarMetricValueToString(raw: unknown): string {
+  if (raw === null || raw === undefined) return "";
+  if (typeof raw === "string") return sanitizeMetricDisplayValue(raw);
+  if (typeof raw === "number" && Number.isFinite(raw)) return String(raw);
+  if (typeof raw === "boolean") return raw ? "Yes" : "No";
+  return "";
+}
+
+function pickFirstScalar(obj: Record<string, unknown>, keys: string[]): string {
+  for (const k of keys) {
+    if (!(k in obj)) continue;
+    const s = scalarMetricValueToString(obj[k]);
+    if (s) return s;
+  }
+  return "";
+}
+
+function pickFirstString(obj: Record<string, unknown>, keys: string[]): string {
+  for (const k of keys) {
+    const v = obj[k];
+    if (typeof v === "string" && v.trim()) return v.trim();
+  }
+  return "";
+}
+
+/** Short numeric / stat token (often stored in the wrong JSON field). */
+function looksLikeStatToken(s: string): boolean {
+  const t = s.replace(/\s/g, "");
+  if (!t || t.length > 28) return false;
+  return /^(?:[↑↓])?(?:\$|€|£)?[\d,.]+(?:\.\d+)?(?:%|[KMB]|x|×|ms|s|wk|mo)?$/i.test(t);
+}
+
+/** Long human-readable headline (often accidentally stored as `value` while the stat sits in `label`). */
+function looksLikeProseMetric(s: string): boolean {
+  if (!s) return false;
+  if (s.length > 42) return true;
+  return s.split(/\s+/).filter(Boolean).length >= 6;
+}
+
+/** If value holds prose and label holds the stat, swap so the big number is correct. */
+function alignMetricLabelAndValue(labelIn: string, valueIn: string): { label: string; value: string } {
+  let label = labelIn.trim();
+  let value = valueIn.trim();
+  if (looksLikeProseMetric(value) && looksLikeStatToken(label)) {
+    return { label: value, value: label };
+  }
+  return { label, value };
+}
+
+/** Pull a headline stat embedded in longer copy (mis-keyed rows). */
+function extractEmbeddedStatFromProse(s: string): string | null {
+  if (!s || s.length < 2) return null;
+  const hits: string[] = [];
+  const reList = [
+    /(?:\+|-)?\$[\d,]+(?:\.\d+)?\b/g,
+    /(?:\+|-)?[\d,]+(?:\.\d+)?%/g,
+    /\b[\d,]+(?:\.\d+)?\s*(?:x|×)\b/gi,
+    /\b\d{1,4}(?:\.\d+)?\s*(?:ms|s|wk|mo)\b/gi,
+  ];
+  for (const re of reList) {
+    const m = s.match(re);
+    if (m) hits.push(...m.map((x) => x.trim()));
+  }
+  const pick = hits.find((h) => h.length >= 1 && h.length <= 20);
+  return pick ?? null;
+}
+
+/**
+ * When headline value is missing: description first line, then embedded stat in label prose,
+ * else N/A — never drop the row.
+ */
+function fillMetricValueAndPlaceholder(
+  value: string,
+  descriptionRaw: string,
+  labelProseForScan: string,
+  metricIndex: number,
+): { value: string; valueIsPlaceholder: boolean } {
+  const v0 = sanitizeMetricDisplayValue(value);
+  if (v0) return { value: v0, valueIsPlaceholder: false };
+  const firstLine = descriptionRaw.split("\n")[0]?.trim() ?? "";
+  const looksLikeStat =
+    firstLine.length > 0 &&
+    firstLine.length <= 32 &&
+    /^(?:[↑↓]\s*)?(?:\$|€|£)?[\d,.]+(?:\.\d+)?(?:%|\s*(?:K|M|B|x|×))?$/i.test(firstLine.replace(/\s/g, ""));
+  if (looksLikeStat) return { value: firstLine, valueIsPlaceholder: false };
+  const fromLabel = extractEmbeddedStatFromProse(labelProseForScan);
+  if (fromLabel) return { value: fromLabel, valueIsPlaceholder: false };
+  // Qualitative-only rows (no KPI in DB): show a clear index so the grid still reads as outcomes.
+  return { value: String(metricIndex + 1).padStart(2, "0"), valueIsPlaceholder: true };
+}
+
+function normalizeDetailedMetric(entry: unknown, index: number): Metric | null {
+  if (!entry || typeof entry !== "object") return null;
+  const m = entry as Record<string, unknown>;
+
+  let label = pickFirstString(m, ["label", "name", "title", "metric_label"]);
+  const coerced = pickFirstScalar(m, [
+    "value",
+    "metric",
+    "stat",
+    "number",
+    "headline",
+    "amount",
+    "percentage",
+    "score",
+    "result",
+    "kpi",
+    "impact",
+  ]);
+  const descriptionRaw = pickFirstString(m, ["description", "detail", "body", "subtitle"]);
+
+  const aligned = alignMetricLabelAndValue(label, coerced);
+  const labelForScan = aligned.label.trim();
+  label = labelForScan;
+  let valueStr = aligned.value.trim();
+
+  if (!label) label = index === 0 ? "Outcome" : `Outcome ${index + 1}`;
+
+  const { value, valueIsPlaceholder } = fillMetricValueAndPlaceholder(
+    valueStr,
+    descriptionRaw,
+    labelForScan,
+    index,
+  );
+  const description = descriptionRaw.length > 0 ? descriptionRaw : undefined;
+  return { label, value, description, valueIsPlaceholder };
+}
+
 function mapRowToWorkProject(row: Record<string, unknown>, index: number): WorkProject {
   const title = typeof row.title === "string" ? row.title : `Project ${index + 1}`;
   const slugFromDb = typeof row.slug === "string" ? row.slug : "";
   const slug = slugFromDb || toSlug(title);
   const technologies = asArray(row.technologies);
   const detailedMetricsFromDb = Array.isArray(row.detailed_metrics) ? row.detailed_metrics : [];
-  const detailedMetrics: Metric[] =
-    detailedMetricsFromDb.length > 0
-      ? detailedMetricsFromDb
-          .map((entry) => {
-            if (!entry || typeof entry !== "object") return null;
-            const metric = entry as Record<string, unknown>;
-            const label = typeof metric.label === "string" ? metric.label : "";
-            const value = typeof metric.value === "string" ? metric.value : "";
-            const description = typeof metric.description === "string" ? metric.description : undefined;
-            if (!label || !value) return null;
-            return { label, value, description };
-          })
-          .filter((item): item is Metric => item !== null)
-      : [];
+  const detailedMetrics: Metric[] = detailedMetricsFromDb
+    .map((entry, idx) => normalizeDetailedMetric(entry, idx))
+    .filter((item): item is Metric => item !== null);
 
   const fallbackGradient =
     "radial-gradient(120% 100% at 0% 0%, rgba(72,118,255,0.48), rgba(0,0,0,0.85) 70%)";
@@ -732,7 +906,9 @@ function mapRowToWorkProject(row: Record<string, unknown>, index: number): WorkP
       ? row.image
       : `https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80`;
   const gallery = asArray(row.gallery);
-  const challenge = typeof row.challenge === "string" && row.challenge.length > 0 ? row.challenge : "Project challenge details coming soon.";
+  const challengeRaw =
+    typeof row.challenge === "string" && row.challenge.length > 0 ? row.challenge : "Project challenge details coming soon.";
+  const { narrative: challenge, bullets: challengeBullets } = splitChallengeFromDb(challengeRaw);
   const solution = typeof row.solution === "string" && row.solution.length > 0 ? row.solution : "Solution details coming soon.";
   const description =
     typeof row.description === "string" && row.description.length > 0
@@ -779,13 +955,8 @@ function mapRowToWorkProject(row: Record<string, unknown>, index: number): WorkP
             { value: "Fast", label: "Delivery velocity" },
           ],
     challenge,
-    challengeBullets: [challenge],
-    approach: [
-      { number: "01", title: "Discover", description: "Goals, constraints, and scope alignment." },
-      { number: "02", title: "Design", description: "Product and architecture decisions validated early." },
-      { number: "03", title: "Build", description: solution },
-      { number: "04", title: "Scale", description: "Observability, quality, and handover." },
-    ],
+    challengeBullets,
+    approach: APPROACH_STEPS_DB,
     features: technologies.slice(0, 6).map((tech) => ({ title: tech, description: `${tech} used in delivery.` })),
     techStack: [{ category: "Technologies", technologies: technologies.length > 0 ? technologies : ["TypeScript"] }],
     gallery: gallery.length > 0 ? gallery : [image],
@@ -802,6 +973,7 @@ function mapRowToWorkProject(row: Record<string, unknown>, index: number): WorkP
       role: typeof testimonial.position === "string" && testimonial.position.length > 0 ? testimonial.position : "Leadership",
       company: typeof testimonial.company === "string" && testimonial.company.length > 0 ? testimonial.company : "Boostmysites partner",
     },
+    solution,
   };
 }
 

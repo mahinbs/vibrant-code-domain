@@ -3,35 +3,28 @@ export type ProblemSolution = {
   solution: string;
 };
 
+/** Trimmed from 6 to 4 and rewritten in business language: each pair is an
+ *  outcome a non-technical founder would actually say, paired with the way
+ *  Boostmysites delivers a fix. Edit copy here without touching layout. */
 export const problems: ProblemSolution[] = [
   {
-    problem: "Regulatory deadlines keep slipping?",
+    problem: "Your product takes too long to launch new features.",
     solution:
-      "We ship compliant product systems built for HIPAA, PCI-DSS, and audit readiness.",
+      "We modernize your stack so releases ship weekly, not quarterly.",
   },
   {
-    problem: "Manual operations eating margins?",
+    problem: "Your team wastes hours switching between disconnected systems.",
     solution:
-      "We automate workflows with AI Ops so your team scales output, not overhead.",
+      "We unify product, ops, and business data into one real-time view.",
   },
   {
-    problem: "Legacy architecture slowing every release?",
+    problem: "Too much of your business still depends on manual work.",
     solution:
-      "We modernize your stack for faster delivery, safer releases, and better uptime.",
+      "We automate the workflows your team currently does by hand.",
   },
   {
-    problem: "Critical data is fragmented across tools?",
+    problem: "Mobile experience is hurting retention.",
     solution:
-      "We unify product, ops, and business data into actionable, real-time insight.",
-  },
-  {
-    problem: "Mobile experience hurting retention?",
-    solution:
-      "We build high-performance mobile experiences that improve engagement and conversion.",
-  },
-  {
-    problem: "Roadmap stuck between speed and safety?",
-    solution:
-      "We deliver SaaS platforms with security, observability, and scale from day one.",
+      "We rebuild high-performance mobile flows that lift engagement.",
   },
 ];

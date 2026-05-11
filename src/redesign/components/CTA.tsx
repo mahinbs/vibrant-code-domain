@@ -1,11 +1,17 @@
 import { site, whatsappHref } from "../data/site";
-import { LeadForm } from "./LeadForm";
+import { LeadForm, type LeadFormProps } from "./LeadForm";
 import { OrbIcon, WhatsAppIcon } from "./icons";
 
-export function CTA() {
+type CTAProps = {
+  /** Defaults to `contact` (homepage). Industry landings use `contact-form` for in-page scroll targets. */
+  id?: string;
+  leadFormProps?: LeadFormProps;
+};
+
+export function CTA({ id = "contact", leadFormProps }: CTAProps) {
   return (
     <section
-      id="contact"
+      id={id}
       className="w-full p-10 flex items-center justify-center max-md:px-5 max-md:pt-16"
     >
       <div
@@ -45,7 +51,7 @@ export function CTA() {
         </div>
 
         <div className="relative z-[2] w-full flex flex-col items-center gap-5">
-          <LeadForm />
+          <LeadForm {...leadFormProps} />
 
           <div className="flex items-center gap-4 text-sm text-white/55">
             <span className="h-px w-12 bg-white/15" />
