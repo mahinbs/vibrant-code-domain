@@ -43,6 +43,7 @@ const Hero = memo(() => {
   return (
     <section
       id="home"
+      aria-labelledby="hero-heading"
       className="relative min-h-screen flex items-center justify-center overflow-hidden hero-section pb-24 bg-black"
       style={{
         contain: "layout style paint",
@@ -66,14 +67,19 @@ const Hero = memo(() => {
         <div className="max-w-4xl mx-auto text-center">
           {/* Main content with centered alignment */}
           <div>
-            <h1 className="text-5xl md:text-7xl font-bold text-white mb-8 leading-tight animate-fade-in gpu-accelerate">
+            <h1
+              id="hero-heading"
+              className="text-5xl md:text-7xl font-bold text-white leading-tight animate-fade-in gpu-accelerate"
+            >
               Custom Software Development &
               <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
-                {" "}AI Solutions
+                {" "}
+                AI Solutions
               </span>
-              <br />
-              <span className="text-4xl md:text-6xl">to Accelerate Your Growth</span>
             </h1>
+            <p className="text-4xl md:text-6xl font-bold text-white mt-1 md:mt-2 mb-8 leading-tight animate-fade-in gpu-accelerate">
+              to Accelerate Your Growth
+            </p>
             
             <p className="text-xl md:text-2xl text-gray-200 mb-12 leading-relaxed max-w-3xl mx-auto">
               From Web Apps to AI Automation, Mobile Apps to SaaS – delivered by expert developers & AI specialists.

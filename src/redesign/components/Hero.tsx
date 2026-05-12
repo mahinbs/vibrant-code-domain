@@ -49,7 +49,11 @@ export function Hero() {
   }, [typedText, isDeleting, wordIndex, typingWords]);
 
   return (
-    <div id="top" className="w-full flex items-center justify-center pt-2">
+    <section
+      id="top"
+      aria-labelledby="hero-heading"
+      className="w-full flex items-center justify-center pt-2"
+    >
       <div
         className="relative flex-1 min-w-0 h-[820px] max-w-[1920px] mx-auto rounded-[20px] border border-white/15 overflow-hidden flex flex-col justify-center gap-[60px] px-[100px] pt-[120px] pb-[150px] will-change-transform max-md:h-auto max-md:px-5 max-md:pt-24 max-md:pb-12 max-md:gap-8"
         style={{
@@ -113,7 +117,10 @@ export function Hero() {
                 </span>
               </div>
 
-              <h1 className="font-sans font-medium text-[72px] -tracking-[0.05em] leading-[0.98em] text-white max-w-[860px] max-md:text-[40px]">
+              <h1
+                id="hero-heading"
+                className="font-sans font-medium text-[72px] -tracking-[0.05em] leading-[0.98em] text-white max-w-[860px] max-md:text-[40px]"
+              >
                 <span className="text-gradient">We build next-gen</span>
                 <br />
                 <span className="text-white">{typedText}</span>
@@ -180,6 +187,6 @@ export function Hero() {
 
         <TrustedTicker />
       </div>
-    </div>
+    </section>
   );
 }
