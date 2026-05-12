@@ -51,6 +51,7 @@ import SalespersonServicePage from "./pages/SalespersonServicePage";
 import WebinarPage from "./pages/WebinarPage";
 import AppIdeasLabPage from "./pages/AppIdeasLabPage";
 import GoogleAnalytics from "./components/GoogleAnalytics";
+import CanonicalLink from "./components/CanonicalLink";
 import FloatingWhatsAppButton from "./components/ui/FloatingWhatsAppButton";
 import ScrollToTop from "./components/ScrollToTop";
 import ProjectsShowcase from "./pages/ProjectsShowcase";
@@ -95,6 +96,7 @@ const App = () => {
           <BrowserRouter>
             <ScrollToTop />
             <GoogleAnalytics />
+            <CanonicalLink />
             <Routes>
               <Route
                 path="/"
