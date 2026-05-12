@@ -52,6 +52,7 @@ import WebinarPage from "./pages/WebinarPage";
 import AppIdeasLabPage from "./pages/AppIdeasLabPage";
 import GoogleAnalytics from "./components/GoogleAnalytics";
 import CanonicalLink from "./components/CanonicalLink";
+import RouteMeta from "./components/RouteMeta";
 import FloatingWhatsAppButton from "./components/ui/FloatingWhatsAppButton";
 import ScrollToTop from "./components/ScrollToTop";
 import ProjectsShowcase from "./pages/ProjectsShowcase";
@@ -97,6 +98,7 @@ const App = () => {
             <ScrollToTop />
             <GoogleAnalytics />
             <CanonicalLink />
+            <RouteMeta />
             <Routes>
               <Route
                 path="/"
