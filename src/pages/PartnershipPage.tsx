@@ -44,7 +44,7 @@ const PartnershipPage = () => {
             <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
               Partner with{" "}
               <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
-                BoostMySites
+                Boostmysites
               </span>
             </h1>
 

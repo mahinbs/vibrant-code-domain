@@ -1,0 +1,469 @@
+
+<style>
+.sec-wrap{padding:0 0 2rem;width:100%}
+/* Watermark + header rhythm matches Services.tsx “WHAT WE BUILD” (visual parity). */
+.sec-header{
+  position:relative;
+  width:100%;
+  overflow:visible;
+  margin-bottom:0;
+  padding-bottom:.25rem;
+  min-height:clamp(9.5rem, 24vw, 17rem);
+}
+p.sec-watermark{
+  pointer-events:none;
+  position:absolute;
+  left:0;
+  top:40%;
+  z-index:0;
+  width:100%;
+  max-width:none;
+  transform:translateY(-50%);
+  user-select:none;
+  text-align:left;
+  font-weight:700;
+  text-transform:uppercase;
+  line-height:.88;
+  letter-spacing:.02em;
+  opacity:.32;
+  font-size:clamp(2.5rem, min(12vw, 11rem), 11rem);
+  background-image:linear-gradient(180deg, rgb(140, 178, 255) 0%, rgb(88, 132, 255) 28%, rgb(48, 88, 210) 58%, rgb(18, 32, 72) 88%, rgb(8, 14, 36) 100%);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  -webkit-text-fill-color:transparent;
+}
+.sec-eyebrow{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--color-text-secondary);margin-bottom:.3rem}
+.sec-eyebrow i{font-size:14px}
+.sec-h2{font-size:44px;font-weight:500;letter-spacing:-.04em;line-height:1.05em;color:var(--color-text-primary);margin:0}
+.sec-sub{font-size:18px;line-height:1.6;color:rgba(255,255,255,0.6);max-width:540px;margin:0}
+.sec-trust-callout{
+  box-sizing:border-box;
+  margin:clamp(1.5rem,4vw,2.25rem) auto 0;
+  max-width:none;
+  width:100%;
+  padding:clamp(1.25rem,3vw,1.75rem) clamp(1.5rem,4vw,2.25rem);
+  text-align:center;
+  border:1px solid rgba(255,255,255,0.22);
+  border-radius:16px;
+  background:rgba(12,18,36,0.72);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.06);
+}
+.sec-trust-callout .sec-h2{margin:0 0 .75rem;text-align:center}
+.sec-trust-callout .sec-sub{margin:0;text-align:center;max-width:none}
+.sec-trust-callout p.sec-sub{color:rgba(255,255,255,0.6)}
+.cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;position:relative;z-index:1;margin-top:6px}
+.col-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.5rem;display:flex;flex-direction:column;gap:1.25rem}
+.col-card{
+  position:relative;
+  overflow:hidden;
+  min-width:0;
+  width:100%;
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:20px;
+  background:linear-gradient(180deg, rgba(18,38,96,.55) 0%, rgba(6,12,30,.92) 52%, rgba(0,0,0,.98) 100%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.08);
+}
+.col-card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  opacity:.45;
+  background-image:
+    linear-gradient(rgba(120,145,220,.10) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(120,145,220,.10) 1px, transparent 1px);
+  background-size:28px 28px;
+}
+.col-card > *{position:relative;z-index:1}
+.col-card:first-child{border-top:2px solid #7F77DD}
+.col-card:last-child{border-top:2px solid #1D9E75}
+.col-header{display:flex;align-items:flex-start;justify-content:space-between;min-width:0;gap:10px}
+.col-title-group{min-width:0}
+.vert-label{font-size:11px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;margin:0 0 4px}
+.fin-label{color:#534AB7}
+.hlt-label{color:#0F6E56}
+.col-title{font-size:16px;font-weight:500;color:var(--color-text-primary);margin:0}
+.col-badge{font-size:11px;font-weight:600;padding:5px 11px;border-radius:999px;border:1px solid rgba(255,255,255,.18);background:rgba(22,36,74,0.72);backdrop-filter:blur(8px)}
+.fin-badge{color:#d6e2ff;border-color:rgba(96,142,255,0.35)}
+.hlt-badge{color:#d4f5ec;border-color:rgba(29,158,117,0.4)}
+.phone-frame{
+  width:100%;aspect-ratio:9/16;max-height:280px;
+  border-radius:24px;
+  border:1.5px solid var(--color-border-secondary);
+  background:var(--color-background-secondary);
+  overflow:hidden;position:relative;
+  display:flex;flex-direction:column;
+  align-self:center;
+}
+.phone-notch{
+  width:60px;height:8px;background:var(--color-border-secondary);
+  border-radius:0 0 8px 8px;margin:8px auto 0;flex-shrink:0;align-self:center;
+}
+.phone-screen{flex:1;display:flex;flex-direction:column;gap:6px;padding:10px 10px 6px;overflow:hidden}
+.screen-row{display:flex;align-items:center;gap:6px}
+.avatar-sm{
+  width:22px;height:22px;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+/* Professional bust avatars (inline SVG); chip fill lives inside the graphic */
+.fin-av,.hlt-av{background:transparent}
+.avatar-prof{display:block;width:20px;height:20px;flex-shrink:0}
+.txt-sm{height:8px;border-radius:4px;background:var(--color-border-tertiary)}
+.txt-xs{height:6px;border-radius:3px;background:var(--color-border-tertiary);opacity:.6}
+.balance-card{
+  border-radius:10px;padding:10px 12px;margin:2px 0;
+}
+.fin-card-bg{background:#EEEDFE}
+.hlt-card-bg{background:#E1F5EE}
+.balance-label{font-size:9px;font-weight:500;margin:0 0 2px}
+.fin-text{color:#534AB7}
+.hlt-text{color:#0F6E56}
+.balance-amount{font-size:16px;font-weight:500;margin:0}
+.fin-amount{color:#3C3489}
+.hlt-amount{color:#085041}
+.mini-row{display:flex;gap:4px;margin:2px 0}
+.mini-card{flex:1;border-radius:6px;padding:5px 6px;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary)}
+.mini-label{font-size:8px;color:var(--color-text-secondary);margin:0 0 2px}
+.mini-val{font-size:10px;font-weight:500;color:var(--color-text-primary);margin:0}
+.tx-list{display:flex;flex-direction:column;gap:4px;margin-top:2px}
+.tx-row{display:flex;align-items:center;justify-content:space-between}
+.tx-dot{width:18px;height:18px;border-radius:50%;flex-shrink:0}
+.tx-info{flex:1;margin-left:6px;display:flex;flex-direction:column;gap:1px}
+.tx-name{height:6px;border-radius:3px;background:var(--color-border-secondary);width:60%}
+.tx-sub{height:5px;border-radius:2px;background:var(--color-border-tertiary);width:40%;opacity:.5}
+.tx-amt{font-size:9px;font-weight:500}
+.fin-tx{color:#3C3489}
+.hlt-tx{color:#085041}
+.apt-row{display:flex;align-items:center;gap:6px;background:var(--color-background-primary);border-radius:6px;padding:5px 6px;border:0.5px solid var(--color-border-tertiary)}
+.apt-time{font-size:9px;font-weight:500;color:#0F6E56;width:28px;flex-shrink:0}
+.apt-info{flex:1;display:flex;flex-direction:column;gap:1px}
+.apt-name{height:6px;border-radius:3px;background:var(--color-border-secondary);width:70%}
+.apt-type{height:5px;border-radius:2px;background:#9FE1CB;width:45%;opacity:.8}
+.apt-av{width:18px;height:18px;border-radius:50%;background:#9FE1CB;flex-shrink:0}
+.vitals-row{display:grid;grid-template-columns:1fr 1fr;gap:4px}
+.vital-card{border-radius:6px;padding:5px 6px;display:flex;flex-direction:column;gap:2px;border:0.5px solid var(--color-border-tertiary);background:var(--color-background-primary)}
+.vital-icon{font-size:12px;color:#1D9E75;margin-bottom:1px}
+.vital-val{font-size:11px;font-weight:500;color:var(--color-text-primary);margin:0}
+.vital-label{font-size:8px;color:var(--color-text-secondary);margin:0}
+.capabilities{display:flex;flex-direction:column;gap:10px}
+.cap-item{display:flex;align-items:flex-start;gap:10px}
+.cap-icon{
+  width:32px;height:32px;min-width:32px;min-height:32px;
+  border-radius:var(--border-radius-md);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;margin-top:2px;
+  box-sizing:border-box;
+}
+/* Tabler webfont icons: center glyph inside tile */
+.cap-icon i[class*=" ti-"],
+.cap-icon i.ti{
+  display:flex;align-items:center;justify-content:center;
+  width:100%;height:100%;
+  font-size:15px;line-height:1;
+  margin:0;
+}
+/* Tabler webfont glyphs render via ::before — keep glyph visually centered */
+.cap-icon i[class*=" ti-"]::before,
+.cap-icon i.ti::before{
+  display:block;
+  line-height:1;
+  text-align:center;
+}
+.fin-icon{
+  background:linear-gradient(145deg, rgba(72,118,255,0.38), rgba(22,36,74,0.72));
+  border:1px solid rgba(96,142,255,0.35);
+}
+.fin-icon i{color:#e8f0ff}
+.hlt-icon{
+  background:linear-gradient(145deg, rgba(29,158,117,0.28), rgba(22,36,74,0.72));
+  border:1px solid rgba(93,202,165,0.35);
+}
+.hlt-icon i{color:#d4fff4}
+.cap-text{min-width:0;flex:1}
+.cap-title{font-size:14px;font-weight:600;color:#f6f9ff;margin:0 0 4px;letter-spacing:-0.01em;line-height:1.35}
+.cap-desc{font-size:13px;color:rgba(230,238,255,0.82);margin:0;line-height:1.55}
+.compliance-row{
+  display:flex;flex-wrap:wrap;align-items:center;gap:8px;min-width:0;
+  border-top:0.5px solid var(--color-border-tertiary);padding-top:1rem;
+}
+.comp-badge{font-size:11px;font-weight:600;padding:5px 10px;border-radius:999px;border:1px solid}
+.fin-comp{
+  background:rgba(72,118,255,0.2);
+  color:#f0f5ff;
+  border-color:rgba(96,142,255,0.5);
+}
+.hlt-comp{
+  background:rgba(29,158,117,0.18);
+  color:#ecfff8;
+  border-color:rgba(93,202,165,0.45);
+}
+.card-cta{
+  margin-top:12px;display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  width:100%;min-width:0;min-height:46px;border-radius:10px;text-decoration:none;
+  font-size:14px;font-weight:600;letter-spacing:.01em;
+  white-space:normal;text-align:center;box-sizing:border-box;padding:10px 12px;
+  transition:transform .2s ease,filter .2s ease,opacity .2s ease;
+  box-shadow:inset 0 0 10px 2px rgba(255,255,255,0.14);
+}
+.card-cta:hover{transform:translateY(-1px);filter:brightness(1.06)}
+.card-cta:focus-visible{outline:none;box-shadow:0 0 0 2px rgba(143,178,255,.55), inset 0 0 10px 2px rgba(255,255,255,0.14)}
+/* Match homepage / header “Get free consultation” glossy blue CTA */
+.fin-cta,.hlt-cta{
+  background:linear-gradient(180deg,#2f5eff 0%,#254dcf 100%);
+  color:#fff;
+  border:1px solid rgba(75,120,255,0.9);
+}
+.hlt-cta{
+  border-color:rgba(75,120,255,0.75);
+  box-shadow:inset 0 0 10px 2px rgba(255,255,255,0.12), 0 0 0 1px rgba(29,158,117,0.25);
+}
+.comp-label{font-size:11px;font-weight:500;color:rgba(230,238,255,0.72);margin-right:2px}
+
+@media (max-width:768px){
+  /* Stack verticals full-width on phones (was two narrow columns). */
+  .cols{grid-template-columns:1fr;gap:1rem}
+  p.sec-watermark{display:none}
+  .sec-header{margin-bottom:.5rem;min-height:0;padding-bottom:0}
+  .sec-trust-callout{margin-top:1.25rem;padding:1.125rem 1.25rem;border-radius:14px}
+  .sec-trust-callout .sec-h2{font-size:26px;line-height:1.12;margin-bottom:.625rem}
+  .sec-trust-callout .sec-sub{font-size:15px;line-height:1.55;color:rgba(255,255,255,0.78)}
+  /* Brighter cards + labels on small screens (OLED + sunlight). */
+  .col-card{
+    background:linear-gradient(180deg, rgba(28,52,120,.72) 0%, rgba(14,24,48,.94) 48%, rgba(4,8,20,.99) 100%);
+    border-color:rgba(255,255,255,.22);
+  }
+  .col-card::before{opacity:.32}
+  .fin-label{color:#9B94F0}
+  .hlt-label{color:#3AD4A8}
+  .col-title{font-size:17px;line-height:1.35}
+  .col-badge{font-size:12px;padding:6px 12px;background:rgba(32,48,92,.88);border-color:rgba(255,255,255,.28)}
+  .fin-badge{color:#eef4ff}
+  .hlt-badge{color:#e8fff6}
+  .phone-frame{max-height:300px;border-color:rgba(255,255,255,.32)}
+  .phone-screen{padding:11px 11px 7px;gap:7px}
+  .avatar-prof{width:21px;height:21px}
+  .balance-label{font-size:10px}
+  .balance-amount{font-size:17px}
+  .mini-label,.vital-label{font-size:9px;color:rgba(232,240,255,.88)}
+  .mini-val,.vital-val{font-size:11px}
+  .tx-amt{font-size:10px}
+  .cap-desc{font-size:14px;color:rgba(240,246,255,.9)}
+  .comp-label{color:rgba(240,246,255,.88)}
+}
+</style>
+
+<div class="sec-wrap">
+  <div class="sec-header">
+    <p class="sec-watermark" aria-hidden="true">OUR<br>EXPERTISE</p>
+  </div>
+
+  <div class="cols">
+
+    <!-- FINTECH COLUMN -->
+    <div class="col-card">
+      <div class="col-header">
+        <div class="col-title-group">
+          <p class="vert-label fin-label">Fintech</p>
+          <p class="col-title">Financial infrastructure<br>built to be trusted.</p>
+        </div>
+        <span class="col-badge fin-badge">35+ shipped</span>
+      </div>
+
+      <!-- Phone mockup -->
+      <div style="display:flex;justify-content:center">
+      <div class="phone-frame" style="max-width:160px">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <div class="screen-row">
+            <div class="avatar-sm fin-av" aria-hidden="true"><svg class="avatar-prof" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" width="20" height="20" aria-hidden="true"><circle cx="20" cy="20" r="18" fill="#f4f2ff" stroke="#2f2866" stroke-width="2.5"/><g transform="translate(0 -3.2)"><path fill="#2f2866" d="M7 36.5V28.5c0-2.4 2-4.5 4.5-5l1.8 4.3h13.4l1.8-4.3c2.5.5 4.5 2.6 4.5 5V36.5H7z"/><path fill="#f4f2ff" d="M13.4 23.5h13.2l-1.2-3.2H14.6l-1.2 3.2z"/><path fill="#2f2866" d="M18.5 21h3v6.8h-3z"/><circle cx="20" cy="13.2" r="4.8" fill="#2f2866"/><path fill="#2f2866" d="M15.2 12.2C15.5 9 17.5 6.7 20 6.7s4.5 2.3 4.8 5.5h-9.6z"/></g></svg></div>
+            <div style="flex:1;display:flex;flex-direction:column;gap:3px">
+              <div class="txt-sm" style="width:50%"></div>
+              <div class="txt-xs" style="width:35%"></div>
+            </div>
+            <i class="ti ti-bell" style="font-size:14px;color:var(--color-text-secondary)" aria-hidden="true"></i>
+          </div>
+          <div class="balance-card fin-card-bg">
+            <p class="balance-label fin-text">Total portfolio</p>
+            <p class="balance-amount fin-amount">$84,230.50</p>
+            <div style="display:flex;gap:4px;margin-top:4px;align-items:center">
+              <i class="ti ti-trending-up" style="font-size:11px;color:#534AB7" aria-hidden="true"></i>
+              <span style="font-size:9px;color:#534AB7;font-weight:500">+12.4% this month</span>
+            </div>
+          </div>
+          <div class="mini-row">
+            <div class="mini-card"><p class="mini-label">Savings</p><p class="mini-val fin-text">$12.4k</p></div>
+            <div class="mini-card"><p class="mini-label">Invested</p><p class="mini-val fin-text">$71.8k</p></div>
+            <div class="mini-card"><p class="mini-label">P&L</p><p class="mini-val fin-text">+8.3%</p></div>
+          </div>
+          <div class="tx-list">
+            <div class="tx-row">
+              <div class="tx-dot" style="background:#EEEDFE"></div>
+              <div class="tx-info"><div class="tx-name"></div><div class="tx-sub"></div></div>
+              <span class="tx-amt fin-tx">-$42.00</span>
+            </div>
+            <div class="tx-row">
+              <div class="tx-dot" style="background:#EEEDFE"></div>
+              <div class="tx-info"><div class="tx-name" style="width:50%"></div><div class="tx-sub" style="width:30%"></div></div>
+              <span class="tx-amt fin-tx">+$320</span>
+            </div>
+            <div class="tx-row">
+              <div class="tx-dot" style="background:#EEEDFE"></div>
+              <div class="tx-info"><div class="tx-name" style="width:45%"></div><div class="tx-sub" style="width:35%"></div></div>
+              <span class="tx-amt fin-tx">-$156</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+
+      <!-- Capabilities -->
+      <div class="capabilities">
+        <div class="cap-item">
+          <div class="cap-icon fin-icon"><i class="ti ti-credit-card" aria-hidden="true"></i></div>
+          <div class="cap-text">
+            <p class="cap-title">Payment infrastructure</p>
+            <p class="cap-desc">PSP integrations, wallets, split settlements, and reconciliation at scale.</p>
+          </div>
+        </div>
+        <div class="cap-item">
+          <div class="cap-icon fin-icon"><i class="ti ti-chart-candle" aria-hidden="true"></i></div>
+          <div class="cap-text">
+            <p class="cap-title">Lending & wealth platforms</p>
+            <p class="cap-desc">Credit scoring, loan origination, portfolio dashboards, and trading UIs.</p>
+          </div>
+        </div>
+        <div class="cap-item">
+          <div class="cap-icon fin-icon"><i class="ti ti-fingerprint" aria-hidden="true"></i></div>
+          <div class="cap-text">
+            <p class="cap-title">KYC / AML compliance</p>
+            <p class="cap-desc">Identity verification flows, sanctions screening, and audit trail logging.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Compliance badges -->
+      <div class="compliance-row">
+        <span class="comp-label">Compliant with</span>
+        <span class="comp-badge fin-comp">PCI-DSS</span>
+        <span class="comp-badge fin-comp">ISO 27001</span>
+        <span class="comp-badge fin-comp">SOC 2</span>
+        <span class="comp-badge fin-comp">RBI guidelines</span>
+      </div>
+      <a class="card-cta fin-cta" href="/fintech-landing" rel="noopener noreferrer">Start your fintech project →</a>
+    </div>
+
+    <!-- HEALTHCARE COLUMN -->
+    <div class="col-card">
+      <div class="col-header">
+        <div class="col-title-group">
+          <p class="vert-label hlt-label">Healthcare</p>
+          <p class="col-title">Patient-first products,<br>regulation-ready.</p>
+        </div>
+        <span class="col-badge hlt-badge">25+ shipped</span>
+      </div>
+
+      <!-- Phone mockup -->
+      <div style="display:flex;justify-content:center">
+      <div class="phone-frame" style="max-width:160px">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <div class="screen-row">
+            <div class="avatar-sm hlt-av" aria-hidden="true"><svg class="avatar-prof" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" width="20" height="20" aria-hidden="true"><circle cx="20" cy="20" r="18" fill="#f0fff8" stroke="#0a4a3d" stroke-width="2.5"/><g transform="translate(0 -3.2)"><path fill="#0a4a3d" d="M7 36.5V28.5c0-2.3 1.9-4.4 4.3-4.9l2 4.6h13.4l2-4.6c2.4.5 4.3 2.6 4.3 4.9V36.5H7z"/><path fill="#f0fff8" d="M13.4 23.5h13.2l-1.2-3.2H14.6l-1.2 3.2z"/><path fill="#0a4a3d" d="M18.5 21h3v6.8h-3z"/><circle cx="20" cy="13.2" r="4.8" fill="#0a4a3d"/><path fill="#0a4a3d" d="M13 13.5c0-4.2 2.8-7.2 7-7.2s7 3 7 7.2c0 .8-.1 1.5-.3 2.1-1.4-2.9-3.8-5-6.7-5s-5.3 2.1-6.7 5c-.2-.6-.3-1.3-.3-2.1z"/><ellipse cx="10.5" cy="21.2" rx="2" ry="4.5" fill="#0a4a3d" transform="rotate(-18 10.5 21.2)"/></g></svg></div>
+            <div style="flex:1;display:flex;flex-direction:column;gap:3px">
+              <div class="txt-sm" style="width:55%"></div>
+              <div class="txt-xs" style="width:40%"></div>
+            </div>
+            <i class="ti ti-bell" style="font-size:14px;color:var(--color-text-secondary)" aria-hidden="true"></i>
+          </div>
+          <div class="balance-card hlt-card-bg">
+            <p class="balance-label hlt-text">Next appointment</p>
+            <p class="balance-amount hlt-amount" style="font-size:13px;margin:2px 0">Dr. Priya Nair</p>
+            <div style="display:flex;gap:4px;margin-top:3px;align-items:center">
+              <i class="ti ti-calendar" style="font-size:11px;color:#0F6E56" aria-hidden="true"></i>
+              <span style="font-size:9px;color:#0F6E56;font-weight:500">Tomorrow, 10:30 AM · Cardiology</span>
+            </div>
+          </div>
+          <div class="vitals-row">
+            <div class="vital-card">
+              <i class="ti ti-heart" class="vital-icon" style="font-size:12px;color:#1D9E75" aria-hidden="true"></i>
+              <p class="vital-val">72 bpm</p>
+              <p class="vital-label">Heart rate</p>
+            </div>
+            <div class="vital-card">
+              <i class="ti ti-activity" class="vital-icon" style="font-size:12px;color:#1D9E75" aria-hidden="true"></i>
+              <p class="vital-val">118/76</p>
+              <p class="vital-label">Blood pressure</p>
+            </div>
+            <div class="vital-card">
+              <i class="ti ti-droplet" class="vital-icon" style="font-size:12px;color:#1D9E75" aria-hidden="true"></i>
+              <p class="vital-val">98 mg/dL</p>
+              <p class="vital-label">Blood glucose</p>
+            </div>
+            <div class="vital-card">
+              <i class="ti ti-lungs" class="vital-icon" style="font-size:12px;color:#1D9E75" aria-hidden="true"></i>
+              <p class="vital-val">99%</p>
+              <p class="vital-label">SpO₂</p>
+            </div>
+          </div>
+          <div class="tx-list">
+            <div class="apt-row">
+              <span class="apt-time">10:30</span>
+              <div class="apt-info"><div class="apt-name"></div><div class="apt-type"></div></div>
+              <div class="apt-av"></div>
+            </div>
+            <div class="apt-row">
+              <span class="apt-time">02:00</span>
+              <div class="apt-info"><div class="apt-name" style="width:60%"></div><div class="apt-type" style="width:35%"></div></div>
+              <div class="apt-av"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+
+      <!-- Capabilities -->
+      <div class="capabilities">
+        <div class="cap-item">
+          <div class="cap-icon hlt-icon"><i class="ti ti-report-medical" aria-hidden="true"></i></div>
+          <div class="cap-text">
+            <p class="cap-title">EHR / EMR integrations</p>
+            <p class="cap-desc">HL7 and FHIR API work that connects your product to existing health records.</p>
+          </div>
+        </div>
+        <div class="cap-item">
+          <div class="cap-icon hlt-icon"><i class="ti ti-device-mobile" aria-hidden="true"></i></div>
+          <div class="cap-text">
+            <p class="cap-title">Telehealth platforms</p>
+            <p class="cap-desc">Video consult, async messaging, e-prescriptions, and remote monitoring apps.</p>
+          </div>
+        </div>
+        <div class="cap-item">
+          <div class="cap-icon hlt-icon"><i class="ti ti-shield-lock" aria-hidden="true"></i></div>
+          <div class="cap-text">
+            <p class="cap-title">Compliant data architecture</p>
+            <p class="cap-desc">Encryption at rest and in transit, role-based access, and full audit logs.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Compliance badges -->
+      <div class="compliance-row">
+        <span class="comp-label">Compliant with</span>
+        <span class="comp-badge hlt-comp">HIPAA</span>
+        <span class="comp-badge hlt-comp">HL7 FHIR</span>
+        <span class="comp-badge hlt-comp">DISHA</span>
+        <span class="comp-badge hlt-comp">ISO 13485</span>
+      </div>
+      <a class="card-cta hlt-cta" href="/healthcare-landing" rel="noopener noreferrer">Start your healthcare product →</a>
+    </div>
+
+  </div>
+
+  <div class="sec-trust-callout">
+    <h2 class="sec-h2">Where compliance meets code.</h2>
+    <p class="sec-sub">60+ products shipped in the two hardest-to-build verticals. We know the standards before we write the first line.</p>
+  </div>
+</div>

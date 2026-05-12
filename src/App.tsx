@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import EnhancedIndex from "./pages/EnhancedIndex";
+import Index from "./pages/Index";
 import Portfolio from "./pages/Portfolio";
 import CaseStudy from "./pages/CaseStudy";
 import ContactPage from "./pages/ContactPage";
@@ -60,15 +61,31 @@ import TechCompanyLanding from "./pages/landingPages/TechCompanyLanding";
 import StartupLanding from "./pages/landingPages/StartupLanding";
 import AiStockPrediction from "./pages/landingPages/AiStockPrediction";
 import FintechLanding from "./pages/landingPages/FintechLanding";
+import HealthcareLanding from "./pages/landingPages/HealthcareLanding";
+import RedesignFintechLanding from "./redesign/pages/FintechPortfolioLanding";
+import RedesignHealthcareLanding from "./redesign/pages/HealthcarePortfolioLanding";
+import { RedesignShell } from "./redesign/RedesignShell";
 import ReshabLandingPage from "./pages/landingPages/ReshabLandingPage";
 import DarshanLandingPage from "./pages/landingPages/DarshanLandingPage";
 import KavyaLandingPage from "./pages/landingPages/KavyaLandingPage";
 import MahinLandingPage from "./pages/landingPages/MahinLandingPage";
 import MeghanaLandingPage from "./pages/landingPages/MeghanaLandingPage";
+import NewHomepagePreview from "./pages/NewHomepagePreview";
+import WorkPage from "./pages/WorkPage";
+import WorkCaseStudyPage from "./pages/WorkCaseStudyPage";
+import { shouldUseNewUiForRoute, shouldUseRedesignIndustryLanding } from "./lib/domainRouting";
 
 const queryClient = new QueryClient();
 
 const App = () => {
+  const hostname =
+    typeof window !== "undefined" ? window.location.hostname : "";
+  const useNewHomepageUi = shouldUseNewUiForRoute("/", hostname);
+  const useNewWorkUi = shouldUseNewUiForRoute("/work", hostname);
+  const useNewWorkCaseStudyUi = shouldUseNewUiForRoute("/work/sample", hostname);
+  const useNewFintechLanding = shouldUseRedesignIndustryLanding(hostname);
+  const useNewHealthcareLanding = useNewFintechLanding;
+
   return (
     <QueryClientProvider client={queryClient}>
       <HelmetProvider>
@@ -82,9 +99,14 @@ const App = () => {
               <Route
                 path="/"
                 element={
-                  <>
-                    <FloatingWhatsAppButton /> <EnhancedIndex />
-                  </>
+                  useNewHomepageUi ? (
+                    <NewHomepagePreview />
+                  ) : (
+                    <>
+                      <FloatingWhatsAppButton />
+                      <Index />
+                    </>
+                  )
                 }
               />
               <Route
@@ -102,6 +124,24 @@ const App = () => {
                   <>
                     <FloatingWhatsAppButton />
                     <CaseStudy />
+                  </>
+                }
+              />
+              <Route
+                path="/work"
+                element={
+                  <>
+                    <FloatingWhatsAppButton />
+                    {useNewWorkUi ? <WorkPage /> : <Portfolio />}
+                  </>
+                }
+              />
+              <Route
+                path="/work/:slug"
+                element={
+                  <>
+                    <FloatingWhatsAppButton />
+                    {useNewWorkCaseStudyUi ? <WorkCaseStudyPage /> : <CaseStudy />}
                   </>
                 }
               />
@@ -367,6 +407,15 @@ const App = () => {
                 }
               />
               <Route
+                path="/:salesperson/:service"
+                element={
+                  <>
+                    <FloatingWhatsAppButton />
+                    <SalespersonServicePage />
+                  </>
+                }
+              />
+              <Route
                 path="/webinar/:id"
                 element={
                   <>
@@ -451,6 +500,36 @@ const App = () => {
                   </>
                 }
               />
+              <Route
+                path="/fintech-landing"
+                element={
+                  useNewFintechLanding ? (
+                    <RedesignShell>
+                      <RedesignFintechLanding />
+                    </RedesignShell>
+                  ) : (
+                    <>
+                      <FloatingWhatsAppButton />
+                      <FintechLanding />
+                    </>
+                  )
+                }
+              />
+              <Route
+                path="/healthcare-landing"
+                element={
+                  useNewHealthcareLanding ? (
+                    <RedesignShell>
+                      <RedesignHealthcareLanding />
+                    </RedesignShell>
+                  ) : (
+                    <>
+                      <FloatingWhatsAppButton />
+                      <HealthcareLanding />
+                    </>
+                  )
+                }
+              />
 
               <Route
                 path="/rsb-fintech-founder"
@@ -482,6 +561,7 @@ const App = () => {
                   <MeghanaLandingPage />
                 }
               />
+              <Route path="/new-homepage-preview" element={<NewHomepagePreview />} />
 
               {/* Admin routes */}
               <Route path="/admin/login" element={<AdminLogin />} />

@@ -11,7 +11,7 @@ const TestimonialsCarousel = () => {
       name: "Sarah Johnson",
       company: "TechStart Solutions",
       image: "https://images.unsplash.com/photo-1494790108755-2616b612b03c?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
-      text: "BoostMySites transformed our business with their exceptional development services. Their team's expertise and attention to detail exceeded our expectations. Highly recommended!",
+      text: "Boostmysites transformed our business with their exceptional development services. Their team's expertise and attention to detail exceeded our expectations. Highly recommended!",
       rating: 5,
       result: "300% ROI in 6 months"
     },
@@ -35,7 +35,7 @@ const TestimonialsCarousel = () => {
       name: "David Kumar",
       company: "Innovation Labs",
       image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
-      text: "Working with BoostMySites was a game-changer for our business. Their technical expertise and innovative approach helped us achieve results we never thought possible.",
+      text: "Working with Boostmysites was a game-changer for our business. Their technical expertise and innovative approach helped us achieve results we never thought possible.",
       rating: 5,
       result: "200% growth in users"
     },
@@ -51,7 +51,7 @@ const TestimonialsCarousel = () => {
       name: "Alex Thompson",
       company: "Digital Ventures",
       image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
-      text: "BoostMySites delivered exactly what we needed and more. Their technical skills and business understanding helped us scale our operations significantly.",
+      text: "Boostmysites delivered exactly what we needed and more. Their technical skills and business understanding helped us scale our operations significantly.",
       rating: 5,
       result: "5x faster processing"
     }

@@ -118,7 +118,7 @@ const Navbar = () => {
             <div className="container-custom flex justify-between items-center px-4 sm:px-6">
                 {/* Logo */}
                 <Link to="/" className="flex items-center gap-2" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-                    <span className={`text-xl sm:text-2xl font-bold font-heading tracking-widest uppercase ${isDark ? 'text-white' : 'text-heading'}`}>Boostmysites</span>
+                    <span className={`text-xl sm:text-2xl font-bold font-heading tracking-tight ${isDark ? 'text-white' : 'text-heading'}`}>Boostmysites</span>
                 </Link>
 
                 {/* Desktop Menu */}

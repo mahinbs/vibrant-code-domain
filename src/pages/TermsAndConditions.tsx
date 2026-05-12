@@ -235,7 +235,7 @@ const TermsAndConditions = () => {
                 <span className="font-bold text-cyan-400">((Name))</span>,{" "}
                 <span className="font-bold text-cyan-400">((Address))</span>, and{" "}
                 <span className="font-bold text-cyan-400">
-                  TRIPLE-SEVEN BOOSTMYSITES AI SOLUTIONS LLP
+                  TRIPLE-SEVEN Boostmysites AI Solutions LLP
                 </span>
                 , located at House No: 137, 3rd Main, 3rd Cross, 4th Phase,
                 Dollars Colony, JP Nagar, Bangalore South, Bengaluru, Karnataka
@@ -261,7 +261,7 @@ const TermsAndConditions = () => {
                 </li>
                 <li>
                   <span className="font-bold text-cyan-400">Service Provider:</span>{" "}
-                  TRIPLE-SEVEN BOOSTMYSITES AI SOLUTIONS LLP
+                  TRIPLE-SEVEN Boostmysites AI Solutions LLP
                 </li>
                 <li>
                   <span className="font-bold text-cyan-400">CM:</span> Client Manager
@@ -279,7 +279,7 @@ const TermsAndConditions = () => {
             <section className="bg-gradient-to-br from-cyan-500/10 via-blue-500/10 to-purple-500/10 border border-cyan-400/30 rounded-lg p-6">
               <h2 className="text-2xl font-semibold mb-4 text-white">Scope of Services</h2>
               <p className="mb-4">
-                TRIPLE-SEVEN BOOSTMYSITES AI SOLUTIONS LLP agrees to provide
+                TRIPLE-SEVEN Boostmysites AI Solutions LLP agrees to provide
                 infrastructure as a service (IAAS) under the 'AIE Subscription'
                 model to <span className="font-bold text-cyan-400">((Name))</span>, provided
                 that all terms and conditions are agreed upon and signed.
@@ -370,7 +370,7 @@ const TermsAndConditions = () => {
                     Project Value and Expense Allocation:
                   </span>{" "}
                   An average of 30% of each project's value is allocated to
-                  TRIPLE-SEVEN BOOSTMYSITES AI SOLUTIONS LLP for project
+                  TRIPLE-SEVEN Boostmysites AI Solutions LLP for project
                   implementation, development, and hosting. The company will
                   communicate this amount to the Subscriber prior to finalizing
                   any client projects, ensuring transparency.
@@ -390,8 +390,8 @@ const TermsAndConditions = () => {
               <ul className="list-disc pl-6 space-y-2">
                 <li>Access to one dedicated Client Manager.</li>
                 <li>
-                  TTA, allowing collaboration with TRIPLE-SEVEN BOOSTMYSITES AI
-                  SOLUTIONS LLP technical team for project fulfillment.
+                  TTA, allowing collaboration with TRIPLE-SEVEN Boostmysites AI
+                  Solutions LLP technical team for project fulfillment.
                 </li>
                 <li>
                   Dedicated marketing professional for lead generation consulting.
@@ -415,7 +415,7 @@ const TermsAndConditions = () => {
               <ul className="list-disc pl-6 space-y-2">
                 <li>
                   The website design will be created using pre-designed templates
-                  provided by BoostMySites. Clients may select from these
+                  provided by Boostmysites. Clients may select from these
                   templates and customize color schemes according to their
                   preferences. The website will be developed based on these
                   selections.
@@ -467,7 +467,7 @@ const TermsAndConditions = () => {
               <p className="mb-4">
                 The project valuation, and the proportion of the project value
                 retained by the Service Provider, will be based on complexity and
-                resources needed. TRIPLE-SEVEN BOOSTMYSITES AI SOLUTIONS LLP will
+                resources needed. TRIPLE-SEVEN Boostmysites AI Solutions LLP will
                 ensure the Subscriber's interest is safeguarded, with the final
                 percentage communicated transparently to the Subscriber.
               </p>
@@ -479,7 +479,7 @@ const TermsAndConditions = () => {
               <ul className="list-disc pl-6 space-y-2">
                 <li>
                   <span className="font-bold text-cyan-400">No Tapping:</span> The Subscriber is
-                  prohibited from using TRIPLE-SEVEN BOOSTMYSITES AI SOLUTIONS LLP
+                  prohibited from using TRIPLE-SEVEN Boostmysites AI Solutions LLP
                   resources for personal tasks. Unauthorized use may result in
                   legal action and a penalty of Rs. 10,00,000.
                 </li>
@@ -516,7 +516,7 @@ const TermsAndConditions = () => {
                 providing training/consultation aimed at helping others establish
                 businesses. However, upon subscription termination, they are free
                 to operate independently, provided they do not engage in direct
-                competition with TRIPLE-SEVEN BOOSTMYSITES AI SOLUTIONS LLP.
+                competition with TRIPLE-SEVEN Boostmysites AI Solutions LLP.
               </p>
             </section>
 

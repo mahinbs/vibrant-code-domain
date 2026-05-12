@@ -55,7 +55,7 @@ const WhyChooseUs = () => {
       <div className="container mx-auto px-6 relative z-10">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-            Why Choose <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">BoostMySites</span>?
+            Why Choose <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Boostmysites</span>?
           </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
             We're not just another development agency. Here's what makes us different

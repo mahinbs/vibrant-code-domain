@@ -1,10 +1,10 @@
-# BoostMySites - Digital Solutions Platform
+# Boostmysites - Digital Solutions Platform
 
 A modern, responsive web application built with React, TypeScript, and Tailwind CSS, showcasing digital services including mobile app development, web applications, AI solutions, and more.
 
 ## Project info
 
-**URL**: https://lovable.dev/projects/e131830c-60b5-43b1-997a-e8d892c5764e
+**URL**: https://lovable.dev/projects/e131830c-60b5-43b1-997a-e8d892c5764e 
 
 ## Recent Updates
 
@@ -17,9 +17,9 @@ A modern, responsive web application built with React, TypeScript, and Tailwind 
 
 ### Mobile Apps Page Enhancements
 - **Inline Portfolio**: Portfolio content now loads inline without page navigation
-- **Collapsible Design**: Removed toggle button, portfolio is now permanently visible
-- **Improved UX**: Better user experience with seamless content flow
-
+- **Collapsible Design**: Removed toggle button, portfolio is now permanently visible!
+- **Improved UX**: Better user experience with seamless content flow.
+ 
 ## How can I edit this code?
 
 There are several ways of editing your application.
