@@ -18,11 +18,9 @@ export function SiteBackground() {
     const enable = () => setIsFull(true);
     if ("requestIdleCallback" in window) {
       (window as Window & { requestIdleCallback: (cb: () => void, opts?: { timeout: number }) => number })
-        .requestIdleCallback(() => {
-          window.setTimeout(enable, 2200);
-        }, { timeout: 2600 });
+        .requestIdleCallback(enable, { timeout: 1500 });
     } else {
-      window.setTimeout(enable, 2200);
+      window.setTimeout(enable, 900);
     }
   }, []);
 
