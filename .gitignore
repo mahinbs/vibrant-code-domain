@@ -24,3 +24,6 @@ dist-ssr
 *.sw?
 
 .config/
+
+# Local screen captures (large binaries; not part of the site)
+Screen Recording*.mov

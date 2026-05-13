@@ -12,6 +12,8 @@ import RouteMeta from "./components/RouteMeta";
 import FloatingWhatsAppButton from "./components/ui/FloatingWhatsAppButton";
 import ScrollToTop from "./components/ScrollToTop";
 import { RedesignShell } from "./redesign/RedesignShell";
+import JsonLd from "./components/seo/JsonLd";
+import { organizationJsonLd, websiteJsonLd } from "./lib/seo/brand";
 import { shouldUseNewUiForRoute, shouldUseRedesignIndustryLanding } from "./lib/domainRouting";
 
 const Index = lazy(() => import("./pages/Index"));
@@ -92,6 +94,9 @@ const RedesignHealthcareLanding = lazy(
   () => import("./redesign/pages/HealthcarePortfolioLanding")
 );
 const NewHomepagePreview = lazy(() => import("./pages/NewHomepagePreview"));
+const FintechDevelopmentCompanyPage = lazy(() => import("./pages/geo/FintechDevelopmentCompanyPage"));
+const TradingAppDevelopmentPage = lazy(() => import("./pages/geo/TradingAppDevelopmentPage"));
+const PayinPayoutSoftwarePage = lazy(() => import("./pages/geo/PayinPayoutSoftwarePage"));
 const AdminLogin = lazy(() => import("./pages/admin/AdminLogin"));
 const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
 const CustomerInquiries = lazy(() => import("./pages/admin/CustomerInquiries"));
@@ -125,6 +130,9 @@ const App = () => {
         <TooltipProvider>
           <Toaster />
           <Sonner />
+          {/* Sitewide entity schema. Renders nothing visible — just JSON-LD for crawlers/LLMs. */}
+          <JsonLd data={organizationJsonLd()} id="organization" />
+          <JsonLd data={websiteJsonLd()} id="website" />
           <BrowserRouter>
             <ScrollToTop />
             <GoogleAnalytics />
@@ -232,6 +240,34 @@ const App = () => {
                   <>
                     <FloatingWhatsAppButton />
                     <ServicesPage />
+                  </>
+                }
+              />
+              {/* Fintech authority pages (GEO Phase 1). New routes, additive only — do not rename. */}
+              <Route
+                path="/fintech-development-company"
+                element={
+                  <>
+                    <FloatingWhatsAppButton />
+                    <FintechDevelopmentCompanyPage />
+                  </>
+                }
+              />
+              <Route
+                path="/trading-app-development"
+                element={
+                  <>
+                    <FloatingWhatsAppButton />
+                    <TradingAppDevelopmentPage />
+                  </>
+                }
+              />
+              <Route
+                path="/payin-payout-software-development"
+                element={
+                  <>
+                    <FloatingWhatsAppButton />
+                    <PayinPayoutSoftwarePage />
                   </>
                 }
               />

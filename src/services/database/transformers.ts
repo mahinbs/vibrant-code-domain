@@ -64,17 +64,21 @@ export const transformDbBlogToBlogPost = (dbBlog: any): BlogPost => {
     publishedDate: dbBlog.published_date,
     readingTime: dbBlog.reading_time || 5,
     featuredImage: dbBlog.image,
-    category: 'General',
+    category: dbBlog.category && String(dbBlog.category).trim().length > 0
+      ? String(dbBlog.category)
+      : 'General',
     tags: dbBlog.tags || []
   };
 
-  // Generate slug if not present in database
-  const slug = dbBlog.slug || generateBlogSlug({
-    title: baseBlog.title,
-    category: baseBlog.category,
-    publishedDate: baseBlog.publishedDate,
-    tags: baseBlog.tags
-  });
+  // Prefer the slug stored in the database (stable URL), otherwise derive one.
+  const slug = dbBlog.slug && String(dbBlog.slug).trim().length > 0
+    ? String(dbBlog.slug)
+    : generateBlogSlug({
+        title: baseBlog.title,
+        category: baseBlog.category,
+        publishedDate: baseBlog.publishedDate,
+        tags: baseBlog.tags
+      });
 
   return {
     ...baseBlog,

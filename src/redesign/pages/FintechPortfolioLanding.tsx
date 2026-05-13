@@ -1,9 +1,53 @@
-import { IndustryLandingPage } from "../components/IndustryLandingPage";
+import { IndustryLandingPage, type AfterContactVerticalShowcase, type CaseStudy } from "../components/IndustryLandingPage";
+
+/** Always drives the flagship “Featured infrastructure” block + video on this page, independent of other `portfolios` rows. */
+const FINTECH_FLAGSHIP_TRADINGSMART: CaseStudy = {
+  title: "TradingSmart AI",
+  category: "Fintech",
+  impact:
+    "Shipped an AI-assisted automated trading stack with broker-scale execution, real-time risk signals, and operator-grade observability.",
+  businessResult:
+    "TradingSmart.AI is a production trading platform for strategy automation, execution orchestration, and portfolio analytics—built for teams that need reliability when markets move fast.",
+  slug: "trading-smart-ai",
+  stack: [
+    "Artificial Intelligence",
+    "Algorithmic Trading",
+    "Automation Systems",
+    "Cloud Infrastructure",
+    "Real-Time Analytics",
+    "Broker API Integrations",
+  ],
+  image:
+    "https://images.unsplash.com/photo-1611974789855-9c2a0a475e90?auto=format&fit=crop&w=1200&q=80",
+  gradient:
+    "radial-gradient(120% 100% at 50% 20%, rgba(34,197,94,0.35), rgba(8,16,40,0.92) 55%, rgba(0,0,0,0.9) 100%)",
+};
+
+/** Finnly band directly under the contact form — vertical 9:16 video left, narrative right. */
+const FINNLY_AFTER_CONTACT: AfterContactVerticalShowcase = {
+  eyebrow: "Product spotlight",
+  title: "Finnly — multicurrency wallet & exchange",
+  description:
+    "A consumer-grade crypto wallet and exchange surface we shipped end-to-end: onboarding, BTC/USDT send and exchange flows, NFT and Earn tabs, and a debit-card path for fiat — all in one dark, motion-led product system built for clarity under real money.",
+  bullets: [
+    "Exchange, send, and wallet flows with preset amounts, QR, and address guardrails",
+    "Multi-asset navigation — wallet, NFT, browser, swap, and earn — without losing context",
+    "Visual system tuned for trust: depth, grid texture, and high-contrast CTAs on small screens",
+  ],
+  videoSrc: "/videos/finnly-vertical.mov",
+  videoPoster: "/portfolios/finnly/onboarding.webp",
+  /** Shown if video is unavailable (e.g. blocked format). */
+  fallbackImageSrc: "/portfolios/finnly/screens.webp",
+  /** `/work/:slug` — add a matching case study in CMS/static data or update this slug. */
+  caseStudySlug: "finnly",
+  buildSimilarLabel: "Build Similar",
+};
 
 export default function FintechPortfolioLanding() {
   return (
     <IndustryLandingPage
       portfolioVertical="fintech"
+      featuredFlagshipCaseStudy={FINTECH_FLAGSHIP_TRADINGSMART}
       eyebrow="Fintech software"
       heroTitle="Fintech infrastructure users trust with real money."
       heroSubtitle="We design and engineer secure fintech platforms, from payment systems and wallets to lending infrastructure and compliance tooling."
@@ -243,6 +287,10 @@ export default function FintechPortfolioLanding() {
       ]}
       finalTitle="Building the next fintech category leader?"
       finalSubtitle="Work with a team that understands payments, compliance, scale, and shipping velocity."
+      featuredInfrastructureVideo="/videos/featured-fintech-live-execution.m4v"
+      featuredInfrastructureVideoFallback="/videos/featured-fintech-live-execution.mov"
+      featuredLiveSiteHref="https://www.tradingsmart.ai"
+      afterContactVerticalShowcase={FINNLY_AFTER_CONTACT}
     />
   );
 }

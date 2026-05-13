@@ -19,10 +19,14 @@ export interface BlogPost {
   readingTime?: number;
   reading_time?: number;
   featured?: boolean;
+  // Optional GEO/SEO fields persisted alongside the post in Supabase.
+  metaDescription?: string;
+  isPublished?: boolean;
 }
 
 export const blogCategories = [
   "All",
+  "Fintech Engineering",
   "Web Development",
   "AI & Machine Learning",
   "Mobile Development",

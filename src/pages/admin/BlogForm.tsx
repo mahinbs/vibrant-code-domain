@@ -19,6 +19,7 @@ const BlogForm = () => {
 
   const [loading, setLoading] = useState(isEdit);
   const [saving, setSaving] = useState(false);
+  const [slugManuallyEdited, setSlugManuallyEdited] = useState(false);
   const [formData, setFormData] = useState<AdminBlogPost>({
     title: '',
     slug: '',
@@ -29,11 +30,13 @@ const BlogForm = () => {
       bio: ''
     },
     excerpt: '',
+    metaDescription: '',
     publishedDate: new Date().toISOString().split('T')[0],
     category: '',
     featuredImage: '',
     tags: [],
-    readingTime: 5
+    readingTime: 5,
+    isPublished: true
   });
 
   const [tagInput, setTagInput] = useState('');
@@ -48,8 +51,12 @@ const BlogForm = () => {
           if (blog) {
             setFormData({
               ...blog,
-              publishedDate: blog.publishedDate.split('T')[0] // Convert to date input format
+              publishedDate: blog.publishedDate.split('T')[0], // Convert to date input format
+              isPublished: blog.isPublished ?? true,
+              metaDescription: blog.metaDescription ?? ''
             });
+            // When editing, the slug is already stable in DB; freeze auto-generation.
+            setSlugManuallyEdited(true);
           } else {
             toast({
               title: "Blog post not found",
@@ -73,9 +80,11 @@ const BlogForm = () => {
     }
   }, [id, isEdit, navigate, toast]);
 
-  // Auto-generate slug when title, category, or tags change
+  // Auto-generate slug when title, category, or tags change — only until the
+  // user manually edits the slug (or we're editing an existing post). This
+  // keeps URLs stable for SEO/GEO once a post has been published.
   useEffect(() => {
-    if (formData.title && formData.category && !isEdit) {
+    if (formData.title && formData.category && !slugManuallyEdited) {
       const generatedSlug = generateBlogSlug({
         title: formData.title,
         category: formData.category,
@@ -84,7 +93,7 @@ const BlogForm = () => {
       });
       setFormData(prev => ({ ...prev, slug: generatedSlug }));
     }
-  }, [formData.title, formData.category, formData.tags, formData.publishedDate, isEdit]);
+  }, [formData.title, formData.category, formData.tags, formData.publishedDate, slugManuallyEdited]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -111,16 +120,20 @@ const BlogForm = () => {
 
     try {
       setSaving(true);
+      const fallbackSlug = generateBlogSlug({
+        title: formData.title,
+        category: formData.category || 'general',
+        publishedDate: formData.publishedDate,
+        tags: formData.tags
+      });
+      const finalSlug = (formData.slug && formData.slug.trim().length > 0)
+        ? formData.slug.trim()
+        : fallbackSlug;
       const blogData = {
         ...formData,
         publishedDate: new Date(formData.publishedDate).toISOString(),
-        // Always generate slug from current form data
-        slug: generateBlogSlug({
-          title: formData.title,
-          category: formData.category,
-          publishedDate: formData.publishedDate,
-          tags: formData.tags
-        })
+        slug: finalSlug,
+        isPublished: formData.isPublished ?? true
       };
       
       console.log('BlogForm - Final blog data being saved:', blogData);
@@ -204,22 +217,19 @@ const BlogForm = () => {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="slug" className="text-gray-200">URL Slug (Auto-generated)</Label>
+              <Label htmlFor="slug" className="text-gray-200">URL Slug</Label>
               <Input
                 id="slug"
-                value={formData.slug || generateBlogSlug({
-                  title: formData.title,
-                  category: formData.category,
-                  publishedDate: formData.publishedDate,
-                  tags: formData.tags
-                })}
-                onChange={(e) => setFormData(prev => ({ ...prev, slug: e.target.value }))}
-                placeholder="url-friendly-slug (auto-generated from title)"
-                disabled={true} // Always disabled since it's auto-generated
-                className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500 disabled:bg-gray-800 disabled:text-gray-500"
+                value={formData.slug || ''}
+                onChange={(e) => {
+                  setSlugManuallyEdited(true);
+                  setFormData(prev => ({ ...prev, slug: e.target.value }));
+                }}
+                placeholder="url-friendly-slug"
+                className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500"
               />
               <p className="text-sm text-gray-400">
-                Slug is automatically generated from title, category and tags
+                Auto-generated from the title until you edit it. Once a post is published the slug should stay stable for SEO/GEO citations.
               </p>
             </div>
 
@@ -233,6 +243,34 @@ const BlogForm = () => {
                 rows={2}
                 className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500"
               />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="metaDescription" className="text-gray-200">Meta Description (SEO / GEO)</Label>
+              <Textarea
+                id="metaDescription"
+                value={formData.metaDescription || ''}
+                onChange={(e) => setFormData(prev => ({ ...prev, metaDescription: e.target.value }))}
+                placeholder='Overrides the excerpt for <meta name="description"> and OG tags. Aim for 140–160 chars.'
+                rows={2}
+                className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500"
+              />
+              <p className="text-sm text-gray-400">
+                Optional. If empty, the excerpt is used instead.
+              </p>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <input
+                id="isPublished"
+                type="checkbox"
+                checked={formData.isPublished ?? true}
+                onChange={(e) => setFormData(prev => ({ ...prev, isPublished: e.target.checked }))}
+                className="h-4 w-4 rounded border-gray-500 bg-gray-700 text-cyan-500 focus:ring-cyan-500"
+              />
+              <Label htmlFor="isPublished" className="text-gray-200 cursor-pointer">
+                Published (visible on the public blog)
+              </Label>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

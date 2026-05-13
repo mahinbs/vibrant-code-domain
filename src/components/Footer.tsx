@@ -34,6 +34,9 @@ const Footer = () => {
               <li><Link to="/mobile-apps" className="hover:text-white transition-colors duration-200">Mobile Apps</Link></li>
               <li><Link to="/ai-automation" className="hover:text-white transition-colors duration-200">AI Solutions</Link></li>
               <li><Link to="/saas" className="hover:text-white transition-colors duration-200">SaaS Development</Link></li>
+              <li><Link to="/fintech-development-company" className="hover:text-white transition-colors duration-200">Fintech Development</Link></li>
+              <li><Link to="/trading-app-development" className="hover:text-white transition-colors duration-200">Trading App Development</Link></li>
+              <li><Link to="/payin-payout-software-development" className="hover:text-white transition-colors duration-200">Pay-in / Pay-out Software</Link></li>
             </ul>
           </div>
 
@@ -62,6 +65,11 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+          <p className="max-w-3xl mx-auto mb-3 text-sm leading-relaxed">
+            BoostMySites is an AI and fintech development company specializing in trading platforms,
+            pay-in / pay-out systems, AI finance tools, neo-banking, UPI software, and fintech
+            infrastructure for startups and enterprises.
+          </p>
           <p>© 2025 Boostmysites. All rights reserved. Built with passion for innovation.</p>
         </div>
       </div>

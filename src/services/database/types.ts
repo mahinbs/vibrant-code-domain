@@ -29,4 +29,7 @@ export interface DatabaseBlogPost {
   tags: string[];
   featuredImage: string;
   category: string;
+  slug?: string;
+  metaDescription?: string;
+  isPublished?: boolean;
 }

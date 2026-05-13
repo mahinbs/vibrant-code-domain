@@ -62,6 +62,9 @@ const STATIC_ROUTES = [
   "/mhn-fintech-founder",
   "/mgh-fintech-founder",
   "/new-homepage-preview",
+  "/fintech-development-company",
+  "/trading-app-development",
+  "/payin-payout-software-development",
 ];
 
 const DYNAMIC_PREFIXES = ["/blog/", "/case-study/", "/work/"];
@@ -154,6 +157,13 @@ async function readSupabaseSlugRoutes() {
 function inferPriority(route) {
   if (route === "/") return "1.0";
   if (route === "/portfolio" || route === "/work" || route === "/services") return "0.9";
+  if (
+    route === "/fintech-development-company" ||
+    route === "/trading-app-development" ||
+    route === "/payin-payout-software-development"
+  ) {
+    return "0.9";
+  }
   if (route.startsWith("/blog/") || route.startsWith("/case-study/") || route.startsWith("/work/")) {
     return "0.8";
   }

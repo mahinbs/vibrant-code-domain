@@ -17,39 +17,51 @@ export type Database = {
       blogs: {
         Row: {
           author: Json
+          category: string | null
           content: string
           created_at: string
           excerpt: string
           id: string
           image: string
+          is_published: boolean
+          meta_description: string | null
           published_date: string
           reading_time: number
+          slug: string | null
           tags: string[]
           title: string
           updated_at: string
         }
         Insert: {
           author?: Json
+          category?: string | null
           content: string
           created_at?: string
           excerpt: string
           id?: string
           image: string
+          is_published?: boolean
+          meta_description?: string | null
           published_date: string
           reading_time?: number
+          slug?: string | null
           tags?: string[]
           title: string
           updated_at?: string
         }
         Update: {
           author?: Json
+          category?: string | null
           content?: string
           created_at?: string
           excerpt?: string
           id?: string
           image?: string
+          is_published?: boolean
+          meta_description?: string | null
           published_date?: string
           reading_time?: number
+          slug?: string | null
           tags?: string[]
           title?: string
           updated_at?: string
