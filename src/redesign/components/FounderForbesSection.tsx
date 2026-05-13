@@ -9,6 +9,7 @@ function FounderVideoEmbed() {
   if (resolved?.kind === "mp4") {
     return (
       <video
+        aria-label="Forbes interview with Mahin B S, founder of Boostmysites"
         className="absolute inset-0 size-full bg-black object-cover"
         controls
         playsInline

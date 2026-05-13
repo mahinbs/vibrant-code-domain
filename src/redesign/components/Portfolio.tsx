@@ -93,19 +93,21 @@ export function Portfolio() {
             rel="noopener"
             className="group relative h-[360px] rounded-[14px] border border-white/12 overflow-hidden flex flex-col justify-end p-6 transition-transform hover:-translate-y-1"
           >
-            <div
-              aria-hidden
-              className="absolute inset-0 z-0"
-              style={
-                p.image
-                  ? {
-                      backgroundImage: `url(${p.image})`,
-                      backgroundSize: "cover",
-                      backgroundPosition: "center",
-                    }
-                  : { background: p.gradient }
-              }
-            />
+            {p.image ? (
+              <img
+                src={p.image}
+                alt={`${p.title} — ${p.industry} project preview, Boostmysites portfolio`}
+                className="absolute inset-0 z-0 h-full w-full object-cover"
+                loading="lazy"
+                decoding="async"
+              />
+            ) : (
+              <div
+                aria-hidden
+                className="absolute inset-0 z-0"
+                style={{ background: p.gradient }}
+              />
+            )}
             <div
               aria-hidden
               className="absolute inset-0 z-[1] bg-[linear-gradient(180deg,rgba(0,0,0,0.06)_0%,rgba(0,0,0,0.78)_70%,rgba(0,0,0,0.95)_100%)]"

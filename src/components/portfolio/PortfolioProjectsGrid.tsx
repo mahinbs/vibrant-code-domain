@@ -93,7 +93,7 @@ const PortfolioProjectsGrid = ({
                       <div className="relative h-48 overflow-hidden rounded-t-2xl">
                         <img 
                           src={project.image} 
-                          alt={project.title}
+                          alt={`${project.title} — ${project.industry} project cover image`}
                           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                         />
                         <div className={`absolute inset-0 bg-gradient-to-t ${colors.gradient} opacity-60`}></div>

@@ -96,7 +96,7 @@ const ProjectCard = ({
       <div className="relative h-40 sm:h-48 overflow-hidden rounded-t-xl sm:rounded-t-2xl">
         <img 
           src={project.image} 
-          alt={project.title}
+          alt={`${project.title} — ${project.industry} project cover image`}
           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
           loading={isVisible ? "eager" : "lazy"}
           decoding="async"

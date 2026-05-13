@@ -169,7 +169,7 @@ const TestimonialsCarousel = () => {
                   <div className="flex items-center space-x-4">
                     <img 
                       src={testimonial.image} 
-                      alt={testimonial.name}
+                      alt={`${testimonial.name}, ${testimonial.company} — client headshot`}
                       className="w-12 h-12 rounded-full object-cover border-2 border-cyan-400/30"
                     />
                     <div>

@@ -403,7 +403,7 @@ const Services = () => {
                       <div className="relative w-48 h-32 flex-shrink-0 overflow-hidden rounded-l-2xl">
                         <img
                           src={service.image}
-                          alt={service.title}
+                          alt={`${service.title} — Boostmysites service illustration`}
                           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                           loading="lazy"
                           decoding="async"
