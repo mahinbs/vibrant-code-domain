@@ -4,7 +4,11 @@ import { useLocation } from 'react-router-dom';
 const GOOGLE_ANALYTICS_MEASUREMENT_ID = 'G-6RG271FTBN';
 const GOOGLE_ADS_MEASUREMENT_ID = 'AW-10794572231';
 
-// This component ensures Google Analytics events are fired on route changes
+/**
+ * Fires gtag on each client-side route change and pushes `virtualPageView` to
+ * `dataLayer` so GTM tags (e.g. Google tag, GA4 via GTM) can use a Custom Event
+ * trigger or History Change; SPAs otherwise only get the first-load "All Pages" hit.
+ */
 const GoogleAnalytics = () => {
   const location = useLocation();
 
@@ -12,21 +16,32 @@ const GoogleAnalytics = () => {
     const isPreview = /(^|\.)lovable\.app$/i.test(window.location.hostname);
     if (isPreview) return;
 
-    // This ensures the gtag function is available
+    const pagePath = location.pathname + location.search;
+
     if (typeof window.gtag === 'function') {
-      // Send pageview with the page's path and title to GA4.
       window.gtag('config', GOOGLE_ANALYTICS_MEASUREMENT_ID, {
-        page_path: location.pathname + location.search
+        page_path: pagePath,
       });
 
-      // Keep existing Google Ads destination tracking in sync.
       window.gtag('config', GOOGLE_ADS_MEASUREMENT_ID, {
-        page_path: location.pathname + location.search
+        page_path: pagePath,
       });
     }
-  }, [location]);
 
-  return null; // This component doesn't render anything
+    const id = window.setTimeout(() => {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: 'virtualPageView',
+        page_location: window.location.href,
+        page_path: pagePath,
+        page_title: document.title,
+      });
+    }, 0);
+
+    return () => window.clearTimeout(id);
+  }, [location.pathname, location.search]);
+
+  return null;
 };
 
 export default GoogleAnalytics;
