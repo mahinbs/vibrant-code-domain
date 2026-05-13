@@ -24,7 +24,12 @@ const CTA = lazy(() => import("./components/CTA").then((m) => ({ default: m.CTA 
 const Footer = lazy(() => import("./components/Footer").then((m) => ({ default: m.Footer })));
 
 export function RedesignHomePage() {
-  const { phase, sentinelRef } = useProgressiveRender();
+  const { phase, sentinelRef } = useProgressiveRender({
+    phase2DelayMs: 2800,
+    phase2IdleTimeoutMs: 3200,
+    phase3RootMargin: "160px 0px",
+    phase3TimeoutMs: 18000,
+  });
 
   return (
     <RedesignShell>

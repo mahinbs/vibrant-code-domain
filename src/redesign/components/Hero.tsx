@@ -22,9 +22,11 @@ export function Hero() {
     const enable = () => setEnableSecondaryAnimations(true);
     if ("requestIdleCallback" in window) {
       (window as Window & { requestIdleCallback: (cb: () => void, opts?: { timeout: number }) => number })
-        .requestIdleCallback(enable, { timeout: 1500 });
+        .requestIdleCallback(() => {
+          window.setTimeout(enable, 2200);
+        }, { timeout: 2600 });
     } else {
-      window.setTimeout(enable, 900);
+      window.setTimeout(enable, 2200);
     }
   }, []);
 

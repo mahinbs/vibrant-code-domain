@@ -17,7 +17,12 @@ const FooterLazy = lazy(() => import("@/components/Footer"));
 
 
 const Index = () => {
-  const { phase, sentinelRef } = useProgressiveRender();
+  const { phase, sentinelRef } = useProgressiveRender({
+    phase2DelayMs: 2600,
+    phase2IdleTimeoutMs: 2800,
+    phase3RootMargin: "120px 0px",
+    phase3TimeoutMs: 16000,
+  });
 
   return (
     <div className="min-h-screen w-full overflow-x-hidden">
