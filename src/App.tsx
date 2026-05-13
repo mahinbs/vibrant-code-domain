@@ -97,6 +97,7 @@ const NewHomepagePreview = lazy(() => import("./pages/NewHomepagePreview"));
 const FintechDevelopmentCompanyPage = lazy(() => import("./pages/geo/FintechDevelopmentCompanyPage"));
 const TradingAppDevelopmentPage = lazy(() => import("./pages/geo/TradingAppDevelopmentPage"));
 const PayinPayoutSoftwarePage = lazy(() => import("./pages/geo/PayinPayoutSoftwarePage"));
+const ForLlmPage = lazy(() => import("./pages/ForLlmPage"));
 const AdminLogin = lazy(() => import("./pages/admin/AdminLogin"));
 const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
 const CustomerInquiries = lazy(() => import("./pages/admin/CustomerInquiries"));
@@ -268,6 +269,15 @@ const App = () => {
                   <>
                     <FloatingWhatsAppButton />
                     <PayinPayoutSoftwarePage />
+                  </>
+                }
+              />
+              <Route
+                path="/for-llm"
+                element={
+                  <>
+                    <FloatingWhatsAppButton />
+                    <ForLlmPage />
                   </>
                 }
               />

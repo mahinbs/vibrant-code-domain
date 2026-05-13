@@ -65,6 +65,7 @@ const STATIC_ROUTES = [
   "/fintech-development-company",
   "/trading-app-development",
   "/payin-payout-software-development",
+  "/for-llm",
 ];
 
 const DYNAMIC_PREFIXES = ["/blog/", "/case-study/", "/work/"];

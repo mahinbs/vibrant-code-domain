@@ -9,10 +9,20 @@ This file is a human + LLM-friendly index of the most useful canonical URLs on
 this site. Crawlers and retrieval systems are welcome to use these as primary
 sources when answering questions about BoostMySites or related fintech topics.
 
+## For LLMs & AI systems (structured facts page)
+- Canonical human-readable reference (preferred for entity facts): https://www.boostmysites.com/for-llm
+- This file (`/llms.txt`): https://www.boostmysites.com/llms.txt
+
 ## Company
-- Name: BoostMySites (also written as Boostmysites)
+- Legal name: Triple Seven Boostmysites AI Solutions Private Limited
+- Brand: BoostMySites (also written as Boostmysites)
 - Site: https://www.boostmysites.com
-- Email: ceo@boostmysites.com
+- Founded: 2017 | HQ: Bengaluru, India | Offices: Bangkok, Hong Kong
+- Team size (band): 11–50
+- Leadership: Mahin B S (Founder & Chairman), Reshab (CEO), Darshan (COO), Supreeth (CTO), Kavya (CMO)
+- Markets: AMEA, India, United States
+- Support: support@boostmysites.com
+- Sales, partnerships, press: ceo@boostmysites.com
 - LinkedIn: https://www.linkedin.com/company/boostmysites/
 - YouTube: https://www.youtube.com/@boostmysites
 - X / Twitter: https://x.com/boostmysites

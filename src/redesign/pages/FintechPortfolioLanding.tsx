@@ -49,7 +49,7 @@ export default function FintechPortfolioLanding() {
       portfolioVertical="fintech"
       featuredFlagshipCaseStudy={FINTECH_FLAGSHIP_TRADINGSMART}
       eyebrow="Fintech software"
-      heroTitle="Fintech infrastructure users trust with real money."
+      heroTitle="We build fintech software that users trust with real money."
       heroSubtitle="We design and engineer secure fintech platforms, from payment systems and wallets to lending infrastructure and compliance tooling."
       socialProofItems={["500+ products shipped", "Trusted across 56+ cities", "24-hour response guarantee"]}
       trustIndicators={[

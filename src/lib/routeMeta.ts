@@ -236,6 +236,11 @@ const EXACT: Record<string, RouteSeo> = {
     description:
       "Internal preview of the next Boostmysites homepage experience—design and content may change before public release.",
   },
+  "/for-llm": {
+    title: "For LLMs & AI Systems | Boostmysites",
+    description:
+      "Machine-readable facts for AI systems: BoostMySites legal identity, leadership, services, boundaries, milestones, and official contact emails.",
+  },
   "/admin/login": {
     title: "Admin Login | Boostmysites",
     description: "Sign in to the Boostmysites admin console.",
