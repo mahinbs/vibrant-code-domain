@@ -17,24 +17,8 @@ const PortfolioSection = () => {
   useEffect(() => {
     const loadPortfolioData = async () => {
       try {
-        console.log('PortfolioSection - Starting to load portfolio data from database only...');
         setLoading(true);
         const data = await getPortfolioData();
-        console.log('PortfolioSection - Portfolio data loaded:', data);
-        
-        // Log the total number of projects
-        const totalProjects = data.reduce((total, service) => total + service.projects.length, 0);
-        console.log(`PortfolioSection - Total real projects loaded: ${totalProjects}`);
-        
-        // Check specifically for Crave Kitchen
-        const allProjects = data.flatMap(service => service.projects);
-        const craveKitchenProject = allProjects.find(p => p.title.toLowerCase().includes('crave kitchen'));
-        if (craveKitchenProject) {
-          console.log('PortfolioSection - ✅ Crave Kitchen found in loaded data');
-        } else {
-          console.log('PortfolioSection - ❌ Crave Kitchen NOT found in loaded data');
-        }
-        
         setServices(data);
       } catch (error) {
         console.error('PortfolioSection - Error loading portfolio data:', error);
@@ -42,7 +26,6 @@ const PortfolioSection = () => {
         setServices([]);
       } finally {
         setLoading(false);
-        console.log('PortfolioSection - Loading completed');
       }
     };
 
@@ -51,18 +34,10 @@ const PortfolioSection = () => {
 
   const handleProjectClick = (projectId: string) => {
     // Prevent navigation - keep users on homepage
-    console.log('PortfolioSection - Project clicked (navigation disabled):', projectId);
+    void projectId;
     // Scroll to contact form instead
     document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth' });
   };
-
-  // Log whenever services state changes
-  useEffect(() => {
-    console.log('PortfolioSection - Services state updated:', services.length, 'services');
-    services.forEach((service, index) => {
-      console.log(`  Service ${index + 1}: ${service.title} (${service.projects.length} projects)`);
-    });
-  }, [services]);
 
   // Calculate total projects
   const totalProjects = services.reduce((total, service) => total + service.projects.length, 0);

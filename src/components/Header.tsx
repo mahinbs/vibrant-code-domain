@@ -18,15 +18,6 @@ const Header = memo(() => {
     rootMargin: "-20% 0px -80% 0px",
   });
 
-  // Debug logging
-  useEffect(() => {
-    console.log("Header - Mobile state:", {
-      isMobile,
-      isMenuOpen,
-      shouldShowMobileMenu: isMenuOpen && isMobile,
-    });
-  }, [isMobile, isMenuOpen]);
-
   // Close menu when route changes
   useEffect(() => {
     setIsMenuOpen(false);
@@ -35,7 +26,6 @@ const Header = memo(() => {
   // Close menu when switching from mobile to desktop
   useEffect(() => {
     if (!isMobile && isMenuOpen) {
-      console.log("Header - Closing menu due to desktop switch");
       setIsMenuOpen(false);
     }
   }, [isMobile, isMenuOpen]);
@@ -108,13 +98,11 @@ const Header = memo(() => {
     [isHomePage]
   );
   const closeMenu = useCallback(() => {
-    console.log("Header - Closing menu");
     setIsMenuOpen(false);
   }, []);
   const toggleMenu = useCallback(() => {
-    console.log("Header - Toggling menu, current state:", isMenuOpen);
     setIsMenuOpen((prev) => !prev);
-  }, [isMenuOpen]);
+  }, []);
   const isActive = useCallback(
     (item: MenuItem) => {
       // Handle Home page

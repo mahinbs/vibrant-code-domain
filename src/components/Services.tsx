@@ -6,16 +6,13 @@ import {
   Zap,
   ChevronDown,
   Clock,
-  DollarSign,
 } from "lucide-react";
 import { Link } from "react-router-dom";
-import { useState, useCallback } from "react";
-import { useGeoCurrency } from "@/hooks/useGeoCurrency";
+import { useState, useCallback, useRef, useEffect } from "react";
 
 const Services = () => {
   const [expandedService, setExpandedService] = useState<string | null>(null);
-  const [hoverTimeout, setHoverTimeout] = useState<NodeJS.Timeout | null>(null);
-  const { convertPrice } = useGeoCurrency();
+  const hoverTimeoutRef = useRef<number | null>(null);
 
   const services = [
     {
@@ -180,35 +177,38 @@ const Services = () => {
 
   const handleMouseEnter = useCallback(
     (serviceId: string) => {
-      if (hoverTimeout) {
-        clearTimeout(hoverTimeout);
+      if (hoverTimeoutRef.current) {
+        window.clearTimeout(hoverTimeoutRef.current);
       }
 
-      const timeout = setTimeout(() => {
+      hoverTimeoutRef.current = window.setTimeout(() => {
         setExpandedService(serviceId);
       }, 300);
-
-      setHoverTimeout(timeout);
     },
-    [hoverTimeout]
+    []
   );
 
   const handleMouseLeave = useCallback(() => {
-    if (hoverTimeout) {
-      clearTimeout(hoverTimeout);
-      setHoverTimeout(null);
+    if (hoverTimeoutRef.current) {
+      window.clearTimeout(hoverTimeoutRef.current);
+      hoverTimeoutRef.current = null;
     }
 
-    const timeout = setTimeout(() => {
+    hoverTimeoutRef.current = window.setTimeout(() => {
       setExpandedService(null);
     }, 200);
-
-    setHoverTimeout(timeout);
-  }, [hoverTimeout]);
+  }, []);
 
   const toggleService = (serviceId: string) => {
     setExpandedService(expandedService === serviceId ? null : serviceId);
   };
+
+  useEffect(() => {
+    return () => {
+      if (!hoverTimeoutRef.current) return;
+      window.clearTimeout(hoverTimeoutRef.current);
+    };
+  }, []);
 
   return (
     <section

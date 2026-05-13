@@ -1,17 +1,18 @@
-
+import { lazy, Suspense } from "react";
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
-import StatsGrid from '@/components/StatsGrid';
-import ProblemSolution from '@/components/ProblemSolution';
-import Services from '@/components/Services';
-import PortfolioSection from '@/components/PortfolioSection';
-import WhyChooseUs from '@/components/WhyChooseUs';
-import TestimonialsCarousel from '@/components/TestimonialsCarousel';
-
-import Footer from '@/components/Footer';
 import SimpleContactForm from '@/components/forms/SimpleContactForm';
 import ConversionStickyButton from '@/components/ConversionStickyButton';
-import MediaCoverage from '@/components/MediaCoverage';
+import DeferredSection from "@/components/ui/DeferredSection";
+
+const ProblemSolution = lazy(() => import("@/components/ProblemSolution"));
+const Services = lazy(() => import("@/components/Services"));
+const MediaCoverage = lazy(() => import("@/components/MediaCoverage"));
+const StatsGrid = lazy(() => import("@/components/StatsGrid"));
+const PortfolioSection = lazy(() => import("@/components/PortfolioSection"));
+const WhyChooseUs = lazy(() => import("@/components/WhyChooseUs"));
+const TestimonialsCarousel = lazy(() => import("@/components/TestimonialsCarousel"));
+const FooterLazy = lazy(() => import("@/components/Footer"));
 
 
 const Index = () => {
@@ -65,22 +66,37 @@ const Index = () => {
             </div>
              </section>
           
-          {/* Problem + Solution Section */}
-          <ProblemSolution />
-          
-          {/* Services Section */}
-          <div id="services">
-            <Services />
-          </div>
-         
-         {/* Media Coverage Section */}
-         <MediaCoverage />
-         
-         {/* Stats Grid Section */}
-         <StatsGrid />
-        <PortfolioSection />
-        <WhyChooseUs />
-        <TestimonialsCarousel />
+          <Suspense fallback={<div className="h-40" aria-hidden="true" />}>
+            <DeferredSection minHeight={560}>
+              <ProblemSolution />
+            </DeferredSection>
+
+            <DeferredSection minHeight={700}>
+              <div id="services">
+                <Services />
+              </div>
+            </DeferredSection>
+
+            <DeferredSection minHeight={420}>
+              <MediaCoverage />
+            </DeferredSection>
+
+            <DeferredSection minHeight={420}>
+              <StatsGrid />
+            </DeferredSection>
+
+            <DeferredSection minHeight={720}>
+              <PortfolioSection />
+            </DeferredSection>
+
+            <DeferredSection minHeight={560}>
+              <WhyChooseUs />
+            </DeferredSection>
+
+            <DeferredSection minHeight={560}>
+              <TestimonialsCarousel />
+            </DeferredSection>
+          </Suspense>
         
         
         {/* Final Contact Form Section */}
@@ -99,7 +115,11 @@ const Index = () => {
           </div>
         </section>
       </main>
-      <Footer />
+      <Suspense fallback={<div className="h-20" aria-hidden="true" />}>
+        <DeferredSection minHeight={220}>
+          <FooterLazy />
+        </DeferredSection>
+      </Suspense>
       <ConversionStickyButton />
     </div>
   );

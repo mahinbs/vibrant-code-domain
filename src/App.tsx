@@ -1,81 +1,108 @@
+import { lazy, Suspense } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
-import EnhancedIndex from "./pages/EnhancedIndex";
-import Index from "./pages/Index";
-import Portfolio from "./pages/Portfolio";
-import CaseStudy from "./pages/CaseStudy";
-import ContactPage from "./pages/ContactPage";
-import AboutPage from "./pages/AboutPage";
-import NotFound from "./pages/NotFound";
-import BlogsPage from "./pages/BlogsPage";
-import BlogPostPage from "./pages/BlogPostPage";
-import ServicesPage from "./pages/ServicesPage";
-import WebAppsPage from "./pages/WebAppsPage";
-import MobileAppsPage from "./pages/MobileAppsPage";
-import UxuiDesignPage from "./pages/UxuiDesignPage";
-import SaasPage from "./pages/SaasPage";
-import AiDevelopmentPage from "./pages/AiDevelopmentPage";
-import GameDevelopmentPage from "./pages/GameDevelopmentPage";
-import ArVrDevelopmentPage from "./pages/ArVrDevelopmentPage";
-import BlockchainDevelopmentPage from "./pages/BlockchainDevelopmentPage";
-import IotDevelopmentPage from "./pages/IotDevelopmentPage";
-import DataAnalyticsPage from "./pages/DataAnalyticsPage";
-import CloudComputingPage from "./pages/CloudComputingPage";
-import ChatbotDevelopmentPage from "./pages/ChatbotDevelopmentPage";
-import AiAutomationPage from "./pages/AiAutomationPage";
-import ReviewsPage from "./pages/ReviewsPage";
-import ThankYouPage from "./pages/ThankYouPage";
-import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
-import TermsAndConditions from "./pages/TermsAndConditions";
-import AdminLogin from "./pages/admin/AdminLogin";
-import AdminDashboard from "./pages/admin/AdminDashboard";
-import CustomerInquiries from "./pages/admin/CustomerInquiries";
-import TrialLeads from "./pages/admin/TrialLeads";
-import PortfolioList from "./pages/admin/PortfolioList";
-import PortfolioForm from "./pages/admin/PortfolioForm";
-import CaseStudyList from "./pages/admin/CaseStudyList";
-import BlogList from "./pages/admin/BlogList";
-import BlogForm from "./pages/admin/BlogForm";
-import { LinkGenerator } from "./pages/admin/LinkGenerator";
-import WebinarManagement from "./pages/admin/WebinarManagement";
 import ProtectedRoute from "./components/admin/ProtectedRoute";
-import PartnershipPage from "./pages/PartnershipPage";
-import AiFreelancingPage from "./pages/AiFreelancingPage";
-import AiFreelancingThankYouPage from "./pages/AiFreelancingThankYouPage";
-import AiCallingPage from "./pages/AiCallingPage";
-import SalespersonServicePage from "./pages/SalespersonServicePage";
-import WebinarPage from "./pages/WebinarPage";
-import AppIdeasLabPage from "./pages/AppIdeasLabPage";
 import GoogleAnalytics from "./components/GoogleAnalytics";
 import CanonicalLink from "./components/CanonicalLink";
 import RouteMeta from "./components/RouteMeta";
 import FloatingWhatsAppButton from "./components/ui/FloatingWhatsAppButton";
 import ScrollToTop from "./components/ScrollToTop";
-import ProjectsShowcase from "./pages/ProjectsShowcase";
-import AppIdeas from "./pages/AppIdeas";
-import AppIdeaDetail from "./pages/AppIdeaDetail";
-import Signup from "./pages/Signup";
-import TechCompanyLanding from "./pages/landingPages/TechCompanyLanding";
-import StartupLanding from "./pages/landingPages/StartupLanding";
-import AiStockPrediction from "./pages/landingPages/AiStockPrediction";
-import FintechLanding from "./pages/landingPages/FintechLanding";
-import HealthcareLanding from "./pages/landingPages/HealthcareLanding";
-import RedesignFintechLanding from "./redesign/pages/FintechPortfolioLanding";
-import RedesignHealthcareLanding from "./redesign/pages/HealthcarePortfolioLanding";
 import { RedesignShell } from "./redesign/RedesignShell";
-import ReshabLandingPage from "./pages/landingPages/ReshabLandingPage";
-import DarshanLandingPage from "./pages/landingPages/DarshanLandingPage";
-import KavyaLandingPage from "./pages/landingPages/KavyaLandingPage";
-import MahinLandingPage from "./pages/landingPages/MahinLandingPage";
-import MeghanaLandingPage from "./pages/landingPages/MeghanaLandingPage";
-import NewHomepagePreview from "./pages/NewHomepagePreview";
-import WorkPage from "./pages/WorkPage";
-import WorkCaseStudyPage from "./pages/WorkCaseStudyPage";
 import { shouldUseNewUiForRoute, shouldUseRedesignIndustryLanding } from "./lib/domainRouting";
+
+const Index = lazy(() => import("./pages/Index"));
+const Portfolio = lazy(() => import("./pages/Portfolio"));
+const CaseStudy = lazy(() => import("./pages/CaseStudy"));
+const WorkPage = lazy(() => import("./pages/WorkPage"));
+const WorkCaseStudyPage = lazy(() => import("./pages/WorkCaseStudyPage"));
+const ContactPage = lazy(() => import("./pages/ContactPage"));
+const AboutPage = lazy(() => import("./pages/AboutPage"));
+const BlogsPage = lazy(() => import("./pages/BlogsPage"));
+const BlogPostPage = lazy(() => import("./pages/BlogPostPage"));
+const ServicesPage = lazy(() => import("./pages/ServicesPage"));
+const WebAppsPage = lazy(() => import("./pages/WebAppsPage"));
+const MobileAppsPage = lazy(() => import("./pages/MobileAppsPage"));
+const UxuiDesignPage = lazy(() => import("./pages/UxuiDesignPage"));
+const SaasPage = lazy(() => import("./pages/SaasPage"));
+const AiDevelopmentPage = lazy(() => import("./pages/AiDevelopmentPage"));
+const GameDevelopmentPage = lazy(() => import("./pages/GameDevelopmentPage"));
+const ArVrDevelopmentPage = lazy(() => import("./pages/ArVrDevelopmentPage"));
+const BlockchainDevelopmentPage = lazy(
+  () => import("./pages/BlockchainDevelopmentPage")
+);
+const IotDevelopmentPage = lazy(() => import("./pages/IotDevelopmentPage"));
+const DataAnalyticsPage = lazy(() => import("./pages/DataAnalyticsPage"));
+const CloudComputingPage = lazy(() => import("./pages/CloudComputingPage"));
+const ChatbotDevelopmentPage = lazy(
+  () => import("./pages/ChatbotDevelopmentPage")
+);
+const AiAutomationPage = lazy(() => import("./pages/AiAutomationPage"));
+const ReviewsPage = lazy(() => import("./pages/ReviewsPage"));
+const ThankYouPage = lazy(() => import("./pages/ThankYouPage"));
+const PrivacyPolicyPage = lazy(() => import("./pages/PrivacyPolicyPage"));
+const TermsAndConditions = lazy(() => import("./pages/TermsAndConditions"));
+const PartnershipPage = lazy(() => import("./pages/PartnershipPage"));
+const AiFreelancingPage = lazy(() => import("./pages/AiFreelancingPage"));
+const AiFreelancingThankYouPage = lazy(
+  () => import("./pages/AiFreelancingThankYouPage")
+);
+const AiCallingPage = lazy(() => import("./pages/AiCallingPage"));
+const SalespersonServicePage = lazy(
+  () => import("./pages/SalespersonServicePage")
+);
+const WebinarPage = lazy(() => import("./pages/WebinarPage"));
+const AppIdeasLabPage = lazy(() => import("./pages/AppIdeasLabPage"));
+const AppIdeas = lazy(() => import("./pages/AppIdeas"));
+const AppIdeaDetail = lazy(() => import("./pages/AppIdeaDetail"));
+const Signup = lazy(() => import("./pages/Signup"));
+const TechCompanyLanding = lazy(
+  () => import("./pages/landingPages/TechCompanyLanding")
+);
+const StartupLanding = lazy(() => import("./pages/landingPages/StartupLanding"));
+const AiStockPrediction = lazy(
+  () => import("./pages/landingPages/AiStockPrediction")
+);
+const FintechLanding = lazy(() => import("./pages/landingPages/FintechLanding"));
+const HealthcareLanding = lazy(
+  () => import("./pages/landingPages/HealthcareLanding")
+);
+const ReshabLandingPage = lazy(
+  () => import("./pages/landingPages/ReshabLandingPage")
+);
+const DarshanLandingPage = lazy(
+  () => import("./pages/landingPages/DarshanLandingPage")
+);
+const KavyaLandingPage = lazy(
+  () => import("./pages/landingPages/KavyaLandingPage")
+);
+const MahinLandingPage = lazy(
+  () => import("./pages/landingPages/MahinLandingPage")
+);
+const MeghanaLandingPage = lazy(
+  () => import("./pages/landingPages/MeghanaLandingPage")
+);
+const RedesignFintechLanding = lazy(
+  () => import("./redesign/pages/FintechPortfolioLanding")
+);
+const RedesignHealthcareLanding = lazy(
+  () => import("./redesign/pages/HealthcarePortfolioLanding")
+);
+const NewHomepagePreview = lazy(() => import("./pages/NewHomepagePreview"));
+const AdminLogin = lazy(() => import("./pages/admin/AdminLogin"));
+const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
+const CustomerInquiries = lazy(() => import("./pages/admin/CustomerInquiries"));
+const TrialLeads = lazy(() => import("./pages/admin/TrialLeads"));
+const PortfolioList = lazy(() => import("./pages/admin/PortfolioList"));
+const PortfolioForm = lazy(() => import("./pages/admin/PortfolioForm"));
+const CaseStudyList = lazy(() => import("./pages/admin/CaseStudyList"));
+const BlogList = lazy(() => import("./pages/admin/BlogList"));
+const BlogForm = lazy(() => import("./pages/admin/BlogForm"));
+const WebinarManagement = lazy(() => import("./pages/admin/WebinarManagement"));
+const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
 
@@ -88,6 +115,10 @@ const App = () => {
   const useNewFintechLanding = shouldUseRedesignIndustryLanding(hostname);
   const useNewHealthcareLanding = useNewFintechLanding;
 
+  const routeFallback = (
+    <div className="min-h-[40vh] w-full bg-black" aria-hidden="true" />
+  );
+
   return (
     <QueryClientProvider client={queryClient}>
       <HelmetProvider>
@@ -99,7 +130,8 @@ const App = () => {
             <GoogleAnalytics />
             <CanonicalLink />
             <RouteMeta />
-            <Routes>
+            <Suspense fallback={routeFallback}>
+              <Routes>
               <Route
                 path="/"
                 element={
@@ -666,7 +698,8 @@ const App = () => {
                 }
               />
               <Route path="*" element={<NotFound />} />
-            </Routes>
+              </Routes>
+            </Suspense>
           </BrowserRouter>
         </TooltipProvider>
       </HelmetProvider>

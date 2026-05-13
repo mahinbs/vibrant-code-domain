@@ -1,9 +1,7 @@
 import { ArrowRight, Rocket, Zap } from "lucide-react";
 import { useEffect, useRef, memo } from "react";
-import { useNavigate } from "react-router-dom";
 
 const Hero = memo(() => {
-  const navigate = useNavigate();
   const vantaRef = useRef<HTMLDivElement>(null);
   const vantaEffect = useRef<any>(null);
 
@@ -14,29 +12,92 @@ const Hero = memo(() => {
     }
   };
 
-  // Initialize VANTA.WAVES background
-  useEffect(() => {
-    if (vantaRef.current && window.VANTA) {
-      vantaEffect.current = window.VANTA.WAVES({
-        el: vantaRef.current,
-        mouseControls: true,
-        touchControls: true,
-        gyroControls: false,
-        minHeight: 200.0,
-        minWidth: 200.0,
-        scale: 1.0,
-        scaleMobile: 1.0,
-        color: 0x16,
-        shininess: 67.0,
-        waveHeight: 18.0,
-        waveSpeed: 0.9,
-        zoom: 1.16,
+  const loadScript = (src: string) =>
+    new Promise<void>((resolve, reject) => {
+      const existing = document.querySelector(`script[src="${src}"]`) as
+        | HTMLScriptElement
+        | null;
+      if (existing) {
+        if ((existing as any).dataset.loaded === "true") {
+          resolve();
+          return;
+        }
+        existing.addEventListener("load", () => resolve(), { once: true });
+        existing.addEventListener("error", () => reject(new Error(src)), {
+          once: true,
+        });
+        return;
+      }
+
+      const script = document.createElement("script");
+      script.src = src;
+      script.async = true;
+      (script as any).dataset.loaded = "false";
+      script.addEventListener(
+        "load",
+        () => {
+          (script as any).dataset.loaded = "true";
+          resolve();
+        },
+        { once: true }
+      );
+      script.addEventListener("error", () => reject(new Error(src)), {
+        once: true,
       });
+      document.head.appendChild(script);
+    });
+
+  // Load VANTA only when beneficial (desktop + no reduced motion).
+  useEffect(() => {
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+    const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
+    if (prefersReducedMotion || !isDesktop) return;
+
+    let cancelled = false;
+    const initVanta = async () => {
+      try {
+        await loadScript(
+          "https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"
+        );
+        await loadScript(
+          "https://cdn.jsdelivr.net/npm/vanta@0.5.24/dist/vanta.waves.min.js"
+        );
+        if (cancelled || !vantaRef.current || !window.VANTA || vantaEffect.current)
+          return;
+
+        vantaEffect.current = window.VANTA.WAVES({
+          el: vantaRef.current,
+          mouseControls: true,
+          touchControls: true,
+          gyroControls: false,
+          minHeight: 200.0,
+          minWidth: 200.0,
+          scale: 1.0,
+          scaleMobile: 1.0,
+          color: 0x16,
+          shininess: 67.0,
+          waveHeight: 18.0,
+          waveSpeed: 0.9,
+          zoom: 1.16,
+        });
+      } catch {
+        // Keep the CSS gradient/particle fallback when script CDN fails.
+      }
+    };
+
+    if ("requestIdleCallback" in window) {
+      (window as any).requestIdleCallback(initVanta, { timeout: 1500 });
+    } else {
+      window.setTimeout(initVanta, 300);
     }
 
     return () => {
+      cancelled = true;
       if (vantaEffect.current) {
         vantaEffect.current.destroy();
+        vantaEffect.current = null;
       }
     };
   }, []);
