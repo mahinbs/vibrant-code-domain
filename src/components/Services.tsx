@@ -215,21 +215,9 @@ const Services = () => {
       id="services"
       className="py-12 sm:py-16 lg:py-20 bg-gradient-to-b from-gray-900 to-black relative overflow-hidden"
     >
-      {/* Background Image - Optimized for mobile */}
+      {/* Background layers */}
       <div className="absolute inset-0 z-0">
-        <div
-          className="w-full h-full bg-cover bg-center bg-no-repeat"
-          style={{
-            // backgroundImage: `url('https://res.cloudinary.com/dknafpppp/image/upload/v1748805697/108518_1_rnyk78.jpg')`,
-            transform: "translate(-50%, -50%) scale(1.1)",
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            minWidth: "100vw",
-            minHeight: "100vh",
-          }}
-        />
-        <div className="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
+        <div className="absolute inset-0 bg-black/75 md:bg-black/70 md:backdrop-blur-[2px]" />
       </div>
 
       {/* Gradient overlay */}

@@ -140,8 +140,6 @@ html {
   /* Enhanced font loading optimization */
   img,
   video {
-    content-visibility: auto;
-    contain-intrinsic-size: 1px 300px;
     transform: translate3d(0, 0, 0);
     will-change: auto;
   }
@@ -462,14 +460,10 @@ html {
 /* Critical CSS for above-the-fold content */
 .hero-section {
   contain: layout style paint;
-  content-visibility: auto;
-  contain-intrinsic-size: 100vw 100vh;
 }
 
 /* Enhanced image optimization */
 img {
-  content-visibility: auto;
-  contain-intrinsic-size: 1px 200px;
   transform: translate3d(0, 0, 0);
 }
 
@@ -506,7 +500,6 @@ img[loading="lazy"] {
 /* Enhanced video performance */
 video {
   contain: layout style paint;
-  content-visibility: auto;
   will-change: auto;
   transform: translate3d(0, 0, 0);
 }

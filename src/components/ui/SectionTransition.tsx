@@ -36,6 +36,14 @@ export const SectionTransition: React.FC<SectionTransitionProps> = ({
     // Immediate visibility
     ensureVisibility();
 
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+
+    // Keep transitions lightweight on mobile/reduced-motion devices.
+    if (prefersReducedMotion || isMobile) {
+      return;
+    }
+
     const animateTransition = async () => {
       try {
         const { gsap } = await import('gsap');

@@ -1,12 +1,12 @@
 import { Star, Quote, ChevronLeft, ChevronRight } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Button } from './ui/button';
 
 const TestimonialsCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
-  const testimonials = [
+  const testimonials = useMemo(() => [
     {
       name: "Sarah Johnson",
       company: "TechStart Solutions",
@@ -55,17 +55,11 @@ const TestimonialsCarousel = () => {
       rating: 5,
       result: "5x faster processing"
     }
-  ];
-
-  const itemsPerView = {
-    mobile: 1,
-    tablet: 2,
-    desktop: 3
-  };
+  ], []);
 
   // Auto-play functionality
   useEffect(() => {
-    if (!isAutoPlaying) return;
+    if (!isAutoPlaying || document.hidden) return;
 
     const interval = setInterval(() => {
       setCurrentIndex(prev => (prev + 1) % testimonials.length);
@@ -171,6 +165,11 @@ const TestimonialsCarousel = () => {
                       src={testimonial.image} 
                       alt={`${testimonial.name}, ${testimonial.company} — client headshot`}
                       className="w-12 h-12 rounded-full object-cover border-2 border-cyan-400/30"
+                      width={48}
+                      height={48}
+                      loading="lazy"
+                      decoding="async"
+                      fetchPriority="low"
                     />
                     <div>
                       <div className="font-semibold text-white">{testimonial.name}</div>

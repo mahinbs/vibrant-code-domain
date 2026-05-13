@@ -21,13 +21,47 @@ export const ScrollReveal: React.FC<ScrollRevealProps> = ({
   const { elementRef } = useScrollAnimation();
 
   React.useEffect(() => {
+    const el = elementRef.current;
+    if (!el) return;
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+
+    // Light path for reduced motion/mobile: no GSAP import, just intersection-based CSS transition.
+    if (prefersReducedMotion || isMobile) {
+      const directions = {
+        up: { x: 0, y: distance * 0.5 },
+        down: { x: 0, y: -distance * 0.5 },
+        left: { x: distance * 0.5, y: 0 },
+        right: { x: -distance * 0.5, y: 0 }
+      };
+      const from = directions[direction];
+
+      el.style.opacity = '0';
+      el.style.transform = `translate3d(${from.x}px, ${from.y}px, 0)`;
+      el.style.transition = `opacity ${Math.max(0.3, duration * 0.75)}s ease, transform ${Math.max(0.3, duration * 0.75)}s ease`;
+
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (!entry.isIntersecting) return;
+          el.style.opacity = '1';
+          el.style.transform = 'translate3d(0, 0, 0)';
+          observer.disconnect();
+        },
+        { rootMargin: '80px', threshold: 0.05 }
+      );
+      observer.observe(el);
+
+      return () => observer.disconnect();
+    }
+
     // Fallback timeout to ensure content is always visible
     const fallbackTimeout = setTimeout(() => {
       if (elementRef.current) {
         elementRef.current.style.opacity = '1';
         elementRef.current.style.transform = 'translate3d(0, 0, 0)';
       }
-    }, 100);
+    }, 120);
 
     const animateElement = async () => {
       try {
@@ -37,15 +71,6 @@ export const ScrollReveal: React.FC<ScrollRevealProps> = ({
         gsap.registerPlugin(ScrollTrigger);
 
         if (!elementRef.current) return;
-
-        // Check for reduced motion
-        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        
-        if (prefersReducedMotion) {
-          gsap.set(elementRef.current, { opacity: 1, x: 0, y: 0 });
-          clearTimeout(fallbackTimeout);
-          return;
-        }
 
         // Direction mappings
         const directions = {

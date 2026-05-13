@@ -108,7 +108,6 @@ const Hero = memo(() => {
       className="relative min-h-screen flex items-center justify-center overflow-hidden hero-section pb-24 bg-black"
       style={{
         contain: "layout style paint",
-        contentVisibility: "auto",
         containIntrinsicSize: "100vw 100vh",
       }}
     >
@@ -179,15 +178,10 @@ const Hero = memo(() => {
       </div>
 
       {/* Optimized Animated Particles */}
-      <div
-        className="absolute inset-0 z-15"
-        style={{
-          contain: "layout style paint",
-        }}
-      >
-        <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-cyan-400 rounded-full animate-ping gpu-accelerate"></div>
-        <div className="absolute top-3/4 right-1/4 w-1 h-1 bg-blue-400 rounded-full animate-ping animation-delay-1000 gpu-accelerate"></div>
-        <div className="absolute top-1/2 left-3/4 w-1.5 h-1.5 bg-purple-400 rounded-full animate-ping animation-delay-2000 gpu-accelerate"></div>
+      <div className="absolute inset-0 z-15 hidden md:block" style={{ contain: "layout style paint" }}>
+        <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-cyan-400 rounded-full animate-ping gpu-accelerate" />
+        <div className="absolute top-3/4 right-1/4 w-1 h-1 bg-blue-400 rounded-full animate-ping animation-delay-1000 gpu-accelerate" />
+        <div className="absolute top-1/2 left-3/4 w-1.5 h-1.5 bg-purple-400 rounded-full animate-ping animation-delay-2000 gpu-accelerate" />
       </div>
     </section>
   );

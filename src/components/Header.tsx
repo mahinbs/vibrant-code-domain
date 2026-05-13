@@ -153,7 +153,7 @@ const Header = memo(() => {
   );
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 bg-black/20 backdrop-blur-md border-b border-cyan-500/20">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-black/25 backdrop-blur-[2px] md:backdrop-blur-md border-b border-cyan-500/20">
         <nav className="container mx-auto px-4 sm:px-6 py-3 sm:py-4 relative">
           <div className="flex justify-between items-center">
             {/* Logo */}
@@ -272,13 +272,13 @@ const Header = memo(() => {
         <>
           {/* Backdrop */}
           <div
-            className="lg:hidden fixed z-40 inset-0 bg-black/50 backdrop-blur-sm"
+            className="lg:hidden fixed z-40 inset-0 bg-black/55 backdrop-blur-[1px]"
             onClick={closeMenu}
             aria-hidden="true"
           />
 
           {/* Mobile Menu */}
-          <div className="lg:hidden fixed top-0 right-0 h-full w-full max-w-sm bg-black/95 backdrop-blur-md border-l border-cyan-500/20 shadow-xl transform transition-transform duration-300 z-[999]">
+          <div className="lg:hidden fixed top-0 right-0 h-full w-full max-w-sm bg-black/95 backdrop-blur-[2px] border-l border-cyan-500/20 shadow-xl transform transition-transform duration-300 z-[999]">
             {/* Close button */}
             <div className="flex p-6 justify-end">
               <button
