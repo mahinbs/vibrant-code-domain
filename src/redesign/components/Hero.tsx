@@ -14,10 +14,22 @@ export function Hero() {
     "Mobile Apps",
   ];
   const [wordIndex, setWordIndex] = useState(0);
-  const [typedText, setTypedText] = useState("");
+  const [typedText, setTypedText] = useState(typingWords[0]);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [enableSecondaryAnimations, setEnableSecondaryAnimations] = useState(false);
 
   useEffect(() => {
+    const enable = () => setEnableSecondaryAnimations(true);
+    if ("requestIdleCallback" in window) {
+      (window as Window & { requestIdleCallback: (cb: () => void, opts?: { timeout: number }) => number })
+        .requestIdleCallback(enable, { timeout: 1500 });
+    } else {
+      window.setTimeout(enable, 900);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!enableSecondaryAnimations) return;
     const currentWord = typingWords[wordIndex];
     const isWordComplete = typedText === currentWord;
     const isWordCleared = typedText === "";
@@ -46,7 +58,7 @@ export function Hero() {
     }, speed + pause);
 
     return () => window.clearTimeout(timeoutId);
-  }, [typedText, isDeleting, wordIndex, typingWords]);
+  }, [typedText, isDeleting, wordIndex, typingWords, enableSecondaryAnimations]);
 
   return (
     <section
@@ -70,38 +82,52 @@ export function Hero() {
               "linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.67) 64.5%, #000 100%)",
           }}
         />
-        {/* Stars */}
-        <div
-          aria-hidden
-          className="absolute inset-0 z-[1] pointer-events-none opacity-80 bg-repeat bg-[length:400px_auto] bg-left-top"
-          style={{ backgroundImage: "url(/textures/stars.svg)" }}
-        />
-        {/* Pattern overlay */}
-        <div
-          aria-hidden
-          className="absolute inset-0 z-[3] pointer-events-none opacity-60 mix-blend-overlay bg-repeat bg-[length:67px_auto] bg-left-top"
-          style={{ backgroundImage: "url(/textures/grid.svg)" }}
-        />
+        {enableSecondaryAnimations ? (
+          <>
+            {/* Stars */}
+            <div
+              aria-hidden
+              className="absolute inset-0 z-[1] pointer-events-none opacity-80 bg-repeat bg-[length:400px_auto] bg-left-top"
+              style={{ backgroundImage: "url(/textures/stars.svg)" }}
+            />
+            {/* Pattern overlay */}
+            <div
+              aria-hidden
+              className="absolute inset-0 z-[3] pointer-events-none opacity-60 mix-blend-overlay bg-repeat bg-[length:67px_auto] bg-left-top"
+              style={{ backgroundImage: "url(/textures/grid.svg)" }}
+            />
 
-        {/* Ambient orbs */}
-        <div
-          aria-hidden
-          className="absolute right-[-180px] top-[-120px] z-[4] pointer-events-none size-[680px] rounded-full opacity-30 max-md:hidden animate-float1"
-          style={{
-            background:
-              "radial-gradient(closest-side, rgba(96,142,255,0.42), rgba(72,118,255,0.22) 45%, rgba(0,0,0,0) 75%)",
-            filter: "blur(20px)",
-          }}
-        />
-        <div
-          aria-hidden
-          className="absolute right-[40px] bottom-[60px] z-[4] pointer-events-none size-[380px] rounded-full opacity-25 max-md:hidden"
-          style={{
-            background:
-              "radial-gradient(closest-side, rgba(84,130,255,0.34), rgba(22,36,74,0.28) 50%, rgba(0,0,0,0) 80%)",
-            filter: "blur(30px)",
-          }}
-        />
+            {/* Ambient orbs */}
+            <div
+              aria-hidden
+              className="absolute right-[-180px] top-[-120px] z-[4] pointer-events-none size-[680px] rounded-full opacity-30 max-md:hidden animate-float1"
+              style={{
+                background:
+                  "radial-gradient(closest-side, rgba(96,142,255,0.42), rgba(72,118,255,0.22) 45%, rgba(0,0,0,0) 75%)",
+                filter: "blur(20px)",
+              }}
+            />
+            <div
+              aria-hidden
+              className="absolute right-[40px] bottom-[60px] z-[4] pointer-events-none size-[380px] rounded-full opacity-25 max-md:hidden"
+              style={{
+                background:
+                  "radial-gradient(closest-side, rgba(84,130,255,0.34), rgba(22,36,74,0.28) 50%, rgba(0,0,0,0) 80%)",
+                filter: "blur(30px)",
+              }}
+            />
+          </>
+        ) : (
+          <div
+            aria-hidden
+            className="absolute right-[-120px] top-[-80px] z-[2] pointer-events-none size-[420px] rounded-full opacity-25"
+            style={{
+              background:
+                "radial-gradient(closest-side, rgba(96,142,255,0.28), rgba(72,118,255,0.14) 45%, rgba(0,0,0,0) 80%)",
+              filter: "blur(16px)",
+            }}
+          />
+        )}
 
 
         {/* Content */}
@@ -124,7 +150,7 @@ export function Hero() {
                 <span className="text-gradient">We build next-gen</span>
                 <br />
                 <span className="text-white">{typedText}</span>
-                <span className="ml-1 inline-block h-[0.92em] w-[2px] translate-y-1 bg-white/85 align-baseline animate-pulse" />
+                <span className={`ml-1 inline-block h-[0.92em] w-[2px] translate-y-1 bg-white/85 align-baseline ${enableSecondaryAnimations ? "animate-pulse" : ""}`} />
               </h1>
 
               <p className="text-xl font-normal -tracking-[0.01em] leading-[1.4em] text-white/70 max-w-[760px] max-md:text-base">
@@ -180,12 +206,21 @@ export function Hero() {
             </div>
           </div>
 
-          <div className="w-full max-w-[420px] justify-self-end max-xl:justify-self-center max-md:max-h-[260px] max-md:max-w-[300px] max-md:overflow-hidden">
-            <FintechIsometricBuild />
-          </div>
+          {enableSecondaryAnimations ? (
+            <div className="w-full max-w-[420px] justify-self-end max-xl:justify-self-center max-md:max-h-[260px] max-md:max-w-[300px] max-md:overflow-hidden">
+              <FintechIsometricBuild />
+            </div>
+          ) : (
+            <div className="w-full max-w-[420px] justify-self-end max-xl:justify-self-center max-md:max-h-[260px] max-md:max-w-[300px] max-md:overflow-hidden">
+              <div
+                aria-hidden
+                className="h-[260px] md:h-[360px] w-full rounded-2xl border border-white/15 bg-gradient-to-br from-white/10 via-white/5 to-transparent"
+              />
+            </div>
+          )}
         </div>
 
-        <TrustedTicker />
+        {enableSecondaryAnimations ? <TrustedTicker /> : null}
       </div>
     </section>
   );

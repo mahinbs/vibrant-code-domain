@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const GRID = 80;
 const SQUARE_COUNT = 5;
@@ -12,8 +12,20 @@ export function SiteBackground() {
   const squaresRef = useRef<HTMLDivElement>(null);
   const dropsRef = useRef<HTMLDivElement>(null);
   const spotlightRef = useRef<HTMLDivElement>(null);
+  const [isFull, setIsFull] = useState(false);
 
   useEffect(() => {
+    const enable = () => setIsFull(true);
+    if ("requestIdleCallback" in window) {
+      (window as Window & { requestIdleCallback: (cb: () => void, opts?: { timeout: number }) => number })
+        .requestIdleCallback(enable, { timeout: 1500 });
+    } else {
+      window.setTimeout(enable, 900);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!isFull) return;
     const squaresWrap = squaresRef.current;
     const dropsWrap = dropsRef.current;
     if (!squaresWrap || !dropsWrap) return;
@@ -100,9 +112,10 @@ export function SiteBackground() {
       squaresWrap.replaceChildren();
       dropsWrap.replaceChildren();
     };
-  }, []);
+  }, [isFull]);
 
   useEffect(() => {
+    if (!isFull) return;
     if (prefersReducedMotion()) return;
     if (window.matchMedia("(pointer: coarse)").matches) return;
 
@@ -115,16 +128,20 @@ export function SiteBackground() {
     };
     window.addEventListener("pointermove", handler, { passive: true });
     return () => window.removeEventListener("pointermove", handler);
-  }, []);
+  }, [isFull]);
 
   return (
     <div className="site-backdrop" aria-hidden>
       <div className="site-backdrop__grid" />
       <div className="site-backdrop__glow" />
-      <div ref={squaresRef} className="site-backdrop__squares" />
-      <div ref={dropsRef} className="site-backdrop__drops" />
-      <div ref={spotlightRef} className="site-backdrop__spotlight" />
-      <div className="site-backdrop__noise" />
+      {isFull ? (
+        <>
+          <div ref={squaresRef} className="site-backdrop__squares" />
+          <div ref={dropsRef} className="site-backdrop__drops" />
+          <div ref={spotlightRef} className="site-backdrop__spotlight" />
+          <div className="site-backdrop__noise" />
+        </>
+      ) : null}
     </div>
   );
 }
