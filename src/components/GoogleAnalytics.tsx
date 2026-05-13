@@ -2,10 +2,9 @@ import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
 const GOOGLE_ANALYTICS_MEASUREMENT_ID = 'G-6RG271FTBN';
-const GOOGLE_ADS_MEASUREMENT_ID = 'AW-10794572231';
 
 /**
- * Fires gtag on each client-side route change and pushes `virtualPageView` to
+ * Fires route-level analytics and pushes `virtualPageView` to
  * `dataLayer` so GTM tags (e.g. Google tag, GA4 via GTM) can use a Custom Event
  * trigger or History Change; SPAs otherwise only get the first-load "All Pages" hit.
  */
@@ -19,12 +18,11 @@ const GoogleAnalytics = () => {
     const pagePath = location.pathname + location.search;
 
     if (typeof window.gtag === 'function') {
-      window.gtag('config', GOOGLE_ANALYTICS_MEASUREMENT_ID, {
+      window.gtag('event', 'page_view', {
+        send_to: GOOGLE_ANALYTICS_MEASUREMENT_ID,
+        page_location: window.location.href,
         page_path: pagePath,
-      });
-
-      window.gtag('config', GOOGLE_ADS_MEASUREMENT_ID, {
-        page_path: pagePath,
+        page_title: document.title,
       });
     }
 
@@ -48,12 +46,15 @@ export default GoogleAnalytics;
 
 // Add this to global.d.ts or a similar declaration file if needed
 declare global {
+  type GtagConfig = Record<string, unknown>;
+  type DataLayerEvent = Record<string, unknown>;
+
   interface Window {
     gtag: (
       command: string,
       target: string,
-      config?: Record<string, any>
+      config?: GtagConfig
     ) => void;
-    dataLayer: any[];
+    dataLayer: DataLayerEvent[];
   }
 }
