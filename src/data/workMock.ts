@@ -173,6 +173,110 @@ const projects: WorkProject[] = [
     },
   },
   {
+    id: "finnly",
+    slug: "finnly",
+    serviceId: "web",
+    title: "Finnly — multicurrency wallet & exchange",
+    client: "Finnly",
+    industry: "Fintech",
+    outcome: "Consumer wallet with 20+ assets, sub-second swap quotes, and a motion-led product system",
+    description:
+      "Finnly is a multicurrency crypto wallet and exchange we designed and engineered as a unified consumer surface: 20+ cryptocurrencies and stablecoins, in-app BTC/USDT swap, an NFT browser, an Earn module for staking yield, and a Buy/Sell flow connected to fiat debit cards — all in a dark, motion-led product system.",
+    heroImage: "/portfolios/finnly/cover.webp",
+    cardImage: "/portfolios/finnly/onboarding.webp",
+    fallbackGradient:
+      "radial-gradient(120% 100% at 50% 0%, rgba(92,138,255,0.38), rgba(8,16,40,0.92) 60%, rgba(0,0,0,0.9) 100%)",
+    stack: ["React Native", "TypeScript", "Node.js", "GraphQL", "PostgreSQL", "Redis", "AWS"],
+    timeline: "6 months",
+    team: "6 specialists (mobile, backend, web3, design, QA)",
+    year: "2025",
+    topMetrics: [
+      { value: "20+", label: "Cryptocurrencies" },
+      { value: "< 1s", label: "Swap quote latency" },
+      { value: "60+", label: "Screens shipped" },
+      { value: "Full", label: "Design system" },
+    ],
+    challenge:
+      "Design a consumer crypto wallet that consolidates BTC, USDT, 20+ altcoins, stablecoins, NFTs, and fiat purchases without overwhelming new users, and pair it with a backend that supports realtime price feeds, address generation per coin, in-app swap quotes, and secure key handling on device.",
+    challengeBullets: [
+      "Onboarding first-time crypto users without hiding power-user depth",
+      "Realtime pricing and swap execution across many pairs",
+      "Secure key handling and non-custodial flows on mobile",
+    ],
+    approach: [
+      {
+        number: "01",
+        title: "Product map",
+        description:
+          "Mapped wallet, swap, NFT, Earn, and fiat journeys into one navigation model with guardrails for send/receive and preset amounts.",
+      },
+      {
+        number: "02",
+        title: "Visual system",
+        description:
+          "Dark-mode, isometric, motion-led UI with a full component library so engineering and design stayed aligned across 60+ screens.",
+      },
+      {
+        number: "03",
+        title: "Swap & feeds",
+        description:
+          "In-app swap engine with sub-second BTC ↔ USDT quoting, backed by realtime feeds and resilient error states.",
+      },
+      {
+        number: "04",
+        title: "Ship & harden",
+        description:
+          "QA across devices, load testing on quote paths, and iteration on Earn and Buy/Sell with card processors.",
+      },
+    ],
+    features: [
+      { title: "Multicurrency wallet", description: "BTC, ETH, USDT, USDC, and major altcoins in one surface." },
+      { title: "In-app swap", description: "Sub-second quoting for BTC ↔ USDT and major pairs." },
+      { title: "NFT browser", description: "Browse and manage NFTs without leaving the wallet context." },
+      { title: "Earn module", description: "Staking yield surfaces with clear risk and reward copy." },
+      { title: "Buy / Sell", description: "Fiat on/off ramps via debit-card flows." },
+      { title: "Non-custodial option", description: "Seed-phrase wallets per user with secure on-device handling." },
+    ],
+    techStack: [
+      { category: "Mobile", technologies: ["React Native", "TypeScript"] },
+      { category: "Backend", technologies: ["Node.js", "GraphQL", "PostgreSQL", "Redis"] },
+      { category: "Web3", technologies: ["WalletConnect", "Web3.js"] },
+      { category: "Infra & design", technologies: ["AWS", "Figma design system"] },
+    ],
+    gallery: ["/portfolios/finnly/onboarding.webp", "/portfolios/finnly/screens.webp", "/portfolios/finnly/cover.webp"],
+    detailedMetrics: [
+      {
+        value: "20+",
+        label: "Cryptocurrencies supported",
+        description: "BTC, ETH, USDT, USDC, and major altcoins.",
+      },
+      {
+        value: "< 1s",
+        label: "In-app swap latency",
+        description: "Quoting BTC ↔ USDT and major pairs.",
+      },
+      {
+        value: "60+",
+        label: "Surfaces shipped",
+        description: "Wallet, NFT, Swap, Earn, Buy/Sell, settings.",
+      },
+      {
+        value: "Full kit",
+        label: "Design system",
+        description: "Dark-mode, isometric, motion-led component library.",
+      },
+    ],
+    testimonial: {
+      quote:
+        "Finnly was the first time a vendor delivered both the product design and the engineering for our wallet. The team treated it like a real fintech build, not a UI experiment.",
+      author: "Product Lead",
+      role: "Product Lead",
+      company: "Finnly",
+    },
+    solution:
+      "Built non-custodial seed-phrase wallets per user, an in-app swap engine with sub-second BTC ↔ USDT quoting, an NFT browser surface, an Earn module for staking yield, and a fiat Buy/Sell flow tied to debit-card processors. The visual system is a dark-mode, isometric, motion-led interface designed for onboarding new crypto users without sacrificing power-user depth — 60+ screens, full design system, plus a backend with realtime feeds and secure key handling.",
+  },
+  {
     id: "ai-voice-clinic",
     slug: "ai-voice-clinic",
     serviceId: "ai-calling",
@@ -659,7 +763,28 @@ export function getAllProjects(): WorkProject[] {
 }
 
 export function getProjectBySlug(slug: string): WorkProject | undefined {
-  return projects.find((p) => p.slug === slug || p.id === slug);
+  const direct = projects.find((p) => p.slug === slug || p.id === slug);
+  if (direct) return direct;
+
+  /** Industry landings link here before a full DB row exists — serve a representative case study. */
+  if (slug === "trading-smart-ai") {
+    const base = projects.find((p) => p.slug === "fintech-ledger");
+    if (!base) return undefined;
+    return {
+      ...base,
+      id: "trading-smart-ai",
+      slug: "trading-smart-ai",
+      title: "TradingSmart AI",
+      client: "TradingSmart.AI",
+      industry: "Fintech",
+      outcome: "Production trading stack with broker-scale execution and AI-assisted workflows",
+      description:
+        "Shipped an AI-assisted automated trading stack with broker-scale execution, real-time risk signals, and operator-grade observability.",
+      liveUrl: "https://www.tradingsmart.ai",
+    };
+  }
+
+  return undefined;
 }
 
 export function getProjectsByService(serviceId: string): WorkProject[] {

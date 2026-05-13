@@ -16,16 +16,16 @@ export const site = {
 } as const;
 
 export const navLinks = [
-  { label: "Services", href: "#services" },
-  { label: "Process", href: "#process" },
-  { label: "Work", href: "#work" },
-  { label: "Contact", href: "#contact" },
+  { label: "Services", href: "/#services" },
+  { label: "Process", href: "/#process" },
+  { label: "Work", href: "/#work" },
+  { label: "Contact", href: "/#contact-form" },
 ] as const;
 
 export const primaryCta = {
-  label: "Get free consultation",
+  label: "Start your project",
   sublabel: "24hr reply",
-  href: "#contact",
+  href: "/#contact-form",
 } as const;
 
 export const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent(site.whatsappMessage)}`;

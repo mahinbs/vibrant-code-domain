@@ -173,6 +173,7 @@ export type Database = {
           payload: Json
           phone: string | null
           source_page: string
+          submission_type: string
         }
         Insert: {
           company?: string | null
@@ -185,6 +186,7 @@ export type Database = {
           payload?: Json
           phone?: string | null
           source_page?: string
+          submission_type?: string
         }
         Update: {
           company?: string | null
@@ -197,6 +199,7 @@ export type Database = {
           payload?: Json
           phone?: string | null
           source_page?: string
+          submission_type?: string
         }
         Relationships: []
       }

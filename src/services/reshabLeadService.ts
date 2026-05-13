@@ -5,6 +5,7 @@ export type ReshabLeadRow = {
   id: string;
   created_at: string;
   source_page: string;
+  submission_type: string;
   lead_score: number;
   lead_tier: string;
   name: string;

@@ -38,7 +38,6 @@ const FINNLY_AFTER_CONTACT: AfterContactVerticalShowcase = {
   videoPoster: "/portfolios/finnly/onboarding.webp",
   /** Shown if video is unavailable (e.g. blocked format). */
   fallbackImageSrc: "/portfolios/finnly/screens.webp",
-  /** `/work/:slug` — add a matching case study in CMS/static data or update this slug. */
   caseStudySlug: "finnly",
   buildSimilarLabel: "Build Similar",
 };
@@ -289,7 +288,6 @@ export default function FintechPortfolioLanding() {
       finalSubtitle="Work with a team that understands payments, compliance, scale, and shipping velocity."
       featuredInfrastructureVideo="/videos/featured-fintech-live-execution.m4v"
       featuredInfrastructureVideoFallback="/videos/featured-fintech-live-execution.mov"
-      featuredLiveSiteHref="https://www.tradingsmart.ai"
       afterContactVerticalShowcase={FINNLY_AFTER_CONTACT}
     />
   );

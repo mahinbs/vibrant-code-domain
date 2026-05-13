@@ -3,12 +3,15 @@ import { Nav } from "./Nav";
 import { SiteBackground } from "./SiteBackground";
 import { workCaseStudyUrl } from "../lib/mainSiteWorkUrl";
 import { CTA } from "./CTA";
+import { StrategyCallLeadModal } from "./StrategyCallLeadModal";
 import { useEffect, useId, useRef, useState, type CSSProperties } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { WORK_PRIMARY_GLOSS_CTA_H10, WORK_PRIMARY_GLOSS_CTA_INNER } from "@/components/work/primitives/ctaStyles";
 import { filterPortfolioByVertical, normalizeBackendPortfolio } from "../lib/backendPortfolio";
 import { founder } from "../data/founder";
 import { stats as siteStats } from "../data/stats";
+import { whatsappHref } from "../data/site";
+import { SectionDivider } from "./SectionDivider";
 
 const INDUSTRY_WORK_MAX_STACK = 6;
 
@@ -69,6 +72,108 @@ function deriveCapabilityChips(body: string): string[] {
 }
 
 const PROCESS_TESTIMONIAL_AVATAR_SRC = "/images/testimonial-regulated-payments.webp";
+
+const FOUNDER_PHOTO_SRC = "/images/reshab-founder.png";
+
+/** Founder call-to-action band rendered right after the “idea → production” process section.
+ *  Composition: cutout portrait on a layered glow column + a glassy talking-points card on the
+ *  right with the booking CTA. Uses the same `SECTION_PAGE_X` / `sectionWashStyle` rhythm as
+ *  the surrounding sections so it lands as one continuous strip, not a banner overlay.
+ */
+function buildTogetherCtaLabel(portfolioVertical?: "fintech" | "healthcare") {
+  if (portfolioVertical === "fintech") return "Let's build your fintech business together";
+  if (portfolioVertical === "healthcare") return "Let's build your healthcare product together";
+  return "Let's build your product together";
+}
+
+function BookCallWithFounderBand({ sourcePage }: { sourcePage: string }) {
+  const [strategyModalOpen, setStrategyModalOpen] = useState(false);
+
+  return (
+    <section
+      className={`mt-4 w-full py-10 md:py-14 ${SECTION_PAGE_X}`}
+      style={sectionWashStyle}
+      aria-label="Book a call with the chief executive officer"
+    >
+      <div className={SECTION_CONTENT}>
+        <div className="relative overflow-hidden rounded-[18px] border border-white/12 bg-[linear-gradient(140deg,rgba(22,36,74,0.65)_0%,rgba(8,14,32,0.92)_55%,rgba(0,0,0,0.94)_100%)] shadow-[0_24px_60px_-30px_rgba(60,100,255,0.45)]">
+          {/** Decorative glow blobs behind the portrait — purely cosmetic, no layout weight. */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -left-24 top-1/2 z-0 h-[420px] w-[420px] -translate-y-1/2 rounded-full bg-[radial-gradient(circle_at_50%_50%,rgba(108,148,255,0.45),rgba(60,80,200,0.18)_42%,transparent_70%)] blur-[60px]"
+          />
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -right-32 -top-32 z-0 h-[360px] w-[360px] rounded-full bg-[radial-gradient(circle_at_50%_50%,rgba(150,120,255,0.32),transparent_70%)] blur-[70px]"
+          />
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 z-0 opacity-[0.18] [background-image:linear-gradient(rgba(255,255,255,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.06)_1px,transparent_1px)] [background-size:32px_32px]"
+          />
+
+          <div className="relative z-[2] grid grid-cols-1 items-stretch gap-8 p-6 md:grid-cols-[minmax(280px,360px)_1fr] md:gap-12 md:p-10">
+            {/** Portrait column — cutout PNG sits on a vertical gradient pedestal with a soft halo. */}
+            <div className="relative flex items-end justify-center md:items-stretch md:justify-start">
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-x-4 bottom-0 top-6 rounded-[16px] bg-[linear-gradient(180deg,rgba(88,132,255,0.18)_0%,rgba(40,60,160,0.28)_55%,rgba(8,14,32,0.55)_100%)]"
+              />
+              <div
+                aria-hidden
+                className="pointer-events-none absolute left-1/2 top-1/2 h-[260px] w-[260px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle_at_50%_45%,rgba(140,170,255,0.55),rgba(60,90,210,0.18)_45%,transparent_75%)] blur-[18px]"
+              />
+              <img
+                src={FOUNDER_PHOTO_SRC}
+                alt="Reshab, CEO Boostmysites"
+                loading="lazy"
+                decoding="async"
+                className="relative z-[1] mx-auto h-auto max-h-[420px] w-auto object-contain drop-shadow-[0_25px_45px_rgba(0,0,0,0.6)] md:max-h-[480px]"
+              />
+              <span
+                className="absolute bottom-2 left-2 z-[2] inline-flex items-center gap-2 rounded-full border border-white/15 bg-black/55 px-3 py-1 text-[11px] font-medium uppercase tracking-[0.16em] text-white/80 backdrop-blur-[6px]"
+              >
+                <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-[rgba(108,148,255,0.95)] shadow-[0_0_8px_rgba(108,148,255,0.7)]" />
+                Reshab · CEO Boostmysites
+              </span>
+            </div>
+
+            {/** Content column — eyebrow, headline, body, CTA. */}
+            <div className="flex flex-col justify-center">
+              <span className="text-[11px] font-medium uppercase tracking-[0.22em] text-white/55">
+                1:1 with the Chief Executive Officer
+              </span>
+              <h2 className="mt-3 max-w-[640px] text-[28px] font-medium leading-[1.12] -tracking-[0.02em] text-white md:text-[36px]">
+                Want to book a call with our{" "}
+                <span className="bg-[linear-gradient(120deg,#cfd9ff_0%,#7c97ff_45%,#5a7bff_100%)] bg-clip-text text-transparent">
+                  domain expert?
+                </span>
+              </h2>
+              <p className="mt-4 max-w-[560px] text-[15px] leading-[1.55] text-white/72 md:text-[16px]">
+                Just fill up a quick form and get the answers you need to build your idea into a reality —
+                product scope, architecture, compliance fit, and a realistic delivery plan from someone who
+                ships this for a living.
+              </p>
+
+              <div className="mt-7 flex flex-wrap items-center gap-4">
+                <button
+                  type="button"
+                  onClick={() => setStrategyModalOpen(true)}
+                  className="btn-gloss relative overflow-hidden rounded-[10px] border border-white/20 bg-purple/70 px-5 py-3 text-sm font-medium text-white"
+                >
+                  Book my strategy call
+                </button>
+                <p className="text-[12px] uppercase tracking-[0.16em] text-white/45">
+                  Free · 30 min · No sales pitch
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <StrategyCallLeadModal open={strategyModalOpen} onOpenChange={setStrategyModalOpen} sourcePage={sourcePage} />
+    </section>
+  );
+}
 
 /** Horizontal testimonial band (avatar + quote) — matches fintech landing spec; image is a simple swap via `public/images/testimonial-regulated-payments.webp`. */
 function ProcessTestimonialBand() {
@@ -1520,9 +1625,15 @@ function InsightsSection({ items, heading }: { items: InsightItem[]; heading: st
 
 /** Premium iteration of the operator-notes pattern: one founder row, no heavy card chrome,
  *  placed directly under the flagship delivery grid. */
-function FlagshipFounderNotesStrip() {
+function FlagshipFounderNotesStrip({
+  portfolioVertical,
+  onGoToMainForm,
+}: {
+  portfolioVertical?: "fintech" | "healthcare";
+  onGoToMainForm: () => void;
+}) {
   return (
-    <div className="mt-12 border-t border-white/[0.08] pt-10 md:mt-14 md:pt-12">
+    <div className="mt-8 border-t border-white/[0.08] pt-8 md:mt-10 md:pt-10">
       <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-white/55">Leadership</p>
       <h2 className="mt-3 max-w-[42rem] text-[clamp(1.35rem,3vw,1.95rem)] font-medium leading-snug tracking-tight text-white">
         From the founder.
@@ -1560,13 +1671,25 @@ function FlagshipFounderNotesStrip() {
           </div>
         </li>
       </ul>
+
+      <div className="mt-8 flex w-full justify-center md:mt-10">
+        <button type="button" onClick={onGoToMainForm} className={WORK_PRIMARY_GLOSS_CTA_H10}>
+          <span className={WORK_PRIMARY_GLOSS_CTA_INNER}>{buildTogetherCtaLabel(portfolioVertical)}</span>
+        </button>
+      </div>
     </div>
   );
 }
 
 /** Humanized founder band — named, photographed, Forbes-featured. Sits above the final CTA
  *  to land the "real people behind the system" closer before the conversion ask. */
-function FounderBand() {
+function FounderBand({
+  portfolioVertical,
+  onGoToMainForm,
+}: {
+  portfolioVertical?: "fintech" | "healthcare";
+  onGoToMainForm: () => void;
+}) {
   return (
     <section className={`mt-6 w-full ${SECTION_PAGE_X}`} aria-label="A note from the founder">
       <div
@@ -1626,6 +1749,12 @@ function FounderBand() {
             <p className="text-[13px] leading-relaxed text-white/45 md:text-[13.5px]">
               {founder.intro}
             </p>
+
+            <div className="mt-2 flex w-full justify-center">
+              <button type="button" onClick={onGoToMainForm} className={WORK_PRIMARY_GLOSS_CTA_H10}>
+                <span className={WORK_PRIMARY_GLOSS_CTA_INNER}>{buildTogetherCtaLabel(portfolioVertical)}</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -2024,8 +2153,6 @@ export function IndustryLandingPage({
   featuredInfrastructureVideo,
   featuredInfrastructureVideoFallback,
   featuredInfrastructureVideoPoster,
-  featuredLiveSiteHref,
-  featuredLiveSiteLabel = "View live site",
   featuredFlagshipCaseStudy,
   afterContactVerticalShowcase,
 }: Props) {
@@ -2100,7 +2227,7 @@ export function IndustryLandingPage({
     <>
       <SiteBackground />
       <Nav />
-      <main className="relative z-10 mx-auto flex w-full max-w-[1920px] flex-col items-center px-5 pb-[80px] pt-[120px] md:px-10">
+      <main className="relative z-10 mx-auto flex w-full max-w-[1920px] flex-col items-center px-5 pb-[80px] pt-[88px] sm:pt-[96px] md:px-10">
         <section
           className="relative w-full overflow-hidden rounded-[20px] border border-white/15 p-6 md:p-10"
           style={{
@@ -2162,15 +2289,16 @@ export function IndustryLandingPage({
                     onClick={scrollToForm}
                     className="btn-gloss relative overflow-hidden rounded-[10px] border border-white/20 bg-purple/70 px-5 py-3 text-sm font-medium text-white"
                   >
-                    Book free consultation
+                    Start your project
                   </button>
-                  <button
-                    type="button"
-                    onClick={scrollToForm}
+                  <a
+                    href={whatsappHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="rounded-[10px] border border-white/15 bg-black/40 px-5 py-3 text-sm font-medium text-white/90 transition-colors hover:bg-black/60 hover:text-white"
                   >
                     Talk on WhatsApp
-                  </button>
+                  </a>
                 </div>
               </div>
               <MorphingWordAnimation />
@@ -2235,9 +2363,13 @@ export function IndustryLandingPage({
           </div>
         </section>
 
+        <SectionDivider />
+
         <PressStrip items={resolvedPressCoverage} />
 
         <SocialProofStrip />
+
+        <SectionDivider />
 
         <section className={`mt-6 w-full rounded-[16px] py-10 md:py-14 ${SECTION_PAGE_X}`} style={sectionWashStyle}>
           {featuredWork ? (
@@ -2281,16 +2413,6 @@ export function IndustryLandingPage({
                         Plan a similar build
                       </button>
                     </div>
-                    {featuredLiveSiteHref ? (
-                      <a
-                        href={featuredLiveSiteHref}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex h-10 w-fit items-center rounded-[10px] border border-white/20 bg-black/50 px-4 text-[12px] font-semibold text-white/95 transition-colors hover:bg-black/65 hover:text-white"
-                      >
-                        {featuredLiveSiteLabel}
-                      </a>
-                    ) : null}
                   </div>
                 </div>
 
@@ -2306,7 +2428,7 @@ export function IndustryLandingPage({
                 </div>
               </div>
 
-              <FlagshipFounderNotesStrip />
+              <FlagshipFounderNotesStrip portfolioVertical={portfolioVertical} onGoToMainForm={scrollToForm} />
             </div>
           ) : (
             <div className={SECTION_CONTENT}>
@@ -2384,6 +2506,8 @@ export function IndustryLandingPage({
           )}
         </section>
 
+        <SectionDivider />
+
         <section className={`mt-6 w-full py-10 md:py-12 ${SECTION_PAGE_X}`} style={sectionWashStyle}>
           <SectionTitle>{processTitle}</SectionTitle>
           <div className="mt-4 flex flex-col gap-3 md:flex-row md:items-stretch md:gap-2">
@@ -2422,7 +2546,29 @@ export function IndustryLandingPage({
           </div>
         </section>
 
+        <SectionDivider />
+
+        <BookCallWithFounderBand
+          sourcePage={
+            portfolioVertical === "healthcare"
+              ? "healthcare-landing"
+              : portfolioVertical === "fintech"
+                ? "fintech-landing"
+                : "industry-landing"
+          }
+        />
+
+        <SectionDivider />
+
+        {afterContactVerticalShowcase ? (
+          <AfterContactVerticalShowcaseSection data={afterContactVerticalShowcase} onBuildSimilar={scrollToForm} />
+        ) : null}
+
+        <SectionDivider />
+
         {portfolioVertical === "fintech" ? <ProcessTestimonialBand /> : null}
+
+        <SectionDivider />
 
         <CTA
           id="contact-form"
@@ -2444,9 +2590,7 @@ export function IndustryLandingPage({
           }
         />
 
-        {afterContactVerticalShowcase ? (
-          <AfterContactVerticalShowcaseSection data={afterContactVerticalShowcase} onBuildSimilar={scrollToForm} />
-        ) : null}
+        <SectionDivider />
 
         <ExpertiseBentoSection
           cards={capabilityCards}
@@ -2455,10 +2599,7 @@ export function IndustryLandingPage({
           portfolioVertical={portfolioVertical}
         />
 
-        <div
-          aria-hidden="true"
-          className="mx-auto my-2 h-px w-full max-w-[160px] bg-gradient-to-r from-transparent via-white/[0.08] to-transparent"
-        />
+        <SectionDivider />
 
         <OperatingModelHubSection
           title={resolvedOperatingTitle}
@@ -2468,19 +2609,15 @@ export function IndustryLandingPage({
           centerHint={resolvedOperatingCenterHint}
         />
 
-        <div
-          aria-hidden="true"
-          className="mx-auto my-2 h-px w-full max-w-[160px] bg-gradient-to-r from-transparent via-white/[0.08] to-transparent"
-        />
+        <SectionDivider />
 
         <ScaleArchitectureSection title={scaleTitle} items={scaleArchitecture} rootLabel={scaleRootLabel} />
 
+        <SectionDivider />
+
         <OperatorQuotesSection quotes={resolvedOperatorQuotes} />
 
-        <div
-          aria-hidden="true"
-          className="mx-auto my-2 h-px w-full max-w-[160px] bg-gradient-to-r from-transparent via-white/[0.08] to-transparent"
-        />
+        <SectionDivider />
 
         <section className={`mt-6 w-full py-12 md:py-20 ${SECTION_PAGE_X}`} style={sectionWashStyle}>
           <div className={SECTION_CONTENT}>
@@ -2515,14 +2652,13 @@ export function IndustryLandingPage({
           </div>
         </section>
 
-        <div
-          aria-hidden="true"
-          className="mx-auto my-2 h-px w-full max-w-[160px] bg-gradient-to-r from-transparent via-white/[0.08] to-transparent"
-        />
+        <SectionDivider />
 
         <InsightsSection items={resolvedInsights} heading={resolvedInsightsHeading} />
 
-        {featuredWork ? null : <FounderBand />}
+        {featuredWork ? null : <FounderBand portfolioVertical={portfolioVertical} onGoToMainForm={scrollToForm} />}
+
+        <SectionDivider />
 
         <section
           className={`mt-6 w-full rounded-[16px] border border-white/12 bg-[radial-gradient(circle_at_top,rgba(92,138,255,0.2),rgba(0,0,0,0.385)_55%)] py-8 text-center backdrop-blur-[8px] md:py-10 ${SECTION_PAGE_X}`}
@@ -2542,10 +2678,12 @@ export function IndustryLandingPage({
               onClick={scrollToForm}
               className="rounded-[10px] border border-white/15 bg-black/40 px-5 py-3 text-sm font-medium text-white/90"
             >
-              Schedule consultation
+              Plan your build
             </button>
           </div>
         </section>
+
+        <SectionDivider />
 
       </main>
       <Footer />

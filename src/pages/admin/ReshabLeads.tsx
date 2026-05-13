@@ -27,6 +27,17 @@ function tierBadgeClass(tier: string) {
   return "bg-zinc-600/90 text-white border-zinc-400/40";
 }
 
+function submissionTypeLabel(t: string) {
+  if (t === "strategy_call") return "Strategy call";
+  if (t === "high_intent") return "Full form";
+  return t || "—";
+}
+
+function submissionBadgeClass(t: string) {
+  if (t === "strategy_call") return "border-cyan-400/50 bg-cyan-950/80 text-cyan-200";
+  return "border-white/20 bg-white/10 text-gray-200";
+}
+
 const ReshabLeads = () => {
   const [leads, setLeads] = useState<ReshabLeadRow[]>([]);
   const [loading, setLoading] = useState(true);
@@ -67,7 +78,7 @@ const ReshabLeads = () => {
               Reshab leads
             </h1>
             <p className="mt-1 text-gray-400">
-              High-intent form submissions (homepage, industry landings, services modal).
+              High-intent and quick strategy-call submissions (same table; use the Form column to tell them apart).
             </p>
           </div>
           <div className="flex gap-2">
@@ -97,10 +108,11 @@ const ReshabLeads = () => {
           </div>
         ) : (
           <div className="overflow-x-auto rounded-lg border border-white/10">
-            <table className="w-full min-w-[800px] text-left text-sm text-gray-300">
+            <table className="w-full min-w-[920px] text-left text-sm text-gray-300">
               <thead className="border-b border-white/10 bg-black/40 text-xs uppercase tracking-wide text-gray-500">
                 <tr>
                   <th className="px-4 py-3">Date</th>
+                  <th className="px-4 py-3">Form</th>
                   <th className="px-4 py-3">Name</th>
                   <th className="px-4 py-3">Email</th>
                   <th className="px-4 py-3">Phone</th>
@@ -115,6 +127,11 @@ const ReshabLeads = () => {
                   <tr key={row.id} className="border-b border-white/5 hover:bg-white/[0.03]">
                     <td className="whitespace-nowrap px-4 py-3 text-gray-400">
                       {new Date(row.created_at).toLocaleString()}
+                    </td>
+                    <td className="px-4 py-3">
+                      <Badge variant="outline" className={submissionBadgeClass(row.submission_type ?? "high_intent")}>
+                        {submissionTypeLabel(row.submission_type ?? "high_intent")}
+                      </Badge>
                     </td>
                     <td className="px-4 py-3 font-medium text-white">{row.name}</td>
                     <td className="px-4 py-3">

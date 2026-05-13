@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { navLinks, primaryCta, site, whatsappHref } from "../data/site";
 import { WhatsAppIcon } from "./icons";
 
@@ -29,9 +30,9 @@ export function Nav() {
        *  ancestor has transform/filter/backdrop-filter/will-change. Outer
        *  wrapper is pointer-events-none so the gap above the pill never
        *  blocks taps on hero CTAs. */}
-      <div className="sticky top-0 z-40 w-full pointer-events-none pt-[max(env(safe-area-inset-top),0.75rem)] pb-2">
+      <div className="sticky top-0 z-40 w-full pointer-events-none pt-[max(env(safe-area-inset-top),0.35rem)] pb-1.5">
         <nav className="pointer-events-auto mx-auto flex w-[760px] max-w-[calc(100vw-20px)] items-center justify-between gap-3 p-2 bg-black/85 backdrop-blur-[10px] rounded-[14px] border border-white/15 shadow-[0_5px_20px_rgba(0,0,0,0.35)]">
-          <a href="#top" className="flex items-center gap-2 pl-1 shrink-0">
+          <Link to="/" className="flex items-center gap-2 pl-1 shrink-0" aria-label={`${site.brand} home`}>
             <img
               src="/logo-B3Maab4W.png"
               alt={`${site.brand} logo`}
@@ -41,7 +42,7 @@ export function Nav() {
             <span className="text-[15px] font-semibold tracking-[-0.01em] text-white max-sm:hidden">
               {site.brand}
             </span>
-          </a>
+          </Link>
 
           <div className="flex items-center gap-0.5 max-md:hidden">
             {navLinks.map(({ label, href }) => (

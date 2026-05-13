@@ -3,12 +3,12 @@ import { LeadForm, type LeadFormProps } from "./LeadForm";
 import { OrbIcon, WhatsAppIcon } from "./icons";
 
 type CTAProps = {
-  /** Defaults to `contact` (homepage). Industry landings use `contact-form` for in-page scroll targets. */
+  /** Defaults to `contact-form` so Nav / in-page anchors match industry landings and the homepage redesign. */
   id?: string;
   leadFormProps?: Partial<LeadFormProps>;
 };
 
-export function CTA({ id = "contact", leadFormProps }: CTAProps) {
+export function CTA({ id = "contact-form", leadFormProps }: CTAProps) {
   const formProps: LeadFormProps = {
     sourcePage: "homepage",
     vertical: "none",
