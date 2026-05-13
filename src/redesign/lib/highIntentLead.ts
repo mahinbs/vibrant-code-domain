@@ -9,7 +9,8 @@ export type HighIntentLeadPayload = {
   userScale: string;
   complianceNeeds: string[];
   timeline: string;
-  budgetUsd: string;
+  /** INR budget band (stable keys for scoring). */
+  budgetInr: string;
   decisionRole: string;
   /** Optional; empty string when skipped */
   technicalChallenge: string;

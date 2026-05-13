@@ -3,7 +3,6 @@ import { Hero } from "./components/Hero";
 import { Nav } from "./components/Nav";
 import { SiteBackground } from "./components/SiteBackground";
 import { RedesignShell } from "./RedesignShell";
-import { useProgressiveRender } from "@/hooks/useProgressiveRender";
 import DeferredSection from "@/components/ui/DeferredSection";
 
 const Stats = lazy(() => import("./components/Stats").then((m) => ({ default: m.Stats })));
@@ -23,52 +22,50 @@ const Testimonial = lazy(() => import("./components/Testimonial").then((m) => ({
 const CTA = lazy(() => import("./components/CTA").then((m) => ({ default: m.CTA })));
 const Footer = lazy(() => import("./components/Footer").then((m) => ({ default: m.Footer })));
 
+/**
+ * Below-the-fold sections mount immediately (lazy chunks still split JS work).
+ * Avoids the old `phase >= 3` swap that replaced a large placeholder with real
+ * layout mid-scroll — a common cause of scroll “jumps” / anchoring glitches.
+ */
 export function RedesignHomePage() {
-  const { phase, sentinelRef } = useProgressiveRender();
-
   return (
     <RedesignShell>
       <SiteBackground />
       <Nav />
       <main className="relative z-10 mx-auto flex w-full max-w-[1920px] flex-col items-center overflow-x-hidden pb-16 md:pb-24">
         <Hero />
-        <div ref={sentinelRef} className="h-1 w-full" aria-hidden="true" />
-        {phase >= 3 ? (
-          <Suspense fallback={<div className="h-[60vh] w-full" aria-hidden="true" />}>
-            <DeferredSection minHeight={240}>
-              <Stats />
-            </DeferredSection>
-            <DeferredSection minHeight={620}>
-              <FintechHealthcareSection />
-            </DeferredSection>
-            <DeferredSection minHeight={620}>
-              <Services />
-            </DeferredSection>
-            <DeferredSection minHeight={560}>
-              <FounderForbesSection />
-            </DeferredSection>
-            <DeferredSection minHeight={640}>
-              <Process />
-            </DeferredSection>
-            <DeferredSection minHeight={620}>
-              <ProblemSolution />
-            </DeferredSection>
-            <DeferredSection minHeight={620}>
-              <Portfolio />
-            </DeferredSection>
-            <DeferredSection minHeight={500}>
-              <Testimonial />
-            </DeferredSection>
-            <DeferredSection minHeight={420}>
-              <CTA />
-            </DeferredSection>
-            <DeferredSection minHeight={240}>
-              <Footer />
-            </DeferredSection>
-          </Suspense>
-        ) : (
-          <div className="h-[60vh] w-full" aria-hidden="true" />
-        )}
+        <Suspense fallback={<div className="h-[60vh] w-full" aria-hidden="true" />}>
+          <DeferredSection minHeight={240}>
+            <Stats />
+          </DeferredSection>
+          <DeferredSection minHeight={620}>
+            <FintechHealthcareSection />
+          </DeferredSection>
+          <DeferredSection minHeight={620}>
+            <Services />
+          </DeferredSection>
+          <DeferredSection minHeight={560}>
+            <FounderForbesSection />
+          </DeferredSection>
+          <DeferredSection minHeight={640}>
+            <Process />
+          </DeferredSection>
+          <DeferredSection minHeight={620}>
+            <ProblemSolution />
+          </DeferredSection>
+          <DeferredSection minHeight={620}>
+            <Portfolio />
+          </DeferredSection>
+          <DeferredSection minHeight={500}>
+            <Testimonial />
+          </DeferredSection>
+          <DeferredSection minHeight={420}>
+            <CTA />
+          </DeferredSection>
+          <DeferredSection minHeight={240}>
+            <Footer />
+          </DeferredSection>
+        </Suspense>
       </main>
     </RedesignShell>
   );

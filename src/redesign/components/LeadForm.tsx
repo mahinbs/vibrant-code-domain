@@ -86,11 +86,11 @@ const TIMELINE_OPTIONS = [
 ] as const;
 
 const BUDGET_OPTIONS = [
-  { value: "under-5k", label: "Under $5K" },
-  { value: "5k-15k", label: "$5K–$15K" },
-  { value: "15k-50k", label: "$15K–$50K" },
-  { value: "50k-100k", label: "$50K–$100K" },
-  { value: "100k-plus", label: "$100K+" },
+  { value: "under-5l", label: "Under ₹5L" },
+  { value: "5l-15l", label: "₹5L–15L" },
+  { value: "15l-50l", label: "₹15L–50L" },
+  { value: "50l-1cr", label: "₹50L–1 Cr" },
+  { value: "1cr-plus", label: "₹1 Cr+" },
 ] as const;
 
 const DECISION_ROLE_OPTIONS = [
@@ -135,7 +135,7 @@ function emptyForm(vertical: LeadVertical, initialWhatBuilding: string): FormSta
     userScale: "",
     complianceNeeds: [],
     timeline: "",
-    budgetUsd: "",
+    budgetInr: "",
     decisionRole: "",
     technicalChallenge: "",
     company: "",
@@ -163,7 +163,7 @@ function validateStep2(v: FormState): FieldErrors {
 
 function validateStep3(v: FormState): FieldErrors {
   const e: FieldErrors = {};
-  if (!v.budgetUsd.trim()) e.budgetUsd = "Select estimated budget.";
+  if (!v.budgetInr.trim()) e.budgetInr = "Select estimated budget.";
   if (!v.decisionRole.trim()) e.decisionRole = "Select your role.";
   return e;
 }
@@ -253,7 +253,7 @@ export function LeadForm({
       userScale: values.userScale,
       complianceNeeds: values.complianceNeeds,
       timeline: values.timeline,
-      budgetUsd: values.budgetUsd,
+      budgetInr: values.budgetInr,
       decisionRole: values.decisionRole,
       technicalChallenge: values.technicalChallenge,
       company: values.company,
@@ -426,11 +426,11 @@ export function LeadForm({
             compliance workflows, and scalable infrastructure planning.
           </p>
           <SelectFieldStr
-            id="budgetUsd"
-            label="Estimated budget *"
-            value={values.budgetUsd}
-            onChange={onSelectChange("budgetUsd")}
-            error={errors.budgetUsd}
+            id="budgetInr"
+            label="Estimated budget (INR) *"
+            value={values.budgetInr}
+            onChange={onSelectChange("budgetInr")}
+            error={errors.budgetInr}
             options={[...BUDGET_OPTIONS]}
           />
           <SelectFieldStr

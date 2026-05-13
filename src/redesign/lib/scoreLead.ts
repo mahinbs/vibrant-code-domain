@@ -2,7 +2,10 @@ import type { HighIntentLeadPayload } from "./highIntentLead";
 
 export type LeadTier = "high" | "medium" | "low";
 
-/** Signals from the product brief — positive intent. */
+/** Legacy USD keys still accepted when re-scoring old payloads. */
+const LEGACY_HIGH_BUDGET = new Set(["15k-50k", "50k-100k", "100k-plus"]);
+const LEGACY_LOW_BUDGET = new Set(["under-5k"]);
+
 const SECURITY_COMPLIANCE_IDS = new Set([
   "audit-readiness",
   "vapt",
@@ -12,48 +15,154 @@ const SECURITY_COMPLIANCE_IDS = new Set([
   "hipaa-gdpr",
 ]);
 
+const HIGH_INTENT_BUILD = new Set([
+  "trading-platform",
+  "payment-system",
+  "lending-platform",
+  "telemedicine",
+  "healthcare-mgmt",
+]);
+
+function resolveBudget(p: HighIntentLeadPayload): string {
+  return (
+    p.budgetInr ||
+    (p as HighIntentLeadPayload & { budgetUsd?: string }).budgetUsd ||
+    ""
+  );
+}
+
 /**
- * Scoring rubric (internal). Tune thresholds in `tierFromScore` only when changing bands.
- * - Existing product: +20
- * - Scaling infrastructure: +25
- * - 10K+ users: +20
- * - $15K+ budget: +25
- * - Founder / CTO: +20
- * - Audit/security-related compliance selections: +15 (once)
- * - Exploring timeline: -15
- * - Under $5K budget: -20
+ * Lead score (roughly 0–120+ before soft cap). Higher = stronger commercial intent.
+ *
+ * Dimensions:
+ * - Project stage (maturity / urgency to ship)
+ * - User scale
+ * - Budget (INR bands; legacy USD keys supported)
+ * - Decision role
+ * - Timeline urgency
+ * - Compliance / security engagement
+ * - Vertical + build type + stated technical challenge
  */
 export function scoreHighIntentLead(p: HighIntentLeadPayload): number {
   let score = 0;
+  const budget = resolveBudget(p);
 
-  if (p.projectStage === "existing-product") score += 20;
-  if (p.projectStage === "scaling-infrastructure") score += 25;
-
-  if (p.userScale === "10k-100k" || p.userScale === "100k-plus") score += 20;
-
-  if (
-    p.budgetUsd === "15k-50k" ||
-    p.budgetUsd === "50k-100k" ||
-    p.budgetUsd === "100k-plus"
-  ) {
-    score += 25;
+  switch (p.projectStage) {
+    case "idea-stage":
+      score += 4;
+      break;
+    case "mvp-in-progress":
+      score += 14;
+      break;
+    case "existing-product":
+      score += 22;
+      break;
+    case "scaling-infrastructure":
+      score += 28;
+      break;
+    case "rebuilding":
+      score += 16;
+      break;
+    default:
+      break;
   }
-  if (p.budgetUsd === "under-5k") score -= 20;
 
-  if (p.decisionRole === "founder" || p.decisionRole === "cto") score += 20;
+  switch (p.userScale) {
+    case "under-1k":
+      score += 0;
+      break;
+    case "1k-10k":
+      score += 10;
+      break;
+    case "10k-100k":
+      score += 22;
+      break;
+    case "100k-plus":
+      score += 26;
+      break;
+    default:
+      break;
+  }
+
+  if (budget === "15l-50l" || budget === "50l-1cr" || budget === "1cr-plus" || LEGACY_HIGH_BUDGET.has(budget)) {
+    score += 30;
+  } else if (budget === "5l-15l") {
+    score += 12;
+  } else if (budget === "under-5l" || LEGACY_LOW_BUDGET.has(budget)) {
+    score -= 14;
+  }
+
+  switch (p.decisionRole) {
+    case "founder":
+    case "cto":
+      score += 24;
+      break;
+    case "pm":
+      score += 14;
+      break;
+    case "operations":
+      score += 8;
+      break;
+    case "agency":
+      score += 5;
+      break;
+    case "researching":
+      score -= 12;
+      break;
+    default:
+      break;
+  }
+
+  switch (p.timeline) {
+    case "asap":
+      score += 12;
+      break;
+    case "within-30":
+      score += 10;
+      break;
+    case "1-3mo":
+      score += 6;
+      break;
+    case "3-6mo":
+      score += 3;
+      break;
+    case "exploring":
+      score -= 14;
+      break;
+    default:
+      break;
+  }
 
   const hasSecuritySignal = p.complianceNeeds.some((id) => SECURITY_COMPLIANCE_IDS.has(id));
-  if (hasSecuritySignal) score += 15;
+  if (hasSecuritySignal) {
+    score += 18;
+  } else if (p.complianceNeeds.length > 0) {
+    score += 10;
+  }
 
-  if (p.timeline === "exploring") score -= 15;
+  if (p.industry === "fintech" || p.industry === "healthcare") {
+    score += 4;
+  }
 
-  return score;
+  if (HIGH_INTENT_BUILD.has(p.whatBuilding)) {
+    score += 5;
+  }
+
+  if (p.technicalChallenge && p.technicalChallenge.trim() && p.technicalChallenge !== "unsure") {
+    score += 5;
+  }
+
+  /** Soft cap keeps display comparable across rule tweaks. */
+  return Math.min(100, Math.max(0, score));
 }
 
-/** Higher = stronger lead. Thresholds chosen so typical “serious” fills land medium–high. */
+/** Tuned for post–soft-cap 0–100 scores. */
+export const TIER_HIGH_MIN = 62;
+export const TIER_MEDIUM_MIN = 34;
+
 export function tierFromScore(score: number): LeadTier {
-  if (score >= 55) return "high";
-  if (score >= 25) return "medium";
+  if (score >= TIER_HIGH_MIN) return "high";
+  if (score >= TIER_MEDIUM_MIN) return "medium";
   return "low";
 }
 
