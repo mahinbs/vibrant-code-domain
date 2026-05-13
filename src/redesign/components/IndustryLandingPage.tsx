@@ -2429,15 +2429,18 @@ export function IndustryLandingPage({
           leadFormProps={
             portfolioVertical === "healthcare"
               ? {
-                  initialProjectTypeValue: "healthcare-build",
-                  initialProjectTypeLabel: "Healthcare / digital health product",
+                  sourcePage: "healthcare-landing",
+                  vertical: "healthcare",
                 }
               : portfolioVertical === "fintech"
                 ? {
-                    initialProjectTypeValue: "fintech-build",
-                    initialProjectTypeLabel: "Fintech / regulated finance product",
+                    sourcePage: "fintech-landing",
+                    vertical: "fintech",
                   }
-                : undefined
+                : {
+                    sourcePage: "industry-landing",
+                    vertical: "none",
+                  }
           }
         />
 

@@ -5,10 +5,16 @@ import { OrbIcon, WhatsAppIcon } from "./icons";
 type CTAProps = {
   /** Defaults to `contact` (homepage). Industry landings use `contact-form` for in-page scroll targets. */
   id?: string;
-  leadFormProps?: LeadFormProps;
+  leadFormProps?: Partial<LeadFormProps>;
 };
 
 export function CTA({ id = "contact", leadFormProps }: CTAProps) {
+  const formProps: LeadFormProps = {
+    sourcePage: "homepage",
+    vertical: "none",
+    ...(leadFormProps ?? {}),
+  };
+
   return (
     <section
       id={id}
@@ -51,7 +57,7 @@ export function CTA({ id = "contact", leadFormProps }: CTAProps) {
         </div>
 
         <div className="relative z-[2] w-full flex flex-col items-center gap-5">
-          <LeadForm {...leadFormProps} />
+          <LeadForm {...formProps} />
 
           <div className="flex items-center gap-4 text-sm text-white/55">
             <span className="h-px w-12 bg-white/15" />

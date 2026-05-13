@@ -281,6 +281,10 @@ const EXACT: Record<string, RouteSeo> = {
     title: "Webinars | Admin | Boostmysites",
     description: "Manage webinars in the Boostmysites admin.",
   },
+  "/admin/reshab-leads": {
+    title: "Reshab Leads | Admin | Boostmysites",
+    description: "View high-intent redesign lead submissions and scores.",
+  },
 };
 
 const PATTERNS: Array<{ pattern: string; seo: RouteSeo }> = [

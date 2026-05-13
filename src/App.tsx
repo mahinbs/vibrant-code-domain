@@ -101,6 +101,7 @@ const ForLlmPage = lazy(() => import("./pages/ForLlmPage"));
 const AdminLogin = lazy(() => import("./pages/admin/AdminLogin"));
 const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
 const CustomerInquiries = lazy(() => import("./pages/admin/CustomerInquiries"));
+const ReshabLeads = lazy(() => import("./pages/admin/ReshabLeads"));
 const TrialLeads = lazy(() => import("./pages/admin/TrialLeads"));
 const PortfolioList = lazy(() => import("./pages/admin/PortfolioList"));
 const PortfolioForm = lazy(() => import("./pages/admin/PortfolioForm"));
@@ -660,6 +661,14 @@ const App = () => {
                 element={
                   <ProtectedRoute>
                     <CustomerInquiries />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/reshab-leads"
+                element={
+                  <ProtectedRoute>
+                    <ReshabLeads />
                   </ProtectedRoute>
                 }
               />

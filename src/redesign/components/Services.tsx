@@ -6,6 +6,11 @@ import { LeadForm } from "./LeadForm";
 import { ArrowRightIcon, CheckIcon, OrbIcon, WhatsAppIcon } from "./icons";
 import { serviceIconMap } from "./serviceIconMap";
 
+function mapServiceIdToWhatBuilding(serviceId: string): string {
+  if (serviceId === "ai-automation" || serviceId === "ai-calling") return "ai-automation";
+  return "custom-software";
+}
+
 export function Services() {
   const [selectedService, setSelectedService] = useState<{
     id: string;
@@ -198,8 +203,11 @@ export function Services() {
             <div className="relative z-[2] mt-6 flex flex-col items-center gap-5">
               <LeadForm
                 key={selectedService.id}
-                initialProjectTypeValue={`service:${selectedService.id}`}
-                initialProjectTypeLabel={selectedService.title}
+                sourcePage="services-modal"
+                vertical="none"
+                initialWhatBuildingValue={mapServiceIdToWhatBuilding(selectedService.id)}
+                lockWhatBuilding
+                serviceModal={{ id: selectedService.id, title: selectedService.title }}
               />
 
               <div className="flex items-center gap-4 text-sm text-white/55">

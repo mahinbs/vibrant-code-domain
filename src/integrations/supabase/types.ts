@@ -161,6 +161,45 @@ export type Database = {
         }
         Relationships: []
       }
+      reshab_leads: {
+        Row: {
+          company: string | null
+          created_at: string
+          email: string
+          id: string
+          lead_score: number
+          lead_tier: string
+          name: string
+          payload: Json
+          phone: string | null
+          source_page: string
+        }
+        Insert: {
+          company?: string | null
+          created_at?: string
+          email: string
+          id?: string
+          lead_score?: number
+          lead_tier?: string
+          name: string
+          payload?: Json
+          phone?: string | null
+          source_page?: string
+        }
+        Update: {
+          company?: string | null
+          created_at?: string
+          email?: string
+          id?: string
+          lead_score?: number
+          lead_tier?: string
+          name?: string
+          payload?: Json
+          phone?: string | null
+          source_page?: string
+        }
+        Relationships: []
+      }
       inquiry_audit_trails: {
         Row: {
           action: string
