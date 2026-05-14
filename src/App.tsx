@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import ProtectedRoute from "./components/admin/ProtectedRoute";
 import GoogleAnalytics from "./components/GoogleAnalytics";
+import MetaPixel from "./components/MetaPixel";
 import CanonicalLink from "./components/CanonicalLink";
 import RouteMeta from "./components/RouteMeta";
 import FloatingWhatsAppButton from "./components/ui/FloatingWhatsAppButton";
@@ -138,6 +139,7 @@ const App = () => {
           <BrowserRouter>
             <ScrollToTop />
             <GoogleAnalytics />
+            <MetaPixel />
             <CanonicalLink />
             <RouteMeta />
             <Suspense fallback={routeFallback}>
