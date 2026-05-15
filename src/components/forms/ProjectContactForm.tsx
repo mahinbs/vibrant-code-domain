@@ -1,3 +1,4 @@
+import { trackMetaCompleteRegistration } from "@/lib/analytics/metaPixel";
 import { useState } from "react";
 import type { FormEvent } from "react";
 
@@ -48,6 +49,7 @@ const ProjectContactForm = ({
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!validateStepTwo()) return;
+    trackMetaCompleteRegistration();
     setSubmitted(true);
   };
 

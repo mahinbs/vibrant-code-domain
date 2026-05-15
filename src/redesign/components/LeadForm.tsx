@@ -1,4 +1,5 @@
 import { useMemo, useState, type ChangeEvent, type FormEvent } from "react";
+import { trackMetaCompleteRegistration } from "@/lib/analytics/metaPixel";
 import { submitLead, type HighIntentLeadSubmitInput } from "../lib/submitLead";
 import type { HighIntentLeadPayload } from "../lib/highIntentLead";
 import { CheckIcon } from "./icons";
@@ -262,6 +263,9 @@ export function LeadForm({
     };
     const res = await submitLead(input);
     if (res.ok) {
+      if (sourcePage === "fintech-landing") {
+        trackMetaCompleteRegistration();
+      }
       setStatus("success");
       setValues(emptyForm(vertical, initialWhatBuildingValue));
       setStep(1);
