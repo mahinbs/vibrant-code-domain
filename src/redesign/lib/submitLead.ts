@@ -1,4 +1,3 @@
-import { site } from "../data/site";
 import { supabase } from "@/integrations/supabase/client";
 import type { HighIntentLeadPayload, HighIntentLeadSubmitInput } from "./highIntentLead";
 import { scoreAndTier } from "./scoreLead";
@@ -7,7 +6,7 @@ export type { HighIntentLeadPayload, HighIntentLeadSubmitInput } from "./highInt
 
 export type LeadResult = {
   ok: boolean;
-  via: "supabase" | "endpoint" | "mailto" | "noop";
+  via: "supabase" | "endpoint" | "noop";
   error?: string;
 };
 
@@ -45,9 +44,23 @@ function buildPayloadRecord(
   return p;
 }
 
+function supabaseErrorMessage(error: { message?: string; code?: string } | null): string {
+  if (!error) {
+    return "Could not save your submission. Please try again or contact us directly.";
+  }
+  if (import.meta.env.DEV) {
+    console.error("[submitLead] Supabase insert failed:", error);
+  }
+  const hint =
+    error.code === "42P01" || error.message?.includes("reshab_leads")
+      ? " The leads database may need the reshab_leads migration applied."
+      : "";
+  return (error.message ?? "Could not save your submission.") + hint;
+}
+
 /**
  * Persists high-intent leads to `reshab_leads`, with score/tier from `scoreLead`.
- * Falls back to VITE_LEAD_ENDPOINT POST, then mailto, on insert failure.
+ * Falls back to VITE_LEAD_ENDPOINT POST on insert failure.
  */
 export async function submitLead(input: HighIntentLeadSubmitInput): Promise<LeadResult> {
   const payloadForScore: HighIntentLeadPayload = {
@@ -66,6 +79,8 @@ export async function submitLead(input: HighIntentLeadSubmitInput): Promise<Lead
   const { score, tier } = scoreAndTier(payloadForScore);
   const payload = buildPayloadRecord(input);
 
+  let supabaseError: { message?: string; code?: string } | null = null;
+
   try {
     const { error } = await supabase.from("reshab_leads").insert({
       source_page: input.sourcePage,
@@ -82,8 +97,9 @@ export async function submitLead(input: HighIntentLeadSubmitInput): Promise<Lead
     if (!error) {
       return { ok: true, via: "supabase" };
     }
-  } catch {
-    // fall through
+    supabaseError = error;
+  } catch (err) {
+    supabaseError = err instanceof Error ? { message: err.message } : { message: "Unknown error" };
   }
 
   const endpoint = import.meta.env.VITE_LEAD_ENDPOINT as string | undefined;
@@ -117,25 +133,11 @@ export async function submitLead(input: HighIntentLeadSubmitInput): Promise<Lead
     }
   }
 
-  if (typeof window !== "undefined") {
-    const subject = encodeURIComponent(`High-intent lead: ${input.name}`);
-    const body = encodeURIComponent(
-      [
-        `Source: ${input.sourcePage}`,
-        `Score: ${score} (${tier})`,
-        "",
-        `Name: ${input.name}`,
-        `Email: ${input.email}`,
-        `WhatsApp/Phone: ${input.phone}`,
-        "",
-        JSON.stringify(payload, null, 2),
-      ].join("\n"),
-    );
-    window.location.href = `mailto:${site.email}?subject=${subject}&body=${body}`;
-    return { ok: true, via: "mailto" };
-  }
-
-  return { ok: true, via: "noop" };
+  return {
+    ok: false,
+    via: "noop",
+    error: supabaseErrorMessage(supabaseError),
+  };
 }
 
 /**
@@ -144,6 +146,8 @@ export async function submitLead(input: HighIntentLeadSubmitInput): Promise<Lead
  */
 export async function submitStrategyCallLead(input: StrategyCallLeadInput): Promise<LeadResult> {
   const payload: Record<string, unknown> = { quick_form: "strategy_call" };
+
+  let supabaseError: { message?: string; code?: string } | null = null;
 
   try {
     const { error } = await supabase.from("reshab_leads").insert({
@@ -161,8 +165,9 @@ export async function submitStrategyCallLead(input: StrategyCallLeadInput): Prom
     if (!error) {
       return { ok: true, via: "supabase" };
     }
-  } catch {
-    // fall through
+    supabaseError = error;
+  } catch (err) {
+    supabaseError = err instanceof Error ? { message: err.message } : { message: "Unknown error" };
   }
 
   const endpoint = import.meta.env.VITE_LEAD_ENDPOINT as string | undefined;
@@ -196,21 +201,9 @@ export async function submitStrategyCallLead(input: StrategyCallLeadInput): Prom
     }
   }
 
-  if (typeof window !== "undefined") {
-    const subject = encodeURIComponent(`Strategy call request: ${input.name}`);
-    const body = encodeURIComponent(
-      [
-        `Source: ${input.sourcePage}`,
-        `Submission: ${RESHAB_SUBMISSION_STRATEGY_CALL}`,
-        "",
-        `Name: ${input.name}`,
-        `Email: ${input.email}`,
-        `WhatsApp: ${input.phone}`,
-      ].join("\n"),
-    );
-    window.location.href = `mailto:${site.email}?subject=${subject}&body=${body}`;
-    return { ok: true, via: "mailto" };
-  }
-
-  return { ok: true, via: "noop" };
+  return {
+    ok: false,
+    via: "noop",
+    error: supabaseErrorMessage(supabaseError),
+  };
 }

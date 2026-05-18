@@ -41,11 +41,13 @@ function submissionBadgeClass(t: string) {
 const ReshabLeads = () => {
   const [leads, setLeads] = useState<ReshabLeadRow[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
 
   const load = async () => {
     setLoading(true);
-    const data = await reshabLeadService.listLeads();
+    const { data, error } = await reshabLeadService.listLeads();
     setLeads(data);
+    setLoadError(error);
     setLoading(false);
   };
 
@@ -99,14 +101,26 @@ const ReshabLeads = () => {
           </div>
         </div>
 
+        {loadError ? (
+          <div className="rounded-lg border border-red-500/40 bg-red-950/30 p-6 text-red-200">
+            <p className="font-medium">Could not load leads</p>
+            <p className="mt-2 text-sm text-red-200/80">{loadError}</p>
+            <p className="mt-3 text-sm text-red-200/60">
+              Check that the <code className="text-red-100/90">reshab_leads</code> table and{" "}
+              <code className="text-red-100/90">submission_type</code> column exist in Supabase, and that
+              RLS allows read access.
+            </p>
+          </div>
+        ) : null}
+
         {loading ? (
           <div className="py-20 text-center text-cyan-400/80">Loading…</div>
-        ) : leads.length === 0 ? (
+        ) : !loadError && leads.length === 0 ? (
           <div className="rounded-lg border border-white/10 bg-white/5 p-10 text-center text-gray-400">
-            No leads yet. Submissions from the redesigned lead form will appear here after the{" "}
-            <code className="text-cyan-400/90">reshab_leads</code> migration is applied in Supabase.
+            No leads yet. Submissions from the fintech landing (full form and strategy call) will appear
+            here once saved to <code className="text-cyan-400/90">reshab_leads</code>.
           </div>
-        ) : (
+        ) : !loadError ? (
           <div className="overflow-x-auto rounded-lg border border-white/10">
             <table className="w-full min-w-[920px] text-left text-sm text-gray-300">
               <thead className="border-b border-white/10 bg-black/40 text-xs uppercase tracking-wide text-gray-500">
@@ -169,7 +183,7 @@ const ReshabLeads = () => {
               </tbody>
             </table>
           </div>
-        )}
+        ) : null}
       </div>
     </AdminLayout>
   );

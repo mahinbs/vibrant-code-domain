@@ -15,8 +15,13 @@ export type ReshabLeadRow = {
   payload: Json;
 };
 
+export type ListReshabLeadsResult = {
+  data: ReshabLeadRow[];
+  error: string | null;
+};
+
 export const reshabLeadService = {
-  async listLeads(): Promise<ReshabLeadRow[]> {
+  async listLeads(): Promise<ListReshabLeadsResult> {
     const { data, error } = await supabase
       .from("reshab_leads")
       .select("*")
@@ -24,8 +29,12 @@ export const reshabLeadService = {
 
     if (error) {
       console.error("reshabLeadService.listLeads:", error);
-      return [];
+      const hint =
+        error.code === "42P01" || error.message?.includes("reshab_leads")
+          ? " Apply the reshab_leads Supabase migrations if this table is missing."
+          : "";
+      return { data: [], error: (error.message ?? "Failed to load leads.") + hint };
     }
-    return (data ?? []) as ReshabLeadRow[];
+    return { data: (data ?? []) as ReshabLeadRow[], error: null };
   },
 };

@@ -190,7 +190,7 @@ export function LeadForm({
     return [...WHAT_BUILDING_ALL];
   }, [vertical]);
 
-  const industryLocked = vertical === "fintech" || vertical === "healthcare";
+  const industryLocked = false;
 
   const onChange =
     (key: keyof FormState) =>
