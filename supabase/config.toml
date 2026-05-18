@@ -35,5 +35,8 @@ port = 54323
 [functions.upload-webinar-logo]
 verify_jwt = false
 
+[functions.upload-portfolio-image]
+verify_jwt = false
+
 [functions.generate-coupon]
 verify_jwt = false

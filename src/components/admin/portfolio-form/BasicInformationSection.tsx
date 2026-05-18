@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import AdminImageUpload from '@/components/admin/AdminImageUpload';
 interface BasicInformationSectionProps {
   formData: any;
   setFormData: (field: string, value: unknown) => void;
@@ -141,17 +142,13 @@ const BasicInformationSection = ({ formData, setFormData }: BasicInformationSect
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <Label htmlFor="image" className="text-gray-200">Project Image URL</Label>
-            <Input
-              id="image"
-              value={formData.image}
-              onChange={(e) => setFormData('image', e.target.value)}
-              placeholder="https://example.com/image.jpg"
-              type="url"
-              className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500"
-            />
-          </div>
+          <AdminImageUpload
+            id="image"
+            label="Project Image"
+            value={formData.image || ''}
+            onChange={(url) => setFormData('image', url)}
+            folder="covers"
+          />
           <div className="space-y-2">
             <Label htmlFor="liveUrl" className="text-gray-200">Live URL</Label>
             <Input
