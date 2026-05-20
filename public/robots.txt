@@ -1,3 +1,7 @@
+# LLM index: https://www.boostmysites.com/llms.txt
+# Structured facts: https://www.boostmysites.com/for-llm
+# Plain-text facts: https://www.boostmysites.com/for-llm.txt
+
 # Search engines
 User-agent: Googlebot
 Allow: /

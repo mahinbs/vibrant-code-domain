@@ -1,3 +1,4 @@
 # SPA fallback for hosts that honor Netlify-style redirects (e.g. Netlify).
 # Vercel uses vercel.json rewrites; this file is harmless there if ignored.
-/*    /index.html   200
+/for-llm    /for-llm/index.html    200
+/*          /index.html            200

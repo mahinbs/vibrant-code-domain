@@ -13,6 +13,7 @@ export type LeadResult = {
 /** Stored in `reshab_leads.submission_type` — keep in sync with DB default + admin filters. */
 export const RESHAB_SUBMISSION_HIGH_INTENT = "high_intent" as const;
 export const RESHAB_SUBMISSION_STRATEGY_CALL = "strategy_call" as const;
+export const RESHAB_SUBMISSION_FOUNDER_PARTNERSHIP = "founder_partnership" as const;
 
 export type StrategyCallLeadInput = {
   name: string;

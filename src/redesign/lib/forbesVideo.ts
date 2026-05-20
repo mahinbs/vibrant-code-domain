@@ -4,14 +4,17 @@
  * For a true "our site is playing it" look, self-host an MP4 and set
  * VITE_FORBES_VIDEO_MP4 (HTML5 <video>, no YouTube chrome).
  *
- * YouTube cannot be made 100% unbranded; we use youtube-nocookie + minimal params.
+ * YouTube embed uses the same host as MediaCoverage (`youtube.com`) with minimal chrome params.
  */
 
 const YT_QUERY =
-  "modestbranding=1&rel=0&iv_load_policy=3&playsinline=1&controls=1&color=white";
+  "rel=0&modestbranding=1&iv_load_policy=3&playsinline=1&controls=1";
 
 /** Forbes interview on main site (`src/components/MediaCoverage.tsx`). Overridable via `VITE_FORBES_VIDEO`. */
 const DEFAULT_FORBES_YOUTUBE_ID = "z8QmKfoBCWY";
+
+const youtubeEmbedSrc = (id: string) =>
+  `https://www.youtube.com/embed/${id}?${YT_QUERY}`;
 
 function extractYoutubeId(input: string): string | null {
   const s = input.trim();
@@ -53,7 +56,7 @@ export function resolveForbesVideo(): ResolvedForbesVideo {
     if (id) {
       return {
         kind: "youtube",
-        embedSrc: `https://www.youtube-nocookie.com/embed/${id}?${YT_QUERY}`,
+        embedSrc: youtubeEmbedSrc(id),
       };
     }
     return { kind: "iframe", src: legacyEmbed };
@@ -65,7 +68,7 @@ export function resolveForbesVideo(): ResolvedForbesVideo {
     if (id) {
       return {
         kind: "youtube",
-        embedSrc: `https://www.youtube-nocookie.com/embed/${id}?${YT_QUERY}`,
+        embedSrc: youtubeEmbedSrc(id),
       };
     }
     if (/^https?:\/\//i.test(general)) {
@@ -78,6 +81,6 @@ export function resolveForbesVideo(): ResolvedForbesVideo {
 
   return {
     kind: "youtube",
-    embedSrc: `https://www.youtube-nocookie.com/embed/${DEFAULT_FORBES_YOUTUBE_ID}?${YT_QUERY}`,
+    embedSrc: youtubeEmbedSrc(DEFAULT_FORBES_YOUTUBE_ID),
   };
 }

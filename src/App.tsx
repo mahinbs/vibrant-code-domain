@@ -62,9 +62,6 @@ const AppIdeasLabPage = lazy(() => import("./pages/AppIdeasLabPage"));
 const AppIdeas = lazy(() => import("./pages/AppIdeas"));
 const AppIdeaDetail = lazy(() => import("./pages/AppIdeaDetail"));
 const Signup = lazy(() => import("./pages/Signup"));
-const TechCompanyLanding = lazy(
-  () => import("./pages/landingPages/TechCompanyLanding")
-);
 const StartupLanding = lazy(() => import("./pages/landingPages/StartupLanding"));
 const AiStockPrediction = lazy(
   () => import("./pages/landingPages/AiStockPrediction")
@@ -93,6 +90,12 @@ const RedesignFintechLanding = lazy(
 );
 const RedesignHealthcareLanding = lazy(
   () => import("./redesign/pages/HealthcarePortfolioLanding")
+);
+const BuildYourTechCompanyLanding = lazy(
+  () => import("./redesign/pages/BuildYourTechCompanyLanding"),
+);
+const FounderPartnershipApplication = lazy(
+  () => import("./redesign/pages/FounderPartnershipApplication"),
 );
 const NewHomepagePreview = lazy(() => import("./pages/NewHomepagePreview"));
 const FintechDevelopmentCompanyPage = lazy(() => import("./pages/geo/FintechDevelopmentCompanyPage"));
@@ -549,10 +552,9 @@ const App = () => {
               <Route
                 path="/build-your-tech-company"
                 element={
-                  <>
-                    <FloatingWhatsAppButton />
-                    <TechCompanyLanding />
-                  </>
+                  <RedesignShell>
+                    <BuildYourTechCompanyLanding />
+                  </RedesignShell>
                 }
               />
 
@@ -598,6 +600,14 @@ const App = () => {
                       <FintechLanding />
                     </>
                   )
+                }
+              />
+              <Route
+                path="/founder-partnership"
+                element={
+                  <RedesignShell>
+                    <FounderPartnershipApplication />
+                  </RedesignShell>
                 }
               />
               <Route

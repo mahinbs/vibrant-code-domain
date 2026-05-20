@@ -40,3 +40,6 @@ verify_jwt = false
 
 [functions.generate-coupon]
 verify_jwt = false
+
+[functions.send-founder-application-recovery]
+verify_jwt = false

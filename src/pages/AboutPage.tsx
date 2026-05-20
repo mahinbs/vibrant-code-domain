@@ -1,4 +1,5 @@
 import { Helmet } from "react-helmet-async";
+import { Link } from "react-router-dom";
 import { CANONICAL_ORIGIN } from "@/lib/siteCanonical";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -29,6 +30,11 @@ const AboutPage = () => {
         <Header />
         <main className="pt-20">
           <About />
+          <div className="container mx-auto max-w-4xl px-6 pb-12 text-center text-sm text-gray-400">
+            <Link to="/for-llm" className="text-cyan-400 underline decoration-cyan-400/40 underline-offset-4 hover:text-cyan-300">
+              Machine-readable company facts for AI systems
+            </Link>
+          </div>
         </main>
         <Footer />
       </div>

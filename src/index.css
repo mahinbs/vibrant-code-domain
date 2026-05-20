@@ -1736,3 +1736,13 @@ video {
   color: transparent;
   -webkit-text-fill-color: transparent;
 }
+
+/* Impact words in headings — solid electric blue (must beat `.redesign-shell span { color: inherit }`). */
+.redesign-shell .impact-highlight,
+.redesign-shell h1 .impact-highlight,
+.redesign-shell h2 .impact-highlight,
+.redesign-shell h3 .impact-highlight,
+.redesign-shell p .impact-highlight {
+  color: #3366ff !important;
+  -webkit-text-fill-color: #3366ff !important;
+}

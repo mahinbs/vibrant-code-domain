@@ -177,9 +177,9 @@ const EXACT: Record<string, RouteSeo> = {
       "Create your Boostmysites account or register for programs and trials. Get started with our product and engineering services.",
   },
   "/build-your-tech-company": {
-    title: "Build Your Tech Company | Boostmysites",
+    title: "Build Your Own Tech Company | Boostmysites",
     description:
-      "Launch and scale a tech company with a proven product partner. Boostmysites helps founders ship MVP through growth-stage engineering.",
+      "Launch your own SaaS or app with Boostmysites—low investment, shared infrastructure, and real monthly income potential. We build. You own. You earn.",
   },
   "/startup-launch": {
     title: "Startup Launch | Boostmysites",
@@ -200,6 +200,11 @@ const EXACT: Record<string, RouteSeo> = {
     title: "Fintech Portfolio & Services | Boostmysites",
     description:
       "Fintech case studies and capabilities from Boostmysites: payments, lending, risk, and modern banking-grade web platforms.",
+  },
+  "/founder-partnership": {
+    title: "Founder Application | Boostmysites",
+    description:
+      "Apply to the Boostmysites founder application—a selective process for ambitious founders building scalable tech companies.",
   },
   "/healthcare-landing": {
     title: "Healthcare Digital Products | Boostmysites",

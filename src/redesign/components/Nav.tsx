@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { getNavPageLabel } from "../data/navPageLabels";
 import { navLinks, primaryCta, site, whatsappHref } from "../data/site";
 import { WhatsAppIcon } from "./icons";
 
 export function Nav() {
   const [open, setOpen] = useState(false);
+  const { pathname } = useLocation();
+  const pageLabel = getNavPageLabel(pathname);
 
   useEffect(() => {
     if (!open) return;
@@ -31,20 +34,35 @@ export function Nav() {
        *  wrapper is pointer-events-none so the gap above the pill never
        *  blocks taps on hero CTAs. */}
       <div className="sticky top-0 z-40 w-full pointer-events-none pt-[max(env(safe-area-inset-top),0.35rem)] pb-1.5">
-        <nav className="pointer-events-auto mx-auto flex w-[760px] max-w-[calc(100vw-20px)] items-center justify-between gap-3 p-2 bg-black/85 backdrop-blur-[10px] rounded-[14px] border border-white/15 shadow-[0_5px_20px_rgba(0,0,0,0.35)]">
-          <Link to="/" className="flex items-center gap-2 pl-1 shrink-0" aria-label={`${site.brand} home`}>
+        <nav className="pointer-events-auto mx-auto flex w-[760px] max-w-[calc(100vw-20px)] items-center justify-between gap-2 p-2 bg-black/85 backdrop-blur-[10px] rounded-[14px] border border-white/15 shadow-[0_5px_20px_rgba(0,0,0,0.35)]">
+          <Link to="/" className="flex min-w-0 items-center gap-2 pl-1 shrink-0" aria-label={`${site.brand} home`}>
             <img
               src="/logo-B3Maab4W.png"
               alt={`${site.brand} logo`}
-              className="size-9 object-contain"
+              className="size-9 shrink-0 object-contain"
               loading="eager"
             />
-            <span className="text-[15px] font-semibold tracking-[-0.01em] text-white max-sm:hidden">
-              {site.brand}
-            </span>
+            {pageLabel ? (
+              <span className="hidden text-[15px] font-semibold tracking-[-0.01em] text-white md:inline">
+                {site.brand}
+              </span>
+            ) : (
+              <span className="text-[14px] font-semibold tracking-[-0.01em] text-white sm:text-[15px]">
+                {site.brand}
+              </span>
+            )}
           </Link>
 
-          <div className="flex items-center gap-0.5 max-md:hidden">
+          {pageLabel ? (
+            <p
+              className="min-w-0 flex-1 truncate px-1 text-center text-[12px] font-medium tracking-[0.02em] text-white/85 sm:text-[13px] md:max-w-[280px] md:flex-none md:px-3 md:text-left"
+              aria-current="page"
+            >
+              {pageLabel}
+            </p>
+          ) : null}
+
+          <div className="flex items-center gap-0.5 max-md:hidden md:ml-auto">
             {navLinks.map(({ label, href }) => (
               <a
                 key={label}

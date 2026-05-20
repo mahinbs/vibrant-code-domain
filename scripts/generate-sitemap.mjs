@@ -8,7 +8,7 @@ const ROOT_DIR = path.resolve(__dirname, "..");
 const PUBLIC_DIR = path.join(ROOT_DIR, "public");
 const OUTPUT_PATH = path.join(PUBLIC_DIR, "sitemap.xml");
 
-const SITE_URL = (process.env.SITE_URL || "https://boostmysites.com").replace(/\/+$/, "");
+const SITE_URL = (process.env.SITE_URL || "https://www.boostmysites.com").replace(/\/+$/, "");
 const TODAY = new Date().toISOString().slice(0, 10);
 
 const SUPABASE_URL =
@@ -55,6 +55,7 @@ const STATIC_ROUTES = [
   "/ai-stock-prediction",
   "/fintech-founder",
   "/fintech-landing",
+  "/founder-partnership",
   "/healthcare-landing",
   "/rsb-fintech-founder",
   "/dsn-fintech-founder",
@@ -66,6 +67,8 @@ const STATIC_ROUTES = [
   "/trading-app-development",
   "/payin-payout-software-development",
   "/for-llm",
+  "/for-llm.txt",
+  "/llms.txt",
 ];
 
 const DYNAMIC_PREFIXES = ["/blog/", "/case-study/", "/work/"];
@@ -161,7 +164,10 @@ function inferPriority(route) {
   if (
     route === "/fintech-development-company" ||
     route === "/trading-app-development" ||
-    route === "/payin-payout-software-development"
+    route === "/payin-payout-software-development" ||
+    route === "/for-llm" ||
+    route === "/for-llm.txt" ||
+    route === "/llms.txt"
   ) {
     return "0.9";
   }

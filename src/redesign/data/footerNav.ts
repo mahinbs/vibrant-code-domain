@@ -53,6 +53,7 @@ export const footerColumns: FooterColumn[] = [
       { label: "Pay-in / pay-out software", href: "/payin-payout-software-development" },
       { label: "Fintech landing", href: "/fintech-landing" },
       { label: "Healthcare software", href: "/healthcare-landing" },
+      { label: "Build your tech company", href: "/build-your-tech-company" },
     ],
   },
   {

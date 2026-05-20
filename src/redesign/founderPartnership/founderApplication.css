@@ -1,0 +1,237 @@
+.founder-app {
+  --founder-wash: transparent;
+  --founder-accent: transparent;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.founder-app main {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.founder-typewriter-caret {
+  display: inline-block;
+  width: 2px;
+  height: 0.9em;
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  background: rgba(124, 151, 255, 0.9);
+  animation: founderCaretBlink 1s step-end infinite;
+}
+
+@keyframes founderCaretBlink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes founderCtaPulse {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.founder-typing-answer {
+  max-height: 6.5rem;
+}
+
+.founder-app__wash {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background: var(--founder-wash);
+  transition: background 0.6s ease;
+}
+
+.founder-app__accent {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background: var(--founder-accent);
+  transition: background 0.6s ease;
+}
+
+.founder-scene-enter {
+  animation: founderFadeUp 0.45s ease forwards;
+}
+
+.founder-stagger > * {
+  opacity: 0;
+  animation: founderFadeUp 0.4s ease forwards;
+}
+
+.founder-stagger > *:nth-child(1) {
+  animation-delay: 0.05s;
+}
+.founder-stagger > *:nth-child(2) {
+  animation-delay: 0.12s;
+}
+.founder-stagger > *:nth-child(3) {
+  animation-delay: 0.19s;
+}
+.founder-stagger > *:nth-child(4) {
+  animation-delay: 0.26s;
+}
+.founder-stagger > *:nth-child(5) {
+  animation-delay: 0.33s;
+}
+.founder-stagger > *:nth-child(6) {
+  animation-delay: 0.4s;
+}
+.founder-stagger > *:nth-child(7) {
+  animation-delay: 0.47s;
+}
+.founder-stagger > *:nth-child(8) {
+  animation-delay: 0.54s;
+}
+
+.founder-micro-in {
+  animation: founderBlurIn 0.5s ease forwards;
+}
+
+@keyframes founderFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes founderBlurIn {
+  from {
+    opacity: 0;
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .founder-scene-enter,
+  .founder-stagger > *,
+  .founder-micro-in {
+    animation: none !important;
+    opacity: 1 !important;
+    filter: none !important;
+    transform: none !important;
+  }
+}
+
+.founder-headline-gradient {
+  background: linear-gradient(120deg, #cfd9ff 0%, #7c97ff 45%, #5a7bff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.founder-success-pulse {
+  animation: founderGlowPulse 4s ease-in-out infinite;
+}
+
+@keyframes founderGlowPulse {
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.75;
+  }
+}
+
+/* International phone input — match glass fields */
+.founder-phone-input {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(0, 0, 0, 0.4);
+  padding: 0.35rem 0.75rem;
+  backdrop-filter: blur(5px);
+}
+
+.founder-phone-input--error {
+  border-color: rgba(248, 113, 113, 0.6);
+}
+
+.founder-phone-input--valid {
+  border-color: rgba(16, 185, 129, 0.45);
+}
+
+.founder-phone-input .PhoneInputCountry {
+  margin-right: 0.25rem;
+}
+
+.founder-phone-input .PhoneInputCountrySelect {
+  background: transparent;
+  color: #fff;
+}
+
+.founder-phone-input .PhoneInputCountryIcon {
+  box-shadow: none;
+}
+
+.founder-phone-input__number {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: #fff;
+  font-size: 1rem;
+  outline: none;
+}
+
+.founder-phone-input__number::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.founder-milestone-ring {
+  animation: founderRingExpand 1.2s ease-out forwards;
+}
+
+@keyframes founderRingExpand {
+  from {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.founder-hero-requirements {
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: linear-gradient(
+    160deg,
+    rgba(22, 36, 74, 0.55) 0%,
+    rgba(8, 14, 32, 0.92) 100%
+  );
+  padding: 0.625rem 0.75rem;
+  font: inherit;
+  letter-spacing: inherit;
+}
+
+@media (max-width: 767px) {
+  .founder-hero-scene {
+    width: 100%;
+  }
+
+  .founder-hero-requirements {
+    padding: 1rem 1rem 1.125rem;
+    min-height: 0;
+  }
+}

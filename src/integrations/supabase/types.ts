@@ -203,6 +203,51 @@ export type Database = {
         }
         Relationships: []
       }
+      founder_application_drafts: {
+        Row: {
+          created_at: string
+          current_step: string
+          email: string
+          id: string
+          name: string | null
+          payload: Json
+          phone: string | null
+          recovery_sent_at: string | null
+          resume_token: string
+          source_page: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          current_step?: string
+          email: string
+          id?: string
+          name?: string | null
+          payload?: Json
+          phone?: string | null
+          recovery_sent_at?: string | null
+          resume_token: string
+          source_page?: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          current_step?: string
+          email?: string
+          id?: string
+          name?: string | null
+          payload?: Json
+          phone?: string | null
+          recovery_sent_at?: string | null
+          resume_token?: string
+          source_page?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       inquiry_audit_trails: {
         Row: {
           action: string

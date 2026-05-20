@@ -4,7 +4,8 @@ import { SiteBackground } from "./SiteBackground";
 import { workCaseStudyUrl } from "../lib/mainSiteWorkUrl";
 import { CTA } from "./CTA";
 import { StrategyCallLeadModal } from "./StrategyCallLeadModal";
-import { useEffect, useId, useRef, useState, type CSSProperties } from "react";
+import { useEffect, useId, useRef, useState, type CSSProperties, type ReactNode } from "react";
+import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { WORK_PRIMARY_GLOSS_CTA_H10, WORK_PRIMARY_GLOSS_CTA_INNER } from "@/components/work/primitives/ctaStyles";
 import { filterPortfolioByVertical, normalizeBackendPortfolio } from "../lib/backendPortfolio";
@@ -12,6 +13,13 @@ import { founder } from "../data/founder";
 import { stats as siteStats } from "../data/stats";
 import { whatsappHref } from "../data/site";
 import { SectionDivider } from "./SectionDivider";
+import { TechCompanyHeroBanner } from "./TechCompanyHeroBanner";
+import { FounderServicesSection } from "./FounderServicesSection";
+import {
+  FounderLeadershipStrip,
+  FOUNDER_STRIP_REGULATED_QUOTE,
+} from "./FounderLeadershipStrip";
+import { HighlightText } from "../lib/highlightImpactText";
 
 const INDUSTRY_WORK_MAX_STACK = 6;
 
@@ -34,6 +42,59 @@ const capabilityMarqueeMaskStyle: CSSProperties = {
   maskImage: "linear-gradient(to right, transparent 0%, black 28%, black 72%, transparent 100%)",
   WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 28%, black 72%, transparent 100%)",
 };
+
+const heroPanelBackgroundStyle: CSSProperties = {
+  background:
+    "radial-gradient(108% 100% at 100% 100.6%, var(--color-purple) 12.8%, rgb(8,16,40) 69.1%, rgba(0,0,0,0.595) 100%)",
+};
+
+/** Purple gradient hero card — stars, grid, glow blobs (banner + copy blocks). */
+function HeroPanelShell({ children, className = "" }: { children: ReactNode; className?: string }) {
+  return (
+    <section
+      className={`relative w-full overflow-hidden rounded-[20px] border border-white/15 p-6 md:p-10 ${className}`}
+      style={heroPanelBackgroundStyle}
+    >
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 z-[2]"
+        style={{
+          background:
+            "linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.469) 64.5%, rgba(0,0,0,0.7) 100%)",
+        }}
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 z-[1] bg-left-top bg-repeat opacity-80 bg-[length:400px_auto]"
+        style={{ backgroundImage: "url(/textures/stars.svg)" }}
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 z-[3] bg-left-top bg-repeat opacity-60 mix-blend-overlay bg-[length:67px_auto]"
+        style={{ backgroundImage: "url(/textures/grid.svg)" }}
+      />
+      <div
+        aria-hidden
+        className="animate-float1 pointer-events-none absolute right-[-180px] top-[-120px] z-[4] size-[680px] rounded-full opacity-30 max-md:hidden"
+        style={{
+          background:
+            "radial-gradient(closest-side, rgba(96,142,255,0.42), rgba(72,118,255,0.22) 45%, rgba(0,0,0,0) 75%)",
+          filter: "blur(20px)",
+        }}
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute bottom-[60px] right-[40px] z-[4] size-[380px] rounded-full opacity-25 max-md:hidden"
+        style={{
+          background:
+            "radial-gradient(closest-side, rgba(84,130,255,0.34), rgba(22,36,74,0.28) 50%, rgba(0,0,0,0) 80%)",
+          filter: "blur(30px)",
+        }}
+      />
+      <div className="relative z-[5] flex flex-col gap-6">{children}</div>
+    </section>
+  );
+}
 
 type SectionCard = {
   title: string;
@@ -75,7 +136,7 @@ const PROCESS_TESTIMONIAL_AVATAR_SRC = "/images/testimonial-regulated-payments.w
 
 const FOUNDER_PHOTO_SRC = "/images/reshab-founder.png";
 
-/** Founder call-to-action band rendered right after the “idea → production” process section.
+/** Founder call-to-action band — after “How it works” + Our Works on fintech/healthcare; after “How it works” on tech banner landings.
  *  Composition: cutout portrait on a layered glow column + a glassy talking-points card on the
  *  right with the booking CTA. Uses the same `SECTION_PAGE_X` / `sectionWashStyle` rhythm as
  *  the surrounding sections so it lands as one continuous strip, not a banner overlay.
@@ -86,12 +147,27 @@ function buildTogetherCtaLabel(portfolioVertical?: "fintech" | "healthcare") {
   return "Let's build your product together";
 }
 
-function BookCallWithFounderBand({ sourcePage }: { sourcePage: string }) {
+const DEFAULT_BOOK_CALL_HEADLINE =
+  "Get a {{straight answer}} on your build, from our CEO";
+const DEFAULT_BOOK_CALL_SUBHEADLINE =
+  "Share your idea in a short form. Walk away with clarity on {{product scope}}, {{technical fit}}, and a delivery plan you can act on, not a sales script.";
+
+function BookCallWithFounderBand({
+  sourcePage,
+  tightSpacing,
+  headline = DEFAULT_BOOK_CALL_HEADLINE,
+  subheadline = DEFAULT_BOOK_CALL_SUBHEADLINE,
+}: {
+  sourcePage: string;
+  tightSpacing?: boolean;
+  headline?: string;
+  subheadline?: string;
+}) {
   const [strategyModalOpen, setStrategyModalOpen] = useState(false);
 
   return (
     <section
-      className={`mt-4 w-full py-10 md:py-14 ${SECTION_PAGE_X}`}
+      className={`mt-4 w-full ${tightSpacing ? "pt-5 pb-10 md:pt-5 md:pb-14" : "py-10 md:py-14"} ${SECTION_PAGE_X}`}
       style={sectionWashStyle}
       aria-label="Book a call with the chief executive officer"
     >
@@ -112,8 +188,8 @@ function BookCallWithFounderBand({ sourcePage }: { sourcePage: string }) {
           />
 
           <div className="relative z-[2] grid grid-cols-1 items-stretch gap-8 p-6 md:grid-cols-[minmax(280px,360px)_1fr] md:gap-12 md:p-10">
-            {/** Portrait column — cutout PNG sits on a vertical gradient pedestal with a soft halo. */}
-            <div className="relative flex items-end justify-center md:items-stretch md:justify-start">
+            {/** Portrait column — below copy on mobile, left column on md+. */}
+            <div className="relative order-2 flex items-end justify-center md:order-none md:items-stretch md:justify-start">
               <div
                 aria-hidden
                 className="pointer-events-none absolute inset-x-4 bottom-0 top-6 rounded-[16px] bg-[linear-gradient(180deg,rgba(88,132,255,0.18)_0%,rgba(40,60,160,0.28)_55%,rgba(8,14,32,0.55)_100%)]"
@@ -137,21 +213,16 @@ function BookCallWithFounderBand({ sourcePage }: { sourcePage: string }) {
               </span>
             </div>
 
-            {/** Content column — eyebrow, headline, body, CTA. */}
-            <div className="flex flex-col justify-center">
+            {/** Content column — eyebrow, headline, body, CTA (first on mobile). */}
+            <div className="order-1 flex flex-col justify-center md:order-none">
               <span className="text-[11px] font-medium uppercase tracking-[0.22em] text-white/55">
                 1:1 with the Chief Executive Officer
               </span>
               <h2 className="mt-3 max-w-[640px] text-[28px] font-medium leading-[1.12] -tracking-[0.02em] text-white md:text-[36px]">
-                Want to book a call with our{" "}
-                <span className="bg-[linear-gradient(120deg,#cfd9ff_0%,#7c97ff_45%,#5a7bff_100%)] bg-clip-text text-transparent">
-                  domain expert?
-                </span>
+                <HighlightText text={headline} />
               </h2>
               <p className="mt-4 max-w-[560px] text-[15px] leading-[1.55] text-white/72 md:text-[16px]">
-                Just fill up a quick form and get the answers you need to build your idea into a reality —
-                product scope, architecture, compliance fit, and a realistic delivery plan from someone who
-                ships this for a living.
+                <HighlightText text={subheadline} />
               </p>
 
               <div className="mt-7 flex flex-wrap items-center gap-4">
@@ -481,9 +552,11 @@ function ExpertiseBentoSection({
     <section className={`mt-6 w-full pb-14 pt-8 md:pb-20 md:pt-10 ${SECTION_PAGE_X}`}>
       <div className={SECTION_CONTENT}>
         <h2 className="max-w-2xl text-[clamp(1.5rem,3.2vw,2.12rem)] font-medium tracking-tight text-white">
-          {heading}
+          <HighlightText text={heading} />
         </h2>
-        <p className="mt-4 max-w-2xl text-[17px] leading-[1.55] text-white/55 md:text-lg">{subheading}</p>
+        <p className="mt-4 max-w-2xl text-[17px] leading-[1.55] text-white/55 md:text-lg">
+          <HighlightText text={subheading} />
+        </p>
 
         <div className="mt-10 grid gap-4 lg:mt-14 lg:grid-cols-12 lg:gap-5 lg:items-stretch">
           <article
@@ -615,10 +688,10 @@ function OperatingModelHubSection({
     <section className={`mt-6 w-full py-10 md:py-16 ${SECTION_PAGE_X}`}>
       <div className={SECTION_CONTENT}>
         <h2 className="section-heading-wash relative z-[1] max-w-[42rem] text-[clamp(1.5rem,3.2vw,2.05rem)] font-medium tracking-tight text-white">
-          {title}
+          <HighlightText text={title} />
         </h2>
         <p className="mt-4 max-w-2xl text-[16px] leading-[1.55] text-white/55 md:text-[17px]">
-          {subheading}
+          <HighlightText text={subheading} />
         </p>
 
         <div className="mt-10 flex flex-col gap-8 lg:mt-14 lg:hidden">
@@ -1285,6 +1358,26 @@ type Props = {
   featuredFlagshipCaseStudy?: CaseStudy;
   /** Optional band directly under the contact form: vertical media (left) + story (right). */
   afterContactVerticalShowcase?: AfterContactVerticalShowcase;
+  /** Hero: primary gloss CTA targets founder application vs contact form scroll. */
+  heroPrimaryCta?: "founder" | "project";
+  /** Founder application path (may include UTM query). */
+  founderApplicationHref?: string;
+  /** Overrides default lead-form / book-call sourcePage when not fintech/healthcare. */
+  leadSourcePage?: string;
+  /** Full-width hero banner image (tech company landing). */
+  heroBannerSrc?: string;
+  /** Portrait hero for viewports below md; defaults to heroBannerSrc. */
+  heroBannerMobileSrc?: string;
+  /** Apply CTA target when using heroBannerSrc; defaults to founderApplicationHref. */
+  heroBannerApplyHref?: string;
+  /** Primary CTA label when heroPrimaryCta is founder. */
+  heroPrimaryCtaLabel?: string;
+  /** Optional copy for founder leadership strip (tech banner landings). */
+  founderStripEyebrow?: string;
+  founderStripTitle?: string;
+  founderStripIntro?: string;
+  founderStripPullQuote?: string;
+  founderStripShowCta?: boolean;
 };
 
 const MORPH_WORDS = ["fintech", "stock_market", "platform", "payment_gateways", "lending_platforms"];
@@ -1460,10 +1553,13 @@ function PublicationWordmark({ name }: { name: string }) {
   );
 }
 
-function PressStrip({ items }: { items: PressCoverageItem[] }) {
+function PressStrip({ items, compact }: { items: PressCoverageItem[]; compact?: boolean }) {
   if (!items.length) return null;
   return (
-    <section className={`mt-6 w-full py-10 md:py-12 ${SECTION_PAGE_X}`} aria-label="Press and partner coverage">
+    <section
+      className={`w-full ${SECTION_PAGE_X} ${compact ? "mt-4 py-6 md:py-8" : "mt-6 py-10 md:py-12"}`}
+      aria-label="Press and partner coverage"
+    >
       <div className={`flex flex-col items-center gap-6 text-center ${SECTION_CONTENT}`}>
         <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-white/55">
           Featured in conversations across fintech & AI
@@ -1499,9 +1595,12 @@ function PressStrip({ items }: { items: PressCoverageItem[] }) {
 
 /** Concrete, understated social-proof metrics. Mirrors home-page Stats values but tuned
  *  for this landing page: 5 stat cells in a horizontal row, mono numerals, no big slabs. */
-function SocialProofStrip() {
+function SocialProofStrip({ compact }: { compact?: boolean }) {
   return (
-    <section className={`mt-3 w-full ${SECTION_PAGE_X}`} aria-label="Boostmysites delivery metrics">
+    <section
+      className={`w-full ${SECTION_PAGE_X} ${compact ? "mt-2 pb-[50px]" : "mt-3"}`}
+      aria-label="Boostmysites delivery metrics"
+    >
       <div className={`${SECTION_CONTENT} overflow-hidden rounded-[14px] border border-white/[0.08] bg-white/[0.02]`}>
         <ul className="grid grid-cols-2 divide-x divide-y divide-white/[0.06] md:grid-cols-5 md:divide-y-0">
           {siteStats.map((s) => (
@@ -1623,8 +1722,6 @@ function InsightsSection({ items, heading }: { items: InsightItem[]; heading: st
   );
 }
 
-/** Premium iteration of the operator-notes pattern: one founder row, no heavy card chrome,
- *  placed directly under the flagship delivery grid. */
 function FlagshipFounderNotesStrip({
   portfolioVertical,
   onGoToMainForm,
@@ -1633,51 +1730,16 @@ function FlagshipFounderNotesStrip({
   onGoToMainForm: () => void;
 }) {
   return (
-    <div className="mt-8 border-t border-white/[0.08] pt-8 md:mt-10 md:pt-10">
-      <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-white/55">Leadership</p>
-      <h2 className="mt-3 max-w-[42rem] text-[clamp(1.35rem,3vw,1.95rem)] font-medium leading-snug tracking-tight text-white">
-        From the founder.
-      </h2>
-      <p className="mt-3 max-w-2xl text-[14.5px] leading-[1.55] text-white/45 md:text-[15px]">{founder.intro}</p>
-
-      <ul className="mt-8 md:mt-10" role="list">
-        <li className="flex flex-col gap-5 md:flex-row md:items-start md:gap-8">
-          <div className="shrink-0">
-            <div className="relative">
-              <div
-                aria-hidden
-                className="pointer-events-none absolute -inset-1 rounded-full bg-gradient-to-br from-white/[0.12] to-transparent opacity-80"
-              />
-              <img
-                src={founder.imageSrc}
-                alt={founder.imageAlt}
-                loading="lazy"
-                decoding="async"
-                className="relative h-20 w-20 rounded-full object-cover object-[center_15%] ring-1 ring-white/20 sm:h-[5.5rem] sm:w-[5.5rem] md:h-24 md:w-24"
-              />
-            </div>
-          </div>
-          <div className="min-w-0 flex-1 border-l border-purple/45 pl-5 md:pl-6">
-            <p className="text-[16px] leading-[1.55] text-white/90 md:text-[17px] md:leading-[1.62]">
-              &ldquo;We work with teams building systems where reliability matters. If you are operating in
-              regulated or high-throughput environments, we would be happy to understand what you are
-              building.&rdquo;
-            </p>
-            <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.16em] text-white/55">
-              {founder.firstName} {founder.lastName}
-              <span className="text-white/35"> · </span>
-              {founder.role}, {founder.company}
-            </p>
-          </div>
-        </li>
-      </ul>
-
-      <div className="mt-8 flex w-full justify-center md:mt-10">
-        <button type="button" onClick={onGoToMainForm} className={WORK_PRIMARY_GLOSS_CTA_H10}>
-          <span className={WORK_PRIMARY_GLOSS_CTA_INNER}>{buildTogetherCtaLabel(portfolioVertical)}</span>
-        </button>
-      </div>
-    </div>
+    <FounderLeadershipStrip
+      variant="embedded"
+      eyebrow="Leadership"
+      title="From the founder."
+      intro={founder.intro}
+      pullQuote={FOUNDER_STRIP_REGULATED_QUOTE}
+      showCta
+      ctaLabel={buildTogetherCtaLabel(portfolioVertical)}
+      onCtaClick={onGoToMainForm}
+    />
   );
 }
 
@@ -1986,6 +2048,59 @@ function ProcessStepBackgroundIcon({ title }: { title: string }) {
   );
 }
 
+function ProcessStepsSection({
+  title,
+  steps,
+  tightSpacing,
+}: {
+  title: string;
+  steps: { title: string; body: string }[];
+  tightSpacing?: boolean;
+}) {
+  return (
+    <section
+      className={`mt-6 w-full ${tightSpacing ? "pt-5 pb-10 md:pt-5 md:pb-12" : "py-10 md:py-12"} ${SECTION_PAGE_X}`}
+      style={sectionWashStyle}
+    >
+      <SectionTitle>{title}</SectionTitle>
+      <div className="mt-4 flex flex-col gap-3 md:flex-row md:items-stretch md:gap-2">
+        {steps.map((step, index) => (
+          <div key={step.title} className="contents">
+            <div className="relative flex-1 overflow-hidden rounded-[10px] border border-white/12 bg-black/30 p-4">
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-0 flex items-center justify-center"
+              >
+                <ProcessStepBackgroundIcon title={step.title} />
+              </div>
+              <div className="relative z-[1] flex items-center justify-between">
+                <span className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/15 bg-[linear-gradient(145deg,rgba(92,138,255,0.2),rgba(92,138,255,0.05))] text-white/85">
+                  <ProcessStepIcon title={step.title} />
+                </span>
+                <p
+                  className="text-[11px] uppercase tracking-[0.12em] text-white/45"
+                  aria-label={`Step ${index + 1} of ${steps.length}`}
+                >
+                  <span aria-hidden="true">0{index + 1}</span>
+                </p>
+              </div>
+              <p className="relative z-[1] mt-2 text-[15px] font-medium text-white">{step.title}</p>
+              <p className="relative z-[1] mt-2 text-[13px] text-white/65">{step.body}</p>
+            </div>
+            {index !== steps.length - 1 ? (
+              <div className="hidden items-center justify-center md:flex">
+                <span className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-white/15 bg-black/35 text-white/70">
+                  →
+                </span>
+              </div>
+            ) : null}
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function BuildItemIcon({ title }: { title: string }) {
   const normalized = title.toLowerCase();
 
@@ -2067,6 +2182,170 @@ function BuildItemIcon({ title }: { title: string }) {
   );
 }
 
+function IndustryGrowthSections({
+  capabilityCards,
+  expertiseHeading,
+  expertiseSubheading,
+  portfolioVertical,
+  operatingTitle,
+  operatingSubheading,
+  operatingPillars,
+  operatingCenterLabel,
+  operatingCenterHint,
+  scaleTitle,
+  scaleArchitecture,
+  scaleRootLabel,
+  operatorQuotes,
+}: {
+  capabilityCards: SectionCard[];
+  expertiseHeading: string;
+  expertiseSubheading: string;
+  portfolioVertical?: "fintech" | "healthcare";
+  operatingTitle: string;
+  operatingSubheading: string;
+  operatingPillars: OperatingModelPillar[];
+  operatingCenterLabel: string;
+  operatingCenterHint: string;
+  scaleTitle: string;
+  scaleArchitecture: ScaleArchitectureItem[];
+  scaleRootLabel?: string;
+  operatorQuotes: OperatorQuote[];
+}) {
+  return (
+    <>
+      <ExpertiseBentoSection
+        cards={capabilityCards}
+        heading={expertiseHeading}
+        subheading={expertiseSubheading}
+        portfolioVertical={portfolioVertical}
+      />
+
+      <SectionDivider />
+
+      <OperatingModelHubSection
+        title={operatingTitle}
+        subheading={operatingSubheading}
+        pillars={operatingPillars}
+        centerLabel={operatingCenterLabel}
+        centerHint={operatingCenterHint}
+      />
+
+      <SectionDivider />
+
+      <ScaleArchitectureSection title={scaleTitle} items={scaleArchitecture} rootLabel={scaleRootLabel} />
+
+      <SectionDivider />
+
+      <OperatorQuotesSection quotes={operatorQuotes} />
+    </>
+  );
+}
+
+function IndustryFaqSection({
+  faqGroups,
+  compactTop = false,
+}: {
+  faqGroups: { category: string; items: FaqItem[] }[];
+  /** Tighter top spacing when placed directly under hero-band sections. */
+  compactTop?: boolean;
+}) {
+  return (
+    <section
+      className={`mt-6 w-full ${compactTop ? "pt-0 pb-12 md:pt-0 md:pb-20" : "py-12 md:py-20"} ${SECTION_PAGE_X}`}
+      style={sectionWashStyle}
+    >
+      <div className={SECTION_CONTENT}>
+        <h2 className="section-heading-wash max-w-[42rem] text-[clamp(1.45rem,3.2vw,2.05rem)] font-medium tracking-tight text-white">
+          FAQ
+        </h2>
+        <div className="mt-10 grid gap-x-14 gap-y-12 md:mt-14 md:grid-cols-2 md:gap-y-14">
+          {faqGroups.map((group) => (
+            <div key={group.category}>
+              <p className="mb-5 text-[11px] font-semibold uppercase tracking-[0.16em] text-white/45">
+                {group.category}
+              </p>
+              <div className="faq-accordion divide-y divide-white/[0.12]">
+                {group.items.map((item) => (
+                  <details key={item.question} className="group">
+                    <summary className="flex cursor-pointer items-start gap-4 py-5 text-[15px] font-medium leading-snug text-white/92 marker:content-none md:text-[16px] [&::-webkit-details-marker]:hidden">
+                      <span className="flex-1">{item.question}</span>
+                      <span
+                        aria-hidden="true"
+                        className="ml-2 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-white/15 text-[13px] leading-none text-white/55 transition-transform duration-300 group-open:rotate-45"
+                      >
+                        +
+                      </span>
+                    </summary>
+                    <p className="pb-5 text-[14px] leading-relaxed text-white/58 md:text-[15px] md:leading-relaxed">
+                      {item.answer}
+                    </p>
+                  </details>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function IndustryFinalCtaBand({
+  finalTitle,
+  finalSubtitle,
+  heroPrimaryCta,
+  founderApplicationHref,
+  heroPrimaryCtaLabel,
+  onScrollToForm,
+}: {
+  finalTitle: string;
+  finalSubtitle: string;
+  heroPrimaryCta: "founder" | "project";
+  founderApplicationHref: string;
+  heroPrimaryCtaLabel: string;
+  onScrollToForm: () => void;
+}) {
+  return (
+    <section
+      className={`mt-6 w-full rounded-[16px] border border-white/12 bg-[radial-gradient(circle_at_top,rgba(92,138,255,0.2),rgba(0,0,0,0.385)_55%)] py-8 text-center backdrop-blur-[8px] md:py-10 ${SECTION_PAGE_X}`}
+    >
+      <h2 className="text-[34px] font-medium -tracking-[0.02em] text-white md:text-[44px]">
+        <HighlightText text={finalTitle} />
+      </h2>
+      <p className="mx-auto mt-3 max-w-3xl text-white/70">
+        <HighlightText text={finalSubtitle} />
+      </p>
+      <div className="mt-5 flex flex-wrap justify-center gap-3">
+        {heroPrimaryCta === "founder" ? (
+          <Link
+            to={founderApplicationHref}
+            className="btn-gloss relative overflow-hidden rounded-[10px] border border-white/20 bg-purple/70 px-5 py-3 text-sm font-medium text-white"
+          >
+            {heroPrimaryCtaLabel}
+          </Link>
+        ) : (
+          <button
+            type="button"
+            onClick={onScrollToForm}
+            className="btn-gloss relative overflow-hidden rounded-[10px] border border-white/20 bg-purple/70 px-5 py-3 text-sm font-medium text-white"
+          >
+            Get proposal in 24 hours
+          </button>
+        )}
+        {heroPrimaryCta === "founder" ? null : (
+          <button
+            type="button"
+            onClick={onScrollToForm}
+            className="rounded-[10px] border border-white/15 bg-black/40 px-5 py-3 text-sm font-medium text-white/90"
+          >
+            Plan your build
+          </button>
+        )}
+      </div>
+    </section>
+  );
+}
+
 function SectionTitle({
   children,
   watermark,
@@ -2103,7 +2382,7 @@ function SectionTitle({
           <h2
             className={`relative z-[2] mt-[clamp(1.9rem,6.1vw,4.4rem)] max-w-[760px] text-left text-[28px] font-medium -tracking-[0.02em] text-white md:text-[34px] ${titleClassName ?? ""}`}
           >
-            {children}
+            <HighlightText text={children} />
           </h2>
         ) : null}
       </div>
@@ -2112,7 +2391,7 @@ function SectionTitle({
 
   return (
     <h2 className="text-[28px] font-medium -tracking-[0.02em] text-white md:text-[34px]">
-      {children}
+      <HighlightText text={children} />
     </h2>
   );
 }
@@ -2155,8 +2434,40 @@ export function IndustryLandingPage({
   featuredInfrastructureVideoPoster,
   featuredFlagshipCaseStudy,
   afterContactVerticalShowcase,
+  heroPrimaryCta = "project",
+  founderApplicationHref = "/founder-partnership",
+  leadSourcePage,
+  heroBannerSrc,
+  heroBannerMobileSrc,
+  heroBannerApplyHref,
+  heroPrimaryCtaLabel = "Founder Application →",
+  founderStripEyebrow,
+  founderStripTitle,
+  founderStripIntro,
+  founderStripPullQuote,
+  founderStripShowCta = false,
 }: Props) {
   const [backendCaseStudies, setBackendCaseStudies] = useState<CaseStudy[]>([]);
+
+  const resolvedLeadSourcePage =
+    leadSourcePage ??
+    (portfolioVertical === "healthcare"
+      ? "healthcare-landing"
+      : portfolioVertical === "fintech"
+        ? "fintech-landing"
+        : "industry-landing");
+
+  const resolvedBannerApplyHref = heroBannerApplyHref ?? founderApplicationHref;
+  const resolvedFounderStripEyebrow = founderStripEyebrow ?? "Who backs your build";
+  const resolvedFounderStripTitle =
+    founderStripTitle ?? "A founder-led team—not a faceless agency.";
+  const resolvedFounderStripIntro =
+    founderStripIntro ??
+    "Mahin B S built BoostMySites for founders with a vision but no technical co-founder—so you get product, brand, and launch under one roof instead of juggling freelancers.";
+  const resolvedFounderStripPullQuote = founderStripPullQuote ?? founder.quote;
+  const trustGridClass = heroBannerSrc
+    ? "grid grid-cols-2 gap-3 md:grid-cols-5"
+    : "grid grid-cols-2 gap-3 md:grid-cols-4";
 
   const scrollToForm = () => {
     document.getElementById("contact-form")?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -2228,69 +2539,128 @@ export function IndustryLandingPage({
       <SiteBackground />
       <Nav />
       <main className="relative z-10 mx-auto flex w-full max-w-[1920px] flex-col items-center px-5 pb-[80px] pt-[88px] sm:pt-[96px] md:px-10">
-        <section
-          className="relative w-full overflow-hidden rounded-[20px] border border-white/15 p-6 md:p-10"
-          style={{
-            background:
-              "radial-gradient(108% 100% at 100% 100.6%, var(--color-purple) 12.8%, rgb(8,16,40) 69.1%, rgba(0,0,0,0.595) 100%)",
-          }}
-        >
-          <div
-            aria-hidden
-            className="absolute inset-0 z-[2] pointer-events-none"
-            style={{
-              background:
-                "linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.469) 64.5%, rgba(0,0,0,0.7) 100%)",
-            }}
-          />
-          <div
-            aria-hidden
-            className="absolute inset-0 z-[1] pointer-events-none opacity-80 bg-repeat bg-[length:400px_auto] bg-left-top"
-            style={{ backgroundImage: "url(/textures/stars.svg)" }}
-          />
-          <div
-            aria-hidden
-            className="absolute inset-0 z-[3] pointer-events-none opacity-60 mix-blend-overlay bg-repeat bg-[length:67px_auto] bg-left-top"
-            style={{ backgroundImage: "url(/textures/grid.svg)" }}
-          />
-          <div
-            aria-hidden
-            className="absolute right-[-180px] top-[-120px] z-[4] pointer-events-none size-[680px] rounded-full opacity-30 max-md:hidden animate-float1"
-            style={{
-              background:
-                "radial-gradient(closest-side, rgba(96,142,255,0.42), rgba(72,118,255,0.22) 45%, rgba(0,0,0,0) 75%)",
-              filter: "blur(20px)",
-            }}
-          />
-          <div
-            aria-hidden
-            className="absolute right-[40px] bottom-[60px] z-[4] pointer-events-none size-[380px] rounded-full opacity-25 max-md:hidden"
-            style={{
-              background:
-                "radial-gradient(closest-side, rgba(84,130,255,0.34), rgba(22,36,74,0.28) 50%, rgba(0,0,0,0) 80%)",
-              filter: "blur(30px)",
-            }}
-          />
+        {heroBannerSrc ? (
+          <section
+            className={`relative w-full overflow-hidden border border-white/15 ${
+              heroBannerMobileSrc ? "rounded-[12px] md:rounded-[20px]" : "rounded-[20px]"
+            }`}
+          >
+            <TechCompanyHeroBanner
+              src={heroBannerSrc}
+              mobileSrc={heroBannerMobileSrc}
+              applyHref={resolvedBannerApplyHref}
+            />
+          </section>
+        ) : null}
 
-          <div className="relative z-[5] flex flex-col gap-6">
+        {heroBannerSrc ? (
+          <>
+            <PressStrip items={resolvedPressCoverage} compact />
+            <SocialProofStrip compact />
+            <SectionDivider />
+            <HeroPanelShell>
+              <p className="inline-flex w-fit items-center rounded-full border border-white/15 bg-black/45 px-3 py-1 text-[11px] uppercase tracking-[0.12em] text-white/80">
+                {eyebrow}
+              </p>
+              <h1 className="max-w-4xl text-[36px] font-medium leading-[1.05] -tracking-[0.03em] text-white md:text-[62px]">
+                <HighlightText text={heroSubtitle} />
+              </h1>
+              <div className="flex flex-wrap gap-3">
+                <Link
+                  to={founderApplicationHref}
+                  className="btn-gloss relative overflow-hidden rounded-[10px] border border-white/20 bg-purple/70 px-5 py-3 text-sm font-medium text-white transition-colors hover:border-purple/40"
+                >
+                  {heroPrimaryCtaLabel}
+                </Link>
+              </div>
+              <div className="flex flex-col gap-4 border-t border-white/10 pt-6 md:flex-row md:items-center md:gap-5 md:pt-7">
+                <span className="max-w-full text-sm font-normal -tracking-[0.01em] leading-snug text-white/70 md:shrink-0 md:whitespace-nowrap">
+                  {capabilityTitle}
+                </span>
+                <div
+                  className="flex min-h-[104px] min-w-0 flex-1 items-center overflow-hidden pb-1 md:pb-0"
+                  style={capabilityMarqueeMaskStyle}
+                >
+                  <div className="build-marquee-track flex w-max gap-3 pr-2">
+                    {[...buildItems, ...buildItems].map((item, index) => (
+                      <div
+                        key={`${item.title}-${index}`}
+                        className="group relative w-[300px] shrink-0 overflow-hidden rounded-[10px] border border-white/12 bg-black/35 px-4 py-4 transition-colors hover:border-white/30 md:w-[320px]"
+                      >
+                        <div
+                          aria-hidden
+                          className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                          style={{
+                            background:
+                              "radial-gradient(120% 120% at 0% 0%, rgba(92,138,255,0.2) 0%, rgba(92,138,255,0.06) 40%, rgba(0,0,0,0) 70%)",
+                          }}
+                        />
+                        <div className="flex items-center gap-2">
+                          <span className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-white/15 bg-[linear-gradient(145deg,rgba(92,138,255,0.2),rgba(92,138,255,0.05))] text-white/85">
+                            <BuildItemIcon title={item.title} />
+                          </span>
+                          <p className="relative z-[1] text-[14px] font-medium text-white">{item.title}</p>
+                        </div>
+                        <p className="relative z-[1] mt-2 text-[12px] leading-[1.45] text-white/60 group-hover:text-white/75">
+                          {item.description}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </HeroPanelShell>
+          </>
+        ) : null}
+
+        {!heroBannerSrc ? (
+        <HeroPanelShell>
             <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_390px] xl:items-center">
               <div className="flex flex-col gap-6">
                 <p className="inline-flex w-fit items-center rounded-full border border-white/15 bg-black/45 px-3 py-1 text-[11px] uppercase tracking-[0.12em] text-white/80">
                   {eyebrow}
                 </p>
                 <h1 className="max-w-4xl text-[36px] font-medium leading-[1.05] -tracking-[0.03em] text-white md:text-[62px]">
-                  {heroTitle}
+                  <HighlightText text={heroTitle} />
                 </h1>
-                <p className="max-w-3xl text-[16px] leading-[1.5] text-white/75 md:text-[20px]">{heroSubtitle}</p>
+                <p className="max-w-3xl text-[16px] leading-[1.5] text-white/75 md:text-[20px]">
+                  <HighlightText text={heroSubtitle} />
+                </p>
 
                 <div className="flex flex-wrap gap-3">
-                  <button
-                    type="button"
-                    onClick={scrollToForm}
-                    className="btn-gloss relative overflow-hidden rounded-[10px] border border-white/20 bg-purple/70 px-5 py-3 text-sm font-medium text-white"
-                  >
-                    Start your project
-                  </button>
+                  {heroPrimaryCta === "founder" ? (
+                    <>
+                      <Link
+                        to={founderApplicationHref}
+                        className="btn-gloss relative overflow-hidden rounded-[10px] border border-white/20 bg-purple/70 px-5 py-3 text-sm font-medium text-white transition-colors hover:border-purple/40"
+                      >
+                        {heroPrimaryCtaLabel}
+                      </Link>
+                      <button
+                        type="button"
+                        onClick={scrollToForm}
+                        className="rounded-[10px] border border-white/15 bg-black/40 px-5 py-3 text-sm font-medium text-white/90 transition-colors hover:border-purple/40 hover:bg-black/60 hover:text-white"
+                      >
+                        Start your project
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <button
+                        type="button"
+                        onClick={scrollToForm}
+                        className="btn-gloss relative overflow-hidden rounded-[10px] border border-white/20 bg-purple/70 px-5 py-3 text-sm font-medium text-white"
+                      >
+                        Start your project
+                      </button>
+                      <Link
+                        to={founderApplicationHref}
+                        className="rounded-[10px] border border-white/15 bg-black/40 px-5 py-3 text-sm font-medium text-white/90 transition-colors hover:border-purple/40 hover:bg-black/60 hover:text-white"
+                      >
+                        {heroPrimaryCtaLabel}
+                      </Link>
+                    </>
+                  )}
                   <a
                     href={whatsappHref}
                     target="_blank"
@@ -2305,24 +2675,24 @@ export function IndustryLandingPage({
             </div>
 
             <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[13px] text-white/65">
-              {socialProofItems.map((item, index) => (
-                <div key={item} className="flex items-center gap-4">
-                  <span>{item}</span>
-                  {index !== socialProofItems.length - 1 ? <span className="text-white/35">•</span> : null}
-                </div>
-              ))}
-            </div>
+                {socialProofItems.map((item, index) => (
+                  <div key={item} className="flex items-center gap-4">
+                    <span>{item}</span>
+                    {index !== socialProofItems.length - 1 ? <span className="text-white/35">•</span> : null}
+                  </div>
+                ))}
+              </div>
 
-            <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-              {trustIndicators.map((item) => (
-                <div
-                  key={item}
-                  className="rounded-[10px] border border-white/12 bg-black/35 px-3 py-2 text-[12px] leading-[1.35] text-white/85"
-                >
-                  {item}
-                </div>
-              ))}
-            </div>
+            <div className={trustGridClass}>
+                {trustIndicators.map((item) => (
+                  <div
+                    key={item}
+                    className="rounded-[10px] border border-white/12 bg-black/35 px-3 py-2 text-[12px] leading-[1.35] text-white/85"
+                  >
+                    {item}
+                  </div>
+                ))}
+              </div>
 
             <div className="flex flex-col gap-4 border-t border-white/10 pt-6 md:flex-row md:items-center md:gap-5 md:pt-7">
               <span className="max-w-full text-sm font-normal -tracking-[0.01em] leading-snug text-white/70 md:shrink-0 md:whitespace-nowrap">
@@ -2360,17 +2730,58 @@ export function IndustryLandingPage({
                 </div>
               </div>
             </div>
-          </div>
-        </section>
+        </HeroPanelShell>
+        ) : null}
 
-        <SectionDivider />
+        {!heroBannerSrc ? (
+          <>
+            <SectionDivider />
+            <PressStrip items={resolvedPressCoverage} />
+            <SocialProofStrip />
+            <SectionDivider />
+          </>
+        ) : null}
 
-        <PressStrip items={resolvedPressCoverage} />
+        {heroBannerSrc ? <SectionDivider /> : null}
 
-        <SocialProofStrip />
+        {heroBannerSrc ? (
+          <>
+            <FounderLeadershipStrip
+              eyebrow={resolvedFounderStripEyebrow}
+              title={resolvedFounderStripTitle}
+              intro={resolvedFounderStripIntro}
+              pullQuote={resolvedFounderStripPullQuote}
+              showForbesVideo
+              showCta={founderStripShowCta}
+              ctaHref={founderStripShowCta ? founderApplicationHref : undefined}
+              ctaLabel={heroPrimaryCtaLabel}
+            />
+            <SectionDivider />
+            <ProcessStepsSection title={processTitle} steps={processSteps} tightSpacing />
+            <SectionDivider />
+            <FounderServicesSection className="py-8 md:py-10" />
+            <SectionDivider />
+            <BookCallWithFounderBand sourcePage={resolvedLeadSourcePage} tightSpacing />
+            <SectionDivider />
 
-        <SectionDivider />
+            <IndustryFaqSection faqGroups={faqGroups} compactTop />
 
+            <SectionDivider />
+
+            <IndustryFinalCtaBand
+              finalTitle={finalTitle}
+              finalSubtitle={finalSubtitle}
+              heroPrimaryCta={heroPrimaryCta}
+              founderApplicationHref={founderApplicationHref}
+              heroPrimaryCtaLabel={heroPrimaryCtaLabel}
+              onScrollToForm={scrollToForm}
+            />
+
+            <SectionDivider />
+          </>
+        ) : null}
+
+        {!heroBannerSrc ? (
         <section className={`mt-6 w-full rounded-[16px] py-10 md:py-14 ${SECTION_PAGE_X}`} style={sectionWashStyle}>
           {featuredWork ? (
             <div className={SECTION_CONTENT}>
@@ -2505,59 +2916,19 @@ export function IndustryLandingPage({
             </div>
           )}
         </section>
+        ) : null}
 
-        <SectionDivider />
+        {!heroBannerSrc ? (
+          <>
+            <SectionDivider />
+            <ProcessStepsSection title={processTitle} steps={processSteps} />
+            <SectionDivider />
+            <BookCallWithFounderBand sourcePage={resolvedLeadSourcePage} />
+          </>
+        ) : null}
 
-        <section className={`mt-6 w-full py-10 md:py-12 ${SECTION_PAGE_X}`} style={sectionWashStyle}>
-          <SectionTitle>{processTitle}</SectionTitle>
-          <div className="mt-4 flex flex-col gap-3 md:flex-row md:items-stretch md:gap-2">
-            {processSteps.map((step, index) => (
-              <div key={step.title} className="contents">
-                <div className="relative flex-1 overflow-hidden rounded-[10px] border border-white/12 bg-black/30 p-4">
-                  <div
-                    aria-hidden
-                    className="pointer-events-none absolute inset-0 flex items-center justify-center"
-                  >
-                    <ProcessStepBackgroundIcon title={step.title} />
-                  </div>
-                  <div className="relative z-[1] flex items-center justify-between">
-                    <span className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/15 bg-[linear-gradient(145deg,rgba(92,138,255,0.2),rgba(92,138,255,0.05))] text-white/85">
-                      <ProcessStepIcon title={step.title} />
-                    </span>
-                    <p
-                      className="text-[11px] uppercase tracking-[0.12em] text-white/45"
-                      aria-label={`Step ${index + 1} of ${processSteps.length}`}
-                    >
-                      <span aria-hidden="true">0{index + 1}</span>
-                    </p>
-                  </div>
-                  <p className="relative z-[1] mt-2 text-[15px] font-medium text-white">{step.title}</p>
-                  <p className="relative z-[1] mt-2 text-[13px] text-white/65">{step.body}</p>
-                </div>
-                {index !== processSteps.length - 1 ? (
-                  <div className="hidden items-center justify-center md:flex">
-                    <span className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-white/15 bg-black/35 text-white/70">
-                      →
-                    </span>
-                  </div>
-                ) : null}
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <SectionDivider />
-
-        <BookCallWithFounderBand
-          sourcePage={
-            portfolioVertical === "healthcare"
-              ? "healthcare-landing"
-              : portfolioVertical === "fintech"
-                ? "fintech-landing"
-                : "industry-landing"
-          }
-        />
-
+        {!heroBannerSrc ? (
+          <>
         <SectionDivider />
 
         {afterContactVerticalShowcase ? (
@@ -2575,16 +2946,16 @@ export function IndustryLandingPage({
           leadFormProps={
             portfolioVertical === "healthcare"
               ? {
-                  sourcePage: "healthcare-landing",
+                  sourcePage: resolvedLeadSourcePage,
                   vertical: "healthcare",
                 }
               : portfolioVertical === "fintech"
                 ? {
-                    sourcePage: "fintech-landing",
+                    sourcePage: resolvedLeadSourcePage,
                     vertical: "fintech",
                   }
                 : {
-                    sourcePage: "industry-landing",
+                    sourcePage: resolvedLeadSourcePage,
                     vertical: "none",
                   }
           }
@@ -2592,98 +2963,50 @@ export function IndustryLandingPage({
 
         <SectionDivider />
 
-        <ExpertiseBentoSection
-          cards={capabilityCards}
-          heading={resolvedExpertiseHeading}
-          subheading={resolvedExpertiseSubheading}
+        <IndustryGrowthSections
+          capabilityCards={capabilityCards}
+          expertiseHeading={resolvedExpertiseHeading}
+          expertiseSubheading={resolvedExpertiseSubheading}
           portfolioVertical={portfolioVertical}
+          operatingTitle={resolvedOperatingTitle}
+          operatingSubheading={resolvedOperatingSubheading}
+          operatingPillars={operatingModelPillars}
+          operatingCenterLabel={resolvedOperatingCenterLabel}
+          operatingCenterHint={resolvedOperatingCenterHint}
+          scaleTitle={scaleTitle}
+          scaleArchitecture={scaleArchitecture}
+          scaleRootLabel={scaleRootLabel}
+          operatorQuotes={resolvedOperatorQuotes}
         />
 
         <SectionDivider />
+          </>
+        ) : null}
 
-        <OperatingModelHubSection
-          title={resolvedOperatingTitle}
-          subheading={resolvedOperatingSubheading}
-          pillars={operatingModelPillars}
-          centerLabel={resolvedOperatingCenterLabel}
-          centerHint={resolvedOperatingCenterHint}
-        />
+        {!heroBannerSrc ? <IndustryFaqSection faqGroups={faqGroups} /> : null}
 
-        <SectionDivider />
+        {!heroBannerSrc ? (
+          <>
+            <SectionDivider />
 
-        <ScaleArchitectureSection title={scaleTitle} items={scaleArchitecture} rootLabel={scaleRootLabel} />
+            <InsightsSection items={resolvedInsights} heading={resolvedInsightsHeading} />
 
-        <SectionDivider />
+            {featuredWork ? null : <FounderBand portfolioVertical={portfolioVertical} onGoToMainForm={scrollToForm} />}
 
-        <OperatorQuotesSection quotes={resolvedOperatorQuotes} />
+            <SectionDivider />
 
-        <SectionDivider />
+            <IndustryFinalCtaBand
+              finalTitle={finalTitle}
+              finalSubtitle={finalSubtitle}
+              heroPrimaryCta={heroPrimaryCta}
+              founderApplicationHref={founderApplicationHref}
+              heroPrimaryCtaLabel={heroPrimaryCtaLabel}
+              onScrollToForm={scrollToForm}
+            />
 
-        <section className={`mt-6 w-full py-12 md:py-20 ${SECTION_PAGE_X}`} style={sectionWashStyle}>
-          <div className={SECTION_CONTENT}>
-            <h2 className="section-heading-wash max-w-[42rem] text-[clamp(1.45rem,3.2vw,2.05rem)] font-medium tracking-tight text-white">
-              FAQ
-            </h2>
-            <div className="mt-10 grid gap-x-14 gap-y-12 md:mt-14 md:grid-cols-2 md:gap-y-14">
-            {faqGroups.map((group) => (
-                <div key={group.category}>
-                  <p className="mb-5 text-[11px] font-semibold uppercase tracking-[0.16em] text-white/45">{group.category}</p>
-                  <div className="faq-accordion divide-y divide-white/[0.12]">
-                    {group.items.map((item) => (
-                      <details key={item.question} className="group">
-                        <summary className="flex cursor-pointer items-start gap-4 py-5 text-[15px] font-medium leading-snug text-white/92 marker:content-none md:text-[16px] [&::-webkit-details-marker]:hidden">
-                          <span className="flex-1">{item.question}</span>
-                          <span
-                            aria-hidden="true"
-                            className="ml-2 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-white/15 text-[13px] leading-none text-white/55 transition-transform duration-300 group-open:rotate-45"
-                          >
-                            +
-                          </span>
-                        </summary>
-                        <p className="pb-5 text-[14px] leading-relaxed text-white/58 md:text-[15px] md:leading-relaxed">
-                          {item.answer}
-                      </p>
-                    </details>
-                  ))}
-                </div>
-              </div>
-            ))}
-            </div>
-          </div>
-        </section>
-
-        <SectionDivider />
-
-        <InsightsSection items={resolvedInsights} heading={resolvedInsightsHeading} />
-
-        {featuredWork ? null : <FounderBand portfolioVertical={portfolioVertical} onGoToMainForm={scrollToForm} />}
-
-        <SectionDivider />
-
-        <section
-          className={`mt-6 w-full rounded-[16px] border border-white/12 bg-[radial-gradient(circle_at_top,rgba(92,138,255,0.2),rgba(0,0,0,0.385)_55%)] py-8 text-center backdrop-blur-[8px] md:py-10 ${SECTION_PAGE_X}`}
-        >
-          <h2 className="text-[34px] font-medium -tracking-[0.02em] text-white md:text-[44px]">{finalTitle}</h2>
-          <p className="mx-auto mt-3 max-w-3xl text-white/70">{finalSubtitle}</p>
-          <div className="mt-5 flex flex-wrap justify-center gap-3">
-            <button
-              type="button"
-              onClick={scrollToForm}
-              className="btn-gloss relative overflow-hidden rounded-[10px] border border-white/20 bg-purple/70 px-5 py-3 text-sm font-medium text-white"
-            >
-              Get proposal in 24 hours
-            </button>
-            <button
-              type="button"
-              onClick={scrollToForm}
-              className="rounded-[10px] border border-white/15 bg-black/40 px-5 py-3 text-sm font-medium text-white/90"
-            >
-              Plan your build
-            </button>
-          </div>
-        </section>
-
-        <SectionDivider />
+            <SectionDivider />
+          </>
+        ) : null}
 
       </main>
       <Footer />
