@@ -466,12 +466,7 @@ const App = () => {
               />
               <Route
                 path="/placement-programs"
-                element={
-                  <>
-                    <FloatingWhatsAppButton />
-                    <PlacementProgramsPage />
-                  </>
-                }
+                element={<PlacementProgramsPage />}
               />
               <Route
                 path="/ai-freelancing"
