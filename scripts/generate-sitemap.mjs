@@ -44,6 +44,7 @@ const STATIC_ROUTES = [
   "/terms-and-conditions",
   "/index.php/aie-termsconditions",
   "/partnership",
+  "/placement-programs",
   "/ai-freelancing",
   "/ai-freelancing/thank-you",
   "/ai-calling",

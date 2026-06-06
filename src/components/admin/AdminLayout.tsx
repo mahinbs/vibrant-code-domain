@@ -10,6 +10,7 @@ import {
   Sparkles,
   Link2,
   UserCheck,
+  GraduationCap,
   Menu,
   X,
 } from "lucide-react";
@@ -35,6 +36,11 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
     },
     { name: "Reshab leads", href: "/admin/reshab-leads", icon: Sparkles },
     { name: "Trial Leads", href: "/admin/trial-leads", icon: UserCheck },
+    {
+      name: "Placement Applications",
+      href: "/admin/placement-applications",
+      icon: GraduationCap,
+    },
     { name: "Portfolio", href: "/admin/portfolio", icon: Briefcase },
     { name: "Case Studies", href: "/admin/case-studies", icon: FileText },
     { name: "Blogs", href: "/admin/blogs", icon: Users },

@@ -49,6 +49,9 @@ const ThankYouPage = lazy(() => import("./pages/ThankYouPage"));
 const PrivacyPolicyPage = lazy(() => import("./pages/PrivacyPolicyPage"));
 const TermsAndConditions = lazy(() => import("./pages/TermsAndConditions"));
 const PartnershipPage = lazy(() => import("./pages/PartnershipPage"));
+const PlacementProgramsPage = lazy(
+  () => import("./pages/PlacementProgramsPage")
+);
 const AiFreelancingPage = lazy(() => import("./pages/AiFreelancingPage"));
 const AiFreelancingThankYouPage = lazy(
   () => import("./pages/AiFreelancingThankYouPage")
@@ -107,6 +110,9 @@ const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
 const CustomerInquiries = lazy(() => import("./pages/admin/CustomerInquiries"));
 const ReshabLeads = lazy(() => import("./pages/admin/ReshabLeads"));
 const TrialLeads = lazy(() => import("./pages/admin/TrialLeads"));
+const PlacementProgramApplications = lazy(
+  () => import("./pages/admin/PlacementProgramApplications")
+);
 const PortfolioList = lazy(() => import("./pages/admin/PortfolioList"));
 const PortfolioForm = lazy(() => import("./pages/admin/PortfolioForm"));
 const CaseStudyList = lazy(() => import("./pages/admin/CaseStudyList"));
@@ -459,6 +465,15 @@ const App = () => {
                 }
               />
               <Route
+                path="/placement-programs"
+                element={
+                  <>
+                    <FloatingWhatsAppButton />
+                    <PlacementProgramsPage />
+                  </>
+                }
+              />
+              <Route
                 path="/ai-freelancing"
                 element={
                   <>
@@ -689,6 +704,14 @@ const App = () => {
                 element={
                   <ProtectedRoute>
                     <TrialLeads />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/placement-applications"
+                element={
+                  <ProtectedRoute>
+                    <PlacementProgramApplications />
                   </ProtectedRoute>
                 }
               />

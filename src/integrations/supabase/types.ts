@@ -280,6 +280,45 @@ export type Database = {
           },
         ]
       }
+      placement_program_applications: {
+        Row: {
+          background: string
+          created_at: string
+          email: string
+          id: string
+          message: string | null
+          name: string
+          phone: string
+          program: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          background: string
+          created_at?: string
+          email: string
+          id?: string
+          message?: string | null
+          name: string
+          phone: string
+          program: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          background?: string
+          created_at?: string
+          email?: string
+          id?: string
+          message?: string | null
+          name?: string
+          phone?: string
+          program?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       portfolios: {
         Row: {
           challenge: string

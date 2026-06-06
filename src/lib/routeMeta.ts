@@ -146,6 +146,11 @@ const EXACT: Record<string, RouteSeo> = {
     description:
       "Partner with Boostmysites on referrals, co-delivery, and technology alliances. Grow together with a product-focused engineering team.",
   },
+  "/placement-programs": {
+    title: "Job Placement Programs | Boostmysites",
+    description:
+      "Become job-ready in 7 months with industry-focused tech training, real-world projects, one-on-one mentorship, and dedicated placement assistance.",
+  },
   "/ai-freelancing": {
     title: "AI Freelancing | Boostmysites",
     description:
@@ -261,6 +266,10 @@ const EXACT: Record<string, RouteSeo> = {
   "/admin/trial-leads": {
     title: "Trial Leads | Admin | Boostmysites",
     description: "Manage trial leads in the Boostmysites admin.",
+  },
+  "/admin/placement-applications": {
+    title: "Placement Applications | Admin | Boostmysites",
+    description: "View and manage placement program applications in the Boostmysites admin.",
   },
   "/admin/portfolio": {
     title: "Portfolio | Admin | Boostmysites",
