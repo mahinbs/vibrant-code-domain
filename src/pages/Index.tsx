@@ -7,11 +7,16 @@ import DeferredSection from "@/components/ui/DeferredSection";
 
 const ProblemSolution = lazy(() => import("@/components/ProblemSolution"));
 const Services = lazy(() => import("@/components/Services"));
+const HowItWorks = lazy(() => import("@/components/HowItWorks"));
+const Payoff = lazy(() => import("@/components/Payoff"));
 const MediaCoverage = lazy(() => import("@/components/MediaCoverage"));
 const StatsGrid = lazy(() => import("@/components/StatsGrid"));
 const PortfolioSection = lazy(() => import("@/components/PortfolioSection"));
 const WhyChooseUs = lazy(() => import("@/components/WhyChooseUs"));
 const TestimonialsCarousel = lazy(() => import("@/components/TestimonialsCarousel"));
+const Investment = lazy(() => import("@/components/Investment"));
+const FAQ = lazy(() => import("@/components/FAQ"));
+const RiskReversal = lazy(() => import("@/components/RiskReversal"));
 const FooterLazy = lazy(() => import("@/components/Footer"));
 
 
@@ -30,22 +35,22 @@ const Index = () => {
             <div className="container mx-auto px-6 relative z-10">
               <div className="max-w-3xl mx-auto text-center mb-12">
                 <div className="inline-block px-4 py-2 bg-red-500/20 border border-red-400/30 rounded-full text-red-300 text-sm font-medium mb-4">
-                  ⚡ Limited Slots Available This Month
+                  ⚡ Limited Audit Slots Available This Month
                 </div>
                 <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
-                  Get Your Free Consultation in 24 Hours!
+                  Get Your Free Automation Audit
                 </h2>
                 <p className="text-xl text-gray-300 mb-4">
-                  Ready to transform your business with custom software solutions? Tell us about your project and get a detailed proposal within 24 hours.
+                  Tell us how your team spends its week. We'll map where time and money are leaking — and exactly what it would take to stop it. You keep the plan whether you hire us or not.
                 </p>
                 <div className="flex justify-center items-center space-x-8 text-sm text-gray-400">
                   <div className="flex items-center space-x-2">
                     <span className="text-green-400">✓</span>
-                    <span>No Hidden Costs</span>
+                    <span>No Contracts to Start</span>
                   </div>
                   <div className="flex items-center space-x-2">
                     <span className="text-green-400">✓</span>
-                    <span>Free Consultation</span>
+                    <span>Plan Yours to Keep</span>
                   </div>
                   <div className="flex items-center space-x-2">
                     <span className="text-green-400">✓</span>
@@ -67,6 +72,10 @@ const Index = () => {
         </section>
 
         <Suspense fallback={<div className="h-40" aria-hidden="true" />}>
+          <DeferredSection minHeight={420}>
+            <StatsGrid />
+          </DeferredSection>
+
           <DeferredSection minHeight={560}>
             <ProblemSolution />
           </DeferredSection>
@@ -77,12 +86,20 @@ const Index = () => {
             </div>
           </DeferredSection>
 
-          <DeferredSection minHeight={420}>
-            <MediaCoverage />
+          <DeferredSection minHeight={560}>
+            <HowItWorks />
+          </DeferredSection>
+
+          <DeferredSection minHeight={520}>
+            <Payoff />
+          </DeferredSection>
+
+          <DeferredSection minHeight={560}>
+            <TestimonialsCarousel />
           </DeferredSection>
 
           <DeferredSection minHeight={420}>
-            <StatsGrid />
+            <MediaCoverage />
           </DeferredSection>
 
           <DeferredSection minHeight={720}>
@@ -93,8 +110,16 @@ const Index = () => {
             <WhyChooseUs />
           </DeferredSection>
 
-          <DeferredSection minHeight={560}>
-            <TestimonialsCarousel />
+          <DeferredSection minHeight={520}>
+            <Investment />
+          </DeferredSection>
+
+          <DeferredSection minHeight={520}>
+            <FAQ />
+          </DeferredSection>
+
+          <DeferredSection minHeight={360}>
+            <RiskReversal />
           </DeferredSection>
         </Suspense>
 
@@ -105,10 +130,10 @@ const Index = () => {
             <div className="container mx-auto px-6 relative z-10">
               <div className="max-w-3xl mx-auto text-center mb-12">
                 <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
-                  Ready to Transform Your Business?
+                  Your competitors are automating. Your hours aren't coming back on their own.
                 </h2>
                 <p className="text-xl text-gray-300">
-                  Let's discuss your project and create the perfect tech solution for your business. From web apps to AI automation - we've got you covered.
+                  Book your free automation audit today. In 30 minutes, we'll show you exactly where your business is leaking time and money — and what it would take to stop it. No cost. No commitment. Just a clear look at what's possible.
                 </p>
               </div>
               <SimpleContactForm sourcePage="home-final" className="max-w-2xl mx-auto" />

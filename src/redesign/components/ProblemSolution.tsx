@@ -9,10 +9,10 @@ export function ProblemSolution() {
           The challenge
         </div>
         <h2 className="text-[36px] font-medium leading-[1.05] -tracking-[0.04em] text-white md:text-[44px]">
-          We&apos;ve seen this before.
+          You didn&apos;t start your business to babysit spreadsheets.
           <br />
           <span className="text-white/60">
-            Most of the friction slowing you down has shipped solutions already.
+            It&apos;s not a people problem — it&apos;s a systems problem. Here&apos;s where the week actually goes.
           </span>
         </h2>
       </div>

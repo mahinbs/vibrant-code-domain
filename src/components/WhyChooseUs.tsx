@@ -1,42 +1,30 @@
-import { Clock, DollarSign, HeadphonesIcon, Award, Smartphone, Search } from 'lucide-react';
+import { Wrench, Eye, ShieldCheck, Target } from 'lucide-react';
 
 const WhyChooseUs = () => {
   const reasons = [
     {
-      icon: Clock,
-      title: "9+ Years Experience",
-      description: "Proven track record with 500+ successful projects delivered",
+      icon: Wrench,
+      title: "We build around your tools",
+      description: "No ripping out your stack. We make what you already use work harder.",
       color: "cyan"
     },
     {
-      icon: DollarSign,
-      title: "Affordable Pricing Packages",
-      description: "Competitive rates without compromising on quality",
-      color: "green"
-    },
-    {
-      icon: HeadphonesIcon,
-      title: "24/7 Support",
-      description: "Round-the-clock assistance whenever you need help",
+      icon: Eye,
+      title: "No black boxes",
+      description: "You'll understand exactly what we built and why. It's your system — we just make sure it never breaks.",
       color: "blue"
     },
     {
-      icon: Award,
-      title: "100% Client Satisfaction",
-      description: "We don't stop until you're completely happy with the results",
+      icon: ShieldCheck,
+      title: "We maintain everything",
+      description: "Automations aren't \"ship and vanish.\" We monitor, fix, and improve as you grow.",
       color: "purple"
     },
     {
-      icon: Smartphone,
-      title: "Mobile Optimized",
-      description: "All websites work perfectly on phones, tablets, and desktops",
-      color: "pink"
-    },
-    {
-      icon: Search,
-      title: "SEO Friendly",
-      description: "Built-in SEO optimization to help you rank higher on Google",
-      color: "orange"
+      icon: Target,
+      title: "Outcomes, not jargon",
+      description: "We don't sell you tech. We sell you hours, accuracy, and revenue.",
+      color: "green"
     }
   ];
 
@@ -55,14 +43,14 @@ const WhyChooseUs = () => {
       <div className="container mx-auto px-6 relative z-10">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-            Why Choose <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Boostmysites</span>?
+            Built right. <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Built to last.</span>
           </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            We're not just another development agency. Here's what makes us different
+            We're not just another automation agency. Here's what makes us different
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
           {reasons.map((reason, index) => (
             <div 
               key={index}
@@ -84,20 +72,20 @@ const WhyChooseUs = () => {
         {/* Stats Section */}
         <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
           <div className="text-center">
-            <div className="text-3xl md:text-4xl font-bold text-cyan-400 mb-2">500+</div>
-            <div className="text-gray-400">Projects Delivered</div>
+            <div className="text-3xl md:text-4xl font-bold text-cyan-400 mb-2">40,000+</div>
+            <div className="text-gray-400">Hours Automated</div>
           </div>
           <div className="text-center">
-            <div className="text-3xl md:text-4xl font-bold text-blue-400 mb-2">5+</div>
-            <div className="text-gray-400">Years Experience</div>
+            <div className="text-3xl md:text-4xl font-bold text-blue-400 mb-2">120+</div>
+            <div className="text-gray-400">Workflows Shipped</div>
           </div>
           <div className="text-center">
-            <div className="text-3xl md:text-4xl font-bold text-purple-400 mb-2">100%</div>
-            <div className="text-gray-400">Client Satisfaction</div>
+            <div className="text-3xl md:text-4xl font-bold text-purple-400 mb-2">98%</div>
+            <div className="text-gray-400">Client Retention</div>
           </div>
           <div className="text-center">
             <div className="text-3xl md:text-4xl font-bold text-green-400 mb-2">24/7</div>
-            <div className="text-gray-400">Support Available</div>
+            <div className="text-gray-400">Always-On Automation</div>
           </div>
         </div>
       </div>

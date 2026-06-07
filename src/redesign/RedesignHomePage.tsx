@@ -5,12 +5,16 @@ import { SiteBackground } from "./components/SiteBackground";
 import { RedesignShell } from "./RedesignShell";
 import DeferredSection from "@/components/ui/DeferredSection";
 import { SectionDivider } from "./components/SectionDivider";
+import { useHashScroll } from "./lib/useHashScroll";
 
 const Stats = lazy(() => import("./components/Stats").then((m) => ({ default: m.Stats })));
 const FintechHealthcareSection = lazy(() =>
   import("./components/FintechHealthcareSection").then((m) => ({ default: m.FintechHealthcareSection }))
 );
 const Services = lazy(() => import("./components/Services").then((m) => ({ default: m.Services })));
+const MockupBand = lazy(() =>
+  import("./components/MockupBand").then((m) => ({ default: m.MockupBand }))
+);
 const FounderForbesSection = lazy(() =>
   import("./components/FounderForbesSection").then((m) => ({ default: m.FounderForbesSection }))
 );
@@ -38,6 +42,7 @@ function SectionWithTopRule({ minHeight, children }: { minHeight: number; childr
  * Each block is prefixed with the same faint line used on industry landings.
  */
 export function RedesignHomePage() {
+  useHashScroll();
   return (
     <RedesignShell>
       <SiteBackground />
@@ -54,11 +59,31 @@ export function RedesignHomePage() {
           <SectionWithTopRule minHeight={620}>
             <Services />
           </SectionWithTopRule>
+          <SectionWithTopRule minHeight={520}>
+            <MockupBand
+              id="how-built"
+              src="/videos/mockup-2.mp4"
+              poster="/videos/mockup-2.jpg"
+              eyebrow="We build it"
+              title="Automations built around your stack"
+              text="We wire your existing tools together into workflows that run themselves — no rip-and-replace, no fragile scripts. You stay in the loop; you don't lift a finger."
+            />
+          </SectionWithTopRule>
           <SectionWithTopRule minHeight={560}>
             <FounderForbesSection />
           </SectionWithTopRule>
           <SectionWithTopRule minHeight={640}>
             <Process />
+          </SectionWithTopRule>
+          <SectionWithTopRule minHeight={520}>
+            <MockupBand
+              src="/videos/mockup-3.mp4"
+              poster="/videos/mockup-3.jpg"
+              eyebrow="The before"
+              title="Stop drowning in manual work"
+              text="Copy-pasting between apps, chasing follow-ups, re-keying data, buried in busywork. That's the hidden cost automation quietly takes off your team's plate."
+              reverse
+            />
           </SectionWithTopRule>
           <SectionWithTopRule minHeight={620}>
             <ProblemSolution />
@@ -68,6 +93,15 @@ export function RedesignHomePage() {
           </SectionWithTopRule>
           <SectionWithTopRule minHeight={500}>
             <Testimonial />
+          </SectionWithTopRule>
+          <SectionWithTopRule minHeight={520}>
+            <MockupBand
+              src="/videos/mockup-1.mp4"
+              poster="/videos/mockup-1.jpg"
+              eyebrow="Always on"
+              title="Your systems, running 24/7"
+              text="Once it's live, it just runs — quietly, accurately, around the clock — while we monitor and improve it as you grow. You get the time back."
+            />
           </SectionWithTopRule>
           <SectionWithTopRule minHeight={420}>
             <CTA />

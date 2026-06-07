@@ -13,7 +13,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { useToast } from '@/hooks/use-toast';
 
 const loginSchema = z.object({
-  id: z.string().min(1, 'Admin ID is required'),
+  email: z.string().email('Enter a valid email'),
   password: z.string().min(6, 'Password must be at least 6 characters'),
 });
 
@@ -27,7 +27,7 @@ const AdminLogin = () => {
   const form = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      id: '',
+      email: '',
       password: '',
     },
   });
@@ -35,19 +35,18 @@ const AdminLogin = () => {
   const onSubmit = async (data: LoginFormData) => {
     setIsLoading(true);
 
-    // Simulate loading
-    await new Promise(resolve => setTimeout(resolve, 500));
+    const result = await adminAuth.login(data.email, data.password);
 
-    if (adminAuth.login(data.id, data.password)) {
+    if (result.ok) {
       toast({
         title: "Login successful",
         description: "Welcome to the admin panel",
       });
-      navigate('/secure-management-portal-x7k9');
+      navigate('/admin');
     } else {
       toast({
         title: "Login failed",
-        description: "Invalid credentials. Please try again.",
+        description: result.error ?? "Invalid credentials. Please try again.",
         variant: "destructive",
       });
     }
@@ -69,15 +68,16 @@ const AdminLogin = () => {
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               <FormField
                 control={form.control}
-                name="id"
+                name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-gray-200">Admin ID *</FormLabel>
+                    <FormLabel className="text-gray-200">Email *</FormLabel>
                     <FormControl>
                       <Input
                         {...field}
-                        type="text"
-                        placeholder="Enter admin ID"
+                        type="email"
+                        autoComplete="email"
+                        placeholder="you@company.com"
                         className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500"
                       />
                     </FormControl>

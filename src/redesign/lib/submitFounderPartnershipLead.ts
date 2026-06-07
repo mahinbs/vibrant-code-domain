@@ -3,6 +3,7 @@ import type { FounderApplicationSubmitInput } from "../founderPartnership/founde
 import { FORM_VERSION, FOUNDER_SOURCE_PAGE } from "../founderPartnership/founderApplicationConfig";
 import { scoreFounderPartnershipLead } from "./scoreFounderPartnershipLead";
 import type { LeadResult } from "./submitLead";
+import { notifyTelegramLead } from "./notifyTelegramLead";
 
 export const RESHAB_SUBMISSION_FOUNDER_PARTNERSHIP = "founder_partnership" as const;
 
@@ -85,6 +86,16 @@ export async function submitFounderPartnershipLead(
 
     if (!error) {
       void notifyTeam(input, payload, score, tier);
+      notifyTelegramLead({
+        leadType: "founder partnership",
+        name: input.name,
+        email: input.email,
+        phone: input.phone,
+        sourcePage: input.sourcePage || FOUNDER_SOURCE_PAGE,
+        score,
+        tier,
+        fields: payload,
+      });
       return { ok: true, via: "supabase" };
     }
     supabaseError = error;
@@ -109,6 +120,16 @@ export async function submitFounderPartnershipLead(
       if (!res.ok) {
         return { ok: false, via: "endpoint", error: `Submission failed (${res.status})` };
       }
+      notifyTelegramLead({
+        leadType: "founder partnership",
+        name: input.name,
+        email: input.email,
+        phone: input.phone,
+        sourcePage: input.sourcePage || FOUNDER_SOURCE_PAGE,
+        score,
+        tier,
+        fields: payload,
+      });
       return { ok: true, via: "endpoint" };
     } catch (err) {
       return {

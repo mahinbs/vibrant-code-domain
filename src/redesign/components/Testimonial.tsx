@@ -16,7 +16,7 @@ export function Testimonial() {
             <StarIcon /><StarIcon /><StarIcon /><StarIcon /><StarIcon />
           </div>
           <span className="text-sm font-medium text-white">4.9/5</span>
-          <span className="text-sm text-white/50">from 500+ reviews</span>
+          <span className="text-sm text-white/50">from 120+ automation projects</span>
         </div>
       </div>
 

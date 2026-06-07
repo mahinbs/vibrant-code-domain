@@ -1,6 +1,7 @@
 import { supabase } from "@/integrations/supabase/client";
 import type { HighIntentLeadPayload, HighIntentLeadSubmitInput } from "./highIntentLead";
 import { scoreAndTier } from "./scoreLead";
+import { notifyTelegramLead } from "./notifyTelegramLead";
 
 export type { HighIntentLeadPayload, HighIntentLeadSubmitInput } from "./highIntentLead";
 
@@ -96,6 +97,17 @@ export async function submitLead(input: HighIntentLeadSubmitInput): Promise<Lead
     });
 
     if (!error) {
+      notifyTelegramLead({
+        leadType: "automation audit",
+        name: input.name,
+        email: input.email,
+        phone: input.phone,
+        company: input.company ?? null,
+        sourcePage: input.sourcePage,
+        score,
+        tier,
+        fields: payload,
+      });
       return { ok: true, via: "supabase" };
     }
     supabaseError = error;
@@ -124,6 +136,17 @@ export async function submitLead(input: HighIntentLeadSubmitInput): Promise<Lead
           error: `Submission failed (${res.status})`,
         };
       }
+      notifyTelegramLead({
+        leadType: "automation audit",
+        name: input.name,
+        email: input.email,
+        phone: input.phone,
+        company: input.company ?? null,
+        sourcePage: input.sourcePage,
+        score,
+        tier,
+        fields: payload,
+      });
       return { ok: true, via: "endpoint" };
     } catch (err) {
       return {
@@ -164,6 +187,13 @@ export async function submitStrategyCallLead(input: StrategyCallLeadInput): Prom
     });
 
     if (!error) {
+      notifyTelegramLead({
+        leadType: "strategy call",
+        name: input.name,
+        email: input.email,
+        phone: input.phone,
+        sourcePage: input.sourcePage,
+      });
       return { ok: true, via: "supabase" };
     }
     supabaseError = error;
@@ -192,6 +222,13 @@ export async function submitStrategyCallLead(input: StrategyCallLeadInput): Prom
           error: `Submission failed (${res.status})`,
         };
       }
+      notifyTelegramLead({
+        leadType: "strategy call",
+        name: input.name,
+        email: input.email,
+        phone: input.phone,
+        sourcePage: input.sourcePage,
+      });
       return { ok: true, via: "endpoint" };
     } catch (err) {
       return {

@@ -47,12 +47,12 @@ export function CTA({ id = "contact-form", leadFormProps }: CTAProps) {
           </div>
 
           <h2 className="text-[56px] font-medium -tracking-[0.04em] leading-[1.05em] text-white max-md:text-[36px]">
-            Tell us about your project.
+            Your competitors are automating.
             <br />
-            <span className="text-white/65">Proposal in 24 hours.</span>
+            <span className="text-white/65">Your hours aren&apos;t coming back on their own.</span>
           </h2>
           <p className="text-lg text-white/65 max-w-[460px] max-md:text-base">
-            Free consultation. No hidden costs. Limited slots open this month.
+            Book your free automation audit. In 30 minutes we&apos;ll show you exactly where time and money are leaking — no cost, no commitment.
           </p>
         </div>
 

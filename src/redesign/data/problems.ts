@@ -8,23 +8,23 @@ export type ProblemSolution = {
  *  Boostmysites delivers a fix. Edit copy here without touching layout. */
 export const problems: ProblemSolution[] = [
   {
-    problem: "Your product takes too long to launch new features.",
+    problem: "A lead fills out a form at 9pm — and sits untouched until the next afternoon.",
     solution:
-      "We modernize your stack so releases ship weekly, not quarterly.",
+      "Leads get captured, scored and answered the moment they arrive, 24/7.",
   },
   {
-    problem: "Your team wastes hours switching between disconnected systems.",
+    problem: "Your best people spend mornings copy-pasting between apps that don't talk.",
     solution:
-      "We unify product, ops, and business data into one real-time view.",
+      "We wire your tools together so data flows without anyone touching it.",
   },
   {
-    problem: "Too much of your business still depends on manual work.",
+    problem: "Customers ask the same five questions, answered by hand. Again.",
     solution:
-      "We automate the workflows your team currently does by hand.",
+      "A custom-trained assistant resolves the repeats and escalates the rest.",
   },
   {
-    problem: "Mobile experience is hurting retention.",
+    problem: "The \"quick\" weekly report eats half a day, every single week.",
     solution:
-      "We rebuild high-performance mobile flows that lift engagement.",
+      "Live dashboards build themselves before you've had your coffee.",
   },
 ];
