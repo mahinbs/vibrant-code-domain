@@ -221,10 +221,10 @@ export function Services() {
             <button
               type="button"
               onClick={() => setSelectedService(null)}
-              className="absolute right-4 top-4 inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-black/40 text-lg text-white/85 hover:bg-black/60"
+              className="absolute right-4 top-4 z-[20] inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-black/50 text-2xl leading-none text-white/90 active:bg-black/70 hover:bg-black/70"
               aria-label="Close contact form"
             >
-              x
+              ×
             </button>
 
             <div className="relative z-[2] flex flex-col items-center gap-5 text-center">
