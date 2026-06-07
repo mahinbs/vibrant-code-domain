@@ -254,47 +254,59 @@ export default function FreeAutomationCourse() {
 
       {/* Recurring keyword-search popup */}
       {popupOpen && status !== "success" ? (
-        <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/70 p-4 backdrop-blur-[3px]">
+        <div
+          className="fixed inset-0 z-[200] overflow-y-auto bg-black/70 backdrop-blur-[3px] overscroll-contain"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) closePopup();
+          }}
+        >
           <div
-            className="relative w-full max-w-[420px] overflow-hidden rounded-[18px] border border-[#4b78ff]/40 p-7 text-center"
-            style={{ background: "radial-gradient(120% 100% at 50% 0%, rgba(72,118,255,0.35), rgba(0,0,0,0.92) 70%)" }}
+            className="flex min-h-full items-center justify-center p-4"
+            onClick={(e) => {
+              if (e.target === e.currentTarget) closePopup();
+            }}
           >
-            <button
-              type="button"
-              onClick={closePopup}
-              aria-label="Close"
-              className="absolute right-3 top-3 inline-flex size-8 items-center justify-center rounded-full border border-white/20 bg-black/40 text-white/80 hover:bg-black/60"
+            <div
+              className="relative my-auto w-full max-w-[420px] rounded-[18px] border border-[#4b78ff]/40 p-6 pt-12 text-center sm:p-7 sm:pt-12"
+              style={{ background: "radial-gradient(120% 100% at 50% 0%, rgba(72,118,255,0.35), rgba(0,0,0,0.92) 70%)" }}
             >
-              ×
-            </button>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#cdd9ff]">
-              One quick step to unlock
-            </p>
-            <h3 className="mt-3 text-[22px] font-medium leading-snug text-white">
-              Search this on Google 👇
-            </h3>
-            <div className="mt-4 rounded-xl border border-white/15 bg-black/50 px-4 py-3 text-lg font-semibold text-white">
-              “{KEYWORDS[kwIndex]}”
+              <button
+                type="button"
+                onClick={closePopup}
+                aria-label="Close"
+                className="absolute right-2.5 top-2.5 z-[2] inline-flex size-10 items-center justify-center rounded-full border border-white/20 bg-black/50 text-2xl leading-none text-white/90 active:bg-black/70 hover:bg-black/70"
+              >
+                ×
+              </button>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#cdd9ff]">
+                One quick step to unlock
+              </p>
+              <h3 className="mt-3 text-[22px] font-medium leading-snug text-white">
+                Search this on Google 👇
+              </h3>
+              <div className="mt-4 rounded-xl border border-white/15 bg-black/50 px-4 py-3 text-lg font-semibold text-white">
+                “{KEYWORDS[kwIndex]}”
+              </div>
+              <p className="mt-3 text-[13px] leading-relaxed text-white/65">
+                It helps us verify you&apos;re real and bumps your spot in the course queue.
+              </p>
+              <a
+                href={googleSearch(KEYWORDS[kwIndex])}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={onSearch}
+                className="btn-gloss relative mt-5 inline-flex w-full items-center justify-center gap-2 overflow-hidden rounded-[10px] border border-[#4b78ff]/70 bg-[linear-gradient(180deg,#2f5eff_0%,#254dcf_100%)] px-5 py-3 text-sm font-semibold text-white shadow-[inset_0_0_8px_2px_rgba(255,255,255,0.18)]"
+              >
+                <span className="relative z-[2]">🔍 Search “{KEYWORDS[kwIndex]}” on Google</span>
+              </a>
+              <button
+                type="button"
+                onClick={closePopup}
+                className="mt-4 inline-flex min-h-[40px] w-full items-center justify-center text-[13px] text-white/55 active:text-white hover:text-white/80"
+              >
+                Maybe later
+              </button>
             </div>
-            <p className="mt-3 text-[13px] leading-relaxed text-white/65">
-              It helps us verify you&apos;re real and bumps your spot in the course queue.
-            </p>
-            <a
-              href={googleSearch(KEYWORDS[kwIndex])}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={onSearch}
-              className="btn-gloss relative mt-5 inline-flex w-full items-center justify-center gap-2 overflow-hidden rounded-[10px] border border-[#4b78ff]/70 bg-[linear-gradient(180deg,#2f5eff_0%,#254dcf_100%)] px-5 py-3 text-sm font-semibold text-white shadow-[inset_0_0_8px_2px_rgba(255,255,255,0.18)]"
-            >
-              <span className="relative z-[2]">🔍 Search “{KEYWORDS[kwIndex]}” on Google</span>
-            </a>
-            <button
-              type="button"
-              onClick={closePopup}
-              className="mt-3 text-[12px] text-white/45 underline-offset-2 hover:text-white/70 hover:underline"
-            >
-              Maybe later
-            </button>
           </div>
         </div>
       ) : null}
