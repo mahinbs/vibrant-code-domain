@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import ProtectedRoute from "./components/admin/ProtectedRoute";
 import GoogleAnalytics from "./components/GoogleAnalytics";
@@ -43,7 +43,6 @@ const CloudComputingPage = lazy(() => import("./pages/CloudComputingPage"));
 const ChatbotDevelopmentPage = lazy(
   () => import("./pages/ChatbotDevelopmentPage")
 );
-const AiAutomationPage = lazy(() => import("./pages/AiAutomationPage"));
 const ReviewsPage = lazy(() => import("./pages/ReviewsPage"));
 const ThankYouPage = lazy(() => import("./pages/ThankYouPage"));
 const PrivacyPolicyPage = lazy(() => import("./pages/PrivacyPolicyPage"));
@@ -406,12 +405,7 @@ const App = () => {
               />
               <Route
                 path="/ai-automation"
-                element={
-                  <>
-                    <FloatingWhatsAppButton />
-                    <AiAutomationPage />
-                  </>
-                }
+                element={<Navigate to="/#services" replace />}
               />
               <Route
                 path="/reviews"

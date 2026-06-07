@@ -107,12 +107,14 @@ export function Footer() {
         <div className="grid gap-3 max-md:gap-2 md:gap-5 xl:grid-cols-[minmax(0,260px)_1fr] xl:items-start xl:gap-8">
           <div className="flex flex-col gap-0.5 max-md:pb-0.5">
             <div className="flex items-center gap-2">
-              <img
-                src="/boostmysiteslogo.png"
-                alt={`${site.brand} logo`}
-                className="size-6 rounded-[8px] object-contain md:size-[38px] md:rounded-[10px]"
-                loading="lazy"
-              />
+              <span className="flex size-7 items-center justify-center rounded-[8px] bg-white p-0.5 md:size-[38px] md:rounded-[10px] md:p-1">
+                <img
+                  src="/bms-logo.png"
+                  alt={`${site.brand} logo`}
+                  className="size-full object-contain"
+                  loading="lazy"
+                />
+              </span>
               <span className="text-[13px] font-semibold tracking-[-0.01em] text-white md:text-[15px]">
                 {site.brand}
               </span>
