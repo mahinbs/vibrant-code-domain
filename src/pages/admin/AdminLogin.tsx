@@ -9,7 +9,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { useToast } from '@/hooks/use-toast';
 
 const AdminLogin = () => {
-  const [credentials, setCredentials] = useState({ id: '', password: '' });
+  const [credentials, setCredentials] = useState({ email: '', password: '' });
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -18,10 +18,9 @@ const AdminLogin = () => {
     e.preventDefault();
     setIsLoading(true);
 
-    // Simulate loading
-    await new Promise(resolve => setTimeout(resolve, 500));
+    const result = await adminAuth.login(credentials.email, credentials.password);
 
-    if (adminAuth.login(credentials.id, credentials.password)) {
+    if (result.ok) {
       toast({
         title: "Login successful",
         description: "Welcome to the admin panel",
@@ -30,7 +29,7 @@ const AdminLogin = () => {
     } else {
       toast({
         title: "Login failed",
-        description: "Invalid credentials. Please try again.",
+        description: result.error ?? "Invalid credentials. Please try again.",
         variant: "destructive",
       });
     }
@@ -50,14 +49,15 @@ const AdminLogin = () => {
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="id" className="text-gray-200">Admin ID</Label>
+              <Label htmlFor="email" className="text-gray-200">Email</Label>
               <Input
-                id="id"
-                type="text"
-                value={credentials.id}
-                onChange={(e) => setCredentials(prev => ({ ...prev, id: e.target.value }))}
+                id="email"
+                type="email"
+                autoComplete="email"
+                value={credentials.email}
+                onChange={(e) => setCredentials(prev => ({ ...prev, email: e.target.value }))}
                 required
-                placeholder="Enter admin ID"
+                placeholder="you@company.com"
                 className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500"
               />
             </div>

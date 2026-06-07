@@ -29,10 +29,10 @@ export function Process() {
 
         <div className="relative z-[2] ml-auto flex max-w-[680px] flex-col items-end gap-5 pt-1 text-right md:mt-[clamp(5.5rem,14vw,10rem)] max-md:items-start max-md:text-left">
           <h2 className="text-[44px] font-medium -tracking-[0.04em] leading-[1.05em] text-white max-md:text-3xl">
-            From kickoff to launch in four steps.
+            From audit to autopilot in four steps.
           </h2>
           <p className="max-w-[540px] text-lg text-white/60 max-md:text-base">
-            Tight feedback loops, weekly demos, and code you fully own.
+            Three steps, zero headaches. You stay in the loop without lifting a finger.
           </p>
         </div>
       </div>

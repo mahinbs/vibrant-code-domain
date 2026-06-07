@@ -26,8 +26,61 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ArrowLeft, RefreshCw } from "lucide-react";
+import { ArrowLeft, RefreshCw, Download, Search } from "lucide-react";
 import { FounderLeadSummary } from "./founderLeadSummary";
+
+function isPlainObject(v: unknown): v is Record<string, unknown> {
+  return !!v && typeof v === "object" && !Array.isArray(v);
+}
+
+function csvEscape(v: unknown): string {
+  const s = v == null ? "" : typeof v === "object" ? JSON.stringify(v) : String(v);
+  return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+}
+
+function exportLeadsCsv(rows: ReshabLeadRow[]) {
+  const payloadKeys = Array.from(
+    new Set(rows.flatMap((r) => (isPlainObject(r.payload) ? Object.keys(r.payload) : []))),
+  );
+  const base = [
+    "created_at",
+    "submission_type",
+    "name",
+    "email",
+    "phone",
+    "company",
+    "source_page",
+    "lead_score",
+    "lead_tier",
+  ];
+  const headers = [...base, ...payloadKeys];
+  const lines = [headers.join(",")];
+  for (const r of rows) {
+    const p = isPlainObject(r.payload) ? r.payload : {};
+    const row = [
+      r.created_at,
+      r.submission_type,
+      r.name,
+      r.email,
+      r.phone,
+      r.company,
+      r.source_page,
+      r.lead_score,
+      r.lead_tier,
+      ...payloadKeys.map((k) => p[k]),
+    ];
+    lines.push(row.map(csvEscape).join(","));
+  }
+  const blob = new Blob([lines.join("\n")], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `leads-${new Date().toISOString().slice(0, 10)}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
 
 function tierBadgeClass(tier: string) {
   if (tier === "high") return "bg-emerald-600/90 text-white border-emerald-400/40";
@@ -53,6 +106,8 @@ const ReshabLeads = () => {
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [typeFilter, setTypeFilter] = useState<string>("all");
+  const [tierFilter, setTierFilter] = useState<string>("all");
+  const [search, setSearch] = useState<string>("");
 
   const load = async () => {
     setLoading(true);
@@ -67,9 +122,27 @@ const ReshabLeads = () => {
   }, []);
 
   const filtered = useMemo(() => {
-    if (typeFilter === "all") return leads;
-    return leads.filter((r) => (r.submission_type ?? "high_intent") === typeFilter);
-  }, [leads, typeFilter]);
+    const q = search.trim().toLowerCase();
+    return leads.filter((r) => {
+      if (typeFilter !== "all" && (r.submission_type ?? "high_intent") !== typeFilter) return false;
+      if (tierFilter !== "all" && r.lead_tier !== tierFilter) return false;
+      if (q) {
+        const hay = `${r.name} ${r.email} ${r.phone ?? ""} ${r.company ?? ""} ${r.source_page}`.toLowerCase();
+        if (!hay.includes(q)) return false;
+      }
+      return true;
+    });
+  }, [leads, typeFilter, tierFilter, search]);
+
+  const stats = useMemo(() => {
+    const todayStr = new Date().toDateString();
+    return {
+      total: leads.length,
+      high: leads.filter((l) => l.lead_tier === "high").length,
+      medium: leads.filter((l) => l.lead_tier === "medium").length,
+      today: leads.filter((l) => new Date(l.created_at).toDateString() === todayStr).length,
+    };
+  }, [leads]);
 
   return (
     <AdminLayout>
@@ -100,9 +173,19 @@ const ReshabLeads = () => {
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-2">
+            <div className="relative">
+              <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" />
+              <input
+                type="search"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Search name, email, phone…"
+                className="w-[240px] rounded-md border border-gray-700 bg-black/40 py-2 pl-9 pr-3 text-sm text-gray-200 placeholder:text-gray-500 focus:border-cyan-500/60 focus:outline-none"
+              />
+            </div>
             <Select value={typeFilter} onValueChange={setTypeFilter}>
-              <SelectTrigger className="w-[200px] border-gray-700 bg-black/40 text-gray-200">
-                <SelectValue placeholder="Filter form type" />
+              <SelectTrigger className="w-[160px] border-gray-700 bg-black/40 text-gray-200">
+                <SelectValue placeholder="Form type" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All forms</SelectItem>
@@ -111,6 +194,26 @@ const ReshabLeads = () => {
                 <SelectItem value="founder_partnership">Founder application</SelectItem>
               </SelectContent>
             </Select>
+            <Select value={tierFilter} onValueChange={setTierFilter}>
+              <SelectTrigger className="w-[140px] border-gray-700 bg-black/40 text-gray-200">
+                <SelectValue placeholder="Tier" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All tiers</SelectItem>
+                <SelectItem value="high">High</SelectItem>
+                <SelectItem value="medium">Medium</SelectItem>
+                <SelectItem value="low">Low</SelectItem>
+              </SelectContent>
+            </Select>
+            <Button
+              variant="outline"
+              onClick={() => exportLeadsCsv(filtered)}
+              disabled={filtered.length === 0}
+              className="border-gray-700 text-gray-300"
+            >
+              <Download className="mr-2 h-4 w-4" />
+              Export CSV
+            </Button>
             <Button variant="outline" asChild className="border-gray-700 text-gray-300">
               <Link to="/admin">
                 <ArrowLeft className="mr-2 h-4 w-4" />
@@ -128,6 +231,21 @@ const ReshabLeads = () => {
           </div>
         </div>
 
+        {/* Summary stats */}
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+          {[
+            { label: "Total leads", value: stats.total, accent: "text-white" },
+            { label: "High tier", value: stats.high, accent: "text-emerald-400" },
+            { label: "Medium tier", value: stats.medium, accent: "text-amber-400" },
+            { label: "Today", value: stats.today, accent: "text-cyan-400" },
+          ].map((s) => (
+            <div key={s.label} className="rounded-lg border border-white/10 bg-white/5 p-4">
+              <div className={`text-2xl font-bold ${s.accent}`}>{s.value}</div>
+              <div className="mt-1 text-xs uppercase tracking-wide text-gray-500">{s.label}</div>
+            </div>
+          ))}
+        </div>
+
         {loadError ? (
           <div className="rounded-lg border border-red-500/40 bg-red-950/30 p-6 text-red-200">
             <p className="font-medium">Could not load leads</p>
@@ -142,6 +260,10 @@ const ReshabLeads = () => {
             No leads match this filter.
           </div>
         ) : !loadError ? (
+          <>
+          <p className="text-sm text-gray-500">
+            Showing {filtered.length} of {leads.length} leads
+          </p>
           <div className="overflow-x-auto rounded-lg border border-white/10">
             <table className="w-full min-w-[920px] text-left text-sm text-gray-300">
               <thead className="border-b border-white/10 bg-black/40 text-xs uppercase tracking-wide text-gray-500">
@@ -208,6 +330,7 @@ const ReshabLeads = () => {
               </tbody>
             </table>
           </div>
+          </>
         ) : null}
       </div>
     </AdminLayout>

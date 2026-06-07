@@ -1,39 +1,12 @@
-import { CheckCircle, ArrowRight, X } from 'lucide-react';
+import { ArrowRight, X, Sparkles } from 'lucide-react';
 
 const ProblemSolution = () => {
-  const challengeSolutions = [
-    {
-      challenge: "Outdated systems slowing growth?",
-      solution: "We modernize your tech with scalable web & mobile applications."
-    },
-    {
-      challenge: "Manual processes wasting time & money?",
-      solution: "We automate workflows using AI-powered solutions that save hours every week."
-    },
-    {
-      challenge: "Competitors thriving with mobile apps while you're left behind?",
-      solution: "We build native iOS & Android apps to help you stay ahead in the market."
-    },
-    {
-      challenge: "Missing out on AI opportunities?",
-      solution: "We integrate AI chatbots, automation, and smart calling systems tailored to your business."
-    },
-    {
-      challenge: "Poor user experience losing customers?",
-      solution: "We craft intuitive UI/UX designs that keep users engaged and converting."
-    },
-    {
-      challenge: "Legacy software holding you back?",
-      solution: "We create custom SaaS & enterprise platforms that future-proof your operations."
-    },
-    {
-      challenge: "No insights to make smart decisions?",
-      solution: "We deliver advanced data analytics and BI dashboards to unlock clarity from your data."
-    },
-    {
-      challenge: "Scaling challenges with current tech?",
-      solution: "We architect flexible, scalable systems with Blockchain, AR/VR & IoT innovations."
-    }
+  const problems = [
+    "A lead fills out a form at 9pm — and sits untouched until someone notices it the next afternoon.",
+    "Your best people spend their mornings copy-pasting between five apps that don't talk to each other.",
+    "Customers ask the same five questions, and someone answers them by hand. Again.",
+    "The \"quick\" weekly report eats half a day, every single week.",
+    "And the stuff that would actually grow the business? It waits.",
   ];
 
   return (
@@ -44,65 +17,76 @@ const ProblemSolution = () => {
         <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-gradient-to-r from-cyan-400/10 to-blue-500/10 rounded-full blur-3xl"></div>
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gradient-to-r from-blue-500/10 to-cyan-400/10 rounded-full blur-3xl"></div>
       </div>
-      
+
       <div className="container mx-auto px-6 relative z-10">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-            Struggling With Technology That <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Holds Your Business Back</span>?
+            You didn't start your business to <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">babysit spreadsheets</span>.
           </h2>
           <p className="text-xl text-gray-300 max-w-4xl mx-auto">
-            We've helped 500+ businesses overcome these exact challenges with smart, AI-powered solutions.
+            But here's where the week actually goes:
           </p>
         </div>
 
-        {/* Clean stacked format */}
-        <div className="max-w-4xl mx-auto space-y-8">
-          {challengeSolutions.map((item, index) => (
-            <div 
+        {/* Problem list */}
+        <div className="max-w-4xl mx-auto space-y-6">
+          {problems.map((problem, index) => (
+            <div
               key={index}
-              className="animate-fade-in"
+              className="flex items-start space-x-3 animate-fade-in"
               style={{ animationDelay: `${index * 100}ms` }}
             >
-              {/* Challenge */}
-              <div className="flex items-start space-x-3 mb-3">
-                <X className="h-5 w-5 text-red-400/60 flex-shrink-0 mt-1" />
-                <p className="text-gray-400 text-lg font-medium">{item.challenge}</p>
-              </div>
-              
-              {/* Solution */}
-              <div className="flex items-start space-x-3 ml-8">
-                <CheckCircle className="h-6 w-6 text-green-400 flex-shrink-0 mt-1" />
-                <p className="text-white text-xl font-semibold leading-relaxed">
-                  {item.solution}
-                </p>
-              </div>
-              
-              {/* Subtle divider */}
-              {index < challengeSolutions.length - 1 && (
-                <div className="mt-8 w-full h-px bg-gradient-to-r from-transparent via-gray-700/30 to-transparent"></div>
-              )}
+              <X className="h-6 w-6 text-red-400/70 flex-shrink-0 mt-1" />
+              <p className="text-gray-300 text-lg md:text-xl leading-relaxed">{problem}</p>
             </div>
           ))}
         </div>
 
+        <div className="max-w-4xl mx-auto text-center mt-12">
+          <p className="text-lg md:text-xl text-gray-300 leading-relaxed">
+            It's not a people problem. Your team is good. It's a <span className="text-white font-semibold">systems problem</span> — and every hour lost to manual busywork is money walking out the door.
+          </p>
+          <p className="text-xl text-cyan-400 mt-4 font-medium">Sound familiar?</p>
+        </div>
+
+        {/* THE SHIFT */}
+        <div className="max-w-4xl mx-auto mt-20">
+          <div className="rounded-2xl bg-gray-900/60 backdrop-blur-sm border border-cyan-400/30 p-8 md:p-12">
+            <div className="flex items-center justify-center mb-6">
+              <div className="w-14 h-14 rounded-xl bg-cyan-500/10 text-cyan-400 border border-cyan-400/30 flex items-center justify-center">
+                <Sparkles className="h-7 w-7" />
+              </div>
+            </div>
+            <h3 className="text-3xl md:text-4xl font-bold text-white text-center mb-6">
+              Imagine the work just… happening.
+            </h3>
+            <p className="text-lg text-gray-300 leading-relaxed text-center mb-4">
+              Leads answered the moment they arrive. Data flowing between your tools without anyone touching it. Reports built before you've had your coffee. Your team focused on customers and growth instead of grunt work.
+            </p>
+            <p className="text-lg text-gray-300 leading-relaxed text-center mb-4">
+              That's not a someday fantasy. It's a few well-built automations away — and that's all we do.
+            </p>
+            <p className="text-lg text-gray-300 leading-relaxed text-center">
+              Boostmysites designs, builds, and maintains the systems that run your repetitive work for you. No fragile scripts. No "set it and forget it… until it breaks." Just dependable automation built around exactly how your business operates.
+            </p>
+          </div>
+        </div>
+
         {/* Strong CTA */}
         <div className="text-center mt-16 pt-8">
-          <p className="text-xl text-cyan-400 mb-6 font-medium">
-            If you're facing any of these challenges, let's solve them together.
-          </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a 
+            <a
               href="#contact-form"
               className="inline-flex items-center space-x-2 px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-xl font-semibold hover:from-cyan-400 hover:to-blue-500 transition-all duration-300 transform hover:scale-105"
             >
-              <span>Get Free Consultation</span>
+              <span>Get My Free Automation Audit</span>
               <ArrowRight className="h-5 w-5" />
             </a>
-            <a 
-              href="#contact-form"
+            <a
+              href="#how-it-works"
               className="inline-flex items-center space-x-2 px-8 py-4 border border-cyan-400/30 text-white rounded-xl font-semibold hover:bg-cyan-500/10 transition-all duration-300"
             >
-              <span>Schedule a Call</span>
+              <span>See How It Works</span>
               <ArrowRight className="h-5 w-5" />
             </a>
           </div>

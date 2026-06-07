@@ -20,7 +20,7 @@ export function TrustedTicker() {
   const reel = [...logos, ...logos];
 
   return (
-    <div className="absolute bottom-5 left-1/2 -translate-x-1/2 w-[95%] max-w-[1100px] flex items-center gap-5 overflow-hidden z-[5]">
+    <div className="relative mt-10 mx-auto w-full xl:absolute xl:bottom-5 xl:left-1/2 xl:-translate-x-1/2 xl:mt-0 xl:w-[95%] max-w-[1100px] flex items-center gap-5 overflow-hidden z-[5]">
       <span className="text-sm font-normal -tracking-[0.01em] text-white/70 whitespace-nowrap shrink-0">
         Trusted by 500+ teams across 56+ cities
       </span>

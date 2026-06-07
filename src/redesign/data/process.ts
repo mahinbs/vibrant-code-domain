@@ -7,26 +7,26 @@ export type ProcessStep = {
 export const processSteps: ProcessStep[] = [
   {
     number: "01",
-    title: "Discover",
+    title: "Free automation audit",
     description:
-      "Free consultation, scope mapping, and a written proposal in 24 hours.",
+      "We map your workflows and find where time and money leak. You keep the plan either way.",
   },
   {
     number: "02",
-    title: "Design",
+    title: "We build it",
     description:
-      "Wireframes, UI, and clickable prototypes you can poke holes in early.",
+      "Our team designs and builds your automations around your existing tools — hands-off for you.",
   },
   {
     number: "03",
-    title: "Build",
+    title: "Go live",
     description:
-      "Weekly demos, transparent sprints, and code you fully own at the end.",
+      "Everything ships, gets tested against real work, and starts running quietly in the background.",
   },
   {
     number: "04",
-    title: "Launch & support",
+    title: "We maintain it",
     description:
-      "Production launch, analytics wired in, and 24/7 support after go-live.",
+      "We monitor, fix, and improve as you grow. You just enjoy the time back.",
   },
 ];

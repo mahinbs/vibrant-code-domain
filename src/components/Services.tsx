@@ -1,9 +1,10 @@
 import {
-  Code,
-  Smartphone,
-  Cloud,
-  Brain,
-  Zap,
+  Filter,
+  Bot,
+  FileText,
+  Users,
+  BarChart3,
+  Workflow,
   ChevronDown,
   Clock,
 } from "lucide-react";
@@ -16,113 +17,129 @@ const Services = () => {
 
   const services = [
     {
-      id: "web-apps",
-      icon: Code,
-      title: "Web Applications",
-      description:
-        "Custom web applications built with cutting-edge technologies and responsive design.",
+      id: "lead-capture",
+      icon: Filter,
+      title: "Lead Capture & Qualification",
+      description: "Never let a hot lead go cold.",
       detailedDescription:
-        "Full-stack web applications built with React, Node.js, and modern frameworks. We create scalable, secure, and high-performance solutions tailored to your business needs.",
+        "We capture leads from every channel — forms, ads, DMs, email — then score, tag, and route them in seconds. Your team wakes up to a sorted pipeline instead of a chaotic inbox. Faster response = more deals closed.",
       image:
-        "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       features: [
-        "React & Next.js",
-        "Real-time Features",
-        "Cloud Integration",
-        "Progressive Web Apps",
+        "Capture from forms, ads, DMs & email",
+        "Instant lead scoring & tagging",
+        "Automatic routing to the right rep",
+        "Faster response, more deals closed",
       ],
-      technologies: ["TypeScript", "Tailwind CSS", "Node.js", "PostgreSQL"],
-      startingPrice: 5000,
-      timeline: "4-12 weeks",
+      technologies: ["Zapier", "Make", "HubSpot", "Webhooks"],
+      startingPrice: 0,
+      timeline: "Live in ~2 weeks",
       color: "cyan",
-      route: "/web-apps",
+      route: "/ai-automation",
     },
     {
-      id: "saas",
-      icon: Cloud,
-      title: "SAAS Solutions",
-      description:
-        "Scalable software-as-a-service platforms with subscription management and analytics.",
+      id: "ai-support",
+      icon: Bot,
+      title: "AI Customer Support",
+      description: "Answer instantly, around the clock.",
       detailedDescription:
-        "Complete SAAS platforms with multi-tenancy, payment processing, analytics dashboards, and user management. Built for scale and optimized for recurring revenue.",
-      image:
-        "https://images.unsplash.com/photo-1531297484001-80022131f5a1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      features: [
-        "Multi-tenant Architecture",
-        "Payment Integration",
-        "Analytics Dashboard",
-        "API Management",
-      ],
-      technologies: ["React", "Stripe", "AWS", "Redis"],
-      startingPrice: 15000,
-      timeline: "8-16 weeks",
-      color: "blue",
-      route: "/saas",
-    },
-    {
-      id: "mobile-apps",
-      icon: Smartphone,
-      title: "Mobile Applications",
-      description:
-        "Native and cross-platform mobile apps with intuitive user experiences.",
-      detailedDescription:
-        "iOS and Android applications built with React Native or native technologies. Focus on performance, user experience, and app store optimization.",
-      image:
-        "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      features: [
-        "iOS & Android",
-        "Cross-platform",
-        "App Store Optimization",
-        "Push Notifications",
-      ],
-      technologies: ["React Native", "Swift", "Kotlin", "Firebase"],
-      startingPrice: 10000,
-      timeline: "6-14 weeks",
-      color: "purple",
-      route: "/mobile-apps",
-    },
-    {
-      id: "ai-calling",
-      icon: Brain,
-      title: "AI Calling Agency",
-      description:
-        "Intelligent call automation systems with natural language processing capabilities.",
-      detailedDescription:
-        "Advanced AI-powered calling systems for lead generation, customer support, and sales automation. Featuring voice AI, sentiment analysis, and CRM integration.",
+        "A custom-trained assistant resolves the common questions, drafts replies, and hands the tricky ones to a human with full context attached. Lower support costs, faster answers, happier customers.",
       image:
         "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       features: [
-        "Voice AI",
-        "Call Analytics",
-        "Lead Generation",
-        "CRM Integration",
+        "Custom-trained on your business",
+        "Resolves common questions 24/7",
+        "Smart handoff to humans with context",
+        "Lower support costs, happier customers",
       ],
-      technologies: ["OpenAI", "Twilio", "Python", "TensorFlow"],
-      startingPrice: 8000,
-      timeline: "6-10 weeks",
-      color: "pink",
-      route: "/ai-calling",
+      technologies: ["OpenAI", "RAG", "Intercom", "Zendesk"],
+      startingPrice: 0,
+      timeline: "Live in ~2-3 weeks",
+      color: "blue",
+      route: "/chatbot-development",
     },
     {
-      id: "ai-automation",
-      icon: Zap,
-      title: "AI Automation",
-      description:
-        "Custom AI solutions to automate workflows and enhance business processes.",
+      id: "doc-processing",
+      icon: FileText,
+      title: "Document & Data Processing",
+      description: "Stop typing what a machine can read.",
       detailedDescription:
-        "Intelligent automation solutions using machine learning and AI to streamline operations, reduce costs, and improve efficiency across your organization.",
+        "Invoices, contracts, receipts, intake forms — we extract the data, validate it, and push it into your systems automatically. Hours of manual entry become a few error-free seconds.",
+      image:
+        "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      features: [
+        "Extract data from any document",
+        "Automatic validation checks",
+        "Pushed straight into your systems",
+        "Hours of entry become seconds",
+      ],
+      technologies: ["OCR", "Document AI", "Python", "APIs"],
+      startingPrice: 0,
+      timeline: "Live in ~2-4 weeks",
+      color: "purple",
+      route: "/ai-automation",
+    },
+    {
+      id: "crm-automation",
+      icon: Users,
+      title: "CRM & Sales Pipeline Automation",
+      description: "Your CRM updates itself.",
+      detailedDescription:
+        "Every call, email, and stage logged automatically. Follow-ups triggered on time, every time. Turn the CRM your reps avoid into the system that closes deals.",
+      image:
+        "https://images.unsplash.com/photo-1531297484001-80022131f5a1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      features: [
+        "Auto-logged calls, emails & stages",
+        "Follow-ups triggered on time",
+        "No more manual data entry",
+        "A CRM your reps actually use",
+      ],
+      technologies: ["HubSpot", "Salesforce", "Pipedrive", "Make"],
+      startingPrice: 0,
+      timeline: "Live in ~2-3 weeks",
+      color: "pink",
+      route: "/ai-automation",
+    },
+    {
+      id: "reporting",
+      icon: BarChart3,
+      title: "Reporting & Live Dashboards",
+      description: "Decisions backed by numbers, not guesses.",
+      detailedDescription:
+        "We pull data from all your tools into one live dashboard that updates itself. The report that ate half your week now builds itself before Monday's meeting.",
+      image:
+        "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      features: [
+        "All your tools in one dashboard",
+        "Updates itself in real time",
+        "No more half-day report builds",
+        "Ready before Monday's meeting",
+      ],
+      technologies: ["Looker Studio", "Power BI", "BigQuery", "APIs"],
+      startingPrice: 0,
+      timeline: "Live in ~2-3 weeks",
+      color: "green",
+      route: "/data-analytics",
+    },
+    {
+      id: "internal-workflow",
+      icon: Workflow,
+      title: "Internal Workflow Automation",
+      description: "Connect the tools that don't talk to each other.",
+      detailedDescription:
+        "Approvals, handoffs, onboarding, notifications — wired together so work moves from step to step without anyone chasing it. Less pinging. More shipping.",
       image:
         "https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
       features: [
-        "Process Automation",
-        "Machine Learning",
-        "Data Analytics",
-        "Workflow Integration",
+        "Approvals & handoffs on autopilot",
+        "Onboarding & notifications wired up",
+        "Work moves without anyone chasing it",
+        "Less pinging, more shipping",
       ],
-      technologies: ["Python", "TensorFlow", "AWS Lambda", "Zapier"],
-      startingPrice: 12000,
-      timeline: "8-12 weeks",
-      color: "green",
+      technologies: ["Make", "Zapier", "n8n", "Slack API"],
+      startingPrice: 0,
+      timeline: "Live in ~2-4 weeks",
+      color: "orange",
       route: "/ai-automation",
     },
   ];
@@ -172,6 +189,15 @@ const Services = () => {
       button:
         "bg-green-500/20 border-green-400/30 text-green-400 hover:bg-green-500/30",
       tag: "bg-green-500/20 text-green-300 border-green-500/30",
+    },
+    orange: {
+      border: "border-orange-400/30",
+      gradient: "from-orange-400/10 to-orange-600/10",
+      icon: "bg-orange-500/10 text-orange-400 border-orange-400/30",
+      text: "text-orange-400",
+      button:
+        "bg-orange-500/20 border-orange-400/30 text-orange-400 hover:bg-orange-500/30",
+      tag: "bg-orange-500/20 text-orange-300 border-orange-500/30",
     },
   };
 
@@ -232,13 +258,13 @@ const Services = () => {
             </p>
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4 px-4">
-            Our Premium{" "}
+            What We{" "}
             <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
-              Services
+              Automate
             </span>
           </h2>
           <p className="text-lg sm:text-xl text-gray-300 max-w-3xl mx-auto px-4">
-            Discover the cutting-edge solutions that make industry leaders trust us with their most critical projects
+            The repetitive, time-draining work your team shouldn't be doing by hand — handled quietly and accurately in the background
           </p>
         </div>
 
@@ -369,7 +395,7 @@ const Services = () => {
                           <button
                             className={`flex-1 inline-flex items-center justify-center px-4 py-3 rounded-xl ${colors.button} border font-medium transition-all duration-300 text-sm sm:text-base`}
                           >
-                            Book Free Demo
+                            Get My Free Audit
                           </button>
                           <div className="text-center">
                             <span className="px-4 py-2 bg-gray-800/50 border border-gray-600 rounded-lg text-sm text-gray-300">
@@ -516,7 +542,7 @@ const Services = () => {
                             <button
                               className={`inline-flex items-center justify-center px-6 py-3 rounded-xl ${colors.button} border font-medium transition-all duration-300`}
                             >
-                              Book Free Demo
+                              Get My Free Audit
                             </button>
                             <div className="text-center">
                               <span className="px-4 py-2 bg-gray-800/50 border border-gray-600 rounded-lg text-sm text-gray-300">
@@ -540,14 +566,14 @@ const Services = () => {
             to="/services"
             className="inline-flex items-center space-x-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl hover:from-cyan-400 hover:to-blue-500 transition-all duration-300 font-medium shadow-lg hover:shadow-cyan-500/25 transform hover:scale-105 group"
           >
-            <span className="text-base sm:text-lg">View All Services</span>
+            <span className="text-base sm:text-lg">Explore All Automations</span>
             <div className="flex items-center space-x-1 group-hover:translate-x-1 transition-transform">
-              <span className="text-xs sm:text-sm bg-white/20 px-2 py-1 rounded-full">14+ Services</span>
+              <span className="text-xs sm:text-sm bg-white/20 px-2 py-1 rounded-full">Custom-built</span>
               <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
             </div>
           </Link>
           <p className="text-gray-400 mt-4 text-sm px-4">
-            Discover our complete range of development and AI solutions
+            Not sure where to start? The free audit pinpoints your highest-impact automation first.
           </p>
         </div>
       </div>

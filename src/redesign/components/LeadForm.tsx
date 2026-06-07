@@ -17,21 +17,61 @@ export type LeadFormProps = {
   serviceModal?: { id: string; title: string };
 };
 
-const STEP_THEMES = [
+/** Country dial codes with flags for the phone field (India default). */
+const COUNTRIES = [
+  { code: "IN", flag: "🇮🇳", dial: "+91", name: "India" },
+  { code: "US", flag: "🇺🇸", dial: "+1", name: "United States" },
+  { code: "GB", flag: "🇬🇧", dial: "+44", name: "United Kingdom" },
+  { code: "AE", flag: "🇦🇪", dial: "+971", name: "UAE" },
+  { code: "CA", flag: "🇨🇦", dial: "+1", name: "Canada" },
+  { code: "AU", flag: "🇦🇺", dial: "+61", name: "Australia" },
+  { code: "SG", flag: "🇸🇬", dial: "+65", name: "Singapore" },
+  { code: "DE", flag: "🇩🇪", dial: "+49", name: "Germany" },
+  { code: "FR", flag: "🇫🇷", dial: "+33", name: "France" },
+  { code: "SA", flag: "🇸🇦", dial: "+966", name: "Saudi Arabia" },
+  { code: "ZA", flag: "🇿🇦", dial: "+27", name: "South Africa" },
+  { code: "NG", flag: "🇳🇬", dial: "+234", name: "Nigeria" },
+] as const;
+const DEFAULT_COUNTRY = "IN";
+const dialFor = (code: string) =>
+  COUNTRIES.find((c) => c.code === code)?.dial ?? "+91";
+
+const STEP_THEMES_AUTOMATION = [
+  "Business context",
+  "Where the time goes",
+  "Scope & audit",
+] as const;
+const STEP_THEMES_VERTICAL = [
   "Business context",
   "Technical & compliance needs",
   "Investment & consultation",
 ] as const;
 
 const INDUSTRY_OPTIONS = [
-  { value: "fintech", label: "Fintech" },
+  { value: "ecommerce", label: "E-commerce / Retail" },
+  { value: "saas", label: "SaaS / Tech" },
+  { value: "agency", label: "Agency / Marketing" },
+  { value: "real-estate", label: "Real Estate" },
+  { value: "fintech", label: "Finance / Fintech" },
   { value: "healthcare", label: "Healthcare" },
-  { value: "saas", label: "SaaS" },
-  { value: "ai-product", label: "AI Product" },
-  { value: "marketplace", label: "Marketplace" },
+  { value: "logistics", label: "Logistics / Supply Chain" },
+  { value: "professional-services", label: "Professional Services" },
   { value: "other", label: "Other" },
 ] as const;
 
+/** Automation services (homepage / vertical="none"). */
+const AUTOMATE_OPTIONS = [
+  { value: "lead-capture", label: "Lead capture & qualification" },
+  { value: "crm-sales", label: "CRM & sales pipeline" },
+  { value: "ai-support", label: "AI customer support" },
+  { value: "doc-data", label: "Document & data processing" },
+  { value: "reporting", label: "Reporting & dashboards" },
+  { value: "internal-workflow", label: "Internal workflows" },
+  { value: "ai-automation", label: "General AI / workflow automation" },
+  { value: "custom-software", label: "Something else" },
+] as const;
+
+/** Legacy build options kept for the fintech / healthcare landing pages. */
 const WHAT_BUILDING_ALL = [
   { value: "trading-platform", label: "Trading Platform" },
   { value: "payment-system", label: "Payment System" },
@@ -61,11 +101,25 @@ const PROJECT_STAGE_OPTIONS = [
   { value: "rebuilding", label: "Rebuilding Current System" },
 ] as const;
 
+const AUTOMATION_STAGE_OPTIONS = [
+  { value: "all-manual", label: "Mostly manual right now" },
+  { value: "some-tools", label: "Some tools, not connected" },
+  { value: "few-automations", label: "A few automations already" },
+  { value: "scaling", label: "Scaling what works" },
+] as const;
+
 const USER_SCALE_OPTIONS = [
   { value: "under-1k", label: "Under 1,000 users" },
   { value: "1k-10k", label: "1K–10K users" },
   { value: "10k-100k", label: "10K–100K users" },
   { value: "100k-plus", label: "100K+ users" },
+] as const;
+
+const TEAM_SIZE_OPTIONS = [
+  { value: "1-5", label: "1–5 people" },
+  { value: "6-20", label: "6–20 people" },
+  { value: "21-50", label: "21–50 people" },
+  { value: "50-plus", label: "50+ people" },
 ] as const;
 
 const COMPLIANCE_OPTIONS = [
@@ -76,6 +130,17 @@ const COMPLIANCE_OPTIONS = [
   { value: "encryption", label: "Data Encryption" },
   { value: "hipaa-gdpr", label: "HIPAA/GDPR Readiness" },
   { value: "need-guidance", label: "Need Guidance" },
+] as const;
+
+/** What's eating the team's time (automation flow). */
+const TIMESINK_OPTIONS = [
+  { value: "manual-data-entry", label: "Manual data entry" },
+  { value: "lead-followup", label: "Lead follow-up & chasing" },
+  { value: "repetitive-support", label: "Answering repetitive questions" },
+  { value: "reporting", label: "Building reports" },
+  { value: "app-switching", label: "Copy-paste between apps" },
+  { value: "approvals", label: "Approvals & handoffs" },
+  { value: "scheduling", label: "Scheduling & reminders" },
 ] as const;
 
 const TIMELINE_OPTIONS = [
@@ -113,6 +178,18 @@ const TECH_CHALLENGE_OPTIONS = [
   { value: "vendor", label: "Vendor Reliability" },
   { value: "ai-integration", label: "AI Integration" },
   { value: "unsure", label: "Unsure" },
+] as const;
+
+/** Biggest bottleneck (automation flow). */
+const AUTOMATION_CHALLENGE_OPTIONS = [
+  { value: "", label: "Prefer not to say" },
+  { value: "too-much-manual", label: "Too much manual work" },
+  { value: "disconnected-tools", label: "Tools don't talk to each other" },
+  { value: "slow-leads", label: "Slow lead response" },
+  { value: "support-overload", label: "Customer support overload" },
+  { value: "reporting-slow", label: "Reporting takes forever" },
+  { value: "data-errors", label: "Data entry errors" },
+  { value: "unsure", label: "Not sure where to start" },
 ] as const;
 
 type FormState = {
@@ -183,14 +260,35 @@ export function LeadForm({
   const [errors, setErrors] = useState<FieldErrors>({});
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [serverError, setServerError] = useState<string | null>(null);
+  const [countryCode, setCountryCode] = useState<string>(DEFAULT_COUNTRY);
+  const [nationalNumber, setNationalNumber] = useState<string>("");
+
+  const isAutomation = vertical === "none";
 
   const whatBuildingOptions = useMemo(() => {
     if (vertical === "fintech") return [...WHAT_BUILDING_FINTECH];
     if (vertical === "healthcare") return [...WHAT_BUILDING_HEALTHCARE];
-    return [...WHAT_BUILDING_ALL];
+    return [...AUTOMATE_OPTIONS];
   }, [vertical]);
 
+  const stageOptions = isAutomation ? AUTOMATION_STAGE_OPTIONS : PROJECT_STAGE_OPTIONS;
+  const scaleOptions = isAutomation ? TEAM_SIZE_OPTIONS : USER_SCALE_OPTIONS;
+  const step2MultiOptions = isAutomation ? TIMESINK_OPTIONS : COMPLIANCE_OPTIONS;
+  const challengeOptions = isAutomation ? AUTOMATION_CHALLENGE_OPTIONS : TECH_CHALLENGE_OPTIONS;
+  const stepThemes = isAutomation ? STEP_THEMES_AUTOMATION : STEP_THEMES_VERTICAL;
+
   const industryLocked = false;
+
+  function setPhone(code: string, number: string) {
+    const cleaned = number.replace(/[^\d]/g, "");
+    setNationalNumber(cleaned);
+    setCountryCode(code);
+    setValues((prev) => ({
+      ...prev,
+      phone: cleaned ? `${dialFor(code)} ${cleaned}` : "",
+    }));
+    if (errors.phone) setErrors((er) => ({ ...er, phone: undefined }));
+  }
 
   const onChange =
     (key: keyof FormState) =>
@@ -268,6 +366,8 @@ export function LeadForm({
       }
       setStatus("success");
       setValues(emptyForm(vertical, initialWhatBuildingValue));
+      setCountryCode(DEFAULT_COUNTRY);
+      setNationalNumber("");
       setStep(1);
     } else {
       setStatus("error");
@@ -289,8 +389,13 @@ export function LeadForm({
     );
   }
 
-  const stepHeadline =
-    step === 1
+  const stepHeadline = isAutomation
+    ? step === 1
+      ? "Tell us about your business"
+      : step === 2
+        ? "Where the time goes"
+        : "Scope & your free audit"
+    : step === 1
       ? "Tell us about your product"
       : step === 2
         ? "Project requirements"
@@ -304,7 +409,7 @@ export function LeadForm({
     >
       <div className="mb-1 flex items-center justify-between text-[12px] text-white/65">
         <span>
-          Step {step} of 3 · {STEP_THEMES[step - 1]}
+          Step {step} of 3 · {stepThemes[step - 1]}
         </span>
         <span>{Math.round((step / 3) * 100)}% complete</span>
       </div>
@@ -340,15 +445,12 @@ export function LeadForm({
               autoComplete="email"
             />
           </div>
-          <Field
-            id="phone"
-            type="tel"
-            label="WhatsApp number *"
-            value={values.phone}
-            onChange={onChange("phone")}
+          <PhoneField
+            countryCode={countryCode}
+            nationalNumber={nationalNumber}
+            onCountryChange={(code) => setPhone(code, nationalNumber)}
+            onNumberChange={(num) => setPhone(countryCode, num)}
             error={errors.phone}
-            placeholder="+91 90000 00000"
-            autoComplete="tel"
           />
           <SelectFieldStr
             id="industry"
@@ -361,7 +463,7 @@ export function LeadForm({
           />
           <SelectFieldStr
             id="whatBuilding"
-            label="What are you building? *"
+            label={isAutomation ? "What do you want to automate? *" : "What are you building? *"}
             value={values.whatBuilding}
             onChange={onSelectChange("whatBuilding")}
             error={errors.whatBuilding}
@@ -370,11 +472,11 @@ export function LeadForm({
           />
           <SelectFieldStr
             id="projectStage"
-            label="Project stage *"
+            label={isAutomation ? "Where are you today? *" : "Project stage *"}
             value={values.projectStage}
             onChange={onSelectChange("projectStage")}
             error={errors.projectStage}
-            options={[...PROJECT_STAGE_OPTIONS]}
+            options={[...stageOptions]}
           />
         </>
       ) : null}
@@ -383,19 +485,21 @@ export function LeadForm({
         <>
           <SelectFieldStr
             id="userScale"
-            label="Expected user scale *"
+            label={isAutomation ? "How many people do this work? *" : "Expected user scale *"}
             value={values.userScale}
             onChange={onSelectChange("userScale")}
             error={errors.userScale}
-            options={[...USER_SCALE_OPTIONS]}
+            options={[...scaleOptions]}
           />
           <div className="flex flex-col gap-2">
             <span className="text-[12px] font-medium text-white/70">
-              Compliance / security needs (select all that apply)
+              {isAutomation
+                ? "Where is your team losing the most time? (select all)"
+                : "Compliance / security needs (select all that apply)"}
             </span>
             <div className="rounded-lg border border-white/15 bg-black/40 p-3 backdrop-blur-[5px]">
               <div className="flex flex-col gap-2.5">
-                {COMPLIANCE_OPTIONS.map((opt) => (
+                {step2MultiOptions.map((opt) => (
                   <label
                     key={opt.value}
                     className="flex cursor-pointer items-center gap-2 text-[13px] text-white/85"
@@ -426,12 +530,13 @@ export function LeadForm({
       {step === 3 ? (
         <>
           <p className="text-[13px] leading-relaxed text-white/65">
-            Most regulated fintech and healthcare platforms require security-first architecture,
-            compliance workflows, and scalable infrastructure planning.
+            {isAutomation
+              ? "Tell us your budget range so we can prioritise the automations with the fastest payback. Most clients start with one high-impact workflow and expand."
+              : "Most regulated fintech and healthcare platforms require security-first architecture, compliance workflows, and scalable infrastructure planning."}
           </p>
           <SelectFieldStr
             id="budgetInr"
-            label="Estimated budget (INR) *"
+            label={isAutomation ? "Automation budget (INR) *" : "Estimated budget (INR) *"}
             value={values.budgetInr}
             onChange={onSelectChange("budgetInr")}
             error={errors.budgetInr}
@@ -439,7 +544,7 @@ export function LeadForm({
           />
           <SelectFieldStr
             id="decisionRole"
-            label="Decision-making role *"
+            label="Your role *"
             value={values.decisionRole}
             onChange={onSelectChange("decisionRole")}
             error={errors.decisionRole}
@@ -447,10 +552,10 @@ export function LeadForm({
           />
           <SelectFieldStr
             id="technicalChallenge"
-            label="What is your biggest technical challenge right now? (optional)"
+            label={isAutomation ? "Biggest bottleneck right now? (optional)" : "What is your biggest technical challenge right now? (optional)"}
             value={values.technicalChallenge}
             onChange={onSelectChange("technicalChallenge")}
-            options={[...TECH_CHALLENGE_OPTIONS]}
+            options={[...challengeOptions]}
           />
         </>
       ) : null}
@@ -482,7 +587,11 @@ export function LeadForm({
             className="btn-gloss relative inline-flex flex-1 items-center justify-center gap-2 overflow-hidden rounded-[10px] border border-white/20 bg-purple/70 px-5 py-[15px] text-sm font-medium text-white shadow-[inset_0_0_6px_3px_rgba(255,255,255,0.2)] transition-opacity disabled:opacity-60"
           >
             <span className="relative z-[2]">
-              {status === "submitting" ? "Submitting..." : "Request technical consultation"}
+              {status === "submitting"
+                ? "Submitting..."
+                : isAutomation
+                  ? "Get my free automation audit"
+                  : "Request technical consultation"}
             </span>
           </button>
         )}
@@ -526,6 +635,59 @@ function Field({ id, label, value, onChange, error, placeholder, type = "text", 
         placeholder={placeholder}
         className={`${baseClass} ${borderClass}`}
       />
+      {error ? <span className="text-[12px] text-red-300/90">{error}</span> : null}
+    </div>
+  );
+}
+
+type PhoneFieldProps = {
+  countryCode: string;
+  nationalNumber: string;
+  onCountryChange: (code: string) => void;
+  onNumberChange: (num: string) => void;
+  error?: string;
+};
+
+function PhoneField({
+  countryCode,
+  nationalNumber,
+  onCountryChange,
+  onNumberChange,
+  error,
+}: PhoneFieldProps) {
+  const borderClass = error ? "border-red-400/60" : "border-white/15";
+  return (
+    <div className="flex flex-col gap-1.5">
+      <label htmlFor="phone" className="text-[12px] font-medium text-white/70">
+        WhatsApp number *
+      </label>
+      <div
+        className={`flex items-stretch overflow-hidden rounded-lg border ${borderClass} bg-black/40 backdrop-blur-[5px] transition-colors focus-within:border-white/40`}
+      >
+        <select
+          aria-label="Country code"
+          value={countryCode}
+          onChange={(e) => onCountryChange(e.target.value)}
+          className="shrink-0 border-r border-white/15 bg-black/40 px-2.5 text-sm text-white focus:outline-none"
+        >
+          {COUNTRIES.map((c) => (
+            <option key={c.code} value={c.code} className="bg-[#0b1020] text-white">
+              {c.flag} {c.dial}
+            </option>
+          ))}
+        </select>
+        <input
+          id="phone"
+          name="phone"
+          type="tel"
+          inputMode="tel"
+          autoComplete="tel-national"
+          value={nationalNumber}
+          onChange={(e) => onNumberChange(e.target.value)}
+          placeholder="96329 53355"
+          className="w-full bg-transparent p-3.5 text-sm text-white placeholder:text-white/40 focus:outline-none"
+        />
+      </div>
       {error ? <span className="text-[12px] text-red-300/90">{error}</span> : null}
     </div>
   );

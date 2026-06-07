@@ -1,24 +1,31 @@
-const ADMIN_CREDENTIALS = {
-  id: 'webadmin_2024_secure',
-  password: 'W3b$ecur3!2024#Admin'
-};
+import { supabase } from "@/integrations/supabase/client";
 
-const AUTH_KEY = 'admin_authenticated';
-
+/**
+ * Admin authentication backed by Supabase Auth (email + password).
+ * Replaces the old hard-coded client-side credentials. Access to admin data
+ * (e.g. reshab_leads SELECT) is gated by RLS requiring an authenticated session.
+ */
 export const adminAuth = {
-  login: (id: string, password: string): boolean => {
-    if (id === ADMIN_CREDENTIALS.id && password === ADMIN_CREDENTIALS.password) {
-      localStorage.setItem(AUTH_KEY, 'true');
-      return true;
-    }
-    return false;
+  async login(email: string, password: string): Promise<{ ok: boolean; error?: string }> {
+    const { error } = await supabase.auth.signInWithPassword({
+      email: email.trim(),
+      password,
+    });
+    if (error) return { ok: false, error: error.message };
+    return { ok: true };
   },
 
-  logout: (): void => {
-    localStorage.removeItem(AUTH_KEY);
+  async logout(): Promise<void> {
+    await supabase.auth.signOut();
   },
 
-  isAuthenticated: (): boolean => {
-    return localStorage.getItem(AUTH_KEY) === 'true';
-  }
+  async isAuthenticated(): Promise<boolean> {
+    const { data } = await supabase.auth.getSession();
+    return !!data.session;
+  },
+
+  async getEmail(): Promise<string | null> {
+    const { data } = await supabase.auth.getSession();
+    return data.session?.user?.email ?? null;
+  },
 };

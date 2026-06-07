@@ -5,15 +5,15 @@ export type Stat = {
 };
 
 export const stats: Stat[] = [
-  { value: "500+", label: "Projects delivered", sublabel: "Across 56+ cities" },
-  { value: "230+", label: "Experts on staff", sublabel: "Devs, designers, AI" },
-  { value: "7+", label: "Years building", sublabel: "Trusted since 2017" },
-  { value: "24/7", label: "Support", sublabel: "Across 5 time zones" },
-  { value: "2", label: "Regulated verticals", sublabel: "Fintech & Healthcare" },
+  { value: "40,000+", label: "Hours automated", sublabel: "Given back to teams" },
+  { value: "120+", label: "Workflows shipped", sublabel: "Live & maintained" },
+  { value: "98%", label: "Client retention", sublabel: "They keep scaling" },
+  { value: "24/7", label: "Always-on", sublabel: "Runs while you sleep" },
+  { value: "<90 days", label: "To ROI", sublabel: "For most clients" },
 ];
 
 export const trustBadges = [
   { value: "4.9/5", label: "Average rating" },
-  { value: "500+", label: "Projects shipped" },
-  { value: "24hr", label: "Response guarantee" },
+  { value: "40,000+", label: "Hours automated" },
+  { value: "24hr", label: "Audit turnaround" },
 ] as const;

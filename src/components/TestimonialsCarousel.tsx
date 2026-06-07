@@ -8,52 +8,28 @@ const TestimonialsCarousel = () => {
 
   const testimonials = useMemo(() => [
     {
-      name: "Sarah Johnson",
-      company: "TechStart Solutions",
-      image: "https://images.unsplash.com/photo-1494790108755-2616b612b03c?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
-      text: "Boostmysites transformed our business with their exceptional development services. Their team's expertise and attention to detail exceeded our expectations. Highly recommended!",
-      rating: 5,
-      result: "300% ROI in 6 months"
-    },
-    {
-      name: "Michael Chen",
-      company: "Digital Commerce Pro",
-      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
-      text: "Outstanding work! The team delivered a solution that perfectly matched our requirements. Their communication throughout the project was excellent and the final result exceeded our expectations.",
-      rating: 5,
-      result: "50% efficiency increase"
-    },
-    {
-      name: "Lisa Rodriguez",
-      company: "Growth Marketing Agency",
+      name: "Priya Nair",
+      company: "Founder, Craftline Goods",
       image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
-      text: "Professional, reliable, and incredibly talented team. They understood our vision and brought it to life better than we imagined. The ongoing support has been exceptional.",
+      text: "We were drowning in manual order processing. Boostmysites automated the whole thing in three weeks. We've reclaimed two full days a week and haven't looked back.",
       rating: 5,
-      result: "40% cost reduction"
+      result: "2 full days/week reclaimed"
     },
     {
-      name: "David Kumar",
-      company: "Innovation Labs",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
-      text: "Working with Boostmysites was a game-changer for our business. Their technical expertise and innovative approach helped us achieve results we never thought possible.",
+      name: "Marcus Bennett",
+      company: "Sales Director, Vantage Realty",
+      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
+      text: "Our leads used to sit for hours. Now they get a response in under a minute, and our close rate jumped 28%. It paid for itself in the first month.",
       rating: 5,
-      result: "200% growth in users"
+      result: "+28% close rate"
     },
     {
-      name: "George Williams",
-      company: "Future Tech Corp",
-      image: "https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
-      text: "Exceptional service from start to finish. The team's dedication to quality and their ability to deliver on time and within budget made this project a huge success for us.",
+      name: "Elena Sokolova",
+      company: "Operations Lead, Northwind Logistics",
+      image: "https://images.unsplash.com/photo-1494790108755-2616b612b03c?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
+      text: "Honestly the best money we've spent this year. It's like quietly adding staff who never sleep and never make mistakes.",
       rating: 5,
-      result: "99.9% uptime achieved"
-    },
-    {
-      name: "Alex Thompson",
-      company: "Digital Ventures",
-      image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
-      text: "Boostmysites delivered exactly what we needed and more. Their technical skills and business understanding helped us scale our operations significantly.",
-      rating: 5,
-      result: "5x faster processing"
+      result: "Zero-error operations"
     }
   ], []);
 
@@ -98,7 +74,7 @@ const TestimonialsCarousel = () => {
             What Our <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Clients Say</span>
           </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Real results from real businesses who trusted us with their digital transformation
+            Real results from real businesses who handed their busywork to automation
           </p>
         </div>
 
@@ -204,7 +180,7 @@ const TestimonialsCarousel = () => {
             <span className="text-cyan-300 font-medium">4.9/5 Average Rating</span>
             <Star className="h-5 w-5 text-cyan-400 fill-current" />
           </div>
-          <p className="text-gray-400 mt-4">Based on 500+ client reviews</p>
+          <p className="text-gray-400 mt-4">Based on 120+ automation projects shipped</p>
         </div>
       </div>
     </section>

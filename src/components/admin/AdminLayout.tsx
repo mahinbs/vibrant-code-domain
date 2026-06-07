@@ -17,6 +17,7 @@ import {
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
+import { adminAuth } from "@/services/adminAuth";
 
 interface AdminLayoutProps {
   children: ReactNode;
@@ -47,8 +48,8 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
     // { name: "Link Generator", href: "/admin/link-generator", icon: Link2 },
   ];
 
-  const handleLogout = () => {
-    localStorage.removeItem("isAdminAuthenticated");
+  const handleLogout = async () => {
+    await adminAuth.logout();
     window.location.href = "/admin/login";
   };
 

@@ -1,14 +1,23 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { services } from "../data/services";
 import { site, whatsappHref } from "../data/site";
 import { workUrl } from "../lib/mainSiteWorkUrl";
+import { caseStudyPath, getCaseStudyByServiceId } from "../data/automationCaseStudies";
 import { LeadForm } from "./LeadForm";
 import { ArrowRightIcon, CheckIcon, OrbIcon, WhatsAppIcon } from "./icons";
 import { serviceIconMap } from "./serviceIconMap";
 
 function mapServiceIdToWhatBuilding(serviceId: string): string {
-  if (serviceId === "ai-automation" || serviceId === "ai-calling") return "ai-automation";
-  return "custom-software";
+  const map: Record<string, string> = {
+    web: "lead-capture",
+    saas: "crm-sales",
+    mobile: "internal-workflow",
+    "ai-calling": "ai-support",
+    "ai-automation": "doc-data",
+    design: "reporting",
+  };
+  return map[serviceId] ?? "ai-automation";
 }
 
 export function Services() {
@@ -51,16 +60,16 @@ export function Services() {
             color: "transparent",
           }}
         >
-          WHAT WE BUILD
+          WHAT WE AUTOMATE
         </p>
 
         <div className="relative z-[2] ml-auto flex max-w-[680px] flex-col items-end gap-5 pt-1 text-right md:mt-[clamp(2.75rem,9vw,6.5rem)] max-md:items-start max-md:text-left">
           <h2 className="text-[44px] font-medium -tracking-[0.04em] leading-[1.05em] text-white max-md:text-3xl">
-            One studio. Six ways to ship.
+            Six ways we hand your team its time back.
           </h2>
           <p className="max-w-[540px] text-lg text-white/60 max-md:text-base">
-            Hand-picked teams, modern stacks, and a 24-hour reply guarantee. No
-            bloat, no agency theatre.
+            The repetitive, time-draining work your team shouldn't do by hand —
+            handled quietly and accurately in the background.
           </p>
         </div>
       </div>
@@ -132,19 +141,31 @@ export function Services() {
               </div>
 
               <div className="mt-2 flex items-center gap-2">
-                <a
-                  href={workUrl(s.id)}
-                  rel="noopener"
-                  className="inline-flex h-11 shrink-0 items-center justify-center rounded-[10px] border border-white/20 bg-black/55 px-3 text-[12px] font-semibold text-white/95 transition-colors hover:bg-black/70"
-                >
-                  View portfolio
-                </a>
+                {(() => {
+                  const study = getCaseStudyByServiceId(s.id);
+                  return study ? (
+                    <Link
+                      to={caseStudyPath(study.slug)}
+                      className="inline-flex h-11 shrink-0 items-center justify-center rounded-[10px] border border-white/20 bg-black/55 px-3 text-[12px] font-semibold text-white/95 transition-colors hover:bg-black/70"
+                    >
+                      How it works
+                    </Link>
+                  ) : (
+                    <a
+                      href={workUrl(s.id)}
+                      rel="noopener"
+                      className="inline-flex h-11 shrink-0 items-center justify-center rounded-[10px] border border-white/20 bg-black/55 px-3 text-[12px] font-semibold text-white/95 transition-colors hover:bg-black/70"
+                    >
+                      View portfolio
+                    </a>
+                  );
+                })()}
                 <button
                   type="button"
                   onClick={() => setSelectedService({ id: s.id, title: s.title })}
                   className="btn-gloss relative inline-flex h-11 min-w-0 flex-1 items-center justify-center gap-1.5 overflow-hidden rounded-[10px] border border-[#4b78ff]/70 bg-[linear-gradient(180deg,#2f5eff_0%,#254dcf_100%)] px-4 text-[12px] font-semibold text-white shadow-[inset_0_0_8px_2px_rgba(255,255,255,0.18)] transition-opacity hover:opacity-95"
                 >
-                  <span className="truncate">Build me {s.title}</span>
+                  <span className="truncate">Automate this</span>
                   <ArrowRightIcon className="size-3.5 shrink-0 transition-transform group-hover:translate-x-0.5" />
                 </button>
               </div>
@@ -190,9 +211,9 @@ export function Services() {
               </div>
 
               <h2 className="text-[42px] font-medium -tracking-[0.04em] leading-[1.05em] text-white max-md:text-[30px]">
-                Tell us about your project.
+                Get your free automation audit.
                 <br />
-                <span className="text-white/65">Proposal in 24 hours.</span>
+                <span className="text-white/65">Plan back in 24 hours.</span>
               </h2>
               <p className="text-base text-white/65">
                 Service selected:{" "}

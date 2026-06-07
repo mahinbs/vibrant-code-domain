@@ -4,8 +4,8 @@ export const founder = {
   lastName: "B S",
   role: "Founder & Chairman",
   company: "Boostmysites",
-  /** Served from `bmsrevampweb/public/mahin-bs.jpg` */
-  imageSrc: "/mahin-bs.jpg",
+  /** Served from `public/mahinbsnew.jpeg` */
+  imageSrc: "/mahinbsnew.jpeg",
   imageAlt: "Mahin B S — Founder & Chairman, Boostmysites",
   /** Forbes / press strip label */
   badge: "Forbes",

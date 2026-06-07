@@ -100,6 +100,9 @@ const BuildYourTechCompanyLanding = lazy(
 const FounderPartnershipApplication = lazy(
   () => import("./redesign/pages/FounderPartnershipApplication"),
 );
+const AutomationCaseStudy = lazy(
+  () => import("./redesign/pages/AutomationCaseStudy"),
+);
 const NewHomepagePreview = lazy(() => import("./pages/NewHomepagePreview"));
 const FintechDevelopmentCompanyPage = lazy(() => import("./pages/geo/FintechDevelopmentCompanyPage"));
 const TradingAppDevelopmentPage = lazy(() => import("./pages/geo/TradingAppDevelopmentPage"));
@@ -617,6 +620,14 @@ const App = () => {
                 element={
                   <RedesignShell>
                     <FounderPartnershipApplication />
+                  </RedesignShell>
+                }
+              />
+              <Route
+                path="/automation/:slug"
+                element={
+                  <RedesignShell>
+                    <AutomationCaseStudy />
                   </RedesignShell>
                 }
               />

@@ -1,4 +1,4 @@
-import { ArrowRight, Rocket, Zap } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { useEffect, useRef, memo } from "react";
 
 const Hero = memo(() => {
@@ -7,6 +7,13 @@ const Hero = memo(() => {
 
   const handleGetConsultation = () => {
     const element = document.getElementById('contact-form');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const handleSeeHowItWorks = () => {
+    const element = document.getElementById('how-it-works');
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
@@ -127,51 +134,48 @@ const Hero = memo(() => {
         <div className="max-w-4xl mx-auto text-center">
           {/* Main content with centered alignment */}
           <div>
+            <p className="text-cyan-400 text-sm md:text-base font-medium uppercase tracking-wider mb-4 animate-fade-in">
+              AI &amp; Workflow Automation for Growing Businesses
+            </p>
             <h1
               id="hero-heading"
               className="text-5xl md:text-7xl font-bold text-white leading-tight animate-fade-in gpu-accelerate"
             >
-              Custom Software Development &
+              Your business is leaking hours.
               <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
                 {" "}
-                AI Solutions
+                We plug the leaks.
               </span>
             </h1>
-            <p className="text-4xl md:text-6xl font-bold text-white mt-1 md:mt-2 mb-8 leading-tight animate-fade-in gpu-accelerate">
-              to Accelerate Your Growth
-            </p>
-            
-            <p className="text-xl md:text-2xl text-gray-200 mb-12 leading-relaxed max-w-3xl mx-auto">
-              From Web Apps to AI Automation, Mobile Apps to SaaS – delivered by expert developers & AI specialists.
+
+            <p className="text-lg md:text-2xl text-gray-200 mt-6 mb-12 leading-relaxed max-w-3xl mx-auto">
+              Every day your team spends time copying data, chasing follow-ups, and answering the same questions. We build the automations that do all of it — quietly, accurately, 24/7 — so your people can finally do the work you actually hired them for.
             </p>
 
-            <div className="flex flex-col items-center mb-8">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
               <button
                 onClick={handleGetConsultation}
-                className="group relative bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-12 py-6 rounded-lg hover:from-cyan-400 hover:to-blue-500 transition-all duration-300 font-semibold text-lg flex items-center space-x-3 shadow-lg hover:shadow-cyan-500/25 transform hover:scale-105 gpu-accelerate"
+                className="group relative bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-10 py-5 rounded-lg hover:from-cyan-400 hover:to-blue-500 transition-all duration-300 font-semibold text-lg flex items-center space-x-3 shadow-lg hover:shadow-cyan-500/25 transform hover:scale-105 gpu-accelerate"
               >
-                <span>Get Free Consultation (24hr Reply)</span>
+                <span>Get My Free Automation Audit</span>
                 <ArrowRight className="h-6 w-6 group-hover:translate-x-2 transition-transform duration-300" />
                 <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-300"></div>
               </button>
+              <button
+                onClick={handleSeeHowItWorks}
+                className="px-10 py-5 rounded-lg border border-cyan-400/30 text-white font-semibold text-lg hover:bg-cyan-500/10 transition-all duration-300"
+              >
+                See How It Works
+              </button>
             </div>
 
-            {/* Consolidated Trust Bar */}
-            <div className="flex flex-wrap justify-center items-center gap-6 md:gap-8 text-sm md:text-base text-gray-300">
-              <div className="flex items-center space-x-2">
-                <span className="text-yellow-400">★★★★★</span>
-                <span>4.9/5 Rating</span>
-              </div>
-              <div className="text-gray-500">|</div>
-              <div className="flex items-center space-x-2">
-                <Rocket className="h-4 w-4 text-cyan-400" />
-                <span>500+ Projects Delivered</span>
-              </div>
-              <div className="text-gray-500">|</div>
-              <div className="flex items-center space-x-2">
-                <Zap className="h-4 w-4 text-cyan-400" />
-                <span>24hr Response Guarantee</span>
-              </div>
+            {/* Trust microcopy */}
+            <div className="flex flex-wrap justify-center items-center gap-3 md:gap-4 text-sm md:text-base text-gray-300">
+              <span>No contracts to start</span>
+              <span className="text-gray-500">·</span>
+              <span>Live in as little as 2 weeks</span>
+              <span className="text-gray-500">·</span>
+              <span>Built around your tools</span>
             </div>
           </div>
         </div>

@@ -46,12 +46,12 @@ export const footerColumns: FooterColumn[] = [
     ],
   },
   {
-    heading: "Industries",
+    heading: "Solutions",
     links: [
-      { label: "Fintech development", href: "/fintech-development-company" },
-      { label: "Trading app development", href: "/trading-app-development" },
-      { label: "Pay-in / pay-out software", href: "/payin-payout-software-development" },
-      { label: "Fintech landing", href: "/fintech-landing" },
+      { label: "Workflow automation", href: "/ai-automation" },
+      { label: "AI customer support", href: "/chatbot-development" },
+      { label: "AI calling", href: "/ai-calling" },
+      { label: "Data & reporting", href: "/data-analytics" },
       { label: "Healthcare software", href: "/healthcare-landing" },
       { label: "Build your tech company", href: "/build-your-tech-company" },
     ],

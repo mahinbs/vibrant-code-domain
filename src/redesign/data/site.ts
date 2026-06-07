@@ -1,10 +1,10 @@
 export const site = {
   brand: "Boostmysites",
-  tagline: "Custom software & AI, shipped at agency speed.",
+  tagline: "Automation that runs your business while you run your business.",
   email: "ceo@boostmysites.com",
   phone: "+91 97900 35747",
-  whatsappNumber: "919790035747",
-  whatsappMessage: "Hello BMS, I am looking to develop a project.",
+  whatsappNumber: "919632953355",
+  whatsappMessage: "Hello BMS, I'd like a free automation audit.",
   socials: {
     instagram: "https://www.instagram.com/boostmysites/",
     twitter: "https://x.com/boostmysites",
@@ -23,7 +23,7 @@ export const navLinks = [
 ] as const;
 
 export const primaryCta = {
-  label: "Start your project",
+  label: "Get my free automation audit",
   sublabel: "24hr reply",
   href: "/#contact-form",
 } as const;
