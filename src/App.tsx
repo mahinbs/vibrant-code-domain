@@ -102,6 +102,9 @@ const FounderPartnershipApplication = lazy(
 const AutomationCaseStudy = lazy(
   () => import("./redesign/pages/AutomationCaseStudy"),
 );
+const FreeAutomationCourse = lazy(
+  () => import("./redesign/pages/FreeAutomationCourse"),
+);
 const NewHomepagePreview = lazy(() => import("./pages/NewHomepagePreview"));
 const FintechDevelopmentCompanyPage = lazy(() => import("./pages/geo/FintechDevelopmentCompanyPage"));
 const TradingAppDevelopmentPage = lazy(() => import("./pages/geo/TradingAppDevelopmentPage"));
@@ -622,6 +625,15 @@ const App = () => {
                 element={
                   <RedesignShell>
                     <AutomationCaseStudy />
+                  </RedesignShell>
+                }
+              />
+              {/* Unlisted, link-only free-course landing (not in nav/footer/sitemap). */}
+              <Route
+                path="/free-ai-automation-course"
+                element={
+                  <RedesignShell>
+                    <FreeAutomationCourse />
                   </RedesignShell>
                 }
               />
