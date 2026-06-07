@@ -108,7 +108,7 @@ export function Footer() {
           <div className="flex flex-col gap-0.5 max-md:pb-0.5">
             <div className="flex items-center gap-2">
               <img
-                src="/logo-B3Maab4W.png"
+                src="/boostmysiteslogo.png"
                 alt={`${site.brand} logo`}
                 className="size-6 rounded-[8px] object-contain md:size-[38px] md:rounded-[10px]"
                 loading="lazy"

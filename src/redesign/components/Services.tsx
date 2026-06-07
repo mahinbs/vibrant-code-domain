@@ -8,6 +8,16 @@ import { LeadForm } from "./LeadForm";
 import { ArrowRightIcon, CheckIcon, OrbIcon, WhatsAppIcon } from "./icons";
 import { serviceIconMap } from "./serviceIconMap";
 
+/** Subtle, service-relevant background image per card (kept faint behind a dark overlay). */
+const SERVICE_BG: Record<string, string> = {
+  web: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=640&q=60",
+  saas: "https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&w=640&q=60",
+  mobile: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=640&q=60",
+  "ai-calling": "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=640&q=60",
+  "ai-automation": "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=640&q=60",
+  design: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=640&q=60",
+};
+
 function mapServiceIdToWhatBuilding(serviceId: string): string {
   const map: Record<string, string> = {
     web: "lead-capture",
@@ -80,13 +90,33 @@ export function Services() {
           return (
             <article
               key={s.id}
-              className="group relative flex flex-col gap-5 p-6 rounded-[14px] border border-white/12 transition-colors hover:border-white/25"
+              className="group relative flex flex-col gap-5 overflow-hidden p-6 rounded-[14px] border border-white/12 transition-colors hover:border-white/25"
               style={{
                 background:
                   "linear-gradient(180deg, rgba(255,255,255,0.04) 0%, rgba(0,0,0,0.5) 100%)",
               }}
             >
-              <div className="flex items-center justify-between">
+              {/* Relatable background image (faint, behind content) */}
+              {SERVICE_BG[s.id] ? (
+                <div aria-hidden className="pointer-events-none absolute inset-0 z-0">
+                  <img
+                    src={SERVICE_BG[s.id]}
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                    className="h-full w-full object-cover opacity-[0.16] transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div
+                    className="absolute inset-0"
+                    style={{
+                      background:
+                        "linear-gradient(180deg, rgba(8,12,30,0.62) 0%, rgba(3,6,16,0.88) 58%, rgba(0,0,0,0.95) 100%)",
+                    }}
+                  />
+                </div>
+              ) : null}
+
+              <div className="relative z-[1] flex items-center justify-between">
                 <div
                   className="size-10 rounded-[10px] border border-white/15 flex items-center justify-center text-white"
                   style={{
@@ -101,7 +131,7 @@ export function Services() {
                 </span>
               </div>
 
-              <div className="flex flex-col gap-2">
+              <div className="relative z-[1] flex flex-col gap-2">
                 <div className="flex items-center gap-2 flex-wrap">
                   <h3 className="text-xl font-medium -tracking-[0.01em] text-white">
                     {s.title}
@@ -117,7 +147,7 @@ export function Services() {
                 </p>
               </div>
 
-              <ul className="flex flex-col gap-2">
+              <ul className="relative z-[1] flex flex-col gap-2">
                 {s.bullets.map((b) => (
                   <li
                     key={b}
@@ -129,7 +159,7 @@ export function Services() {
                 ))}
               </ul>
 
-              <div className="flex flex-wrap gap-1.5 pt-1 mt-auto">
+              <div className="relative z-[1] flex flex-wrap gap-1.5 pt-1 mt-auto">
                 {s.stack.map((t) => (
                   <span
                     key={t}
@@ -140,7 +170,7 @@ export function Services() {
                 ))}
               </div>
 
-              <div className="mt-2 flex items-center gap-2">
+              <div className="relative z-[1] mt-2 flex items-center gap-2">
                 {(() => {
                   const study = getCaseStudyByServiceId(s.id);
                   return study ? (

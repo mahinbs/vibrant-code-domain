@@ -37,9 +37,9 @@ export function Nav() {
         <nav className="pointer-events-auto mx-auto flex w-[760px] max-w-[calc(100vw-20px)] items-center justify-between gap-2 p-2 bg-black/85 backdrop-blur-[10px] rounded-[14px] border border-white/15 shadow-[0_5px_20px_rgba(0,0,0,0.35)]">
           <Link to="/" className="flex min-w-0 items-center gap-2 pl-1 shrink-0" aria-label={`${site.brand} home`}>
             <img
-              src="/logo-B3Maab4W.png"
+              src="/boostmysiteslogo.png"
               alt={`${site.brand} logo`}
-              className="size-9 shrink-0 object-contain"
+              className="size-9 shrink-0 rounded-[8px] object-contain"
               loading="eager"
             />
             {pageLabel ? (
