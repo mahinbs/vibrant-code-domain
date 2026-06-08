@@ -105,6 +105,7 @@ const AutomationCaseStudy = lazy(
 const FreeAutomationCourse = lazy(
   () => import("./redesign/pages/FreeAutomationCourse"),
 );
+const LandingCopy = lazy(() => import("./redesign/pages/LandingCopy"));
 const NewHomepagePreview = lazy(() => import("./pages/NewHomepagePreview"));
 const FintechDevelopmentCompanyPage = lazy(() => import("./pages/geo/FintechDevelopmentCompanyPage"));
 const TradingAppDevelopmentPage = lazy(() => import("./pages/geo/TradingAppDevelopmentPage"));
@@ -637,6 +638,8 @@ const App = () => {
                   </RedesignShell>
                 }
               />
+              {/* Unlisted, link-only copy of the main automation landing page. */}
+              <Route path="/lp" element={<LandingCopy />} />
               <Route
                 path="/healthcare-landing"
                 element={
