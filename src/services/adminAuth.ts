@@ -1,32 +1,48 @@
+import { supabase } from "@/integrations/supabase/client";
+
 /**
- * Simple built-in admin login (email allowlist + password).
+ * Admin login — Supabase Auth first (use your real Supabase user + password),
+ * with a built-in allowlist fallback so admin can never get locked out.
  *
- * Self-contained so it works without any Supabase dashboard setup. NOTE: the
- * credentials ship in the client bundle, so this is "good enough" gating, not
- * hard security — change the password below and rotate it periodically. For real
- * security, move to Supabase Auth (create the user in the dashboard) + apply the
- * reshab_leads authenticated-only RLS.
+ * For full security also apply the reshab_leads authenticated-only RLS — then
+ * only the Supabase-session login can read leads (the fallback flag cannot).
  */
 
 const ADMIN_EMAIL = "mahinstlucia@gmail.com";
-const ADMIN_PASSWORD = "Boostmysites@2026"; // TODO: change this anytime.
-
-const AUTH_KEY = "admin_authenticated";
+const FALLBACK_PASSWORD = "Boostmysites@2026"; // backup only — change anytime.
+const FLAG = "admin_authenticated";
 
 export const adminAuth = {
   async login(email: string, password: string): Promise<{ ok: boolean; error?: string }> {
-    if (email.trim().toLowerCase() === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
-      localStorage.setItem(AUTH_KEY, "true");
+    const { error } = await supabase.auth.signInWithPassword({
+      email: email.trim(),
+      password,
+    });
+    if (!error) {
+      localStorage.removeItem(FLAG); // real session — no need for the flag
       return { ok: true };
     }
-    return { ok: false, error: "Invalid email or password." };
+
+    // Backup path so admin is never locked out if the Supabase user/login fails.
+    if (email.trim().toLowerCase() === ADMIN_EMAIL && password === FALLBACK_PASSWORD) {
+      localStorage.setItem(FLAG, "true");
+      return { ok: true };
+    }
+
+    return { ok: false, error: error.message || "Invalid email or password." };
   },
 
   async logout(): Promise<void> {
-    localStorage.removeItem(AUTH_KEY);
+    localStorage.removeItem(FLAG);
+    await supabase.auth.signOut();
   },
 
-  isAuthenticated(): boolean {
-    return localStorage.getItem(AUTH_KEY) === "true";
+  hasFlag(): boolean {
+    return localStorage.getItem(FLAG) === "true";
+  },
+
+  async hasSession(): Promise<boolean> {
+    const { data } = await supabase.auth.getSession();
+    return !!data.session;
   },
 };
