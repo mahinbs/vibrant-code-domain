@@ -22,6 +22,8 @@ export type StrategyCallLeadInput = {
   /** WhatsApp / phone — stored in `reshab_leads.phone`. */
   phone: string;
   sourcePage: string;
+  /** Optional free-text: what the lead wants to automate. */
+  requirement?: string;
 };
 
 function buildPayloadRecord(
@@ -169,7 +171,8 @@ export async function submitLead(input: HighIntentLeadSubmitInput): Promise<Lead
  * Uses `submission_type = strategy_call` so admin can filter separately from the full form.
  */
 export async function submitStrategyCallLead(input: StrategyCallLeadInput): Promise<LeadResult> {
-  const payload: Record<string, unknown> = { quick_form: "strategy_call" };
+  const requirement = input.requirement?.trim() || null;
+  const payload: Record<string, unknown> = { quick_form: "strategy_call", requirement };
 
   let supabaseError: { message?: string; code?: string } | null = null;
 
@@ -193,6 +196,7 @@ export async function submitStrategyCallLead(input: StrategyCallLeadInput): Prom
         email: input.email,
         phone: input.phone,
         sourcePage: input.sourcePage,
+        fields: requirement ? { requirement } : undefined,
       });
       return { ok: true, via: "supabase" };
     }
@@ -228,6 +232,7 @@ export async function submitStrategyCallLead(input: StrategyCallLeadInput): Prom
         email: input.email,
         phone: input.phone,
         sourcePage: input.sourcePage,
+        fields: requirement ? { requirement } : undefined,
       });
       return { ok: true, via: "endpoint" };
     } catch (err) {

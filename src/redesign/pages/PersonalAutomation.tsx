@@ -87,7 +87,7 @@ const PROBLEMS = [
 
 
 export default function PersonalAutomation() {
-  const [form, setForm] = useState({ name: "", email: "", phone: "" });
+  const [form, setForm] = useState({ name: "", email: "", phone: "", requirement: "" });
   const [countryCode, setCountryCode] = useState<string>(DEFAULT_COUNTRY);
   const [nationalNumber, setNationalNumber] = useState<string>("");
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
@@ -127,6 +127,7 @@ export default function PersonalAutomation() {
       email: form.email,
       phone: form.phone,
       sourcePage: "personal-automation",
+      requirement: form.requirement,
     });
     if (res.ok) setStatus("success");
     else {
@@ -142,8 +143,9 @@ export default function PersonalAutomation() {
 Name: ${form.name || "-"}
 Email: ${form.email || "-"}
 WhatsApp: ${form.phone || "-"}
+Want to automate: ${form.requirement?.trim() || "-"}
 
-I'd like to automate my personal workflow — when can we chat?`;
+When can we chat?`;
     return `https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent(msg)}`;
   })();
 
@@ -513,6 +515,13 @@ I'd like to automate my personal workflow — when can we chat?`;
                   nationalNumber={nationalNumber}
                   onCountryChange={(c) => updatePhone(c, nationalNumber)}
                   onNumberChange={(n) => updatePhone(countryCode, n)}
+                />
+                <textarea
+                  value={form.requirement}
+                  onChange={(e) => setForm((p) => ({ ...p, requirement: e.target.value }))}
+                  placeholder="What do you want to automate? (e.g. inbox, scheduling, invoices…)"
+                  rows={3}
+                  className="w-full resize-none rounded-lg border border-white/15 bg-black/40 p-3.5 text-sm text-white placeholder:text-white/40 focus:border-white/40 focus:outline-none"
                 />
                 {error ? <p className="text-[13px] text-red-300/90">{error}</p> : null}
                 <button
