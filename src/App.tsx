@@ -106,6 +106,7 @@ const FreeAutomationCourse = lazy(
   () => import("./redesign/pages/FreeAutomationCourse"),
 );
 const LandingCopy = lazy(() => import("./redesign/pages/LandingCopy"));
+const PersonalAutomation = lazy(() => import("./redesign/pages/PersonalAutomation"));
 const NewHomepagePreview = lazy(() => import("./pages/NewHomepagePreview"));
 const FintechDevelopmentCompanyPage = lazy(() => import("./pages/geo/FintechDevelopmentCompanyPage"));
 const TradingAppDevelopmentPage = lazy(() => import("./pages/geo/TradingAppDevelopmentPage"));
@@ -640,6 +641,15 @@ const App = () => {
               />
               {/* Unlisted, link-only copy of the main automation landing page. */}
               <Route path="/lp" element={<LandingCopy />} />
+              {/* Personal workflow automation landing. */}
+              <Route
+                path="/personal-automation"
+                element={
+                  <RedesignShell>
+                    <PersonalAutomation />
+                  </RedesignShell>
+                }
+              />
               <Route
                 path="/healthcare-landing"
                 element={
