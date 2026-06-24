@@ -1759,3 +1759,15 @@ video {
   color: #3366ff !important;
   -webkit-text-fill-color: #3366ff !important;
 }
+
+/* Cost-of-inaction reds — beat `.redesign-shell span/div { color: inherit }`. */
+.redesign-shell .loss-highlight-red,
+.redesign-shell h2 .loss-highlight-red {
+  color: #f87171 !important;
+  -webkit-text-fill-color: #f87171 !important;
+}
+
+.redesign-shell .loss-stat-value {
+  color: #f87171 !important;
+  -webkit-text-fill-color: #f87171 !important;
+}

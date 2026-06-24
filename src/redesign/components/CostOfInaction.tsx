@@ -35,10 +35,10 @@ export function CostOfInaction() {
             The cost of doing nothing
           </p>
           <h2 className="text-left text-[32px] font-medium leading-[1.1] -tracking-[0.04em] text-white max-md:text-[30px] md:text-[44px]">
-            Every day without <span className="text-red-400">automation</span> is{" "}
-            <span className="text-red-400">money</span>
+            Every day <span className="loss-highlight-red">without automation</span> is{" "}
+            <span className="loss-highlight-red">money</span>
             <br />
-            and <span className="text-red-400">time</span> your team can&apos;t get back.
+            and <span className="loss-highlight-red">time</span> your team can&apos;t get back.
           </h2>
         </div>
       </div>
@@ -48,17 +48,22 @@ export function CostOfInaction() {
           <div
             key={s.stat}
             className={[
-              "rounded-[16px] border border-white/12 p-5 text-left shadow-[inset_0_1px_0_rgba(255,100,100,0.06)] md:p-8",
-              index === 2 ? "col-span-2 md:col-span-1" : "",
+              "rounded-[16px] border border-white/12 p-5 shadow-[inset_0_1px_0_rgba(255,100,100,0.06)] md:p-8",
+              index === 2
+                ? "col-span-2 flex flex-col items-center text-center md:col-span-1"
+                : "text-left",
             ].join(" ")}
             style={{ background: GLOSS }}
           >
-            <div
-              className={`text-[36px] font-semibold leading-none md:text-[50px] ${s.accent}`}
-            >
+            <div className="loss-stat-value text-[36px] font-semibold leading-none md:text-[50px]">
               {s.stat}
             </div>
-            <p className="mx-auto mt-2 max-w-[22ch] text-[12px] leading-snug text-white/70 md:mt-3 md:text-[14px]">
+            <p
+              className={[
+                "mt-2 max-w-[22ch] text-[12px] leading-snug text-white/70 md:mt-3 md:text-[14px]",
+                index === 2 ? "" : "mx-auto",
+              ].join(" ")}
+            >
               {s.label}
             </p>
           </div>

@@ -228,7 +228,7 @@ export const businessAutomationPressItems = [
   {
     publication: "Times of India",
     href: "https://timesofindia.indiatimes.com/",
-    yearLabel: "Editorial",
+    yearLabel: "Award",
     isPartnerContent: false,
   },
   {
