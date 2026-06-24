@@ -29,7 +29,7 @@ export const costOfInactionStats = [
   {
     stat: "₹18L+",
     label: "Annual cost of manual operations in a 10-person business",
-    accent: "text-orange-300",
+    accent: "text-red-400",
   },
   {
     stat: "67%",
@@ -52,7 +52,8 @@ export const liveLossRates = {
 } as const;
 
 export const liveLossBandCopy = {
-  headline: "Your business might be {{losing more}}",
+  headline: "Your business might be losing more",
+  footnote: "Based on ₹18L avg annual manual-ops cost for a 10-person team.",
 } as const;
 
 export type AutomationScopeItem = {

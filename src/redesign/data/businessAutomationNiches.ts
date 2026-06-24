@@ -32,10 +32,10 @@ export const businessAutomationNiches: BusinessAutomationNiche[] = [
       { label: "Post-visit follow-ups sent", value: "1 in 5" },
     ],
     manualSteps: [
+      "A serious buyer fills your inquiry form at 9 PM Friday — your team sees it Saturday morning",
       "Broker checks MagicBricks / 99acres inquiries once or twice a day",
-      "Lead details copied into Excel or WhatsApp group manually",
-      "Someone calls the lead — often hours after they inquired",
-      "Site visit slots coordinated over multiple back-and-forth messages",
+      "Lead details copied into Excel or WhatsApp group manually — calls often hours late",
+      "Buyer toured a competitor at 10 AM, loved it, and paid booking — you never had a chance",
       "Post-visit follow-up depends on broker remembering to send price sheet",
     ],
     log: [
@@ -95,9 +95,10 @@ export const businessAutomationNiches: BusinessAutomationNiche[] = [
       { label: "Follow-up care completion", value: "40%" },
     ],
     manualSteps: [
+      "Dr. Sharma sees 40 patients a week — 8 don't show because no one called the day before",
       "Reception prints tomorrow's appointment list each evening",
       "Staff calls patients one by one to confirm — if they have time",
-      "Lab reports filed in folder; patient notified only if someone remembers",
+      "Lab reports sit in a folder — patients find out only when they walk in by chance",
       "Follow-up appointments booked ad hoc at checkout — many slip through",
     ],
     log: [
@@ -157,11 +158,11 @@ export const businessAutomationNiches: BusinessAutomationNiche[] = [
       { label: "Interview scheduling time", value: "3 days avg" },
     ],
     manualSteps: [
-      "Recruiter downloads 300 resumes from job portals and email",
-      "Each CV read and scored manually against the JD",
-      "Top picks called — often days after they applied elsewhere",
+      "300 resumes arrive for one role — recruiter spends 12 days screening manually",
+      "Each CV read and scored by hand against the JD",
+      "Top 10 called days later — 6 already accepted offers elsewhere",
       "Interview slots negotiated over email and phone, one candidate at a time",
-      "Offer letter drafted, reviewed, and sent by hand",
+      "Offer letter drafted, reviewed, and sent by hand while the role stays open another month",
     ],
     log: [
       {
@@ -220,11 +221,11 @@ export const businessAutomationNiches: BusinessAutomationNiche[] = [
       { label: "NPA cases from missed reminders", value: "~18%" },
     ],
     manualSteps: [
-      "Collections team pulls overdue list from core banking system each morning",
-      "Agents dial customers one by one — half don't answer",
+      "Collections team makes 200+ manual calls a day — half go unanswered",
+      "Some customers feel harassed; others genuinely forgot and now have a late fee",
+      "Agents dial customers one by one from the morning overdue list",
       "Payment outcomes logged in spreadsheet, not always in CRM",
-      "Escalation to field agent happens late — after grace period ends",
-      "Monthly statements printed and posted or emailed in batches",
+      "NPA climbs every quarter — not because customers can't pay, but because reminders failed",
     ],
     log: [
       {
@@ -283,11 +284,11 @@ export const businessAutomationNiches: BusinessAutomationNiche[] = [
       { label: "Post-purchase review requests", value: "0%" },
     ],
     manualSteps: [
+      "1,000 people visit today — 680 add to cart and disappear with zero recovery",
       "Support inbox flooded with return and order-status queries",
       "Abandoned carts checked manually — if anyone has time that day",
       "Return requests triaged by hand; pickup slots sent one customer at a time",
-      "Refund status updates require staff to call or email individually",
-      "Review requests never sent — or only for VIP customers",
+      "₹4L+ in potential orders evaporates every week — no one chases abandoned carts",
     ],
     log: [
       {
@@ -346,11 +347,11 @@ export const businessAutomationNiches: BusinessAutomationNiche[] = [
       { label: "PO to acknowledgment time", value: "4–6 hrs" },
     ],
     manualSteps: [
-      "PO arrives on WhatsApp, email, or PDF — ops opens each channel separately",
-      "Data re-typed line by line into ERP or inventory sheet",
+      "40 POs a day arrive on WhatsApp, email, and PDF — each read and re-typed by a human",
+      "Data entered line by line into ERP; a 4% error rate sounds small until it's not",
+      "Wrong digit ships 500 units instead of 5,000 — client pays for reshipping",
       "Stock checked manually against warehouse spreadsheet",
-      "Acknowledgment email drafted and sent hours later",
-      "Dispatch and tracking updates chased by phone when client asks",
+      "Acknowledgment and tracking updates chased by phone when the client asks",
     ],
     log: [
       {

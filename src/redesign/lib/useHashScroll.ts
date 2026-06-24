@@ -13,17 +13,17 @@ import { useLocation } from "react-router-dom";
 
 const NAV_OFFSET = 100;
 
-function scrollToId(id: string) {
+function scrollToId(id: string, opts: { progressive?: boolean } = {}) {
   if (!id) return;
+  const progressive = opts.progressive !== false;
   let attempts = 0;
-  const MAX_ATTEMPTS = 40;
+  const MAX_ATTEMPTS = progressive ? 40 : 8;
 
   const settle = () => {
     const el = document.getElementById(id);
     if (!el) return;
     const top = el.getBoundingClientRect().top + window.scrollY - NAV_OFFSET;
     window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
-    // Correct for layout shifts from sections that mount slightly later.
     window.setTimeout(() => {
       const again = document.getElementById(id);
       if (!again) return;
@@ -41,6 +41,10 @@ function scrollToId(id: string) {
     }
     if (attempts >= MAX_ATTEMPTS) return;
     attempts += 1;
+    if (!progressive) {
+      window.setTimeout(tick, 120);
+      return;
+    }
     const step = Math.max(window.innerHeight * 0.85, 600);
     const maxTop = Math.max(
       document.documentElement.scrollHeight,
@@ -61,7 +65,7 @@ export function useHashScroll() {
   useEffect(() => {
     if (!hash) return;
     const id = decodeURIComponent(hash.replace(/^#/, ""));
-    const timer = window.setTimeout(() => scrollToId(id), 90);
+    const timer = window.setTimeout(() => scrollToId(id, { progressive: false }), 90);
     return () => window.clearTimeout(timer);
   }, [hash]);
 
@@ -102,7 +106,8 @@ export function useHashScroll() {
 
       event.preventDefault();
       window.history.replaceState(null, "", `#${id}`);
-      scrollToId(id);
+      const progressive = !window.location.pathname.includes("business-automation");
+      scrollToId(id, { progressive });
     };
 
     document.addEventListener("click", onClick);

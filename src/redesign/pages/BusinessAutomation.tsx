@@ -11,7 +11,6 @@ import {
   businessAutomationCta,
   businessAutomationNavLinks,
 } from "../data/site";
-import DeferredSection from "@/components/ui/DeferredSection";
 import { FeaturedInTrustBand } from "../components/FeaturedInTrustBand";
 import { FounderMediaStrip } from "../components/FounderMediaStrip";
 import {
@@ -55,18 +54,16 @@ const landingProcessSteps: ProcessStep[] = businessAutomationSteps.map((s) => ({
 }));
 
 function SectionWithTopRule({
-  minHeight,
   showDivider = true,
   children,
 }: {
-  minHeight: number;
   showDivider?: boolean;
   children: ReactNode;
 }) {
   return (
     <div className="flex w-full max-w-[1920px] flex-col">
       {showDivider ? <SectionDivider /> : null}
-      <DeferredSection minHeight={minHeight}>{children}</DeferredSection>
+      {children}
     </div>
   );
 }
@@ -89,6 +86,10 @@ export default function BusinessAutomation() {
       <AuditLeadModal
         open={auditModalOpen}
         onOpenChange={setAuditModalOpen}
+        eyebrow="Free AI Audit"
+        title="What's holding your business back?"
+        subtitle="Book a free 30-minute AI Audit. We'll identify 3 things your team does manually that can be automated this month."
+        whatsappHref={businessAutomationWhatsappHref}
         leadFormProps={{ sourcePage: "business-automation" }}
       />
       <Nav
@@ -109,7 +110,7 @@ export default function BusinessAutomation() {
           metrics={businessLandingStats}
         />
         <Suspense fallback={<div className="h-[60vh] w-full" aria-hidden="true" />}>
-          <SectionWithTopRule minHeight={280}>
+          <SectionWithTopRule>
             <BookCallWithFounderBand
               id="book-ceo-call"
               variant="thin"
@@ -119,10 +120,10 @@ export default function BusinessAutomation() {
               ctaLabel={reshabAuditCallCopy.ctaLabel}
             />
           </SectionWithTopRule>
-          <SectionWithTopRule minHeight={360} showDivider={false}>
+          <SectionWithTopRule showDivider={false}>
             <CostOfInaction />
           </SectionWithTopRule>
-          <SectionWithTopRule minHeight={520}>
+          <SectionWithTopRule>
             <ProcessMockupSplit
               steps={landingProcessSteps}
               title={
@@ -143,13 +144,13 @@ export default function BusinessAutomation() {
             />
           </SectionWithTopRule>
           <FounderMediaStrip />
-          <SectionWithTopRule minHeight={620}>
+          <SectionWithTopRule>
             <AutomationScopeExplorer />
           </SectionWithTopRule>
-          <SectionWithTopRule minHeight={720}>
+          <SectionWithTopRule>
             <IndustryPlaybook />
           </SectionWithTopRule>
-          <SectionWithTopRule minHeight={520}>
+          <SectionWithTopRule>
             <MockupBand
               src="/videos/mockup-3.mp4"
               poster="/videos/mockup-3.jpg"
@@ -164,7 +165,7 @@ export default function BusinessAutomation() {
               reverse
             />
           </SectionWithTopRule>
-          <SectionWithTopRule minHeight={420}>
+          <SectionWithTopRule>
             <CTA
               id="contact-form"
               eyebrow="Free AI Audit"
@@ -174,7 +175,7 @@ export default function BusinessAutomation() {
               whatsappHref={businessAutomationWhatsappHref}
             />
           </SectionWithTopRule>
-          <SectionWithTopRule minHeight={240}>
+          <SectionWithTopRule>
             <Footer whatsappHref={businessAutomationWhatsappHref} />
           </SectionWithTopRule>
         </Suspense>

@@ -42,17 +42,6 @@ function HiddenCostCard({
     </p>
   );
 
-  const story = (
-    <p
-      className={[
-        "leading-relaxed text-white/55",
-        mobile ? "mt-3 line-clamp-2 text-[12px] leading-snug" : "mt-4 text-sm",
-      ].join(" ")}
-    >
-      {niche.beforeStory}
-    </p>
-  );
-
   const statsBlock = (
     <div
       className={[
@@ -133,7 +122,6 @@ function HiddenCostCard({
     >
       {header}
       {painHeadline}
-      {story}
       {mobile ? (
         <>
           {manualBlock}
@@ -143,6 +131,7 @@ function HiddenCostCard({
       ) : (
         <>
           {statsBlock}
+          <p className="mt-4 text-sm leading-relaxed text-white/55">{niche.beforeStory}</p>
           {manualBlock}
         </>
       )}

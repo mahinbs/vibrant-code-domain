@@ -30,15 +30,15 @@ export function CostOfInaction() {
           THE COST
         </p>
 
-        <div className="relative z-[2] flex max-w-[680px] flex-col items-start gap-4 pt-1 text-left md:mt-2 max-md:mx-auto max-md:items-center max-md:text-center">
-          <p className="inline-flex w-fit items-center rounded-full border border-white/15 bg-black/60 px-3.5 py-2 text-[11px] font-medium uppercase tracking-[0.1em] text-red-400 backdrop-blur-[5px]">
+        <div className="relative z-[2] flex max-w-[680px] flex-col items-start gap-4 pt-1 text-left md:mt-2">
+          <p className="inline-flex w-fit items-center rounded-full border border-red-400/50 bg-black/60 px-3.5 py-2 text-[11px] font-medium uppercase tracking-[0.1em] text-red-400 backdrop-blur-[5px]">
             The cost of doing nothing
           </p>
-          <h2 className="text-[32px] font-medium leading-[1.1] -tracking-[0.04em] text-white max-md:text-[30px] md:text-[44px]">
-            Every day without <span className="impact-highlight">automation</span> is{" "}
-            <span className="impact-highlight">money</span>
+          <h2 className="text-left text-[32px] font-medium leading-[1.1] -tracking-[0.04em] text-white max-md:text-[30px] md:text-[44px]">
+            Every day without <span className="text-red-400">automation</span> is{" "}
+            <span className="text-red-400">money</span>
             <br />
-            and <span className="impact-highlight">time</span> your team can&apos;t get back.
+            and <span className="text-red-400">time</span> your team can&apos;t get back.
           </h2>
         </div>
       </div>
@@ -48,7 +48,7 @@ export function CostOfInaction() {
           <div
             key={s.stat}
             className={[
-              "rounded-[16px] border border-red-400/10 border-white/12 p-5 text-center shadow-[inset_0_1px_0_rgba(255,100,100,0.06)] md:p-8",
+              "rounded-[16px] border border-white/12 p-5 text-left shadow-[inset_0_1px_0_rgba(255,100,100,0.06)] md:p-8",
               index === 2 ? "col-span-2 md:col-span-1" : "",
             ].join(" ")}
             style={{ background: GLOSS }}

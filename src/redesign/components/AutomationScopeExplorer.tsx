@@ -1,4 +1,4 @@
-import { useState, type SyntheticEvent } from "react";
+import { useEffect, useRef, useState } from "react";
 import { automationScopeItems } from "../data/businessAutomationContent";
 import { ArrowRightIcon } from "./icons";
 import { WorkflowMesh } from "./WorkflowMesh";
@@ -9,12 +9,29 @@ const GLOSS =
 export function AutomationScopeExplorer() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [meshKey, setMeshKey] = useState(0);
+  const [meshReady, setMeshReady] = useState(true);
   const active = automationScopeItems[activeIndex];
+  const mobilePanelRef = useRef<HTMLDivElement>(null);
+  const skipInitialScrollRef = useRef(true);
 
   function handleNavClick(i: number) {
     setActiveIndex(i);
     setMeshKey((k) => k + 1);
+    setMeshReady(false);
+    window.setTimeout(() => setMeshReady(true), 320);
   }
+
+  useEffect(() => {
+    if (window.matchMedia("(min-width: 1024px)").matches) return;
+    if (skipInitialScrollRef.current) {
+      skipInitialScrollRef.current = false;
+      return;
+    }
+    const el = mobilePanelRef.current;
+    if (!el) return;
+    const top = el.getBoundingClientRect().top + window.scrollY - 100;
+    window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
+  }, [activeIndex]);
 
   return (
     <section
@@ -81,64 +98,47 @@ export function AutomationScopeExplorer() {
           <ScopeDetailPanel item={active} embedded meshKey={meshKey} meshEnabled />
         </div>
 
-        {/* Mobile: native accordion */}
-        <div className="flex flex-col gap-2 lg:hidden">
-          {automationScopeItems.map((item) => (
-            <ScopeAccordionItem key={item.id} item={item} />
-          ))}
+        {/* Mobile: detail panel above nav — stays in viewport when switching items. */}
+        <div className="flex flex-col gap-3 lg:hidden">
+          <div
+            ref={mobilePanelRef}
+            className="max-h-[min(58vh,520px)] overflow-y-auto rounded-[14px] border border-white/12 p-4"
+            style={{ background: GLOSS }}
+          >
+            <ScopeDetailPanel
+              item={active}
+              compact
+              meshKey={meshKey}
+              meshEnabled={meshReady}
+            />
+          </div>
+          <nav
+            className="flex flex-col gap-2"
+            aria-label="Automation capabilities"
+          >
+            {automationScopeItems.map((item, i) => (
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => handleNavClick(i)}
+                className={[
+                  "flex items-center gap-3 rounded-[12px] border px-4 py-3.5 text-left transition-colors",
+                  activeIndex === i
+                    ? "border-purple/50 bg-purple/15 text-white"
+                    : "border-white/[0.06] bg-black/20 text-white/70",
+                ].join(" ")}
+              >
+                <item.icon className="size-5 shrink-0 text-purple" />
+                <span className="flex-1 text-[15px] font-medium">{item.shortTitle}</span>
+                <span className="text-lg text-white/40" aria-hidden>
+                  {activeIndex === i ? "−" : "+"}
+                </span>
+              </button>
+            ))}
+          </nav>
         </div>
       </div>
     </section>
-  );
-}
-
-function ScopeAccordionItem({
-  item,
-}: {
-  item: (typeof automationScopeItems)[number];
-}) {
-  const [open, setOpen] = useState(false);
-  const [meshKey, setMeshKey] = useState(0);
-  const [meshReady, setMeshReady] = useState(false);
-
-  function handleToggle(e: SyntheticEvent<HTMLDetailsElement>) {
-    const isOpen = e.currentTarget.open;
-    setOpen(isOpen);
-    if (isOpen) {
-      setMeshKey((k) => k + 1);
-      setMeshReady(false);
-      window.setTimeout(() => setMeshReady(true), 320);
-    } else {
-      setMeshReady(false);
-    }
-  }
-
-  return (
-    <details
-      onToggle={handleToggle}
-      className="group overflow-hidden rounded-[12px] border border-white/[0.06] bg-black/20"
-    >
-      <summary className="flex cursor-pointer list-none items-center gap-3 px-4 py-3.5 [&::-webkit-details-marker]:hidden">
-        <item.icon className="size-5 shrink-0 text-purple" />
-        <span className="flex-1 text-[15px] font-medium text-white">{item.shortTitle}</span>
-        <span
-          className="text-lg text-white/40 transition-transform duration-200 group-open:rotate-45"
-          aria-hidden
-        >
-          +
-        </span>
-      </summary>
-      {open ? (
-        <div className="border-t border-white/[0.06] px-4 pb-4 pt-3">
-          <ScopeDetailPanel
-            item={item}
-            compact
-            meshKey={meshKey}
-            meshEnabled={meshReady}
-          />
-        </div>
-      ) : null}
-    </details>
   );
 }
 

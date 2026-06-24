@@ -1,3 +1,5 @@
+import type { CSSProperties } from "react";
+
 export type PressItem = {
   publication: string;
   href: string;
@@ -5,32 +7,10 @@ export type PressItem = {
   isPartnerContent?: boolean;
 };
 
-export const FOUNDER_PRESS_ITEMS: PressItem[] = [
-  {
-    publication: "Outlook India",
-    href: "https://www.outlookindia.com/hub4business/boostmysites-acclaim-as-industry-leader",
-    yearLabel: "May 2024",
-    isPartnerContent: true,
-  },
-  {
-    publication: "The Quint",
-    href: "https://www.thequint.com/brandstudio/boostmysite-2000-ai-projects-milestone",
-    yearLabel: "Sep 2024",
-    isPartnerContent: true,
-  },
-  {
-    publication: "Forbes",
-    href: "https://www.forbes.com/",
-    yearLabel: "Editorial",
-    isPartnerContent: false,
-  },
-  {
-    publication: "Entrepreneur",
-    href: "https://www.entrepreneur.com/",
-    yearLabel: "Editorial",
-    isPartnerContent: false,
-  },
-];
+const MARQUEE_MASK: CSSProperties = {
+  maskImage: "linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%)",
+  WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%)",
+};
 
 function PublicationWordmark({ name }: { name: string }) {
   const n = name.toLowerCase();
@@ -77,41 +57,91 @@ function PublicationWordmark({ name }: { name: string }) {
   return <span className="text-[14px] font-semibold text-white">{name}</span>;
 }
 
+function PressLink({ item }: { item: PressItem }) {
+  return (
+    <a
+      href={item.href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="trust-band-hover flex min-w-[5.5rem] shrink-0 flex-col items-center gap-1 px-2 py-1 lg:min-w-0 lg:px-3"
+    >
+      <PublicationWordmark name={item.publication} />
+      <span className="font-mono text-[9px] uppercase tracking-[0.14em] text-white/40">
+        {item.yearLabel}
+      </span>
+    </a>
+  );
+}
+
 export function FounderTrustPress({
-  items = FOUNDER_PRESS_ITEMS,
+  items = [],
   separated = false,
 }: {
   items?: PressItem[];
   separated?: boolean;
 }) {
+  const pressItems = items.length > 0 ? items : [];
+  const reel = [...pressItems, ...pressItems];
+
   return (
     <div className="w-full text-center">
       <p className="mb-4 font-mono text-[9px] font-semibold uppercase tracking-[0.2em] text-white/50 md:mb-5">
         Featured in
       </p>
-      <ul className="-mx-5 flex flex-nowrap items-center justify-start gap-8 overflow-x-auto px-5 pb-2 snap-x snap-mandatory [-ms-overflow-style:none] [scrollbar-width:none] lg:mx-0 lg:flex-wrap lg:justify-center lg:gap-x-14 lg:gap-y-6 lg:overflow-visible lg:px-0 lg:pb-0 [&::-webkit-scrollbar]:hidden">
-        {items.map((item, index) => (
-          <li key={item.href} className="flex shrink-0 snap-center items-center">
+
+      {/* Mobile / tablet: auto-scrolling marquee (matches header ticker). */}
+      <div className="w-full overflow-hidden lg:hidden" style={MARQUEE_MASK}>
+        <div className="flex h-[52px] items-center">
+          <div className="flex animate-ticker items-center gap-10 whitespace-nowrap will-change-transform motion-reduce:animate-none">
+            {reel.map((item, i) => (
+              <PressLink key={`${item.href}-${i}`} item={item} />
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Desktop: centered wrap row. */}
+      <ul className="mx-0 hidden flex-wrap items-center justify-center gap-x-14 gap-y-6 px-0 pb-0 lg:flex">
+        {pressItems.map((item, index) => (
+          <li key={item.href} className="flex shrink-0 items-center">
             {separated && index > 0 ? (
               <span
                 aria-hidden
-                className="mx-4 hidden h-7 w-px shrink-0 bg-white/[0.1] lg:mx-7 lg:inline-block"
+                className="mx-7 hidden h-7 w-px shrink-0 bg-white/[0.1] lg:inline-block"
               />
             ) : null}
-            <a
-              href={item.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="trust-band-hover flex min-w-[5.5rem] flex-col items-center gap-1 px-2 py-1 lg:min-w-0 lg:px-3"
-            >
-              <PublicationWordmark name={item.publication} />
-              <span className="font-mono text-[9px] uppercase tracking-[0.14em] text-white/40">
-                {item.yearLabel}
-              </span>
-            </a>
+            <PressLink item={item} />
           </li>
         ))}
       </ul>
     </div>
   );
 }
+
+
+export const FOUNDER_PRESS_ITEMS: PressItem[] = [
+  {
+    publication: "Outlook India",
+    href: "https://www.outlookindia.com/hub4business/boostmysites-acclaim-as-industry-leader",
+    yearLabel: "May 2024",
+    isPartnerContent: true,
+  },
+  {
+    publication: "The Quint",
+    href: "https://www.thequint.com/brandstudio/boostmysite-2000-ai-projects-milestone",
+    yearLabel: "Sep 2024",
+    isPartnerContent: true,
+  },
+  {
+    publication: "Forbes",
+    href: "https://www.forbes.com/",
+    yearLabel: "Editorial",
+    isPartnerContent: false,
+  },
+  {
+    publication: "Entrepreneur",
+    href: "https://www.entrepreneur.com/",
+    yearLabel: "Editorial",
+    isPartnerContent: false,
+  },
+];
