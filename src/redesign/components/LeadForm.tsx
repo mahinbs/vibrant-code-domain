@@ -15,6 +15,8 @@ export type LeadFormProps = {
   lockWhatBuilding?: boolean;
   /** Stored in payload JSON for attribution. */
   serviceModal?: { id: string; title: string };
+  /** Tighter spacing for modal popups. */
+  density?: "default" | "compact";
 };
 
 /** Country dial codes with flags for the phone field (India default). */
@@ -252,7 +254,9 @@ export function LeadForm({
   initialWhatBuildingValue = "",
   lockWhatBuilding = false,
   serviceModal,
+  density = "default",
 }: LeadFormProps) {
+  const compact = density === "compact";
   const [values, setValues] = useState<FormState>(() =>
     emptyForm(vertical, initialWhatBuildingValue),
   );
@@ -405,26 +409,36 @@ export function LeadForm({
     <form
       onSubmit={onSubmit}
       noValidate
-      className="flex w-full max-w-[520px] flex-col gap-3"
+      className={[
+        "flex w-full max-w-[520px] flex-col",
+        compact ? "gap-2" : "gap-3",
+      ].join(" ")}
     >
-      <div className="mb-1 flex items-center justify-between text-[12px] text-white/65">
+      <div
+        className={[
+          "flex items-center justify-between text-white/65",
+          compact ? "mb-0 text-[10px]" : "mb-1 text-[12px]",
+        ].join(" ")}
+      >
         <span>
           Step {step} of 3 · {stepThemes[step - 1]}
         </span>
         <span>{Math.round((step / 3) * 100)}% complete</span>
       </div>
-      <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/10">
+      <div className={compact ? "h-1 w-full overflow-hidden rounded-full bg-white/10" : "h-1.5 w-full overflow-hidden rounded-full bg-white/10"}>
         <div
           className="h-full rounded-full bg-purple transition-all duration-300"
           style={{ width: `${(step / 3) * 100}%` }}
         />
       </div>
 
-      <h3 className="text-center text-[15px] font-medium text-white/90">{stepHeadline}</h3>
+      {!compact ? (
+        <h3 className="text-center text-[15px] font-medium text-white/90">{stepHeadline}</h3>
+      ) : null}
 
       {step === 1 ? (
         <>
-          <div className="grid grid-cols-2 gap-3 max-sm:grid-cols-1">
+          <div className={compact ? "grid grid-cols-2 gap-2 max-sm:grid-cols-1" : "grid grid-cols-2 gap-3 max-sm:grid-cols-1"}>
             <Field
               id="name"
               label="Full name *"
@@ -433,6 +447,7 @@ export function LeadForm({
               error={errors.name}
               placeholder="Jane Doe"
               autoComplete="name"
+              compact={compact}
             />
             <Field
               id="email"
@@ -443,6 +458,7 @@ export function LeadForm({
               error={errors.email}
               placeholder="jane@company.com"
               autoComplete="email"
+              compact={compact}
             />
           </div>
           <PhoneField
@@ -451,6 +467,7 @@ export function LeadForm({
             onCountryChange={(code) => setPhone(code, nationalNumber)}
             onNumberChange={(num) => setPhone(countryCode, num)}
             error={errors.phone}
+            compact={compact}
           />
           <SelectFieldStr
             id="industry"
@@ -460,6 +477,7 @@ export function LeadForm({
             error={errors.industry}
             options={[...INDUSTRY_OPTIONS]}
             disabled={industryLocked}
+            compact={compact}
           />
           <SelectFieldStr
             id="whatBuilding"
@@ -469,6 +487,7 @@ export function LeadForm({
             error={errors.whatBuilding}
             options={[...whatBuildingOptions]}
             disabled={lockWhatBuilding}
+            compact={compact}
           />
           <SelectFieldStr
             id="projectStage"
@@ -477,6 +496,7 @@ export function LeadForm({
             onChange={onSelectChange("projectStage")}
             error={errors.projectStage}
             options={[...stageOptions]}
+            compact={compact}
           />
         </>
       ) : null}
@@ -490,19 +510,20 @@ export function LeadForm({
             onChange={onSelectChange("userScale")}
             error={errors.userScale}
             options={[...scaleOptions]}
+            compact={compact}
           />
-          <div className="flex flex-col gap-2">
-            <span className="text-[12px] font-medium text-white/70">
+          <div className={compact ? "flex flex-col gap-1.5" : "flex flex-col gap-2"}>
+            <span className={compact ? "text-[11px] font-medium text-white/70" : "text-[12px] font-medium text-white/70"}>
               {isAutomation
                 ? "Where is your team losing the most time? (select all)"
                 : "Compliance / security needs (select all that apply)"}
             </span>
-            <div className="rounded-lg border border-white/15 bg-black/40 p-3 backdrop-blur-[5px]">
-              <div className="flex flex-col gap-2.5">
+            <div className={compact ? "rounded-lg border border-white/15 bg-black/40 p-2 backdrop-blur-[5px]" : "rounded-lg border border-white/15 bg-black/40 p-3 backdrop-blur-[5px]"}>
+              <div className={compact ? "flex flex-col gap-2" : "flex flex-col gap-2.5"}>
                 {step2MultiOptions.map((opt) => (
                   <label
                     key={opt.value}
-                    className="flex cursor-pointer items-center gap-2 text-[13px] text-white/85"
+                    className={compact ? "flex cursor-pointer items-center gap-2 text-[12px] text-white/85" : "flex cursor-pointer items-center gap-2 text-[13px] text-white/85"}
                   >
                     <input
                       type="checkbox"
@@ -523,17 +544,20 @@ export function LeadForm({
             onChange={onSelectChange("timeline")}
             error={errors.timeline}
             options={[...TIMELINE_OPTIONS]}
+            compact={compact}
           />
         </>
       ) : null}
 
       {step === 3 ? (
         <>
-          <p className="text-[13px] leading-relaxed text-white/65">
-            {isAutomation
-              ? "Tell us your budget range so we can prioritise the automations with the fastest payback. Most clients start with one high-impact workflow and expand."
-              : "Most regulated fintech and healthcare platforms require security-first architecture, compliance workflows, and scalable infrastructure planning."}
-          </p>
+          {!compact ? (
+            <p className="text-[13px] leading-relaxed text-white/65">
+              {isAutomation
+                ? "Tell us your budget range so we can prioritise the automations with the fastest payback. Most clients start with one high-impact workflow and expand."
+                : "Most regulated fintech and healthcare platforms require security-first architecture, compliance workflows, and scalable infrastructure planning."}
+            </p>
+          ) : null}
           <SelectFieldStr
             id="budgetInr"
             label={isAutomation ? "Automation budget (INR) *" : "Estimated budget (INR) *"}
@@ -541,6 +565,7 @@ export function LeadForm({
             onChange={onSelectChange("budgetInr")}
             error={errors.budgetInr}
             options={[...BUDGET_OPTIONS]}
+            compact={compact}
           />
           <SelectFieldStr
             id="decisionRole"
@@ -549,6 +574,7 @@ export function LeadForm({
             onChange={onSelectChange("decisionRole")}
             error={errors.decisionRole}
             options={[...DECISION_ROLE_OPTIONS]}
+            compact={compact}
           />
           <SelectFieldStr
             id="technicalChallenge"
@@ -556,18 +582,19 @@ export function LeadForm({
             value={values.technicalChallenge}
             onChange={onSelectChange("technicalChallenge")}
             options={[...challengeOptions]}
+            compact={compact}
           />
         </>
       ) : null}
 
-      {serverError ? <p className="text-[13px] text-red-300/90">{serverError}</p> : null}
+      {serverError ? <p className={compact ? "text-[11px] text-red-300/90" : "text-[13px] text-red-300/90"}>{serverError}</p> : null}
 
-      <div className="mt-1 flex items-center gap-2">
+      <div className={compact ? "flex items-center gap-2" : "mt-1 flex items-center gap-2"}>
         {step > 1 ? (
           <button
             type="button"
             onClick={onPreviousStep}
-            className="inline-flex items-center justify-center rounded-[10px] border border-white/20 px-4 py-[13px] text-sm font-medium text-white/80 hover:bg-white/5 hover:text-white"
+            className={compact ? "inline-flex items-center justify-center rounded-[10px] border border-white/20 px-3 py-2 text-[13px] font-medium text-white/80 hover:bg-white/5 hover:text-white" : "inline-flex items-center justify-center rounded-[10px] border border-white/20 px-4 py-[13px] text-sm font-medium text-white/80 hover:bg-white/5 hover:text-white"}
           >
             Back
           </button>
@@ -576,7 +603,7 @@ export function LeadForm({
           <button
             type="button"
             onClick={onNextStep}
-            className="btn-gloss relative inline-flex flex-1 items-center justify-center gap-2 overflow-hidden rounded-[10px] border border-white/20 bg-purple/70 px-5 py-[15px] text-sm font-medium text-white shadow-[inset_0_0_6px_3px_rgba(255,255,255,0.2)]"
+            className={compact ? "btn-gloss relative inline-flex flex-1 items-center justify-center gap-2 overflow-hidden rounded-[10px] border border-white/20 bg-purple/70 px-4 py-2.5 text-[13px] font-medium text-white shadow-[inset_0_0_6px_3px_rgba(255,255,255,0.2)]" : "btn-gloss relative inline-flex flex-1 items-center justify-center gap-2 overflow-hidden rounded-[10px] border border-white/20 bg-purple/70 px-5 py-[15px] text-sm font-medium text-white shadow-[inset_0_0_6px_3px_rgba(255,255,255,0.2)]"}
           >
             <span className="relative z-[2]">Continue</span>
           </button>
@@ -584,7 +611,7 @@ export function LeadForm({
           <button
             type="submit"
             disabled={status === "submitting"}
-            className="btn-gloss relative inline-flex flex-1 items-center justify-center gap-2 overflow-hidden rounded-[10px] border border-white/20 bg-purple/70 px-5 py-[15px] text-sm font-medium text-white shadow-[inset_0_0_6px_3px_rgba(255,255,255,0.2)] transition-opacity disabled:opacity-60"
+            className={compact ? "btn-gloss relative inline-flex flex-1 items-center justify-center gap-2 overflow-hidden rounded-[10px] border border-white/20 bg-purple/70 px-4 py-2.5 text-[13px] font-medium text-white shadow-[inset_0_0_6px_3px_rgba(255,255,255,0.2)] transition-opacity disabled:opacity-60" : "btn-gloss relative inline-flex flex-1 items-center justify-center gap-2 overflow-hidden rounded-[10px] border border-white/20 bg-purple/70 px-5 py-[15px] text-sm font-medium text-white shadow-[inset_0_0_6px_3px_rgba(255,255,255,0.2)] transition-opacity disabled:opacity-60"}
           >
             <span className="relative z-[2]">
               {status === "submitting"
@@ -597,9 +624,15 @@ export function LeadForm({
         )}
       </div>
 
-      <p className="text-center text-[12px] text-white/45">
-        Free consultation · No hidden costs · 24hr response
-      </p>
+      {!compact ? (
+        <p className="text-center text-[12px] text-white/45">
+          Free consultation · No hidden costs · 24hr response
+        </p>
+      ) : (
+        <p className="text-center text-[10px] leading-snug text-white/40">
+          Free consultation · 24hr response
+        </p>
+      )}
     </form>
   );
 }
@@ -613,16 +646,18 @@ type FieldProps = {
   placeholder?: string;
   type?: string;
   autoComplete?: string;
+  compact?: boolean;
 };
 
-function Field({ id, label, value, onChange, error, placeholder, type = "text", autoComplete }: FieldProps) {
-  const baseClass =
-    "w-full p-3.5 bg-black/40 border rounded-lg text-sm text-white placeholder:text-white/40 backdrop-blur-[5px] transition-colors focus:border-white/40";
+function Field({ id, label, value, onChange, error, placeholder, type = "text", autoComplete, compact = false }: FieldProps) {
+  const baseClass = compact
+    ? "w-full rounded-lg border bg-black/40 p-2.5 text-[13px] text-white placeholder:text-white/40 backdrop-blur-[5px] transition-colors focus:border-white/40"
+    : "w-full p-3.5 bg-black/40 border rounded-lg text-sm text-white placeholder:text-white/40 backdrop-blur-[5px] transition-colors focus:border-white/40";
   const borderClass = error ? "border-red-400/60" : "border-white/15";
 
   return (
-    <div className="flex flex-col gap-1.5">
-      <label htmlFor={id} className="text-[12px] font-medium text-white/70">
+    <div className={compact ? "flex flex-col gap-1" : "flex flex-col gap-1.5"}>
+      <label htmlFor={id} className={compact ? "text-[11px] font-medium text-white/70" : "text-[12px] font-medium text-white/70"}>
         {label}
       </label>
       <input
@@ -635,7 +670,7 @@ function Field({ id, label, value, onChange, error, placeholder, type = "text", 
         placeholder={placeholder}
         className={`${baseClass} ${borderClass}`}
       />
-      {error ? <span className="text-[12px] text-red-300/90">{error}</span> : null}
+      {error ? <span className={compact ? "text-[11px] text-red-300/90" : "text-[12px] text-red-300/90"}>{error}</span> : null}
     </div>
   );
 }
@@ -646,6 +681,7 @@ type PhoneFieldProps = {
   onCountryChange: (code: string) => void;
   onNumberChange: (num: string) => void;
   error?: string;
+  compact?: boolean;
 };
 
 function PhoneField({
@@ -654,11 +690,12 @@ function PhoneField({
   onCountryChange,
   onNumberChange,
   error,
+  compact = false,
 }: PhoneFieldProps) {
   const borderClass = error ? "border-red-400/60" : "border-white/15";
   return (
-    <div className="flex flex-col gap-1.5">
-      <label htmlFor="phone" className="text-[12px] font-medium text-white/70">
+    <div className={compact ? "flex flex-col gap-1" : "flex flex-col gap-1.5"}>
+      <label htmlFor="phone" className={compact ? "text-[11px] font-medium text-white/70" : "text-[12px] font-medium text-white/70"}>
         WhatsApp number *
       </label>
       <div
@@ -668,7 +705,7 @@ function PhoneField({
           aria-label="Country code"
           value={countryCode}
           onChange={(e) => onCountryChange(e.target.value)}
-          className="shrink-0 border-r border-white/15 bg-black/40 px-2.5 text-sm text-white focus:outline-none"
+          className={compact ? "shrink-0 border-r border-white/15 bg-black/40 px-2 text-[13px] text-white focus:outline-none" : "shrink-0 border-r border-white/15 bg-black/40 px-2.5 text-sm text-white focus:outline-none"}
         >
           {COUNTRIES.map((c) => (
             <option key={c.code} value={c.code} className="bg-[#0b1020] text-white">
@@ -685,10 +722,10 @@ function PhoneField({
           value={nationalNumber}
           onChange={(e) => onNumberChange(e.target.value)}
           placeholder="96329 53355"
-          className="w-full bg-transparent p-3.5 text-sm text-white placeholder:text-white/40 focus:outline-none"
+          className={compact ? "w-full bg-transparent p-2.5 text-[13px] text-white placeholder:text-white/40 focus:outline-none" : "w-full bg-transparent p-3.5 text-sm text-white placeholder:text-white/40 focus:outline-none"}
         />
       </div>
-      {error ? <span className="text-[12px] text-red-300/90">{error}</span> : null}
+      {error ? <span className={compact ? "text-[11px] text-red-300/90" : "text-[12px] text-red-300/90"}>{error}</span> : null}
     </div>
   );
 }
@@ -701,16 +738,18 @@ type SelectFieldStrProps = {
   error?: string;
   options: ReadonlyArray<{ value: string; label: string }>;
   disabled?: boolean;
+  compact?: boolean;
 };
 
-function SelectFieldStr({ id, label, value, onChange, error, options, disabled }: SelectFieldStrProps) {
-  const baseClass =
-    "w-full p-3.5 bg-black/40 border rounded-lg text-sm text-white backdrop-blur-[5px] transition-colors focus:border-white/40 disabled:cursor-not-allowed disabled:opacity-60";
+function SelectFieldStr({ id, label, value, onChange, error, options, disabled, compact = false }: SelectFieldStrProps) {
+  const baseClass = compact
+    ? "w-full rounded-lg border bg-black/40 p-2.5 text-[13px] text-white backdrop-blur-[5px] transition-colors focus:border-white/40 disabled:cursor-not-allowed disabled:opacity-60"
+    : "w-full p-3.5 bg-black/40 border rounded-lg text-sm text-white backdrop-blur-[5px] transition-colors focus:border-white/40 disabled:cursor-not-allowed disabled:opacity-60";
   const borderClass = error ? "border-red-400/60" : "border-white/15";
 
   return (
-    <div className="flex flex-col gap-1.5">
-      <label htmlFor={id} className="text-[12px] font-medium text-white/70">
+    <div className={compact ? "flex flex-col gap-1" : "flex flex-col gap-1.5"}>
+      <label htmlFor={id} className={compact ? "text-[11px] font-medium text-white/70" : "text-[12px] font-medium text-white/70"}>
         {label}
       </label>
       <select
@@ -730,7 +769,7 @@ function SelectFieldStr({ id, label, value, onChange, error, options, disabled }
           </option>
         ))}
       </select>
-      {error ? <span className="text-[12px] text-red-300/90">{error}</span> : null}
+      {error ? <span className={compact ? "text-[11px] text-red-300/90" : "text-[12px] text-red-300/90"}>{error}</span> : null}
     </div>
   );
 }
