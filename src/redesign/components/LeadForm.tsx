@@ -17,6 +17,8 @@ export type LeadFormProps = {
   serviceModal?: { id: string; title: string };
   /** Tighter spacing for modal popups. */
   density?: "default" | "compact";
+  /** Hide the per-step headline above fields (modal). */
+  hideStepHeadline?: boolean;
 };
 
 /** Country dial codes with flags for the phone field (India default). */
@@ -255,6 +257,7 @@ export function LeadForm({
   lockWhatBuilding = false,
   serviceModal,
   density = "default",
+  hideStepHeadline = false,
 }: LeadFormProps) {
   const compact = density === "compact";
   const [values, setValues] = useState<FormState>(() =>
@@ -432,7 +435,7 @@ export function LeadForm({
         />
       </div>
 
-      {!compact ? (
+      {!compact && !hideStepHeadline ? (
         <h3 className="text-center text-[15px] font-medium text-white/90">{stepHeadline}</h3>
       ) : null}
 
