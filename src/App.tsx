@@ -213,10 +213,9 @@ const App = () => {
               <Route
                 path="/contact"
                 element={
-                  <>
-                    <FloatingWhatsAppButton />
+                  <RedesignShell>
                     <ContactPage />
-                  </>
+                  </RedesignShell>
                 }
               />
               {/* <Route

@@ -34,7 +34,7 @@ const EXACT: Record<string, RouteSeo> = {
   "/contact": {
     title: "Contact Us | Boostmysites",
     description:
-      "Get in touch with Boostmysites for web development, mobile apps, AI, and product engineering. Tell us about your project—we respond fast.",
+      "Book a free automation audit with Boostmysites. Tell us about your business — we respond within 24 hours.",
   },
   "/about": {
     title: "About Us | Boostmysites",
