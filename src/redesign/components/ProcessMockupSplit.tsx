@@ -34,23 +34,21 @@ export function ProcessMockupSplit({
       }}
     >
       <div className="grid grid-cols-1 items-stretch gap-8 lg:grid-cols-[minmax(0,7fr)_minmax(0,3fr)] lg:gap-10">
-        <div className="flex min-w-0 flex-col gap-6">
-          <Process
-            embedded
-            steps={steps}
-            columns={3}
-            title={title}
-            subtitle={subtitle}
-            watermark={watermark}
-            align="left"
-            contentMaxWidth="100%"
-          />
-          <ProcessCTA className="mt-0" />
-        </div>
-        <div className="flex min-h-0 min-w-0 flex-col border-t border-white/[0.06] pt-8 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0">
+        <Process
+          embedded
+          steps={steps}
+          columns={3}
+          title={title}
+          subtitle={subtitle}
+          watermark={watermark}
+          align="left"
+          contentMaxWidth="100%"
+        />
+        <div className="flex min-h-0 min-w-0 flex-col border-t border-white/[0.06] pt-8 lg:h-full lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0">
           <MockupBand variant="sidebar" {...mockup} />
         </div>
       </div>
+      <ProcessCTA className="mt-8 border-t border-white/[0.06] pt-8 md:mt-10 md:pt-10" />
     </section>
   );
 }
