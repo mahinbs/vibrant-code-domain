@@ -1746,3 +1746,16 @@ video {
   color: #3366ff !important;
   -webkit-text-fill-color: #3366ff !important;
 }
+
+/* Featured-in trust band — blue on hover (beats `span { color: inherit }`). */
+.redesign-shell .trust-band-hover {
+  transition: color 0.2s ease;
+}
+.redesign-shell .trust-band-hover * {
+  transition: color 0.2s ease, -webkit-text-fill-color 0.2s ease;
+}
+.redesign-shell .trust-band-hover:hover,
+.redesign-shell .trust-band-hover:hover * {
+  color: #3366ff !important;
+  -webkit-text-fill-color: #3366ff !important;
+}

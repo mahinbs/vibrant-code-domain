@@ -1,4 +1,4 @@
-import { Fragment, type ReactNode } from "react";
+import { type ReactNode } from "react";
 
 const HIGHLIGHT_MARKER_RE = /\{\{([^}]+)\}\}/g;
 
@@ -33,5 +33,5 @@ export function HighlightText({ text }: { text: string }): ReactNode {
     parts.push(text.slice(lastIndex));
   }
 
-  return parts.length === 1 ? parts[0] : <Fragment>{parts}</Fragment>;
+  return parts.length === 1 ? parts[0] : parts;
 }

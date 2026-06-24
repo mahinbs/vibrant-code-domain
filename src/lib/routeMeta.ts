@@ -116,6 +116,16 @@ const EXACT: Record<string, RouteSeo> = {
     description:
       "Automate workflows with AI: document processing, routing, and ops copilots. Boostmysites ships automation that teams actually adopt.",
   },
+  "/business-automation": {
+    title: "AI Automation for Businesses | Boostmysites",
+    description:
+      "Automate lead follow-ups, customer support, invoicing, and ops workflows. Free 30-minute AI audit — most clients live in 30 days.",
+  },
+  "/personal-automation": {
+    title: "Personal Workflow Automation | Boostmysites",
+    description:
+      "Automate your personal workflow — inbox, calendar, notes, finances and follow-ups — and get hours back every week.",
+  },
   "/reviews": {
     title: "Client Reviews | Boostmysites",
     description:

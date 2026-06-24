@@ -1,0 +1,64 @@
+.workflow-mesh-pulse-inner {
+  animation: workflow-mesh-pulse-core 2.5s infinite ease-in-out;
+}
+
+@keyframes workflow-mesh-pulse-core {
+  0%,
+  100% {
+    box-shadow:
+      0 0 16px 2px rgba(88, 132, 255, 0.35),
+      inset 0 0 12px rgba(88, 132, 255, 0.2);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow:
+      0 0 32px 6px rgba(88, 132, 255, 0.55),
+      inset 0 0 20px rgba(88, 132, 255, 0.35);
+    transform: scale(1.06);
+  }
+}
+
+.workflow-mesh-ring {
+  animation: workflow-mesh-spin 15s linear infinite;
+}
+
+.workflow-mesh-ring-reverse {
+  animation: workflow-mesh-spin-reverse 20s linear infinite;
+}
+
+@keyframes workflow-mesh-spin {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@keyframes workflow-mesh-spin-reverse {
+  from {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+}
+
+.workflow-mesh-node-in {
+  animation: workflow-mesh-node-in 0.35s ease forwards;
+}
+
+@keyframes workflow-mesh-node-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+.workflow-mesh-path-draw {
+  transition: stroke-dashoffset 0.45s ease-out;
+}

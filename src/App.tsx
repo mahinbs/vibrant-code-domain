@@ -107,6 +107,7 @@ const FreeAutomationCourse = lazy(
 );
 const LandingCopy = lazy(() => import("./redesign/pages/LandingCopy"));
 const PersonalAutomation = lazy(() => import("./redesign/pages/PersonalAutomation"));
+const BusinessAutomation = lazy(() => import("./redesign/pages/BusinessAutomation"));
 const NewHomepagePreview = lazy(() => import("./pages/NewHomepagePreview"));
 const FintechDevelopmentCompanyPage = lazy(() => import("./pages/geo/FintechDevelopmentCompanyPage"));
 const TradingAppDevelopmentPage = lazy(() => import("./pages/geo/TradingAppDevelopmentPage"));
@@ -410,7 +411,7 @@ const App = () => {
               />
               <Route
                 path="/ai-automation"
-                element={<Navigate to="/#services" replace />}
+                element={<Navigate to="/business-automation" replace />}
               />
               <Route
                 path="/reviews"
@@ -647,6 +648,15 @@ const App = () => {
                 element={
                   <RedesignShell>
                     <PersonalAutomation />
+                  </RedesignShell>
+                }
+              />
+              {/* Business AI automation landing (ads / dedicated conversion page). */}
+              <Route
+                path="/business-automation"
+                element={
+                  <RedesignShell>
+                    <BusinessAutomation />
                   </RedesignShell>
                 }
               />

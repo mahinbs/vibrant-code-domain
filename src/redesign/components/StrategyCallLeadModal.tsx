@@ -20,6 +20,10 @@ export type StrategyCallLeadModalProps = {
 const fieldClass =
   "w-full border border-white/15 p-3.5 bg-black/40 rounded-lg text-sm text-white placeholder:text-white/40 backdrop-blur-[5px] transition-colors focus:border-white/40 focus:outline-none focus:ring-0";
 
+/** Keeps Radix close button top-right and visible on dark glass modals. */
+const DIALOG_CLOSE_BTN =
+  "[&>button]:!absolute [&>button]:right-3 [&>button]:top-3 [&>button]:z-30 [&>button]:flex [&>button]:size-9 [&>button]:items-center [&>button]:justify-center [&>button]:rounded-full [&>button]:border [&>button]:border-white/25 [&>button]:bg-black/60 [&>button]:text-white [&>button]:opacity-100 [&>button]:shadow-[0_4px_12px_rgba(0,0,0,0.35)] [&>button]:backdrop-blur-sm [&>button]:hover:bg-white/15 [&>button]:hover:text-white [&>button]:focus:outline-none [&>button]:focus:ring-2 [&>button]:focus:ring-white/30 [&>button_svg]:size-5";
+
 export function StrategyCallLeadModal({ open, onOpenChange, sourcePage }: StrategyCallLeadModalProps) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -67,14 +71,14 @@ export function StrategyCallLeadModal({ open, onOpenChange, sourcePage }: Strate
       <DialogContent
         className={cn(
           "max-w-[440px] gap-0 overflow-hidden border border-white/12 bg-[linear-gradient(165deg,rgba(22,36,74,0.88)_0%,rgba(6,10,22,0.96)_55%,rgba(0,0,0,0.94)_100%)] p-0 text-gray-100 shadow-[0_24px_60px_-24px_rgba(60,100,255,0.45)] sm:rounded-[16px]",
-          "[&>button]:text-white/70 [&>button]:hover:bg-white/[0.08] [&>button]:hover:text-white [&>button]:border-white/15",
+          DIALOG_CLOSE_BTN,
         )}
       >
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 opacity-[0.14] [background-image:linear-gradient(rgba(255,255,255,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.06)_1px,transparent_1px)] [background-size:28px_28px]"
         />
-        <div className="relative z-[1] p-6 sm:p-8">
+        <div className="relative z-[1] p-6 pr-12 sm:p-8 sm:pr-14">
           <DialogHeader className="space-y-2 text-left">
             <DialogTitle className="text-[22px] font-medium leading-tight -tracking-[0.02em] text-white sm:text-[24px]">
               Book your strategy call

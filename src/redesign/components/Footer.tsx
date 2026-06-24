@@ -100,9 +100,10 @@ function FooterColumnDesktop({ column }: { column: FooterColumn }) {
   );
 }
 
-export function Footer() {
+export function Footer({ whatsappHref: whatsappHrefProp }: { whatsappHref?: string } = {}) {
+  const waHref = whatsappHrefProp ?? whatsappHref;
   return (
-    <footer className="w-full max-w-[1920px] border-t border-white/12 px-4 pt-4 pb-5 max-md:px-3.5 max-md:pt-3.5 max-md:pb-4 md:px-5 md:pt-6 md:pb-6">
+    <footer className="mx-auto w-full max-w-[1920px] border-t border-white/12 px-4 pt-4 pb-5 max-md:px-3.5 max-md:pt-3.5 max-md:pb-4 md:px-10 md:pt-6 md:pb-6">
       <div className="flex flex-col gap-3 max-md:gap-2.5 md:gap-7">
         <div className="grid gap-3 max-md:gap-2 md:gap-5 xl:grid-cols-[minmax(0,260px)_1fr] xl:items-start xl:gap-8">
           <div className="flex flex-col gap-0.5 max-md:pb-0.5">
@@ -148,7 +149,7 @@ export function Footer() {
                 Call
               </a>
               <a
-                href={whatsappHref}
+                href={waHref}
                 className={linkClass}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -189,7 +190,7 @@ export function Footer() {
             <a href={`tel:${site.phone.replace(/\s/g, "")}`} className={linkClass}>
               {site.phone}
             </a>
-            <a href={whatsappHref} className={linkClass} target="_blank" rel="noopener noreferrer">
+            <a href={waHref} className={linkClass} target="_blank" rel="noopener noreferrer">
               WhatsApp
             </a>
             <Link to="/app-ideas-lab" className={linkClass}>

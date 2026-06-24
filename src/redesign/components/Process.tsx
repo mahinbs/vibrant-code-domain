@@ -1,17 +1,48 @@
+import type { ReactNode } from "react";
+import type { ProcessStep } from "../data/process";
 import { processSteps } from "../data/process";
 
-export function Process() {
-  return (
-    <section
-      id="process"
-      className="relative flex w-full max-w-[1920px] flex-col gap-4 overflow-x-hidden px-5 py-16 md:px-10 md:py-24"
-      style={{
-        background:
-          "radial-gradient(50% 40% at 50% 30%, var(--color-dark-purple) 0%, rgba(0,0,0,0) 100%)",
-      }}
-    >
+type ProcessProps = {
+  steps?: ProcessStep[];
+  title?: ReactNode;
+  subtitle?: string;
+  watermark?: string;
+  columns?: 3 | 4;
+  align?: "left" | "right";
+  tightSpacing?: boolean;
+  contentMaxWidth?: string;
+  /** Renders inside a parent section (e.g. Process + Mockup split). */
+  embedded?: boolean;
+};
+
+export function Process({
+  steps = processSteps,
+  title = "From audit to autopilot in four steps.",
+  subtitle = "Three steps, zero headaches. You stay in the loop without lifting a finger.",
+  watermark = "HOW WE WORK",
+  columns = 4,
+  align = "right",
+  tightSpacing = false,
+  contentMaxWidth = "100%",
+  embedded = false,
+}: ProcessProps) {
+  const gridClass =
+    columns === 3
+      ? embedded
+        ? "grid-cols-1 sm:grid-cols-3"
+        : "grid-cols-3 max-md:grid-cols-1"
+      : "grid-cols-4 max-md:grid-cols-2 max-sm:grid-cols-1";
+
+  const shellClass = embedded
+    ? "relative flex h-full min-w-0 w-full flex-col gap-4 overflow-hidden"
+    : [
+        "relative flex w-full max-w-[1920px] flex-col gap-4 overflow-x-hidden px-5 md:px-10",
+        tightSpacing ? "py-10 md:py-14" : "py-16 md:py-24",
+      ].join(" ");
+
+  const content = (
+    <>
       <div className="relative z-[1] w-full overflow-visible">
-        {/* Large watermark — same treatment as Services “What we build” */}
         <p
           aria-hidden
           className="pointer-events-none absolute left-0 top-[40%] z-0 hidden w-full max-w-none -translate-y-1/2 select-none text-left font-bold uppercase leading-[0.88] tracking-[0.02em] opacity-[0.32] md:block"
@@ -24,48 +55,91 @@ export function Process() {
             color: "transparent",
           }}
         >
-          HOW WE WORK
+          {watermark}
         </p>
 
-        <div className="relative z-[2] ml-auto flex max-w-[680px] flex-col items-end gap-5 pt-1 text-right md:mt-[clamp(5.5rem,14vw,10rem)] max-md:items-start max-md:text-left">
-          <h2 className="text-[44px] font-medium -tracking-[0.04em] leading-[1.05em] text-white max-md:text-3xl">
-            From audit to autopilot in four steps.
+        <div
+          className={[
+            "relative z-[2] flex max-w-[680px] flex-col gap-5 pt-1 md:mt-[clamp(5.5rem,14vw,10rem)]",
+            align === "left"
+              ? "items-start text-left"
+              : "ml-auto items-end text-right max-md:items-start max-md:text-left",
+          ].join(" ")}
+        >
+          <h2
+            className={[
+              "font-medium -tracking-[0.04em] leading-[1.05em] text-white",
+              embedded ? "text-[32px] lg:text-[36px]" : "text-[44px] max-md:text-3xl",
+            ].join(" ")}
+          >
+            {title}
           </h2>
-          <p className="max-w-[540px] text-lg text-white/60 max-md:text-base">
-            Three steps, zero headaches. You stay in the loop without lifting a finger.
+          <p
+            className={[
+              "text-white/60",
+              embedded ? "max-w-none text-base" : "max-w-[540px] text-lg max-md:text-base",
+            ].join(" ")}
+          >
+            {subtitle}
           </p>
         </div>
       </div>
 
-      <div className="relative z-[1] grid w-full grid-cols-4 gap-5 max-md:grid-cols-2 max-sm:grid-cols-1">
-        {processSteps.map((step, i) => (
+      <div
+        className={`relative z-[1] mx-auto grid w-full gap-5 ${gridClass}`}
+        style={{ maxWidth: contentMaxWidth }}
+      >
+        {steps.map((step, i) => (
           <div
             key={step.number}
-            className="relative flex flex-col gap-4 rounded-[14px] border border-white/12 p-6"
+            className={[
+              "relative flex flex-col gap-4 rounded-[14px] border border-white/12",
+              embedded ? "p-4 md:p-5" : "p-6",
+            ].join(" ")}
             style={{
               background:
                 "linear-gradient(180deg, rgba(255,255,255,0.04) 0%, rgba(0,0,0,0.45) 100%)",
             }}
           >
             <div className="flex items-center justify-between">
-              <span className="text-[36px] font-medium leading-none -tracking-[0.04em] text-gradient">
+              <span
+                className={[
+                  "impact-highlight font-medium leading-none -tracking-[0.04em]",
+                  embedded ? "text-[28px]" : "text-[36px]",
+                ].join(" ")}
+              >
                 {step.number}
               </span>
-              {i < processSteps.length - 1 ? (
-                <span className="text-2xl text-purple/60 max-md:hidden">→</span>
+              {i < steps.length - 1 ? (
+                <span className={embedded ? "hidden" : "text-2xl text-purple/60 max-md:hidden"}>
+                  →
+                </span>
               ) : null}
             </div>
             <div className="flex flex-col gap-2">
-              <h3 className="text-lg font-medium text-white -tracking-[0.01em]">
-                {step.title}
-              </h3>
-              <p className="text-[13px] leading-[1.5em] text-white/65">
-                {step.description}
-              </p>
+              <h3 className="text-lg font-medium text-white -tracking-[0.01em]">{step.title}</h3>
+              <p className="text-[13px] leading-[1.5em] text-white/65">{step.description}</p>
             </div>
           </div>
         ))}
       </div>
+    </>
+  );
+
+  if (embedded) {
+    return <div className={shellClass}>{content}</div>;
+  }
+
+  return (
+    <section
+      id="process"
+      className={shellClass}
+      style={{
+        background:
+          "radial-gradient(50% 40% at 50% 30%, var(--color-dark-purple) 0%, rgba(0,0,0,0) 100%)",
+      }}
+    >
+      {content}
     </section>
   );
 }

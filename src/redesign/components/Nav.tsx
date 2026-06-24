@@ -1,10 +1,35 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { getNavPageLabel } from "../data/navPageLabels";
-import { navLinks, primaryCta, site, whatsappHref } from "../data/site";
+import {
+  navLinks,
+  primaryCta,
+  site,
+  whatsappHref,
+} from "../data/site";
 import { WhatsAppIcon } from "./icons";
 
-export function Nav() {
+export type NavLinkItem = { label: string; href: string };
+export type NavCta = { label: string; href: string };
+
+type NavProps = {
+  links?: ReadonlyArray<NavLinkItem>;
+  cta?: NavCta;
+  whatsappHref?: string;
+  /** When set, primary nav CTA opens the audit modal instead of navigating. */
+  onCtaClick?: () => void;
+  /** Desktop: render CTA button outside the nav pill (business automation landing). */
+  ctaOutsideNav?: boolean;
+};
+
+export function Nav({
+  links = navLinks,
+  cta = primaryCta,
+  whatsappHref: whatsappHrefProp,
+  onCtaClick,
+  ctaOutsideNav = false,
+}: NavProps) {
+  const waHref = whatsappHrefProp ?? whatsappHref;
   const [open, setOpen] = useState(false);
   const { pathname } = useLocation();
   const pageLabel = getNavPageLabel(pathname);
@@ -27,6 +52,20 @@ export function Nav() {
     return () => window.removeEventListener("keydown", handler);
   }, [open]);
 
+  const ctaButtonClass =
+    "btn-gloss relative overflow-hidden inline-flex items-center rounded-lg bg-purple/60 border border-white/15 text-[13px] font-medium text-white shadow-[inset_0_0_6px_3px_rgba(255,255,255,0.18)]";
+
+  const renderCtaButton = (className: string) =>
+    onCtaClick ? (
+      <button type="button" onClick={onCtaClick} className={className}>
+        <span className="relative z-[2]">{cta.label}</span>
+      </button>
+    ) : (
+      <a href={cta.href} className={className}>
+        <span className="relative z-[2]">{cta.label}</span>
+      </a>
+    );
+
   return (
     <>
       {/* Sticky avoids iOS Safari's `position: fixed` re-anchoring bug when an
@@ -34,7 +73,18 @@ export function Nav() {
        *  wrapper is pointer-events-none so the gap above the pill never
        *  blocks taps on hero CTAs. */}
       <div className="sticky top-0 z-40 w-full pointer-events-none pt-[max(env(safe-area-inset-top),0.35rem)] pb-1.5">
-        <nav className="pointer-events-auto mx-auto flex w-[760px] max-w-[calc(100vw-20px)] items-center justify-between gap-2 p-2 bg-black/85 backdrop-blur-[10px] rounded-[14px] border border-white/15 shadow-[0_5px_20px_rgba(0,0,0,0.35)]">
+        <div
+          className={[
+            "pointer-events-auto mx-auto flex max-w-[calc(100vw-20px)] items-center gap-2",
+            ctaOutsideNav ? "justify-center md:max-w-none md:gap-2.5" : "justify-center",
+          ].join(" ")}
+        >
+          <nav
+            className={[
+              "flex items-center justify-between gap-2 p-2 bg-black/85 backdrop-blur-[10px] rounded-[14px] border border-white/15 shadow-[0_5px_20px_rgba(0,0,0,0.35)]",
+              ctaOutsideNav ? "w-full max-w-[calc(100vw-20px)] md:w-auto md:max-w-none md:shrink-0" : "w-[760px] max-w-[calc(100vw-20px)]",
+            ].join(" ")}
+          >
           <Link to="/" className="flex min-w-0 items-center gap-2 pl-1 shrink-0" aria-label={`${site.brand} home`}>
             <span className="flex size-10 shrink-0 items-center justify-center rounded-[10px] bg-white p-1 shadow-[0_2px_8px_rgba(0,0,0,0.3)]">
               <img
@@ -57,7 +107,10 @@ export function Nav() {
 
           {pageLabel ? (
             <p
-              className="min-w-0 flex-1 truncate px-1 text-center text-[12px] font-medium tracking-[0.02em] text-white/85 sm:text-[13px] md:max-w-[280px] md:flex-none md:px-3 md:text-left"
+              className={[
+                "min-w-0 flex-1 truncate px-1 text-center text-[12px] font-medium tracking-[0.02em] text-white/85 sm:text-[13px]",
+                ctaOutsideNav ? "md:hidden" : "md:max-w-[280px] md:flex-none md:px-3 md:text-left",
+              ].join(" ")}
               aria-current="page"
             >
               {pageLabel}
@@ -65,7 +118,7 @@ export function Nav() {
           ) : null}
 
           <div className="flex items-center gap-0.5 max-md:hidden md:ml-auto">
-            {navLinks.map(({ label, href }) => (
+            {links.map(({ label, href }) => (
               <a
                 key={label}
                 href={href}
@@ -78,7 +131,7 @@ export function Nav() {
 
           <div className="flex items-center gap-1.5 shrink-0">
             <a
-              href={whatsappHref}
+              href={waHref}
               target="_blank"
               rel="noopener"
               aria-label="WhatsApp us"
@@ -86,12 +139,19 @@ export function Nav() {
             >
               <WhatsAppIcon className="size-[18px] fill-white" />
             </a>
-            <a
-              href={primaryCta.href}
-              className="btn-gloss relative overflow-hidden inline-flex items-center px-3.5 py-2 rounded-lg bg-purple/60 border border-white/15 text-[13px] font-medium text-white shadow-[inset_0_0_6px_3px_rgba(255,255,255,0.18)] max-md:hidden"
-            >
-              <span className="relative z-[2]">{primaryCta.label}</span>
-            </a>
+            {ctaOutsideNav ? null : onCtaClick ? (
+              <button
+                type="button"
+                onClick={onCtaClick}
+                className={`${ctaButtonClass} px-3.5 py-2 max-md:hidden`}
+              >
+                <span className="relative z-[2]">{cta.label}</span>
+              </button>
+            ) : (
+              <a href={cta.href} className={`${ctaButtonClass} px-3.5 py-2 max-md:hidden`}>
+                <span className="relative z-[2]">{cta.label}</span>
+              </a>
+            )}
 
             <button
               type="button"
@@ -128,6 +188,10 @@ export function Nav() {
             </button>
           </div>
         </nav>
+          {ctaOutsideNav
+            ? renderCtaButton(`${ctaButtonClass} hidden shrink-0 whitespace-nowrap px-4 py-2.5 md:inline-flex`)
+            : null}
+        </div>
       </div>
 
       {open ? (
@@ -144,7 +208,7 @@ export function Nav() {
           />
           <div className="absolute left-0 right-0 top-[calc(env(safe-area-inset-top,0px)+88px)] mx-3 rounded-[14px] border border-white/15 bg-black/85 p-3 shadow-[0_15px_40px_rgba(0,0,0,0.5)]">
             <div className="flex flex-col">
-              {navLinks.map(({ label, href }) => (
+              {links.map(({ label, href }) => (
                 <a
                   key={label}
                   href={href}
@@ -157,7 +221,7 @@ export function Nav() {
             </div>
             <div className="mt-3 flex flex-col gap-2 border-t border-white/10 pt-3">
               <a
-                href={whatsappHref}
+                href={waHref}
                 target="_blank"
                 rel="noopener"
                 onClick={() => setOpen(false)}
@@ -166,13 +230,26 @@ export function Nav() {
                 <WhatsAppIcon className="size-[16px] fill-white" />
                 WhatsApp us
               </a>
-              <a
-                href={primaryCta.href}
-                onClick={() => setOpen(false)}
-                className="btn-gloss relative overflow-hidden inline-flex items-center justify-center gap-2 rounded-lg border border-white/15 bg-purple/60 px-3 py-3 text-[14px] font-medium text-white shadow-[inset_0_0_6px_3px_rgba(255,255,255,0.18)]"
-              >
-                <span className="relative z-[2]">{primaryCta.label}</span>
-              </a>
+              {onCtaClick ? (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setOpen(false);
+                    onCtaClick();
+                  }}
+                  className="btn-gloss relative overflow-hidden inline-flex items-center justify-center gap-2 rounded-lg border border-white/15 bg-purple/60 px-3 py-3 text-[14px] font-medium text-white shadow-[inset_0_0_6px_3px_rgba(255,255,255,0.18)]"
+                >
+                  <span className="relative z-[2]">{cta.label}</span>
+                </button>
+              ) : (
+                <a
+                  href={cta.href}
+                  onClick={() => setOpen(false)}
+                  className="btn-gloss relative overflow-hidden inline-flex items-center justify-center gap-2 rounded-lg border border-white/15 bg-purple/60 px-3 py-3 text-[14px] font-medium text-white shadow-[inset_0_0_6px_3px_rgba(255,255,255,0.18)]"
+                >
+                  <span className="relative z-[2]">{cta.label}</span>
+                </a>
+              )}
             </div>
           </div>
         </div>

@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { site, whatsappHref } from "../data/site";
 import { LeadForm, type LeadFormProps } from "./LeadForm";
 import { OrbIcon, WhatsAppIcon } from "./icons";
@@ -5,10 +6,22 @@ import { OrbIcon, WhatsAppIcon } from "./icons";
 type CTAProps = {
   /** Defaults to `contact-form` so Nav / in-page anchors match industry landings and the homepage redesign. */
   id?: string;
+  eyebrow?: string;
+  title?: ReactNode;
+  subtitle?: string;
   leadFormProps?: Partial<LeadFormProps>;
+  whatsappHref?: string;
 };
 
-export function CTA({ id = "contact-form", leadFormProps }: CTAProps) {
+export function CTA({
+  id = "contact-form",
+  eyebrow,
+  title,
+  subtitle,
+  leadFormProps,
+  whatsappHref: whatsappHrefProp,
+}: CTAProps) {
+  const waHref = whatsappHrefProp ?? whatsappHref;
   const formProps: LeadFormProps = {
     sourcePage: "homepage",
     vertical: "none",
@@ -46,13 +59,23 @@ export function CTA({ id = "contact-form", leadFormProps }: CTAProps) {
             <OrbIcon />
           </div>
 
+          {eyebrow ? (
+            <p className="inline-flex items-center rounded-full border border-white/15 bg-black/60 px-3 py-1 text-[11px] font-medium uppercase tracking-[0.1em] text-purple">
+              {eyebrow}
+            </p>
+          ) : null}
           <h2 className="text-[56px] font-medium -tracking-[0.04em] leading-[1.05em] text-white max-md:text-[36px]">
-            Your competitors are automating.
-            <br />
-            <span className="text-white/65">Your hours aren&apos;t coming back on their own.</span>
+            {title ?? (
+              <>
+                Your competitors are automating.
+                <br />
+                <span className="text-white/65">Your hours aren&apos;t coming back on their own.</span>
+              </>
+            )}
           </h2>
           <p className="text-lg text-white/65 max-w-[460px] max-md:text-base">
-            Book your free automation audit. In 30 minutes we&apos;ll show you exactly where time and money are leaking — no cost, no commitment.
+            {subtitle ??
+              "Book your free automation audit. In 30 minutes we'll show you exactly where time and money are leaking — no cost, no commitment."}
           </p>
         </div>
 
@@ -67,7 +90,7 @@ export function CTA({ id = "contact-form", leadFormProps }: CTAProps) {
 
           <div className="flex items-center gap-3 flex-wrap justify-center">
             <a
-              href={whatsappHref}
+              href={waHref}
               target="_blank"
               rel="noopener"
               className="inline-flex items-center gap-2 px-4 py-2.5 rounded-[10px] bg-black/40 border border-white/15 text-sm font-medium text-white/90 backdrop-blur-[5px] transition-colors hover:bg-black/60 hover:text-white"

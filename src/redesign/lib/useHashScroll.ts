@@ -89,6 +89,7 @@ export function useHashScroll() {
       if (hashIndex === -1) return;
 
       const path = raw.slice(0, hashIndex);
+      const hashTarget = raw.slice(hashIndex + 1);
       const currentPath = window.location.pathname;
       const samePage =
         path === "" ||
@@ -96,7 +97,7 @@ export function useHashScroll() {
         (path === "/" && currentPath === "/");
       if (!samePage) return; // let cross-page links navigate normally
 
-      const id = decodeURIComponent(raw.slice(hashIndex + 1));
+      const id = decodeURIComponent(hashTarget);
       if (!id) return;
 
       event.preventDefault();

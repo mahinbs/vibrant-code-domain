@@ -22,10 +22,22 @@ export const navLinks = [
   { label: "Contact", href: "/#contact-form" },
 ] as const;
 
+/** In-page anchors for `/business-automation` landing. */
+export const businessAutomationNavLinks = [
+  { label: "Process", href: "#process" },
+  { label: "Industries", href: "#industry-playbook" },
+  { label: "Audit", href: "#contact-form" },
+] as const;
+
 export const primaryCta = {
   label: "Get my free automation audit",
   sublabel: "24hr reply",
   href: "/#contact-form",
+} as const;
+
+export const businessAutomationCta = {
+  label: "Get my free automation audit",
+  href: "#contact-form",
 } as const;
 
 export const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent(site.whatsappMessage)}`;

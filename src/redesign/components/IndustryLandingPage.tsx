@@ -3,7 +3,7 @@ import { Nav } from "./Nav";
 import { SiteBackground } from "./SiteBackground";
 import { workCaseStudyUrl } from "../lib/mainSiteWorkUrl";
 import { CTA } from "./CTA";
-import { StrategyCallLeadModal } from "./StrategyCallLeadModal";
+import { BookCallWithFounderBand } from "./BookCallWithFounderBand";
 import { useEffect, useId, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -134,116 +134,11 @@ function deriveCapabilityChips(body: string): string[] {
 
 const PROCESS_TESTIMONIAL_AVATAR_SRC = "/images/testimonial-regulated-payments.webp";
 
-const FOUNDER_PHOTO_SRC = "/images/reshab-founder.png";
-
-/** Founder call-to-action band — after “How it works” + Our Works on fintech/healthcare; after “How it works” on tech banner landings.
- *  Composition: cutout portrait on a layered glow column + a glassy talking-points card on the
- *  right with the booking CTA. Uses the same `SECTION_PAGE_X` / `sectionWashStyle` rhythm as
- *  the surrounding sections so it lands as one continuous strip, not a banner overlay.
- */
+/** Founder call-to-action band — after “How it works” on industry landings. */
 function buildTogetherCtaLabel(portfolioVertical?: "fintech" | "healthcare") {
   if (portfolioVertical === "fintech") return "Let's build your fintech business together";
   if (portfolioVertical === "healthcare") return "Let's build your healthcare product together";
   return "Let's build your product together";
-}
-
-const DEFAULT_BOOK_CALL_HEADLINE =
-  "Get a {{straight answer}} on your build, from our CEO";
-const DEFAULT_BOOK_CALL_SUBHEADLINE =
-  "Share your idea in a short form. Walk away with clarity on {{product scope}}, {{technical fit}}, and a delivery plan you can act on, not a sales script.";
-
-function BookCallWithFounderBand({
-  sourcePage,
-  tightSpacing,
-  headline = DEFAULT_BOOK_CALL_HEADLINE,
-  subheadline = DEFAULT_BOOK_CALL_SUBHEADLINE,
-}: {
-  sourcePage: string;
-  tightSpacing?: boolean;
-  headline?: string;
-  subheadline?: string;
-}) {
-  const [strategyModalOpen, setStrategyModalOpen] = useState(false);
-
-  return (
-    <section
-      className={`mt-4 w-full ${tightSpacing ? "pt-5 pb-10 md:pt-5 md:pb-14" : "py-10 md:py-14"} ${SECTION_PAGE_X}`}
-      style={sectionWashStyle}
-      aria-label="Book a call with the chief executive officer"
-    >
-      <div className={SECTION_CONTENT}>
-        <div className="relative overflow-hidden rounded-[18px] border border-white/12 bg-[linear-gradient(140deg,rgba(22,36,74,0.65)_0%,rgba(8,14,32,0.92)_55%,rgba(0,0,0,0.94)_100%)] shadow-[0_24px_60px_-30px_rgba(60,100,255,0.45)]">
-          {/** Decorative glow blobs behind the portrait — purely cosmetic, no layout weight. */}
-          <div
-            aria-hidden
-            className="pointer-events-none absolute -left-24 top-1/2 z-0 h-[420px] w-[420px] -translate-y-1/2 rounded-full bg-[radial-gradient(circle_at_50%_50%,rgba(108,148,255,0.45),rgba(60,80,200,0.18)_42%,transparent_70%)] blur-[60px]"
-          />
-          <div
-            aria-hidden
-            className="pointer-events-none absolute -right-32 -top-32 z-0 h-[360px] w-[360px] rounded-full bg-[radial-gradient(circle_at_50%_50%,rgba(150,120,255,0.32),transparent_70%)] blur-[70px]"
-          />
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-0 z-0 opacity-[0.18] [background-image:linear-gradient(rgba(255,255,255,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.06)_1px,transparent_1px)] [background-size:32px_32px]"
-          />
-
-          <div className="relative z-[2] grid grid-cols-1 items-stretch gap-8 p-6 md:grid-cols-[minmax(280px,360px)_1fr] md:gap-12 md:p-10">
-            {/** Portrait column — below copy on mobile, left column on md+. */}
-            <div className="relative order-2 flex items-end justify-center md:order-none md:items-stretch md:justify-start">
-              <div
-                aria-hidden
-                className="pointer-events-none absolute inset-x-4 bottom-0 top-6 rounded-[16px] bg-[linear-gradient(180deg,rgba(88,132,255,0.18)_0%,rgba(40,60,160,0.28)_55%,rgba(8,14,32,0.55)_100%)]"
-              />
-              <div
-                aria-hidden
-                className="pointer-events-none absolute left-1/2 top-1/2 h-[260px] w-[260px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle_at_50%_45%,rgba(140,170,255,0.55),rgba(60,90,210,0.18)_45%,transparent_75%)] blur-[18px]"
-              />
-              <img
-                src={FOUNDER_PHOTO_SRC}
-                alt="Reshab, CEO Boostmysites"
-                loading="lazy"
-                decoding="async"
-                className="relative z-[1] mx-auto h-auto max-h-[420px] w-auto object-contain drop-shadow-[0_25px_45px_rgba(0,0,0,0.6)] md:max-h-[480px]"
-              />
-              <span
-                className="absolute bottom-2 left-2 z-[2] inline-flex items-center gap-2 rounded-full border border-white/15 bg-black/55 px-3 py-1 text-[11px] font-medium uppercase tracking-[0.16em] text-white/80 backdrop-blur-[6px]"
-              >
-                <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-[rgba(108,148,255,0.95)] shadow-[0_0_8px_rgba(108,148,255,0.7)]" />
-                Reshab · CEO Boostmysites
-              </span>
-            </div>
-
-            {/** Content column — eyebrow, headline, body, CTA (first on mobile). */}
-            <div className="order-1 flex flex-col justify-center md:order-none">
-              <span className="text-[11px] font-medium uppercase tracking-[0.22em] text-white/55">
-                1:1 with the Chief Executive Officer
-              </span>
-              <h2 className="mt-3 max-w-[640px] text-[28px] font-medium leading-[1.12] -tracking-[0.02em] text-white md:text-[36px]">
-                <HighlightText text={headline} />
-              </h2>
-              <p className="mt-4 max-w-[560px] text-[15px] leading-[1.55] text-white/72 md:text-[16px]">
-                <HighlightText text={subheadline} />
-              </p>
-
-              <div className="mt-7 flex flex-wrap items-center gap-4">
-                <button
-                  type="button"
-                  onClick={() => setStrategyModalOpen(true)}
-                  className="btn-gloss relative overflow-hidden rounded-[10px] border border-white/20 bg-purple/70 px-5 py-3 text-sm font-medium text-white"
-                >
-                  Book my strategy call
-                </button>
-                <p className="text-[12px] uppercase tracking-[0.16em] text-white/45">
-                  Free · 30 min · No sales pitch
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <StrategyCallLeadModal open={strategyModalOpen} onOpenChange={setStrategyModalOpen} sourcePage={sourcePage} />
-    </section>
-  );
 }
 
 /** Horizontal testimonial band (avatar + quote) — matches fintech landing spec; image is a simple swap via `public/images/testimonial-regulated-payments.webp`. */

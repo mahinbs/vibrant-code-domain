@@ -1,0 +1,46 @@
+.autopilot-terminal-caret {
+  display: inline-block;
+  width: 2px;
+  height: 0.9em;
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  background: rgba(93, 202, 165, 0.9);
+  animation: terminal-cursor-blink 1s step-end infinite;
+}
+
+@keyframes terminal-cursor-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes terminal-line-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.autopilot-terminal-line-in {
+  animation: terminal-line-in 0.2s ease forwards;
+}
+
+.autopilot-pulse-ring {
+  animation: autopilot-pulse-ring 2s infinite;
+}
+
+@keyframes autopilot-pulse-ring {
+  0% {
+    box-shadow: 0 0 0 0 rgba(93, 202, 165, 0.5);
+  }
+  70% {
+    box-shadow: 0 0 0 7px rgba(93, 202, 165, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(93, 202, 165, 0);
+  }
+}
