@@ -1,10 +1,9 @@
-import { lazy, Suspense, useState, type ReactNode } from "react";
+import { lazy, Suspense, type ReactNode } from "react";
 import { Helmet } from "react-helmet-async";
 import { SiteBackground } from "../components/SiteBackground";
 import { Nav } from "../components/Nav";
 import { BusinessAutomationHero } from "../components/BusinessAutomationHero";
 import { SectionDivider } from "../components/SectionDivider";
-import { AuditLeadModal } from "../components/AuditLeadModal";
 import { FloatingWhatsAppButton } from "../components/FloatingWhatsAppButton";
 import { useHashScroll } from "../lib/useHashScroll";
 import {
@@ -79,8 +78,6 @@ function SectionWithTopRule({
 
 export default function BusinessAutomation() {
   useHashScroll();
-  const [auditModalOpen, setAuditModalOpen] = useState(false);
-  const openAuditModal = () => setAuditModalOpen(true);
 
   return (
     <>
@@ -92,24 +89,15 @@ export default function BusinessAutomation() {
         />
       </Helmet>
       <SiteBackground />
-      <AuditLeadModal
-        open={auditModalOpen}
-        onOpenChange={setAuditModalOpen}
-        {...businessAutomationAuditCta}
-      />
       <Nav
         links={businessAutomationNavLinks}
         cta={businessAutomationCta}
         whatsappHref={businessAutomationWhatsappHref}
-        onCtaClick={openAuditModal}
         ctaOutsideNav
       />
       <FloatingWhatsAppButton href={businessAutomationWhatsappHref} />
       <main className="relative z-10 mx-auto flex w-full max-w-[1920px] flex-col items-center overflow-x-hidden pb-16 md:pb-24">
-        <BusinessAutomationHero
-          whatsappHref={businessAutomationWhatsappHref}
-          onPrimaryCtaClick={openAuditModal}
-        />
+        <BusinessAutomationHero whatsappHref={businessAutomationWhatsappHref} />
         <FeaturedInTrustBand
           pressItems={[...businessAutomationPressItems]}
           metrics={businessLandingStats}
