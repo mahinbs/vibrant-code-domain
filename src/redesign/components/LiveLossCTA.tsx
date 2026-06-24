@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { liveLossBandCopy, liveLossRates } from "../data/businessAutomationContent";
+import { HighlightText } from "../lib/highlightImpactText";
 import { ArrowRightIcon } from "./icons";
 
 type LiveLossCTAProps = {
@@ -104,11 +105,8 @@ export function LiveLossCTA({ ctaHref = "#contact-form" }: LiveLossCTAProps) {
 
   return (
     <div className="relative z-[1] mx-auto mt-10 w-full max-w-[1200px] md:mt-12">
-      <p className="mb-1 text-left text-lg font-medium text-white max-md:text-[17px] md:text-xl">
-        Your business might be <span className="loss-highlight-red">losing more</span>
-      </p>
-      <p className="mb-3 text-left text-[11px] text-white/45 md:text-xs">
-        {liveLossBandCopy.footnote}
+      <p className="mb-3 text-left text-lg font-medium text-white max-md:text-center md:text-xl">
+        <HighlightText text={liveLossBandCopy.headline} />
       </p>
 
       <ul

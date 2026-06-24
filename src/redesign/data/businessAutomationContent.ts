@@ -52,8 +52,7 @@ export const liveLossRates = {
 } as const;
 
 export const liveLossBandCopy = {
-  headline: "Your business might be losing more",
-  footnote: "Based on ₹18L avg annual manual-ops cost for a 10-person team.",
+  headline: "Your business might be {{losing more}}",
 } as const;
 
 export type AutomationScopeItem = {
