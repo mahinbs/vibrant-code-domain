@@ -1,4 +1,3 @@
-import type { BusinessAutomationNiche } from "../data/businessAutomationNiches";
 import { ArrowRightIcon } from "./icons";
 
 const TRUST_SIGNALS = [
@@ -8,11 +7,10 @@ const TRUST_SIGNALS = [
 ] as const;
 
 type NicheCTAProps = {
-  niche: BusinessAutomationNiche;
   ctaHref?: string;
 };
 
-export function NicheCTA({ niche, ctaHref = "#contact-form" }: NicheCTAProps) {
+export function NicheCTA({ ctaHref = "#contact-form" }: NicheCTAProps) {
   function handleBookAudit() {
     const target = document.getElementById(ctaHref.replace(/^#/, ""));
     target?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -21,19 +19,11 @@ export function NicheCTA({ niche, ctaHref = "#contact-form" }: NicheCTAProps) {
   return (
     <div
       className="mt-6 flex flex-col gap-4 rounded-[12px] border border-white/[0.06] bg-white/[0.02] px-4 py-4 md:mt-8 md:flex-row md:items-center md:justify-between md:gap-6 md:px-6 md:py-5"
-      aria-label={`Deploy autopilot for ${niche.label}`}
+      aria-label="Book your free automation audit"
     >
-      <div className="flex min-w-0 flex-1 flex-col gap-2.5 sm:flex-row sm:items-center sm:gap-4">
-        <div className="inline-flex w-fit shrink-0 items-center gap-2 rounded-full border border-purple/25 bg-purple/10 px-3 py-1">
-          <span className="size-1.5 shrink-0 rounded-full bg-purple shadow-[0_0_8px_rgba(108,148,255,0.6)]" aria-hidden />
-          <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-purple">
-            {niche.label}
-          </span>
-        </div>
-        <h3 className="text-[18px] font-medium leading-snug -tracking-[0.02em] text-white md:text-xl">
-          Your {niche.label} autopilot is ready to deploy.
-        </h3>
-      </div>
+      <h3 className="min-w-0 flex-1 text-[18px] font-medium leading-snug -tracking-[0.02em] text-white md:text-xl">
+        Your business on auto pilot is just 1 step away
+      </h3>
 
       <div className="flex shrink-0 flex-col gap-2 sm:flex-row sm:items-center sm:gap-4">
         <button

@@ -203,7 +203,7 @@ export function IndustryPlaybook() {
         <AutopilotTerminal key={animKey} niche={niche} />
       </div>
 
-      <NicheCTA key={niche.id} niche={niche} />
+      <NicheCTA />
     </section>
   );
 }
