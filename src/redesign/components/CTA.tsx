@@ -31,7 +31,6 @@ export function CTA({
         subtitle={subtitle}
         leadFormProps={leadFormProps}
         whatsappHref={whatsappHrefProp}
-        variant="section"
       />
     </section>
   );

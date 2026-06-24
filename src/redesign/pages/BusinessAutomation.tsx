@@ -53,6 +53,15 @@ const landingProcessSteps: ProcessStep[] = businessAutomationSteps.map((s) => ({
   description: s.desc,
 }));
 
+const businessAutomationAuditCta = {
+  eyebrow: "Free AI Audit",
+  title: "What's holding your business back?",
+  subtitle:
+    "Book a free 30-minute AI Audit. We'll identify 3 things your team does manually that can be automated this month.",
+  leadFormProps: { sourcePage: "business-automation" as const },
+  whatsappHref: businessAutomationWhatsappHref,
+};
+
 function SectionWithTopRule({
   showDivider = true,
   children,
@@ -86,11 +95,7 @@ export default function BusinessAutomation() {
       <AuditLeadModal
         open={auditModalOpen}
         onOpenChange={setAuditModalOpen}
-        eyebrow="Free AI Audit"
-        title="What's holding your business back?"
-        subtitle="Book a free 30-minute AI Audit. We'll identify 3 things your team does manually that can be automated this month."
-        whatsappHref={businessAutomationWhatsappHref}
-        leadFormProps={{ sourcePage: "business-automation" }}
+        {...businessAutomationAuditCta}
       />
       <Nav
         links={businessAutomationNavLinks}
@@ -166,14 +171,7 @@ export default function BusinessAutomation() {
             />
           </SectionWithTopRule>
           <SectionWithTopRule>
-            <CTA
-              id="contact-form"
-              eyebrow="Free AI Audit"
-              title="What's holding your business back?"
-              subtitle="Book a free 30-minute AI Audit. We'll identify 3 things your team does manually that can be automated this month."
-              leadFormProps={{ sourcePage: "business-automation" }}
-              whatsappHref={businessAutomationWhatsappHref}
-            />
+            <CTA id="contact-form" {...businessAutomationAuditCta} />
           </SectionWithTopRule>
           <SectionWithTopRule>
             <Footer whatsappHref={businessAutomationWhatsappHref} />
