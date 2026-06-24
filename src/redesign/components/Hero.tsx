@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { primaryCta, whatsappHref } from "../data/site";
 import { trustBadges } from "../data/stats";
@@ -164,13 +165,13 @@ export function Hero() {
 
             {/* Dual CTA */}
             <div className="flex items-center gap-3 flex-wrap">
-              <a
-                href={primaryCta.href}
+              <Link
+                to={primaryCta.href}
                 className="btn-gloss relative overflow-hidden inline-flex items-center gap-2 px-5 py-[15px] rounded-[10px] bg-purple/70 border border-white/20 text-sm font-medium text-white shadow-[inset_0_0_6px_3px_rgba(255,255,255,0.2)]"
               >
                 <span className="relative z-[2]">{primaryCta.label}</span>
                 <ArrowRightIcon className="relative z-[2] size-[14px] text-white" />
-              </a>
+              </Link>
               <a
                 href={whatsappHref}
                 target="_blank"

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { getNavPageLabel } from "../data/navPageLabels";
+import { getNavPageLabel } from "../data/navPageLabels";
 import {
   navLinks,
   primaryCta,
@@ -60,6 +61,10 @@ export function Nav({
       <button type="button" onClick={onCtaClick} className={className}>
         <span className="relative z-[2]">{cta.label}</span>
       </button>
+    ) : cta.href.startsWith("/") && !cta.href.includes("#") ? (
+      <Link to={cta.href} className={className}>
+        <span className="relative z-[2]">{cta.label}</span>
+      </Link>
     ) : (
       <a href={cta.href} className={className}>
         <span className="relative z-[2]">{cta.label}</span>
@@ -148,9 +153,7 @@ export function Nav({
                 <span className="relative z-[2]">{cta.label}</span>
               </button>
             ) : (
-              <a href={cta.href} className={`${ctaButtonClass} px-3.5 py-2 max-md:hidden`}>
-                <span className="relative z-[2]">{cta.label}</span>
-              </a>
+              renderCtaButton(`${ctaButtonClass} px-3.5 py-2 max-md:hidden`)
             )}
 
             <button
@@ -242,13 +245,11 @@ export function Nav({
                   <span className="relative z-[2]">{cta.label}</span>
                 </button>
               ) : (
-                <a
-                  href={cta.href}
-                  onClick={() => setOpen(false)}
-                  className="btn-gloss relative overflow-hidden inline-flex items-center justify-center gap-2 rounded-lg border border-white/15 bg-purple/60 px-3 py-3 text-[14px] font-medium text-white shadow-[inset_0_0_6px_3px_rgba(255,255,255,0.18)]"
-                >
-                  <span className="relative z-[2]">{cta.label}</span>
-                </a>
+                <span onClick={() => setOpen(false)} className="contents">
+                  {renderCtaButton(
+                    "btn-gloss relative overflow-hidden inline-flex items-center justify-center gap-2 rounded-lg border border-white/15 bg-purple/60 px-3 py-3 text-[14px] font-medium text-white shadow-[inset_0_0_6px_3px_rgba(255,255,255,0.18)]",
+                  )}
+                </span>
               )}
             </div>
           </div>

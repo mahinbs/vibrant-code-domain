@@ -30,9 +30,9 @@ export const businessAutomationNavLinks = [
 ] as const;
 
 export const primaryCta = {
-  label: "Get my free automation audit",
+  label: "Know more",
   sublabel: "24hr reply",
-  href: "/#contact-form",
+  href: "/business-automation",
 } as const;
 
 export const businessAutomationCta = {
