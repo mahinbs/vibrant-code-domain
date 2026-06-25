@@ -44,7 +44,7 @@ const ChatbotDevelopmentPage = lazy(
   () => import("./pages/ChatbotDevelopmentPage")
 );
 const ReviewsPage = lazy(() => import("./pages/ReviewsPage"));
-const ThankYouPage = lazy(() => import("./pages/ThankYouPage"));
+const ThankYouPage = lazy(() => import("./redesign/pages/ThankYou"));
 const PrivacyPolicyPage = lazy(() => import("./pages/PrivacyPolicyPage"));
 const TermsAndConditions = lazy(() => import("./pages/TermsAndConditions"));
 const PartnershipPage = lazy(() => import("./pages/PartnershipPage"));
@@ -424,10 +424,9 @@ const App = () => {
               <Route
                 path="/thank-you"
                 element={
-                  <>
-                    <FloatingWhatsAppButton />
+                  <RedesignShell>
                     <ThankYouPage />
-                  </>
+                  </RedesignShell>
                 }
               />
               <Route

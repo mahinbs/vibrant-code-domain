@@ -1,8 +1,9 @@
 import { useMemo, useState, type ChangeEvent, type FormEvent } from "react";
+import { useNavigate } from "react-router-dom";
 import { trackMetaCompleteRegistration } from "@/lib/analytics/metaPixel";
+import { saveLeadThankYouReturnPath } from "../lib/leadThankYou";
 import { submitLead, type HighIntentLeadSubmitInput } from "../lib/submitLead";
 import type { HighIntentLeadPayload } from "../lib/highIntentLead";
-import { CheckIcon } from "./icons";
 
 export type LeadVertical = "none" | "fintech" | "healthcare";
 
@@ -259,6 +260,7 @@ export function LeadForm({
   density = "default",
   hideStepHeadline = false,
 }: LeadFormProps) {
+  const navigate = useNavigate();
   const compact = density === "compact";
   const [values, setValues] = useState<FormState>(() =>
     emptyForm(vertical, initialWhatBuildingValue),
@@ -371,29 +373,12 @@ export function LeadForm({
       if (sourcePage === "fintech-landing") {
         trackMetaCompleteRegistration();
       }
-      setStatus("success");
-      setValues(emptyForm(vertical, initialWhatBuildingValue));
-      setCountryCode(DEFAULT_COUNTRY);
-      setNationalNumber("");
-      setStep(1);
+      saveLeadThankYouReturnPath();
+      navigate("/thank-you", { replace: true });
     } else {
       setStatus("error");
       setServerError(res.error ?? "Something went wrong. Try again.");
     }
-  }
-
-  if (status === "success") {
-    return (
-      <div className="flex max-w-[460px] flex-col items-center gap-3 rounded-[14px] border border-purple/40 bg-purple/10 p-8 text-center mx-auto">
-        <div className="flex size-10 items-center justify-center rounded-full bg-purple/30">
-          <CheckIcon className="size-5 text-white" />
-        </div>
-        <h3 className="text-xl font-medium text-white">Request received.</h3>
-        <p className="text-sm text-white/70">
-          We&apos;ll reply within 24 hours. Prefer faster? Ping us on WhatsApp.
-        </p>
-      </div>
-    );
   }
 
   const stepHeadline = isAutomation

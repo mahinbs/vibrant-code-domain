@@ -134,7 +134,7 @@ const EXACT: Record<string, RouteSeo> = {
   "/thank-you": {
     title: "Thank You | Boostmysites",
     description:
-      "Thanks for reaching out to Boostmysites. Our team will review your message and get back to you shortly.",
+      "Your request was received. Our team will review it and get back to you within 24 hours.",
   },
   "/privacy-policy": {
     title: "Privacy Policy | Boostmysites",
