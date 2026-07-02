@@ -167,7 +167,7 @@ const App = () => {
                 element={
                   useNewHomepageUi ? (
                     <RedesignShell>
-                      <BusinessAutomation whatsappHref={homeWhatsappHref} />
+                      <BusinessAutomation whatsappHref={homeWhatsappHref} sourcePage="homepage" />
                     </RedesignShell>
                   ) : (
                     <>

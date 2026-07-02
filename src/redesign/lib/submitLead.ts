@@ -3,6 +3,41 @@ import type { HighIntentLeadPayload, HighIntentLeadSubmitInput } from "./highInt
 import { scoreAndTier } from "./scoreLead";
 import { notifyTelegramLead } from "./notifyTelegramLead";
 
+/**
+ * Source pages whose leads go to the SEPARATE `bms_leads` table, kept apart
+ * from `reshab_leads` (which the /business-automation team owns).
+ * Add a page's sourcePage here to route its leads to the new table.
+ */
+const BMS_LEAD_SOURCES = new Set<string>([
+  "homepage",
+  "personal-automation",
+  "free-ai-automation-course",
+]);
+
+function leadTableFor(sourcePage: string): "bms_leads" | "reshab_leads" {
+  return BMS_LEAD_SOURCES.has((sourcePage || "").trim()) ? "bms_leads" : "reshab_leads";
+}
+
+/**
+ * Insert into the routed table. If `bms_leads` doesn't exist yet (not created
+ * in Supabase), fall back to `reshab_leads` so a lead is never lost.
+ */
+async function insertLeadRow(
+  sourcePage: string,
+  row: Record<string, unknown>,
+): Promise<{ error: { message?: string; code?: string } | null }> {
+  const table = leadTableFor(sourcePage);
+  // reshab_leads / bms_leads aren't in the generated Database types.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const client = supabase as any;
+  const { error } = await client.from(table).insert(row);
+  if (error && table === "bms_leads") {
+    const fb = await client.from("reshab_leads").insert(row);
+    return { error: fb.error };
+  }
+  return { error };
+}
+
 export type { HighIntentLeadPayload, HighIntentLeadSubmitInput } from "./highIntentLead";
 
 export type LeadResult = {
@@ -86,7 +121,7 @@ export async function submitLead(input: HighIntentLeadSubmitInput): Promise<Lead
   let supabaseError: { message?: string; code?: string } | null = null;
 
   try {
-    const { error } = await supabase.from("reshab_leads").insert({
+    const { error } = await insertLeadRow(input.sourcePage, {
       source_page: input.sourcePage,
       submission_type: RESHAB_SUBMISSION_HIGH_INTENT,
       lead_score: score,
@@ -177,7 +212,7 @@ export async function submitStrategyCallLead(input: StrategyCallLeadInput): Prom
   let supabaseError: { message?: string; code?: string } | null = null;
 
   try {
-    const { error } = await supabase.from("reshab_leads").insert({
+    const { error } = await insertLeadRow(input.sourcePage, {
       source_page: input.sourcePage.trim(),
       submission_type: RESHAB_SUBMISSION_STRATEGY_CALL,
       lead_score: 0,

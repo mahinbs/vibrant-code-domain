@@ -78,9 +78,12 @@ function SectionWithTopRule({
 
 export default function BusinessAutomation({
   whatsappHref = businessAutomationWhatsappHref,
+  sourcePage = "business-automation",
 }: {
   /** Override the WhatsApp link (e.g. homepage copy uses the main number). */
   whatsappHref?: string;
+  /** Lead sourcePage — routes to the right leads table (homepage vs /business-automation). */
+  sourcePage?: string;
 } = {}) {
   useHashScroll();
 
@@ -112,7 +115,7 @@ export default function BusinessAutomation({
             <BookCallWithFounderBand
               id="book-ceo-call"
               variant="thin"
-              sourcePage="business-automation"
+              sourcePage={sourcePage}
               headline={reshabAuditCallCopy.headline}
               subheadline={reshabAuditCallCopy.subheadline}
               ctaLabel={reshabAuditCallCopy.ctaLabel}
@@ -164,7 +167,12 @@ export default function BusinessAutomation({
             />
           </SectionWithTopRule>
           <SectionWithTopRule>
-            <CTA id="contact-form" {...businessAutomationAuditCta} whatsappHref={whatsappHref} />
+            <CTA
+              id="contact-form"
+              {...businessAutomationAuditCta}
+              whatsappHref={whatsappHref}
+              leadFormProps={{ sourcePage }}
+            />
           </SectionWithTopRule>
           <SectionWithTopRule>
             <Footer whatsappHref={whatsappHref} />
