@@ -1,18 +1,7 @@
 import { supabase } from "@/integrations/supabase/client";
 import type { HighIntentLeadPayload, HighIntentLeadSubmitInput } from "./highIntentLead";
 import { scoreAndTier } from "./scoreLead";
-import { notifyTelegramLead } from "./notifyTelegramLead";
-
-/**
- * Source pages whose leads go to the SEPARATE `bms_leads` table, kept apart
- * from `reshab_leads` (which the /business-automation team owns).
- * Add a page's sourcePage here to route its leads to the new table.
- */
-const BMS_LEAD_SOURCES = new Set<string>([
-  "homepage",
-  "personal-automation",
-  "free-ai-automation-course",
-]);
+import { BMS_LEAD_SOURCES, notifyTelegramLead } from "./notifyTelegramLead";
 
 function leadTableFor(sourcePage: string): "bms_leads" | "reshab_leads" {
   return BMS_LEAD_SOURCES.has((sourcePage || "").trim()) ? "bms_leads" : "reshab_leads";

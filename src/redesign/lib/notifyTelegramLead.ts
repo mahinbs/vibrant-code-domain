@@ -17,6 +17,18 @@ const BOT_TOKEN =
 const CHAT_ID =
   (import.meta.env.VITE_TELEGRAM_CHAT_ID as string | undefined) || "6656403690";
 
+/**
+ * Only leads from Boostmysites-owned pages ping Telegram. Leads from
+ * /business-automation (and other team-owned pages like founder-partnership /
+ * fintech) are handled by that team's own channels.
+ * Single source of truth — also used to route leads to the bms_leads table.
+ */
+export const BMS_LEAD_SOURCES = new Set<string>([
+  "homepage",
+  "personal-automation",
+  "free-ai-automation-course",
+]);
+
 export type TelegramLead = {
   leadType: string;
   name: string;
@@ -81,6 +93,9 @@ function formatMessage(lead: TelegramLead): string {
 
 export function notifyTelegramLead(lead: TelegramLead): void {
   if (!BOT_TOKEN || !CHAT_ID || CHAT_ID === "__SET_CHAT_ID__") return;
+  // Alert only for Boostmysites-owned pages (www.boostmysites.com forms),
+  // not for /business-automation or other team-owned landings.
+  if (!BMS_LEAD_SOURCES.has((lead.sourcePage || "").trim())) return;
 
   const body = JSON.stringify({
     chat_id: CHAT_ID,
