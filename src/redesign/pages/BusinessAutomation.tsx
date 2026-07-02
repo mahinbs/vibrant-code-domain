@@ -43,6 +43,9 @@ const BookCallWithFounderBand = lazy(() =>
 const ProcessMockupSplit = lazy(() =>
   import("../components/ProcessMockupSplit").then((m) => ({ default: m.ProcessMockupSplit })),
 );
+const CaseStudyVideos = lazy(() =>
+  import("../components/CaseStudyVideos").then((m) => ({ default: m.CaseStudyVideos })),
+);
 const CTA = lazy(() => import("../components/CTA").then((m) => ({ default: m.CTA })));
 const Footer = lazy(() => import("../components/Footer").then((m) => ({ default: m.Footer })));
 
@@ -79,11 +82,14 @@ function SectionWithTopRule({
 export default function BusinessAutomation({
   whatsappHref = businessAutomationWhatsappHref,
   sourcePage = "business-automation",
+  showCaseStudies = false,
 }: {
   /** Override the WhatsApp link (e.g. homepage copy uses the main number). */
   whatsappHref?: string;
   /** Lead sourcePage — routes to the right leads table (homepage vs /business-automation). */
   sourcePage?: string;
+  /** YouTube case-study video band (homepage only). */
+  showCaseStudies?: boolean;
 } = {}) {
   useHashScroll();
 
@@ -166,6 +172,11 @@ export default function BusinessAutomation({
               reverse
             />
           </SectionWithTopRule>
+          {showCaseStudies ? (
+            <SectionWithTopRule>
+              <CaseStudyVideos />
+            </SectionWithTopRule>
+          ) : null}
           <SectionWithTopRule>
             <CTA
               id="contact-form"
