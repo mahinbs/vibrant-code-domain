@@ -13,6 +13,7 @@ import RouteMeta from "./components/RouteMeta";
 import FloatingWhatsAppButton from "./components/ui/FloatingWhatsAppButton";
 import ScrollToTop from "./components/ScrollToTop";
 import { RedesignShell } from "./redesign/RedesignShell";
+import { whatsappHref as homeWhatsappHref } from "./redesign/data/site";
 import JsonLd from "./components/seo/JsonLd";
 import { organizationJsonLd, websiteJsonLd } from "./lib/seo/brand";
 import { shouldUseNewUiForRoute, shouldUseRedesignIndustryLanding } from "./lib/domainRouting";
@@ -165,7 +166,9 @@ const App = () => {
                 path="/"
                 element={
                   useNewHomepageUi ? (
-                    <NewHomepagePreview />
+                    <RedesignShell>
+                      <BusinessAutomation whatsappHref={homeWhatsappHref} />
+                    </RedesignShell>
                   ) : (
                     <>
                       <FloatingWhatsAppButton />

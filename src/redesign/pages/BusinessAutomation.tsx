@@ -76,7 +76,12 @@ function SectionWithTopRule({
   );
 }
 
-export default function BusinessAutomation() {
+export default function BusinessAutomation({
+  whatsappHref = businessAutomationWhatsappHref,
+}: {
+  /** Override the WhatsApp link (e.g. homepage copy uses the main number). */
+  whatsappHref?: string;
+} = {}) {
   useHashScroll();
 
   return (
@@ -92,12 +97,12 @@ export default function BusinessAutomation() {
       <Nav
         links={businessAutomationNavLinks}
         cta={businessAutomationCta}
-        whatsappHref={businessAutomationWhatsappHref}
+        whatsappHref={whatsappHref}
         ctaOutsideNav
       />
-      <FloatingWhatsAppButton href={businessAutomationWhatsappHref} />
+      <FloatingWhatsAppButton href={whatsappHref} />
       <main className="relative z-10 mx-auto flex w-full max-w-[1920px] flex-col items-center overflow-x-hidden pb-16 md:pb-24">
-        <BusinessAutomationHero whatsappHref={businessAutomationWhatsappHref} />
+        <BusinessAutomationHero whatsappHref={whatsappHref} />
         <FeaturedInTrustBand
           pressItems={[...businessAutomationPressItems]}
           metrics={businessLandingStats}
@@ -159,10 +164,10 @@ export default function BusinessAutomation() {
             />
           </SectionWithTopRule>
           <SectionWithTopRule>
-            <CTA id="contact-form" {...businessAutomationAuditCta} />
+            <CTA id="contact-form" {...businessAutomationAuditCta} whatsappHref={whatsappHref} />
           </SectionWithTopRule>
           <SectionWithTopRule>
-            <Footer whatsappHref={businessAutomationWhatsappHref} />
+            <Footer whatsappHref={whatsappHref} />
           </SectionWithTopRule>
         </Suspense>
       </main>
