@@ -2,6 +2,7 @@ import { supabase } from "@/integrations/supabase/client";
 import type { HighIntentLeadPayload, HighIntentLeadSubmitInput } from "./highIntentLead";
 import { scoreAndTier } from "./scoreLead";
 import { BMS_LEAD_SOURCES, notifyTelegramLead } from "./notifyTelegramLead";
+import { trackGoogleAdsLeadConversion } from "@/lib/analytics/googleAds";
 
 function leadTableFor(sourcePage: string): "bms_leads" | "reshab_leads" {
   return BMS_LEAD_SOURCES.has((sourcePage || "").trim()) ? "bms_leads" : "reshab_leads";
@@ -123,6 +124,7 @@ export async function submitLead(input: HighIntentLeadSubmitInput): Promise<Lead
     });
 
     if (!error) {
+      trackGoogleAdsLeadConversion(input.sourcePage);
       notifyTelegramLead({
         leadType: "automation audit",
         name: input.name,
@@ -162,6 +164,7 @@ export async function submitLead(input: HighIntentLeadSubmitInput): Promise<Lead
           error: `Submission failed (${res.status})`,
         };
       }
+      trackGoogleAdsLeadConversion(input.sourcePage);
       notifyTelegramLead({
         leadType: "automation audit",
         name: input.name,
@@ -214,6 +217,7 @@ export async function submitStrategyCallLead(input: StrategyCallLeadInput): Prom
     });
 
     if (!error) {
+      trackGoogleAdsLeadConversion(input.sourcePage);
       notifyTelegramLead({
         leadType: "strategy call",
         name: input.name,
@@ -250,6 +254,7 @@ export async function submitStrategyCallLead(input: StrategyCallLeadInput): Prom
           error: `Submission failed (${res.status})`,
         };
       }
+      trackGoogleAdsLeadConversion(input.sourcePage);
       notifyTelegramLead({
         leadType: "strategy call",
         name: input.name,
