@@ -25,7 +25,6 @@ const CHAT_ID =
  */
 export const BMS_LEAD_SOURCES = new Set<string>([
   "homepage",
-  "personal-automation",
   "free-ai-automation-course",
 ]);
 
