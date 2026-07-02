@@ -65,7 +65,7 @@ export function MockupBand({
 }: MockupBandProps) {
   if (variant === "sidebar") {
     return (
-      <div id={id} className="flex h-full min-w-0 w-full flex-col gap-4">
+      <div id={id} className="flex h-full min-w-0 w-full flex-col justify-center gap-5">
         <div className="shrink-0">
           <p className="mb-2 inline-flex w-fit items-center rounded-full border border-white/15 bg-black/60 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.1em] text-purple backdrop-blur-[5px]">
             {eyebrow}
@@ -75,7 +75,7 @@ export function MockupBand({
           </h2>
           <p className="mt-2 text-[13px] leading-[1.5] text-white/65">{text}</p>
         </div>
-        <div className="mt-auto shrink-0">
+        <div className="shrink-0">
           <MockupVideo src={src} poster={poster} compact />
         </div>
       </div>

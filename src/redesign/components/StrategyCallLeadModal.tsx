@@ -7,6 +7,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { trackMetaConversion } from "@/lib/analytics/metaConversion";
+import { isMetaConversionSourcePage } from "@/lib/analytics/metaScope";
 import { submitStrategyCallLead } from "../lib/submitLead";
 
 export type StrategyCallLeadModalProps = {
@@ -63,6 +65,14 @@ export function StrategyCallLeadModal({ open, onOpenChange, sourcePage }: Strate
       setError(res.error ?? "Something went wrong. Please try again.");
       return;
     }
+    if (isMetaConversionSourcePage(sourcePage)) {
+      trackMetaConversion({
+        eventName: "Schedule",
+        email: em,
+        phone: wa,
+        sourcePage,
+      });
+    }
     setDone(true);
   };
 
@@ -84,7 +94,7 @@ export function StrategyCallLeadModal({ open, onOpenChange, sourcePage }: Strate
               Book your strategy call
             </DialogTitle>
             <DialogDescription className="text-[14px] leading-relaxed text-white/65">
-              Share how we can reach you — we will follow up on WhatsApp and email.
+              Share how we can reach you, we will follow up on WhatsApp and email.
             </DialogDescription>
           </DialogHeader>
 

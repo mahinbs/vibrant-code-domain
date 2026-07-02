@@ -25,24 +25,24 @@ export const businessAutomationNiches: BusinessAutomationNiche[] = [
     hiddenPain:
       "Your broker followed up 14 hours late. The buyer signed with someone else at 11 AM.",
     beforeStory:
-      "A serious buyer fills your inquiry form at 9 PM Friday. Your team sees it Saturday morning. They call — no answer. Call again at 2 PM. The buyer toured a competitor at 10 AM, loved it, and paid the booking amount. You never had a chance.",
+      "A serious buyer fills your inquiry form at 9 PM Friday. Your team sees it Saturday morning. They call, no answer. Call again at 2 PM. The buyer toured a competitor at 10 AM, loved it, and paid the booking amount. You never had a chance.",
     beforeSymptoms: [
       { label: "Avg lead response time", value: "14 hrs" },
       { label: "Leads contacted same day", value: "31%" },
       { label: "Post-visit follow-ups sent", value: "1 in 5" },
     ],
     manualSteps: [
-      "A serious buyer fills your inquiry form at 9 PM Friday — your team sees it Saturday morning",
+      "A serious buyer fills your inquiry form at 9 PM Friday, your team sees it Saturday morning",
       "Broker checks MagicBricks / 99acres inquiries once or twice a day",
-      "Lead details copied into Excel or WhatsApp group manually — calls often hours late",
-      "Buyer toured a competitor at 10 AM, loved it, and paid booking — you never had a chance",
+      "Lead details copied into Excel or WhatsApp group manually, calls often hours late",
+      "Buyer toured a competitor at 10 AM, loved it, and paid booking, you never had a chance",
       "Post-visit follow-up depends on broker remembering to send price sheet",
     ],
     log: [
       {
         time: "9:02 PM",
         command: "ingest_lead --source=magicbricks --notify=whatsapp",
-        output: "New inquiry received — WhatsApp sent instantly",
+        output: "New inquiry received, WhatsApp sent instantly",
         status: "ok",
       },
       {
@@ -88,18 +88,18 @@ export const businessAutomationNiches: BusinessAutomationNiche[] = [
     hiddenPain:
       "Patients intend to come back. They just never get reminded. Your schedule has invisible gaps every single day.",
     beforeStory:
-      "Dr. Sharma sees 40 patients a week. 8 don't show. No one called them the day before. Lab reports are ready but sitting in a folder — patients find out only when they walk in by chance. Follow-up appointments disappear into thin air.",
+      "Dr. Sharma sees 40 patients a week. 8 don't show. No one called them the day before. Lab reports are ready but sitting in a folder, patients find out only when they walk in by chance. Follow-up appointments disappear into thin air.",
     beforeSymptoms: [
       { label: "No-show rate (avg clinic)", value: "18–22%" },
       { label: "Lab reports collected on time", value: "54%" },
       { label: "Follow-up care completion", value: "40%" },
     ],
     manualSteps: [
-      "Dr. Sharma sees 40 patients a week — 8 don't show because no one called the day before",
+      "Dr. Sharma sees 40 patients a week, 8 don't show because no one called the day before",
       "Reception prints tomorrow's appointment list each evening",
-      "Staff calls patients one by one to confirm — if they have time",
-      "Lab reports sit in a folder — patients find out only when they walk in by chance",
-      "Follow-up appointments booked ad hoc at checkout — many slip through",
+      "Staff calls patients one by one to confirm, if they have time",
+      "Lab reports sit in a folder, patients find out only when they walk in by chance",
+      "Follow-up appointments booked ad hoc at checkout, many slip through",
     ],
     log: [
       {
@@ -123,7 +123,7 @@ export const businessAutomationNiches: BusinessAutomationNiche[] = [
       {
         time: "2:30 PM",
         command: "notify_lab_report --patient=auto --channel=whatsapp",
-        output: "Lab report ready — patient notified. No staff needed",
+        output: "Lab report ready, patient notified. No staff needed",
         status: "ok",
       },
       {
@@ -151,16 +151,16 @@ export const businessAutomationNiches: BusinessAutomationNiche[] = [
     hiddenPain:
       "By the time your recruiter calls the shortlisted candidates, 6 out of 10 have already joined someone else.",
     beforeStory:
-      "300 resumes arrive for a single role. Your recruiter spends 12 days screening. They call the top 10. 6 declined — they accepted offers days ago. The role stays open another month. The client is quietly looking for another agency.",
+      "300 resumes arrive for a single role. Your recruiter spends 12 days screening. They call the top 10. 6 declined, they accepted offers days ago. The role stays open another month. The client is quietly looking for another agency.",
     beforeSymptoms: [
       { label: "Time to shortlist", value: "10–14 days" },
       { label: "Top candidates still available", value: "38%" },
       { label: "Interview scheduling time", value: "3 days avg" },
     ],
     manualSteps: [
-      "300 resumes arrive for one role — recruiter spends 12 days screening manually",
+      "300 resumes arrive for one role, recruiter spends 12 days screening manually",
       "Each CV read and scored by hand against the JD",
-      "Top 10 called days later — 6 already accepted offers elsewhere",
+      "Top 10 called days later, 6 already accepted offers elsewhere",
       "Interview slots negotiated over email and phone, one candidate at a time",
       "Offer letter drafted, reviewed, and sent by hand while the role stays open another month",
     ],
@@ -212,20 +212,20 @@ export const businessAutomationNiches: BusinessAutomationNiche[] = [
     id: "fintech",
     label: "Fintech / NBFC",
     hiddenPain:
-      "Customers who genuinely intend to pay their EMI still miss it — because your reminder process depends on who showed up to work that day.",
+      "Customers who genuinely intend to pay their EMI still miss it, because your reminder process depends on who showed up to work that day.",
     beforeStory:
-      "Your collections team makes 200 manual calls a day. Half go unanswered. Some customers feel harassed. Some genuinely forgot and now have a late fee. The NPA number climbs every quarter — not because customers can't pay, but because the system failed them.",
+      "Your collections team makes 200 manual calls a day. Half go unanswered. Some customers feel harassed. Some genuinely forgot and now have a late fee. The NPA number climbs every quarter, not because customers can't pay, but because the system failed them.",
     beforeSymptoms: [
       { label: "Manual reminder calls per day", value: "200+" },
       { label: "EMI paid on due date", value: "61%" },
       { label: "NPA cases from missed reminders", value: "~18%" },
     ],
     manualSteps: [
-      "Collections team makes 200+ manual calls a day — half go unanswered",
+      "Collections team makes 200+ manual calls a day, half go unanswered",
       "Some customers feel harassed; others genuinely forgot and now have a late fee",
       "Agents dial customers one by one from the morning overdue list",
       "Payment outcomes logged in spreadsheet, not always in CRM",
-      "NPA climbs every quarter — not because customers can't pay, but because reminders failed",
+      "NPA climbs every quarter, not because customers can't pay, but because reminders failed",
     ],
     log: [
       {
@@ -284,17 +284,17 @@ export const businessAutomationNiches: BusinessAutomationNiche[] = [
       { label: "Post-purchase review requests", value: "0%" },
     ],
     manualSteps: [
-      "1,000 people visit today — 680 add to cart and disappear with zero recovery",
+      "1,000 people visit today, 680 add to cart and disappear with zero recovery",
       "Support inbox flooded with return and order-status queries",
-      "Abandoned carts checked manually — if anyone has time that day",
+      "Abandoned carts checked manually, if anyone has time that day",
       "Return requests triaged by hand; pickup slots sent one customer at a time",
-      "₹4L+ in potential orders evaporates every week — no one chases abandoned carts",
+      "₹4L+ in potential orders evaporates every week, no one chases abandoned carts",
     ],
     log: [
       {
         time: "11:22 AM",
         command: "recover_cart --delay=30m --channel=whatsapp",
-        output: "Cart abandoned — recovery message sent",
+        output: "Cart abandoned, recovery message sent",
         status: "ok",
       },
       {
@@ -340,16 +340,16 @@ export const businessAutomationNiches: BusinessAutomationNiche[] = [
     hiddenPain:
       "Purchase orders arrive on WhatsApp and email. Someone manually copies them into ERP. One wrong digit. Wrong quantity shipped. Client relationship takes the hit.",
     beforeStory:
-      "Your ops team handles 40 POs a day across email, WhatsApp, and PDF attachments. Each one is read by a human and re-typed into the system. A 4% error rate sounds small — until a client receives 500 units instead of 5,000 and you're paying for the reshipping.",
+      "Your ops team handles 40 POs a day across email, WhatsApp, and PDF attachments. Each one is read by a human and re-typed into the system. A 4% error rate sounds small, until a client receives 500 units instead of 5,000 and you're paying for the reshipping.",
     beforeSymptoms: [
       { label: "POs entered manually per day", value: "30–50" },
       { label: "Data entry error rate", value: "4–7%" },
       { label: "PO to acknowledgment time", value: "4–6 hrs" },
     ],
     manualSteps: [
-      "40 POs a day arrive on WhatsApp, email, and PDF — each read and re-typed by a human",
+      "40 POs a day arrive on WhatsApp, email, and PDF, each read and re-typed by a human",
       "Data entered line by line into ERP; a 4% error rate sounds small until it's not",
-      "Wrong digit ships 500 units instead of 5,000 — client pays for reshipping",
+      "Wrong digit ships 500 units instead of 5,000, client pays for reshipping",
       "Stock checked manually against warehouse spreadsheet",
       "Acknowledgment and tracking updates chased by phone when the client asks",
     ],

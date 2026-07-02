@@ -1,11 +1,5 @@
 import { useEffect, useState } from "react";
-import { liveLossBandCopy, liveLossRates } from "../data/businessAutomationContent";
-import { HighlightText } from "../lib/highlightImpactText";
-import { ArrowRightIcon } from "./icons";
-
-type LiveLossCTAProps = {
-  ctaHref?: string;
-};
+import { liveLossRates } from "../data/businessAutomationContent";
 
 function formatInr(amount: number): string {
   return Math.floor(amount).toLocaleString("en-IN");
@@ -19,34 +13,6 @@ function formatElapsed(seconds: number): string {
   if (h > 0) return `${h}h ${m}m ${s}s`;
   if (m > 0) return `${m}m ${s}s`;
   return `${s}s`;
-}
-
-function secondsSinceStartOfHour(now: Date): number {
-  return now.getMinutes() * 60 + now.getSeconds() + now.getMilliseconds() / 1000;
-}
-
-function secondsSinceStartOfMonth(now: Date): number {
-  const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
-  return (now.getTime() - monthStart.getTime()) / 1000;
-}
-
-function secondsSinceStartOfYear(now: Date): number {
-  const yearStart = new Date(now.getFullYear(), 0, 1);
-  return (now.getTime() - yearStart.getTime()) / 1000;
-}
-
-function computeLiveAmounts(elapsedSec: number, now: Date) {
-  const rate = liveLossRates.ratePerSec;
-  return {
-    /** Loss ticking up since the visitor landed on this page. */
-    page: elapsedSec * rate,
-    /** Loss since the top of the current clock hour (local time). */
-    hour: secondsSinceStartOfHour(now) * rate,
-    /** Loss since the 1st of the current calendar month. */
-    monthly: secondsSinceStartOfMonth(now) * rate,
-    /** Loss since Jan 1 of the current calendar year. */
-    yearly: secondsSinceStartOfYear(now) * rate,
-  };
 }
 
 function BandCell({
@@ -85,28 +51,27 @@ function BandCell({
   );
 }
 
-export function LiveLossCTA({ ctaHref = "#contact-form" }: LiveLossCTAProps) {
+export function LiveLossCTA() {
   const [elapsedSec, setElapsedSec] = useState(0);
-  const [now, setNow] = useState(() => new Date());
 
   useEffect(() => {
     const pageStart = Date.now();
-    const tick = () => {
-      setNow(new Date());
-      setElapsedSec((Date.now() - pageStart) / 1000);
-    };
+    const tick = () => setElapsedSec((Date.now() - pageStart) / 1000);
     tick();
     const iv = window.setInterval(tick, 200);
     return () => window.clearInterval(iv);
   }, []);
 
-  const amounts = computeLiveAmounts(elapsedSec, now);
+  const rate = liveLossRates.ratePerSec;
+  const pageLoss = elapsedSec * rate;
+  const perHour = liveLossRates.annualInr / (365 * 24);
+  const perMonth = liveLossRates.annualInr / 12;
   const timerLabel = formatElapsed(elapsedSec);
 
   return (
-    <div className="relative z-[1] mx-auto mt-10 w-full max-w-[1200px] md:mt-12">
+    <div className="relative z-[1] mt-10 w-full md:mt-12">
       <p className="mb-3 text-left text-lg font-medium text-white max-md:text-center md:text-xl">
-        <HighlightText text={liveLossBandCopy.headline} />
+        Your business might be <span className="loss-highlight-red">losing more</span>
       </p>
 
       <ul
@@ -117,26 +82,17 @@ export function LiveLossCTA({ ctaHref = "#contact-form" }: LiveLossCTAProps) {
         <BandCell
           live
           accent
-          value={`₹${formatInr(amounts.page)}`}
-          label={`${timerLabel} on this page · lost so far`}
+          value={`₹${formatInr(pageLoss)}`}
+          label={`lost in the ${timerLabel} you've been here`}
         />
-        <BandCell value={`₹${formatInr(amounts.hour)}`} label="this hour · live" />
-        <BandCell value={`₹${formatInr(amounts.monthly)}`} label="this month · live" />
-        <BandCell value={`₹${formatInr(amounts.yearly)}`} label="this year · live" />
+        <BandCell value={`₹${formatInr(perHour)}`} label="lost every hour" />
+        <BandCell value={`₹${formatInr(perMonth)}`} label="lost every month" />
+        <BandCell value={`₹${formatInr(liveLossRates.annualInr)}`} label="lost every year" />
       </ul>
 
-      <div className="mt-4 flex flex-col items-center gap-2 text-center">
-        <a
-          href={ctaHref}
-          className="btn-gloss relative inline-flex w-full items-center justify-center gap-2 overflow-hidden rounded-[10px] border border-white/20 bg-purple/70 px-5 py-3.5 text-sm font-semibold text-white sm:w-auto md:px-6 md:text-[15px]"
-        >
-          Stop the Clock — Book My Free Audit
-          <ArrowRightIcon className="size-4 shrink-0 text-white" />
-        </a>
-        <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-white/40">
-          Free audit · 30 minutes · No sales pitch
-        </p>
-      </div>
+      <p className="mt-2.5 text-center font-mono text-[10px] uppercase tracking-[0.14em] text-white/40">
+        Based on a typical {liveLossRates.teamSizeLabel} running manual processes
+      </p>
     </div>
   );
 }

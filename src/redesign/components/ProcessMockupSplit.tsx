@@ -1,7 +1,6 @@
 import type { ProcessStep } from "../data/process";
 import { MockupBand } from "./MockupBand";
 import { Process } from "./Process";
-import { ProcessCTA } from "./ProcessCTA";
 
 type ProcessMockupSplitProps = {
   steps: ProcessStep[];
@@ -48,7 +47,6 @@ export function ProcessMockupSplit({
           <MockupBand variant="sidebar" {...mockup} />
         </div>
       </div>
-      <ProcessCTA className="mt-8 border-t border-white/[0.06] pt-8 md:mt-10 md:pt-10" />
     </section>
   );
 }

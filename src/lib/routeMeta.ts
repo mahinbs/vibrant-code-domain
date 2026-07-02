@@ -121,6 +121,11 @@ const EXACT: Record<string, RouteSeo> = {
     description:
       "Automate lead follow-ups, customer support, invoicing, and ops workflows. Free 30-minute AI audit — most clients live in 30 days.",
   },
+  "/automation-score": {
+    title: "Free Automation Score | Boostmysites",
+    description:
+      "Get your automation score in 60 seconds. A personalized report on the hours and money your business loses to manual work — and what to automate first.",
+  },
   "/personal-automation": {
     title: "Personal Workflow Automation | Boostmysites",
     description:

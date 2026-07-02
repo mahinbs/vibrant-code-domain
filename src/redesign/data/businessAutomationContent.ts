@@ -2,11 +2,14 @@ import type { LucideIcon } from "lucide-react";
 import {
   BarChart3,
   Building2,
+  Clock,
   FileText,
+  IndianRupee,
   Mail,
   MessageSquare,
   Package,
   ShieldCheck,
+  TrendingDown,
   Users,
   Zap,
 } from "lucide-react";
@@ -22,16 +25,19 @@ export const heroRotatingItems = [
 
 export const costOfInactionStats = [
   {
+    icon: Clock,
     stat: "4.5 hrs",
     label: "Average time a business owner wastes daily on tasks AI can handle",
     accent: "text-red-400",
   },
   {
+    icon: IndianRupee,
     stat: "₹18L+",
     label: "Annual cost of manual operations in a 10-person business",
     accent: "text-red-400",
   },
   {
+    icon: TrendingDown,
     stat: "67%",
     label: "Of businesses slow to adopt automation lose market share within 3 years",
     accent: "text-red-400",
@@ -41,7 +47,7 @@ export const costOfInactionStats = [
 const SECONDS_PER_YEAR = 365 * 24 * 3600;
 const SECONDS_PER_MONTH = 30 * 24 * 3600;
 
-/** Live loss counter — single rate derived from ₹18L annual (matches stat card). */
+/** Live loss counter, single rate derived from ₹18L annual (matches stat card). */
 export const liveLossRates = {
   annualInr: 1_800_000,
   teamSizeLabel: "10-person team",
@@ -71,7 +77,7 @@ export const automationScopeItems: AutomationScopeItem[] = [
     icon: MessageSquare,
     title: "Lead Nurturing & Follow-ups",
     shortTitle: "Lead nurturing",
-    desc: "AI reaches every lead instantly via WhatsApp, email, and SMS — with sequences that actually convert.",
+    desc: "AI reaches every lead instantly via WhatsApp, email, and SMS, with sequences that actually convert.",
     examples: [
       "Instant WhatsApp when a form is submitted",
       "Auto-qualify budget, timeline, and intent",
@@ -110,7 +116,7 @@ export const automationScopeItems: AutomationScopeItem[] = [
     icon: FileText,
     title: "Document & Invoice Processing",
     shortTitle: "Documents",
-    desc: "AI reads, validates, and routes documents — no human touch, no delays, no errors.",
+    desc: "AI reads, validates, and routes documents with no human touch, no delays, and no errors.",
     examples: [
       "Extract line items from PDF invoices",
       "Match POs to catalog and flag mismatches",
@@ -123,7 +129,7 @@ export const automationScopeItems: AutomationScopeItem[] = [
     icon: Users,
     title: "HR & Employee Onboarding",
     shortTitle: "HR onboarding",
-    desc: "Offer letters, form collection, IT setup — all automated end-to-end.",
+    desc: "Offer letters, form collection, IT setup, all automated end-to-end.",
     examples: [
       "Offer letter generated and e-signed on acceptance",
       "Document collection via automated checklist",
@@ -149,7 +155,7 @@ export const automationScopeItems: AutomationScopeItem[] = [
     icon: ShieldCheck,
     title: "Compliance & KYC Automation",
     shortTitle: "Compliance",
-    desc: "For fintech and healthcare — automated checks, alerts, and tamper-proof audit trails.",
+    desc: "For fintech and healthcare, automated checks, alerts, and tamper-proof audit trails.",
     examples: [
       "KYC document verification and status tracking",
       "Audit-ready logs for every automated action",
@@ -190,16 +196,22 @@ export const businessAutomationSteps = [
     num: "01",
     title: "Book a Free Audit Call",
     desc: "30 minutes. We ask the right questions to map every manual process eating your team's time right now.",
+    illustrationSrc: "/images/process-book-audit.svg",
+    illustrationAlt: "Calendar and audit checklist for booking a free automation audit call",
   },
   {
     num: "02",
     title: "Get Your Automation Blueprint",
     desc: "We identify your top 3–5 automation opportunities and show you the ROI before we build a single thing.",
+    illustrationSrc: "/images/process-automation-blueprint.svg",
+    illustrationAlt: "Automation blueprint document with workflow diagram",
   },
   {
     num: "03",
     title: "Live in 30 Days",
-    desc: "Custom-built, fully tested, team trained. You go live — and we stay until it runs completely clean.",
+    desc: "Custom-built, fully tested, team trained. You go live, and we stay until it runs completely clean.",
+    illustrationSrc: "/images/process-go-live.svg",
+    illustrationAlt: "Rocket launch representing going live with automation in 30 days",
   },
 ] as const;
 
@@ -250,12 +262,12 @@ export const businessAutomationPressItems = [
   },
 ] as const;
 
-/** Thin Mahin media strip — quote, magazine cover, Forbes video (homepage content, compact band). */
+/** Thin Mahin media strip, quote, magazine cover, Forbes video (homepage content, compact band). */
 export const founderMediaStripCopy = {
   eyebrow: "Founder",
   quoteLines: [
     "I've watched strong teams stall on busywork.",
-    "Automation isn't a nice-to-have anymore — it's how you buy back time and margin.",
+    "Automation isn't a nice-to-have anymore. It's how you buy back time and margin.",
     "That's what we build at Boostmysites.",
   ],
   intro:
@@ -265,16 +277,16 @@ export const founderMediaStripCopy = {
   forbesInterviewLabel: "Forbes interview",
   /** Brown-suit founder portrait for the circular profile. */
   portraitSrc: "/mahin-bs.jpg",
-  portraitAlt: "Mahin B S — Founder & Chairman, Boostmysites",
+  portraitAlt: "Mahin B S, Founder & Chairman, Boostmysites",
   magazinePublication: "Entrepreneur",
   magazineFeatureLabel: "Editorial",
   magazineYear: "2021",
   magazineStoryTitle: "The Growth Builder",
   magazineCoverSrc: "/mahinbsnew.jpeg",
-  magazineCoverAlt: "Mahin B S on Entrepreneur magazine — The Growth Builder",
+  magazineCoverAlt: "Mahin B S on Entrepreneur magazine, The Growth Builder",
 } as const;
 
-/** Process section bottom CTA — scrolls to #contact-form. */
+/** Process section bottom CTA, scrolls to #contact-form. */
 export const processCtaCopy = {
   line1: "Three steps. Thirty days. Real results.",
   line2: "See your biggest automation opportunities.",
@@ -294,7 +306,7 @@ export const businessAutomationWhatsappHref = `https://wa.me/${businessAutomatio
 export const reshabAuditCallCopy = {
   headline: "Get a {{straight answer}} on what to automate first",
   subheadline:
-    "In 30 minutes we map your manual bottlenecks, show ROI on your top workflows, and leave you with a plan you can act on — not a sales script.",
+    "In 30 minutes we map your manual bottlenecks, show ROI on your top workflows, and leave you with a plan you can act on, not a sales script.",
   ctaLabel: "Book my audit call",
 } as const;
 

@@ -108,6 +108,7 @@ const FreeAutomationCourse = lazy(
 );
 const LandingCopy = lazy(() => import("./redesign/pages/LandingCopy"));
 const BusinessAutomation = lazy(() => import("./redesign/pages/BusinessAutomation"));
+const AutomationScore = lazy(() => import("./redesign/pages/AutomationScore"));
 const NewHomepagePreview = lazy(() => import("./pages/NewHomepagePreview"));
 const FintechDevelopmentCompanyPage = lazy(() => import("./pages/geo/FintechDevelopmentCompanyPage"));
 const TradingAppDevelopmentPage = lazy(() => import("./pages/geo/TradingAppDevelopmentPage"));
@@ -654,6 +655,15 @@ const App = () => {
                 element={
                   <RedesignShell>
                     <BusinessAutomation />
+                  </RedesignShell>
+                }
+              />
+              {/* Survey-to-report lead funnel: automation score + gated personalized report. */}
+              <Route
+                path="/automation-score"
+                element={
+                  <RedesignShell>
+                    <AutomationScore />
                   </RedesignShell>
                 }
               />

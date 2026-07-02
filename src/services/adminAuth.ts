@@ -8,9 +8,18 @@ import { supabase } from "@/integrations/supabase/client";
  * only the Supabase-session login can read leads (the fallback flag cannot).
  */
 
-const ADMIN_EMAIL = "mahinstlucia@gmail.com";
-const FALLBACK_PASSWORD = "Boostmysites@2026"; // backup only — change anytime.
+/** Backup panel logins — only work for UI; Reshab leads need a real Supabase session. */
+const FALLBACK_ADMINS: Record<string, string> = {
+  "ceo@boostmysites.com": "BoostAdmin2026",
+  "mahinstlucia@gmail.com": "Boostmysites@2026",
+};
+
 const FLAG = "admin_authenticated";
+
+function isFallbackAdmin(email: string, password: string): boolean {
+  const key = email.trim().toLowerCase();
+  return FALLBACK_ADMINS[key] === password;
+}
 
 export const adminAuth = {
   async login(email: string, password: string): Promise<{ ok: boolean; error?: string }> {
@@ -24,7 +33,7 @@ export const adminAuth = {
     }
 
     // Backup path so admin is never locked out if the Supabase user/login fails.
-    if (email.trim().toLowerCase() === ADMIN_EMAIL && password === FALLBACK_PASSWORD) {
+    if (isFallbackAdmin(email, password)) {
       localStorage.setItem(FLAG, "true");
       return { ok: true };
     }

@@ -1545,6 +1545,58 @@ video {
   z-index: 1;
 }
 
+@keyframes btn-outline-glow-pulse {
+  0%,
+  100% {
+    opacity: 0.45;
+    box-shadow:
+      0 0 0 1px rgba(120, 165, 255, 0.35),
+      0 0 14px rgba(80, 130, 255, 0.28),
+      0 0 28px rgba(60, 100, 255, 0.14);
+  }
+  50% {
+    opacity: 1;
+    box-shadow:
+      0 0 0 1px rgba(170, 210, 255, 0.75),
+      0 0 22px rgba(110, 160, 255, 0.55),
+      0 0 44px rgba(80, 120, 255, 0.32);
+  }
+}
+
+.redesign-shell .btn-glow-ring {
+  position: relative;
+  display: inline-flex;
+  border-radius: 10px;
+}
+
+.redesign-shell .btn-glow-ring::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 12px;
+  pointer-events: none;
+  z-index: 0;
+  animation: btn-outline-glow-pulse 2.6s ease-in-out infinite;
+}
+
+.redesign-shell .btn-glow-ring > .btn-gloss,
+.redesign-shell .btn-glow-ring > button,
+.redesign-shell .btn-glow-ring > a {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .redesign-shell .btn-glow-ring::before {
+    animation: none;
+    opacity: 0.65;
+    box-shadow:
+      0 0 0 1px rgba(140, 180, 255, 0.5),
+      0 0 16px rgba(90, 140, 255, 0.3);
+  }
+}
+
 /* Site backdrop (grid + glow + squares + drops + spotlight + noise) */
 .redesign-shell .site-backdrop {
   position: fixed;

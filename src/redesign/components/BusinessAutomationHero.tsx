@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { businessAutomationCta, whatsappHref } from "../data/site";
 import { trustBadges } from "../data/stats";
 import { heroRotatingItems } from "../data/businessAutomationContent";
@@ -33,9 +34,14 @@ function HeroVideo() {
 export function BusinessAutomationHero({
   whatsappHref: whatsappHrefProp,
   onPrimaryCtaClick,
+  scoreCtaHref,
+  onScoreCtaNavigate,
 }: {
   whatsappHref?: string;
   onPrimaryCtaClick?: () => void;
+  /** When set, "Get my automation score" links to the dedicated score page. */
+  scoreCtaHref?: string;
+  onScoreCtaNavigate?: () => void;
 } = {}) {
   const waHref = whatsappHrefProp ?? whatsappHref;
   const [autoIndex, setAutoIndex] = useState(0);
@@ -162,7 +168,7 @@ export function BusinessAutomationHero({
               </span>
               .
               <br />
-              We&apos;ll help you do the same — in 30 days.
+              We&apos;ll help you do the same in 30 days.
             </p>
           </div>
 
@@ -173,40 +179,77 @@ export function BusinessAutomationHero({
 
           {/* CTAs + stats: order 3 on mobile, left column bottom on desktop */}
           <div className="flex flex-col gap-[28px] max-xl:order-3 xl:col-start-1 xl:row-start-2">
-            <div className="flex flex-col gap-3 max-xl:grid max-xl:grid-cols-2 max-xl:gap-3 xl:flex xl:flex-row xl:flex-wrap xl:items-center">
-              {onPrimaryCtaClick ? (
-                <button
-                  type="button"
-                  onClick={onPrimaryCtaClick}
-                  className="btn-gloss relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-[10px] border border-white/20 bg-purple/70 px-4 py-[15px] text-center text-[13px] font-medium text-white shadow-[inset_0_0_6px_3px_rgba(255,255,255,0.2)] max-xl:w-full sm:text-sm xl:inline-flex xl:px-5"
-                >
-                  <span className="relative z-[2]">{businessAutomationCta.label}</span>
-                  <ArrowRightIcon className="relative z-[2] size-[14px] shrink-0 text-white" />
-                </button>
-              ) : (
+            <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-3 max-xl:grid max-xl:grid-cols-2 max-xl:gap-3 xl:flex xl:flex-row xl:flex-wrap xl:items-center">
+                {scoreCtaHref ? (
+                  <span className="btn-glow-ring max-xl:col-span-2 max-xl:w-full xl:inline-flex">
+                    <Link
+                      to={scoreCtaHref}
+                      onClick={onScoreCtaNavigate}
+                      className="btn-gloss relative inline-flex w-full items-center justify-center gap-2 overflow-hidden rounded-[10px] border border-white/20 bg-purple/70 px-4 py-[15px] text-center text-[13px] font-medium text-white shadow-[inset_0_0_6px_3px_rgba(255,255,255,0.2)] sm:text-sm xl:px-5"
+                    >
+                      <span className="relative z-[2]">Get my free automation score</span>
+                      <ArrowRightIcon className="relative z-[2] size-[14px] shrink-0 text-white" />
+                    </Link>
+                  </span>
+                ) : null}
+                {onPrimaryCtaClick ? (
+                  <button
+                    type="button"
+                    onClick={onPrimaryCtaClick}
+                    className={
+                      scoreCtaHref
+                        ? "inline-flex items-center justify-center gap-2 rounded-[10px] border border-white/15 bg-black/40 px-4 py-[15px] text-center text-[13px] font-medium text-white/90 backdrop-blur-[5px] transition-colors hover:bg-black/60 hover:text-white max-xl:w-full sm:text-sm xl:px-5"
+                        : "btn-gloss relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-[10px] border border-white/20 bg-purple/70 px-4 py-[15px] text-center text-[13px] font-medium text-white shadow-[inset_0_0_6px_3px_rgba(255,255,255,0.2)] max-xl:w-full sm:text-sm xl:inline-flex xl:px-5"
+                    }
+                  >
+                    <span className="relative z-[2]">{businessAutomationCta.label}</span>
+                    {!scoreCtaHref ? (
+                      <ArrowRightIcon className="relative z-[2] size-[14px] shrink-0 text-white" />
+                    ) : null}
+                  </button>
+                ) : (
+                  <a
+                    href={businessAutomationCta.href}
+                    className={
+                      scoreCtaHref
+                        ? "inline-flex items-center justify-center gap-2 rounded-[10px] border border-white/15 bg-black/40 px-4 py-[15px] text-center text-[13px] font-medium text-white/90 backdrop-blur-[5px] transition-colors hover:bg-black/60 hover:text-white max-xl:w-full sm:text-sm xl:px-5"
+                        : "btn-gloss relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-[10px] border border-white/20 bg-purple/70 px-4 py-[15px] text-center text-[13px] font-medium text-white shadow-[inset_0_0_6px_3px_rgba(255,255,255,0.2)] max-xl:w-full sm:text-sm xl:inline-flex xl:px-5"
+                    }
+                  >
+                    <span className="relative z-[2]">{businessAutomationCta.label}</span>
+                    {!scoreCtaHref ? (
+                      <ArrowRightIcon className="relative z-[2] size-[14px] shrink-0 text-white" />
+                    ) : null}
+                  </a>
+                )}
+                {!scoreCtaHref ? (
+                  <a
+                    href="#what-we-automate"
+                    className="inline-flex items-center justify-center gap-2 rounded-[10px] border border-white/15 bg-black/40 px-4 py-[15px] text-center text-[13px] font-medium text-white/90 backdrop-blur-[5px] transition-colors hover:bg-black/60 hover:text-white max-xl:w-full sm:text-sm xl:px-5"
+                  >
+                    See what we automate ↓
+                  </a>
+                ) : null}
                 <a
-                  href={businessAutomationCta.href}
-                  className="btn-gloss relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-[10px] border border-white/20 bg-purple/70 px-4 py-[15px] text-center text-[13px] font-medium text-white shadow-[inset_0_0_6px_3px_rgba(255,255,255,0.2)] max-xl:w-full sm:text-sm xl:inline-flex xl:px-5"
+                  href={waHref}
+                  target="_blank"
+                  rel="noopener"
+                  className={
+                    scoreCtaHref
+                      ? "inline-flex items-center justify-center gap-2 rounded-[10px] border border-white/15 bg-black/40 px-5 py-[15px] text-sm font-medium text-white/90 backdrop-blur-[5px] transition-colors hover:bg-black/60 hover:text-white max-xl:w-full xl:col-span-1"
+                      : "inline-flex items-center justify-center gap-2 rounded-[10px] border border-white/15 bg-black/40 px-5 py-[15px] text-sm font-medium text-white/90 backdrop-blur-[5px] transition-colors hover:bg-black/60 hover:text-white max-xl:col-span-2 max-xl:w-full xl:col-span-1"
+                  }
                 >
-                  <span className="relative z-[2]">{businessAutomationCta.label}</span>
-                  <ArrowRightIcon className="relative z-[2] size-[14px] shrink-0 text-white" />
+                  <WhatsAppIcon className="size-[16px] fill-white" />
+                  WhatsApp us
                 </a>
-              )}
-              <a
-                href="#what-we-automate"
-                className="inline-flex items-center justify-center gap-2 rounded-[10px] border border-white/15 bg-black/40 px-4 py-[15px] text-center text-[13px] font-medium text-white/90 backdrop-blur-[5px] transition-colors hover:bg-black/60 hover:text-white max-xl:w-full sm:text-sm xl:px-5"
-              >
-                See what we automate ↓
-              </a>
-              <a
-                href={waHref}
-                target="_blank"
-                rel="noopener"
-                className="inline-flex items-center justify-center gap-2 rounded-[10px] border border-white/15 bg-black/40 px-5 py-[15px] text-sm font-medium text-white/90 backdrop-blur-[5px] transition-colors hover:bg-black/60 hover:text-white max-xl:col-span-2 max-xl:w-full xl:col-span-1"
-              >
-                <WhatsAppIcon className="size-[16px] fill-white" />
-                WhatsApp us
-              </a>
+              </div>
+              {scoreCtaHref ? (
+                <p className="text-[12px] text-white/50">
+                  The score takes 60 seconds · personalized report · no call needed
+                </p>
+              ) : null}
             </div>
 
             <div className="flex flex-wrap items-center gap-x-8 gap-y-4 pt-1">

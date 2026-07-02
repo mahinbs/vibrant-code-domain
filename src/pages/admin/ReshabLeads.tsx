@@ -91,6 +91,7 @@ function tierBadgeClass(tier: string) {
 function submissionTypeLabel(t: string) {
   if (t === "strategy_call") return "Strategy call";
   if (t === "founder_partnership") return "Founder application";
+  if (t === "automation_score") return "Automation score";
   if (t === "high_intent") return "Full form";
   return t || "—";
 }
@@ -98,6 +99,7 @@ function submissionTypeLabel(t: string) {
 function submissionBadgeClass(t: string) {
   if (t === "strategy_call") return "border-cyan-400/50 bg-cyan-950/80 text-cyan-200";
   if (t === "founder_partnership") return "border-violet-400/50 bg-violet-950/80 text-violet-200";
+  if (t === "automation_score") return "border-fuchsia-400/50 bg-fuchsia-950/80 text-fuchsia-200";
   return "border-white/20 bg-white/10 text-gray-200";
 }
 
@@ -169,7 +171,7 @@ const ReshabLeads = () => {
               Reshab leads
             </h1>
             <p className="mt-1 text-gray-400">
-              High-intent forms, strategy calls, and founder applications.
+              High-intent forms, strategy calls, automation score surveys, and founder applications.
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-2">
@@ -191,6 +193,7 @@ const ReshabLeads = () => {
                 <SelectItem value="all">All forms</SelectItem>
                 <SelectItem value="high_intent">Full form</SelectItem>
                 <SelectItem value="strategy_call">Strategy call</SelectItem>
+                <SelectItem value="automation_score">Automation score</SelectItem>
                 <SelectItem value="founder_partnership">Founder application</SelectItem>
               </SelectContent>
             </Select>

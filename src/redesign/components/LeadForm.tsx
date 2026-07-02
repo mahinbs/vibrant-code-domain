@@ -1,6 +1,8 @@
 import { useMemo, useState, type ChangeEvent, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { trackMetaCompleteRegistration } from "@/lib/analytics/metaPixel";
+import { trackMetaConversion } from "@/lib/analytics/metaConversion";
+import { isMetaConversionSourcePage } from "@/lib/analytics/metaScope";
 import { saveLeadThankYouReturnPath } from "../lib/leadThankYou";
 import { submitLead, type HighIntentLeadSubmitInput } from "../lib/submitLead";
 import type { HighIntentLeadPayload } from "../lib/highIntentLead";
@@ -22,8 +24,8 @@ export type LeadFormProps = {
   hideStepHeadline?: boolean;
 };
 
-/** Country dial codes with flags for the phone field (India default). */
-const COUNTRIES = [
+/** Country dial codes with flags for the phone field (India default). Reused by the /automation-score gate form. */
+export const COUNTRIES = [
   { code: "IN", flag: "🇮🇳", dial: "+91", name: "India" },
   { code: "US", flag: "🇺🇸", dial: "+1", name: "United States" },
   { code: "GB", flag: "🇬🇧", dial: "+44", name: "United Kingdom" },
@@ -335,6 +337,14 @@ export function LeadForm({
   function onNextStep() {
     setServerError(null);
     if (!validateCurrentStep()) return;
+    if (step === 1 && isMetaConversionSourcePage(sourcePage)) {
+      trackMetaConversion({
+        eventName: "Contact",
+        email: values.email,
+        phone: values.phone,
+        sourcePage,
+      });
+    }
     if (step < 3) setStep((s) => (s + 1) as 1 | 2 | 3);
   }
 
@@ -372,6 +382,14 @@ export function LeadForm({
     if (res.ok) {
       if (sourcePage === "fintech-landing") {
         trackMetaCompleteRegistration();
+      }
+      if (isMetaConversionSourcePage(sourcePage)) {
+        trackMetaConversion({
+          eventName: "Lead",
+          email: values.email,
+          phone: values.phone,
+          sourcePage,
+        });
       }
       saveLeadThankYouReturnPath();
       navigate("/thank-you", { replace: true });

@@ -190,7 +190,7 @@ export function AutopilotTerminal({ niche, compact = false }: AutopilotTerminalP
                 className="size-2 shrink-0 rounded-full bg-[#5dcaa5] autopilot-pulse-ring"
                 aria-hidden
               />
-              Autopilot idle — all workflows complete
+              Autopilot idle, all workflows complete
             </p>
           </div>
         ) : null}

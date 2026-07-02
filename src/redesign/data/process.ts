@@ -2,6 +2,8 @@ export type ProcessStep = {
   number: string;
   title: string;
   description: string;
+  illustrationSrc?: string;
+  illustrationAlt?: string;
 };
 
 export const processSteps: ProcessStep[] = [

@@ -167,7 +167,7 @@ export function IndustryPlaybook() {
           Your hidden costs. <span className="impact-highlight">Our autopilot.</span>
         </h2>
         <p className="mx-auto mt-3 max-w-[560px] text-base text-white/60">
-          Pick your industry. See the exact pain we fix — and what it looks like when it runs itself.
+          Pick your industry. See the exact pain we fix, and what it looks like when it runs itself.
         </p>
       </div>
 
