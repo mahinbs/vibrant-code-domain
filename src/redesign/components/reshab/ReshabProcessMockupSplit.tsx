@@ -1,7 +1,6 @@
-import type { ProcessStep } from "../data/process";
-import { MockupBand } from "./MockupBand";
-import { Process } from "./Process";
-import { ProcessCTA } from "./ProcessCTA";
+import type { ProcessStep } from "../../data/process";
+import { MockupBand } from "../MockupBand";
+import { ReshabProcess } from "./ReshabProcess";
 
 type ProcessMockupSplitProps = {
   steps: ProcessStep[];
@@ -17,7 +16,7 @@ type ProcessMockupSplitProps = {
   };
 };
 
-export function ProcessMockupSplit({
+export function ReshabProcessMockupSplit({
   steps,
   title,
   subtitle,
@@ -34,7 +33,7 @@ export function ProcessMockupSplit({
       }}
     >
       <div className="grid grid-cols-1 items-stretch gap-8 lg:grid-cols-[minmax(0,7fr)_minmax(0,3fr)] lg:gap-10">
-        <Process
+        <ReshabProcess
           embedded
           steps={steps}
           columns={3}
@@ -48,7 +47,6 @@ export function ProcessMockupSplit({
           <MockupBand variant="sidebar" {...mockup} />
         </div>
       </div>
-      <ProcessCTA className="mt-8 border-t border-white/[0.06] pt-8 md:mt-10 md:pt-10" />
     </section>
   );
 }

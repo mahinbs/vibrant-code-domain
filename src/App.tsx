@@ -108,6 +108,7 @@ const FreeAutomationCourse = lazy(
 );
 const LandingCopy = lazy(() => import("./redesign/pages/LandingCopy"));
 const BusinessAutomation = lazy(() => import("./redesign/pages/BusinessAutomation"));
+const ReshabBusinessAutomation = lazy(() => import("./redesign/pages/ReshabBusinessAutomation"));
 const AutomationScore = lazy(() => import("./redesign/pages/AutomationScore"));
 const NewHomepagePreview = lazy(() => import("./pages/NewHomepagePreview"));
 const FintechDevelopmentCompanyPage = lazy(() => import("./pages/geo/FintechDevelopmentCompanyPage"));
@@ -654,7 +655,7 @@ const App = () => {
                 path="/business-automation"
                 element={
                   <RedesignShell>
-                    <BusinessAutomation />
+                    <ReshabBusinessAutomation />
                   </RedesignShell>
                 }
               />
