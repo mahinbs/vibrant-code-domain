@@ -6,7 +6,7 @@ A modern, responsive web application built with React, TypeScript, and Tailwind 
 
 **URL**: https://lovable.dev/projects/e131830c-60b5-43b1-997a-e8d892c5764e  
 
-## Recent Updates
+## Recent Updates 
 
 ### Portfolio Card Improvements (Latest)
 - **75/25 Layout**: Portfolio cards now feature 75% image area and 25% information area
