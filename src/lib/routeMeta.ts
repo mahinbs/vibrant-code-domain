@@ -126,6 +126,11 @@ const EXACT: Record<string, RouteSeo> = {
     description:
       "Get your automation score in 60 seconds. A personalized report on the hours and money your business loses to manual work — and what to automate first.",
   },
+  "/automation-score/report": {
+    title: "Your Automation Report | Boostmysites",
+    description:
+      "Your personalized automation score report — hours lost, monthly cost, and what to automate first.",
+  },
   "/personal-automation": {
     title: "Personal Workflow Automation | Boostmysites",
     description:

@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from "react";
+import { useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import {
   Dialog,
@@ -9,6 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { trackMetaConversion } from "@/lib/analytics/metaConversion";
 import { isMetaConversionSourcePage } from "@/lib/analytics/metaScope";
+import { saveLeadThankYouReturnPath } from "../lib/leadThankYou";
 import { submitStrategyCallLead } from "../lib/submitLead";
 
 export type StrategyCallLeadModalProps = {
@@ -27,19 +29,18 @@ const DIALOG_CLOSE_BTN =
   "[&>button]:!absolute [&>button]:right-3 [&>button]:top-3 [&>button]:z-30 [&>button]:flex [&>button]:size-9 [&>button]:items-center [&>button]:justify-center [&>button]:rounded-full [&>button]:border [&>button]:border-white/25 [&>button]:bg-black/60 [&>button]:text-white [&>button]:opacity-100 [&>button]:shadow-[0_4px_12px_rgba(0,0,0,0.35)] [&>button]:backdrop-blur-sm [&>button]:hover:bg-white/15 [&>button]:hover:text-white [&>button]:focus:outline-none [&>button]:focus:ring-2 [&>button]:focus:ring-white/30 [&>button_svg]:size-5";
 
 export function StrategyCallLeadModal({ open, onOpenChange, sourcePage }: StrategyCallLeadModalProps) {
+  const navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [whatsapp, setWhatsapp] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [done, setDone] = useState(false);
 
   const reset = () => {
     setName("");
     setEmail("");
     setWhatsapp("");
     setError(null);
-    setDone(false);
     setSubmitting(false);
   };
 
@@ -73,7 +74,9 @@ export function StrategyCallLeadModal({ open, onOpenChange, sourcePage }: Strate
         sourcePage,
       });
     }
-    setDone(true);
+    saveLeadThankYouReturnPath();
+    onOpenChange(false);
+    navigate("/thank-you", { replace: true });
   };
 
   return (
@@ -99,21 +102,7 @@ export function StrategyCallLeadModal({ open, onOpenChange, sourcePage }: Strate
           </DialogHeader>
 
           <div className="mt-6">
-            {done ? (
-              <div className="space-y-5">
-                <p className="text-[15px] leading-relaxed text-white/82">
-                  You are all set. We have received your details and will be in touch shortly.
-                </p>
-                <button
-                  type="button"
-                  onClick={() => handleOpenChange(false)}
-                  className="inline-flex w-full items-center justify-center rounded-[10px] border border-white/20 px-4 py-3 text-sm font-medium text-white/90 transition-colors hover:bg-white/5 hover:text-white"
-                >
-                  Close
-                </button>
-              </div>
-            ) : (
-              <form onSubmit={(e) => void onSubmit(e)} className="flex flex-col gap-4">
+            <form onSubmit={(e) => void onSubmit(e)} className="flex flex-col gap-4">
                 <div className="flex flex-col gap-1.5">
                   <label htmlFor="strategy-call-name" className="text-[12px] font-medium text-white/70">
                     Name *
@@ -168,8 +157,7 @@ export function StrategyCallLeadModal({ open, onOpenChange, sourcePage }: Strate
                 >
                   <span className="relative z-[2]">{submitting ? "Sending…" : "Send request"}</span>
                 </button>
-              </form>
-            )}
+            </form>
           </div>
         </div>
       </DialogContent>

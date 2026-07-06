@@ -110,6 +110,9 @@ const LandingCopy = lazy(() => import("./redesign/pages/LandingCopy"));
 const BusinessAutomation = lazy(() => import("./redesign/pages/BusinessAutomation"));
 const ReshabBusinessAutomation = lazy(() => import("./redesign/pages/ReshabBusinessAutomation"));
 const AutomationScore = lazy(() => import("./redesign/pages/AutomationScore"));
+const AutomationScoreReport = lazy(
+  () => import("./redesign/pages/AutomationScoreReport"),
+);
 const NewHomepagePreview = lazy(() => import("./pages/NewHomepagePreview"));
 const FintechDevelopmentCompanyPage = lazy(() => import("./pages/geo/FintechDevelopmentCompanyPage"));
 const TradingAppDevelopmentPage = lazy(() => import("./pages/geo/TradingAppDevelopmentPage"));
@@ -665,6 +668,14 @@ const App = () => {
                 element={
                   <RedesignShell>
                     <AutomationScore />
+                  </RedesignShell>
+                }
+              />
+              <Route
+                path="/automation-score/report"
+                element={
+                  <RedesignShell>
+                    <AutomationScoreReport />
                   </RedesignShell>
                 }
               />

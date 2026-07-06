@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import { useReshabLeadConversionPageLoad } from "@/lib/analytics/useReshabLeadConversion";
 import { SiteBackground } from "../components/SiteBackground";
 import { CheckIcon, WhatsAppIcon } from "../components/icons";
 import { site, whatsappHref } from "../data/site";
@@ -10,6 +11,11 @@ const CTA_SHELL_BG =
   "radial-gradient(60% 100% at 50% 0%, var(--color-dark-purple) 0%, #000 75%)";
 
 const REDIRECT_SECONDS = 5;
+
+function isReshabLeadConversionPath(returnPath: string): boolean {
+  const path = returnPath.split("?")[0];
+  return path === "/business-automation" || path.startsWith("/automation-score");
+}
 
 const TRUST_CHIPS = [
   "Application received",
@@ -21,6 +27,11 @@ export default function ThankYou() {
   const navigate = useNavigate();
   const [secondsLeft, setSecondsLeft] = useState(REDIRECT_SECONDS);
   const [returnPath] = useState(() => consumeLeadThankYouReturnPath());
+
+  useReshabLeadConversionPageLoad(
+    "thank-you",
+    isReshabLeadConversionPath(returnPath),
+  );
 
   useEffect(() => {
     if (typeof window !== "undefined" && window.dataLayer) {

@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { trackMetaConversion } from "@/lib/analytics/metaConversion";
 import { isMetaConversionSourcePage } from "@/lib/analytics/metaScope";
 import {
@@ -22,11 +23,14 @@ import {
   submitAutomationScoreLead,
   type AutomationScoreLeadInput,
 } from "../../lib/submitLead";
+import {
+  AUTOMATION_SCORE_STORAGE_KEY,
+  writeAutomationScoreState,
+} from "../../lib/automationScoreStorage";
 import { GateForm, type GateContact } from "./GateForm";
 import { LeakStep } from "./LeakStep";
-import { ReportView } from "./ReportView";
 
-const STORAGE_KEY = "bms-automation-score-v1";
+const STORAGE_KEY = AUTOMATION_SCORE_STORAGE_KEY;
 const PENDING_LEAD_KEY = "bms-automation-score-pending-lead";
 const RETRY_DELAYS_MS = [5_000, 20_000, 60_000];
 
@@ -166,8 +170,14 @@ export function SurveyFlow({
   sourcePage: string;
   initialIndustryId?: string;
 }) {
+  const navigate = useNavigate();
   const [state, setState] = useState<StoredState>(() => loadState(initialIndustryId));
   const flowRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (state.phase !== "report") return;
+    navigate("/automation-score/report", { replace: true });
+  }, [state.phase, navigate]);
 
   useEffect(() => {
     try {
@@ -243,7 +253,13 @@ export function SurveyFlow({
   function onUnlock(contact: GateContact) {
     if (!answers || !report) return;
 
-    update({ phase: "report", contactName: contact.name.trim() });
+    const nextState: StoredState = {
+      ...state,
+      phase: "report",
+      contactName: contact.name.trim(),
+    };
+    writeAutomationScoreState(nextState);
+    setState(nextState);
 
     if (isMetaConversionSourcePage(sourcePage)) {
       trackMetaConversion({
@@ -274,14 +290,12 @@ export function SurveyFlow({
         estimatedMonthlyCost: formatInrRange(report.monthlyCostInr),
       },
     });
+
+    navigate("/automation-score/report");
   }
 
-  if (state.phase === "report" && report) {
-    return (
-      <div ref={flowRef} className="w-full max-w-[720px]">
-        <ReportView report={report} firstName={state.contactName.split(" ")[0]} />
-      </div>
-    );
+  if (state.phase === "report") {
+    return null;
   }
 
   if (state.phase === "gate") {

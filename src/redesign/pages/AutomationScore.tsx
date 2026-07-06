@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { SiteBackground } from "../components/SiteBackground";
 import { Nav } from "../components/Nav";
 import {
@@ -10,6 +10,7 @@ import {
 import { SurveyFlow } from "../components/automationScore/SurveyFlow";
 import { INDUSTRY_PROFILES } from "../data/automationScore/industryProfiles";
 import { businessAutomationWhatsappHref } from "../data/businessAutomationContent";
+import { readAutomationScoreState, AUTOMATION_SCORE_STORAGE_KEY } from "../lib/automationScoreStorage";
 
 const SOURCE_PAGE = "automation-score";
 
@@ -34,6 +35,7 @@ const HEADLINES: Record<string, ScoreLandingHeadline> = {
 };
 
 export default function AutomationScore() {
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
   const utmIndustry = useMemo(() => {
@@ -46,12 +48,19 @@ export default function AutomationScore() {
     return HEADLINES[campaign] ?? HEADLINES.default;
   }, [searchParams]);
 
+  useEffect(() => {
+    const stored = readAutomationScoreState();
+    if (stored?.phase === "report") {
+      navigate("/automation-score/report", { replace: true });
+    }
+  }, [navigate]);
+
   // Resume straight into the survey if this session already started it, or when linked with ?start=1.
   const [started, setStarted] = useState<boolean>(() => {
     if (typeof window === "undefined") return false;
     try {
       if (searchParams.get("start") === "1") return true;
-      return window.sessionStorage.getItem("bms-automation-score-v1") !== null;
+      return window.sessionStorage.getItem(AUTOMATION_SCORE_STORAGE_KEY) !== null;
     } catch {
       return false;
     }
