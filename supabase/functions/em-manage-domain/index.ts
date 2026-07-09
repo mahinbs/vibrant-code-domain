@@ -1,11 +1,11 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
-import { corsHeaders, jsonResponse, createSupabaseAdmin } from "../_shared/em/util.ts";
+import { corsHeaders, jsonResponse, createSupabaseAdmin } from "./lib/util.ts";
 import {
   createResendDomain,
   verifyResendDomain,
   getResendDomain,
   sendViaResend,
-} from "../_shared/em/resend.ts";
+} from "./lib/resend.ts";
 
 type Action =
   | { action: "add_domain"; domain: string; is_primary?: boolean }

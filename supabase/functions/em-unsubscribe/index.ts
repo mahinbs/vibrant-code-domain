@@ -1,5 +1,5 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
-import { corsHeaders, jsonResponse, createSupabaseAdmin } from "../_shared/em/util.ts";
+import { corsHeaders, jsonResponse, createSupabaseAdmin } from "./lib/util.ts";
 
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });

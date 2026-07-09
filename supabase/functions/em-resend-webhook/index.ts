@@ -1,5 +1,5 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
-import { corsHeaders, jsonResponse, createSupabaseAdmin } from "../_shared/em/util.ts";
+import { corsHeaders, jsonResponse, createSupabaseAdmin } from "./lib/util.ts";
 
 const EVENT_MAP: Record<string, string> = {
   "email.sent": "sent",

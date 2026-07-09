@@ -22,8 +22,16 @@ supabase secrets set \
 
 ## Deploy functions
 
+From the repo root (CLI — do not paste single files in the Dashboard):
+
 ```bash
-supabase functions deploy em-manage-domain
+./scripts/deploy-email-functions.sh
+```
+
+Or deploy individually:
+
+```bash
+npx supabase functions deploy em-manage-domain --project-ref upxsbhsamorhvnfebvor
 supabase functions deploy em-resend-webhook
 supabase functions deploy em-send-queue
 supabase functions deploy em-process-sequences

@@ -1,6 +1,6 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { ImapFlow } from "npm:imapflow@1.0.164";
-import { corsHeaders, jsonResponse, createSupabaseAdmin } from "../_shared/em/util.ts";
+import { corsHeaders, jsonResponse, createSupabaseAdmin } from "./lib/util.ts";
 
 function stripHtml(html: string): string {
   return html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();

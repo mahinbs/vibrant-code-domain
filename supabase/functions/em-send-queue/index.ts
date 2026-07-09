@@ -5,13 +5,13 @@ import {
   createSupabaseAdmin,
   getSetting,
   renderTemplate,
-} from "../_shared/em/util.ts";
+} from "./lib/util.ts";
 import {
   pickSendingIdentity,
   sendViaResend,
   incrementSenderCount,
   getEffectiveDailyCap,
-} from "../_shared/em/resend.ts";
+} from "./lib/resend.ts";
 
 async function processQueuedSend(supabase: ReturnType<typeof createSupabaseAdmin>): Promise<number> {
   const cap = await getEffectiveDailyCap();
