@@ -136,6 +136,37 @@ const CaseStudyList = lazy(() => import("./pages/admin/CaseStudyList"));
 const BlogList = lazy(() => import("./pages/admin/BlogList"));
 const BlogForm = lazy(() => import("./pages/admin/BlogForm"));
 const WebinarManagement = lazy(() => import("./pages/admin/WebinarManagement"));
+const EmailMarketingOverview = lazy(
+  () => import("./pages/admin/email-marketing/EmailMarketingOverview"),
+);
+const EmailMarketingSettings = lazy(
+  () => import("./pages/admin/email-marketing/EmailMarketingSettings"),
+);
+const EmailMarketingLeads = lazy(
+  () => import("./pages/admin/email-marketing/EmailMarketingLeads"),
+);
+const EmailMarketingLeadDetail = lazy(
+  () => import("./pages/admin/email-marketing/EmailMarketingLeadDetail"),
+);
+const EmailMarketingCampaigns = lazy(
+  () => import("./pages/admin/email-marketing/EmailMarketingCampaigns"),
+);
+const EmailMarketingCampaignNew = lazy(
+  () => import("./pages/admin/email-marketing/EmailMarketingCampaignNew"),
+);
+const EmailMarketingCampaignDetail = lazy(
+  () => import("./pages/admin/email-marketing/EmailMarketingCampaignDetail"),
+);
+const EmailMarketingSequences = lazy(
+  () => import("./pages/admin/email-marketing/EmailMarketingSequences"),
+);
+const EmailMarketingImport = lazy(
+  () => import("./pages/admin/email-marketing/EmailMarketingImport"),
+);
+const EmailMarketingActivity = lazy(
+  () => import("./pages/admin/email-marketing/EmailMarketingActivity"),
+);
+const UnsubscribeRedirect = lazy(() => import("./pages/UnsubscribeRedirect"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
@@ -854,6 +885,87 @@ const App = () => {
                   </ProtectedRoute>
                 }
               />
+              <Route
+                path="/admin/email-marketing"
+                element={
+                  <ProtectedRoute>
+                    <EmailMarketingOverview />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/email-marketing/settings"
+                element={
+                  <ProtectedRoute>
+                    <EmailMarketingSettings />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/email-marketing/leads"
+                element={
+                  <ProtectedRoute>
+                    <EmailMarketingLeads />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/email-marketing/leads/:id"
+                element={
+                  <ProtectedRoute>
+                    <EmailMarketingLeadDetail />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/email-marketing/campaigns"
+                element={
+                  <ProtectedRoute>
+                    <EmailMarketingCampaigns />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/email-marketing/campaigns/new"
+                element={
+                  <ProtectedRoute>
+                    <EmailMarketingCampaignNew />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/email-marketing/campaigns/:id"
+                element={
+                  <ProtectedRoute>
+                    <EmailMarketingCampaignDetail />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/email-marketing/sequences"
+                element={
+                  <ProtectedRoute>
+                    <EmailMarketingSequences />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/email-marketing/import"
+                element={
+                  <ProtectedRoute>
+                    <EmailMarketingImport />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/email-marketing/activity"
+                element={
+                  <ProtectedRoute>
+                    <EmailMarketingActivity />
+                  </ProtectedRoute>
+                }
+              />
+              <Route path="/unsubscribe" element={<UnsubscribeRedirect />} />
               <Route path="*" element={<NotFound />} />
               </Routes>
             </Suspense>

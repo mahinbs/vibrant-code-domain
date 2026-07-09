@@ -13,6 +13,7 @@ import {
   GraduationCap,
   Menu,
   X,
+  Mail,
 } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -36,6 +37,7 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
       icon: MessageSquare,
     },
     { name: "Reshab leads", href: "/admin/reshab-leads", icon: Sparkles },
+    { name: "Email Marketing", href: "/admin/email-marketing", icon: Mail },
     { name: "Trial Leads", href: "/admin/trial-leads", icon: UserCheck },
     {
       name: "Placement Applications",
@@ -60,7 +62,10 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
       </div>
       <nav className="px-4 space-y-2 pb-20">
         {navigation.map((item) => {
-          const isActive = location.pathname === item.href;
+          const isActive =
+            item.href === "/admin/email-marketing"
+              ? location.pathname.startsWith("/admin/email-marketing")
+              : location.pathname === item.href;
           return (
             <Link
               key={item.name}

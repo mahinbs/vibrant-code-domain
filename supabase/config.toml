@@ -46,3 +46,33 @@ verify_jwt = false
 
 [functions.meta-capi]
 verify_jwt = false
+
+[functions.em-manage-domain]
+verify_jwt = false
+
+[functions.em-resend-webhook]
+verify_jwt = false
+
+[functions.em-send-queue]
+verify_jwt = false
+
+[functions.em-process-sequences]
+verify_jwt = false
+
+[functions.em-check-replies]
+verify_jwt = false
+
+[functions.em-sync-inbound-lead]
+verify_jwt = false
+
+[functions.em-research-company]
+verify_jwt = false
+
+[functions.em-draft-email]
+verify_jwt = false
+
+[functions.em-cal-webhook]
+verify_jwt = false
+
+[functions.em-unsubscribe]
+verify_jwt = false
