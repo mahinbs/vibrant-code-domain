@@ -1,6 +1,6 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
+import { EmActionButton } from "@/components/admin/email-marketing/EmActionButton";
 import {
   Select,
   SelectContent,
@@ -64,9 +64,9 @@ export function SequenceHeader({ sequence, onChange, onSave, saving }: Props) {
           </SelectContent>
         </Select>
       </div>
-      <Button onClick={onSave} disabled={saving}>
+      <EmActionButton onClick={onSave} disabled={saving}>
         {saving ? "Saving…" : "Save sequence"}
-      </Button>
+      </EmActionButton>
     </div>
   );
 }

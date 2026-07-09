@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { EmailMarketingLayout } from "@/components/admin/email-marketing/EmailMarketingLayout";
 import { emailMarketingService, type EmSequence } from "@/services/emailMarketing";
-import { Button } from "@/components/ui/button";
+import { EmActionButton } from "@/components/admin/email-marketing/EmActionButton";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -129,9 +129,9 @@ export default function EmailMarketingImport() {
           rows={14}
           className="font-mono text-sm bg-gray-800 border-gray-700"
         />
-        <Button onClick={handleImport} disabled={importing || (pipeline === "cold" && !sequenceId)}>
+        <EmActionButton onClick={handleImport} disabled={importing || (pipeline === "cold" && !sequenceId)}>
           {importing ? "Importing…" : "Import & enroll"}
-        </Button>
+        </EmActionButton>
       </div>
     </EmailMarketingLayout>
   );

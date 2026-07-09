@@ -12,7 +12,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { EmActionButton } from "@/components/admin/email-marketing/EmActionButton";
 import { format } from "date-fns";
 import { emailMarketingEdge } from "@/services/emailMarketing";
 import { toast } from "sonner";
@@ -56,14 +56,14 @@ export default function EmailMarketingActivity() {
 
   return (
     <EmailMarketingLayout title="Activity">
-      <div className="flex gap-2 mb-4">
-        <Button variant="outline" size="sm" onClick={load} disabled={loading}>
+      <div className="flex flex-wrap gap-2 mb-4">
+        <EmActionButton variant="outline" size="sm" onClick={load} disabled={loading}>
           Refresh
-        </Button>
-        <Button variant="secondary" size="sm" onClick={checkReplies}>
+        </EmActionButton>
+        <EmActionButton variant="secondary" size="sm" onClick={checkReplies}>
           Check replies (IMAP)
-        </Button>
-        <Button
+        </EmActionButton>
+        <EmActionButton
           variant="secondary"
           size="sm"
           onClick={async () => {
@@ -77,7 +77,7 @@ export default function EmailMarketingActivity() {
           }}
         >
           Process send queue
-        </Button>
+        </EmActionButton>
       </div>
 
       <Tabs defaultValue="sent">
@@ -111,6 +111,17 @@ export default function EmailMarketingActivity() {
                     </TableCell>
                   </TableRow>
                 ))}
+                {!loading && sent.length === 0 && (
+                  <TableRow>
+                    <TableCell colSpan={3} className="text-center text-gray-500 py-8">
+                      No emails sent yet.{" "}
+                      <Link to="/admin/email-marketing/settings" className="text-cyan-400 hover:underline">
+                        Verify your domain in Settings
+                      </Link>
+                      , then import leads.
+                    </TableCell>
+                  </TableRow>
+                )}
               </TableBody>
             </Table>
           </div>

@@ -94,7 +94,7 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
   );
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="dark min-h-screen bg-black text-white">
       <div className="flex w-full">
         {/* Mobile Header with Hamburger */}
         {isMobile && (

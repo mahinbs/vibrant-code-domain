@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { EmActionButton } from "@/components/admin/email-marketing/EmActionButton";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -22,7 +22,7 @@ import type {
   EmStepCondition,
   EmStepType,
 } from "@/services/emailMarketing";
-import { ChevronDown, ChevronUp, Trash2 } from "lucide-react";
+import { EmActionButton } from "@/components/admin/email-marketing/EmActionButton";
 
 const CONDITIONS: { value: EmStepCondition; label: string }[] = [
   { value: "always", label: "Always" },
@@ -78,16 +78,21 @@ export function SequenceStepCard({
             </span>
           )}
         </p>
-        <div className="flex gap-1">
-          <Button size="icon" variant="ghost" disabled={!canMoveUp} onClick={onMoveUp}>
-            <ChevronUp className="h-4 w-4" />
-          </Button>
-          <Button size="icon" variant="ghost" disabled={!canMoveDown} onClick={onMoveDown}>
-            <ChevronDown className="h-4 w-4" />
-          </Button>
-          <Button size="icon" variant="ghost" onClick={onDelete}>
-            <Trash2 className="h-4 w-4 text-red-400" />
-          </Button>
+        <div className="flex gap-1 flex-wrap">
+          <EmActionButton size="sm" variant="outline" disabled={!canMoveUp} onClick={onMoveUp}>
+            Up
+          </EmActionButton>
+          <EmActionButton size="sm" variant="outline" disabled={!canMoveDown} onClick={onMoveDown}>
+            Down
+          </EmActionButton>
+          <EmActionButton
+            size="sm"
+            variant="outline"
+            className="text-red-400 border-red-800 hover:bg-red-950"
+            onClick={onDelete}
+          >
+            Delete
+          </EmActionButton>
         </div>
       </div>
 
@@ -227,19 +232,19 @@ export function SequenceStepCard({
         />
       )}
 
-      <div className="flex gap-2">
-        <Button size="sm" variant="secondary" onClick={onSave}>
+      <div className="flex flex-wrap gap-2">
+        <EmActionButton size="sm" variant="secondary" onClick={onSave}>
           Save step
-        </Button>
+        </EmActionButton>
         {(stepType === "ai_draft" || stepType === "hybrid") && (
           <>
-            <Button size="sm" variant="outline" onClick={onPreview}>
+            <EmActionButton size="sm" variant="outline" onClick={onPreview}>
               Preview AI draft
-            </Button>
+            </EmActionButton>
             {onRegenerate && (
-              <Button size="sm" variant="ghost" onClick={onRegenerate}>
+              <EmActionButton size="sm" variant="outline" onClick={onRegenerate}>
                 Regenerate cache
-              </Button>
+              </EmActionButton>
             )}
           </>
         )}

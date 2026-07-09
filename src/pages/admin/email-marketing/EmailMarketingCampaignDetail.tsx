@@ -11,7 +11,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { EmActionButton } from "@/components/admin/email-marketing/EmActionButton";
 import { ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
 import { emailMarketingEdge } from "@/services/emailMarketing";
@@ -105,11 +105,11 @@ export default function EmailMarketingCampaignDetail() {
       </div>
 
       <div className="flex gap-2 mb-4">
-        <Button size="sm" variant="outline" onClick={exportCsv}>
+        <EmActionButton size="sm" variant="outline" onClick={exportCsv}>
           Export CSV
-        </Button>
+        </EmActionButton>
         {campaign.status === "draft" && id && (
-          <Button
+          <EmActionButton
             size="sm"
             onClick={async () => {
               const n = await emailMarketingService.queueBlast(id);
@@ -119,7 +119,7 @@ export default function EmailMarketingCampaignDetail() {
             }}
           >
             Send now
-          </Button>
+          </EmActionButton>
         )}
       </div>
 

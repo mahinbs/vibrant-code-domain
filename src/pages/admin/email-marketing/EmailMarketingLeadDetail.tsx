@@ -10,6 +10,7 @@ import {
   type EmSequence,
   type EmSequenceEnrollment,
 } from "@/services/emailMarketing";
+import { EmActionButton } from "@/components/admin/email-marketing/EmActionButton";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -188,18 +189,18 @@ export default function EmailMarketingLeadDetail() {
               )}
               <div className="flex flex-wrap gap-2 pt-2">
                 {enrollment.status === "active" && (
-                  <Button size="sm" variant="outline" onClick={pauseEnrollment}>
+                  <EmActionButton size="sm" variant="outline" onClick={pauseEnrollment}>
                     Pause
-                  </Button>
+                  </EmActionButton>
                 )}
                 {enrollment.status === "paused" && (
-                  <Button size="sm" variant="outline" onClick={resumeEnrollment}>
+                  <EmActionButton size="sm" variant="outline" onClick={resumeEnrollment}>
                     Resume
-                  </Button>
+                  </EmActionButton>
                 )}
-                <Button size="sm" variant="secondary" onClick={removeEnrollment}>
+                <EmActionButton size="sm" variant="secondary" onClick={removeEnrollment}>
                   Remove from sequence
-                </Button>
+                </EmActionButton>
               </div>
             </div>
           ) : (
@@ -220,9 +221,9 @@ export default function EmailMarketingLeadDetail() {
                 </SelectContent>
               </Select>
             </div>
-            <Button size="sm" onClick={enroll} disabled={!enrollSequenceId}>
+            <EmActionButton size="sm" onClick={enroll} disabled={!enrollSequenceId}>
               Enroll
-            </Button>
+            </EmActionButton>
           </div>
         </div>
       )}
@@ -243,9 +244,9 @@ export default function EmailMarketingLeadDetail() {
           </SelectContent>
         </Select>
         {lead.pipeline === "cold" && (
-          <Button size="sm" variant="outline" onClick={runResearch}>
+          <EmActionButton size="sm" variant="outline" onClick={runResearch}>
             AI research
-          </Button>
+          </EmActionButton>
         )}
       </div>
 

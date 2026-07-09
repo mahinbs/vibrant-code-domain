@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { EmailMarketingLayout } from "@/components/admin/email-marketing/EmailMarketingLayout";
 import { emailMarketingService, type EmLead, type EmSequence } from "@/services/emailMarketing";
+import { EmActionButton } from "@/components/admin/email-marketing/EmActionButton";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -135,12 +136,12 @@ export default function EmailMarketingLeads() {
             <SelectItem value="blast_only">Blast only</SelectItem>
           </SelectContent>
         </Select>
-        <Button variant="outline" onClick={load} disabled={loading}>
+        <EmActionButton variant="outline" onClick={load} disabled={loading}>
           Refresh
-        </Button>
-        <Button variant="secondary" onClick={syncInbound}>
+        </EmActionButton>
+        <EmActionButton variant="secondary" onClick={syncInbound}>
           Sync from Reshab leads
-        </Button>
+        </EmActionButton>
       </div>
 
       {(pipeline === "cold" || pipeline === "inbound") && sequences.length > 0 && (
@@ -158,13 +159,13 @@ export default function EmailMarketingLeads() {
               ))}
             </SelectContent>
           </Select>
-          <Button
+          <EmActionButton
             size="sm"
             onClick={bulkEnroll}
             disabled={selected.size === 0 || !bulkSequenceId}
           >
             Bulk enroll
-          </Button>
+          </EmActionButton>
         </div>
       )}
 
@@ -217,7 +218,11 @@ export default function EmailMarketingLeads() {
             {!loading && filtered.length === 0 && (
               <TableRow>
                 <TableCell colSpan={6} className="text-center text-gray-500 py-8">
-                  No leads yet. Sync inbound or import a CSV.
+                  No leads yet.{" "}
+                  <Link to="/admin/email-marketing/import" className="text-cyan-400 hover:underline">
+                    Import a CSV
+                  </Link>{" "}
+                  or sync inbound leads.
                 </TableCell>
               </TableRow>
             )}

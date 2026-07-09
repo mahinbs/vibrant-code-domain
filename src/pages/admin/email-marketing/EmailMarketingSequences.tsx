@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { EmailMarketingLayout } from "@/components/admin/email-marketing/EmailMarketingLayout";
+import { EmActionButton } from "@/components/admin/email-marketing/EmActionButton";
 import { emailMarketingService, emailMarketingEdge, type EmSequence } from "@/services/emailMarketing";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -29,7 +30,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "sonner";
-import { Copy, Pencil, Plus, Trash2, Pause, Play } from "lucide-react";
+import { Plus } from "lucide-react";
 
 type SeqRow = EmSequence & { stepCount: number; enrolled: number };
 
@@ -109,7 +110,7 @@ export default function EmailMarketingSequences() {
         <Button onClick={() => setNewOpen(true)}>
           <Plus className="h-4 w-4 mr-1" /> New sequence
         </Button>
-        <Button
+        <EmActionButton
           variant="outline"
           size="sm"
           onClick={async () => {
@@ -122,7 +123,7 @@ export default function EmailMarketingSequences() {
           }}
         >
           Run sequence processor
-        </Button>
+        </EmActionButton>
       </div>
 
       <div className="rounded-lg border border-gray-800 overflow-x-auto">
@@ -166,31 +167,25 @@ export default function EmailMarketingSequences() {
                   </Badge>
                 </TableCell>
                 <TableCell className="text-right">
-                  <div className="flex justify-end gap-1">
-                    <Button size="icon" variant="ghost" asChild>
-                      <Link to={`/admin/email-marketing/sequences/${seq.id}`}>
-                        <Pencil className="h-4 w-4" />
-                      </Link>
-                    </Button>
-                    <Button size="icon" variant="ghost" onClick={() => duplicate(seq.id)}>
-                      <Copy className="h-4 w-4" />
-                    </Button>
-                    <Button
-                      size="icon"
-                      variant="ghost"
-                      title={seq.is_active ? "Pause sequence" : "Activate sequence"}
-                      onClick={() => toggleActive(seq)}
-                    >
-                      {seq.is_active ? (
-                        <Pause className="h-4 w-4" />
-                      ) : (
-                        <Play className="h-4 w-4" />
-                      )}
-                    </Button>
+                  <div className="flex justify-end flex-wrap gap-1">
+                    <EmActionButton size="sm" variant="outline" asChild>
+                      <Link to={`/admin/email-marketing/sequences/${seq.id}`}>Edit</Link>
+                    </EmActionButton>
+                    <EmActionButton size="sm" variant="outline" onClick={() => duplicate(seq.id)}>
+                      Copy
+                    </EmActionButton>
+                    <EmActionButton size="sm" variant="outline" onClick={() => toggleActive(seq)}>
+                      {seq.is_active ? "Pause" : "Activate"}
+                    </EmActionButton>
                     {!seq.is_default && (
-                      <Button size="icon" variant="ghost" onClick={() => remove(seq)}>
-                        <Trash2 className="h-4 w-4 text-red-400" />
-                      </Button>
+                      <EmActionButton
+                        size="sm"
+                        variant="outline"
+                        className="text-red-400 border-red-800 hover:bg-red-950"
+                        onClick={() => remove(seq)}
+                      >
+                        Delete
+                      </EmActionButton>
                     )}
                   </div>
                 </TableCell>
@@ -199,7 +194,14 @@ export default function EmailMarketingSequences() {
             {!loading && sequences.length === 0 && (
               <TableRow>
                 <TableCell colSpan={7} className="text-center text-gray-500 py-8">
-                  No sequences yet.
+                  No sequences yet.{" "}
+                  <button
+                    type="button"
+                    className="text-cyan-400 hover:underline"
+                    onClick={() => setNewOpen(true)}
+                  >
+                    Create your first sequence
+                  </button>
                 </TableCell>
               </TableRow>
             )}
@@ -236,9 +238,9 @@ export default function EmailMarketingSequences() {
             </div>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setNewOpen(false)}>
+            <EmActionButton variant="outline" onClick={() => setNewOpen(false)}>
               Cancel
-            </Button>
+            </EmActionButton>
             <Button onClick={createSequence}>Create</Button>
           </DialogFooter>
         </DialogContent>

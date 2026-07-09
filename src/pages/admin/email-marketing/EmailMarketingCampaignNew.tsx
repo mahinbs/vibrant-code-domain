@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { EmailMarketingLayout } from "@/components/admin/email-marketing/EmailMarketingLayout";
 import { emailMarketingService } from "@/services/emailMarketing";
-import { Button } from "@/components/ui/button";
+import { EmActionButton } from "@/components/admin/email-marketing/EmActionButton";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -116,12 +116,12 @@ export default function EmailMarketingCampaignNew() {
           </div>
         </div>
         <div className="flex gap-2">
-          <Button onClick={() => handleCreate(true)} disabled={sending}>
+          <EmActionButton onClick={() => handleCreate(true)} disabled={sending}>
             {sending ? "Sending…" : "Send blast"}
-          </Button>
-          <Button variant="outline" onClick={() => handleCreate(false)} disabled={sending}>
+          </EmActionButton>
+          <EmActionButton variant="outline" onClick={() => handleCreate(false)} disabled={sending}>
             Save draft
-          </Button>
+          </EmActionButton>
         </div>
       </div>
     </EmailMarketingLayout>

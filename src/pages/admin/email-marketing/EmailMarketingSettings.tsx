@@ -8,7 +8,7 @@ import {
   type EmSendingIdentity,
 } from "@/services/emailMarketing";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { EmActionButton } from "@/components/admin/email-marketing/EmActionButton";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
@@ -119,7 +119,7 @@ export default function EmailMarketingSettings() {
                 placeholder="boostmysites.com"
                 className="max-w-xs bg-gray-800 border-gray-700"
               />
-              <Button onClick={handleAddDomain}>Add domain</Button>
+              <EmActionButton onClick={handleAddDomain}>Add domain</EmActionButton>
             </div>
             {domains.map((d) => (
               <div key={d.id} className="border border-gray-800 rounded-lg p-4 space-y-3">
@@ -133,9 +133,9 @@ export default function EmailMarketingSettings() {
                       </span>
                     </p>
                   </div>
-                  <Button size="sm" variant="outline" onClick={() => handleVerify(d.id)}>
+                  <EmActionButton size="sm" variant="outline" onClick={() => handleVerify(d.id)}>
                     Verify DNS
-                  </Button>
+                  </EmActionButton>
                 </div>
                 <DnsRecordsBlock records={d.dns_records ?? []} />
               </div>
@@ -157,9 +157,9 @@ export default function EmailMarketingSettings() {
                   className="bg-gray-800 border-gray-700"
                 />
               </div>
-              <Button onClick={handleAddSender} disabled={!selectedDomainId}>
+              <EmActionButton onClick={handleAddSender} disabled={!selectedDomainId}>
                 Add sender
-              </Button>
+              </EmActionButton>
             </div>
             {senders.map((s) => (
               <div
@@ -172,9 +172,9 @@ export default function EmailMarketingSettings() {
                     {s.sent_today}/{s.daily_cap} sent today · {s.warmup_status}
                   </p>
                 </div>
-                <Button size="sm" variant="secondary" onClick={() => handleSendTest(s.id)}>
+                <EmActionButton size="sm" variant="secondary" onClick={() => handleSendTest(s.id)}>
                   Send test
-                </Button>
+                </EmActionButton>
               </div>
             ))}
             <div>
@@ -230,7 +230,7 @@ export default function EmailMarketingSettings() {
               />
               <Label className="text-gray-400">Warmup mode enabled</Label>
             </div>
-            <Button onClick={saveSettings}>Save settings</Button>
+            <EmActionButton onClick={saveSettings}>Save settings</EmActionButton>
           </CardContent>
         </Card>
       </div>

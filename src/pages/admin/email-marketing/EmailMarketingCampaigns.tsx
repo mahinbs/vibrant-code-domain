@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { EmailMarketingLayout } from "@/components/admin/email-marketing/EmailMarketingLayout";
 import { emailMarketingService, type EmCampaign } from "@/services/emailMarketing";
-import { Button } from "@/components/ui/button";
+import { EmActionButton } from "@/components/admin/email-marketing/EmActionButton";
 import {
   Table,
   TableBody,
@@ -30,9 +30,9 @@ export default function EmailMarketingCampaigns() {
   return (
     <EmailMarketingLayout title="Campaigns">
       <div className="flex justify-end mb-4">
-        <Button asChild>
+        <EmActionButton asChild>
           <Link to="/admin/email-marketing/campaigns/new">New blast</Link>
-        </Button>
+        </EmActionButton>
       </div>
 
       <div className="rounded-lg border border-gray-800 overflow-x-auto">
@@ -70,7 +70,10 @@ export default function EmailMarketingCampaigns() {
             {!loading && campaigns.length === 0 && (
               <TableRow>
                 <TableCell colSpan={5} className="text-center text-gray-500 py-8">
-                  No campaigns yet.
+                  No campaigns yet.{" "}
+                  <Link to="/admin/email-marketing/campaigns/new" className="text-cyan-400 hover:underline">
+                    Create a blast
+                  </Link>
                 </TableCell>
               </TableRow>
             )}

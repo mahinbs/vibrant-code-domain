@@ -11,6 +11,7 @@ import {
   type EmSequenceStepStats,
   type EmSequenceTemplate,
 } from "@/services/emailMarketing";
+import { EmActionButton } from "@/components/admin/email-marketing/EmActionButton";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { ArrowLeft, Plus } from "lucide-react";
@@ -200,9 +201,9 @@ export default function EmailMarketingSequenceBuilder() {
         ))}
       </div>
 
-      <Button variant="outline" className="mt-4" onClick={addStep}>
+      <EmActionButton variant="outline" className="mt-4" onClick={addStep}>
         <Plus className="h-4 w-4 mr-1" /> Add step
-      </Button>
+      </EmActionButton>
 
       <Dialog open={!!preview} onOpenChange={() => setPreview(null)}>
         <DialogContent className="bg-gray-900 border-gray-800 max-w-lg">

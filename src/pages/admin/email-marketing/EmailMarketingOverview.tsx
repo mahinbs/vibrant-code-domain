@@ -1,23 +1,39 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { EmailMarketingLayout } from "@/components/admin/email-marketing/EmailMarketingLayout";
+import { EmActionButton } from "@/components/admin/email-marketing/EmActionButton";
 import { emailMarketingService } from "@/services/emailMarketing";
 import type { EmOverviewStats } from "@/services/emailMarketing/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { RefreshCw } from "lucide-react";
+import { RefreshCw, CheckCircle2, Circle, X } from "lucide-react";
+
+const BANNER_KEY = "em_setup_banner_dismissed";
 
 export default function EmailMarketingOverview() {
   const [stats, setStats] = useState<EmOverviewStats | null>(null);
+  const [senderCount, setSenderCount] = useState(0);
+  const [sequenceCount, setSequenceCount] = useState(0);
+  const [leadCount, setLeadCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [bannerDismissed, setBannerDismissed] = useState(
+    () => localStorage.getItem(BANNER_KEY) === "1",
+  );
 
   const load = async () => {
     try {
       setLoading(true);
       setError(null);
-      const data = await emailMarketingService.getOverviewStats();
+      const [data, senders, sequences, leads] = await Promise.all([
+        emailMarketingService.getOverviewStats(),
+        emailMarketingService.listSenders(),
+        emailMarketingService.listSequences(),
+        emailMarketingService.listLeads(),
+      ]);
       setStats(data);
+      setSenderCount(senders.length);
+      setSequenceCount(sequences.length);
+      setLeadCount(leads.length);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Failed to load stats");
     } finally {
@@ -29,13 +45,62 @@ export default function EmailMarketingOverview() {
     load();
   }, []);
 
+  const domainVerified = stats?.domainStatus === "verified";
+  const showBanner = !bannerDismissed && stats && !domainVerified;
+
+  const checklist = [
+    {
+      done: domainVerified,
+      label: "Domain verified in Settings",
+      href: "/admin/email-marketing/settings",
+    },
+    {
+      done: senderCount > 0,
+      label: "At least one sender added",
+      href: "/admin/email-marketing/settings",
+    },
+    {
+      done: sequenceCount > 0,
+      label: "Sequence created",
+      href: "/admin/email-marketing/sequences",
+    },
+    {
+      done: leadCount > 0,
+      label: "Leads imported",
+      href: "/admin/email-marketing/import",
+    },
+  ];
+
   return (
     <EmailMarketingLayout title="Overview">
+      {showBanner && (
+        <div className="mb-4 flex items-start justify-between gap-2 rounded-lg border border-amber-600/50 bg-amber-950/30 px-4 py-3 text-sm text-amber-200">
+          <p>
+            Start here: go to{" "}
+            <Link to="/admin/email-marketing/settings" className="underline font-medium">
+              Settings
+            </Link>{" "}
+            and verify your domain before sending.
+          </p>
+          <button
+            type="button"
+            onClick={() => {
+              localStorage.setItem(BANNER_KEY, "1");
+              setBannerDismissed(true);
+            }}
+            className="text-amber-400 hover:text-white shrink-0"
+            aria-label="Dismiss"
+          >
+            <X className="h-4 w-4" />
+          </button>
+        </div>
+      )}
+
       <div className="flex justify-end mb-4">
-        <Button variant="outline" size="sm" onClick={load} disabled={loading}>
+        <EmActionButton variant="outline" size="sm" onClick={load} disabled={loading}>
           <RefreshCw className={`h-4 w-4 mr-2 ${loading ? "animate-spin" : ""}`} />
           Refresh
-        </Button>
+        </EmActionButton>
       </div>
 
       {error && (
@@ -44,6 +109,28 @@ export default function EmailMarketingOverview() {
           {error.includes("does not exist") && " — Run the email marketing Supabase migration first."}
         </p>
       )}
+
+      <Card className="bg-gray-900 border-gray-800 mb-6">
+        <CardHeader className="pb-2">
+          <CardTitle className="text-white text-base">Setup checklist</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-2">
+          {checklist.map((item) => (
+            <Link
+              key={item.label}
+              to={item.href}
+              className="flex items-center gap-2 text-sm text-gray-300 hover:text-white"
+            >
+              {item.done ? (
+                <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0" />
+              ) : (
+                <Circle className="h-4 w-4 text-gray-600 shrink-0" />
+              )}
+              <span className={item.done ? "text-gray-500 line-through" : ""}>{item.label}</span>
+            </Link>
+          ))}
+        </CardContent>
+      </Card>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         <Card className="bg-gray-900 border-gray-800">
@@ -91,11 +178,7 @@ export default function EmailMarketingOverview() {
           <CardContent className="space-y-2 text-sm text-gray-300">
             <p>
               Domain:{" "}
-              <span
-                className={
-                  stats?.domainStatus === "verified" ? "text-emerald-400" : "text-amber-400"
-                }
-              >
+              <span className={domainVerified ? "text-emerald-400" : "text-amber-400"}>
                 {stats?.domainStatus ?? "not configured"}
               </span>
             </p>
@@ -111,18 +194,18 @@ export default function EmailMarketingOverview() {
             <CardTitle className="text-white">Quick actions</CardTitle>
           </CardHeader>
           <CardContent className="flex flex-wrap gap-2">
-            <Button asChild size="sm" variant="secondary">
+            <EmActionButton asChild size="sm" variant="secondary">
               <Link to="/admin/email-marketing/settings">Setup domain</Link>
-            </Button>
-            <Button asChild size="sm" variant="secondary">
+            </EmActionButton>
+            <EmActionButton asChild size="sm" variant="secondary">
               <Link to="/admin/email-marketing/campaigns/new">New blast</Link>
-            </Button>
-            <Button asChild size="sm" variant="secondary">
+            </EmActionButton>
+            <EmActionButton asChild size="sm" variant="secondary">
               <Link to="/admin/email-marketing/import">Import leads</Link>
-            </Button>
-            <Button asChild size="sm" variant="secondary">
+            </EmActionButton>
+            <EmActionButton asChild size="sm" variant="secondary">
               <Link to="/admin/email-marketing/activity">View activity</Link>
-            </Button>
+            </EmActionButton>
           </CardContent>
         </Card>
       </div>
