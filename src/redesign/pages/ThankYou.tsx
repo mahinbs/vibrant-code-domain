@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { useReshabLeadConversionPageLoad } from "@/lib/analytics/useReshabLeadConversion";
+import { trackXLeadConversion } from "@/lib/analytics/xPixel";
 import { SiteBackground } from "../components/SiteBackground";
 import { CheckIcon, WhatsAppIcon } from "../components/icons";
 import { site, whatsappHref } from "../data/site";
@@ -34,6 +35,7 @@ export default function ThankYou() {
   );
 
   useEffect(() => {
+    trackXLeadConversion("thank-you");
     if (typeof window !== "undefined" && window.dataLayer) {
       window.dataLayer.push({
         event: "form_submission_success",
