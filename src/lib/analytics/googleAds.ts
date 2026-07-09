@@ -6,7 +6,11 @@ const BMS_GOOGLE_ADS_ID = "AW-18249809652";
 const RESHAB_GOOGLE_ADS_ID = "AW-18294430151";
 
 /** Reshab-owned landings (/business-automation, automation score funnel). */
-const RESHAB_LEAD_SOURCES = new Set<string>(["business-automation", "automation-score"]);
+const RESHAB_LEAD_SOURCES = new Set<string>([
+  "business-automation",
+  "automation-score",
+  "automation-case-studies",
+]);
 
 /** Default label from Google Ads conversion action "Submit lead form (1)". */
 export const RESHAB_LEAD_CONVERSION_SEND_TO =

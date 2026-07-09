@@ -25,6 +25,7 @@ export const navLinks = [
 /** In-page anchors for `/business-automation` landing. */
 export const businessAutomationNavLinks = [
   { label: "Process", href: "#process" },
+  { label: "Case studies", href: "/automation-case-studies" },
   { label: "Industries", href: "#industry-playbook" },
   { label: "Audit", href: "#contact-form" },
 ] as const;

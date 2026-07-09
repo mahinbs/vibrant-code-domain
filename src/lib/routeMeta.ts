@@ -131,6 +131,11 @@ const EXACT: Record<string, RouteSeo> = {
     description:
       "Your personalized automation score report — hours lost, monthly cost, and what to automate first.",
   },
+  "/automation-case-studies": {
+    title: "Automation Case Studies | Boostmysites",
+    description:
+      "Watch real AI automation case studies — healthcare, manufacturing, dairy, sales, and more. Long-form walkthroughs, event highlights, and 60-second proof.",
+  },
   "/personal-automation": {
     title: "Personal Workflow Automation | Boostmysites",
     description:

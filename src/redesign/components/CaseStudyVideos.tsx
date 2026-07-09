@@ -1,24 +1,8 @@
-import { useState, type CSSProperties } from "react";
-
-/**
- * YouTube case-study videos for the homepage — customers see real automations
- * in action. Click-to-play facade: only a thumbnail loads up front; the iframe
- * is injected on tap, so the landing page stays fast.
- */
-
-type CaseVideo = {
-  id: string;
-  title: string;
-  tag: string;
-  /** YouTube Short (vertical 9:16) vs regular 16:9. */
-  vertical?: boolean;
-};
-
-const VIDEOS: CaseVideo[] = [
-  { id: "c1Bg46GO9PU", title: "Automation case study", tag: "Case study" },
-  { id: "cXhRjw1myAo", title: "Automation case study", tag: "Case study" },
-  { id: "okVZBouBuZ4", title: "Automation in 60 seconds", tag: "Quick look", vertical: true },
-];
+import { Link } from "react-router-dom";
+import type { CSSProperties } from "react";
+import { ArrowRightIcon } from "./icons";
+import { YouTubeVideoCard } from "./YouTubeVideoCard";
+import { homepageTeaserVideos } from "../data/automationCaseStudyVideos";
 
 const GRID_OVERLAY: CSSProperties = {
   backgroundImage:
@@ -26,65 +10,9 @@ const GRID_OVERLAY: CSSProperties = {
   backgroundSize: "28px 28px",
 };
 
-function VideoCard({ video }: { video: CaseVideo }) {
-  const [playing, setPlaying] = useState(false);
-  const thumb = `https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`;
-  const embed = `https://www.youtube-nocookie.com/embed/${video.id}?autoplay=1&rel=0&playsinline=1`;
-
-  return (
-    <div
-      className="group relative flex flex-col overflow-hidden rounded-[16px] border border-white/12 p-2.5 transition-colors hover:border-white/25"
-      style={{
-        background: "linear-gradient(180deg, rgba(255,255,255,0.04) 0%, rgba(0,0,0,0.5) 100%)",
-        boxShadow: "0 16px 40px rgba(0,0,0,0.4)",
-      }}
-    >
-      <div aria-hidden className="pointer-events-none absolute inset-0 z-0 opacity-40" style={GRID_OVERLAY} />
-      <div
-        className={[
-          "relative z-[1] w-full overflow-hidden rounded-[10px] border border-white/10 bg-black",
-          video.vertical ? "aspect-[9/16]" : "aspect-video",
-        ].join(" ")}
-      >
-        {playing ? (
-          <iframe
-            src={embed}
-            title={video.title}
-            className="absolute inset-0 h-full w-full"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowFullScreen
-          />
-        ) : (
-          <button
-            type="button"
-            onClick={() => setPlaying(true)}
-            aria-label={`Play: ${video.title}`}
-            className="absolute inset-0 h-full w-full"
-          >
-            <img
-              src={thumb}
-              alt={video.title}
-              loading="lazy"
-              decoding="async"
-              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-            />
-            <span className="absolute inset-0 bg-black/25 transition-colors group-hover:bg-black/10" />
-            {/* Play button */}
-            <span className="absolute left-1/2 top-1/2 flex size-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/25 bg-black/60 backdrop-blur-[4px] transition-transform group-hover:scale-110">
-              <span className="ml-1 inline-block border-y-[11px] border-l-[18px] border-y-transparent border-l-white" />
-            </span>
-            <span className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-black/60 px-2.5 py-1 text-[11px] font-medium text-white/85 backdrop-blur-[5px]">
-              <span className="size-1.5 rounded-full bg-[#ff4d4d]" />
-              {video.tag}
-            </span>
-          </button>
-        )}
-      </div>
-    </div>
-  );
-}
-
 export function CaseStudyVideos() {
+  const videos = homepageTeaserVideos();
+
   return (
     <section
       id="case-studies"
@@ -115,17 +43,26 @@ export function CaseStudyVideos() {
             Watch how it <span className="impact-highlight">actually works</span>.
           </h2>
           <p className="max-w-[540px] text-lg text-white/60 max-md:text-base">
-            Real automations we&apos;ve built, on video — so you can see exactly what
-            your business gets before you book the audit.
+            Real automations we&apos;ve built, on video — so you can see exactly what your business
+            gets before you book the audit.
           </p>
+          <Link
+            to="/automation-case-studies"
+            className="inline-flex items-center gap-2 text-sm font-medium text-purple transition-colors hover:text-white"
+          >
+            View all case studies
+            <ArrowRightIcon className="size-4" />
+          </Link>
         </div>
       </div>
 
       <div className="relative z-[1] grid w-full grid-cols-[1fr_1fr_minmax(0,320px)] items-start gap-5 max-lg:grid-cols-2 max-sm:grid-cols-1">
-        {VIDEOS.map((v) => (
-          <VideoCard key={v.id} video={v} />
+        {videos.map((v) => (
+          <YouTubeVideoCard key={v.id} video={v} />
         ))}
       </div>
+
+      <div aria-hidden className="pointer-events-none absolute inset-0 z-0 opacity-20" style={GRID_OVERLAY} />
     </section>
   );
 }

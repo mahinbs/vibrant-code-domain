@@ -14,7 +14,7 @@ const REDIRECT_SECONDS = 5;
 
 function isReshabLeadConversionPath(returnPath: string): boolean {
   const path = returnPath.split("?")[0];
-  return path === "/business-automation" || path.startsWith("/automation-score");
+  return path === "/business-automation" || path.startsWith("/automation-score") || path === "/automation-case-studies";
 }
 
 const TRUST_CHIPS = [

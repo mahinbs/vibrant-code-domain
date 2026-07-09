@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { businessAutomationCta, whatsappHref } from "../data/site";
 import { trustBadges } from "../data/stats";
@@ -31,19 +31,45 @@ function HeroVideo() {
   );
 }
 
+export type BusinessAutomationHeroContent = {
+  badgeTag?: string;
+  badgeLabel?: string;
+  headline?: ReactNode;
+  /** Static subcopy — disables the rotating hero items when set. */
+  subcopy?: ReactNode;
+  /** Secondary CTA when score CTA is the purple primary (e.g. watch videos). */
+  primaryCta?: { label: string; href: string };
+  /** Tertiary link before WhatsApp (default landing only). */
+  exploreCta?: { label: string; href: string };
+  showTrustedTicker?: boolean;
+};
+
 export function BusinessAutomationHero({
   whatsappHref: whatsappHrefProp,
   onPrimaryCtaClick,
   scoreCtaHref,
   onScoreCtaNavigate,
+  content,
 }: {
   whatsappHref?: string;
   onPrimaryCtaClick?: () => void;
   /** When set, "Get my automation score" links to the dedicated score page. */
   scoreCtaHref?: string;
   onScoreCtaNavigate?: () => void;
+  content?: BusinessAutomationHeroContent;
 } = {}) {
   const waHref = whatsappHrefProp ?? whatsappHref;
+  const useRotatingSubcopy = !content?.subcopy;
+  const primaryCta = content?.primaryCta ?? {
+    label: businessAutomationCta.label,
+    href: businessAutomationCta.href,
+  };
+  const exploreCta = content?.exploreCta ?? {
+    label: "See what we automate ↓",
+    href: "#what-we-automate",
+  };
+  const showExploreCta = !scoreCtaHref && Boolean(exploreCta.href);
+  const showTicker = content?.showTrustedTicker !== false;
   const [autoIndex, setAutoIndex] = useState(0);
   const [fade, setFade] = useState(true);
   const [enableSecondaryAnimations, setEnableSecondaryAnimations] = useState(false);
@@ -59,6 +85,7 @@ export function BusinessAutomationHero({
   }, []);
 
   useEffect(() => {
+    if (!useRotatingSubcopy) return;
     const iv = setInterval(() => {
       setFade(false);
       setTimeout(() => {
@@ -67,7 +94,7 @@ export function BusinessAutomationHero({
       }, 280);
     }, 2400);
     return () => clearInterval(iv);
-  }, []);
+  }, [useRotatingSubcopy]);
 
   return (
     <section
@@ -138,10 +165,10 @@ export function BusinessAutomationHero({
           <div className="flex flex-col gap-5 max-xl:order-1 xl:col-start-1 xl:row-start-1">
             <div className="inline-flex w-fit items-center gap-1.5 rounded-full border border-white/15 bg-black/60 px-3.5 py-2.5 shadow-[0_10px_20px_rgba(0,0,0,0.2)] backdrop-blur-[5px]">
               <span className="rounded-full bg-purple px-1.5 py-1 text-[8px] font-bold uppercase tracking-[0.05em]">
-                NEW
+                {content?.badgeTag ?? "NEW"}
               </span>
               <span className="text-sm font-medium -tracking-[0.1px] leading-[1.4] text-white/90">
-                AI Automation for Modern Businesses
+                {content?.badgeLabel ?? "AI Automation for Modern Businesses"}
               </span>
             </div>
 
@@ -149,26 +176,34 @@ export function BusinessAutomationHero({
               id="hero-heading"
               className="max-w-[860px] font-sans text-[40px] font-medium leading-[0.98em] -tracking-[0.05em] text-white md:text-[64px]"
             >
-              Businesses that don&apos;t
-              <br />
-              <span className="impact-highlight">automate</span>
-              <br />
-              <span className="text-white/65">don&apos;t just fall behind.</span>
-              <br />
-              They <span className="impact-highlight">disappear</span>.
+              {content?.headline ?? (
+                <>
+                  Businesses that don&apos;t
+                  <br />
+                  <span className="impact-highlight">automate</span>
+                  <br />
+                  <span className="text-white/65">don&apos;t just fall behind.</span>
+                  <br />
+                  They <span className="impact-highlight">disappear</span>.
+                </>
+              )}
             </h1>
 
             <p className="max-w-[760px] text-xl font-normal -tracking-[0.01em] leading-[1.4em] text-white/70 max-md:text-base">
-              Right now your competitor is automating their{" "}
-              <span
-                className="impact-highlight inline-block min-w-[10ch] font-medium transition-opacity duration-300"
-                style={{ opacity: fade ? 1 : 0 }}
-              >
-                {heroRotatingItems[autoIndex]}
-              </span>
-              .
-              <br />
-              We&apos;ll help you do the same in 30 days.
+              {content?.subcopy ?? (
+                <>
+                  Right now your competitor is automating their{" "}
+                  <span
+                    className="impact-highlight inline-block min-w-[10ch] font-medium transition-opacity duration-300"
+                    style={{ opacity: fade ? 1 : 0 }}
+                  >
+                    {heroRotatingItems[autoIndex]}
+                  </span>
+                  .
+                  <br />
+                  We&apos;ll help you do the same in 30 days.
+                </>
+              )}
             </p>
           </div>
 
@@ -203,32 +238,32 @@ export function BusinessAutomationHero({
                         : "btn-gloss relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-[10px] border border-white/20 bg-purple/70 px-4 py-[15px] text-center text-[13px] font-medium text-white shadow-[inset_0_0_6px_3px_rgba(255,255,255,0.2)] max-xl:w-full sm:text-sm xl:inline-flex xl:px-5"
                     }
                   >
-                    <span className="relative z-[2]">{businessAutomationCta.label}</span>
+                    <span className="relative z-[2]">{primaryCta.label}</span>
                     {!scoreCtaHref ? (
                       <ArrowRightIcon className="relative z-[2] size-[14px] shrink-0 text-white" />
                     ) : null}
                   </button>
                 ) : (
                   <a
-                    href={businessAutomationCta.href}
+                    href={primaryCta.href}
                     className={
                       scoreCtaHref
                         ? "inline-flex items-center justify-center gap-2 rounded-[10px] border border-white/15 bg-black/40 px-4 py-[15px] text-center text-[13px] font-medium text-white/90 backdrop-blur-[5px] transition-colors hover:bg-black/60 hover:text-white max-xl:w-full sm:text-sm xl:px-5"
                         : "btn-gloss relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-[10px] border border-white/20 bg-purple/70 px-4 py-[15px] text-center text-[13px] font-medium text-white shadow-[inset_0_0_6px_3px_rgba(255,255,255,0.2)] max-xl:w-full sm:text-sm xl:inline-flex xl:px-5"
                     }
                   >
-                    <span className="relative z-[2]">{businessAutomationCta.label}</span>
+                    <span className="relative z-[2]">{primaryCta.label}</span>
                     {!scoreCtaHref ? (
                       <ArrowRightIcon className="relative z-[2] size-[14px] shrink-0 text-white" />
                     ) : null}
                   </a>
                 )}
-                {!scoreCtaHref ? (
+                {showExploreCta ? (
                   <a
-                    href="#what-we-automate"
+                    href={exploreCta.href}
                     className="inline-flex items-center justify-center gap-2 rounded-[10px] border border-white/15 bg-black/40 px-4 py-[15px] text-center text-[13px] font-medium text-white/90 backdrop-blur-[5px] transition-colors hover:bg-black/60 hover:text-white max-xl:w-full sm:text-sm xl:px-5"
                   >
-                    See what we automate ↓
+                    {exploreCta.label}
                   </a>
                 ) : null}
                 <a
@@ -274,7 +309,7 @@ export function BusinessAutomationHero({
           </div>
         </div>
 
-        {enableSecondaryAnimations ? <TrustedTicker /> : null}
+        {enableSecondaryAnimations && showTicker ? <TrustedTicker /> : null}
       </div>
     </section>
   );

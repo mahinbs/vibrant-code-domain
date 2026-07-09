@@ -8,6 +8,7 @@ import { HelmetProvider } from "react-helmet-async";
 import ProtectedRoute from "./components/admin/ProtectedRoute";
 import GoogleAnalytics from "./components/GoogleAnalytics";
 import MetaPixel from "./components/MetaPixel";
+import XPixel from "./components/XPixel";
 import CanonicalLink from "./components/CanonicalLink";
 import RouteMeta from "./components/RouteMeta";
 import FloatingWhatsAppButton from "./components/ui/FloatingWhatsAppButton";
@@ -113,6 +114,9 @@ const AutomationScore = lazy(() => import("./redesign/pages/AutomationScore"));
 const AutomationScoreReport = lazy(
   () => import("./redesign/pages/AutomationScoreReport"),
 );
+const AutomationCaseStudies = lazy(
+  () => import("./redesign/pages/AutomationCaseStudies"),
+);
 const NewHomepagePreview = lazy(() => import("./pages/NewHomepagePreview"));
 const FintechDevelopmentCompanyPage = lazy(() => import("./pages/geo/FintechDevelopmentCompanyPage"));
 const TradingAppDevelopmentPage = lazy(() => import("./pages/geo/TradingAppDevelopmentPage"));
@@ -162,6 +166,7 @@ const App = () => {
             <ScrollToTop />
             <GoogleAnalytics />
             <MetaPixel />
+            <XPixel />
             <CanonicalLink />
             <RouteMeta />
             <Suspense fallback={routeFallback}>
@@ -676,6 +681,14 @@ const App = () => {
                 element={
                   <RedesignShell>
                     <AutomationScoreReport />
+                  </RedesignShell>
+                }
+              />
+              <Route
+                path="/automation-case-studies"
+                element={
+                  <RedesignShell>
+                    <AutomationCaseStudies />
                   </RedesignShell>
                 }
               />

@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { ReactNode } from "react";
 import { ArrowRightIcon } from "../icons";
 
 /**
@@ -9,9 +10,22 @@ import { ArrowRightIcon } from "../icons";
 export function ScoreCtaBand({
   href,
   onNavigate,
+  badge = "Free · 60 seconds · No call needed",
+  headline = (
+    <>
+      Those numbers are averages.{" "}
+      <span className="impact-highlight">Yours are specific.</span>
+    </>
+  ),
+  subheadline = "Answer 4 quick questions and get a personalized report: hours lost, what it costs you monthly, and exactly what we\u2019d automate first.",
+  ctaLabel = "Get my automation score",
 }: {
   href: string;
   onNavigate?: () => void;
+  badge?: string;
+  headline?: React.ReactNode;
+  subheadline?: string;
+  ctaLabel?: string;
 }) {
   return (
     <section
@@ -29,15 +43,13 @@ export function ScoreCtaBand({
         />
         <div className="relative z-[1] flex flex-col items-center gap-3">
           <span className="rounded-full border border-white/15 bg-black/60 px-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-white/70 backdrop-blur-[5px]">
-            Free · 60 seconds · No call needed
+            {badge}
           </span>
           <h2 className="max-w-[640px] text-[28px] font-medium leading-[1.08] -tracking-[0.03em] text-white md:text-[40px]">
-            Those numbers are averages.{" "}
-            <span className="impact-highlight">Yours are specific.</span>
+            {headline}
           </h2>
           <p className="max-w-[520px] text-[15px] leading-[1.5] text-white/65 md:text-[16px]">
-            Answer 4 quick questions and get a personalized report: hours lost,
-            what it costs you monthly, and exactly what we&apos;d automate first.
+            {subheadline}
           </p>
         </div>
         <span className="btn-glow-ring z-[1] max-sm:w-full sm:inline-flex">
@@ -46,7 +58,7 @@ export function ScoreCtaBand({
             onClick={onNavigate}
             className="btn-gloss relative inline-flex w-full items-center justify-center gap-2 overflow-hidden rounded-[10px] border border-white/20 bg-purple/70 px-7 py-[16px] text-[14px] font-medium text-white shadow-[inset_0_0_6px_3px_rgba(255,255,255,0.2)] sm:text-[15px]"
           >
-            <span className="relative z-[2]">Get my automation score</span>
+            <span className="relative z-[2]">{ctaLabel}</span>
             <ArrowRightIcon className="relative z-[2] size-[14px] shrink-0 text-white" />
           </Link>
         </span>
