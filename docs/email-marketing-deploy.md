@@ -8,6 +8,8 @@ supabase db push
 
 Migration: `supabase/migrations/20260709120000_email_marketing.sql`
 
+Sequence builder v2: `supabase/migrations/20260710120000_sequence_builder_v2.sql` (run in SQL Editor if `db push` fails)
+
 ## Edge function secrets
 
 ```bash

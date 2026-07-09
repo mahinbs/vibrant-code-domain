@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { EmailMarketingLayout } from "@/components/admin/email-marketing/EmailMarketingLayout";
-import { emailMarketingService, type EmLead } from "@/services/emailMarketing";
+import { emailMarketingService, type EmLead, type EmSequence } from "@/services/emailMarketing";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Select,
   SelectContent,
@@ -29,6 +30,9 @@ export default function EmailMarketingLeads() {
   const [search, setSearch] = useState("");
   const [pipeline, setPipeline] = useState("all");
   const [loading, setLoading] = useState(true);
+  const [selected, setSelected] = useState<Set<string>>(new Set());
+  const [sequences, setSequences] = useState<EmSequence[]>([]);
+  const [bulkSequenceId, setBulkSequenceId] = useState("");
 
   const load = async () => {
     try {
@@ -37,6 +41,7 @@ export default function EmailMarketingLeads() {
         pipeline !== "all" ? { pipeline } : undefined,
       );
       setLeads(data);
+      setSelected(new Set());
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "Failed to load leads");
     } finally {
@@ -48,6 +53,17 @@ export default function EmailMarketingLeads() {
     load();
   }, [pipeline]);
 
+  useEffect(() => {
+    if (pipeline === "cold" || pipeline === "inbound") {
+      emailMarketingService
+        .listSequences({ pipeline: pipeline as "cold" | "inbound", is_active: true })
+        .then(setSequences)
+        .catch(() => {});
+    } else {
+      setSequences([]);
+    }
+  }, [pipeline]);
+
   const filtered = leads.filter((l) => {
     const q = search.toLowerCase();
     return (
@@ -57,6 +73,37 @@ export default function EmailMarketingLeads() {
       (l.company?.toLowerCase().includes(q) ?? false)
     );
   });
+
+  const toggleSelect = (id: string) => {
+    setSelected((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
+
+  const toggleAll = () => {
+    if (selected.size === filtered.length) {
+      setSelected(new Set());
+    } else {
+      setSelected(new Set(filtered.map((l) => l.id)));
+    }
+  };
+
+  const bulkEnroll = async () => {
+    if (!bulkSequenceId || selected.size === 0) return;
+    try {
+      const count = await emailMarketingService.bulkEnrollLeads(
+        Array.from(selected),
+        bulkSequenceId,
+      );
+      toast.success(`Enrolled ${count} leads`);
+      load();
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Bulk enroll failed");
+    }
+  };
 
   const syncInbound = async () => {
     try {
@@ -96,10 +143,41 @@ export default function EmailMarketingLeads() {
         </Button>
       </div>
 
+      {(pipeline === "cold" || pipeline === "inbound") && sequences.length > 0 && (
+        <div className="flex flex-wrap gap-2 mb-4 items-center">
+          <span className="text-sm text-gray-400">{selected.size} selected</span>
+          <Select value={bulkSequenceId} onValueChange={setBulkSequenceId}>
+            <SelectTrigger className="w-56 bg-gray-800 border-gray-700">
+              <SelectValue placeholder="Enroll in sequence…" />
+            </SelectTrigger>
+            <SelectContent>
+              {sequences.map((s) => (
+                <SelectItem key={s.id} value={s.id}>
+                  {s.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Button
+            size="sm"
+            onClick={bulkEnroll}
+            disabled={selected.size === 0 || !bulkSequenceId}
+          >
+            Bulk enroll
+          </Button>
+        </div>
+      )}
+
       <div className="rounded-lg border border-gray-800 overflow-x-auto">
         <Table>
           <TableHeader>
             <TableRow className="border-gray-800">
+              <TableHead className="w-10">
+                <Checkbox
+                  checked={filtered.length > 0 && selected.size === filtered.length}
+                  onCheckedChange={toggleAll}
+                />
+              </TableHead>
               <TableHead className="text-gray-400">Name</TableHead>
               <TableHead className="text-gray-400">Email</TableHead>
               <TableHead className="text-gray-400">Pipeline</TableHead>
@@ -110,6 +188,12 @@ export default function EmailMarketingLeads() {
           <TableBody>
             {filtered.map((lead) => (
               <TableRow key={lead.id} className="border-gray-800">
+                <TableCell>
+                  <Checkbox
+                    checked={selected.has(lead.id)}
+                    onCheckedChange={() => toggleSelect(lead.id)}
+                  />
+                </TableCell>
                 <TableCell>
                   <Link
                     to={`/admin/email-marketing/leads/${lead.id}`}
@@ -132,7 +216,7 @@ export default function EmailMarketingLeads() {
             ))}
             {!loading && filtered.length === 0 && (
               <TableRow>
-                <TableCell colSpan={5} className="text-center text-gray-500 py-8">
+                <TableCell colSpan={6} className="text-center text-gray-500 py-8">
                   No leads yet. Sync inbound or import a CSV.
                 </TableCell>
               </TableRow>

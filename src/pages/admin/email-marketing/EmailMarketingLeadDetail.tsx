@@ -7,6 +7,8 @@ import {
   emailMarketingEdge,
   type EmLead,
   type EmEmailMessage,
+  type EmSequence,
+  type EmSequenceEnrollment,
 } from "@/services/emailMarketing";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -19,26 +21,46 @@ import {
 } from "@/components/ui/select";
 import { toast } from "sonner";
 import { ArrowLeft } from "lucide-react";
+import { formatDistanceToNow } from "date-fns";
 
 export default function EmailMarketingLeadDetail() {
   const { id } = useParams<{ id: string }>();
   const [lead, setLead] = useState<EmLead | null>(null);
   const [messages, setMessages] = useState<EmEmailMessage[]>([]);
   const [events, setEvents] = useState<{ send_id: string | null; event_type: string }[]>([]);
+  const [enrollment, setEnrollment] = useState<EmSequenceEnrollment | null>(null);
+  const [sequences, setSequences] = useState<EmSequence[]>([]);
+  const [stepCount, setStepCount] = useState(0);
+  const [enrollSequenceId, setEnrollSequenceId] = useState("");
   const [loading, setLoading] = useState(true);
 
   const load = async () => {
     if (!id) return;
     try {
       setLoading(true);
-      const [l, m, e] = await Promise.all([
+      const [l, m, e, en] = await Promise.all([
         emailMarketingService.getLead(id),
         emailMarketingService.getLeadMessages(id),
         emailMarketingService.getLeadEvents(id),
+        emailMarketingService.getLeadEnrollment(id),
       ]);
       setLead(l);
       setMessages(m);
       setEvents(e);
+      setEnrollment(en);
+      if (l && l.pipeline !== "blast_only") {
+        const seqs = await emailMarketingService.listSequences({
+          pipeline: l.pipeline as "cold" | "inbound",
+          is_active: true,
+        });
+        setSequences(seqs);
+        if (en?.sequence_id) {
+          const steps = await emailMarketingService.getSequenceSteps(en.sequence_id);
+          setStepCount(steps.length);
+        } else {
+          setStepCount(0);
+        }
+      }
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Failed to load lead");
     } finally {
@@ -78,6 +100,38 @@ export default function EmailMarketingLeadDetail() {
     }
   };
 
+  const enroll = async () => {
+    if (!id || !enrollSequenceId) return;
+    try {
+      await emailMarketingService.enrollLead(id, enrollSequenceId);
+      toast.success("Enrolled in sequence");
+      load();
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Enroll failed");
+    }
+  };
+
+  const pauseEnrollment = async () => {
+    if (!enrollment) return;
+    await emailMarketingService.pauseEnrollment(enrollment.id);
+    toast.success("Sequence paused");
+    load();
+  };
+
+  const resumeEnrollment = async () => {
+    if (!enrollment) return;
+    await emailMarketingService.resumeEnrollment(enrollment.id);
+    toast.success("Sequence resumed");
+    load();
+  };
+
+  const removeEnrollment = async () => {
+    if (!enrollment) return;
+    await emailMarketingService.removeEnrollment(enrollment.id);
+    toast.success("Removed from sequence");
+    load();
+  };
+
   if (loading) {
     return (
       <EmailMarketingLayout title="Lead">
@@ -94,6 +148,8 @@ export default function EmailMarketingLeadDetail() {
     );
   }
 
+  const seqName = (enrollment?.em_sequences as EmSequence | undefined)?.name;
+
   return (
     <EmailMarketingLayout title={lead.name ?? lead.email}>
       <Link
@@ -108,6 +164,68 @@ export default function EmailMarketingLeadDetail() {
         <Badge variant="secondary">{lead.status}</Badge>
         {lead.company && <span className="text-gray-400 text-sm">{lead.company}</span>}
       </div>
+
+      {lead.pipeline !== "blast_only" && (
+        <div className="mb-6 p-4 rounded-lg border border-gray-800 bg-gray-900/50 space-y-3">
+          <h3 className="text-sm font-medium text-white">Sequence enrollment</h3>
+          {enrollment ? (
+            <div className="text-sm text-gray-400 space-y-1">
+              <p>
+                <span className="text-gray-300">{seqName ?? "Sequence"}</span>
+                {" · "}
+                Step {enrollment.current_step} of {stepCount}
+                {" · "}
+                <Badge variant="outline">{enrollment.status}</Badge>
+              </p>
+              {enrollment.next_send_at && enrollment.status === "active" && (
+                <p>
+                  Next send{" "}
+                  {formatDistanceToNow(new Date(enrollment.next_send_at), { addSuffix: true })}
+                </p>
+              )}
+              {enrollment.stopped_reason && (
+                <p>Stopped: {enrollment.stopped_reason}</p>
+              )}
+              <div className="flex flex-wrap gap-2 pt-2">
+                {enrollment.status === "active" && (
+                  <Button size="sm" variant="outline" onClick={pauseEnrollment}>
+                    Pause
+                  </Button>
+                )}
+                {enrollment.status === "paused" && (
+                  <Button size="sm" variant="outline" onClick={resumeEnrollment}>
+                    Resume
+                  </Button>
+                )}
+                <Button size="sm" variant="secondary" onClick={removeEnrollment}>
+                  Remove from sequence
+                </Button>
+              </div>
+            </div>
+          ) : (
+            <p className="text-sm text-gray-500">Not enrolled in a sequence.</p>
+          )}
+          <div className="flex flex-wrap gap-2 items-end">
+            <div className="min-w-[200px]">
+              <Select value={enrollSequenceId} onValueChange={setEnrollSequenceId}>
+                <SelectTrigger className="bg-gray-800 border-gray-700">
+                  <SelectValue placeholder="Enroll in sequence…" />
+                </SelectTrigger>
+                <SelectContent>
+                  {sequences.map((s) => (
+                    <SelectItem key={s.id} value={s.id}>
+                      {s.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <Button size="sm" onClick={enroll} disabled={!enrollSequenceId}>
+              Enroll
+            </Button>
+          </div>
+        </div>
+      )}
 
       <div className="flex flex-wrap gap-2 mb-6">
         <Select value={lead.status} onValueChange={updateStatus}>

@@ -11,6 +11,11 @@ for fn in supabase/functions/em-*/; do
   fn_name=$(basename "$fn")
   mkdir -p "${fn}lib"
   cp supabase/functions/_shared/em/util.ts "${fn}lib/util.ts"
+  if [[ -f supabase/functions/_shared/em/caseStudies.ts ]]; then
+  if [[ "$fn_name" == "em-process-sequences" || "$fn_name" == "em-draft-email" ]]; then
+    cp supabase/functions/_shared/em/caseStudies.ts "${fn}lib/caseStudies.ts"
+  fi
+  fi
   if [[ "$fn_name" == "em-manage-domain" || "$fn_name" == "em-send-queue" ]]; then
     cp supabase/functions/_shared/em/resend.ts "${fn}lib/resend.ts"
   fi

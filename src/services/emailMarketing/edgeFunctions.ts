@@ -48,6 +48,18 @@ export const emailMarketingEdge = {
     invokeEdge<{ company: unknown }>("em-research-company", params),
   triggerSendQueue: () => invokeEdge<{ sent: number }>("em-send-queue", {}),
   triggerProcessSequences: () => invokeEdge<{ processed: number }>("em-process-sequences", {}),
+  previewDraft: (params: {
+    step_id?: string;
+    sequence_id?: string;
+    step_order?: number;
+    sample_lead?: Record<string, unknown>;
+  }) =>
+    invokeEdge<{ subject: string; body: string }>("em-draft-email", {
+      ...params,
+      preview: true,
+    }),
+  bustDraftCache: (step_id: string) =>
+    invokeEdge<{ ok: boolean }>("em-draft-email", { action: "bust_cache", step_id }),
   triggerCheckReplies: () => invokeEdge<{ processed: number }>("em-check-replies", {}),
 };
 

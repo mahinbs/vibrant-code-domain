@@ -160,6 +160,9 @@ const EmailMarketingCampaignDetail = lazy(
 const EmailMarketingSequences = lazy(
   () => import("./pages/admin/email-marketing/EmailMarketingSequences"),
 );
+const EmailMarketingSequenceBuilder = lazy(
+  () => import("./pages/admin/email-marketing/EmailMarketingSequenceBuilder"),
+);
 const EmailMarketingImport = lazy(
   () => import("./pages/admin/email-marketing/EmailMarketingImport"),
 );
@@ -938,6 +941,14 @@ const App = () => {
                 element={
                   <ProtectedRoute>
                     <EmailMarketingCampaignDetail />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/email-marketing/sequences/:id"
+                element={
+                  <ProtectedRoute>
+                    <EmailMarketingSequenceBuilder />
                   </ProtectedRoute>
                 }
               />

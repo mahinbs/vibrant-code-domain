@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { EmailMarketingLayout } from "@/components/admin/email-marketing/EmailMarketingLayout";
-import { emailMarketingService } from "@/services/emailMarketing";
+import { emailMarketingService, type EmSequence } from "@/services/emailMarketing";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -40,13 +40,30 @@ function parseCsv(text: string): { email: string; name?: string; company?: strin
 export default function EmailMarketingImport() {
   const [csv, setCsv] = useState("email,name,company\n");
   const [pipeline, setPipeline] = useState<"cold" | "blast_only">("cold");
+  const [sequences, setSequences] = useState<EmSequence[]>([]);
+  const [sequenceId, setSequenceId] = useState<string>("");
   const [importing, setImporting] = useState(false);
+
+  useEffect(() => {
+    if (pipeline !== "cold") return;
+    emailMarketingService
+      .listSequences({ pipeline: "cold", is_active: true })
+      .then((seqs) => {
+        setSequences(seqs);
+        const def = seqs.find((s) => s.is_default) ?? seqs[0];
+        if (def) setSequenceId(def.id);
+      })
+      .catch(() => {});
+  }, [pipeline]);
 
   const handleImport = async () => {
     try {
       setImporting(true);
       const rows = parseCsv(csv);
-      const count = await emailMarketingService.importLeadsCsv(rows, pipeline);
+      const count = await emailMarketingService.importLeadsCsv(rows, {
+        pipeline,
+        sequenceId: pipeline === "cold" ? sequenceId : undefined,
+      });
       toast.success(`Imported ${count} leads`);
 
       if (pipeline === "cold") {
@@ -88,14 +105,32 @@ export default function EmailMarketingImport() {
             </SelectContent>
           </Select>
         </div>
+        {pipeline === "cold" && sequences.length > 0 && (
+          <div>
+            <Label className="text-gray-400">Sequence</Label>
+            <Select value={sequenceId} onValueChange={setSequenceId}>
+              <SelectTrigger className="w-full max-w-md bg-gray-800 border-gray-700">
+                <SelectValue placeholder="Choose sequence" />
+              </SelectTrigger>
+              <SelectContent>
+                {sequences.map((s) => (
+                  <SelectItem key={s.id} value={s.id}>
+                    {s.name}
+                    {s.is_default ? " (default)" : ""}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        )}
         <Textarea
           value={csv}
           onChange={(e) => setCsv(e.target.value)}
           rows={14}
           className="font-mono text-sm bg-gray-800 border-gray-700"
         />
-        <Button onClick={handleImport} disabled={importing}>
-          {importing ? "Importing…" : "Import"}
+        <Button onClick={handleImport} disabled={importing || (pipeline === "cold" && !sequenceId)}>
+          {importing ? "Importing…" : "Import & enroll"}
         </Button>
       </div>
     </EmailMarketingLayout>

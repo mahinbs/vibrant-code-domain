@@ -1,14 +1,19 @@
 import type {
   EmCampaign,
+  EmCaseStudyOption,
   EmDomain,
   EmEmailMessage,
   EmLead,
   EmOverviewStats,
   EmSendingIdentity,
   EmSequence,
+  EmSequenceEnrollment,
   EmSequenceStep,
+  EmSequenceStepStats,
+  EmSequenceTemplate,
 } from "./types";
 import { emDb } from "./edgeFunctions";
+import { automationCaseStudies, caseStudyPath } from "@/redesign/data/automationCaseStudies";
 
 export const emailMarketingService = {
   async listDomains(): Promise<EmDomain[]> {
@@ -192,10 +197,129 @@ export const emailMarketingService = {
     return data ?? [];
   },
 
-  async listSequences(): Promise<EmSequence[]> {
-    const { data, error } = await emDb.from("em_sequences").select("*").order("created_at");
+  async listSequences(filters?: { pipeline?: string; is_active?: boolean }): Promise<EmSequence[]> {
+    let q = emDb.from("em_sequences").select("*").order("created_at");
+    if (filters?.pipeline) q = q.eq("pipeline", filters.pipeline);
+    if (filters?.is_active !== undefined) q = q.eq("is_active", filters.is_active);
+    const { data, error } = await q;
     if (error) throw error;
     return data ?? [];
+  },
+
+  async getSequence(id: string): Promise<EmSequence | null> {
+    const { data, error } = await emDb.from("em_sequences").select("*").eq("id", id).maybeSingle();
+    if (error) throw error;
+    return data;
+  },
+
+  async createSequence(input: {
+    name: string;
+    pipeline: "cold" | "inbound";
+    description?: string;
+    vertical?: string;
+  }): Promise<string> {
+    const { data, error } = await emDb
+      .from("em_sequences")
+      .insert({
+        name: input.name,
+        pipeline: input.pipeline,
+        description: input.description ?? null,
+        vertical: input.vertical ?? null,
+        is_default: false,
+        is_active: true,
+      })
+      .select("id")
+      .single();
+    if (error) throw error;
+
+    await emDb.from("em_sequence_steps").insert({
+      sequence_id: data.id,
+      step_order: 1,
+      delay_days: 0,
+      step_type: "template",
+      condition: "always",
+      subject_template: "",
+      body_template: "",
+    });
+
+    return data.id;
+  },
+
+  async duplicateSequence(id: string): Promise<string> {
+    const seq = await this.getSequence(id);
+    if (!seq) throw new Error("Sequence not found");
+    const steps = await this.getSequenceSteps(id);
+
+    const { data: newSeq, error } = await emDb
+      .from("em_sequences")
+      .insert({
+        name: `${seq.name} (copy)`,
+        pipeline: seq.pipeline,
+        description: seq.description,
+        vertical: seq.vertical,
+        is_default: false,
+        is_active: true,
+        cloned_from_id: id,
+        settings: seq.settings,
+      })
+      .select("id")
+      .single();
+    if (error) throw error;
+
+    if (steps.length > 0) {
+      const { error: stepsErr } = await emDb.from("em_sequence_steps").insert(
+        steps.map((s) => ({
+          sequence_id: newSeq.id,
+          step_order: s.step_order,
+          delay_days: s.delay_days,
+          delay_hours: s.delay_hours ?? 0,
+          subject_template: s.subject_template,
+          body_template: s.body_template,
+          ai_generated: s.ai_generated,
+          condition: s.condition,
+          step_type: s.step_type ?? (s.ai_generated ? "ai_draft" : "template"),
+          ai_angle: s.ai_angle,
+          ai_instructions: s.ai_instructions,
+          case_study_slug: s.case_study_slug,
+          case_study_url: s.case_study_url,
+          case_study_mode: s.case_study_mode ?? "fixed",
+          intro_template: s.intro_template,
+          metadata: s.metadata ?? {},
+        })),
+      );
+      if (stepsErr) throw stepsErr;
+    }
+
+    return newSeq.id;
+  },
+
+  async updateSequence(id: string, patch: Partial<EmSequence>): Promise<void> {
+    const { id: _id, created_at: _c, ...rest } = patch as EmSequence & { id?: string };
+    if (patch.is_default === true) {
+      const seq = await this.getSequence(id);
+      if (seq) {
+        await emDb
+          .from("em_sequences")
+          .update({ is_default: false })
+          .eq("pipeline", seq.pipeline)
+          .neq("id", id);
+      }
+    }
+    const { error } = await emDb.from("em_sequences").update(rest).eq("id", id);
+    if (error) throw error;
+  },
+
+  async deleteSequence(id: string): Promise<void> {
+    const { count, error: countErr } = await emDb
+      .from("em_sequence_enrollments")
+      .select("*", { count: "exact", head: true })
+      .eq("sequence_id", id)
+      .eq("status", "active");
+    if (countErr) throw countErr;
+    if ((count ?? 0) > 0) throw new Error("Cannot delete sequence with active enrollments");
+
+    const { error } = await emDb.from("em_sequences").delete().eq("id", id);
+    if (error) throw error;
   },
 
   async getSequenceSteps(sequenceId: string): Promise<EmSequenceStep[]> {
@@ -209,14 +333,270 @@ export const emailMarketingService = {
   },
 
   async updateSequenceStep(stepId: string, patch: Partial<EmSequenceStep>): Promise<void> {
-    const { error } = await emDb.from("em_sequence_steps").update(patch).eq("id", stepId);
+    const normalized = { ...patch };
+    if (patch.step_type) {
+      normalized.ai_generated = patch.step_type === "ai_draft" || patch.step_type === "hybrid";
+    }
+    const { error } = await emDb.from("em_sequence_steps").update(normalized).eq("id", stepId);
     if (error) throw error;
+    if (patch.ai_instructions !== undefined || patch.ai_angle !== undefined || patch.step_type !== undefined) {
+      await emDb.from("em_ai_draft_cache").delete().eq("step_id", stepId);
+    }
+  },
+
+  async createSequenceStep(sequenceId: string, afterOrder?: number): Promise<string> {
+    const steps = await this.getSequenceSteps(sequenceId);
+    const newOrder = afterOrder != null ? afterOrder + 1 : steps.length + 1;
+
+    for (const s of [...steps].sort((a, b) => b.step_order - a.step_order)) {
+      if (s.step_order >= newOrder) {
+        await emDb
+          .from("em_sequence_steps")
+          .update({ step_order: s.step_order + 1 })
+          .eq("id", s.id);
+      }
+    }
+
+    const { data, error } = await emDb
+      .from("em_sequence_steps")
+      .insert({
+        sequence_id: sequenceId,
+        step_order: newOrder,
+        delay_days: 3,
+        step_type: "template",
+        condition: "no_reply",
+        subject_template: "",
+        body_template: "",
+      })
+      .select("id")
+      .single();
+    if (error) throw error;
+    return data.id;
+  },
+
+  async deleteSequenceStep(stepId: string): Promise<void> {
+    const { data: step, error: fetchErr } = await emDb
+      .from("em_sequence_steps")
+      .select("sequence_id, step_order")
+      .eq("id", stepId)
+      .single();
+    if (fetchErr) throw fetchErr;
+
+    const { error } = await emDb.from("em_sequence_steps").delete().eq("id", stepId);
+    if (error) throw error;
+
+    const steps = await this.getSequenceSteps(step.sequence_id);
+    for (const s of steps) {
+      if (s.step_order > step.step_order) {
+        await emDb.from("em_sequence_steps").update({ step_order: s.step_order - 1 }).eq("id", s.id);
+      }
+    }
+  },
+
+  async reorderSequenceSteps(sequenceId: string, orderedStepIds: string[]): Promise<void> {
+    for (let i = 0; i < orderedStepIds.length; i++) {
+      await emDb
+        .from("em_sequence_steps")
+        .update({ step_order: 1000 + i })
+        .eq("id", orderedStepIds[i])
+        .eq("sequence_id", sequenceId);
+    }
+    for (let i = 0; i < orderedStepIds.length; i++) {
+      await emDb
+        .from("em_sequence_steps")
+        .update({ step_order: i + 1 })
+        .eq("id", orderedStepIds[i]);
+    }
+  },
+
+  async getSequenceEnrollmentCount(sequenceId: string): Promise<number> {
+    const { count, error } = await emDb
+      .from("em_sequence_enrollments")
+      .select("*", { count: "exact", head: true })
+      .eq("sequence_id", sequenceId)
+      .eq("status", "active");
+    if (error) throw error;
+    return count ?? 0;
+  },
+
+  async getLeadEnrollment(leadId: string): Promise<EmSequenceEnrollment | null> {
+    const { data, error } = await emDb
+      .from("em_sequence_enrollments")
+      .select("*, em_sequences(*)")
+      .eq("lead_id", leadId)
+      .in("status", ["active", "paused"])
+      .order("enrolled_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+    if (error) throw error;
+    return data;
+  },
+
+  async enrollLead(leadId: string, sequenceId: string): Promise<void> {
+    const seq = await this.getSequence(sequenceId);
+    if (!seq) throw new Error("Sequence not found");
+    if (!seq.is_active) throw new Error("Sequence is not active");
+
+    const { data: activeEnrollments } = await emDb
+      .from("em_sequence_enrollments")
+      .select("id, em_sequences(pipeline)")
+      .eq("lead_id", leadId)
+      .eq("status", "active");
+
+    for (const en of activeEnrollments ?? []) {
+      const enPipeline = (en.em_sequences as { pipeline?: string } | null)?.pipeline;
+      if (enPipeline === seq.pipeline) {
+        await emDb
+          .from("em_sequence_enrollments")
+          .update({ status: "stopped", stopped_reason: "manual" })
+          .eq("id", en.id);
+      }
+    }
+
+    const { error } = await emDb.from("em_sequence_enrollments").insert({
+      lead_id: leadId,
+      sequence_id: sequenceId,
+      current_step: 0,
+      status: "active",
+      next_send_at: new Date().toISOString(),
+    });
+    if (error) {
+      if (error.code === "23505") {
+        await emDb
+          .from("em_sequence_enrollments")
+          .update({
+            current_step: 0,
+            status: "active",
+            next_send_at: new Date().toISOString(),
+            stopped_reason: null,
+          })
+          .eq("lead_id", leadId)
+          .eq("sequence_id", sequenceId);
+        return;
+      }
+      throw error;
+    }
+  },
+
+  async pauseEnrollment(enrollmentId: string): Promise<void> {
+    const { error } = await emDb
+      .from("em_sequence_enrollments")
+      .update({ status: "paused" })
+      .eq("id", enrollmentId);
+    if (error) throw error;
+  },
+
+  async resumeEnrollment(enrollmentId: string): Promise<void> {
+    const { error } = await emDb
+      .from("em_sequence_enrollments")
+      .update({
+        status: "active",
+        next_send_at: new Date().toISOString(),
+      })
+      .eq("id", enrollmentId);
+    if (error) throw error;
+  },
+
+  async removeEnrollment(enrollmentId: string): Promise<void> {
+    const { error } = await emDb
+      .from("em_sequence_enrollments")
+      .update({ status: "stopped", stopped_reason: "manual" })
+      .eq("id", enrollmentId);
+    if (error) throw error;
+  },
+
+  async bulkEnrollLeads(leadIds: string[], sequenceId: string): Promise<number> {
+    let enrolled = 0;
+    for (const leadId of leadIds) {
+      try {
+        await this.enrollLead(leadId, sequenceId);
+        enrolled++;
+      } catch {
+        /* skip failed */
+      }
+    }
+    return enrolled;
+  },
+
+  listCaseStudies(): EmCaseStudyOption[] {
+    return automationCaseStudies.map((c) => ({
+      slug: c.slug,
+      category: c.category,
+      title: c.title,
+      hook: c.hook,
+      path: caseStudyPath(c.slug),
+    }));
+  },
+
+  async listSequenceTemplates(): Promise<EmSequenceTemplate[]> {
+    const { data, error } = await emDb
+      .from("em_sequence_templates")
+      .select("*")
+      .order("created_at", { ascending: false });
+    if (error) throw error;
+    return data ?? [];
+  },
+
+  async getSequenceStepStats(sequenceId: string): Promise<EmSequenceStepStats[]> {
+    const steps = await this.getSequenceSteps(sequenceId);
+    const stats: EmSequenceStepStats[] = [];
+
+    for (const step of steps) {
+      const { data: sends } = await emDb
+        .from("em_email_sends")
+        .select("id")
+        .eq("step_id", step.id)
+        .eq("status", "sent");
+
+      const sendIds = (sends ?? []).map((s: { id: string }) => s.id);
+      let opened = 0;
+      let replied = 0;
+
+      if (sendIds.length > 0) {
+        const { data: events } = await emDb
+          .from("em_email_events")
+          .select("event_type, send_id")
+          .in("send_id", sendIds);
+
+        const openedSends = new Set<string>();
+        const repliedSends = new Set<string>();
+        for (const ev of events ?? []) {
+          if (ev.event_type === "opened") openedSends.add(ev.send_id);
+          if (ev.event_type === "replied") repliedSends.add(ev.send_id);
+        }
+        opened = openedSends.size;
+        replied = repliedSends.size;
+      }
+
+      stats.push({
+        step_id: step.id,
+        step_order: step.step_order,
+        sent: sendIds.length,
+        opened,
+        replied,
+      });
+    }
+
+    return stats;
   },
 
   async importLeadsCsv(
     rows: { email: string; name?: string; company?: string; role?: string }[],
-    pipeline: "cold" | "blast_only" = "cold",
+    options: { pipeline?: "cold" | "blast_only"; sequenceId?: string } = {},
   ): Promise<number> {
+    const pipeline = options.pipeline ?? "cold";
+    let sequenceId = options.sequenceId;
+
+    if (pipeline === "cold" && !sequenceId) {
+      const { data: seq } = await emDb
+        .from("em_sequences")
+        .select("id")
+        .eq("pipeline", "cold")
+        .eq("is_default", true)
+        .maybeSingle();
+      sequenceId = seq?.id;
+    }
+
     let imported = 0;
     for (const row of rows) {
       if (!row.email?.trim()) continue;
@@ -237,22 +617,8 @@ export const emailMarketingService = {
         if (error.code === "23505") continue;
         throw error;
       }
-      if (pipeline === "cold" && lead) {
-        const { data: seq } = await emDb
-          .from("em_sequences")
-          .select("id")
-          .eq("pipeline", "cold")
-          .eq("is_default", true)
-          .maybeSingle();
-        if (seq) {
-          await emDb.from("em_sequence_enrollments").insert({
-            lead_id: lead.id,
-            sequence_id: seq.id,
-            current_step: 0,
-            status: "active",
-            next_send_at: new Date().toISOString(),
-          });
-        }
+      if (pipeline === "cold" && lead && sequenceId) {
+        await this.enrollLead(lead.id, sequenceId);
       }
       imported++;
     }

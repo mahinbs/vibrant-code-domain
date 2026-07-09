@@ -1,0 +1,41 @@
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Label } from "@/components/ui/label";
+import type { EmStepType } from "@/services/emailMarketing";
+
+const STEP_TYPES: { value: EmStepType; label: string }[] = [
+  { value: "template", label: "Template" },
+  { value: "ai_draft", label: "AI draft" },
+  { value: "case_study", label: "Case study" },
+  { value: "hybrid", label: "Hybrid" },
+];
+
+type Props = {
+  value: EmStepType;
+  onChange: (value: EmStepType) => void;
+};
+
+export function StepTypeSelector({ value, onChange }: Props) {
+  return (
+    <div>
+      <Label className="text-gray-400 text-xs">Content mode</Label>
+      <Select value={value} onValueChange={(v) => onChange(v as EmStepType)}>
+        <SelectTrigger className="w-48 bg-gray-800 border-gray-700 mt-1">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          {STEP_TYPES.map((t) => (
+            <SelectItem key={t.value} value={t.value}>
+              {t.label}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+    </div>
+  );
+}

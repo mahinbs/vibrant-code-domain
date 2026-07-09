@@ -70,18 +70,67 @@ export type EmSequence = {
   name: string;
   pipeline: "cold" | "inbound";
   is_default: boolean;
+  description: string | null;
+  vertical: string | null;
+  is_active: boolean;
+  cloned_from_id: string | null;
+  settings: Record<string, unknown>;
   created_at: string;
 };
+
+export type EmStepType = "template" | "ai_draft" | "case_study" | "hybrid";
+export type EmAiAngle = "opener" | "niche_followup" | "breakup" | "case_study_tease" | "custom";
+export type EmCaseStudyMode = "fixed" | "auto_industry";
+export type EmStepCondition = "no_reply" | "always" | "no_meeting" | "no_open" | "opened_not_replied";
 
 export type EmSequenceStep = {
   id: string;
   sequence_id: string;
   step_order: number;
   delay_days: number;
+  delay_hours: number;
   subject_template: string;
   body_template: string;
   ai_generated: boolean;
-  condition: string;
+  condition: EmStepCondition;
+  step_type: EmStepType;
+  ai_angle: EmAiAngle | null;
+  ai_instructions: string | null;
+  case_study_slug: string | null;
+  case_study_url: string | null;
+  case_study_mode: EmCaseStudyMode;
+  intro_template: string | null;
+  metadata: Record<string, unknown>;
+};
+
+export type EmSequenceEnrollment = {
+  id: string;
+  lead_id: string;
+  sequence_id: string;
+  campaign_id: string | null;
+  current_step: number;
+  status: "active" | "paused" | "completed" | "stopped";
+  enrolled_at: string;
+  next_send_at: string | null;
+  stopped_reason: string | null;
+  em_sequences?: EmSequence;
+};
+
+export type EmSequenceTemplate = {
+  id: string;
+  name: string;
+  subject: string;
+  body: string;
+  tags: string[];
+  created_at: string;
+};
+
+export type EmSequenceStepStats = {
+  step_id: string;
+  step_order: number;
+  sent: number;
+  opened: number;
+  replied: number;
 };
 
 export type EmEmailMessage = {
@@ -119,4 +168,12 @@ export type EmOverviewStats = {
   activeSequences: number;
   pendingFollowups: number;
   domainStatus: string;
+};
+
+export type EmCaseStudyOption = {
+  slug: string;
+  category: string;
+  title: string;
+  hook: string;
+  path: string;
 };
