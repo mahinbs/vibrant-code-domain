@@ -15,7 +15,7 @@ const LANE_LABELS: Record<string, string> = {
 };
 
 function EmailStepNodeComponent({ data }: NodeProps) {
-  const { step, stats, selected } = data as EmailStepNodeData;
+  const { step, stats, selected, compact } = data as EmailStepNodeData;
   const lane = step.branch_lane ?? "main";
   const typeLabel =
     step.step_type === "ai_draft"
@@ -26,9 +26,28 @@ function EmailStepNodeComponent({ data }: NodeProps) {
           ? "Hybrid"
           : "Template";
 
+  if (compact) {
+    return (
+      <div
+        className={`rounded border px-2 py-1.5 w-[200px] shadow cursor-grab active:cursor-grabbing ${
+          LANE_STYLES[lane] ?? LANE_STYLES.main
+        } ${selected ? "ring-2 ring-cyan-400" : ""}`}
+      >
+        <Handle type="target" position={Position.Top} className="!bg-gray-500 !w-1.5 !h-1.5" />
+        <p className="text-[10px] font-medium text-white truncate">
+          {step.step_order} · {step.subject_template || "(no subject)"}
+        </p>
+        <p className="text-[9px] text-gray-500 truncate">
+          {typeLabel} · +{step.delay_days}d
+        </p>
+        <Handle type="source" position={Position.Bottom} className="!bg-gray-500 !w-1.5 !h-1.5" />
+      </div>
+    );
+  }
+
   return (
     <div
-      className={`rounded-lg border px-3 py-2 min-w-[200px] max-w-[240px] shadow-lg cursor-pointer transition-shadow ${
+      className={`rounded-lg border px-3 py-2 min-w-[200px] max-w-[240px] shadow-lg cursor-grab active:cursor-grabbing transition-shadow ${
         LANE_STYLES[lane] ?? LANE_STYLES.main
       } ${selected ? "ring-2 ring-cyan-400" : ""}`}
     >
@@ -41,7 +60,9 @@ function EmailStepNodeComponent({ data }: NodeProps) {
           </span>
         )}
       </div>
-      <p className="text-[11px] text-gray-400 truncate">{typeLabel} · {conditionLabel(step.condition)}</p>
+      <p className="text-[11px] text-gray-400 truncate">
+        {typeLabel} · {conditionLabel(step.condition)}
+      </p>
       <p className="text-xs text-gray-300 truncate mt-1" title={step.subject_template}>
         {step.subject_template || "(no subject)"}
       </p>

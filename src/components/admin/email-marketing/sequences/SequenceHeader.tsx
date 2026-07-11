@@ -66,7 +66,7 @@ export function SequenceHeader({ sequence, minimap, onChange, onSave, saving }: 
         </EmActionButton>
       </div>
       {minimap && (
-        <p className="text-xs text-gray-500 font-mono truncate" title={minimap}>
+        <p className="text-xs text-gray-500 font-mono leading-relaxed break-words" title={minimap}>
           Flow: {minimap}
         </p>
       )}

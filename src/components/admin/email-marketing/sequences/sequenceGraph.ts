@@ -1,13 +1,16 @@
 import type { Edge, Node } from "@xyflow/react";
 import type { EmSequenceStep, EmSequenceStepStats } from "@/services/emailMarketing";
 
+export type WorkflowViewMode = "overview" | "phase1" | "weekly";
+
 const LANE_X: Record<string, number> = {
   opened: 0,
   main: 280,
   not_opened: 560,
 };
 
-const ROW_HEIGHT = 160;
+const ROW_HEIGHT = 150;
+const COMPACT_ROW_HEIGHT = 72;
 
 const CONDITION_LABELS: Record<string, string> = {
   always: "Always",
@@ -23,6 +26,7 @@ export type EmailStepNodeData = {
   step: EmSequenceStep;
   stats?: EmSequenceStepStats;
   selected?: boolean;
+  compact?: boolean;
 };
 
 export type ForkNodeData = {
@@ -35,34 +39,48 @@ export function conditionLabel(condition: string): string {
   return CONDITION_LABELS[condition] ?? condition;
 }
 
+function stepLabel(step: EmSequenceStep): string {
+  if (step.step_type === "ai_draft") return "AI";
+  if (step.step_type === "case_study") return "CS";
+  return "Tmpl";
+}
+
 export function buildSequenceMinimap(steps: EmSequenceStep[]): string {
   if (!steps.length) return "Empty sequence";
-  const orders = [...new Set(steps.map((s) => s.step_order))].sort((a, b) => a - b);
+  const maxOrder = Math.max(...steps.map((s) => s.step_order));
+  const phase1Orders = [...new Set(steps.filter((s) => s.step_order <= 7).map((s) => s.step_order))].sort(
+    (a, b) => a - b,
+  );
   const parts: string[] = [];
-  for (const order of orders) {
+  for (const order of phase1Orders) {
     const at = steps.filter((s) => s.step_order === order);
     const hasBranch = at.some((s) => s.branch_lane !== "main");
     if (hasBranch) {
-      parts.push(`[${order}a|${order}b]`);
+      parts.push(`${order}a|${order}b`);
     } else {
       const main = at.find((s) => s.branch_lane === "main") ?? at[0];
-      const label =
-        main.step_type === "ai_draft"
-          ? "AI"
-          : main.step_type === "case_study"
-            ? "CS"
-            : "Tmpl";
-      parts.push(`[${order} ${label}]`);
+      parts.push(`${order} ${stepLabel(main)}`);
     }
+  }
+  if (maxOrder > 7) {
+    const weeklyCount = steps.filter((s) => s.step_order > 7 && s.branch_lane === "main").length;
+    parts.push(`weekly ${weeklyCount}× (8–${maxOrder})`);
   }
   return parts.join(" → ");
 }
 
-export function buildSequenceGraph(
+function filterStepsForView(steps: EmSequenceStep[], viewMode: WorkflowViewMode): EmSequenceStep[] {
+  if (viewMode === "weekly") {
+    return steps.filter((s) => s.step_order >= 8);
+  }
+  return steps.filter((s) => s.step_order <= 7);
+}
+
+function buildGraphForSteps(
   steps: EmSequenceStep[],
   statsByStep: Record<string, EmSequenceStepStats>,
-  selectedStepId: string | null,
-  selectedForkOrder: number | null,
+  rowHeight: number,
+  compact: boolean,
 ): { nodes: Node[]; edges: Edge[] } {
   const nodes: Node[] = [];
   const edges: Edge[] = [];
@@ -70,12 +88,14 @@ export function buildSequenceGraph(
 
   const orders = [...new Set(steps.map((s) => s.step_order))].sort((a, b) => a - b);
   const nodeIdsAtOrder = new Map<number, string[]>();
+  const baseOrder = orders[0];
 
   for (const order of orders) {
     const atOrder = steps.filter((s) => s.step_order === order);
     const branchSteps = atOrder.filter((s) => s.branch_lane !== "main");
     const hasBranches = branchSteps.length > 0;
     const forkAfter = hasBranches ? branchSteps[0].branch_after_step_order : null;
+    const y = (order - baseOrder) * rowHeight;
 
     if (hasBranches && forkAfter != null) {
       const forkId = `fork-${forkAfter}`;
@@ -83,11 +103,10 @@ export function buildSequenceGraph(
         nodes.push({
           id: forkId,
           type: "fork",
-          position: { x: LANE_X.main, y: order * ROW_HEIGHT - ROW_HEIGHT / 2 },
+          position: { x: LANE_X.main, y: y - rowHeight / 2 },
           data: {
             afterStepOrder: forkAfter,
             hasBranch: true,
-            selected: selectedForkOrder === forkAfter,
           } satisfies ForkNodeData,
         });
       }
@@ -99,11 +118,11 @@ export function buildSequenceGraph(
       nodes.push({
         id: step.id,
         type: "email",
-        position: { x: LANE_X[lane] ?? LANE_X.main, y: order * ROW_HEIGHT },
+        position: { x: LANE_X[lane] ?? LANE_X.main, y },
         data: {
           step,
           stats: statsByStep[step.id],
-          selected: selectedStepId === step.id,
+          compact,
         } satisfies EmailStepNodeData,
       });
       ids.push(step.id);
@@ -155,6 +174,61 @@ export function buildSequenceGraph(
           target: nextIds[0],
           type: "smoothstep",
         });
+      }
+    }
+  }
+
+  return { nodes, edges };
+}
+
+export function buildSequenceGraph(
+  steps: EmSequenceStep[],
+  statsByStep: Record<string, EmSequenceStepStats>,
+  viewMode: WorkflowViewMode,
+): { nodes: Node[]; edges: Edge[] } {
+  const filtered = filterStepsForView(steps, viewMode);
+  const compact = viewMode === "weekly";
+  const rowHeight = compact ? COMPACT_ROW_HEIGHT : ROW_HEIGHT;
+
+  const { nodes, edges } = buildGraphForSteps(filtered, statsByStep, rowHeight, compact);
+
+  if (viewMode === "overview") {
+    const weeklySteps = steps.filter((s) => s.step_order >= 8);
+    if (weeklySteps.length > 0) {
+      const maxOrder = Math.max(...weeklySteps.map((s) => s.step_order));
+      const minOrder = Math.min(...weeklySteps.map((s) => s.step_order));
+      const summaryId = "weekly-summary";
+      nodes.push({
+        id: summaryId,
+        type: "weeklySummary",
+        position: { x: LANE_X.main, y: 7 * ROW_HEIGHT + 40 },
+        data: {
+          fromOrder: minOrder,
+          toOrder: maxOrder,
+          stepCount: weeklySteps.length,
+        },
+      });
+
+      const step7Main = steps.find((s) => s.step_order === 7 && s.branch_lane === "main");
+      if (step7Main) {
+        edges.push({
+          id: `${step7Main.id}-to-weekly-summary`,
+          source: step7Main.id,
+          target: summaryId,
+          type: "smoothstep",
+        });
+      } else {
+        const lastPhase1 = filtered
+          .filter((s) => s.step_order === 7)
+          .sort((a, b) => (a.branch_lane === "main" ? -1 : 1))[0];
+        if (lastPhase1) {
+          edges.push({
+            id: `${lastPhase1.id}-to-weekly-summary`,
+            source: lastPhase1.id,
+            target: summaryId,
+            type: "smoothstep",
+          });
+        }
       }
     }
   }

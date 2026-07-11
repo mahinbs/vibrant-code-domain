@@ -8,7 +8,7 @@ function ForkNodeComponent({ data }: NodeProps) {
 
   return (
     <div
-      className={`flex flex-col items-center justify-center w-24 h-24 rotate-45 border-2 border-amber-500/60 bg-amber-950/50 rounded-lg shadow-lg cursor-pointer ${
+      className={`flex flex-col items-center justify-center w-24 h-24 rotate-45 border-2 border-amber-500/60 bg-amber-950/50 rounded-lg shadow-lg cursor-grab active:cursor-grabbing ${
         selected ? "ring-2 ring-amber-400" : ""
       }`}
     >

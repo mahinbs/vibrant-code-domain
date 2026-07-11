@@ -1,103 +1,206 @@
-import { useCallback, useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import {
   ReactFlow,
   Background,
   Controls,
   MiniMap,
+  ReactFlowProvider,
   useNodesState,
   useEdgesState,
+  useReactFlow,
   type Node,
   type NodeMouseHandler,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import type { EmSequenceStep, EmSequenceStepStats } from "@/services/emailMarketing";
-import { buildSequenceGraph } from "./sequenceGraph";
+import {
+  buildSequenceGraph,
+  type WorkflowViewMode,
+} from "./sequenceGraph";
 import { EmailStepNode } from "./EmailStepNode";
 import { ForkNode } from "./ForkNode";
+import { WeeklySummaryNode } from "./WeeklySummaryNode";
 
 const nodeTypes = {
   email: EmailStepNode,
   fork: ForkNode,
+  weeklySummary: WeeklySummaryNode,
 };
 
-type Props = {
+type CanvasProps = {
   steps: EmSequenceStep[];
   statsByStep: Record<string, EmSequenceStepStats>;
+  viewMode: WorkflowViewMode;
   selectedStepId: string | null;
   selectedForkOrder: number | null;
   onSelectStep: (stepId: string) => void;
   onSelectFork: (afterStepOrder: number) => void;
+  onViewModeChange: (mode: WorkflowViewMode) => void;
 };
 
-export function SequenceWorkflowCanvas({
+function WorkflowCanvasInner({
   steps,
   statsByStep,
+  viewMode,
   selectedStepId,
   selectedForkOrder,
   onSelectStep,
   onSelectFork,
-}: Props) {
+  onViewModeChange,
+}: CanvasProps) {
+  const { fitView, setCenter } = useReactFlow();
+  const structureKey = useMemo(
+    () =>
+      `${viewMode}:${steps.map((s) => `${s.id}:${s.step_order}:${s.branch_lane}:${s.subject_template}`).join("|")}`,
+    [steps, viewMode],
+  );
+
   const graph = useMemo(
-    () => buildSequenceGraph(steps, statsByStep, selectedStepId, selectedForkOrder),
-    [steps, statsByStep, selectedStepId, selectedForkOrder],
+    () => buildSequenceGraph(steps, statsByStep, viewMode),
+    [steps, statsByStep, viewMode],
   );
 
   const [nodes, setNodes, onNodesChange] = useNodesState(graph.nodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(graph.edges);
+  const lastStructureKey = useRef(structureKey);
 
   useEffect(() => {
-    setNodes(graph.nodes);
-    setEdges(graph.edges);
-  }, [graph, setNodes, setEdges]);
+    if (lastStructureKey.current !== structureKey) {
+      setNodes(graph.nodes);
+      setEdges(graph.edges);
+      lastStructureKey.current = structureKey;
+      const timer = setTimeout(() => {
+        fitView({ padding: 0.2, maxZoom: viewMode === "weekly" ? 0.85 : 1, duration: 250 });
+      }, 50);
+      return () => clearTimeout(timer);
+    }
+  }, [structureKey, graph, setNodes, setEdges, fitView, viewMode]);
+
+  useEffect(() => {
+    setNodes((nds) =>
+      nds.map((n) => {
+        if (n.type === "email") {
+          return { ...n, data: { ...n.data, selected: n.id === selectedStepId } };
+        }
+        if (n.type === "fork") {
+          const after = (n.data as { afterStepOrder: number }).afterStepOrder;
+          return { ...n, data: { ...n.data, selected: selectedForkOrder === after } };
+        }
+        return n;
+      }),
+    );
+  }, [selectedStepId, selectedForkOrder, setNodes]);
+
+  useEffect(() => {
+    if (!selectedStepId) return;
+    const node = nodes.find((n) => n.id === selectedStepId);
+    if (!node) return;
+    setCenter(node.position.x + 120, node.position.y + 50, { zoom: viewMode === "weekly" ? 0.9 : 1, duration: 300 });
+  }, [selectedStepId, nodes, setCenter, viewMode]);
 
   const onNodeClick: NodeMouseHandler = useCallback(
     (_evt, node: Node) => {
+      if (node.type === "weeklySummary") {
+        onViewModeChange("weekly");
+        return;
+      }
       if (node.type === "fork") {
-        const after = (node.data as { afterStepOrder: number }).afterStepOrder;
-        onSelectFork(after);
+        onSelectFork((node.data as { afterStepOrder: number }).afterStepOrder);
         return;
       }
       if (node.type === "email") {
         onSelectStep(node.id);
       }
     },
-    [onSelectFork, onSelectStep],
+    [onSelectFork, onSelectStep, onViewModeChange],
   );
 
-  const maxOrder = steps.reduce((m, s) => Math.max(m, s.step_order), 0);
+  const canvasHeight =
+    viewMode === "weekly" ? "min(75vh, 900px)" : viewMode === "overview" ? "min(65vh, 640px)" : "min(65vh, 600px)";
 
   return (
-    <div className="h-[min(70vh,720px)] w-full rounded-lg border border-gray-800 bg-gray-950/80 overflow-hidden">
-      <ReactFlow
-        nodes={nodes}
-        edges={edges}
-        onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
-        onNodeClick={onNodeClick}
-        nodeTypes={nodeTypes}
-        nodesDraggable={false}
-        nodesConnectable={false}
-        elementsSelectable
-        fitView
-        fitViewOptions={{ padding: 0.2, maxZoom: 1 }}
-        minZoom={0.3}
-        maxZoom={1.2}
-        proOptions={{ hideAttribution: true }}
-        className="bg-gray-950"
-      >
-        <Background color="#374151" gap={20} />
-        <Controls className="!bg-gray-900 !border-gray-700 !shadow-lg [&>button]:!bg-gray-800 [&>button]:!border-gray-700 [&>button]:!text-gray-300" />
-        <MiniMap
-          className="!bg-gray-900 !border-gray-700"
-          nodeColor={(n) => (n.type === "fork" ? "#d97706" : "#0891b2")}
-          maskColor="rgb(0,0,0,0.6)"
-        />
-      </ReactFlow>
-      {maxOrder > 8 && (
-        <p className="text-[10px] text-gray-500 px-3 py-1 border-t border-gray-800">
-          Scroll or zoom out to see all {steps.length} steps (through week 52).
-        </p>
-      )}
+    <div
+      className="w-full rounded-lg border border-gray-800 bg-gray-950/80 overflow-hidden flex flex-col"
+      style={{ height: canvasHeight }}
+    >
+      <div className="flex flex-wrap items-center gap-2 px-3 py-2 border-b border-gray-800 bg-gray-900/60">
+        <span className="text-xs text-gray-500 mr-1">View:</span>
+        {(
+          [
+            ["overview", "Overview"],
+            ["phase1", "Phase 1 (days 0–30)"],
+            ["weekly", "Weekly (steps 8+)"],
+          ] as const
+        ).map(([mode, label]) => (
+          <button
+            key={mode}
+            type="button"
+            onClick={() => onViewModeChange(mode)}
+            className={`text-xs px-2.5 py-1 rounded border transition-colors ${
+              viewMode === mode
+                ? "border-cyan-500/60 bg-cyan-950/40 text-cyan-100"
+                : "border-gray-700 text-gray-400 hover:border-gray-600 hover:text-gray-200"
+            }`}
+          >
+            {label}
+          </button>
+        ))}
+        <span className="text-[10px] text-gray-600 ml-auto hidden sm:inline">
+          Drag nodes to rearrange · scroll to pan
+        </span>
+      </div>
+
+      <div className="flex-1 min-h-0">
+        <ReactFlow
+          nodes={nodes}
+          edges={edges}
+          onNodesChange={onNodesChange}
+          onEdgesChange={onEdgesChange}
+          onNodeClick={onNodeClick}
+          nodeTypes={nodeTypes}
+          nodesDraggable
+          nodesConnectable={false}
+          elementsSelectable
+          panOnScroll
+          zoomOnScroll
+          minZoom={0.35}
+          maxZoom={1.4}
+          defaultViewport={{ x: 40, y: 20, zoom: viewMode === "weekly" ? 0.75 : 0.95 }}
+          proOptions={{ hideAttribution: true }}
+          className="bg-gray-950"
+        >
+          <Background color="#374151" gap={20} />
+          <Controls
+            position="bottom-left"
+            className="!bg-gray-900 !border-gray-700 !shadow-lg [&>button]:!bg-gray-800 [&>button]:!border-gray-700 [&>button]:!text-gray-300"
+          />
+          {viewMode !== "weekly" && (
+            <MiniMap
+              className="!bg-gray-900 !border-gray-700 !w-28 !h-20"
+              nodeColor={(n) =>
+                n.type === "fork" ? "#d97706" : n.type === "weeklySummary" ? "#8b5cf6" : "#0891b2"
+              }
+              maskColor="rgb(0,0,0,0.6)"
+              pannable
+              zoomable
+            />
+          )}
+        </ReactFlow>
+      </div>
     </div>
   );
 }
+
+type Props = Omit<CanvasProps, "onViewModeChange"> & {
+  onViewModeChange: (mode: WorkflowViewMode) => void;
+};
+
+export function SequenceWorkflowCanvas(props: Props) {
+  return (
+    <ReactFlowProvider>
+      <WorkflowCanvasInner {...props} />
+    </ReactFlowProvider>
+  );
+}
+
+export type { WorkflowViewMode };

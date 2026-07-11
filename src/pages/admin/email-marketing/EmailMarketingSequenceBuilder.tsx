@@ -3,7 +3,8 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { EmailMarketingLayout } from "@/components/admin/email-marketing/EmailMarketingLayout";
 import { SequenceHeader } from "@/components/admin/email-marketing/sequences/SequenceHeader";
 import { SequenceStepCard } from "@/components/admin/email-marketing/sequences/SequenceStepCard";
-import { SequenceWorkflowCanvas } from "@/components/admin/email-marketing/sequences/SequenceWorkflowCanvas";
+import { SequenceWorkflowCanvas, type WorkflowViewMode } from "@/components/admin/email-marketing/sequences/SequenceWorkflowCanvas";
+import { WeeklyStepPicker } from "@/components/admin/email-marketing/sequences/WeeklyStepPicker";
 import { buildSequenceMinimap } from "@/components/admin/email-marketing/sequences/sequenceGraph";
 import {
   emailMarketingService,
@@ -36,6 +37,7 @@ export default function EmailMarketingSequenceBuilder() {
   const [selectedStepId, setSelectedStepId] = useState<string | null>(null);
   const [selectedForkOrder, setSelectedForkOrder] = useState<number | null>(null);
   const [migrationReady, setMigrationReady] = useState<boolean | null>(null);
+  const [workflowView, setWorkflowView] = useState<WorkflowViewMode>("overview");
   const caseStudies = emailMarketingService.listCaseStudies();
 
   const load = async () => {
@@ -219,22 +221,37 @@ export default function EmailMarketingSequenceBuilder() {
         saving={saving}
       />
 
-      <div className="grid grid-cols-1 xl:grid-cols-[1fr_400px] gap-4">
+      <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_min(400px,38vw)] gap-4 items-start">
         <div className="space-y-3 min-w-0">
           <SequenceWorkflowCanvas
             steps={steps}
             statsByStep={statsByStep}
+            viewMode={workflowView}
             selectedStepId={selectedStepId}
             selectedForkOrder={selectedForkOrder}
+            onViewModeChange={setWorkflowView}
             onSelectStep={(stepId) => {
               setSelectedStepId(stepId);
               setSelectedForkOrder(null);
+              const step = steps.find((s) => s.id === stepId);
+              if (step && step.step_order >= 8) setWorkflowView("weekly");
             }}
             onSelectFork={(order) => {
               setSelectedForkOrder(order);
               setSelectedStepId(null);
             }}
           />
+          {(workflowView === "weekly" || steps.some((s) => s.step_order >= 8)) && (
+            <WeeklyStepPicker
+              steps={steps}
+              selectedStepId={selectedStepId}
+              onSelect={(stepId) => {
+                setSelectedStepId(stepId);
+                setSelectedForkOrder(null);
+                setWorkflowView("weekly");
+              }}
+            />
+          )}
           <div className="flex flex-wrap gap-2">
             <EmActionButton variant="outline" onClick={addStep}>
               <Plus className="h-4 w-4 mr-1" /> Add step
@@ -247,7 +264,7 @@ export default function EmailMarketingSequenceBuilder() {
           </div>
         </div>
 
-        <div className="xl:sticky xl:top-4 xl:self-start">
+        <div className="xl:sticky xl:top-4 xl:self-start max-h-[calc(100vh-6rem)] overflow-y-auto">
           {selectedStep ? (
             <div className="relative">
               <button
