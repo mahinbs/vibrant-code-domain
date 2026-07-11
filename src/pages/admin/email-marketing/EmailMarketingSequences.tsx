@@ -126,6 +126,20 @@ export default function EmailMarketingSequences() {
         </EmActionButton>
         <EmActionButton
           variant="outline"
+          onClick={async () => {
+            try {
+              const seqId = await emailMarketingService.refreshColdOutreach12MonthTemplateCopy();
+              toast.success("12-month template copy updated");
+              navigate(`/admin/email-marketing/sequences/${seqId}`);
+            } catch (e) {
+              toast.error(emErrorMessage(e));
+            }
+          }}
+        >
+          Refresh 12-month copy
+        </EmActionButton>
+        <EmActionButton
+          variant="outline"
           size="sm"
           onClick={async () => {
             try {

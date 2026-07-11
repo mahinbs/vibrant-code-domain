@@ -1,10 +1,15 @@
 import type { EmAiAngle, EmStepCondition, EmStepType } from "./types";
+import {
+  WEEKLY_POSITION_1,
+  WEEKLY_POSITION_2,
+  getWeeklyStepContent,
+} from "./weeklyCycleCopy";
 
 export const COLD_OUTREACH_12_MONTH_NAME = "Cold Outreach — 12 Month";
 
 export const COLD_OUTREACH_12_MONTH_DESCRIPTION =
   "12-month cold nurture: intensive first 30 days with open/not-open branches, then weekly touches (weeks 5–52). " +
-  "Stops on reply. ~55 emails — trim weekly phase if domain reputation is new.";
+  "All weekly copy is fixed templates (no freeform AI). Stops on reply. ~55 emails — trim weekly phase if domain reputation is new.";
 
 type StepSeed = {
   step_order: number;
@@ -14,74 +19,12 @@ type StepSeed = {
   condition: EmStepCondition;
   step_type: EmStepType;
   ai_angle?: EmAiAngle | null;
-  ai_instructions?: string | null;
   subject_template: string;
   body_template: string;
   case_study_mode?: "fixed" | "auto_industry";
+  case_study_slug?: string | null;
   ai_generated?: boolean;
 };
-
-const WEEKLY_THEMES: Omit<StepSeed, "step_order" | "branch_lane" | "delay_days" | "condition">[] = [
-  {
-    step_type: "case_study",
-    case_study_mode: "auto_industry",
-    subject_template: "How {{company}} peers automated ops",
-    body_template: "",
-    ai_generated: false,
-  },
-  {
-    step_type: "ai_draft",
-    ai_angle: "custom",
-    ai_instructions: "Share one timely industry trend and tie it to automation ROI for their company.",
-    subject_template: "Quick thought for {{company}}",
-    body_template: "",
-    ai_generated: true,
-  },
-  {
-    step_type: "template",
-    subject_template: "Still manual on {{company}}'s follow-up?",
-    body_template:
-      "Hi {{name}},\n\nCurious — is lead follow-up still mostly manual at {{company}}? We help teams automate that without adding headcount.\n\nWorth a quick chat?",
-    ai_generated: false,
-  },
-  {
-    step_type: "case_study",
-    case_study_mode: "auto_industry",
-    subject_template: "Another win in your space",
-    body_template: "",
-    ai_generated: false,
-  },
-  {
-    step_type: "ai_draft",
-    ai_angle: "case_study_tease",
-    ai_instructions: "Tease a free automation audit and one concrete workflow they could automate.",
-    subject_template: "Free automation audit for {{company}}?",
-    body_template: "",
-    ai_generated: true,
-  },
-  {
-    step_type: "template",
-    subject_template: "Teams like yours save 10+ hrs/week",
-    body_template:
-      "Hi {{name}},\n\nWe recently helped a similar team cut manual ops by double digits hours per week. Happy to share how if useful.\n\n— BoostMySites",
-    ai_generated: false,
-  },
-  {
-    step_type: "ai_draft",
-    ai_angle: "niche_followup",
-    ai_instructions: "Soft re-engage — acknowledge they're busy, one line of value, no hard sell.",
-    subject_template: "Re: {{company}}",
-    body_template: "",
-    ai_generated: true,
-  },
-  {
-    step_type: "template",
-    subject_template: "15 min this week?",
-    body_template:
-      "Hi {{name}},\n\nIf automation is still on your radar, I can walk you through a 15-min audit for {{company}}. Reply with a time or grab a slot on our calendar.\n\nBest,",
-    ai_generated: false,
-  },
-];
 
 const PHASE1: StepSeed[] = [
   {
@@ -102,8 +45,9 @@ const PHASE1: StepSeed[] = [
     delay_days: 3,
     condition: "opened_not_replied",
     step_type: "case_study",
-    case_study_mode: "auto_industry",
-    subject_template: "Saw you opened — case study for {{company}}",
+    case_study_mode: "fixed",
+    case_study_slug: "lead-capture-qualification",
+    subject_template: "Saw you opened — quick example",
     body_template: "",
     ai_generated: false,
   },
@@ -115,7 +59,8 @@ const PHASE1: StepSeed[] = [
     condition: "no_open",
     step_type: "template",
     subject_template: "Re: quick question",
-    body_template: "Hi {{name}},\n\nBumping this in case it got buried — still happy to share how teams like {{company}} automate follow-up.\n\nWorth a look?",
+    body_template:
+      "Bumping this in case it got buried — still happy to share how teams like {{company}} cut manual follow-up.\nIf not useful, tell me and I'll stop.",
     ai_generated: false,
   },
   {
@@ -123,11 +68,10 @@ const PHASE1: StepSeed[] = [
     branch_lane: "main",
     delay_days: 5,
     condition: "no_reply",
-    step_type: "ai_draft",
-    ai_angle: "niche_followup",
-    subject_template: "Automation audit for {{company}}",
-    body_template: "",
-    ai_generated: true,
+    step_type: "template",
+    subject_template: WEEKLY_POSITION_3[0].subject,
+    body_template: WEEKLY_POSITION_3[0].body,
+    ai_generated: false,
   },
   {
     step_order: 4,
@@ -136,9 +80,8 @@ const PHASE1: StepSeed[] = [
     delay_days: 3,
     condition: "opened_not_replied",
     step_type: "template",
-    subject_template: "Worth 15 min, {{name}}?",
-    body_template:
-      "Hi {{name}},\n\nNoticed you read my last note — if timing works, I can walk through a quick automation audit for {{company}}.\n\nReply with a time?",
+    subject_template: WEEKLY_POSITION_2[3].subject,
+    body_template: WEEKLY_POSITION_2[3].body,
     ai_generated: false,
   },
   {
@@ -148,9 +91,8 @@ const PHASE1: StepSeed[] = [
     delay_days: 3,
     condition: "no_open",
     step_type: "template",
-    subject_template: "Different angle — ops at {{company}}",
-    body_template:
-      "Hi {{name}},\n\nTrying a different angle: most teams we talk to lose hours on manual lead follow-up. We fix that with light automation.\n\nOpen to a 10-min call?",
+    subject_template: WEEKLY_POSITION_4[0].subject,
+    body_template: WEEKLY_POSITION_4[0].body,
     ai_generated: false,
   },
   {
@@ -158,11 +100,10 @@ const PHASE1: StepSeed[] = [
     branch_lane: "main",
     delay_days: 7,
     condition: "no_reply",
-    step_type: "ai_draft",
-    ai_angle: "breakup",
-    subject_template: "Should I close your file?",
-    body_template: "",
-    ai_generated: true,
+    step_type: "template",
+    subject_template: WEEKLY_POSITION_1[4].subject,
+    body_template: WEEKLY_POSITION_1[4].body,
+    ai_generated: false,
   },
   {
     step_order: 6,
@@ -170,9 +111,8 @@ const PHASE1: StepSeed[] = [
     delay_days: 7,
     condition: "no_meeting",
     step_type: "template",
-    subject_template: "Book a call — {{company}} automation",
-    body_template:
-      "Hi {{name}},\n\nIf you'd like to explore automation for {{company}}, grab a slot here: [your Calendly link]\n\nNo pressure if timing isn't right.",
+    subject_template: WEEKLY_POSITION_1[0].subject,
+    body_template: WEEKLY_POSITION_1[0].body,
     ai_generated: false,
   },
   {
@@ -181,9 +121,8 @@ const PHASE1: StepSeed[] = [
     delay_days: 3,
     condition: "clicked",
     step_type: "template",
-    subject_template: "Saw you clicked — chat this week?",
-    body_template:
-      "Hi {{name}},\n\nLooks like you checked out our link — happy to answer questions or walk through a quick audit for {{company}}.\n\nWhat does your week look like?",
+    subject_template: WEEKLY_POSITION_2[0].subject,
+    body_template: WEEKLY_POSITION_2[0].body,
     ai_generated: false,
   },
 ];
@@ -191,14 +130,34 @@ const PHASE1: StepSeed[] = [
 function buildWeeklySteps(): StepSeed[] {
   const weekly: StepSeed[] = [];
   for (let stepOrder = 8; stepOrder <= 55; stepOrder++) {
-    const weekIndex = stepOrder - 8;
-    const theme = WEEKLY_THEMES[weekIndex % 8];
+    const { copy, caseStudySlug, caseStudySubject, useOpenedCondition } =
+      getWeeklyStepContent(stepOrder);
+
+    if (caseStudySlug) {
+      weekly.push({
+        step_order: stepOrder,
+        branch_lane: "main",
+        delay_days: 7,
+        condition: "no_reply",
+        step_type: "case_study",
+        case_study_mode: "fixed",
+        case_study_slug: caseStudySlug,
+        subject_template: caseStudySubject ?? "Workflow teams your size automated",
+        body_template: "",
+        ai_generated: false,
+      });
+      continue;
+    }
+
     weekly.push({
       step_order: stepOrder,
       branch_lane: "main",
       delay_days: 7,
-      condition: "no_reply",
-      ...theme,
+      condition: useOpenedCondition ? "opened_not_replied" : "no_reply",
+      step_type: "template",
+      subject_template: copy!.subject,
+      body_template: copy!.body,
+      ai_generated: false,
     });
   }
   return weekly;

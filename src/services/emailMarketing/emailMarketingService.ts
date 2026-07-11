@@ -450,11 +450,55 @@ export const emailMarketingService = {
       subject_template: s.subject_template,
       body_template: s.body_template,
       case_study_mode: s.case_study_mode ?? "fixed",
+      case_study_slug: s.case_study_slug ?? null,
       ai_generated: s.ai_generated ?? (s.step_type === "ai_draft" || s.step_type === "hybrid"),
     }));
 
     const { error: stepsErr } = await emDb.from("em_sequence_steps").insert(rows);
     if (stepsErr) throw stepsErr;
+    return seq.id;
+  },
+
+  async refreshColdOutreach12MonthTemplateCopy(): Promise<string> {
+    const { data: seq } = await emDb
+      .from("em_sequences")
+      .select("id")
+      .eq("name", COLD_OUTREACH_12_MONTH_NAME)
+      .maybeSingle();
+    if (!seq) {
+      return this.installColdOutreach12MonthTemplate();
+    }
+
+    const seeds = getColdOutreach12MonthSteps();
+    for (const s of seeds) {
+      const patch = {
+        delay_days: s.delay_days,
+        condition: s.condition,
+        step_type: s.step_type,
+        ai_angle: s.ai_angle ?? null,
+        ai_instructions: null,
+        subject_template: s.subject_template,
+        body_template: s.body_template,
+        case_study_mode: s.case_study_mode ?? "fixed",
+        case_study_slug: s.case_study_slug ?? null,
+        ai_generated: s.ai_generated ?? false,
+      };
+
+      const { data: row } = await emDb
+        .from("em_sequence_steps")
+        .select("id")
+        .eq("sequence_id", seq.id)
+        .eq("step_order", s.step_order)
+        .eq("branch_lane", s.branch_lane)
+        .maybeSingle();
+
+      if (row) {
+        const { error } = await emDb.from("em_sequence_steps").update(patch).eq("id", row.id);
+        if (error) throw error;
+        await emDb.from("em_ai_draft_cache").delete().eq("step_id", row.id);
+      }
+    }
+
     return seq.id;
   },
 
