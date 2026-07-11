@@ -17,7 +17,7 @@ A modern, responsive web application built with React, TypeScript, and Tailwind 
 
 ### Mobile Apps Page Enhancements
 - **Inline Portfolio**: Portfolio content now loads inline without page navigation
-- **Collapsible Design**: Removed toggle button, portfolio is now permanently visible!
+- **Collapsible Design**: Removed toggle button, portfolio is now permanently visible! 
 - **Improved UX**: Better user experience with seamless content flow.
  
 ## How can I edit this code?
