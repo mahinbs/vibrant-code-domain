@@ -12,6 +12,12 @@ import type {
   EmSequenceStepStats,
   EmSequenceTemplate,
 } from "./types";
+import {
+  COLD_OUTREACH_12_MONTH_DESCRIPTION,
+  COLD_OUTREACH_12_MONTH_NAME,
+  getColdOutreach12MonthSteps,
+} from "./coldOutreach12MonthTemplate";
+import { isBranchesMigrationMissing } from "./emErrors";
 import { emDb } from "./edgeFunctions";
 import { automationCaseStudies, caseStudyPath } from "@/redesign/data/automationCaseStudies";
 import {
@@ -393,6 +399,63 @@ export const emailMarketingService = {
       if (a.step_order !== b.step_order) return a.step_order - b.step_order;
       return (laneOrder[a.branch_lane ?? "main"] ?? 9) - (laneOrder[b.branch_lane ?? "main"] ?? 9);
     });
+  },
+
+  async checkBranchesMigrationReady(): Promise<boolean> {
+    const { error } = await emDb.from("em_sequence_steps").select("branch_lane").limit(1);
+    if (!error) return true;
+    return !isBranchesMigrationMissing(error);
+  },
+
+  async installColdOutreach12MonthTemplate(): Promise<string> {
+    const ready = await this.checkBranchesMigrationReady();
+    if (!ready) {
+      throw new Error(
+        "Run migration 20260711120000_sequence_branches.sql in Supabase SQL editor before installing this template.",
+      );
+    }
+
+    const { data: existing } = await emDb
+      .from("em_sequences")
+      .select("id")
+      .eq("name", COLD_OUTREACH_12_MONTH_NAME)
+      .maybeSingle();
+    if (existing) return existing.id;
+
+    const { data: seq, error: seqErr } = await emDb
+      .from("em_sequences")
+      .insert({
+        name: COLD_OUTREACH_12_MONTH_NAME,
+        pipeline: "cold",
+        description: COLD_OUTREACH_12_MONTH_DESCRIPTION,
+        vertical: "automation",
+        is_default: false,
+        is_active: true,
+      })
+      .select("id")
+      .single();
+    if (seqErr) throw seqErr;
+
+    const rows = getColdOutreach12MonthSteps().map((s) => ({
+      sequence_id: seq.id,
+      step_order: s.step_order,
+      branch_lane: s.branch_lane,
+      branch_after_step_order: s.branch_after_step_order ?? null,
+      delay_days: s.delay_days,
+      delay_hours: 0,
+      condition: s.condition,
+      step_type: s.step_type,
+      ai_angle: s.ai_angle ?? null,
+      ai_instructions: s.ai_instructions ?? null,
+      subject_template: s.subject_template,
+      body_template: s.body_template,
+      case_study_mode: s.case_study_mode ?? "fixed",
+      ai_generated: s.ai_generated ?? (s.step_type === "ai_draft" || s.step_type === "hybrid"),
+    }));
+
+    const { error: stepsErr } = await emDb.from("em_sequence_steps").insert(rows);
+    if (stepsErr) throw stepsErr;
+    return seq.id;
   },
 
   hasOpenBranchAfter(steps: EmSequenceStep[], afterStepOrder: number): boolean {

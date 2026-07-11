@@ -46,14 +46,12 @@ export const emailMarketingHelp: Record<string, EmHelpContent> = {
   sequenceBuilder: {
     title: "Build your sequence",
     steps: [
-      "**Step 1:** AI opener — delay 0 days, sends right away.",
-      "**Conditions skip** a step if not met; they do not send a different email. Use **Split: opened / not opened** on a step to send different emails at the same position.",
-      "**Delay** on a step = wait that long before the step runs (and before open/click is checked on branch steps).",
-      "**Step 2:** Case study — delay +3 days, only if they did not reply — or split after step 1 for opened vs not-opened paths.",
-      "**Step 3:** AI follow-up or template breakup email.",
-      "Click **Preview AI draft** to see what the AI will write.",
-      "Click **Add step** for more follow-ups (no limit).",
-      "When done, go to **Import** and enroll leads into this sequence.",
+      "The **workflow canvas** shows your sequence top-to-bottom. Click any node to edit it in the panel on the right.",
+      "**Fork nodes** (diamond) mean opened vs not-opened branches at the same step. Select a step or fork, then **Split: opened / not opened**.",
+      "**Conditions** on a single step **skip** it if not met — they do not send a different email. Use **Split** for different emails at the same position.",
+      "**Delay** = wait that long after the previous send before the step runs (and before open/click is checked on branch steps).",
+      "Phase 1 (days 0–30): opener → split → follow-ups. Phase 2: weekly nurture — set **+7 days** on each weekly step.",
+      "Replies and unsubscribes stop the sequence automatically. Use **Import** to enroll leads when ready.",
     ],
   },
   import: {

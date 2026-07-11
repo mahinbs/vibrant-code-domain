@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { EmailMarketingLayout } from "@/components/admin/email-marketing/EmailMarketingLayout";
 import { EmActionButton } from "@/components/admin/email-marketing/EmActionButton";
-import { emailMarketingService, emailMarketingEdge, type EmSequence } from "@/services/emailMarketing";
+import { emailMarketingService, emailMarketingEdge, emErrorMessage, type EmSequence } from "@/services/emailMarketing";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -110,6 +110,20 @@ export default function EmailMarketingSequences() {
         <Button onClick={() => setNewOpen(true)}>
           <Plus className="h-4 w-4 mr-1" /> New sequence
         </Button>
+        <EmActionButton
+          variant="outline"
+          onClick={async () => {
+            try {
+              const seqId = await emailMarketingService.installColdOutreach12MonthTemplate();
+              toast.success("12-month cold template ready");
+              navigate(`/admin/email-marketing/sequences/${seqId}`);
+            } catch (e) {
+              toast.error(emErrorMessage(e));
+            }
+          }}
+        >
+          Install 12-month cold template
+        </EmActionButton>
         <EmActionButton
           variant="outline"
           size="sm"

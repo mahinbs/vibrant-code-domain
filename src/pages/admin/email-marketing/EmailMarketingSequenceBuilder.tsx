@@ -1,20 +1,22 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { EmailMarketingLayout } from "@/components/admin/email-marketing/EmailMarketingLayout";
 import { SequenceHeader } from "@/components/admin/email-marketing/sequences/SequenceHeader";
 import { SequenceStepCard } from "@/components/admin/email-marketing/sequences/SequenceStepCard";
+import { SequenceWorkflowCanvas } from "@/components/admin/email-marketing/sequences/SequenceWorkflowCanvas";
+import { buildSequenceMinimap } from "@/components/admin/email-marketing/sequences/sequenceGraph";
 import {
   emailMarketingService,
   emailMarketingEdge,
+  emErrorMessage,
   type EmSequence,
   type EmSequenceStep,
   type EmSequenceStepStats,
   type EmSequenceTemplate,
 } from "@/services/emailMarketing";
 import { EmActionButton } from "@/components/admin/email-marketing/EmActionButton";
-import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { ArrowLeft, Plus } from "lucide-react";
+import { AlertTriangle, ArrowLeft, Plus, X } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -31,15 +33,19 @@ export default function EmailMarketingSequenceBuilder() {
   const [templates, setTemplates] = useState<EmSequenceTemplate[]>([]);
   const [saving, setSaving] = useState(false);
   const [preview, setPreview] = useState<{ subject: string; body: string } | null>(null);
+  const [selectedStepId, setSelectedStepId] = useState<string | null>(null);
+  const [selectedForkOrder, setSelectedForkOrder] = useState<number | null>(null);
+  const [migrationReady, setMigrationReady] = useState<boolean | null>(null);
   const caseStudies = emailMarketingService.listCaseStudies();
 
   const load = async () => {
     if (!id) return;
-    const [seq, stepList, stepStats, tmpl] = await Promise.all([
+    const [seq, stepList, stepStats, tmpl, branchesOk] = await Promise.all([
       emailMarketingService.getSequence(id),
       emailMarketingService.getSequenceSteps(id),
       emailMarketingService.getSequenceStepStats(id),
       emailMarketingService.listSequenceTemplates(),
+      emailMarketingService.checkBranchesMigrationReady(),
     ]);
     if (!seq) {
       toast.error("Sequence not found");
@@ -50,10 +56,14 @@ export default function EmailMarketingSequenceBuilder() {
     setSteps(stepList);
     setStats(stepStats);
     setTemplates(tmpl);
+    setMigrationReady(branchesOk);
+    if (selectedStepId && !stepList.some((s) => s.id === selectedStepId)) {
+      setSelectedStepId(stepList[0]?.id ?? null);
+    }
   };
 
   useEffect(() => {
-    load().catch((e) => toast.error(e.message));
+    load().catch((e) => toast.error(emErrorMessage(e)));
   }, [id]);
 
   const updateStepLocal = (stepId: string, patch: Partial<EmSequenceStep>) => {
@@ -72,7 +82,7 @@ export default function EmailMarketingSequenceBuilder() {
       });
       toast.success("Sequence saved");
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : "Save failed");
+      toast.error(emErrorMessage(e));
     } finally {
       setSaving(false);
     }
@@ -84,7 +94,7 @@ export default function EmailMarketingSequenceBuilder() {
       toast.success(`Step ${step.step_order} saved`);
       load();
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : "Save failed");
+      toast.error(emErrorMessage(e));
     }
   };
 
@@ -97,7 +107,7 @@ export default function EmailMarketingSequenceBuilder() {
       }
       load();
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : "Failed to add step");
+      toast.error(emErrorMessage(e));
     }
   };
 
@@ -105,9 +115,10 @@ export default function EmailMarketingSequenceBuilder() {
     if (!confirm("Delete this step?")) return;
     try {
       await emailMarketingService.deleteSequenceStep(stepId);
+      if (selectedStepId === stepId) setSelectedStepId(null);
       load();
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : "Delete failed");
+      toast.error(emErrorMessage(e));
     }
   };
 
@@ -119,6 +130,18 @@ export default function EmailMarketingSequenceBuilder() {
     ordered.splice(newIndex, 0, moved);
     await emailMarketingService.reorderSequenceSteps(id, ordered.map((s) => s.id));
     load();
+  };
+
+  const splitBranch = async (afterStepOrder: number) => {
+    if (!id) return;
+    try {
+      await emailMarketingService.createOpenBranch(id, afterStepOrder);
+      toast.success("Added opened / not-opened branch");
+      setSelectedForkOrder(null);
+      load();
+    } catch (e) {
+      toast.error(emErrorMessage(e));
+    }
   };
 
   const previewStep = async (step: EmSequenceStep) => {
@@ -137,9 +160,28 @@ export default function EmailMarketingSequenceBuilder() {
       });
       setPreview({ subject: result.subject, body: result.body });
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : "Preview failed");
+      toast.error(emErrorMessage(e));
     }
   };
+
+  const statsByStep = useMemo(
+    () => Object.fromEntries(stats.map((s) => [s.step_id, s])),
+    [stats],
+  );
+
+  const minimap = useMemo(() => buildSequenceMinimap(steps), [steps]);
+
+  const selectedStep = steps.find((s) => s.id === selectedStepId) ?? null;
+  const selectedStepIndex = selectedStep ? steps.findIndex((s) => s.id === selectedStep.id) : -1;
+
+  const forkSplitTarget =
+    selectedForkOrder ??
+    (selectedStep?.branch_lane === "main" ? selectedStep.step_order : null);
+
+  const canSplitFork =
+    forkSplitTarget != null &&
+    migrationReady === true &&
+    !emailMarketingService.hasOpenBranchAfter(steps, forkSplitTarget);
 
   if (!sequence) {
     return (
@@ -148,8 +190,6 @@ export default function EmailMarketingSequenceBuilder() {
       </EmailMarketingLayout>
     );
   }
-
-  const statsByStep = Object.fromEntries(stats.map((s) => [s.step_id, s]));
 
   return (
     <EmailMarketingLayout title={sequence.name}>
@@ -160,64 +200,124 @@ export default function EmailMarketingSequenceBuilder() {
         <ArrowLeft className="h-4 w-4 mr-1" /> All sequences
       </Link>
 
+      {migrationReady === false && (
+        <div className="mb-4 flex items-start gap-2 rounded-lg border border-amber-500/40 bg-amber-950/30 px-4 py-3 text-sm text-amber-200">
+          <AlertTriangle className="h-4 w-4 shrink-0 mt-0.5" />
+          <p>
+            Branch columns missing — run{" "}
+            <code className="text-amber-100">20260711120000_sequence_branches.sql</code> in the
+            Supabase SQL editor. Split and the 12-month template will not work until then.
+          </p>
+        </div>
+      )}
+
       <SequenceHeader
         sequence={sequence}
+        minimap={minimap}
         onChange={(patch) => setSequence({ ...sequence, ...patch })}
         onSave={saveSequence}
         saving={saving}
       />
 
-      <div className="space-y-4">
-        {steps.map((step, index) => (
-          <SequenceStepCard
-            key={step.id}
-            step={step}
-            caseStudies={caseStudies}
-            templates={templates}
-            stats={statsByStep[step.id]}
-            canMoveUp={index > 0}
-            canMoveDown={index < steps.length - 1}
-            canSplitBranch={
-              step.branch_lane === "main" &&
-              !emailMarketingService.hasOpenBranchAfter(steps, step.step_order)
-            }
-            onChange={(patch) => updateStepLocal(step.id, patch)}
-            onSave={() => {
-              const current = steps.find((s) => s.id === step.id);
-              if (current) saveStep(current);
+      <div className="grid grid-cols-1 xl:grid-cols-[1fr_400px] gap-4">
+        <div className="space-y-3 min-w-0">
+          <SequenceWorkflowCanvas
+            steps={steps}
+            statsByStep={statsByStep}
+            selectedStepId={selectedStepId}
+            selectedForkOrder={selectedForkOrder}
+            onSelectStep={(stepId) => {
+              setSelectedStepId(stepId);
+              setSelectedForkOrder(null);
             }}
-            onDelete={() => deleteStep(step.id)}
-            onMoveUp={() => moveStep(index, -1)}
-            onMoveDown={() => moveStep(index, 1)}
-            onSplitBranch={async () => {
-              if (!id) return;
-              try {
-                await emailMarketingService.createOpenBranch(id, step.step_order);
-                toast.success("Added opened / not-opened branch");
-                load();
-              } catch (e) {
-                toast.error(e instanceof Error ? e.message : "Failed to add branch");
-              }
+            onSelectFork={(order) => {
+              setSelectedForkOrder(order);
+              setSelectedStepId(null);
             }}
-            onPreview={() => previewStep(step)}
-            onRegenerate={async () => {
-              try {
-                await emailMarketingEdge.bustDraftCache(step.id);
-                toast.success("Draft cache cleared for this step");
-              } catch (e) {
-                toast.error(e instanceof Error ? e.message : "Failed");
-              }
-            }}
-            onInsertTemplate={(t) =>
-              updateStepLocal(step.id, { subject_template: t.subject, body_template: t.body })
-            }
           />
-        ))}
-      </div>
+          <div className="flex flex-wrap gap-2">
+            <EmActionButton variant="outline" onClick={addStep}>
+              <Plus className="h-4 w-4 mr-1" /> Add step
+            </EmActionButton>
+            {canSplitFork && (
+              <EmActionButton variant="outline" onClick={() => splitBranch(forkSplitTarget!)}>
+                Split: opened / not opened (after step {forkSplitTarget})
+              </EmActionButton>
+            )}
+          </div>
+        </div>
 
-      <EmActionButton variant="outline" className="mt-4" onClick={addStep}>
-        <Plus className="h-4 w-4 mr-1" /> Add step
-      </EmActionButton>
+        <div className="xl:sticky xl:top-4 xl:self-start">
+          {selectedStep ? (
+            <div className="relative">
+              <button
+                type="button"
+                className="absolute right-2 top-2 z-10 text-gray-500 hover:text-white"
+                onClick={() => setSelectedStepId(null)}
+                aria-label="Close editor"
+              >
+                <X className="h-4 w-4" />
+              </button>
+              <SequenceStepCard
+                step={selectedStep}
+                caseStudies={caseStudies}
+                templates={templates}
+                stats={statsByStep[selectedStep.id]}
+                canMoveUp={selectedStepIndex > 0}
+                canMoveDown={selectedStepIndex < steps.length - 1}
+                canSplitBranch={
+                  migrationReady === true &&
+                  selectedStep.branch_lane === "main" &&
+                  !emailMarketingService.hasOpenBranchAfter(steps, selectedStep.step_order)
+                }
+                onChange={(patch) => updateStepLocal(selectedStep.id, patch)}
+                onSave={() => {
+                  const current = steps.find((s) => s.id === selectedStep.id);
+                  if (current) saveStep(current);
+                }}
+                onDelete={() => deleteStep(selectedStep.id)}
+                onMoveUp={() => moveStep(selectedStepIndex, -1)}
+                onMoveDown={() => moveStep(selectedStepIndex, 1)}
+                onSplitBranch={() => splitBranch(selectedStep.step_order)}
+                onPreview={() => previewStep(selectedStep)}
+                onRegenerate={async () => {
+                  try {
+                    await emailMarketingEdge.bustDraftCache(selectedStep.id);
+                    toast.success("Draft cache cleared for this step");
+                  } catch (e) {
+                    toast.error(emErrorMessage(e));
+                  }
+                }}
+                onInsertTemplate={(t) =>
+                  updateStepLocal(selectedStep.id, {
+                    subject_template: t.subject,
+                    body_template: t.body,
+                  })
+                }
+              />
+            </div>
+          ) : selectedForkOrder != null ? (
+            <div className="border border-gray-800 rounded-lg p-4 space-y-3 bg-gray-900/50">
+              <h3 className="text-sm font-medium text-white">Open / not-opened fork</h3>
+              <p className="text-sm text-gray-400">
+                After step {selectedForkOrder}, leads who opened get one email; those who did not
+                get another — at the same step position.
+              </p>
+              {canSplitFork ? (
+                <EmActionButton onClick={() => splitBranch(selectedForkOrder)}>
+                  Create split here
+                </EmActionButton>
+              ) : (
+                <p className="text-xs text-gray-500">Branch already exists after this step.</p>
+              )}
+            </div>
+          ) : (
+            <div className="border border-dashed border-gray-700 rounded-lg p-8 text-center text-gray-500 text-sm">
+              Click a step or fork node in the workflow to edit.
+            </div>
+          )}
+        </div>
+      </div>
 
       <Dialog open={!!preview} onOpenChange={() => setPreview(null)}>
         <DialogContent className="bg-gray-900 border-gray-800 max-w-lg">
