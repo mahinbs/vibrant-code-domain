@@ -2,6 +2,8 @@ import type { EmAiAngle, EmStepCondition, EmStepType } from "./types";
 import {
   WEEKLY_POSITION_1,
   WEEKLY_POSITION_2,
+  WEEKLY_POSITION_3,
+  WEEKLY_POSITION_4,
   getWeeklyStepContent,
 } from "./weeklyCycleCopy";
 
@@ -26,7 +28,8 @@ type StepSeed = {
   ai_generated?: boolean;
 };
 
-const PHASE1: StepSeed[] = [
+function getPhase1(): StepSeed[] {
+  return [
   {
     step_order: 1,
     branch_lane: "main",
@@ -125,7 +128,8 @@ const PHASE1: StepSeed[] = [
     body_template: WEEKLY_POSITION_2[0].body,
     ai_generated: false,
   },
-];
+  ];
+}
 
 function buildWeeklySteps(): StepSeed[] {
   const weekly: StepSeed[] = [];
@@ -164,5 +168,5 @@ function buildWeeklySteps(): StepSeed[] {
 }
 
 export function getColdOutreach12MonthSteps(): StepSeed[] {
-  return [...PHASE1, ...buildWeeklySteps()];
+  return [...getPhase1(), ...buildWeeklySteps()];
 }
