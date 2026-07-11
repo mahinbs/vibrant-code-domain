@@ -14,6 +14,26 @@ import type {
 } from "./types";
 import { emDb } from "./edgeFunctions";
 import { automationCaseStudies, caseStudyPath } from "@/redesign/data/automationCaseStudies";
+import {
+  effectiveMessageAt,
+  filterThreadMessages,
+  sortMessagesChronologically,
+  stripQuotedReplyBody,
+} from "@/lib/emailBody";
+
+export type EmReplyConversation = {
+  key: string;
+  lead_id: string | null;
+  lead_name: string | null;
+  from_email: string;
+  latest_subject: string;
+  latest_preview: string;
+  latest_at: string;
+  unread_count: number;
+  messages: EmEmailMessage[];
+};
+
+export { stripQuotedReplyBody, sortMessagesChronologically, filterThreadMessages, effectiveMessageAt };
 
 export const emailMarketingService = {
   async listDomains(): Promise<EmDomain[]> {
@@ -62,10 +82,10 @@ export const emailMarketingService = {
     const { data, error } = await emDb
       .from("em_email_messages")
       .select("*")
-      .eq("lead_id", leadId)
-      .order("created_at", { ascending: true });
+      .eq("lead_id", leadId);
     if (error) throw error;
-    return data ?? [];
+    const rows = data ?? [];
+    return sortMessagesChronologically(filterThreadMessages(rows));
   },
 
   async getLeadEvents(leadId: string) {
@@ -87,22 +107,58 @@ export const emailMarketingService = {
       .from("em_email_messages")
       .select("*")
       .eq("direction", "outbound")
-      .order("created_at", { ascending: false })
       .limit(limit);
     if (error) throw error;
-    return data ?? [];
+    return sortMessagesChronologically(filterThreadMessages(data ?? [])).reverse();
   },
 
   async listInboundMessages(unreadOnly = false): Promise<EmEmailMessage[]> {
-    let q = emDb
-      .from("em_email_messages")
-      .select("*")
-      .eq("direction", "inbound")
-      .order("received_at", { ascending: false });
+    let q = emDb.from("em_email_messages").select("*").eq("direction", "inbound");
     if (unreadOnly) q = q.eq("is_read", false);
     const { data, error } = await q;
     if (error) throw error;
-    return data ?? [];
+    return sortMessagesChronologically(data ?? []).reverse();
+  },
+
+  async listReplyConversations(): Promise<EmReplyConversation[]> {
+    const inbound = await this.listInboundMessages();
+    const leadIds = [...new Set(inbound.map((m) => m.lead_id).filter(Boolean))] as string[];
+    const leadMap = new Map<string, EmLead>();
+    if (leadIds.length) {
+      const { data: leads } = await emDb.from("em_leads").select("id, name, email").in("id", leadIds);
+      for (const l of leads ?? []) leadMap.set(l.id, l as EmLead);
+    }
+
+    const groups = new Map<string, EmEmailMessage[]>();
+    for (const msg of inbound) {
+      const key = msg.lead_id ?? `email:${msg.from_email.toLowerCase()}`;
+      const list = groups.get(key) ?? [];
+      list.push(msg);
+      groups.set(key, list);
+    }
+
+    const conversations: EmReplyConversation[] = [];
+    for (const [key, messages] of groups) {
+      const sorted = sortMessagesChronologically(messages);
+      const latest = sorted[sorted.length - 1];
+      const lead = latest.lead_id ? leadMap.get(latest.lead_id) : null;
+      const { preview } = stripQuotedReplyBody(latest.body_text ?? "");
+      conversations.push({
+        key,
+        lead_id: latest.lead_id,
+        lead_name: lead?.name ?? null,
+        from_email: latest.from_email,
+        latest_subject: latest.subject,
+        latest_preview: preview,
+        latest_at: latest.received_at ?? latest.created_at,
+        unread_count: messages.filter((m) => !m.is_read).length,
+        messages: sorted.slice(-5),
+      });
+    }
+
+    return conversations.sort(
+      (a, b) => new Date(b.latest_at).getTime() - new Date(a.latest_at).getTime(),
+    );
   },
 
   async listCampaigns(): Promise<EmCampaign[]> {
@@ -162,16 +218,17 @@ export const emailMarketingService = {
         .maybeSingle();
       if (unsub) continue;
 
-      const { error: sendErr } = await emDb.from("em_email_sends").insert({
+      const { data: sendRow, error: sendErr } = await emDb.from("em_email_sends").insert({
         lead_id: lead.id,
         campaign_id: campaignId,
         subject: campaign.subject,
         to_email: lead.email,
         status: "queued",
-      });
-      if (!sendErr) {
+      }).select("id").single();
+      if (!sendErr && sendRow) {
         await emDb.from("em_email_messages").insert({
           lead_id: lead.id,
+          send_id: sendRow.id,
           direction: "outbound",
           from_email: "queued@system",
           to_email: lead.email,
@@ -284,6 +341,8 @@ export const emailMarketingService = {
           case_study_url: s.case_study_url,
           case_study_mode: s.case_study_mode ?? "fixed",
           intro_template: s.intro_template,
+          branch_lane: s.branch_lane ?? "main",
+          branch_after_step_order: s.branch_after_step_order,
           metadata: s.metadata ?? {},
         })),
       );
@@ -329,7 +388,61 @@ export const emailMarketingService = {
       .eq("sequence_id", sequenceId)
       .order("step_order");
     if (error) throw error;
-    return data ?? [];
+    const laneOrder: Record<string, number> = { opened: 0, main: 1, not_opened: 2 };
+    return (data ?? []).sort((a, b) => {
+      if (a.step_order !== b.step_order) return a.step_order - b.step_order;
+      return (laneOrder[a.branch_lane ?? "main"] ?? 9) - (laneOrder[b.branch_lane ?? "main"] ?? 9);
+    });
+  },
+
+  hasOpenBranchAfter(steps: EmSequenceStep[], afterStepOrder: number): boolean {
+    return steps.some(
+      (s) => s.step_order === afterStepOrder + 1 && s.branch_lane !== "main",
+    );
+  },
+
+  async createOpenBranch(sequenceId: string, afterStepOrder: number): Promise<void> {
+    const steps = await this.getSequenceSteps(sequenceId);
+    if (this.hasOpenBranchAfter(steps, afterStepOrder)) {
+      throw new Error("Open branch already exists after this step");
+    }
+
+    const branchOrder = afterStepOrder + 1;
+    for (const s of [...steps].sort((a, b) => b.step_order - a.step_order)) {
+      if (s.step_order >= branchOrder) {
+        await emDb
+          .from("em_sequence_steps")
+          .update({ step_order: s.step_order + 1 })
+          .eq("id", s.id);
+      }
+    }
+
+    const { error } = await emDb.from("em_sequence_steps").insert([
+      {
+        sequence_id: sequenceId,
+        step_order: branchOrder,
+        branch_lane: "opened",
+        branch_after_step_order: afterStepOrder,
+        delay_days: 3,
+        step_type: "case_study",
+        condition: "opened_not_replied",
+        subject_template: "Case study for {{company}}",
+        body_template: "",
+        case_study_mode: "auto_industry",
+      },
+      {
+        sequence_id: sequenceId,
+        step_order: branchOrder,
+        branch_lane: "not_opened",
+        branch_after_step_order: afterStepOrder,
+        delay_days: 3,
+        step_type: "template",
+        condition: "no_open",
+        subject_template: "Re: quick question",
+        body_template: "Bumping this — still relevant?",
+      },
+    ]);
+    if (error) throw error;
   },
 
   async updateSequenceStep(stepId: string, patch: Partial<EmSequenceStep>): Promise<void> {
@@ -362,6 +475,7 @@ export const emailMarketingService = {
       .insert({
         sequence_id: sequenceId,
         step_order: newOrder,
+        branch_lane: "main",
         delay_days: 3,
         step_type: "template",
         condition: "no_reply",

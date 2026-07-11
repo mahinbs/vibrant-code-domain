@@ -177,6 +177,10 @@ export default function EmailMarketingSequenceBuilder() {
             stats={statsByStep[step.id]}
             canMoveUp={index > 0}
             canMoveDown={index < steps.length - 1}
+            canSplitBranch={
+              step.branch_lane === "main" &&
+              !emailMarketingService.hasOpenBranchAfter(steps, step.step_order)
+            }
             onChange={(patch) => updateStepLocal(step.id, patch)}
             onSave={() => {
               const current = steps.find((s) => s.id === step.id);
@@ -185,6 +189,16 @@ export default function EmailMarketingSequenceBuilder() {
             onDelete={() => deleteStep(step.id)}
             onMoveUp={() => moveStep(index, -1)}
             onMoveDown={() => moveStep(index, 1)}
+            onSplitBranch={async () => {
+              if (!id) return;
+              try {
+                await emailMarketingService.createOpenBranch(id, step.step_order);
+                toast.success("Added opened / not-opened branch");
+                load();
+              } catch (e) {
+                toast.error(e instanceof Error ? e.message : "Failed to add branch");
+              }
+            }}
             onPreview={() => previewStep(step)}
             onRegenerate={async () => {
               try {

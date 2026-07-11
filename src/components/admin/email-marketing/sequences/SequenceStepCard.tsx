@@ -1,13 +1,8 @@
 import { EmActionButton } from "@/components/admin/email-marketing/EmActionButton";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { EmSelectContent, EmSelectItem } from "@/components/admin/email-marketing/EmSelectContent";
 import { StepTypeSelector } from "./StepTypeSelector";
 import { AiStepConfig } from "./AiStepConfig";
 import { CaseStudyPicker } from "./CaseStudyPicker";
@@ -22,15 +17,22 @@ import type {
   EmStepCondition,
   EmStepType,
 } from "@/services/emailMarketing";
-import { EmActionButton } from "@/components/admin/email-marketing/EmActionButton";
+import { Badge } from "@/components/ui/badge";
 
 const CONDITIONS: { value: EmStepCondition; label: string }[] = [
   { value: "always", label: "Always" },
   { value: "no_reply", label: "If no reply" },
   { value: "no_meeting", label: "If no meeting" },
   { value: "no_open", label: "If no open" },
+  { value: "opened", label: "If opened" },
   { value: "opened_not_replied", label: "If opened, no reply" },
+  { value: "clicked", label: "If clicked" },
 ];
+
+const LANE_LABELS: Record<string, string> = {
+  opened: "Opened path",
+  not_opened: "Not opened path",
+};
 
 type Props = {
   step: EmSequenceStep;
@@ -39,6 +41,7 @@ type Props = {
   stats?: EmSequenceStepStats;
   canMoveUp: boolean;
   canMoveDown: boolean;
+  canSplitBranch?: boolean;
   onChange: (patch: Partial<EmSequenceStep>) => void;
   onSave: () => void;
   onDelete: () => void;
@@ -47,6 +50,7 @@ type Props = {
   onPreview: () => void;
   onRegenerate?: () => void;
   onInsertTemplate: (template: EmSequenceTemplate) => void;
+  onSplitBranch?: () => void;
 };
 
 export function SequenceStepCard({
@@ -64,20 +68,34 @@ export function SequenceStepCard({
   onPreview,
   onRegenerate,
   onInsertTemplate,
+  onSplitBranch,
+  canSplitBranch,
 }: Props) {
   const stepType = (step.step_type ?? (step.ai_generated ? "ai_draft" : "template")) as EmStepType;
+  const isBranch = step.branch_lane && step.branch_lane !== "main";
 
   return (
-    <div className="border border-gray-800 rounded-lg p-4 space-y-4">
+    <div
+      className={`border border-gray-800 rounded-lg p-4 space-y-4 ${
+        isBranch ? "ml-6 border-l-2 border-l-cyan-500/30" : ""
+      }`}
+    >
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <p className="text-sm font-medium text-white">
-          Step {step.step_order}
-          {stats && (
-            <span className="text-gray-500 font-normal ml-2">
-              · sent {stats.sent} · opened {stats.opened} · replied {stats.replied}
-            </span>
+        <div className="flex flex-wrap items-center gap-2">
+          <p className="text-sm font-medium text-white">
+            Step {step.step_order}
+            {stats && (
+              <span className="text-gray-500 font-normal ml-2">
+                · sent {stats.sent} · opened {stats.opened} · replied {stats.replied}
+              </span>
+            )}
+          </p>
+          {isBranch && (
+            <Badge variant="outline" className="text-cyan-400 border-cyan-500/40">
+              {LANE_LABELS[step.branch_lane] ?? step.branch_lane}
+            </Badge>
           )}
-        </p>
+        </div>
         <div className="flex gap-1 flex-wrap">
           <EmActionButton size="sm" variant="outline" disabled={!canMoveUp} onClick={onMoveUp}>
             Up
@@ -126,13 +144,13 @@ export function SequenceStepCard({
             <SelectTrigger className="bg-gray-800 border-gray-700 mt-1">
               <SelectValue />
             </SelectTrigger>
-            <SelectContent>
+            <EmSelectContent>
               {CONDITIONS.map((c) => (
-                <SelectItem key={c.value} value={c.value}>
+                <EmSelectItem key={c.value} value={c.value}>
                   {c.label}
-                </SelectItem>
+                </EmSelectItem>
               ))}
-            </SelectContent>
+            </EmSelectContent>
           </Select>
         </div>
         <StepTypeSelector
@@ -159,13 +177,13 @@ export function SequenceStepCard({
             <SelectTrigger className="bg-gray-800 border-gray-700 mt-1">
               <SelectValue placeholder="Choose template…" />
             </SelectTrigger>
-            <SelectContent>
+            <EmSelectContent>
               {templates.map((t) => (
-                <SelectItem key={t.id} value={t.id}>
+                <EmSelectItem key={t.id} value={t.id}>
                   {t.name}
-                </SelectItem>
+                </EmSelectItem>
               ))}
-            </SelectContent>
+            </EmSelectContent>
           </Select>
         </div>
       )}
@@ -236,6 +254,11 @@ export function SequenceStepCard({
         <EmActionButton size="sm" variant="secondary" onClick={onSave}>
           Save step
         </EmActionButton>
+        {canSplitBranch && onSplitBranch && step.branch_lane === "main" && (
+          <EmActionButton size="sm" variant="outline" onClick={onSplitBranch}>
+            Split: opened / not opened
+          </EmActionButton>
+        )}
         {(stepType === "ai_draft" || stepType === "hybrid") && (
           <>
             <EmActionButton size="sm" variant="outline" onClick={onPreview}>

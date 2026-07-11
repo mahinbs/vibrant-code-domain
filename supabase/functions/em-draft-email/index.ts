@@ -6,30 +6,7 @@ import {
   getSetting,
 } from "./lib/util.ts";
 import { resolveCaseStudyForStep } from "./lib/caseStudies.ts";
-
-const ANTHROPIC_API = "https://api.anthropic.com/v1/messages";
-
-async function claude(prompt: string): Promise<string> {
-  const key = Deno.env.get("ANTHROPIC_API_KEY");
-  if (!key) throw new Error("ANTHROPIC_API_KEY not configured");
-  const res = await fetch(ANTHROPIC_API, {
-    method: "POST",
-    headers: {
-      "x-api-key": key,
-      "anthropic-version": "2023-06-01",
-      "content-type": "application/json",
-    },
-    body: JSON.stringify({
-      model: "claude-sonnet-4-20250514",
-      max_tokens: 1024,
-      messages: [{ role: "user", content: prompt }],
-    }),
-  });
-  const data = await res.json();
-  if (!res.ok) throw new Error(data.error?.message ?? "Claude API error");
-  const block = data.content?.[0];
-  return block?.type === "text" ? block.text : "";
-}
+import { geminiGenerate } from "./lib/gemini.ts";
 
 function anglePrompt(angle: string | null, instructions: string | null): string {
   switch (angle) {
@@ -179,7 +156,7 @@ Voice: Reshab, founder — direct, raw, no corporate fluff. Short paragraphs.
 Respond JSON only:
 {"subject": "...", "body": "plain text email body"}`;
 
-    const raw = await claude(prompt);
+    const raw = await geminiGenerate(prompt);
     const jsonMatch = raw.match(/\{[\s\S]*\}/);
     const parsed = jsonMatch ? JSON.parse(jsonMatch[0]) : { subject: "Quick question", body: raw };
 

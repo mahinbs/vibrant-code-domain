@@ -35,7 +35,7 @@ async function processQueuedSend(supabase: ReturnType<typeof createSupabaseAdmin
 
   if (!queued?.length) return 0;
 
-  const replyTo = String(await getSetting(supabase, "reply_to_email", "replies@boostmysites.com")).replace(
+  const replyTo = String(await getSetting(supabase, "reply_to_email", "leads-in@replies.boostmysites.com")).replace(
     /"/g,
     "",
   );

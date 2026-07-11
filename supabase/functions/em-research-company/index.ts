@@ -1,29 +1,6 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { corsHeaders, jsonResponse, createSupabaseAdmin } from "./lib/util.ts";
-
-const ANTHROPIC_API = "https://api.anthropic.com/v1/messages";
-
-async function claude(prompt: string): Promise<string> {
-  const key = Deno.env.get("ANTHROPIC_API_KEY");
-  if (!key) throw new Error("ANTHROPIC_API_KEY not configured");
-  const res = await fetch(ANTHROPIC_API, {
-    method: "POST",
-    headers: {
-      "x-api-key": key,
-      "anthropic-version": "2023-06-01",
-      "content-type": "application/json",
-    },
-    body: JSON.stringify({
-      model: "claude-sonnet-4-20250514",
-      max_tokens: 1024,
-      messages: [{ role: "user", content: prompt }],
-    }),
-  });
-  const data = await res.json();
-  if (!res.ok) throw new Error(data.error?.message ?? "Claude API error");
-  const block = data.content?.[0];
-  return block?.type === "text" ? block.text : "";
-}
+import { geminiGenerate } from "./lib/gemini.ts";
 
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
@@ -78,7 +55,7 @@ Respond in JSON only:
   "pain_points": ["pain point 1", "pain point 2", "pain point 3"]
 }`;
 
-    const raw = await claude(prompt);
+    const raw = await geminiGenerate(prompt);
     const jsonMatch = raw.match(/\{[\s\S]*\}/);
     const parsed = jsonMatch ? JSON.parse(jsonMatch[0]) : { research_summary: raw, pain_points: [] };
 

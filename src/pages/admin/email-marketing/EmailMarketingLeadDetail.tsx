@@ -11,7 +11,6 @@ import {
   type EmSequenceEnrollment,
 } from "@/services/emailMarketing";
 import { EmActionButton } from "@/components/admin/email-marketing/EmActionButton";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
   Select,
@@ -23,6 +22,9 @@ import {
 import { toast } from "sonner";
 import { ArrowLeft } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 
 export default function EmailMarketingLeadDetail() {
   const { id } = useParams<{ id: string }>();
@@ -34,6 +36,10 @@ export default function EmailMarketingLeadDetail() {
   const [stepCount, setStepCount] = useState(0);
   const [enrollSequenceId, setEnrollSequenceId] = useState("");
   const [loading, setLoading] = useState(true);
+  const [replySubject, setReplySubject] = useState("");
+  const [replyBody, setReplyBody] = useState("");
+  const [sendingReply, setSendingReply] = useState(false);
+  const [draftingReply, setDraftingReply] = useState(false);
 
   const load = async () => {
     if (!id) return;
@@ -83,11 +89,72 @@ export default function EmailMarketingLeadDetail() {
     return map;
   }, [events]);
 
+  const lastInboundMessage = useMemo(
+    () => [...messages].reverse().find((m) => m.direction === "inbound"),
+    [messages],
+  );
+
+  useEffect(() => {
+    if (!replySubject && messages.length) {
+      const base =
+        lastInboundMessage?.subject ??
+        messages[messages.length - 1]?.subject ??
+        "your message";
+      setReplySubject(base.match(/^re:/i) ? base : `Re: ${base}`);
+    }
+  }, [messages, lastInboundMessage, replySubject]);
+
   const updateStatus = async (status: string) => {
     if (!id) return;
     await emailMarketingService.updateLead(id, { status } as Partial<EmLead>);
     toast.success("Status updated");
     load();
+  };
+
+  const markReplied = async () => {
+    if (!id) return;
+    try {
+      await emailMarketingEdge.markLeadReplied(id);
+      toast.success("Marked as replied — sequence stopped");
+      load();
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Failed to mark as replied");
+    }
+  };
+
+  const generateAiReply = async () => {
+    if (!id) return;
+    try {
+      setDraftingReply(true);
+      const draft = await emailMarketingEdge.draftReply(id);
+      setReplySubject(draft.subject);
+      setReplyBody(draft.body);
+      toast.success("AI draft ready — review and send");
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "AI draft failed");
+    } finally {
+      setDraftingReply(false);
+    }
+  };
+
+  const sendReply = async () => {
+    if (!id || !replyBody.trim()) return;
+    try {
+      setSendingReply(true);
+      await emailMarketingEdge.sendReply({
+        lead_id: id,
+        body_text: replyBody.trim(),
+        subject: replySubject.trim() || undefined,
+        in_reply_to_message_id: lastInboundMessage?.id,
+      });
+      toast.success("Reply sent");
+      setReplyBody("");
+      load();
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Send failed");
+    } finally {
+      setSendingReply(false);
+    }
   };
 
   const runResearch = async () => {
@@ -187,6 +254,13 @@ export default function EmailMarketingLeadDetail() {
               {enrollment.stopped_reason && (
                 <p>Stopped: {enrollment.stopped_reason}</p>
               )}
+              {enrollment.last_skip_step_order != null && enrollment.last_skip_reason && (
+                <p className="text-amber-400/90">
+                  Last skip: Step {enrollment.last_skip_step_order}
+                  {" — "}
+                  {enrollment.last_skip_reason.replace(/^condition_not_met:/, "").replace(/_/g, " ")}
+                </p>
+              )}
               <div className="flex flex-wrap gap-2 pt-2">
                 {enrollment.status === "active" && (
                   <EmActionButton size="sm" variant="outline" onClick={pauseEnrollment}>
@@ -248,6 +322,11 @@ export default function EmailMarketingLeadDetail() {
             AI research
           </EmActionButton>
         )}
+        {lead.status !== "replied" && (
+          <EmActionButton size="sm" variant="secondary" onClick={markReplied}>
+            Mark as replied
+          </EmActionButton>
+        )}
       </div>
 
       {lead.research_summary && (
@@ -259,6 +338,40 @@ export default function EmailMarketingLeadDetail() {
 
       <h2 className="text-lg font-semibold text-white mb-3">Email thread</h2>
       <EmailThread messages={messages} eventsBySendId={eventsBySendId} />
+
+      <div className="mt-8 p-4 rounded-lg border border-gray-800 bg-gray-900/50 space-y-4">
+        <h3 className="text-sm font-medium text-white">Reply</h3>
+        <div>
+          <Label className="text-gray-400">Subject</Label>
+          <Input
+            value={replySubject}
+            onChange={(e) => setReplySubject(e.target.value)}
+            className="bg-gray-800 border-gray-700 mt-1"
+          />
+        </div>
+        <div>
+          <Label className="text-gray-400">Message</Label>
+          <Textarea
+            value={replyBody}
+            onChange={(e) => setReplyBody(e.target.value)}
+            rows={6}
+            placeholder="Write your reply…"
+            className="bg-gray-800 border-gray-700 mt-1"
+          />
+        </div>
+        <div className="flex flex-wrap gap-2">
+          <EmActionButton onClick={sendReply} disabled={sendingReply || !replyBody.trim()}>
+            {sendingReply ? "Sending…" : "Send reply"}
+          </EmActionButton>
+          <EmActionButton
+            variant="secondary"
+            onClick={generateAiReply}
+            disabled={draftingReply}
+          >
+            {draftingReply ? "Generating…" : "Generate AI reply"}
+          </EmActionButton>
+        </div>
+      </div>
     </EmailMarketingLayout>
   );
 }

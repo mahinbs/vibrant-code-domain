@@ -81,7 +81,16 @@ export type EmSequence = {
 export type EmStepType = "template" | "ai_draft" | "case_study" | "hybrid";
 export type EmAiAngle = "opener" | "niche_followup" | "breakup" | "case_study_tease" | "custom";
 export type EmCaseStudyMode = "fixed" | "auto_industry";
-export type EmStepCondition = "no_reply" | "always" | "no_meeting" | "no_open" | "opened_not_replied";
+export type EmStepCondition =
+  | "no_reply"
+  | "always"
+  | "no_meeting"
+  | "no_open"
+  | "opened_not_replied"
+  | "opened"
+  | "clicked";
+
+export type EmBranchLane = "main" | "opened" | "not_opened";
 
 export type EmSequenceStep = {
   id: string;
@@ -100,6 +109,8 @@ export type EmSequenceStep = {
   case_study_url: string | null;
   case_study_mode: EmCaseStudyMode;
   intro_template: string | null;
+  branch_lane: EmBranchLane;
+  branch_after_step_order: number | null;
   metadata: Record<string, unknown>;
 };
 
@@ -113,6 +124,8 @@ export type EmSequenceEnrollment = {
   enrolled_at: string;
   next_send_at: string | null;
   stopped_reason: string | null;
+  last_skip_reason: string | null;
+  last_skip_step_order: number | null;
   em_sequences?: EmSequence;
 };
 

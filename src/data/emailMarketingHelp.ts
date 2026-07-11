@@ -21,15 +21,16 @@ export const emailMarketingHelp: Record<string, EmHelpContent> = {
   settings: {
     title: "Domain setup",
     steps: [
-      "Type your domain and click **Add domain**.",
-      "Copy the DKIM, SPF, and MX records into GoDaddy.",
+      "If boostmysites.com is already verified in Resend, click **Link verified domain**.",
+      "Otherwise add DNS in Resend/GoDaddy first, then link — or use **Add via Resend API** with a full-access key.",
       "Do **not** change the root @ MX records (those are for ceo@ email).",
-      "Click **Verify** and wait 5–30 minutes.",
-      "Add the email addresses you want to send from.",
-      "Set **Reply-to** to ceo@boostmysites.com and click **Save**.",
-      "Click **Send test** to yourself to confirm it works.",
+      "Set **Reply-to** to your Resend `@xxxx.resend.app` inbox (free plan) or a custom receiving address.",
+      "Fill **AI knowledge base** with services, pricing, and tone for reply drafts.",
+      "Type **ceo** in Local part and click **Add sender** (not Save settings).",
+      "Click **Send test** to confirm sending works.",
     ],
-    warning: "Keep Resend “Enable Receiving” OFF. Replies go to your GoDaddy inbox, not Resend.",
+    warning:
+      "Send-only Resend API keys cannot add domains via API — use Link verified domain. On the free plan use `.resend.app` for receiving; keep ceo@ Titan MX on root @ unchanged.",
   },
   sequences: {
     title: "Email sequences",
@@ -46,7 +47,9 @@ export const emailMarketingHelp: Record<string, EmHelpContent> = {
     title: "Build your sequence",
     steps: [
       "**Step 1:** AI opener — delay 0 days, sends right away.",
-      "**Step 2:** Case study — delay +3 days, only if they did not reply.",
+      "**Conditions skip** a step if not met; they do not send a different email. Use **Split: opened / not opened** on a step to send different emails at the same position.",
+      "**Delay** on a step = wait that long before the step runs (and before open/click is checked on branch steps).",
+      "**Step 2:** Case study — delay +3 days, only if they did not reply — or split after step 1 for opened vs not-opened paths.",
       "**Step 3:** AI follow-up or template breakup email.",
       "Click **Preview AI draft** to see what the AI will write.",
       "Click **Add step** for more follow-ups (no limit).",
@@ -80,8 +83,10 @@ export const emailMarketingHelp: Record<string, EmHelpContent> = {
       "See **Sequence enrollment** — which step they are on.",
       "Use the dropdown and **Enroll** to put them in a different sequence.",
       "Click **Pause** to stop emails temporarily, or **Resume** to continue.",
-      "Read the **Email thread** below — includes AI drafts and replies.",
+      "Read the **Email thread** — expand older messages or show full quotes.",
+      "Use **Reply** box: write manually or **Generate AI reply**, then **Send reply**.",
       "Click **AI research** for cold leads before the first email goes out.",
+      "Click **Mark as replied** if they responded outside email — stops their sequence.",
     ],
   },
   campaigns: {
@@ -115,12 +120,12 @@ export const emailMarketingHelp: Record<string, EmHelpContent> = {
     title: "Activity",
     steps: [
       "**Sent** tab shows emails that went out.",
-      "**Replies** tab shows people who wrote back.",
-      "Click **Check replies (IMAP)** to pull new replies from ceo@ inbox.",
+      "**Replies** tab groups conversations by lead — expand to see recent messages.",
+      "Replies arrive automatically via Resend inbound.",
+      "Click **View full thread & reply** to respond from the lead page.",
       "Click **Process send queue** to send waiting emails (usually automatic).",
-      "Click **View thread** on a reply to see the full conversation.",
     ],
-    tip: "Only click the manual buttons if cron has not run yet or you are testing.",
+    tip: "Click Refresh if you just replied to a test email and do not see it yet.",
   },
 };
 

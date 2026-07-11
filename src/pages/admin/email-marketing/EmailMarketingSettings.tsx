@@ -11,6 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { EmActionButton } from "@/components/admin/email-marketing/EmActionButton";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
 
@@ -19,7 +20,7 @@ export default function EmailMarketingSettings() {
   const [senders, setSenders] = useState<EmSendingIdentity[]>([]);
   const [settings, setSettings] = useState<Record<string, unknown>>({});
   const [newDomain, setNewDomain] = useState("boostmysites.com");
-  const [newSenderLocal, setNewSenderLocal] = useState("reshab");
+  const [newSenderLocal, setNewSenderLocal] = useState("ceo");
   const [selectedDomainId, setSelectedDomainId] = useState<string | null>(null);
   const [testEmail, setTestEmail] = useState("ceo@boostmysites.com");
   const [loading, setLoading] = useState(true);
@@ -47,13 +48,31 @@ export default function EmailMarketingSettings() {
     load();
   }, []);
 
+  const handleLinkDomain = async () => {
+    try {
+      await emailMarketingEdge.linkDomain(newDomain, domains.length === 0);
+      toast.success("Domain linked — you can add senders now");
+      load();
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Failed to link domain");
+    }
+  };
+
   const handleAddDomain = async () => {
     try {
       await emailMarketingEdge.addDomain(newDomain, domains.length === 0);
       toast.success("Domain added — paste DNS records below");
       load();
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : "Failed to add domain");
+      const message = e instanceof Error ? e.message : "Failed to add domain";
+      if (/restricted to only send/i.test(message)) {
+        toast.error(
+          "Your Resend API key is send-only. Use “Link verified domain” if boostmysites.com is already verified in Resend.",
+          { duration: 8000 },
+        );
+        return;
+      }
+      toast.error(message);
     }
   };
 
@@ -70,7 +89,7 @@ export default function EmailMarketingSettings() {
   const handleAddSender = async () => {
     if (!selectedDomainId) return;
     try {
-      await emailMarketingEdge.addSender(selectedDomainId, newSenderLocal, "Reshab @ Boostmysites");
+      await emailMarketingEdge.addSender(selectedDomainId, newSenderLocal, "CEO @ BoostMySites");
       toast.success("Sender added");
       load();
     } catch (e) {
@@ -94,6 +113,7 @@ export default function EmailMarketingSettings() {
         per_sender_daily_cap: settings.per_sender_daily_cap,
         warmup_enabled: settings.warmup_enabled,
         reply_to_email: settings.reply_to_email,
+        reply_knowledge_base: settings.reply_knowledge_base,
         default_from_name: settings.default_from_name,
       });
       toast.success("Settings saved");
@@ -112,15 +132,26 @@ export default function EmailMarketingSettings() {
             <CardTitle className="text-white">Domains</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="flex gap-2 flex-wrap">
-              <Input
-                value={newDomain}
-                onChange={(e) => setNewDomain(e.target.value)}
-                placeholder="boostmysites.com"
-                className="max-w-xs bg-gray-800 border-gray-700"
-              />
-              <EmActionButton onClick={handleAddDomain}>Add domain</EmActionButton>
+            <div className="flex gap-2 flex-wrap items-end">
+              <div>
+                <Label className="text-gray-400">Domain</Label>
+                <Input
+                  value={newDomain}
+                  onChange={(e) => setNewDomain(e.target.value)}
+                  placeholder="boostmysites.com"
+                  className="max-w-xs bg-gray-800 border-gray-700"
+                />
+              </div>
+              <EmActionButton onClick={handleLinkDomain}>Link verified domain</EmActionButton>
+              <EmActionButton variant="outline" onClick={handleAddDomain}>
+                Add via Resend API
+              </EmActionButton>
             </div>
+            <p className="text-xs text-gray-500">
+              Already verified boostmysites.com in the Resend dashboard? Click{" "}
+              <strong className="text-gray-400">Link verified domain</strong>. “Add via Resend API” needs a
+              full-access Resend key (not send-only).
+            </p>
             {domains.map((d) => (
               <div key={d.id} className="border border-gray-800 rounded-lg p-4 space-y-3">
                 <div className="flex flex-wrap items-center justify-between gap-2">
@@ -133,9 +164,13 @@ export default function EmailMarketingSettings() {
                       </span>
                     </p>
                   </div>
-                  <EmActionButton size="sm" variant="outline" onClick={() => handleVerify(d.id)}>
-                    Verify DNS
-                  </EmActionButton>
+                  {d.resend_domain_id ? (
+                    <EmActionButton size="sm" variant="outline" onClick={() => handleVerify(d.id)}>
+                      Verify DNS
+                    </EmActionButton>
+                  ) : (
+                    <span className="text-xs text-emerald-400">Linked from Resend dashboard</span>
+                  )}
                 </div>
                 <DnsRecordsBlock records={d.dns_records ?? []} />
               </div>
@@ -161,6 +196,11 @@ export default function EmailMarketingSettings() {
                 Add sender
               </EmActionButton>
             </div>
+            {!selectedDomainId && (
+              <p className="text-xs text-amber-400">
+                Link or add a domain above first — Add sender is disabled until a domain exists.
+              </p>
+            )}
             {senders.map((s) => (
               <div
                 key={s.id}
@@ -184,6 +224,27 @@ export default function EmailMarketingSettings() {
                 onChange={(e) => setTestEmail(e.target.value)}
                 className="bg-gray-800 border-gray-700 max-w-sm"
               />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-gray-900 border-gray-800">
+          <CardHeader>
+            <CardTitle className="text-white">AI knowledge base</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4 max-w-2xl">
+            <div>
+              <Label className="text-gray-400">Reply knowledge base</Label>
+              <Textarea
+                value={String(settings.reply_knowledge_base ?? "").replace(/^"|"$/g, "")}
+                onChange={(e) => setSettings({ ...settings, reply_knowledge_base: e.target.value })}
+                rows={10}
+                placeholder="Services, pricing, tone, booking link, what not to promise…"
+                className="bg-gray-800 border-gray-700 mt-1 font-mono text-sm"
+              />
+              <p className="text-xs text-gray-500 mt-1">
+                Used by **Generate AI reply** on lead pages. Update when offers or pricing change.
+              </p>
             </div>
           </CardContent>
         </Card>
@@ -218,10 +279,15 @@ export default function EmailMarketingSettings() {
             <div>
               <Label className="text-gray-400">Reply-to email</Label>
               <Input
-                value={String(settings.reply_to_email ?? "replies@boostmysites.com").replace(/"/g, "")}
+                value={String(
+                  settings.reply_to_email ?? "leads-in@replies.boostmysites.com",
+                ).replace(/"/g, "")}
                 onChange={(e) => setSettings({ ...settings, reply_to_email: e.target.value })}
                 className="bg-gray-800 border-gray-700"
               />
+              <p className="text-xs text-gray-500 mt-1">
+                Marketing replies go here (Resend inbound). ceo@ stays your normal inbox.
+              </p>
             </div>
             <div className="flex items-center gap-2">
               <Switch

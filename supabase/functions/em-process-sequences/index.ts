@@ -24,24 +24,116 @@ type StepRow = {
   case_study_url: string | null;
   case_study_mode: string;
   intro_template: string | null;
+  branch_lane?: string;
+  branch_after_step_order?: number | null;
 };
+
+const LANE_PRIORITY: Record<string, number> = {
+  opened: 0,
+  main: 1,
+  not_opened: 2,
+};
+
+function sortLanes(steps: StepRow[]): StepRow[] {
+  return [...steps].sort(
+    (a, b) => (LANE_PRIORITY[a.branch_lane ?? "main"] ?? 9) - (LANE_PRIORITY[b.branch_lane ?? "main"] ?? 9),
+  );
+}
+
+function needsEngagementCheck(condition: string): boolean {
+  return ["no_open", "opened_not_replied", "opened", "clicked"].includes(condition);
+}
+
+async function getPreviousSend(
+  supabase: ReturnType<typeof createSupabaseAdmin>,
+  enrollmentId: string,
+  currentStepOrder: number,
+) {
+  const { data: sends } = await supabase
+    .from("em_email_sends")
+    .select("id, sent_at, step_id")
+    .eq("enrollment_id", enrollmentId)
+    .eq("status", "sent")
+    .order("sent_at", { ascending: false });
+
+  for (const send of sends ?? []) {
+    if (!send.step_id) continue;
+    const { data: stepRow } = await supabase
+      .from("em_sequence_steps")
+      .select("step_order")
+      .eq("id", send.step_id)
+      .maybeSingle();
+    if (stepRow && stepRow.step_order < currentStepOrder) {
+      return send as { id: string; sent_at: string | null; step_id: string };
+    }
+  }
+  return null;
+}
+
+async function hasRepliedSinceEnrollment(
+  supabase: ReturnType<typeof createSupabaseAdmin>,
+  leadId: string,
+  enrolledAt: string,
+): Promise<boolean> {
+  const { data } = await supabase
+    .from("em_email_events")
+    .select("id")
+    .eq("lead_id", leadId)
+    .eq("event_type", "replied")
+    .gte("occurred_at", enrolledAt)
+    .limit(1);
+  return (data?.length ?? 0) > 0;
+}
+
+async function hasEventOnSend(
+  supabase: ReturnType<typeof createSupabaseAdmin>,
+  sendId: string,
+  eventType: string,
+): Promise<boolean> {
+  const { data } = await supabase
+    .from("em_email_events")
+    .select("id")
+    .eq("send_id", sendId)
+    .eq("event_type", eventType)
+    .limit(1);
+  return (data?.length ?? 0) > 0;
+}
+
+async function ensureDelayForEval(
+  supabase: ReturnType<typeof createSupabaseAdmin>,
+  enrollmentId: string,
+  step: StepRow,
+  enrolledAt: string,
+): Promise<boolean> {
+  if (!needsEngagementCheck(step.condition)) return true;
+
+  const prevSend = await getPreviousSend(supabase, enrollmentId, step.step_order);
+  const baseTime = prevSend?.sent_at ?? enrolledAt;
+  const delayMs =
+    (step.delay_days * 24 * 60 * 60 + (step.delay_hours ?? 0) * 60 * 60) * 1000;
+  const readyAt = new Date(baseTime).getTime() + delayMs;
+
+  if (Date.now() < readyAt) {
+    await supabase
+      .from("em_sequence_enrollments")
+      .update({ next_send_at: new Date(readyAt).toISOString() })
+      .eq("id", enrollmentId);
+    return false;
+  }
+  return true;
+}
 
 async function evaluateCondition(
   supabase: ReturnType<typeof createSupabaseAdmin>,
   step: StepRow,
   leadId: string,
   enrollmentId: string,
+  enrolledAt: string,
 ): Promise<boolean> {
   if (step.condition === "always") return true;
 
   if (step.condition === "no_reply") {
-    const { data: reply } = await supabase
-      .from("em_email_events")
-      .select("id")
-      .eq("lead_id", leadId)
-      .eq("event_type", "replied")
-      .maybeSingle();
-    return !reply;
+    return !(await hasRepliedSinceEnrollment(supabase, leadId, enrolledAt));
   }
 
   if (step.condition === "no_meeting") {
@@ -54,48 +146,121 @@ async function evaluateCondition(
     return !meeting;
   }
 
+  const prevSend = await getPreviousSend(supabase, enrollmentId, step.step_order);
+
   if (step.condition === "no_open") {
-    const { data: sends } = await supabase
-      .from("em_email_sends")
-      .select("id")
-      .eq("enrollment_id", enrollmentId)
-      .eq("status", "sent");
-    if (!sends?.length) return true;
-    const sendIds = sends.map((s: { id: string }) => s.id);
-    const { data: opens } = await supabase
-      .from("em_email_events")
-      .select("id")
-      .in("send_id", sendIds)
-      .eq("event_type", "opened")
-      .limit(1);
-    return !opens?.length;
+    if (!prevSend) return true;
+    return !(await hasEventOnSend(supabase, prevSend.id, "opened"));
+  }
+
+  if (step.condition === "opened") {
+    if (!prevSend) return false;
+    return await hasEventOnSend(supabase, prevSend.id, "opened");
+  }
+
+  if (step.condition === "clicked") {
+    if (!prevSend) return false;
+    return await hasEventOnSend(supabase, prevSend.id, "clicked");
   }
 
   if (step.condition === "opened_not_replied") {
-    const { data: sends } = await supabase
-      .from("em_email_sends")
-      .select("id")
-      .eq("enrollment_id", enrollmentId)
-      .eq("status", "sent");
-    if (!sends?.length) return false;
-    const sendIds = sends.map((s: { id: string }) => s.id);
-    const { data: opens } = await supabase
-      .from("em_email_events")
-      .select("id")
-      .in("send_id", sendIds)
-      .eq("event_type", "opened")
-      .limit(1);
-    if (!opens?.length) return false;
-    const { data: reply } = await supabase
-      .from("em_email_events")
-      .select("id")
-      .eq("lead_id", leadId)
-      .eq("event_type", "replied")
-      .maybeSingle();
-    return !reply;
+    if (!prevSend) return false;
+    if (!(await hasEventOnSend(supabase, prevSend.id, "opened"))) return false;
+    return !(await hasRepliedSinceEnrollment(supabase, leadId, enrolledAt));
   }
 
   return true;
+}
+
+async function recordSkip(
+  supabase: ReturnType<typeof createSupabaseAdmin>,
+  enrollmentId: string,
+  stepOrder: number,
+  condition: string,
+) {
+  await supabase
+    .from("em_sequence_enrollments")
+    .update({
+      last_skip_reason: `condition_not_met:${condition}`,
+      last_skip_step_order: stepOrder,
+    })
+    .eq("id", enrollmentId);
+}
+
+async function getNextStepOrder(
+  supabase: ReturnType<typeof createSupabaseAdmin>,
+  sequenceId: string,
+  afterOrder: number,
+): Promise<number | null> {
+  const { data } = await supabase
+    .from("em_sequence_steps")
+    .select("step_order")
+    .eq("sequence_id", sequenceId)
+    .gt("step_order", afterOrder)
+    .order("step_order", { ascending: true })
+    .limit(1)
+    .maybeSingle();
+  return data?.step_order ?? null;
+}
+
+async function getDelayForStepOrder(
+  supabase: ReturnType<typeof createSupabaseAdmin>,
+  sequenceId: string,
+  stepOrder: number,
+) {
+  const { data: main } = await supabase
+    .from("em_sequence_steps")
+    .select("delay_days, delay_hours")
+    .eq("sequence_id", sequenceId)
+    .eq("step_order", stepOrder)
+    .eq("branch_lane", "main")
+    .maybeSingle();
+  if (main) return main;
+
+  const { data: anyStep } = await supabase
+    .from("em_sequence_steps")
+    .select("delay_days, delay_hours")
+    .eq("sequence_id", sequenceId)
+    .eq("step_order", stepOrder)
+    .limit(1)
+    .maybeSingle();
+  return anyStep;
+}
+
+async function advanceEnrollment(
+  supabase: ReturnType<typeof createSupabaseAdmin>,
+  enrollmentId: string,
+  sequenceId: string,
+  completedStepOrder: number,
+) {
+  const nextOrder = await getNextStepOrder(supabase, sequenceId, completedStepOrder);
+  if (!nextOrder) {
+    await supabase
+      .from("em_sequence_enrollments")
+      .update({
+        current_step: completedStepOrder,
+        next_send_at: null,
+        status: "completed",
+        stopped_reason: "completed",
+      })
+      .eq("id", enrollmentId);
+    return;
+  }
+
+  const nextStep = await getDelayForStepOrder(supabase, sequenceId, nextOrder);
+  const delayMs =
+    ((nextStep?.delay_days ?? 0) * 24 * 60 * 60 + (nextStep?.delay_hours ?? 0) * 60 * 60) * 1000;
+  const nextSend = new Date(Date.now() + delayMs).toISOString();
+
+  await supabase
+    .from("em_sequence_enrollments")
+    .update({
+      current_step: completedStepOrder,
+      next_send_at: nextSend,
+      status: "active",
+      stopped_reason: null,
+    })
+    .eq("id", enrollmentId);
 }
 
 async function resolveStepContent(
@@ -230,6 +395,50 @@ async function resolveStepContent(
   };
 }
 
+async function queueStepSend(
+  supabase: ReturnType<typeof createSupabaseAdmin>,
+  step: StepRow,
+  lead: { id: string; email: string },
+  enrollmentId: string,
+  sequenceId: string,
+  sequence: { pipeline?: string; name?: string; vertical?: string } | null,
+): Promise<boolean> {
+  const { subject, bodyText } = await resolveStepContent(
+    supabase,
+    step,
+    lead,
+    enrollmentId,
+    sequenceId,
+    sequence,
+  );
+
+  const { data: sendRow } = await supabase
+    .from("em_email_sends")
+    .insert({
+      lead_id: lead.id,
+      enrollment_id: enrollmentId,
+      step_id: step.id,
+      subject,
+      to_email: lead.email,
+      status: "queued",
+    })
+    .select()
+    .single();
+
+  if (sendRow) {
+    await supabase.from("em_email_messages").insert({
+      lead_id: lead.id,
+      send_id: sendRow.id,
+      direction: "outbound",
+      from_email: "queued@system",
+      to_email: lead.email,
+      subject,
+      body_text: bodyText,
+    });
+  }
+  return !!sendRow;
+}
+
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
@@ -265,14 +474,13 @@ serve(async (req) => {
       }
 
       const nextStepOrder = enrollment.current_step + 1;
-      const { data: step } = await supabase
+      const { data: stepsAtOrder } = await supabase
         .from("em_sequence_steps")
         .select("*")
         .eq("sequence_id", enrollment.sequence_id)
-        .eq("step_order", nextStepOrder)
-        .maybeSingle();
+        .eq("step_order", nextStepOrder);
 
-      if (!step) {
+      if (!stepsAtOrder?.length) {
         await supabase
           .from("em_sequence_enrollments")
           .update({ status: "completed", stopped_reason: "completed" })
@@ -280,106 +488,69 @@ serve(async (req) => {
         continue;
       }
 
-      const shouldSend = await evaluateCondition(supabase, step as StepRow, lead.id, enrollment.id);
-      if (!shouldSend) {
-        if (step.condition === "no_reply") {
-          const { data: reply } = await supabase
-            .from("em_email_events")
-            .select("id")
-            .eq("lead_id", lead.id)
-            .eq("event_type", "replied")
-            .maybeSingle();
-          if (reply) {
+      const lanes = sortLanes(stepsAtOrder as StepRow[]);
+      const hasMultipleLanes = lanes.length > 1 && lanes.some((s) => s.branch_lane !== "main");
+      const enrolledAt = enrollment.enrolled_at as string;
+      const sequence = enrollment.em_sequences as { pipeline?: string; name?: string; vertical?: string } | null;
+
+      const delayOk = await ensureDelayForEval(supabase, enrollment.id, lanes[0], enrolledAt);
+      if (!delayOk) continue;
+
+      let stepToSend: StepRow | null = null;
+
+      if (hasMultipleLanes) {
+        for (const lane of lanes) {
+          if (await evaluateCondition(supabase, lane, lead.id, enrollment.id, enrolledAt)) {
+            stepToSend = lane;
+            break;
+          }
+        }
+        if (!stepToSend) {
+          await recordSkip(supabase, enrollment.id, nextStepOrder, "no_matching_lane");
+          if (await hasRepliedSinceEnrollment(supabase, lead.id, enrolledAt)) {
             await supabase
               .from("em_sequence_enrollments")
               .update({ status: "stopped", stopped_reason: "replied" })
               .eq("id", enrollment.id);
             continue;
           }
+          await advanceEnrollment(supabase, enrollment.id, enrollment.sequence_id, nextStepOrder);
+          continue;
         }
-
-        const { data: nextStep } = await supabase
-          .from("em_sequence_steps")
-          .select("delay_days, delay_hours")
-          .eq("sequence_id", enrollment.sequence_id)
-          .eq("step_order", nextStepOrder + 1)
-          .maybeSingle();
-
-        const delayMs =
-          ((nextStep?.delay_days ?? 0) * 24 * 60 * 60 + (nextStep?.delay_hours ?? 0) * 60 * 60) * 1000;
-        const nextSend = nextStep
-          ? new Date(Date.now() + delayMs).toISOString()
-          : null;
-
-        await supabase
-          .from("em_sequence_enrollments")
-          .update({
-            current_step: nextStepOrder,
-            next_send_at: nextSend,
-            status: nextSend ? "active" : "completed",
-            stopped_reason: nextSend ? null : "completed",
-          })
-          .eq("id", enrollment.id);
-        continue;
+      } else {
+        const step = lanes[0];
+        const shouldSend = await evaluateCondition(supabase, step, lead.id, enrollment.id, enrolledAt);
+        if (!shouldSend) {
+          await recordSkip(supabase, enrollment.id, nextStepOrder, step.condition);
+          if (step.condition === "no_reply" && await hasRepliedSinceEnrollment(supabase, lead.id, enrolledAt)) {
+            await supabase
+              .from("em_sequence_enrollments")
+              .update({ status: "stopped", stopped_reason: "replied" })
+              .eq("id", enrollment.id);
+            continue;
+          }
+          await advanceEnrollment(supabase, enrollment.id, enrollment.sequence_id, nextStepOrder);
+          continue;
+        }
+        stepToSend = step;
       }
 
-      const sequence = enrollment.em_sequences as { pipeline?: string; name?: string; vertical?: string } | null;
-      const { subject, bodyText } = await resolveStepContent(
+      const queued = await queueStepSend(
         supabase,
-        step as StepRow,
+        stepToSend,
         lead,
         enrollment.id,
         enrollment.sequence_id,
         sequence,
       );
-
-      const { data: sendRow } = await supabase
-        .from("em_email_sends")
-        .insert({
-          lead_id: lead.id,
-          enrollment_id: enrollment.id,
-          step_id: step.id,
-          subject,
-          to_email: lead.email,
-          status: "queued",
-        })
-        .select()
-        .single();
-
-      if (sendRow) {
-        await supabase.from("em_email_messages").insert({
-          lead_id: lead.id,
-          send_id: sendRow.id,
-          direction: "outbound",
-          from_email: "queued@system",
-          to_email: lead.email,
-          subject,
-          body_text: bodyText,
-        });
+      if (queued) {
+        await supabase
+          .from("em_sequence_enrollments")
+          .update({ last_skip_reason: null, last_skip_step_order: null })
+          .eq("id", enrollment.id);
+        await advanceEnrollment(supabase, enrollment.id, enrollment.sequence_id, nextStepOrder);
+        processed++;
       }
-
-      const { data: nextStep } = await supabase
-        .from("em_sequence_steps")
-        .select("delay_days, delay_hours")
-        .eq("sequence_id", enrollment.sequence_id)
-        .eq("step_order", nextStepOrder + 1)
-        .maybeSingle();
-
-      const delayMs =
-        ((nextStep?.delay_days ?? 0) * 24 * 60 * 60 + (nextStep?.delay_hours ?? 0) * 60 * 60) * 1000;
-      const nextSend = nextStep ? new Date(Date.now() + delayMs).toISOString() : null;
-
-      await supabase
-        .from("em_sequence_enrollments")
-        .update({
-          current_step: nextStepOrder,
-          next_send_at: nextSend,
-          status: nextSend ? "active" : "completed",
-          stopped_reason: nextSend ? null : "completed",
-        })
-        .eq("id", enrollment.id);
-
-      processed++;
     }
 
     return jsonResponse({ ok: true, processed });

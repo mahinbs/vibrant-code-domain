@@ -71,6 +71,12 @@ verify_jwt = false
 [functions.em-draft-email]
 verify_jwt = false
 
+[functions.em-send-reply]
+verify_jwt = false
+
+[functions.em-draft-reply]
+verify_jwt = false
+
 [functions.em-cal-webhook]
 verify_jwt = false
 

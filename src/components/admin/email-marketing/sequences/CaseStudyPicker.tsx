@@ -1,10 +1,5 @@
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { EmSelectContent, EmSelectItem } from "@/components/admin/email-marketing/EmSelectContent";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import type { EmCaseStudyMode, EmCaseStudyOption } from "@/services/emailMarketing";
@@ -36,10 +31,10 @@ export function CaseStudyPicker({
           <SelectTrigger className="w-56 bg-gray-800 border-gray-700 mt-1">
             <SelectValue />
           </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="auto_industry">Auto by industry</SelectItem>
-            <SelectItem value="fixed">Pick case study</SelectItem>
-          </SelectContent>
+          <EmSelectContent>
+            <EmSelectItem value="auto_industry">Auto by industry</EmSelectItem>
+            <EmSelectItem value="fixed">Pick case study</EmSelectItem>
+          </EmSelectContent>
         </Select>
       </div>
       {mode === "fixed" && (
@@ -49,13 +44,13 @@ export function CaseStudyPicker({
             <SelectTrigger className="w-full bg-gray-800 border-gray-700 mt-1">
               <SelectValue placeholder="Select case study" />
             </SelectTrigger>
-            <SelectContent>
+            <EmSelectContent>
               {caseStudies.map((cs) => (
-                <SelectItem key={cs.slug} value={cs.slug}>
+                <EmSelectItem key={cs.slug} value={cs.slug}>
                   {cs.title} ({cs.category})
-                </SelectItem>
+                </EmSelectItem>
               ))}
-            </SelectContent>
+            </EmSelectContent>
           </Select>
         </div>
       )}

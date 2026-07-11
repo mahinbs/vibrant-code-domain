@@ -1,10 +1,5 @@
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { EmSelectContent, EmSelectItem } from "@/components/admin/email-marketing/EmSelectContent";
 import { Label } from "@/components/ui/label";
 import type { EmStepType } from "@/services/emailMarketing";
 
@@ -28,13 +23,13 @@ export function StepTypeSelector({ value, onChange }: Props) {
         <SelectTrigger className="w-48 bg-gray-800 border-gray-700 mt-1">
           <SelectValue />
         </SelectTrigger>
-        <SelectContent>
+        <EmSelectContent>
           {STEP_TYPES.map((t) => (
-            <SelectItem key={t.value} value={t.value}>
+            <EmSelectItem key={t.value} value={t.value}>
               {t.label}
-            </SelectItem>
+            </EmSelectItem>
           ))}
-        </SelectContent>
+        </EmSelectContent>
       </Select>
     </div>
   );

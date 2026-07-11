@@ -64,21 +64,26 @@ export type SendEmailParams = {
   html: string;
   text?: string;
   replyTo?: string;
+  headers?: Record<string, string>;
   tags?: { name: string; value: string }[];
 };
 
 export async function sendViaResend(params: SendEmailParams): Promise<{ id: string }> {
+  const body: Record<string, unknown> = {
+    from: params.from,
+    to: [params.to],
+    subject: params.subject,
+    html: params.html,
+    text: params.text,
+    reply_to: params.replyTo,
+    tags: params.tags,
+  };
+  if (params.headers && Object.keys(params.headers).length) {
+    body.headers = params.headers;
+  }
   const res = await resendFetch("/emails", {
     method: "POST",
-    body: JSON.stringify({
-      from: params.from,
-      to: [params.to],
-      subject: params.subject,
-      html: params.html,
-      text: params.text,
-      reply_to: params.replyTo,
-      tags: params.tags,
-    }),
+    body: JSON.stringify(body),
   });
   const data = await res.json();
   if (!res.ok) throw new Error(data.message ?? data.error ?? "Failed to send email");
@@ -131,6 +136,26 @@ export async function incrementSenderCount(identityId: string): Promise<void> {
       last_sent_at: new Date().toISOString(),
     })
     .eq("id", identityId);
+}
+
+export type ReceivedEmail = {
+  id: string;
+  from: string;
+  to: string[];
+  subject: string;
+  text: string | null;
+  html: string | null;
+  message_id?: string;
+  created_at?: string;
+};
+
+export async function getReceivedEmail(emailId: string): Promise<ReceivedEmail> {
+  const res = await resendFetch(`/emails/receiving/${emailId}`);
+  const data = await res.json();
+  if (!res.ok) {
+    throw new Error(data.message ?? data.error ?? "Failed to fetch received email");
+  }
+  return data as ReceivedEmail;
 }
 
 export async function getEffectiveDailyCap(): Promise<number> {

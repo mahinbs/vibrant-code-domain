@@ -1,10 +1,5 @@
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { EmSelectContent, EmSelectItem } from "@/components/admin/email-marketing/EmSelectContent";
 import { Label } from "@/components/ui/label";
 import type { EmAiAngle } from "@/services/emailMarketing";
 
@@ -32,13 +27,13 @@ export function AiStepConfig({ angle, instructions, onAngleChange, onInstruction
           <SelectTrigger className="w-56 bg-gray-800 border-gray-700 mt-1">
             <SelectValue />
           </SelectTrigger>
-          <SelectContent>
+          <EmSelectContent>
             {ANGLES.map((a) => (
-              <SelectItem key={a.value} value={a.value}>
+              <EmSelectItem key={a.value} value={a.value}>
                 {a.label}
-              </SelectItem>
+              </EmSelectItem>
             ))}
-          </SelectContent>
+          </EmSelectContent>
         </Select>
       </div>
       <div>

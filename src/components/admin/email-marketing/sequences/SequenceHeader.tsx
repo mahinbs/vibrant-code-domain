@@ -1,13 +1,8 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { EmActionButton } from "@/components/admin/email-marketing/EmActionButton";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { EmSelectContent, EmSelectItem } from "@/components/admin/email-marketing/EmSelectContent";
 import type { EmSequence } from "@/services/emailMarketing";
 
 type Props = {
@@ -58,10 +53,10 @@ export function SequenceHeader({ sequence, onChange, onSave, saving }: Props) {
           <SelectTrigger className="bg-gray-800 border-gray-700 mt-1">
             <SelectValue />
           </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="active">Active</SelectItem>
-            <SelectItem value="paused">Paused</SelectItem>
-          </SelectContent>
+          <EmSelectContent>
+            <EmSelectItem value="active">Active</EmSelectItem>
+            <EmSelectItem value="paused">Paused</EmSelectItem>
+          </EmSelectContent>
         </Select>
       </div>
       <EmActionButton onClick={onSave} disabled={saving}>

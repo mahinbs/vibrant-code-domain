@@ -6,14 +6,17 @@ import {
   getResendDomain,
   sendViaResend,
 } from "./lib/resend.ts";
+import { recordInboundReply } from "./lib/inboundReply.ts";
 
 type Action =
   | { action: "add_domain"; domain: string; is_primary?: boolean }
+  | { action: "link_domain"; domain: string; is_primary?: boolean }
   | { action: "verify_domain"; domain_id: string }
   | { action: "refresh_domain"; domain_id: string }
   | { action: "add_sender"; domain_id: string; local_part: string; display_name?: string; daily_cap?: number }
   | { action: "send_test"; sender_id: string; to_email: string }
-  | { action: "update_settings"; settings: Record<string, unknown> };
+  | { action: "update_settings"; settings: Record<string, unknown> }
+  | { action: "mark_replied"; lead_id: string; subject?: string; body_text?: string };
 
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
@@ -21,6 +24,35 @@ serve(async (req) => {
   try {
     const supabase = createSupabaseAdmin();
     const body = (await req.json()) as Action;
+
+    if (body.action === "link_domain") {
+      const domain = body.domain.trim().toLowerCase();
+      const { data: existing } = await supabase
+        .from("em_domains")
+        .select("*")
+        .eq("domain", domain)
+        .maybeSingle();
+      if (existing) return jsonResponse({ ok: true, domain: existing });
+
+      const { count } = await supabase
+        .from("em_domains")
+        .select("*", { count: "exact", head: true });
+      const now = new Date().toISOString();
+      const { data, error } = await supabase
+        .from("em_domains")
+        .insert({
+          domain,
+          resend_domain_id: null,
+          status: "verified",
+          dns_records: [],
+          verified_at: now,
+          is_primary: body.is_primary ?? (count ?? 0) === 0,
+        })
+        .select()
+        .single();
+      if (error) throw error;
+      return jsonResponse({ ok: true, domain: data });
+    }
 
     if (body.action === "add_domain") {
       const domain = body.domain.trim().toLowerCase();
@@ -102,7 +134,7 @@ serve(async (req) => {
       if (!sender) throw new Error("Sender not found");
       const replyTo = String(
         (await supabase.from("em_settings").select("value").eq("key", "reply_to_email").maybeSingle())
-          .data?.value ?? "replies@boostmysites.com",
+          .data?.value ?? "leads-in@replies.boostmysites.com",
       ).replace(/"/g, "");
       const result = await sendViaResend({
         from: `${sender.display_name} <${sender.email}>`,
@@ -121,6 +153,26 @@ serve(async (req) => {
           .upsert({ key, value, updated_at: new Date().toISOString() });
       }
       return jsonResponse({ ok: true });
+    }
+
+    if (body.action === "mark_replied") {
+      const { data: lead } = await supabase
+        .from("em_leads")
+        .select("id, email")
+        .eq("id", body.lead_id)
+        .maybeSingle();
+      if (!lead) throw new Error("Lead not found");
+
+      const result = await recordInboundReply(supabase, {
+        fromEmail: lead.email,
+        toEmail: "manual@admin",
+        subject: body.subject ?? "Marked as replied (manual)",
+        bodyText: body.body_text ?? "",
+        dedupeKey: `manual:${body.lead_id}:${Date.now()}`,
+        leadId: lead.id,
+      });
+
+      return jsonResponse({ ok: true, ...result });
     }
 
     return jsonResponse({ ok: false, error: "Unknown action" }, 400);
