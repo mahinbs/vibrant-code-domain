@@ -1,7 +1,8 @@
 import type { Edge, Node } from "@xyflow/react";
 import type { EmSequenceStep, EmSequenceStepStats } from "@/services/emailMarketing";
+import { getSavedCanvasPosition, type WorkflowViewMode } from "@/services/emailMarketing/workflowCanvas";
 
-export type WorkflowViewMode = "overview" | "phase1" | "weekly";
+export type { WorkflowViewMode };
 
 const LANE_X: Record<string, number> = {
   opened: 0,
@@ -81,6 +82,7 @@ function buildGraphForSteps(
   statsByStep: Record<string, EmSequenceStepStats>,
   rowHeight: number,
   compact: boolean,
+  viewMode: WorkflowViewMode,
 ): { nodes: Node[]; edges: Edge[] } {
   const nodes: Node[] = [];
   const edges: Edge[] = [];
@@ -115,10 +117,13 @@ function buildGraphForSteps(
     const ids: string[] = [];
     for (const step of atOrder) {
       const lane = step.branch_lane ?? "main";
+      const saved = getSavedCanvasPosition(step.metadata, viewMode);
+      const defaultX = LANE_X[lane] ?? LANE_X.main;
+      const defaultY = y;
       nodes.push({
         id: step.id,
         type: "email",
-        position: { x: LANE_X[lane] ?? LANE_X.main, y },
+        position: saved ?? { x: defaultX, y: defaultY },
         data: {
           step,
           stats: statsByStep[step.id],
@@ -190,7 +195,7 @@ export function buildSequenceGraph(
   const compact = viewMode === "weekly";
   const rowHeight = compact ? COMPACT_ROW_HEIGHT : ROW_HEIGHT;
 
-  const { nodes, edges } = buildGraphForSteps(filtered, statsByStep, rowHeight, compact);
+  const { nodes, edges } = buildGraphForSteps(filtered, statsByStep, rowHeight, compact, viewMode);
 
   if (viewMode === "overview") {
     const weeklySteps = steps.filter((s) => s.step_order >= 8);

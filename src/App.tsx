@@ -166,8 +166,8 @@ const EmailMarketingSequenceBuilder = lazy(
 const EmailMarketingImport = lazy(
   () => import("./pages/admin/email-marketing/EmailMarketingImport"),
 );
-const EmailMarketingActivity = lazy(
-  () => import("./pages/admin/email-marketing/EmailMarketingActivity"),
+const EmailMarketingInbox = lazy(
+  () => import("./pages/admin/email-marketing/EmailMarketingInbox"),
 );
 const UnsubscribeRedirect = lazy(() => import("./pages/UnsubscribeRedirect"));
 const NotFound = lazy(() => import("./pages/NotFound"));
@@ -969,12 +969,16 @@ const App = () => {
                 }
               />
               <Route
-                path="/admin/email-marketing/activity"
+                path="/admin/email-marketing/inbox"
                 element={
                   <ProtectedRoute>
-                    <EmailMarketingActivity />
+                    <EmailMarketingInbox />
                   </ProtectedRoute>
                 }
+              />
+              <Route
+                path="/admin/email-marketing/activity"
+                element={<Navigate to="/admin/email-marketing/inbox" replace />}
               />
               <Route path="/unsubscribe" element={<UnsubscribeRedirect />} />
               <Route path="*" element={<NotFound />} />

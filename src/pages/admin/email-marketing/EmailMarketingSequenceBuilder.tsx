@@ -3,7 +3,12 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { EmailMarketingLayout } from "@/components/admin/email-marketing/EmailMarketingLayout";
 import { SequenceHeader } from "@/components/admin/email-marketing/sequences/SequenceHeader";
 import { SequenceStepCard } from "@/components/admin/email-marketing/sequences/SequenceStepCard";
+import { ConditionGuide } from "@/components/admin/email-marketing/sequences/ConditionGuide";
 import { SequenceWorkflowCanvas, type WorkflowViewMode } from "@/components/admin/email-marketing/sequences/SequenceWorkflowCanvas";
+import {
+  withCanvasPosition,
+  type CanvasPosition,
+} from "@/services/emailMarketing/workflowCanvas";
 import { WeeklyStepPicker } from "@/components/admin/email-marketing/sequences/WeeklyStepPicker";
 import { buildSequenceMinimap } from "@/components/admin/email-marketing/sequences/sequenceGraph";
 import {
@@ -72,6 +77,32 @@ export default function EmailMarketingSequenceBuilder() {
     setSteps((prev) => prev.map((s) => (s.id === stepId ? { ...s, ...patch } : s)));
   };
 
+  const saveNodePosition = async (
+    stepId: string,
+    position: CanvasPosition,
+    viewMode: WorkflowViewMode,
+  ) => {
+    let existingMetadata: Record<string, unknown> | undefined;
+    setSteps((prev) => {
+      const step = prev.find((s) => s.id === stepId);
+      if (!step) return prev;
+      existingMetadata = step.metadata;
+      const metadata = withCanvasPosition(step.metadata, viewMode, position);
+      return prev.map((s) => (s.id === stepId ? { ...s, metadata } : s));
+    });
+    if (existingMetadata === undefined) return;
+    try {
+      await emailMarketingService.saveStepCanvasPosition(
+        stepId,
+        viewMode,
+        position,
+        existingMetadata,
+      );
+    } catch (e) {
+      toast.error(emErrorMessage(e));
+    }
+  };
+
   const saveSequence = async () => {
     if (!sequence || !id) return;
     setSaving(true);
@@ -92,7 +123,10 @@ export default function EmailMarketingSequenceBuilder() {
 
   const saveStep = async (step: EmSequenceStep) => {
     try {
-      await emailMarketingService.updateSequenceStep(step.id, step);
+      await emailMarketingService.updateSequenceStep(step.id, {
+        ...step,
+        metadata: { ...(step.metadata ?? {}), copy_locked: true },
+      });
       toast.success(`Step ${step.step_order} saved`);
       load();
     } catch (e) {
@@ -223,6 +257,7 @@ export default function EmailMarketingSequenceBuilder() {
 
       <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_min(400px,38vw)] gap-4 items-start">
         <div className="space-y-3 min-w-0">
+          <ConditionGuide />
           <SequenceWorkflowCanvas
             steps={steps}
             statsByStep={statsByStep}
@@ -240,6 +275,7 @@ export default function EmailMarketingSequenceBuilder() {
               setSelectedForkOrder(order);
               setSelectedStepId(null);
             }}
+            onSaveNodePosition={saveNodePosition}
           />
           {(workflowView === "weekly" || steps.some((s) => s.step_order >= 8)) && (
             <WeeklyStepPicker

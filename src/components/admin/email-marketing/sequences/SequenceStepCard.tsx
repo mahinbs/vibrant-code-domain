@@ -18,6 +18,7 @@ import type {
   EmStepType,
 } from "@/services/emailMarketing";
 import { Badge } from "@/components/ui/badge";
+import { ConditionGuide } from "./ConditionGuide";
 
 const CONDITIONS: { value: EmStepCondition; label: string }[] = [
   { value: "always", label: "Always" },
@@ -164,6 +165,8 @@ export function SequenceStepCard({
           }
         />
       </div>
+
+      <ConditionGuide compact />
 
       {templates.length > 0 && stepType === "template" && (
         <div className="w-64">

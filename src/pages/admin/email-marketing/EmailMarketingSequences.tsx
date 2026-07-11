@@ -128,9 +128,16 @@ export default function EmailMarketingSequences() {
           variant="outline"
           onClick={async () => {
             try {
-              const seqId = await emailMarketingService.refreshColdOutreach12MonthTemplateCopy();
-              toast.success("12-month template copy updated");
-              navigate(`/admin/email-marketing/sequences/${seqId}`);
+              const result = await emailMarketingService.refreshColdOutreach12MonthTemplateCopy();
+              const parts = [
+                result.updated ? `${result.updated} updated` : null,
+                result.inserted ? `${result.inserted} added` : null,
+                result.skipped ? `${result.skipped} locked (skipped)` : null,
+              ].filter(Boolean);
+              toast.success(
+                parts.length ? `12-month copy synced — ${parts.join(", ")}` : "12-month copy already up to date",
+              );
+              navigate(`/admin/email-marketing/sequences/${result.sequenceId}`);
             } catch (e) {
               toast.error(emErrorMessage(e));
             }

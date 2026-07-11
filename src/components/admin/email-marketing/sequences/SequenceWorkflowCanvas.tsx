@@ -9,8 +9,10 @@ import {
   useEdgesState,
   useReactFlow,
   type Node,
+  type NodeDragHandler,
   type NodeMouseHandler,
 } from "@xyflow/react";
+import type { CanvasPosition } from "@/services/emailMarketing/workflowCanvas";
 import "@xyflow/react/dist/style.css";
 import type { EmSequenceStep, EmSequenceStepStats } from "@/services/emailMarketing";
 import {
@@ -36,6 +38,7 @@ type CanvasProps = {
   onSelectStep: (stepId: string) => void;
   onSelectFork: (afterStepOrder: number) => void;
   onViewModeChange: (mode: WorkflowViewMode) => void;
+  onSaveNodePosition?: (stepId: string, position: CanvasPosition, viewMode: WorkflowViewMode) => void;
 };
 
 function WorkflowCanvasInner({
@@ -47,6 +50,7 @@ function WorkflowCanvasInner({
   onSelectStep,
   onSelectFork,
   onViewModeChange,
+  onSaveNodePosition,
 }: CanvasProps) {
   const { fitView } = useReactFlow();
   const structureKey = useMemo(
@@ -114,6 +118,14 @@ function WorkflowCanvasInner({
     [onSelectFork, onSelectStep, onViewModeChange],
   );
 
+  const onNodeDragStop: NodeDragHandler = useCallback(
+    (_evt, node) => {
+      if (node.type !== "email" || !onSaveNodePosition) return;
+      onSaveNodePosition(node.id, { x: node.position.x, y: node.position.y }, viewMode);
+    },
+    [onSaveNodePosition, viewMode],
+  );
+
   const canvasHeight =
     viewMode === "weekly" ? "min(75vh, 900px)" : viewMode === "overview" ? "min(65vh, 640px)" : "min(65vh, 600px)";
 
@@ -145,7 +157,7 @@ function WorkflowCanvasInner({
           </button>
         ))}
         <span className="text-[10px] text-gray-600 ml-auto hidden sm:inline">
-          Drag nodes · scroll to pan · use +/- to zoom
+          Drag nodes to rearrange (saved per view) · scroll to pan · +/- to zoom
         </span>
       </div>
 
@@ -156,6 +168,7 @@ function WorkflowCanvasInner({
           onNodesChange={onNodesChange}
           onEdgesChange={onEdgesChange}
           onNodeClick={onNodeClick}
+          onNodeDragStop={onNodeDragStop}
           nodeTypes={nodeTypes}
           nodesDraggable
           nodesConnectable={false}

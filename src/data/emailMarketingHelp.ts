@@ -14,7 +14,7 @@ export const emailMarketingHelp: Record<string, EmHelpContent> = {
       "Add senders (reshab@, team@) and click **Send test**.",
       "Go to **Sequences** and pick or create a cold email flow.",
       "Go to **Import**, upload your CSV, and pick which sequence to use.",
-      "Check **Activity** to see sent emails and replies.",
+      "Check **Inbox** to read threads and reply inline.",
     ],
     tip: "If domain says not_configured, you still need to finish steps 1–2 in Settings.",
   },
@@ -62,7 +62,7 @@ export const emailMarketingHelp: Record<string, EmHelpContent> = {
       "Pick **which sequence** to enroll them in.",
       "Paste your CSV into the box.",
       "Click **Import & enroll**.",
-      "Open **Leads** to see them, then **Activity** for sends (cron runs every ~15 min).",
+      "Open **Leads** to see them, then **Inbox** for sends and replies.",
     ],
   },
   leads: {
@@ -111,19 +111,19 @@ export const emailMarketingHelp: Record<string, EmHelpContent> = {
     steps: [
       "See who received this blast and whether it was sent.",
       "Click **Export CSV** to download the send log.",
-      "Check **Activity** for opens and replies across all emails.",
+      "Check **Inbox** for opens and replies across all emails.",
     ],
   },
-  activity: {
-    title: "Activity",
+  inbox: {
+    title: "Inbox",
     steps: [
-      "**Sent** tab shows emails that went out.",
-      "**Replies** tab groups conversations by lead — expand to see recent messages.",
-      "Replies arrive automatically via Resend inbound.",
-      "Click **View full thread & reply** to respond from the lead page.",
-      "Click **Process send queue** to send waiting emails (usually automatic).",
+      "Conversations are grouped by lead — outbound and inbound in one thread.",
+      "Use **Needs reply** (default) to see who is waiting on you.",
+      "Select a thread to read the full history and **reply inline**.",
+      "Use **Generate AI reply** or write manually, then **Send reply**.",
+      "Filter by Unread, Waiting, or Replied. Search by name, email, or subject.",
     ],
-    tip: "Click Refresh if you just replied to a test email and do not see it yet.",
+    tip: "Press / to search, j/k to move between threads, r to focus the reply box.",
   },
 };
 
@@ -131,7 +131,8 @@ export function getHelpKeyFromPath(pathname: string): string {
   if (pathname === "/admin/email-marketing") return "overview";
   if (pathname === "/admin/email-marketing/settings") return "settings";
   if (pathname === "/admin/email-marketing/import") return "import";
-  if (pathname === "/admin/email-marketing/activity") return "activity";
+  if (pathname === "/admin/email-marketing/inbox") return "inbox";
+  if (pathname === "/admin/email-marketing/activity") return "inbox";
   if (pathname === "/admin/email-marketing/leads") return "leads";
   if (/^\/admin\/email-marketing\/leads\/[^/]+$/.test(pathname)) return "leadDetail";
   if (pathname === "/admin/email-marketing/campaigns") return "campaigns";

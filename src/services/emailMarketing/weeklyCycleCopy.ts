@@ -148,14 +148,14 @@ export const WEEKLY_POSITION_4: WeeklyCopy[] = [
 
 /** Position 5 — Case study rotation (fixed slug per cycle) */
 export const WEEKLY_CASE_STUDY_SLUGS: string[] = [
-  "lead-capture-qualification",
-  "internal-workflow-automation",
-  "document-data-processing",
-  "lead-capture-qualification",
-  "ai-customer-support",
-  "internal-workflow-automation",
-  "crm-sales-pipeline-automation",
-  "lead-capture-qualification",
+  "lead-capture-qualification", // cycle 1: lead response (n8n + WhatsApp)
+  "internal-workflow-automation", // cycle 2: staffing / recruitment
+  "document-data-processing", // cycle 3: fintech / NBFC compliance
+  "ai-customer-support", // cycle 4: healthcare intake (patient/support flow)
+  "ai-customer-support", // cycle 5: e-commerce order / support
+  "internal-workflow-automation", // cycle 6: manufacturing ops
+  "crm-sales-pipeline-automation", // cycle 7: real estate lead-to-tour
+  "lead-capture-qualification", // cycle 8: default strongest — swap after data
 ];
 
 export const WEEKLY_CASE_STUDY_SUBJECTS: string[] = [

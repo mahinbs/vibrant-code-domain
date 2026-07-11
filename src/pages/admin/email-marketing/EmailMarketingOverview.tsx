@@ -184,7 +184,7 @@ export default function EmailMarketingOverview() {
             </p>
             <p>Active sequences: {stats?.activeSequences ?? 0}</p>
             <p>Follow-ups due today: {stats?.pendingFollowups ?? 0}</p>
-            <Link to="/admin/email-marketing/activity" className="text-cyan-400 hover:underline block">
+            <Link to="/admin/email-marketing/inbox" className="text-cyan-400 hover:underline block">
               {stats?.unreadReplies ?? 0} unread replies →
             </Link>
           </CardContent>
@@ -204,7 +204,7 @@ export default function EmailMarketingOverview() {
               <Link to="/admin/email-marketing/import">Import leads</Link>
             </EmActionButton>
             <EmActionButton asChild size="sm" variant="secondary">
-              <Link to="/admin/email-marketing/activity">View activity</Link>
+              <Link to="/admin/email-marketing/inbox">Open inbox</Link>
             </EmActionButton>
           </CardContent>
         </Card>

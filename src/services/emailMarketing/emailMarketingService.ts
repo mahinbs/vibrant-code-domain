@@ -15,9 +15,17 @@ import type {
 import {
   COLD_OUTREACH_12_MONTH_DESCRIPTION,
   COLD_OUTREACH_12_MONTH_NAME,
+  coldOutreachStepToDbRow,
   getColdOutreach12MonthSteps,
+  isStepCopyLocked,
+  type ColdOutreachRefreshResult,
 } from "./coldOutreach12MonthTemplate";
 import { isBranchesMigrationMissing } from "./emErrors";
+import {
+  withCanvasPosition,
+  type CanvasPosition,
+  type WorkflowViewMode,
+} from "./workflowCanvas";
 import { emDb } from "./edgeFunctions";
 import { automationCaseStudies, caseStudyPath } from "@/redesign/data/automationCaseStudies";
 import {
@@ -38,6 +46,36 @@ export type EmReplyConversation = {
   unread_count: number;
   messages: EmEmailMessage[];
 };
+
+export type EmInboxThread = {
+  key: string;
+  lead_id: string | null;
+  lead_name: string | null;
+  lead_email: string | null;
+  lead_company: string | null;
+  lead_status: string | null;
+  latest_subject: string;
+  latest_preview: string;
+  latest_at: string;
+  last_direction: "inbound" | "outbound";
+  unread_count: number;
+  needs_reply: boolean;
+  has_active_enrollment: boolean;
+  messages: EmEmailMessage[];
+};
+
+function threadKeyForMessage(msg: EmEmailMessage): string {
+  if (msg.lead_id) return msg.lead_id;
+  const email =
+    msg.direction === "inbound"
+      ? msg.from_email.toLowerCase()
+      : msg.to_email.toLowerCase();
+  return `email:${email}`;
+}
+
+function messageTimestamp(msg: EmEmailMessage): string {
+  return msg.sent_at ?? msg.received_at ?? msg.created_at;
+}
 
 export { stripQuotedReplyBody, sortMessagesChronologically, filterThreadMessages, effectiveMessageAt };
 
@@ -163,6 +201,87 @@ export const emailMarketingService = {
     }
 
     return conversations.sort(
+      (a, b) => new Date(b.latest_at).getTime() - new Date(a.latest_at).getTime(),
+    );
+  },
+
+  async listInboxThreads(limit = 2000): Promise<EmInboxThread[]> {
+    const { data, error } = await emDb
+      .from("em_email_messages")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .limit(limit);
+    if (error) throw error;
+
+    const groups = new Map<string, EmEmailMessage[]>();
+    for (const msg of data ?? []) {
+      const key = threadKeyForMessage(msg as EmEmailMessage);
+      const list = groups.get(key) ?? [];
+      list.push(msg as EmEmailMessage);
+      groups.set(key, list);
+    }
+
+    const leadIds = [
+      ...new Set(
+        [...groups.values()]
+          .flat()
+          .map((m) => m.lead_id)
+          .filter(Boolean),
+      ),
+    ] as string[];
+
+    const leadMap = new Map<string, EmLead>();
+    if (leadIds.length) {
+      const { data: leads } = await emDb
+        .from("em_leads")
+        .select("id, name, email, company, status")
+        .in("id", leadIds);
+      for (const l of leads ?? []) leadMap.set(l.id, l as EmLead);
+    }
+
+    const activeEnrollmentLeadIds = new Set<string>();
+    if (leadIds.length) {
+      const { data: enrollments } = await emDb
+        .from("em_sequence_enrollments")
+        .select("lead_id")
+        .in("lead_id", leadIds)
+        .eq("status", "active");
+      for (const en of enrollments ?? []) {
+        if (en.lead_id) activeEnrollmentLeadIds.add(en.lead_id);
+      }
+    }
+
+    const threads: EmInboxThread[] = [];
+    for (const [key, rawMessages] of groups) {
+      const messages = sortMessagesChronologically(filterThreadMessages(rawMessages));
+      if (!messages.length) continue;
+
+      const latest = messages[messages.length - 1];
+      const leadId = latest.lead_id ?? (key.startsWith("email:") ? null : key);
+      const lead = leadId ? leadMap.get(leadId) : null;
+      const { preview } = stripQuotedReplyBody(latest.body_text ?? latest.body_html?.replace(/<[^>]+>/g, "") ?? "");
+      const inboundUnread = messages.filter((m) => m.direction === "inbound" && !m.is_read);
+      const lastDirection = latest.direction as "inbound" | "outbound";
+
+      threads.push({
+        key,
+        lead_id: leadId,
+        lead_name: lead?.name ?? null,
+        lead_email: lead?.email ?? (key.startsWith("email:") ? key.slice(6) : latest.from_email),
+        lead_company: lead?.company ?? null,
+        lead_status: lead?.status ?? null,
+        latest_subject: latest.subject,
+        latest_preview: preview,
+        latest_at: messageTimestamp(latest),
+        last_direction: lastDirection,
+        unread_count: inboundUnread.length,
+        needs_reply: lastDirection === "inbound" && !latest.is_read,
+        has_active_enrollment: leadId ? activeEnrollmentLeadIds.has(leadId) : false,
+        messages,
+      });
+    }
+
+    return threads.sort(
       (a, b) => new Date(b.latest_at).getTime() - new Date(a.latest_at).getTime(),
     );
   },
@@ -420,7 +539,10 @@ export const emailMarketingService = {
       .select("id")
       .eq("name", COLD_OUTREACH_12_MONTH_NAME)
       .maybeSingle();
-    if (existing) return existing.id;
+    if (existing) {
+      const result = await this.refreshColdOutreach12MonthTemplateCopy();
+      return result.sequenceId;
+    }
 
     const { data: seq, error: seqErr } = await emDb
       .from("em_sequences")
@@ -436,43 +558,35 @@ export const emailMarketingService = {
       .single();
     if (seqErr) throw seqErr;
 
-    const rows = getColdOutreach12MonthSteps().map((s) => ({
-      sequence_id: seq.id,
-      step_order: s.step_order,
-      branch_lane: s.branch_lane,
-      branch_after_step_order: s.branch_after_step_order ?? null,
-      delay_days: s.delay_days,
-      delay_hours: 0,
-      condition: s.condition,
-      step_type: s.step_type,
-      ai_angle: s.ai_angle ?? null,
-      ai_instructions: s.ai_instructions ?? null,
-      subject_template: s.subject_template,
-      body_template: s.body_template,
-      case_study_mode: s.case_study_mode ?? "fixed",
-      case_study_slug: s.case_study_slug ?? null,
-      ai_generated: s.ai_generated ?? (s.step_type === "ai_draft" || s.step_type === "hybrid"),
-    }));
+    const rows = getColdOutreach12MonthSteps().map((s) => coldOutreachStepToDbRow(seq.id, s));
 
     const { error: stepsErr } = await emDb.from("em_sequence_steps").insert(rows);
     if (stepsErr) throw stepsErr;
     return seq.id;
   },
 
-  async refreshColdOutreach12MonthTemplateCopy(): Promise<string> {
+  async refreshColdOutreach12MonthTemplateCopy(): Promise<ColdOutreachRefreshResult> {
     const { data: seq } = await emDb
       .from("em_sequences")
       .select("id")
       .eq("name", COLD_OUTREACH_12_MONTH_NAME)
       .maybeSingle();
     if (!seq) {
-      return this.installColdOutreach12MonthTemplate();
+      const sequenceId = await this.installColdOutreach12MonthTemplate();
+      const stepCount = getColdOutreach12MonthSteps().length;
+      return { sequenceId, updated: 0, inserted: stepCount, skipped: 0 };
     }
 
     const seeds = getColdOutreach12MonthSteps();
+    let updated = 0;
+    let inserted = 0;
+    let skipped = 0;
+
     for (const s of seeds) {
       const patch = {
+        branch_after_step_order: s.branch_after_step_order ?? null,
         delay_days: s.delay_days,
+        delay_hours: 0,
         condition: s.condition,
         step_type: s.step_type,
         ai_angle: s.ai_angle ?? null,
@@ -486,20 +600,32 @@ export const emailMarketingService = {
 
       const { data: row } = await emDb
         .from("em_sequence_steps")
-        .select("id")
+        .select("id, metadata")
         .eq("sequence_id", seq.id)
         .eq("step_order", s.step_order)
         .eq("branch_lane", s.branch_lane)
         .maybeSingle();
 
       if (row) {
+        if (isStepCopyLocked(row.metadata as Record<string, unknown> | null)) {
+          skipped++;
+          continue;
+        }
         const { error } = await emDb.from("em_sequence_steps").update(patch).eq("id", row.id);
         if (error) throw error;
         await emDb.from("em_ai_draft_cache").delete().eq("step_id", row.id);
+        updated++;
+        continue;
       }
+
+      const { error: insErr } = await emDb
+        .from("em_sequence_steps")
+        .insert(coldOutreachStepToDbRow(seq.id, s));
+      if (insErr) throw insErr;
+      inserted++;
     }
 
-    return seq.id;
+    return { sequenceId: seq.id, updated, inserted, skipped };
   },
 
   hasOpenBranchAfter(steps: EmSequenceStep[], afterStepOrder: number): boolean {
@@ -562,6 +688,17 @@ export const emailMarketingService = {
     if (patch.ai_instructions !== undefined || patch.ai_angle !== undefined || patch.step_type !== undefined) {
       await emDb.from("em_ai_draft_cache").delete().eq("step_id", stepId);
     }
+  },
+
+  async saveStepCanvasPosition(
+    stepId: string,
+    viewMode: WorkflowViewMode,
+    position: CanvasPosition,
+    existingMetadata: Record<string, unknown> | null | undefined,
+  ): Promise<void> {
+    const metadata = withCanvasPosition(existingMetadata, viewMode, position);
+    const { error } = await emDb.from("em_sequence_steps").update({ metadata }).eq("id", stepId);
+    if (error) throw error;
   },
 
   async createSequenceStep(sequenceId: string, afterOrder?: number): Promise<string> {

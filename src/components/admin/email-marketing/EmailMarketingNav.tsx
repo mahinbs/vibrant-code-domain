@@ -7,7 +7,7 @@ const tabs = [
   { name: "Campaigns", href: "/admin/email-marketing/campaigns" },
   { name: "Sequences", href: "/admin/email-marketing/sequences" },
   { name: "Import", href: "/admin/email-marketing/import" },
-  { name: "Activity", href: "/admin/email-marketing/activity" },
+  { name: "Inbox", href: "/admin/email-marketing/inbox" },
   { name: "Settings", href: "/admin/email-marketing/settings" },
 ];
 

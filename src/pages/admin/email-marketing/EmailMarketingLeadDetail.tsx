@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { EmailMarketingLayout } from "@/components/admin/email-marketing/EmailMarketingLayout";
 import { EmailThread } from "@/components/admin/email-marketing/EmailThread";
+import { InboxReplyComposer } from "@/components/admin/email-marketing/inbox/InboxReplyComposer";
 import {
   emailMarketingService,
   emailMarketingEdge,
@@ -22,9 +23,6 @@ import {
 import { toast } from "sonner";
 import { ArrowLeft } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 
 export default function EmailMarketingLeadDetail() {
   const { id } = useParams<{ id: string }>();
@@ -36,10 +34,6 @@ export default function EmailMarketingLeadDetail() {
   const [stepCount, setStepCount] = useState(0);
   const [enrollSequenceId, setEnrollSequenceId] = useState("");
   const [loading, setLoading] = useState(true);
-  const [replySubject, setReplySubject] = useState("");
-  const [replyBody, setReplyBody] = useState("");
-  const [sendingReply, setSendingReply] = useState(false);
-  const [draftingReply, setDraftingReply] = useState(false);
 
   const load = async () => {
     if (!id) return;
@@ -94,16 +88,6 @@ export default function EmailMarketingLeadDetail() {
     [messages],
   );
 
-  useEffect(() => {
-    if (!replySubject && messages.length) {
-      const base =
-        lastInboundMessage?.subject ??
-        messages[messages.length - 1]?.subject ??
-        "your message";
-      setReplySubject(base.match(/^re:/i) ? base : `Re: ${base}`);
-    }
-  }, [messages, lastInboundMessage, replySubject]);
-
   const updateStatus = async (status: string) => {
     if (!id) return;
     await emailMarketingService.updateLead(id, { status } as Partial<EmLead>);
@@ -119,41 +103,6 @@ export default function EmailMarketingLeadDetail() {
       load();
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "Failed to mark as replied");
-    }
-  };
-
-  const generateAiReply = async () => {
-    if (!id) return;
-    try {
-      setDraftingReply(true);
-      const draft = await emailMarketingEdge.draftReply(id);
-      setReplySubject(draft.subject);
-      setReplyBody(draft.body);
-      toast.success("AI draft ready — review and send");
-    } catch (e) {
-      toast.error(e instanceof Error ? e.message : "AI draft failed");
-    } finally {
-      setDraftingReply(false);
-    }
-  };
-
-  const sendReply = async () => {
-    if (!id || !replyBody.trim()) return;
-    try {
-      setSendingReply(true);
-      await emailMarketingEdge.sendReply({
-        lead_id: id,
-        body_text: replyBody.trim(),
-        subject: replySubject.trim() || undefined,
-        in_reply_to_message_id: lastInboundMessage?.id,
-      });
-      toast.success("Reply sent");
-      setReplyBody("");
-      load();
-    } catch (e) {
-      toast.error(e instanceof Error ? e.message : "Send failed");
-    } finally {
-      setSendingReply(false);
     }
   };
 
@@ -339,39 +288,18 @@ export default function EmailMarketingLeadDetail() {
       <h2 className="text-lg font-semibold text-white mb-3">Email thread</h2>
       <EmailThread messages={messages} eventsBySendId={eventsBySendId} />
 
-      <div className="mt-8 p-4 rounded-lg border border-gray-800 bg-gray-900/50 space-y-4">
-        <h3 className="text-sm font-medium text-white">Reply</h3>
-        <div>
-          <Label className="text-gray-400">Subject</Label>
-          <Input
-            value={replySubject}
-            onChange={(e) => setReplySubject(e.target.value)}
-            className="bg-gray-800 border-gray-700 mt-1"
+      {id && (
+        <div className="mt-8 rounded-lg border border-gray-800 overflow-hidden">
+          <InboxReplyComposer
+            leadId={id}
+            messages={messages}
+            lastInboundMessage={lastInboundMessage}
+            onSent={load}
+            leadStatus={lead.status}
+            showMarkReplied={false}
           />
         </div>
-        <div>
-          <Label className="text-gray-400">Message</Label>
-          <Textarea
-            value={replyBody}
-            onChange={(e) => setReplyBody(e.target.value)}
-            rows={6}
-            placeholder="Write your reply…"
-            className="bg-gray-800 border-gray-700 mt-1"
-          />
-        </div>
-        <div className="flex flex-wrap gap-2">
-          <EmActionButton onClick={sendReply} disabled={sendingReply || !replyBody.trim()}>
-            {sendingReply ? "Sending…" : "Send reply"}
-          </EmActionButton>
-          <EmActionButton
-            variant="secondary"
-            onClick={generateAiReply}
-            disabled={draftingReply}
-          >
-            {draftingReply ? "Generating…" : "Generate AI reply"}
-          </EmActionButton>
-        </div>
-      </div>
+      )}
     </EmailMarketingLayout>
   );
 }
