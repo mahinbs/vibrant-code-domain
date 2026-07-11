@@ -115,6 +115,7 @@ export default function EmailMarketingSettings() {
         reply_to_email: settings.reply_to_email,
         reply_knowledge_base: settings.reply_knowledge_base,
         default_from_name: settings.default_from_name,
+        calendly_url: settings.calendly_url,
       });
       toast.success("Settings saved");
     } catch (e) {
@@ -287,6 +288,18 @@ export default function EmailMarketingSettings() {
               />
               <p className="text-xs text-gray-500 mt-1">
                 Marketing replies go here (Resend inbound). ceo@ stays your normal inbox.
+              </p>
+            </div>
+            <div>
+              <Label className="text-gray-400">Calendly URL</Label>
+              <Input
+                value={String(settings.calendly_url ?? "").replace(/"/g, "")}
+                onChange={(e) => setSettings({ ...settings, calendly_url: e.target.value })}
+                placeholder="https://calendly.com/your-link"
+                className="bg-gray-800 border-gray-700"
+              />
+              <p className="text-xs text-gray-500 mt-1">
+                Used in sequence emails via {"{{calendly_url}}"} — paste your tracked booking link.
               </p>
             </div>
             <div className="flex items-center gap-2">

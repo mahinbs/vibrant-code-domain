@@ -1,14 +1,17 @@
 import type { EmAiAngle, EmStepCondition, EmStepType } from "./types";
 import {
-  CASE_STUDY_EMAIL_BODY,
-  CASE_STUDY_EMAIL_BODY_OPENED,
+  getCaseStudyStepCopy,
   PHASE_1_STEP_1,
+  PHASE_1_STEP_2_NOT_OPENED,
+  PHASE_1_STEP_2_OPENED,
+  PHASE_1_STEP_3,
+  PHASE_1_STEP_4_NOT_OPENED,
+  PHASE_1_STEP_4_OPENED,
+  PHASE_1_STEP_5,
 } from "./coldOutreachPhase1Copy";
 import {
   WEEKLY_POSITION_1,
   WEEKLY_POSITION_2,
-  WEEKLY_POSITION_3,
-  WEEKLY_POSITION_4,
   getWeeklyStepContent,
 } from "./weeklyCycleCopy";
 
@@ -54,8 +57,8 @@ function getPhase1(): StepSeed[] {
       step_type: "case_study",
       case_study_mode: "fixed",
       case_study_slug: "lead-capture-qualification",
-      subject_template: "Saw you opened — quick example",
-      body_template: CASE_STUDY_EMAIL_BODY_OPENED,
+      subject_template: PHASE_1_STEP_2_OPENED.subject,
+      body_template: PHASE_1_STEP_2_OPENED.body,
       ai_generated: false,
     },
     {
@@ -65,9 +68,8 @@ function getPhase1(): StepSeed[] {
       delay_days: 3,
       condition: "no_open",
       step_type: "template",
-      subject_template: "Re: quick question",
-      body_template:
-        "Bumping this in case it got buried — still happy to share how teams like {{company}} cut manual follow-up.\nIf not useful, tell me and I'll stop.",
+      subject_template: PHASE_1_STEP_2_NOT_OPENED.subject,
+      body_template: PHASE_1_STEP_2_NOT_OPENED.body,
       ai_generated: false,
     },
     {
@@ -76,8 +78,8 @@ function getPhase1(): StepSeed[] {
       delay_days: 5,
       condition: "no_reply",
       step_type: "template",
-      subject_template: WEEKLY_POSITION_3[0].subject,
-      body_template: WEEKLY_POSITION_3[0].body,
+      subject_template: PHASE_1_STEP_3.subject,
+      body_template: PHASE_1_STEP_3.body,
       ai_generated: false,
     },
     {
@@ -87,8 +89,8 @@ function getPhase1(): StepSeed[] {
       delay_days: 3,
       condition: "opened_not_replied",
       step_type: "template",
-      subject_template: WEEKLY_POSITION_2[3].subject,
-      body_template: WEEKLY_POSITION_2[3].body,
+      subject_template: PHASE_1_STEP_4_OPENED.subject,
+      body_template: PHASE_1_STEP_4_OPENED.body,
       ai_generated: false,
     },
     {
@@ -98,8 +100,8 @@ function getPhase1(): StepSeed[] {
       delay_days: 3,
       condition: "no_open",
       step_type: "template",
-      subject_template: WEEKLY_POSITION_4[0].subject,
-      body_template: WEEKLY_POSITION_4[0].body,
+      subject_template: PHASE_1_STEP_4_NOT_OPENED.subject,
+      body_template: PHASE_1_STEP_4_NOT_OPENED.body,
       ai_generated: false,
     },
     {
@@ -108,8 +110,8 @@ function getPhase1(): StepSeed[] {
       delay_days: 7,
       condition: "no_reply",
       step_type: "template",
-      subject_template: WEEKLY_POSITION_1[4].subject,
-      body_template: WEEKLY_POSITION_1[4].body,
+      subject_template: PHASE_1_STEP_5.subject,
+      body_template: PHASE_1_STEP_5.body,
       ai_generated: false,
     },
     {
@@ -142,6 +144,7 @@ function buildWeeklySteps(): StepSeed[] {
       getWeeklyStepContent(stepOrder);
 
     if (caseStudySlug) {
+      const csCopy = getCaseStudyStepCopy(stepOrder);
       weekly.push({
         step_order: stepOrder,
         branch_lane: "main",
@@ -150,8 +153,8 @@ function buildWeeklySteps(): StepSeed[] {
         step_type: "case_study",
         case_study_mode: "fixed",
         case_study_slug: caseStudySlug,
-        subject_template: caseStudySubject ?? "Workflow teams your size automated",
-        body_template: CASE_STUDY_EMAIL_BODY,
+        subject_template: csCopy?.subject ?? caseStudySubject ?? "Workflow teams your size automated",
+        body_template: csCopy?.body ?? "{{case_study_url}}",
         ai_generated: false,
       });
       continue;
@@ -173,6 +176,28 @@ function buildWeeklySteps(): StepSeed[] {
 
 export function getColdOutreach12MonthSteps(): StepSeed[] {
   return [...getPhase1(), ...buildWeeklySteps()];
+}
+
+export type StepAuditIssue = {
+  step_order: number;
+  branch_lane: string;
+  issues: string[];
+};
+
+/** Returns issues for steps missing subject/body or still using AI/placeholder copy. */
+export function auditColdOutreach12MonthSteps(): StepAuditIssue[] {
+  const problems: StepAuditIssue[] = [];
+  for (const s of getColdOutreach12MonthSteps()) {
+    const issues: string[] = [];
+    if (!s.subject_template?.trim()) issues.push("missing subject");
+    if (!s.body_template?.trim()) issues.push("missing body");
+    if (s.ai_generated) issues.push("still ai_generated");
+    if (s.body_template?.includes("[calendly link]")) issues.push("unresolved [calendly link]");
+    if (issues.length) {
+      problems.push({ step_order: s.step_order, branch_lane: s.branch_lane, issues });
+    }
+  }
+  return problems;
 }
 
 export function isStepCopyLocked(metadata: Record<string, unknown> | null | undefined): boolean {

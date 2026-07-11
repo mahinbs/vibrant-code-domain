@@ -286,6 +286,7 @@ async function resolveStepContent(
     name: lead.name ?? "there",
     company: lead.company ?? "your company",
     email: lead.email,
+    calendly_url: String(await getSetting(supabase, "calendly_url", "")).replace(/"/g, ""),
   };
 
   if (stepType === "template") {

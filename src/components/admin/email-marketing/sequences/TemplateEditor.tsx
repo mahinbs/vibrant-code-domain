@@ -12,7 +12,7 @@ type Props = {
   onIntroChange?: (v: string) => void;
 };
 
-const VAR_HINTS = "{{name}}, {{company}}, {{case_study_title}}, {{case_study_hook}}, {{case_study_url}}, {{ai_body}}";
+const VAR_HINTS = "{{name}}, {{company}}, {{case_study_title}}, {{case_study_hook}}, {{case_study_url}}, {{calendly_url}}, {{ai_body}}";
 
 export function TemplateEditor({
   subject,

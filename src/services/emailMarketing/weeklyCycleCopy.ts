@@ -6,15 +6,15 @@ export type WeeklyCopy = { subject: string; body: string };
 export const WEEKLY_POSITION_1: WeeklyCopy[] = [
   {
     subject: "Free 15 min, {{name}}?",
-    body: "No pitch here — just a slot if you want it: [calendly link]\nIf automation for {{company}} isn't a priority right now, no worries, I'll stop pinging.",
+    body: "No pitch here — just a slot if you want it: {{calendly_url}}\nIf automation for {{company}} isn't a priority right now, no worries, I'll stop pinging.",
   },
   {
     subject: "What manual follow-up is costing {{company}}",
-    body: "Most teams don't track this, but slow lead follow-up usually costs 20-30% of pipeline, quietly.\nHappy to walk through where that's likely leaking for {{company}} — 15 min, your call: [calendly link]",
+    body: "Most teams don't track this, but slow lead follow-up usually costs 20-30% of pipeline, quietly.\nHappy to walk through where that's likely leaking for {{company}} — 15 min, your call: {{calendly_url}}",
   },
   {
     subject: "A few teams in your space already did this",
-    body: "Not naming names, but a couple of companies doing similar work to {{company}} automated their lead intake this year and stopped losing leads overnight.\nWant the rundown? [calendly link]",
+    body: "Not naming names, but a couple of companies doing similar work to {{company}} automated their lead intake this year and stopped losing leads overnight.\nWant the rundown? {{calendly_url}}",
   },
   {
     subject: "One question about {{company}}'s follow-up",
@@ -26,7 +26,7 @@ export const WEEKLY_POSITION_1: WeeklyCopy[] = [
   },
   {
     subject: "Planning season at {{company}}?",
-    body: "If you're mapping out next quarter, this is usually when automation gets budgeted and then forgotten by Q2.\nWorth 15 min now while it's on the radar? [calendly link]",
+    body: "If you're mapping out next quarter, this is usually when automation gets budgeted and then forgotten by Q2.\nWorth 15 min now while it's on the radar? {{calendly_url}}",
   },
   {
     subject: "\"Too much to switch right now\" — fair",
@@ -34,7 +34,7 @@ export const WEEKLY_POSITION_1: WeeklyCopy[] = [
   },
   {
     subject: "Your competitors aren't waiting",
-    body: "The teams winning right now in your space aren't doing anything smarter — they're just not doing it manually anymore.\nHappy to show you what that looks like for {{company}}: [calendly link]",
+    body: "The teams winning right now in your space aren't doing anything smarter — they're just not doing it manually anymore.\nHappy to show you what that looks like for {{company}}: {{calendly_url}}",
   },
 ];
 

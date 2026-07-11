@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { EmailMarketingLayout } from "@/components/admin/email-marketing/EmailMarketingLayout";
 import { EmActionButton } from "@/components/admin/email-marketing/EmActionButton";
 import { emailMarketingService, emailMarketingEdge, emErrorMessage, type EmSequence } from "@/services/emailMarketing";
+import { auditColdOutreach12MonthSteps } from "@/services/emailMarketing/coldOutreach12MonthTemplate";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -129,10 +130,12 @@ export default function EmailMarketingSequences() {
           onClick={async () => {
             try {
               const result = await emailMarketingService.refreshColdOutreach12MonthTemplateCopy();
+              const auditIssues = auditColdOutreach12MonthSteps();
               const parts = [
                 result.updated ? `${result.updated} updated` : null,
                 result.inserted ? `${result.inserted} added` : null,
                 result.skipped ? `${result.skipped} locked (skipped)` : null,
+                auditIssues.length ? `${auditIssues.length} template issues` : null,
               ].filter(Boolean);
               toast.success(
                 parts.length ? `12-month copy synced — ${parts.join(", ")}` : "12-month copy already up to date",

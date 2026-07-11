@@ -43,6 +43,7 @@ async function processQueuedSend(supabase: ReturnType<typeof createSupabaseAdmin
     /"/g,
     "",
   );
+  const calendlyUrl = String(await getSetting(supabase, "calendly_url", "")).replace(/"/g, "");
 
   let sent = 0;
   for (const item of queued) {
@@ -71,6 +72,7 @@ async function processQueuedSend(supabase: ReturnType<typeof createSupabaseAdmin
       name: lead.name ?? "there",
       company: lead.company ?? "your company",
       email: lead.email,
+      calendly_url: calendlyUrl,
     };
     const subject = renderTemplate(item.subject, vars);
     const { data: msgRow } = await supabase
