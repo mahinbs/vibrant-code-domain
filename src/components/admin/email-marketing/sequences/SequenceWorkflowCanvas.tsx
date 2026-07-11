@@ -48,10 +48,10 @@ function WorkflowCanvasInner({
   onSelectFork,
   onViewModeChange,
 }: CanvasProps) {
-  const { fitView, setCenter } = useReactFlow();
+  const { fitView } = useReactFlow();
   const structureKey = useMemo(
     () =>
-      `${viewMode}:${steps.map((s) => `${s.id}:${s.step_order}:${s.branch_lane}:${s.subject_template}`).join("|")}`,
+      `${viewMode}:${steps.map((s) => `${s.id}:${s.step_order}:${s.branch_lane}`).join("|")}`,
     [steps, viewMode],
   );
 
@@ -63,16 +63,22 @@ function WorkflowCanvasInner({
   const [nodes, setNodes, onNodesChange] = useNodesState(graph.nodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(graph.edges);
   const lastStructureKey = useRef(structureKey);
+  const lastViewMode = useRef(viewMode);
 
   useEffect(() => {
     if (lastStructureKey.current !== structureKey) {
       setNodes(graph.nodes);
       setEdges(graph.edges);
+      const viewChanged = lastViewMode.current !== viewMode;
       lastStructureKey.current = structureKey;
-      const timer = setTimeout(() => {
-        fitView({ padding: 0.2, maxZoom: viewMode === "weekly" ? 0.85 : 1, duration: 250 });
-      }, 50);
-      return () => clearTimeout(timer);
+      lastViewMode.current = viewMode;
+      // Only auto-fit when switching views or step structure changes — not on every click/edit
+      if (viewChanged) {
+        const timer = setTimeout(() => {
+          fitView({ padding: 0.2, maxZoom: viewMode === "weekly" ? 0.85 : 1, duration: 200 });
+        }, 50);
+        return () => clearTimeout(timer);
+      }
     }
   }, [structureKey, graph, setNodes, setEdges, fitView, viewMode]);
 
@@ -90,13 +96,6 @@ function WorkflowCanvasInner({
       }),
     );
   }, [selectedStepId, selectedForkOrder, setNodes]);
-
-  useEffect(() => {
-    if (!selectedStepId) return;
-    const node = nodes.find((n) => n.id === selectedStepId);
-    if (!node) return;
-    setCenter(node.position.x + 120, node.position.y + 50, { zoom: viewMode === "weekly" ? 0.9 : 1, duration: 300 });
-  }, [selectedStepId, nodes, setCenter, viewMode]);
 
   const onNodeClick: NodeMouseHandler = useCallback(
     (_evt, node: Node) => {
@@ -146,7 +145,7 @@ function WorkflowCanvasInner({
           </button>
         ))}
         <span className="text-[10px] text-gray-600 ml-auto hidden sm:inline">
-          Drag nodes to rearrange · scroll to pan
+          Drag nodes · scroll to pan · use +/- to zoom
         </span>
       </div>
 
