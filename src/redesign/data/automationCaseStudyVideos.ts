@@ -159,11 +159,14 @@ export const AUTOMATION_CASE_STUDY_VIDEOS: AutomationCaseVideo[] = [
   },
 ];
 
-/** Homepage teaser — 2 long-form + 1 short. */
+/** Homepage teaser — two rows of (long-form, long-form, short). */
 export const CASE_STUDY_HOMEPAGE_TEASER_IDS = [
   "c1Bg46GO9PU",
   "cXhRjw1myAo",
   "okVZBouBuZ4",
+  "8I1O1YTJ8Pc",
+  "KX1TjgNiNjE",
+  "PFXHd09ikjc",
 ] as const;
 
 export function videosBySection(section: CaseVideoSection): AutomationCaseVideo[] {
