@@ -19,10 +19,12 @@ export const RESHAB_LEAD_CONVERSION_SEND_TO =
 const DEFAULT_RESHAB_CONVERSION_LABEL = "DwI_CJ7i2MscEMezu5NE";
 
 /**
- * Optional conversion labels from Google Ads (Tools → Conversions → tag setup).
- * Page-load conversions use the Reshab label on /thank-you and /automation-score/report.
+ * Conversion label from the Google Ads lead-form conversion action on
+ * AW-18249809652 (env can override). Without a label the event only reaches
+ * the account level and the conversion action never records.
  */
-const BMS_CONVERSION_LABEL = (import.meta.env.VITE_GADS_LEAD_LABEL as string | undefined) || "";
+const BMS_CONVERSION_LABEL =
+  (import.meta.env.VITE_GADS_LEAD_LABEL as string | undefined) || "ePIBCP3oj8EcEPT9l_5D";
 
 type GtagFn = (...args: unknown[]) => void;
 
@@ -87,6 +89,8 @@ export function trackGoogleAdsLeadConversion(sourcePage: string): void {
 
   gtag("event", "conversion", {
     send_to: sendTo,
+    value: 1.0,
+    currency: "INR",
     event_category: "lead",
     event_label: sourcePage,
   });
