@@ -1,45 +1,91 @@
+import type { CSSProperties } from "react";
 import { founder } from "../data/founder";
 import { founderMediaStripCopy } from "../data/businessAutomationContent";
 import { FounderVideoEmbed } from "./FounderVideoEmbed";
 
-/** Compact horizontal band — profile | quote | Entrepreneur cover | Forbes video in one row. */
+const GRID_OVERLAY: CSSProperties = {
+  backgroundImage:
+    "linear-gradient(rgba(120,145,220,.10) 1px, transparent 1px), linear-gradient(90deg, rgba(120,145,220,.10) 1px, transparent 1px)",
+  backgroundSize: "28px 28px",
+};
+
+const CARD_GLOSS: CSSProperties = {
+  background: "linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0.55) 100%)",
+};
+
+/** Founder feature band — portrait + big quote in a gradient panel, press proof as framed cards. */
 export function FounderMediaStrip() {
+  const lines = founderMediaStripCopy.quoteLines;
+
   return (
     <div
-      className="w-full max-w-[1920px] px-5 py-4 md:px-10 md:py-6"
+      className="w-full max-w-[1920px] px-5 py-6 md:px-10 md:py-8"
       aria-label="Founder media features"
     >
-      <div className="overflow-hidden rounded-[12px] border border-white/[0.06] bg-[#0a0a0c]">
-        {/* Mobile: profile + quote row, then press proof row */}
-        <div className="flex flex-col gap-3 p-4 lg:hidden">
-          <div className="flex items-start gap-3">
-            <img
-              src={founderMediaStripCopy.portraitSrc}
-              alt={founderMediaStripCopy.portraitAlt}
-              loading="lazy"
-              decoding="async"
-              className="size-16 shrink-0 rounded-full object-cover object-[center_20%] ring-2 ring-white/15"
-            />
+      <div
+        className="relative overflow-hidden rounded-[20px] border border-white/15"
+        style={{
+          background:
+            "radial-gradient(70% 120% at 15% 0%, var(--color-dark-purple) 0%, rgb(6,10,26) 55%, #000 100%)",
+        }}
+      >
+        {/* Texture + glow */}
+        <div aria-hidden className="pointer-events-none absolute inset-0 z-0 opacity-30" style={GRID_OVERLAY} />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -left-24 -top-24 z-0 size-[420px] rounded-full opacity-30"
+          style={{
+            background: "radial-gradient(closest-side, rgba(96,142,255,0.4), rgba(0,0,0,0) 75%)",
+            filter: "blur(24px)",
+          }}
+        />
+
+        <div className="relative z-[1] grid gap-8 p-6 md:p-10 xl:grid-cols-[minmax(0,1fr)_auto] xl:items-center xl:gap-12">
+          {/* Portrait + quote */}
+          <div className="flex min-w-0 flex-col gap-6 md:flex-row md:items-start md:gap-8">
+            <div className="flex shrink-0 flex-col items-center gap-3 text-center md:w-[150px]">
+              <div className="rounded-full bg-gradient-to-b from-[#4b78ff]/60 to-transparent p-[3px]">
+                <img
+                  src={founderMediaStripCopy.portraitSrc}
+                  alt={founderMediaStripCopy.portraitAlt}
+                  loading="lazy"
+                  decoding="async"
+                  className="size-24 rounded-full object-cover object-[center_20%] ring-2 ring-black/60 md:size-28"
+                />
+              </div>
+              <div>
+                <p className="text-lg font-semibold tracking-tight text-white">
+                  {founder.firstName} {founder.lastName}
+                </p>
+                <p className="mt-1 text-[13px] leading-snug text-white/60">
+                  {founder.role}, {founder.company}
+                </p>
+              </div>
+            </div>
+
             <div className="min-w-0 flex-1">
-              <p className="text-sm font-semibold tracking-tight text-white">
-                {founder.firstName} {founder.lastName}
+              <p className="mb-2 inline-flex w-fit items-center rounded-full border border-white/15 bg-black/60 px-3 py-1 text-[11px] font-medium uppercase tracking-[0.12em] text-purple backdrop-blur-[5px]">
+                From the founder
               </p>
-              <p className="mt-0.5 text-[11px] leading-snug text-white/60">
-                {founder.role}, {founder.company}
-              </p>
-              <blockquote className="mt-2 border-l-2 border-purple/80 pl-3">
-                {founderMediaStripCopy.quoteLines.map((line, i) => {
-                  const lines = founderMediaStripCopy.quoteLines;
-                  const prefix = i === 0 ? "\u201C" : "";
-                  const suffix = i === lines.length - 1 ? "\u201D" : "";
+              <span
+                aria-hidden
+                className="block text-[56px] font-bold leading-[0.7] text-gradient md:text-[68px]"
+              >
+                &ldquo;
+              </span>
+              <blockquote>
+                {lines.map((line, i) => {
+                  const isLast = i === lines.length - 1;
                   return (
                     <p
                       key={line}
-                      className="text-[14px] font-medium leading-snug text-white/88 [&+&]:mt-2"
+                      className={[
+                        "text-[17px] font-medium leading-relaxed md:text-[20px] xl:text-[22px] [&+&]:mt-3",
+                        isLast ? "text-gradient" : "text-white/90",
+                      ].join(" ")}
                     >
-                      {prefix}
                       {line}
-                      {suffix}
+                      {isLast ? "”" : ""}
                     </p>
                   );
                 })}
@@ -47,111 +93,46 @@ export function FounderMediaStrip() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-3 border-t border-white/[0.06] pt-3">
-            <div className="flex flex-col items-center gap-1.5 text-center">
-              <p className="text-[9px] font-semibold uppercase tracking-[0.14em] text-purple">
-                {founderMediaStripCopy.magazinePublication}
-              </p>
-              <p className="text-[10px] text-white/50">
-                {founderMediaStripCopy.magazineFeatureLabel} · {founderMediaStripCopy.magazineYear}
+          {/* Press proof cards */}
+          <div className="flex flex-wrap items-stretch gap-4 xl:flex-nowrap">
+            {/* Entrepreneur cover card */}
+            <div
+              className="flex w-[180px] flex-col items-center gap-3 rounded-[14px] border border-white/12 p-4 max-sm:flex-1"
+              style={CARD_GLOSS}
+            >
+              <p className="inline-flex items-center rounded-full border border-white/15 bg-black/60 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-purple">
+                {founderMediaStripCopy.magazinePublication} · {founderMediaStripCopy.magazineYear}
               </p>
               <img
                 src={founderMediaStripCopy.magazineCoverSrc}
                 alt={founderMediaStripCopy.magazineCoverAlt}
                 loading="lazy"
                 decoding="async"
-                className="h-[110px] w-auto max-w-[80px] rounded-[6px] object-cover object-top shadow-[0_8px_24px_rgba(0,0,0,0.4)] ring-1 ring-white/10"
+                className="h-[150px] w-auto rounded-[8px] object-cover object-top shadow-[0_16px_36px_rgba(0,0,0,0.55)] ring-1 ring-white/15 transition-transform duration-300 hover:scale-[1.04]"
               />
+              <p className="text-center text-[12px] leading-snug text-white/55">
+                {founderMediaStripCopy.magazineStoryTitle}
+              </p>
             </div>
 
-            <div id="founder-media-video" className="flex scroll-mt-24 flex-col gap-1.5">
-              <div>
-                <p className="text-[9px] font-semibold uppercase tracking-[0.14em] text-purple">
+            {/* Forbes video card */}
+            <div
+              id="founder-media-video"
+              className="flex w-[340px] scroll-mt-24 flex-col justify-between gap-3 rounded-[14px] border border-white/12 p-4 max-sm:w-full"
+              style={CARD_GLOSS}
+            >
+              <div className="flex items-center justify-between gap-2">
+                <p className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-black/60 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-purple">
+                  <span className="size-1.5 rounded-full bg-[#ff4d4d]" />
                   {founderMediaStripCopy.forbesInterviewLabel}
                 </p>
-                <p className="text-[10px] text-white/50">
+                <p className="text-[12px] text-white/50">
                   {founder.firstName} {founder.lastName}
                 </p>
               </div>
-              <div className="relative aspect-video w-full overflow-hidden rounded-lg border border-white/[0.08] bg-[#111318]">
+              <div className="relative aspect-video w-full overflow-hidden rounded-[10px] border border-white/10 bg-[#111318] shadow-[0_16px_36px_rgba(0,0,0,0.5)]">
                 <FounderVideoEmbed />
               </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Desktop: single horizontal row */}
-        <div className="hidden lg:grid lg:grid-cols-[minmax(150px,auto)_minmax(0,1fr)_auto_minmax(260px,340px)] lg:items-center">
-          <div className="flex flex-col items-center gap-2 text-center md:items-start md:text-left lg:border-r lg:border-white/[0.06] lg:px-7 lg:py-7">
-            <img
-              src={founderMediaStripCopy.portraitSrc}
-              alt={founderMediaStripCopy.portraitAlt}
-              loading="lazy"
-              decoding="async"
-              className="size-[88px] rounded-full object-cover object-[center_20%] ring-2 ring-white/15 md:size-28"
-            />
-            <div>
-              <p className="text-base font-semibold tracking-tight text-white md:text-xl">
-                {founder.firstName} {founder.lastName}
-              </p>
-              <p className="mt-1 text-[12px] leading-snug text-white/60 md:text-[14px]">
-                {founder.role}, {founder.company}
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-center lg:border-r lg:border-white/[0.06] lg:px-7 lg:py-7">
-            <blockquote className="border-l-2 border-purple/80 pl-6">
-              {founderMediaStripCopy.quoteLines.map((line, i) => {
-                const lines = founderMediaStripCopy.quoteLines;
-                const prefix = i === 0 ? "\u201C" : "";
-                const suffix = i === lines.length - 1 ? "\u201D" : "";
-                return (
-                  <p
-                    key={line}
-                    className="text-[16px] font-medium leading-snug text-white/90 md:text-[19px] md:leading-relaxed lg:text-[21px] [&+&]:mt-3"
-                  >
-                    {prefix}
-                    {line}
-                    {suffix}
-                  </p>
-                );
-              })}
-            </blockquote>
-          </div>
-
-          <div className="flex flex-col items-center gap-2.5 lg:border-r lg:border-white/[0.06] lg:px-7 lg:py-7">
-            <div className="w-full text-center lg:text-left">
-              <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-purple">
-                {founderMediaStripCopy.magazinePublication}
-              </p>
-              <p className="mt-1 text-[13px] text-white/50">
-                {founderMediaStripCopy.magazineFeatureLabel} · {founderMediaStripCopy.magazineYear}
-              </p>
-            </div>
-            <img
-              src={founderMediaStripCopy.magazineCoverSrc}
-              alt={founderMediaStripCopy.magazineCoverAlt}
-              loading="lazy"
-              decoding="async"
-              className="h-[140px] w-auto max-w-[104px] rounded-[8px] object-cover object-top shadow-[0_12px_32px_rgba(0,0,0,0.45)] ring-1 ring-white/10 md:h-[168px] md:max-w-[126px]"
-            />
-            <p className="max-w-[140px] text-center text-[12px] leading-snug text-white/45 lg:text-left">
-              {founderMediaStripCopy.magazineStoryTitle}
-            </p>
-          </div>
-
-          <div className="flex scroll-mt-24 flex-col justify-center gap-3 lg:px-7 lg:py-7">
-            <div>
-              <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-purple">
-                {founderMediaStripCopy.forbesInterviewLabel}
-              </p>
-              <p className="mt-1 text-[13px] text-white/50">
-                {founder.firstName} {founder.lastName}
-              </p>
-            </div>
-            <div className="relative aspect-video w-full min-h-0 overflow-hidden rounded-lg border border-white/[0.08] bg-[#111318] lg:max-w-[320px]">
-              <FounderVideoEmbed />
             </div>
           </div>
         </div>
