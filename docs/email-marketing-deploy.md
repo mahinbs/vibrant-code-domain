@@ -46,12 +46,16 @@ Events: include `email.received` plus outbound events (`email.sent`, `email.deli
 
 Use your Resend `@xxxx.resend.app` address as **Reply-to** in admin Settings (one custom domain slot stays on `boostmysites.com` for sending).
 
-## Cron schedules (Supabase Dashboard → Edge Functions → Schedules)
+## Cron schedules (pg_cron — migration `20260718104500_email_marketing_cron.sql`)
 
-| Function | Cron |
-|---|---|
-| `em-send-queue` | `*/15 * * * *` |
-| `em-process-sequences` | `0 * * * *` |
+Applied via `supabase db push` (not Dashboard schedules). Jobs:
+
+| Job name | Cron | Calls |
+|---|---|---|
+| `em-process-sequences-hourly` | `0 * * * *` | `em-process-sequences` (queues due follow-ups) |
+| `em-send-queue-15m` | `*/15 * * * *` | `em-send-queue` (sends queued emails) |
+
+Verify: `SELECT jobid, jobname, schedule, active FROM cron.job;`
 
 `em-check-replies` (IMAP) is optional/legacy — disable if using Resend inbound.
 

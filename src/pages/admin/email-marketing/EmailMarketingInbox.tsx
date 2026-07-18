@@ -200,21 +200,38 @@ export default function EmailMarketingInbox() {
         <p className="text-xs text-gray-500">
           Unified threads — select a conversation to read and reply inline.
         </p>
-        <EmActionButton
-          variant="outline"
-          size="sm"
-          onClick={async () => {
-            try {
-              const r = await emailMarketingEdge.triggerSendQueue();
-              toast.success(`Send queue processed — ${r.sent} sent`);
-              refreshAll();
-            } catch (e) {
-              toast.error(e instanceof Error ? e.message : "Send queue failed");
-            }
-          }}
-        >
-          Process send queue
-        </EmActionButton>
+        <div className="flex flex-wrap gap-2">
+          <EmActionButton
+            variant="outline"
+            size="sm"
+            onClick={async () => {
+              try {
+                const r = await emailMarketingEdge.triggerProcessSequences();
+                toast.success(`Sequence processor — ${r.processed} queued`);
+                refreshAll();
+              } catch (e) {
+                toast.error(e instanceof Error ? e.message : "Sequence processor failed");
+              }
+            }}
+          >
+            Run sequence processor
+          </EmActionButton>
+          <EmActionButton
+            variant="outline"
+            size="sm"
+            onClick={async () => {
+              try {
+                const r = await emailMarketingEdge.triggerSendQueue();
+                toast.success(`Send queue processed — ${r.sent} sent`);
+                refreshAll();
+              } catch (e) {
+                toast.error(e instanceof Error ? e.message : "Send queue failed");
+              }
+            }}
+          >
+            Process send queue
+          </EmActionButton>
+        </div>
       </div>
 
       <div className="rounded-lg border border-gray-800 bg-gray-950/50 overflow-hidden flex flex-col h-[calc(100vh-14rem)] min-h-[480px]">
