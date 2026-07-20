@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { site, whatsappHref } from "../data/site";
 import { LeadForm, type LeadFormProps } from "./LeadForm";
+import { QuickAuditForm } from "./QuickAuditForm";
 import { OrbIcon, WhatsAppIcon } from "./icons";
 
 const CTA_SHELL_BG =
@@ -14,6 +15,8 @@ export type AuditLeadCardProps = {
   whatsappHref?: string;
   /** Popup: tighter layout, omits orb / subtitle / alt contact row. */
   inDialog?: boolean;
+  /** Compact one-step form (homepage) instead of the multi-step LeadForm. */
+  quickForm?: boolean;
 };
 
 export function AuditLeadCard({
@@ -23,6 +26,7 @@ export function AuditLeadCard({
   leadFormProps,
   whatsappHref: whatsappHrefProp,
   inDialog = false,
+  quickForm = false,
 }: AuditLeadCardProps) {
   const waHref = whatsappHrefProp ?? whatsappHref;
   const formProps: LeadFormProps = {
@@ -95,7 +99,7 @@ export function AuditLeadCard({
       </div>
 
       <div className={["relative z-[2] flex w-full flex-col items-center", inDialog ? "gap-3" : "gap-5"].join(" ")}>
-        <LeadForm {...formProps} />
+        {quickForm ? <QuickAuditForm sourcePage={formProps.sourcePage} /> : <LeadForm {...formProps} />}
 
         {!inDialog ? (
           <>

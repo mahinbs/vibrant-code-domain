@@ -10,6 +10,7 @@ type CTAProps = {
   subtitle?: string;
   leadFormProps?: Partial<LeadFormProps>;
   whatsappHref?: string;
+  quickForm?: boolean;
 };
 
 export function CTA({
@@ -19,6 +20,7 @@ export function CTA({
   subtitle,
   leadFormProps,
   whatsappHref: whatsappHrefProp,
+  quickForm,
 }: CTAProps) {
   return (
     <section
@@ -31,6 +33,7 @@ export function CTA({
         subtitle={subtitle}
         leadFormProps={leadFormProps}
         whatsappHref={whatsappHrefProp}
+        quickForm={quickForm}
       />
     </section>
   );

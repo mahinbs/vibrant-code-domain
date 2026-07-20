@@ -29,6 +29,8 @@ export type BookCallWithFounderBandProps = {
   photoSrc?: string;
   photoAlt?: string;
   badgeLabel?: string;
+  /** Small uppercase label above the headline. */
+  eyebrowLabel?: string;
 };
 
 export function BookCallWithFounderBand({
@@ -42,6 +44,7 @@ export function BookCallWithFounderBand({
   photoSrc = FOUNDER_PHOTO_SRC,
   photoAlt = "Reshab, CEO Boostmysites",
   badgeLabel = "Reshab · CEO Boostmysites",
+  eyebrowLabel = "1:1 with the Chief Executive Officer",
 }: BookCallWithFounderBandProps) {
   const [strategyModalOpen, setStrategyModalOpen] = useState(false);
 
@@ -79,7 +82,7 @@ export function BookCallWithFounderBand({
 
               <div className="flex min-w-0 flex-1 flex-col justify-center px-1 py-2 md:px-2 md:py-8 lg:py-9">
                 <span className="text-[11px] font-medium uppercase tracking-[0.22em] text-white/55">
-                  1:1 with the Chief Executive Officer
+                  {eyebrowLabel}
                 </span>
                 <h2 className="mt-2 text-[22px] font-medium leading-[1.15] -tracking-[0.02em] text-white md:text-[26px] lg:text-[28px]">
                   <HighlightText text={headline} />
@@ -171,7 +174,7 @@ export function BookCallWithFounderBand({
 
             <div className="order-1 flex flex-col justify-center md:order-none">
               <span className="text-[11px] font-medium uppercase tracking-[0.22em] text-white/55">
-                1:1 with the Chief Executive Officer
+                {eyebrowLabel}
               </span>
               <h2 className="mt-3 max-w-[640px] text-[28px] font-medium leading-[1.12] -tracking-[0.02em] text-white md:text-[36px]">
                 <HighlightText text={headline} />

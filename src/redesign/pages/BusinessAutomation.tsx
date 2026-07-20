@@ -98,6 +98,7 @@ export default function BusinessAutomation({
   showExamples?: boolean;
 } = {}) {
   useHashScroll();
+  const isHome = sourcePage === "homepage";
 
   return (
     <>
@@ -131,6 +132,14 @@ export default function BusinessAutomation({
               headline={reshabAuditCallCopy.headline}
               subheadline={reshabAuditCallCopy.subheadline}
               ctaLabel={reshabAuditCallCopy.ctaLabel}
+              {...(isHome
+                ? {
+                    eyebrowLabel: "1:1 with the Founder & Chairman",
+                    photoSrc: "/mahinbsnew.jpeg",
+                    photoAlt: "Mahin B S — Founder & Chairman, Boostmysites",
+                    badgeLabel: "Mahin B S · Founder & Chairman",
+                  }
+                : {})}
             />
           </SectionWithTopRule>
           <SectionWithTopRule showDivider={false}>
@@ -194,6 +203,7 @@ export default function BusinessAutomation({
               {...businessAutomationAuditCta}
               whatsappHref={whatsappHref}
               leadFormProps={{ sourcePage }}
+              quickForm={isHome}
             />
           </SectionWithTopRule>
           <SectionWithTopRule>

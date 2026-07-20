@@ -1,8 +1,8 @@
 export const site = {
   brand: "Boostmysites",
   tagline: "Automation that runs your business while you run your business.",
-  email: "ceo@boostmysites.com",
-  phone: "+91 97900 35747",
+  email: "chairman@boostmysites.com",
+  phone: "+91 96329 53355",
   whatsappNumber: "919632953355",
   whatsappMessage: "Hello BMS, I'd like a free automation audit.",
   socials: {
