@@ -1,3 +1,5 @@
+import { caseStudyBlogs } from "./caseStudyBlogs";
+
 export interface BlogPost {
   id: string;
   slug: string; // New SEO-friendly slug field
@@ -35,7 +37,7 @@ export const blogCategories = [
   "Case Studies"
 ];
 
-export const blogsData: BlogPost[] = [
+const baseBlogsData: BlogPost[] = [
   {
     id: "ai-revolution-web-development",
     slug: "ai-revolution-web-development-machine-learning-automation-2024",
@@ -215,3 +217,6 @@ export const blogsData: BlogPost[] = [
     featured: true
   }
 ];
+
+// Case-study blogs (SEO-optimised) render first, ahead of the base set.
+export const blogsData: BlogPost[] = [...caseStudyBlogs, ...baseBlogsData];
