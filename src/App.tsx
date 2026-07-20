@@ -191,6 +191,7 @@ const App = () => {
                         sourcePage="homepage"
                         showCaseStudies
                         showExamples
+                        showTeam
                       />
                     </RedesignShell>
                   ) : (

@@ -49,6 +49,9 @@ const CaseStudyVideos = lazy(() =>
 const AutomationExamples = lazy(() =>
   import("../components/AutomationExamples").then((m) => ({ default: m.AutomationExamples })),
 );
+const TeamSection = lazy(() =>
+  import("../components/TeamSection").then((m) => ({ default: m.TeamSection })),
+);
 const CTA = lazy(() => import("../components/CTA").then((m) => ({ default: m.CTA })));
 const Footer = lazy(() => import("../components/Footer").then((m) => ({ default: m.Footer })));
 
@@ -87,6 +90,7 @@ export default function BusinessAutomation({
   sourcePage = "business-automation",
   showCaseStudies = false,
   showExamples = false,
+  showTeam = false,
 }: {
   /** Override the WhatsApp link (e.g. homepage copy uses the main number). */
   whatsappHref?: string;
@@ -96,6 +100,8 @@ export default function BusinessAutomation({
   showCaseStudies?: boolean;
   /** Ten concrete automation examples explorer (homepage only). */
   showExamples?: boolean;
+  /** Leadership team section (homepage only). */
+  showTeam?: boolean;
 } = {}) {
   useHashScroll();
   const isHome = sourcePage === "homepage";
@@ -177,6 +183,11 @@ export default function BusinessAutomation({
           <SectionWithTopRule>
             <IndustryPlaybook />
           </SectionWithTopRule>
+          {showTeam ? (
+            <SectionWithTopRule>
+              <TeamSection />
+            </SectionWithTopRule>
+          ) : null}
           <SectionWithTopRule>
             <MockupBand
               src="/videos/mockup-3.mp4"
