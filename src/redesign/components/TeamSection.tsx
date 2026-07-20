@@ -38,7 +38,7 @@ const TEAM: Member[] = [
     name: "Kavya Shree.R",
     role: "Chief Marketing Officer",
     photo: "/team/kavya.jpg",
-    linkedin: "https://www.linkedin.com/in/kavya-shree-r-b59495139/",
+    linkedin: "https://www.linkedin.com/in/kavya-r-19124a330/",
   },
 ];
 
