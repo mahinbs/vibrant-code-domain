@@ -166,11 +166,6 @@ const EXACT: Record<string, RouteSeo> = {
     description:
       "Terms and conditions for Boostmysites AI engagement offerings and related services.",
   },
-  "/partnership": {
-    title: "Partnership | Boostmysites",
-    description:
-      "Partner with Boostmysites on referrals, co-delivery, and technology alliances. Grow together with a product-focused engineering team.",
-  },
   "/placement-programs": {
     title: "Job Placement Programs | Boostmysites",
     description:
@@ -201,21 +196,6 @@ const EXACT: Record<string, RouteSeo> = {
     description:
       "Browse app ideas and product concepts curated by Boostmysites—inspiration for your next mobile or web venture.",
   },
-  "/signup": {
-    title: "Sign Up | Boostmysites",
-    description:
-      "Create your Boostmysites account or register for programs and trials. Get started with our product and engineering services.",
-  },
-  "/build-your-tech-company": {
-    title: "Build Your Own Tech Company | Boostmysites",
-    description:
-      "Launch your own SaaS or app with Boostmysites—low investment, shared infrastructure, and real monthly income potential. We build. You own. You earn.",
-  },
-  "/startup-launch": {
-    title: "Startup Launch | Boostmysites",
-    description:
-      "Startup launch landing: positioning, MVP scope, and go-to-market support from Boostmysites for early-stage founders.",
-  },
   "/ai-stock-prediction": {
     title: "AI Stock Prediction | Boostmysites",
     description:
@@ -231,40 +211,10 @@ const EXACT: Record<string, RouteSeo> = {
     description:
       "Fintech case studies and capabilities from Boostmysites: payments, lending, risk, and modern banking-grade web platforms.",
   },
-  "/founder-partnership": {
-    title: "Founder Application | Boostmysites",
-    description:
-      "Apply to the Boostmysites founder application—a selective process for ambitious founders building scalable tech companies.",
-  },
   "/healthcare-landing": {
     title: "Healthcare Digital Products | Boostmysites",
     description:
       "Healthcare software and design from Boostmysites: patient portals, telehealth, HIPAA-minded architecture, and clinician-first UX.",
-  },
-  "/rsb-fintech-founder": {
-    title: "Fintech Founder Program | Boostmysites",
-    description:
-      "Dedicated fintech founder landing for Boostmysites—scope your product and connect with our delivery team.",
-  },
-  "/dsn-fintech-founder": {
-    title: "Fintech Founder Program | Boostmysites",
-    description:
-      "Dedicated fintech founder landing for Boostmysites—scope your product and connect with our delivery team.",
-  },
-  "/kvy-fintech-founder": {
-    title: "Fintech Founder Program | Boostmysites",
-    description:
-      "Dedicated fintech founder landing for Boostmysites—scope your product and connect with our delivery team.",
-  },
-  "/mhn-fintech-founder": {
-    title: "Fintech Founder Program | Boostmysites",
-    description:
-      "Dedicated fintech founder landing for Boostmysites—scope your product and connect with our delivery team.",
-  },
-  "/mgh-fintech-founder": {
-    title: "Fintech Founder Program | Boostmysites",
-    description:
-      "Dedicated fintech founder landing for Boostmysites—scope your product and connect with our delivery team.",
   },
   "/new-homepage-preview": {
     title: "Homepage Preview | Boostmysites",

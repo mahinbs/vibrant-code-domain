@@ -43,7 +43,6 @@ export const footerColumns: FooterColumn[] = [
       { label: "How it works", href: "/#process" },
       { label: "Our work", href: "/#work" },
       { label: "Get a free audit", href: "/#contact-form" },
-      { label: "Build your tech company", href: "/build-your-tech-company" },
     ],
   },
   {
@@ -51,7 +50,6 @@ export const footerColumns: FooterColumn[] = [
     links: [
       { label: "About us", href: "/about" },
       { label: "Reviews", href: "/reviews" },
-      { label: "Partnership", href: "/partnership" },
       { label: "Contact", href: "/contact" },
     ],
   },

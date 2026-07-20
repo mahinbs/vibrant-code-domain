@@ -49,7 +49,6 @@ const ReviewsPage = lazy(() => import("./pages/ReviewsPage"));
 const ThankYouPage = lazy(() => import("./redesign/pages/ThankYou"));
 const PrivacyPolicyPage = lazy(() => import("./pages/PrivacyPolicyPage"));
 const TermsAndConditions = lazy(() => import("./pages/TermsAndConditions"));
-const PartnershipPage = lazy(() => import("./pages/PartnershipPage"));
 const PlacementProgramsPage = lazy(
   () => import("./pages/PlacementProgramsPage")
 );
@@ -65,8 +64,6 @@ const WebinarPage = lazy(() => import("./pages/WebinarPage"));
 const AppIdeasLabPage = lazy(() => import("./pages/AppIdeasLabPage"));
 const AppIdeas = lazy(() => import("./pages/AppIdeas"));
 const AppIdeaDetail = lazy(() => import("./pages/AppIdeaDetail"));
-const Signup = lazy(() => import("./pages/Signup"));
-const StartupLanding = lazy(() => import("./pages/landingPages/StartupLanding"));
 const AiStockPrediction = lazy(
   () => import("./pages/landingPages/AiStockPrediction")
 );
@@ -74,32 +71,11 @@ const FintechLanding = lazy(() => import("./pages/landingPages/FintechLanding"))
 const HealthcareLanding = lazy(
   () => import("./pages/landingPages/HealthcareLanding")
 );
-const ReshabLandingPage = lazy(
-  () => import("./pages/landingPages/ReshabLandingPage")
-);
-const DarshanLandingPage = lazy(
-  () => import("./pages/landingPages/DarshanLandingPage")
-);
-const KavyaLandingPage = lazy(
-  () => import("./pages/landingPages/KavyaLandingPage")
-);
-const MahinLandingPage = lazy(
-  () => import("./pages/landingPages/MahinLandingPage")
-);
-const MeghanaLandingPage = lazy(
-  () => import("./pages/landingPages/MeghanaLandingPage")
-);
 const RedesignFintechLanding = lazy(
   () => import("./redesign/pages/FintechPortfolioLanding")
 );
 const RedesignHealthcareLanding = lazy(
   () => import("./redesign/pages/HealthcarePortfolioLanding")
-);
-const BuildYourTechCompanyLanding = lazy(
-  () => import("./redesign/pages/BuildYourTechCompanyLanding"),
-);
-const FounderPartnershipApplication = lazy(
-  () => import("./redesign/pages/FounderPartnershipApplication"),
 );
 const AutomationCaseStudy = lazy(
   () => import("./redesign/pages/AutomationCaseStudy"),
@@ -506,15 +482,7 @@ const App = () => {
                   </>
                 }
               />
-              <Route
-                path="/partnership"
-                element={
-                  <>
-                    <FloatingWhatsAppButton />
-                    <PartnershipPage />
-                  </>
-                }
-              />
+              <Route path="/partnership" element={<Navigate to="/" replace />} />
               <Route
                 path="/placement-programs"
                 element={<PlacementProgramsPage />}
@@ -600,34 +568,11 @@ const App = () => {
                   </>
                 }
               />
-              <Route
-                path="/signup"
-                element={
-                  <>
-                    <FloatingWhatsAppButton />
-                    <Signup />
-                  </>
-                }
-              />
+              <Route path="/signup" element={<Navigate to="/" replace />} />
 
-              <Route
-                path="/build-your-tech-company"
-                element={
-                  <RedesignShell>
-                    <BuildYourTechCompanyLanding />
-                  </RedesignShell>
-                }
-              />
+              <Route path="/build-your-tech-company" element={<Navigate to="/" replace />} />
 
-              <Route
-                path="/startup-launch"
-                element={
-                  <>
-                    <FloatingWhatsAppButton />
-                    <StartupLanding />
-                  </>
-                }
-              />
+              <Route path="/startup-launch" element={<Navigate to="/" replace />} />
 
               <Route
                 path="/ai-stock-prediction"
@@ -663,14 +608,7 @@ const App = () => {
                   )
                 }
               />
-              <Route
-                path="/founder-partnership"
-                element={
-                  <RedesignShell>
-                    <FounderPartnershipApplication />
-                  </RedesignShell>
-                }
-              />
+              <Route path="/founder-partnership" element={<Navigate to="/" replace />} />
               <Route
                 path="/automation/:slug"
                 element={
@@ -742,36 +680,11 @@ const App = () => {
                 }
               />
 
-              <Route
-                path="/rsb-fintech-founder"
-                element={
-                  <ReshabLandingPage />
-                }
-              />
-              <Route
-                path="/dsn-fintech-founder"
-                element={
-                  <DarshanLandingPage />
-                }
-              />
-              <Route
-                path="/kvy-fintech-founder"
-                element={
-                  <KavyaLandingPage />
-                }
-              />
-              <Route
-                path="/mhn-fintech-founder"
-                element={
-                  <MahinLandingPage />
-                }
-              />
-              <Route
-                path="/mgh-fintech-founder"
-                element={
-                  <MeghanaLandingPage />
-                }
-              />
+              <Route path="/rsb-fintech-founder" element={<Navigate to="/" replace />} />
+              <Route path="/dsn-fintech-founder" element={<Navigate to="/" replace />} />
+              <Route path="/kvy-fintech-founder" element={<Navigate to="/" replace />} />
+              <Route path="/mhn-fintech-founder" element={<Navigate to="/" replace />} />
+              <Route path="/mgh-fintech-founder" element={<Navigate to="/" replace />} />
               <Route path="/new-homepage-preview" element={<NewHomepagePreview />} />
 
               {/* Admin routes */}
