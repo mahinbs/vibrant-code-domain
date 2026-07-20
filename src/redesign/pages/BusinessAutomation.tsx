@@ -46,6 +46,9 @@ const ProcessMockupSplit = lazy(() =>
 const CaseStudyVideos = lazy(() =>
   import("../components/CaseStudyVideos").then((m) => ({ default: m.CaseStudyVideos })),
 );
+const AutomationExamples = lazy(() =>
+  import("../components/AutomationExamples").then((m) => ({ default: m.AutomationExamples })),
+);
 const CTA = lazy(() => import("../components/CTA").then((m) => ({ default: m.CTA })));
 const Footer = lazy(() => import("../components/Footer").then((m) => ({ default: m.Footer })));
 
@@ -83,6 +86,7 @@ export default function BusinessAutomation({
   whatsappHref = businessAutomationWhatsappHref,
   sourcePage = "business-automation",
   showCaseStudies = false,
+  showExamples = false,
 }: {
   /** Override the WhatsApp link (e.g. homepage copy uses the main number). */
   whatsappHref?: string;
@@ -90,6 +94,8 @@ export default function BusinessAutomation({
   sourcePage?: string;
   /** YouTube case-study video band (homepage only). */
   showCaseStudies?: boolean;
+  /** Ten concrete automation examples explorer (homepage only). */
+  showExamples?: boolean;
 } = {}) {
   useHashScroll();
 
@@ -154,6 +160,11 @@ export default function BusinessAutomation({
           <SectionWithTopRule>
             <AutomationScopeExplorer />
           </SectionWithTopRule>
+          {showExamples ? (
+            <SectionWithTopRule>
+              <AutomationExamples />
+            </SectionWithTopRule>
+          ) : null}
           <SectionWithTopRule>
             <IndustryPlaybook />
           </SectionWithTopRule>

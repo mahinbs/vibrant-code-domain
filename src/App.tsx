@@ -190,6 +190,7 @@ const App = () => {
                         whatsappHref={homeWhatsappHref}
                         sourcePage="homepage"
                         showCaseStudies
+                        showExamples
                       />
                     </RedesignShell>
                   ) : (
