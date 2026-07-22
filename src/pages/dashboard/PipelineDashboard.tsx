@@ -15,6 +15,38 @@ const TABS: { key: PipelineTab; label: string }[] = [
   { key: "unattended", label: "Unattended" },
 ];
 
+/** Responsiveness rating — emoji + colour for visual triage of each lead. */
+type Rating = { value: string; emoji: string; label: string; short: string; text: string; chip: string };
+const RATINGS: Rating[] = [
+  { value: "hot", emoji: "🔥", label: "Hot — responding well", short: "Hot", text: "text-orange-300", chip: "border-orange-400/50 bg-orange-400/15 text-orange-300" },
+  { value: "warm", emoji: "🙂", label: "Warm — some interest", short: "Warm", text: "text-amber-300", chip: "border-amber-400/50 bg-amber-400/15 text-amber-300" },
+  { value: "cold", emoji: "🧊", label: "Cold — slow to respond", short: "Cold", text: "text-sky-300", chip: "border-sky-400/50 bg-sky-400/15 text-sky-300" },
+  { value: "useless", emoji: "🗑️", label: "Useless — not worth chasing", short: "Useless", text: "text-white/40 line-through", chip: "border-white/20 bg-white/5 text-white/45" },
+];
+const ratingOf = (v: string | null | undefined): Rating | undefined =>
+  v ? RATINGS.find((r) => r.value === v) : undefined;
+
+function RatingPicker({ value, onChange }: { value: string | null; onChange: (v: string) => void }) {
+  return (
+    <div className="flex flex-wrap gap-2">
+      {RATINGS.map((r) => (
+        <button
+          type="button"
+          key={r.value}
+          onClick={() => onChange(value === r.value ? "" : r.value)}
+          title={r.label}
+          className={`rounded-lg border px-3 py-1.5 text-[13px] font-medium transition-colors ${
+            value === r.value ? r.chip : "border-white/15 text-white/60 hover:bg-white/5"
+          }`}
+        >
+          <span className="mr-1">{r.emoji}</span>
+          {r.short}
+        </button>
+      ))}
+    </div>
+  );
+}
+
 /** Fields shown in the add/edit form per tab. */
 const FIELDS: Record<PipelineTab, { key: keyof PipelineLead; label: string; type?: "textarea" }[]> = {
   attended: [
@@ -154,7 +186,7 @@ function LeadModal({
   onChanged?: () => void;
 }) {
   const [form, setForm] = useState<Record<string, string>>(() => {
-    const base: Record<string, string> = {};
+    const base: Record<string, string> = { responsiveness: (lead?.responsiveness as string) ?? "" };
     for (const f of FIELDS[tab]) base[f.key as string] = (lead?.[f.key] as string) ?? "";
     return base;
   });
@@ -166,16 +198,28 @@ function LeadModal({
     setError(null);
     if (!form.client?.trim()) return setError("Client is required.");
     setSaving(true);
-    const payload = { ...form, tab } as Record<string, unknown>;
-    const res = lead
-      ? await pipelineLeadService.update(lead.id, payload)
-      : await pipelineLeadService.create(payload);
+    // Save responsiveness separately (best-effort) so a missing column can't
+    // block the whole save before the ALTER is run.
+    const { responsiveness, ...fields } = form;
+    const payload = { ...fields, tab } as Record<string, unknown>;
+    let leadId = lead?.id ?? null;
+    let saveError: string | null = null;
+    if (lead) {
+      saveError = (await pipelineLeadService.update(lead.id, payload)).error;
+    } else {
+      const created = await pipelineLeadService.create(payload);
+      saveError = created.error;
+      leadId = created.data?.id ?? null;
+    }
+    if (!saveError && leadId && (responsiveness ?? "") !== (lead?.responsiveness ?? "")) {
+      try { await pipelineLeadService.update(leadId, { responsiveness: responsiveness || null }); } catch { /* column may not exist yet */ }
+    }
     setSaving(false);
-    if (res.error) {
+    if (saveError) {
       setError(
-        res.error.includes("pipeline_leads") || res.error.includes("relation")
+        saveError.includes("pipeline_leads") || saveError.includes("relation")
           ? "The pipeline_leads table isn't set up yet — run the SQL in Supabase first."
-          : res.error,
+          : saveError,
       );
       return;
     }
@@ -198,6 +242,15 @@ function LeadModal({
           <button onClick={onClose} className="text-white/50 hover:text-white" aria-label="Close">✕</button>
         </div>
         <form onSubmit={submit} className="flex flex-col gap-3">
+          <div className="text-[13px] text-white/70">
+            Responsiveness
+            <div className="mt-1.5">
+              <RatingPicker
+                value={form.responsiveness ?? ""}
+                onChange={(v) => setForm((p) => ({ ...p, responsiveness: v }))}
+              />
+            </div>
+          </div>
           {FIELDS[tab].map((f) => (
             <label key={f.key as string} className="text-[13px] text-white/70">
               {f.label}
@@ -287,6 +340,14 @@ function LeadDetailModal({
   const blocks = DETAIL_BLOCKS[lead.tab].filter((f) => val(lead, f.key));
   const badge = lead.tab === "attended" ? val(lead, "current_stage") : val(lead, "status");
   const initial = (lead.client || "?").trim().charAt(0).toUpperCase();
+  const [rating, setRating] = useState<string>(lead.responsiveness ?? "");
+  const rated = ratingOf(rating);
+
+  async function setRate(v: string) {
+    setRating(v);
+    await pipelineLeadService.update(lead.id, { responsiveness: v });
+    onChanged();
+  }
 
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/70 p-4 backdrop-blur-sm" onClick={onClose}>
@@ -318,12 +379,23 @@ function LeadDetailModal({
                   ₹{val(lead, "estimated_value")}
                 </span>
               ) : null}
+              {rated ? (
+                <span className={`rounded-full border px-2.5 py-0.5 text-[11px] font-medium ${rated.chip}`}>
+                  {rated.emoji} {rated.short}
+                </span>
+              ) : null}
             </div>
           </div>
           <button onClick={onClose} className="shrink-0 text-white/50 hover:text-white" aria-label="Close">✕</button>
         </div>
 
         <div className="max-h-[65vh] overflow-y-auto px-6 pb-6">
+          {/* Responsiveness */}
+          <div className="border-t border-white/10 pt-5">
+            <p className="mb-2 text-[11px] uppercase tracking-wide text-white/40">Responsiveness</p>
+            <RatingPicker value={rating} onChange={setRate} />
+          </div>
+
           {/* Meta grid */}
           {meta.length ? (
             <div className="grid grid-cols-2 gap-x-6 gap-y-4 border-t border-white/10 pt-5">
@@ -404,6 +476,7 @@ export default function PipelineDashboard() {
   const [search, setSearch] = useState("");
   const [range, setRange] = useState<"all" | "7" | "30" | "90">("all");
   const [fileFilter, setFileFilter] = useState<"all" | "missing" | "has">("all");
+  const [ratingFilter, setRatingFilter] = useState<string>("all");
   const [modal, setModal] = useState<{ open: boolean; lead: PipelineLead | null }>({ open: false, lead: null });
   const [detail, setDetail] = useState<PipelineLead | null>(null);
   const [filesModal, setFilesModal] = useState<PipelineLead | null>(null);
@@ -440,6 +513,7 @@ export default function PipelineDashboard() {
         if (fileFilter === "has") return has;
         return true;
       })
+      .filter((l) => (ratingFilter === "all" ? true : (l.responsiveness ?? "") === ratingFilter))
       .filter((l) =>
         !q
           ? true
@@ -447,7 +521,7 @@ export default function PipelineDashboard() {
               .toLowerCase()
               .includes(q),
       );
-  }, [leads, tab, search, range, fileFilter]);
+  }, [leads, tab, search, range, fileFilter, ratingFilter]);
 
   const stats = useMemo(() => {
     const att = leads.filter((l) => l.tab === "attended");
@@ -570,6 +644,17 @@ export default function PipelineDashboard() {
               <option value="missing">⚠ Missing file</option>
               <option value="has">Has file</option>
             </select>
+            <select
+              value={ratingFilter}
+              onChange={(e) => setRatingFilter(e.target.value)}
+              className="rounded-lg border border-white/15 bg-black/40 px-3 py-2 text-sm text-white focus:border-[#4b78ff] focus:outline-none"
+              title="Filter by responsiveness"
+            >
+              <option value="all">All ratings</option>
+              {RATINGS.map((r) => (
+                <option key={r.value} value={r.value}>{r.emoji} {r.short}</option>
+              ))}
+            </select>
             <input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
@@ -620,9 +705,12 @@ export default function PipelineDashboard() {
                         {c.key === "client" ? (
                           <button
                             onClick={() => setDetail(l)}
-                            className="flex items-center gap-1.5 text-left font-medium text-white hover:text-[#7aa2ff]"
+                            className="flex items-center gap-1.5 text-left font-medium hover:opacity-80"
                           >
-                            {l.client || "—"}
+                            {ratingOf(l.responsiveness) ? (
+                              <span title={ratingOf(l.responsiveness)!.label}>{ratingOf(l.responsiveness)!.emoji}</span>
+                            ) : null}
+                            <span className={ratingOf(l.responsiveness)?.text ?? "text-white"}>{l.client || "—"}</span>
                             {(l.attachments?.length ?? 0) > 0 ? (
                               <span className="rounded-full bg-white/10 px-1.5 py-0.5 text-[10px] text-white/60" title={`${l.attachments!.length} file(s)`}>
                                 📎 {l.attachments!.length}

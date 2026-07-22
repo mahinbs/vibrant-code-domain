@@ -30,6 +30,8 @@ export type PipelineLead = {
   email: string | null;
   phone: string | null;
   description: string | null;
+  /** Manual responsiveness rating: 'hot' | 'warm' | 'cold' | 'useless' | null */
+  responsiveness: string | null;
   attachments: PipelineAttachment[] | null;
 };
 
