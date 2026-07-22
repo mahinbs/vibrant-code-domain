@@ -403,6 +403,7 @@ export default function PipelineDashboard() {
   const [loadError, setLoadError] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   const [range, setRange] = useState<"all" | "7" | "30" | "90">("all");
+  const [fileFilter, setFileFilter] = useState<"all" | "missing" | "has">("all");
   const [modal, setModal] = useState<{ open: boolean; lead: PipelineLead | null }>({ open: false, lead: null });
   const [detail, setDetail] = useState<PipelineLead | null>(null);
   const [filesModal, setFilesModal] = useState<PipelineLead | null>(null);
@@ -433,6 +434,12 @@ export default function PipelineDashboard() {
         if (!l.created_at) return false;
         return new Date(l.created_at).getTime() >= cutoff;
       })
+      .filter((l) => {
+        const has = (l.attachments?.length ?? 0) > 0;
+        if (fileFilter === "missing") return !has;
+        if (fileFilter === "has") return has;
+        return true;
+      })
       .filter((l) =>
         !q
           ? true
@@ -440,13 +447,14 @@ export default function PipelineDashboard() {
               .toLowerCase()
               .includes(q),
       );
-  }, [leads, tab, search, range]);
+  }, [leads, tab, search, range, fileFilter]);
 
   const stats = useMemo(() => {
     const att = leads.filter((l) => l.tab === "attended");
     const unatt = leads.filter((l) => l.tab === "unattended");
     const pipelineValue = att.reduce((s, l) => s + parseValue(l.estimated_value), 0);
-    return { att: att.length, unatt: unatt.length, pipelineValue };
+    const missingFiles = leads.filter((l) => (l.attachments?.length ?? 0) === 0).length;
+    return { att: att.length, unatt: unatt.length, pipelineValue, missingFiles };
   }, [leads]);
 
   const cols = tab === "attended" ? ATT_COLS : UNATT_COLS;
@@ -497,7 +505,7 @@ export default function PipelineDashboard() {
 
       <main className="mx-auto max-w-[1500px] px-5 py-6 md:px-8">
         {/* Summary */}
-        <div className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-3">
+        <div className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
           {[
             { label: "Attended leads", value: stats.att },
             { label: "Unattended leads", value: stats.unatt },
@@ -508,6 +516,18 @@ export default function PipelineDashboard() {
               <p className="mt-1 text-2xl font-semibold text-white">{s.value}</p>
             </div>
           ))}
+          <button
+            onClick={() => setFileFilter(fileFilter === "missing" ? "all" : "missing")}
+            title="Leads with no PDF/image yet — click to filter"
+            className={`rounded-xl border p-4 text-left transition-colors ${
+              fileFilter === "missing"
+                ? "border-amber-400/60 bg-amber-400/15"
+                : "border-amber-400/25 bg-amber-400/[0.06] hover:bg-amber-400/10"
+            }`}
+          >
+            <p className="text-[12px] uppercase tracking-wide text-amber-300/80">⚠ Missing file</p>
+            <p className="mt-1 text-2xl font-semibold text-amber-200">{stats.missingFiles}</p>
+          </button>
         </div>
 
         {/* Controls */}
@@ -539,6 +559,16 @@ export default function PipelineDashboard() {
               <option value="7">Last 7 days</option>
               <option value="30">Last 30 days</option>
               <option value="90">Last 90 days</option>
+            </select>
+            <select
+              value={fileFilter}
+              onChange={(e) => setFileFilter(e.target.value as typeof fileFilter)}
+              className="rounded-lg border border-white/15 bg-black/40 px-3 py-2 text-sm text-white focus:border-[#4b78ff] focus:outline-none"
+              title="Filter by attachment"
+            >
+              <option value="all">All files</option>
+              <option value="missing">⚠ Missing file</option>
+              <option value="has">Has file</option>
             </select>
             <input
               value={search}
@@ -597,7 +627,14 @@ export default function PipelineDashboard() {
                               <span className="rounded-full bg-white/10 px-1.5 py-0.5 text-[10px] text-white/60" title={`${l.attachments!.length} file(s)`}>
                                 📎 {l.attachments!.length}
                               </span>
-                            ) : null}
+                            ) : (
+                              <span
+                                className="rounded-full border border-amber-400/40 bg-amber-400/10 px-1.5 py-0.5 text-[10px] font-medium text-amber-300"
+                                title="No PDF/image yet — create one and send it to the client"
+                              >
+                                ⚠ No file
+                              </span>
+                            )}
                           </button>
                         ) : c.key === "description" ? (
                           descEdit?.id === l.id ? (
