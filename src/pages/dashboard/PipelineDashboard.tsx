@@ -8,6 +8,7 @@ import {
   type PipelineLead,
   type PipelineTab,
 } from "@/services/pipelineLeadService";
+import { syncDescriptionToSheet } from "@/services/pipelineSheetSync";
 
 const TABS: { key: PipelineTab; label: string }[] = [
   { key: "attended", label: "Attended" },
@@ -178,6 +179,12 @@ function LeadModal({
       );
       return;
     }
+    syncDescriptionToSheet({
+      tab,
+      sl_no: lead?.sl_no ?? null,
+      client: form.client ?? null,
+      description: form.description ?? "",
+    });
     onSaved();
   }
 
@@ -275,6 +282,8 @@ export default function PipelineDashboard() {
   const [loadError, setLoadError] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   const [modal, setModal] = useState<{ open: boolean; lead: PipelineLead | null }>({ open: false, lead: null });
+  const [descEdit, setDescEdit] = useState<{ id: string; value: string } | null>(null);
+  const [descSaving, setDescSaving] = useState(false);
 
   const load = async () => {
     setLoading(true);
@@ -311,6 +320,18 @@ export default function PipelineDashboard() {
   }, [leads]);
 
   const cols = tab === "attended" ? ATT_COLS : UNATT_COLS;
+
+  async function saveDesc(lead: PipelineLead) {
+    if (!descEdit) return;
+    const value = descEdit.value;
+    setDescSaving(true);
+    const { error } = await pipelineLeadService.update(lead.id, { description: value });
+    setDescSaving(false);
+    if (error) { window.alert(error); return; }
+    syncDescriptionToSheet({ tab: lead.tab, sl_no: lead.sl_no, client: lead.client, description: value });
+    setDescEdit(null);
+    void load();
+  }
 
   async function onDelete(lead: PipelineLead) {
     if (!window.confirm(`Delete ${lead.client ?? "this lead"}? This cannot be undone.`)) return;
@@ -437,6 +458,44 @@ export default function PipelineDashboard() {
                               </span>
                             ) : null}
                           </button>
+                        ) : c.key === "description" ? (
+                          descEdit?.id === l.id ? (
+                            <div className="flex flex-col gap-1.5">
+                              <textarea
+                                autoFocus
+                                rows={3}
+                                value={descEdit.value}
+                                onChange={(e) => setDescEdit({ id: l.id, value: e.target.value })}
+                                className={`resize-none ${inputCls}`}
+                              />
+                              <div className="flex gap-2">
+                                <button
+                                  onClick={() => saveDesc(l)}
+                                  disabled={descSaving}
+                                  className="rounded-md bg-[#4b78ff] px-2.5 py-1 text-[12px] font-semibold text-white hover:bg-[#3d63d8] disabled:opacity-60"
+                                >
+                                  {descSaving ? "Saving…" : "Save"}
+                                </button>
+                                <button
+                                  onClick={() => setDescEdit(null)}
+                                  className="rounded-md border border-white/15 px-2.5 py-1 text-[12px] text-white/70 hover:bg-white/5"
+                                >
+                                  Cancel
+                                </button>
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="flex items-start gap-1.5">
+                              <span className="min-w-0 flex-1 whitespace-pre-wrap break-words text-white/70">{l.description || "—"}</span>
+                              <button
+                                onClick={() => setDescEdit({ id: l.id, value: l.description ?? "" })}
+                                title="Edit description"
+                                className="shrink-0 rounded p-0.5 text-white/40 hover:text-[#7aa2ff]"
+                              >
+                                ✏️
+                              </button>
+                            </div>
+                          )
                         ) : (
                           <span className="whitespace-pre-wrap break-words text-white/70">{(l[c.key] as string) || "—"}</span>
                         )}
