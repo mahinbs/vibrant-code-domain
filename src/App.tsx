@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import ProtectedRoute from "./components/admin/ProtectedRoute";
+import DashboardProtectedRoute from "./components/dashboard/DashboardProtectedRoute";
 import GoogleAnalytics from "./components/GoogleAnalytics";
 import MetaPixel from "./components/MetaPixel";
 import XPixel from "./components/XPixel";
@@ -98,6 +99,8 @@ const FintechDevelopmentCompanyPage = lazy(() => import("./pages/geo/FintechDeve
 const TradingAppDevelopmentPage = lazy(() => import("./pages/geo/TradingAppDevelopmentPage"));
 const PayinPayoutSoftwarePage = lazy(() => import("./pages/geo/PayinPayoutSoftwarePage"));
 const ForLlmPage = lazy(() => import("./pages/ForLlmPage"));
+const DashboardLogin = lazy(() => import("./pages/dashboard/DashboardLogin"));
+const PipelineDashboard = lazy(() => import("./pages/dashboard/PipelineDashboard"));
 const AdminLogin = lazy(() => import("./pages/admin/AdminLogin"));
 const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
 const CustomerInquiries = lazy(() => import("./pages/admin/CustomerInquiries"));
@@ -690,6 +693,17 @@ const App = () => {
               <Route path="/new-homepage-preview" element={<NewHomepagePreview />} />
 
               {/* Admin routes */}
+              {/* Standalone Sales Pipeline dashboard (own login). */}
+              <Route path="/dashboard/login" element={<DashboardLogin />} />
+              <Route
+                path="/dashboard"
+                element={
+                  <DashboardProtectedRoute>
+                    <PipelineDashboard />
+                  </DashboardProtectedRoute>
+                }
+              />
+
               <Route path="/admin/login" element={<AdminLogin />} />
               <Route
                 path="/admin"
