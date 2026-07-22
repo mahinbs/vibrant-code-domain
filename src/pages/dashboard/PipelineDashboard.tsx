@@ -282,6 +282,7 @@ export default function PipelineDashboard() {
   const [loadError, setLoadError] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   const [modal, setModal] = useState<{ open: boolean; lead: PipelineLead | null }>({ open: false, lead: null });
+  const [filesModal, setFilesModal] = useState<PipelineLead | null>(null);
   const [descEdit, setDescEdit] = useState<{ id: string; value: string } | null>(null);
   const [descSaving, setDescSaving] = useState(false);
 
@@ -502,7 +503,10 @@ export default function PipelineDashboard() {
                       </td>
                     ))}
                     <td className="px-3 py-3 text-right">
-                      <div className="inline-flex gap-2">
+                      <div className="inline-flex gap-2.5">
+                        <button onClick={() => setFilesModal(l)} className="text-[13px] text-white/70 hover:text-white">
+                          📎 Files{(l.attachments?.length ?? 0) > 0 ? ` (${l.attachments!.length})` : ""}
+                        </button>
                         <button onClick={() => setModal({ open: true, lead: l })} className="text-[13px] text-[#7aa2ff] hover:underline">Edit</button>
                         <button onClick={() => onDelete(l)} className="text-[13px] text-red-300/80 hover:underline">Delete</button>
                       </div>
@@ -523,6 +527,22 @@ export default function PipelineDashboard() {
           onSaved={() => { setModal({ open: false, lead: null }); void load(); }}
           onChanged={() => void load()}
         />
+      ) : null}
+
+      {filesModal ? (
+        <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/70 p-4 backdrop-blur-sm">
+          <div className="my-8 w-full max-w-[520px] rounded-2xl border border-white/15 bg-[#0c1020] p-6">
+            <div className="mb-1 flex items-center justify-between">
+              <h2 className="text-lg font-semibold text-white">Files · {filesModal.client}</h2>
+              <button onClick={() => setFilesModal(null)} className="text-white/50 hover:text-white" aria-label="Close">✕</button>
+            </div>
+            <p className="mb-3 text-[12px] text-white/45">Upload follow-up PDFs, chat screenshots, or images for this lead.</p>
+            <AttachmentsSection lead={filesModal} onChanged={() => void load()} />
+            <div className="mt-4 flex justify-end">
+              <button onClick={() => setFilesModal(null)} className="rounded-lg border border-white/15 px-4 py-2 text-sm text-white/80 hover:bg-white/5">Done</button>
+            </div>
+          </div>
+        </div>
       ) : null}
     </div>
   );
