@@ -3,7 +3,11 @@
 -- bucket with anon-manageable policies (dashboard is behind an app login).
 -- Run once in the Supabase SQL editor.
 
--- 1) Column to hold attachment metadata: [{name, path, url, type, size, uploaded_at}]
+-- 1) Columns: free-text description + attachment metadata
+--    [{name, path, url, type, size, uploaded_at}]
+ALTER TABLE public.pipeline_leads
+  ADD COLUMN IF NOT EXISTS description TEXT;
+
 ALTER TABLE public.pipeline_leads
   ADD COLUMN IF NOT EXISTS attachments JSONB NOT NULL DEFAULT '[]'::jsonb;
 

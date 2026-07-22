@@ -29,6 +29,7 @@ export type PipelineLead = {
   status: string | null;
   email: string | null;
   phone: string | null;
+  description: string | null;
   attachments: PipelineAttachment[] | null;
 };
 

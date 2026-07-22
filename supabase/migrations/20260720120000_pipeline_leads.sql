@@ -18,7 +18,8 @@ CREATE TABLE IF NOT EXISTS public.pipeline_leads (
   business TEXT,
   status TEXT,
   email TEXT,
-  phone TEXT
+  phone TEXT,
+  description TEXT
 );
 
 CREATE INDEX IF NOT EXISTS idx_pipeline_leads_tab ON public.pipeline_leads (tab);

@@ -19,6 +19,7 @@ const FIELDS: Record<PipelineTab, { key: keyof PipelineLead; label: string; type
   attended: [
     { key: "client", label: "Client" },
     { key: "industry", label: "Industry" },
+    { key: "description", label: "Description", type: "textarea" },
     { key: "requirement", label: "Requirement notes", type: "textarea" },
     { key: "estimated_value", label: "Estimated Value" },
     { key: "current_stage", label: "Current Stage" },
@@ -32,6 +33,7 @@ const FIELDS: Record<PipelineTab, { key: keyof PipelineLead; label: string; type
     { key: "client", label: "Client" },
     { key: "phone", label: "Contact" },
     { key: "business", label: "Business" },
+    { key: "description", label: "Description", type: "textarea" },
     { key: "email", label: "Email" },
     { key: "status", label: "Status", type: "textarea" },
   ],
@@ -233,6 +235,7 @@ function LeadModal({
 const ATT_COLS: { key: keyof PipelineLead; label: string; w?: string }[] = [
   { key: "client", label: "Client" },
   { key: "industry", label: "Industry" },
+  { key: "description", label: "Description", w: "min-w-[220px]" },
   { key: "estimated_value", label: "Est. Value" },
   { key: "current_stage", label: "Stage" },
   { key: "next_step", label: "Next Step", w: "min-w-[240px]" },
@@ -242,9 +245,10 @@ const ATT_COLS: { key: keyof PipelineLead; label: string; w?: string }[] = [
 const UNATT_COLS: { key: keyof PipelineLead; label: string; w?: string }[] = [
   { key: "client", label: "Client" },
   { key: "phone", label: "Contact" },
-  { key: "business", label: "Business", w: "min-w-[220px]" },
+  { key: "business", label: "Business", w: "min-w-[200px]" },
+  { key: "description", label: "Description", w: "min-w-[220px]" },
   { key: "email", label: "Email" },
-  { key: "status", label: "Status", w: "min-w-[200px]" },
+  { key: "status", label: "Status", w: "min-w-[180px]" },
 ];
 
 function exportCsv(rows: PipelineLead[], tab: PipelineTab) {
@@ -293,7 +297,7 @@ export default function PipelineDashboard() {
       .filter((l) =>
         !q
           ? true
-          : `${l.client ?? ""} ${l.industry ?? ""} ${l.business ?? ""} ${l.email ?? ""} ${l.phone ?? ""} ${l.current_stage ?? ""} ${l.status ?? ""}`
+          : `${l.client ?? ""} ${l.industry ?? ""} ${l.business ?? ""} ${l.description ?? ""} ${l.email ?? ""} ${l.phone ?? ""} ${l.current_stage ?? ""} ${l.status ?? ""}`
               .toLowerCase()
               .includes(q),
       );
