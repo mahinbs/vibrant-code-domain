@@ -4,6 +4,7 @@ import { Helmet } from "react-helmet-async";
 import { pipelineAuth } from "@/services/pipelineAuth";
 import {
   pipelineLeadService,
+  type PipelineAttachment,
   type PipelineLead,
   type PipelineTab,
 } from "@/services/pipelineLeadService";
@@ -50,16 +51,104 @@ function formatINR(n: number): string {
 const inputCls =
   "w-full rounded-lg border border-white/15 bg-black/40 p-2.5 text-sm text-white placeholder:text-white/35 focus:border-[#4b78ff] focus:outline-none";
 
+function formatSize(bytes: number): string {
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${Math.round(bytes / 1024)} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+}
+
+function AttachmentsSection({
+  lead,
+  onChanged,
+}: {
+  lead: PipelineLead;
+  onChanged?: () => void;
+}) {
+  const [atts, setAtts] = useState<PipelineAttachment[]>(lead.attachments ?? []);
+  const [uploading, setUploading] = useState(false);
+  const [err, setErr] = useState<string | null>(null);
+
+  async function onFiles(files: FileList | null) {
+    if (!files || files.length === 0) return;
+    setErr(null);
+    setUploading(true);
+    let next = [...atts];
+    for (const file of Array.from(files)) {
+      if (file.size > 15 * 1024 * 1024) {
+        setErr(`${file.name} is over 15 MB.`);
+        continue;
+      }
+      const { attachment, error } = await pipelineLeadService.uploadAttachment(lead.id, file);
+      if (error) { setErr(error); break; }
+      if (attachment) next = [...next, attachment];
+    }
+    const { error } = await pipelineLeadService.update(lead.id, { attachments: next });
+    setUploading(false);
+    if (error) { setErr(error); return; }
+    setAtts(next);
+    onChanged?.();
+  }
+
+  async function removeAtt(att: PipelineAttachment) {
+    setErr(null);
+    await pipelineLeadService.removeAttachment(att.path);
+    const next = atts.filter((a) => a.path !== att.path);
+    const { error } = await pipelineLeadService.update(lead.id, { attachments: next });
+    if (error) { setErr(error); return; }
+    setAtts(next);
+    onChanged?.();
+  }
+
+  return (
+    <div className="mt-1 rounded-lg border border-white/12 bg-black/30 p-3">
+      <div className="mb-2 flex items-center justify-between">
+        <p className="text-[13px] font-medium text-white/80">Attachments</p>
+        <label className="cursor-pointer rounded-md bg-[#4b78ff] px-3 py-1.5 text-[12px] font-semibold text-white hover:bg-[#3d63d8]">
+          {uploading ? "Uploading…" : "+ Upload file"}
+          <input
+            type="file"
+            multiple
+            accept="application/pdf,image/*"
+            className="hidden"
+            disabled={uploading}
+            onChange={(e) => onFiles(e.target.files)}
+          />
+        </label>
+      </div>
+      <p className="mb-2 text-[11px] text-white/40">Follow-up PDF, chat screenshot, or image · up to 15 MB each</p>
+      {atts.length === 0 ? (
+        <p className="text-[12px] text-white/35">No files yet.</p>
+      ) : (
+        <ul className="flex flex-col gap-1.5">
+          {atts.map((a) => (
+            <li key={a.path} className="flex items-center gap-2 rounded-md border border-white/10 bg-white/[0.03] px-2.5 py-1.5">
+              <span className="text-[13px]">{a.type.startsWith("image/") ? "🖼️" : "📄"}</span>
+              <a href={a.url} target="_blank" rel="noopener noreferrer" className="min-w-0 flex-1 truncate text-[12px] text-[#7aa2ff] hover:underline">
+                {a.name}
+              </a>
+              <span className="text-[11px] text-white/35">{formatSize(a.size)}</span>
+              <button onClick={() => removeAtt(a)} className="text-[12px] text-red-300/80 hover:underline" type="button">Remove</button>
+            </li>
+          ))}
+        </ul>
+      )}
+      {err ? <p className="mt-2 text-[12px] text-red-300/90">{err}</p> : null}
+    </div>
+  );
+}
+
 function LeadModal({
   tab,
   lead,
   onClose,
   onSaved,
+  onChanged,
 }: {
   tab: PipelineTab;
   lead: PipelineLead | null;
   onClose: () => void;
   onSaved: () => void;
+  onChanged?: () => void;
 }) {
   const [form, setForm] = useState<Record<string, string>>(() => {
     const base: Record<string, string> = {};
@@ -119,6 +208,13 @@ function LeadModal({
               )}
             </label>
           ))}
+          {lead ? (
+            <AttachmentsSection lead={lead} onChanged={onChanged} />
+          ) : (
+            <p className="rounded-lg border border-white/10 bg-black/30 p-3 text-[12px] text-white/45">
+              Save this lead first, then reopen it to attach follow-up PDFs, images, or chat screenshots.
+            </p>
+          )}
           {error ? <p className="text-[13px] text-red-300/90">{error}</p> : null}
           <div className="mt-2 flex justify-end gap-2">
             <button type="button" onClick={onClose} className="rounded-lg border border-white/15 px-4 py-2.5 text-sm text-white/80 hover:bg-white/5">
@@ -328,9 +424,14 @@ export default function PipelineDashboard() {
                         {c.key === "client" ? (
                           <button
                             onClick={() => setModal({ open: true, lead: l })}
-                            className="text-left font-medium text-white hover:text-[#7aa2ff]"
+                            className="flex items-center gap-1.5 text-left font-medium text-white hover:text-[#7aa2ff]"
                           >
                             {l.client || "—"}
+                            {(l.attachments?.length ?? 0) > 0 ? (
+                              <span className="rounded-full bg-white/10 px-1.5 py-0.5 text-[10px] text-white/60" title={`${l.attachments!.length} file(s)`}>
+                                📎 {l.attachments!.length}
+                              </span>
+                            ) : null}
                           </button>
                         ) : (
                           <span className="whitespace-pre-wrap break-words text-white/70">{(l[c.key] as string) || "—"}</span>
@@ -357,6 +458,7 @@ export default function PipelineDashboard() {
           lead={modal.lead}
           onClose={() => setModal({ open: false, lead: null })}
           onSaved={() => { setModal({ open: false, lead: null }); void load(); }}
+          onChanged={() => void load()}
         />
       ) : null}
     </div>
