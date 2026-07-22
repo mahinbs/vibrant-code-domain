@@ -402,6 +402,7 @@ export default function PipelineDashboard() {
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [search, setSearch] = useState("");
+  const [range, setRange] = useState<"all" | "7" | "30" | "90">("all");
   const [modal, setModal] = useState<{ open: boolean; lead: PipelineLead | null }>({ open: false, lead: null });
   const [detail, setDetail] = useState<PipelineLead | null>(null);
   const [filesModal, setFilesModal] = useState<PipelineLead | null>(null);
@@ -424,8 +425,14 @@ export default function PipelineDashboard() {
 
   const rows = useMemo(() => {
     const q = search.trim().toLowerCase();
+    const cutoff = range === "all" ? 0 : Date.now() - Number(range) * 86400000;
     return leads
       .filter((l) => l.tab === tab)
+      .filter((l) => {
+        if (range === "all") return true;
+        if (!l.created_at) return false;
+        return new Date(l.created_at).getTime() >= cutoff;
+      })
       .filter((l) =>
         !q
           ? true
@@ -433,7 +440,7 @@ export default function PipelineDashboard() {
               .toLowerCase()
               .includes(q),
       );
-  }, [leads, tab, search]);
+  }, [leads, tab, search, range]);
 
   const stats = useMemo(() => {
     const att = leads.filter((l) => l.tab === "attended");
@@ -522,6 +529,17 @@ export default function PipelineDashboard() {
             ))}
           </div>
           <div className="flex flex-wrap items-center gap-2">
+            <select
+              value={range}
+              onChange={(e) => setRange(e.target.value as typeof range)}
+              className="rounded-lg border border-white/15 bg-black/40 px-3 py-2 text-sm text-white focus:border-[#4b78ff] focus:outline-none"
+              title="Filter by date added"
+            >
+              <option value="all">All time</option>
+              <option value="7">Last 7 days</option>
+              <option value="30">Last 30 days</option>
+              <option value="90">Last 90 days</option>
+            </select>
             <input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
