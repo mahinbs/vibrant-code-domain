@@ -239,6 +239,127 @@ function LeadModal({
   );
 }
 
+const DETAIL_META: Record<PipelineTab, { key: keyof PipelineLead; label: string }[]> = {
+  attended: [
+    { key: "industry", label: "Industry" },
+    { key: "estimated_value", label: "Estimated Value" },
+    { key: "current_stage", label: "Current Stage" },
+    { key: "expected_closure", label: "Expected Closure" },
+    { key: "email", label: "Mail ID" },
+    { key: "phone", label: "Phone" },
+  ],
+  unattended: [
+    { key: "phone", label: "Contact" },
+    { key: "email", label: "Email" },
+    { key: "business", label: "Business" },
+  ],
+};
+const DETAIL_BLOCKS: Record<PipelineTab, { key: keyof PipelineLead; label: string }[]> = {
+  attended: [
+    { key: "description", label: "Description" },
+    { key: "requirement", label: "Requirement notes" },
+    { key: "next_step", label: "Next Step" },
+    { key: "technical_notes", label: "Technical Notes" },
+  ],
+  unattended: [
+    { key: "status", label: "Status" },
+    { key: "description", label: "Description" },
+  ],
+};
+
+function val(l: PipelineLead, k: keyof PipelineLead): string {
+  const v = l[k];
+  return v == null ? "" : String(v).trim();
+}
+
+function LeadDetailModal({
+  lead,
+  onClose,
+  onEdit,
+  onChanged,
+}: {
+  lead: PipelineLead;
+  onClose: () => void;
+  onEdit: () => void;
+  onChanged: () => void;
+}) {
+  const meta = DETAIL_META[lead.tab].filter((f) => val(lead, f.key));
+  const blocks = DETAIL_BLOCKS[lead.tab].filter((f) => val(lead, f.key));
+  const badge = lead.tab === "attended" ? val(lead, "current_stage") : val(lead, "status");
+  const initial = (lead.client || "?").trim().charAt(0).toUpperCase();
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/70 p-4 backdrop-blur-sm" onClick={onClose}>
+      <div
+        className="my-8 w-full max-w-[640px] overflow-hidden rounded-2xl border border-white/15 bg-[#0c1020]"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Header */}
+        <div
+          className="relative flex items-start gap-4 p-6"
+          style={{ background: "radial-gradient(80% 130% at 0% 0%, rgba(75,120,255,0.35) 0%, rgba(12,16,32,0) 60%)" }}
+        >
+          <div className="flex size-14 shrink-0 items-center justify-center rounded-2xl bg-[#4b78ff]/25 text-2xl font-semibold text-white ring-1 ring-white/15">
+            {initial}
+          </div>
+          <div className="min-w-0 flex-1">
+            <h2 className="truncate text-2xl font-semibold text-white">{lead.client || "—"}</h2>
+            <div className="mt-1.5 flex flex-wrap items-center gap-2">
+              <span className="rounded-full border border-white/15 bg-black/40 px-2.5 py-0.5 text-[11px] uppercase tracking-wide text-white/60">
+                {lead.tab === "attended" ? "Attended" : "Unattended"}
+              </span>
+              {badge ? (
+                <span className="rounded-full border border-[#4b78ff]/40 bg-[#4b78ff]/15 px-2.5 py-0.5 text-[11px] font-medium text-[#9dbaff]">
+                  {badge}
+                </span>
+              ) : null}
+              {val(lead, "estimated_value") && lead.tab === "attended" ? (
+                <span className="rounded-full border border-emerald-400/30 bg-emerald-400/10 px-2.5 py-0.5 text-[11px] font-medium text-emerald-300">
+                  ₹{val(lead, "estimated_value")}
+                </span>
+              ) : null}
+            </div>
+          </div>
+          <button onClick={onClose} className="shrink-0 text-white/50 hover:text-white" aria-label="Close">✕</button>
+        </div>
+
+        <div className="max-h-[65vh] overflow-y-auto px-6 pb-6">
+          {/* Meta grid */}
+          {meta.length ? (
+            <div className="grid grid-cols-2 gap-x-6 gap-y-4 border-t border-white/10 pt-5">
+              {meta.map((f) => (
+                <div key={f.key as string} className="min-w-0">
+                  <p className="text-[11px] uppercase tracking-wide text-white/40">{f.label}</p>
+                  <p className="mt-0.5 break-words text-[14px] text-white/85">{val(lead, f.key)}</p>
+                </div>
+              ))}
+            </div>
+          ) : null}
+
+          {/* Long-text blocks */}
+          {blocks.map((f) => (
+            <div key={f.key as string} className="mt-5 border-t border-white/10 pt-5">
+              <p className="mb-1.5 text-[11px] uppercase tracking-wide text-white/40">{f.label}</p>
+              <p className="whitespace-pre-wrap break-words text-[14px] leading-relaxed text-white/80">{val(lead, f.key)}</p>
+            </div>
+          ))}
+
+          {/* Attachments — always visible */}
+          <div className="mt-5 border-t border-white/10 pt-5">
+            <AttachmentsSection lead={lead} onChanged={onChanged} />
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div className="flex justify-end gap-2 border-t border-white/10 bg-black/20 px-6 py-4">
+          <button onClick={onClose} className="rounded-lg border border-white/15 px-4 py-2 text-sm text-white/80 hover:bg-white/5">Close</button>
+          <button onClick={onEdit} className="rounded-lg bg-[#4b78ff] px-4 py-2 text-sm font-semibold text-white hover:bg-[#3d63d8]">Edit lead</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 const ATT_COLS: { key: keyof PipelineLead; label: string; w?: string }[] = [
   { key: "client", label: "Client" },
   { key: "industry", label: "Industry" },
@@ -282,6 +403,7 @@ export default function PipelineDashboard() {
   const [loadError, setLoadError] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   const [modal, setModal] = useState<{ open: boolean; lead: PipelineLead | null }>({ open: false, lead: null });
+  const [detail, setDetail] = useState<PipelineLead | null>(null);
   const [filesModal, setFilesModal] = useState<PipelineLead | null>(null);
   const [descEdit, setDescEdit] = useState<{ id: string; value: string } | null>(null);
   const [descSaving, setDescSaving] = useState(false);
@@ -449,7 +571,7 @@ export default function PipelineDashboard() {
                       <td key={c.key as string} className={`px-3 py-3 text-white/85 ${c.w ?? ""}`}>
                         {c.key === "client" ? (
                           <button
-                            onClick={() => setModal({ open: true, lead: l })}
+                            onClick={() => setDetail(l)}
                             className="flex items-center gap-1.5 text-left font-medium text-white hover:text-[#7aa2ff]"
                           >
                             {l.client || "—"}
@@ -525,6 +647,15 @@ export default function PipelineDashboard() {
           lead={modal.lead}
           onClose={() => setModal({ open: false, lead: null })}
           onSaved={() => { setModal({ open: false, lead: null }); void load(); }}
+          onChanged={() => void load()}
+        />
+      ) : null}
+
+      {detail ? (
+        <LeadDetailModal
+          lead={detail}
+          onClose={() => setDetail(null)}
+          onEdit={() => { setModal({ open: true, lead: detail }); setDetail(null); }}
           onChanged={() => void load()}
         />
       ) : null}
