@@ -29,6 +29,7 @@ export type PipelineLead = {
   status: string | null;
   email: string | null;
   phone: string | null;
+  website: string | null;
   description: string | null;
   /** Manual responsiveness rating: 'hot' | 'warm' | 'cold' | 'useless' | null */
   responsiveness: string | null;

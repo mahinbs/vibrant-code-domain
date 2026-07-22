@@ -61,6 +61,7 @@ const FIELDS: Record<PipelineTab, { key: keyof PipelineLead; label: string; type
     { key: "technical_notes", label: "Technical Notes", type: "textarea" },
     { key: "email", label: "Mail ID" },
     { key: "phone", label: "Phone number" },
+    { key: "website", label: "Company website" },
   ],
   unattended: [
     { key: "client", label: "Client" },
@@ -68,6 +69,7 @@ const FIELDS: Record<PipelineTab, { key: keyof PipelineLead; label: string; type
     { key: "business", label: "Business" },
     { key: "description", label: "Description", type: "textarea" },
     { key: "email", label: "Email" },
+    { key: "website", label: "Company website" },
     { key: "status", label: "Status", type: "textarea" },
   ],
 };
@@ -198,9 +200,9 @@ function LeadModal({
     setError(null);
     if (!form.client?.trim()) return setError("Client is required.");
     setSaving(true);
-    // Save responsiveness separately (best-effort) so a missing column can't
-    // block the whole save before the ALTER is run.
-    const { responsiveness, ...fields } = form;
+    // Save responsiveness + website separately (best-effort) so a missing
+    // column can't block the whole save before the ALTER is run.
+    const { responsiveness, website, ...fields } = form;
     const payload = { ...fields, tab } as Record<string, unknown>;
     let leadId = lead?.id ?? null;
     let saveError: string | null = null;
@@ -211,8 +213,13 @@ function LeadModal({
       saveError = created.error;
       leadId = created.data?.id ?? null;
     }
-    if (!saveError && leadId && (responsiveness ?? "") !== (lead?.responsiveness ?? "")) {
-      try { await pipelineLeadService.update(leadId, { responsiveness: responsiveness || null }); } catch { /* column may not exist yet */ }
+    if (!saveError && leadId) {
+      if ((responsiveness ?? "") !== (lead?.responsiveness ?? "")) {
+        try { await pipelineLeadService.update(leadId, { responsiveness: responsiveness || null }); } catch { /* column may not exist yet */ }
+      }
+      if ((website ?? "") !== (lead?.website ?? "")) {
+        try { await pipelineLeadService.update(leadId, { website: website || null }); } catch { /* column may not exist yet */ }
+      }
     }
     setSaving(false);
     if (saveError) {
@@ -300,11 +307,13 @@ const DETAIL_META: Record<PipelineTab, { key: keyof PipelineLead; label: string 
     { key: "expected_closure", label: "Expected Closure" },
     { key: "email", label: "Mail ID" },
     { key: "phone", label: "Phone" },
+    { key: "website", label: "Company website" },
   ],
   unattended: [
     { key: "phone", label: "Contact" },
     { key: "email", label: "Email" },
     { key: "business", label: "Business" },
+    { key: "website", label: "Company website" },
   ],
 };
 const DETAIL_BLOCKS: Record<PipelineTab, { key: keyof PipelineLead; label: string }[]> = {
@@ -402,7 +411,18 @@ function LeadDetailModal({
               {meta.map((f) => (
                 <div key={f.key as string} className="min-w-0">
                   <p className="text-[11px] uppercase tracking-wide text-white/40">{f.label}</p>
-                  <p className="mt-0.5 break-words text-[14px] text-white/85">{val(lead, f.key)}</p>
+                  {f.key === "website" ? (
+                    <a
+                      href={/^https?:\/\//i.test(val(lead, "website")) ? val(lead, "website") : `https://${val(lead, "website")}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-0.5 block break-words text-[14px] text-[#7aa2ff] hover:underline"
+                    >
+                      {val(lead, "website")} ↗
+                    </a>
+                  ) : (
+                    <p className="mt-0.5 break-words text-[14px] text-white/85">{val(lead, f.key)}</p>
+                  )}
                 </div>
               ))}
             </div>
