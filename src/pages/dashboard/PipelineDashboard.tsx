@@ -15,6 +15,9 @@ const TABS: { key: PipelineTab; label: string }[] = [
   { key: "unattended", label: "Unattended" },
 ];
 
+/** Team members who can own a lead (point of contact). */
+const POC_OPTIONS = ["Kavya", "Viaan", "Darshan", "Mahin", "Supreeth"];
+
 /** Responsiveness rating — emoji + colour for visual triage of each lead. */
 type Rating = { value: string; emoji: string; label: string; short: string; text: string; chip: string };
 const RATINGS: Rating[] = [
@@ -207,7 +210,10 @@ function LeadModal({
   onChanged?: () => void;
 }) {
   const [form, setForm] = useState<Record<string, string>>(() => {
-    const base: Record<string, string> = { responsiveness: (lead?.responsiveness as string) ?? "" };
+    const base: Record<string, string> = {
+      responsiveness: (lead?.responsiveness as string) ?? "",
+      poc: (lead?.poc as string) ?? "",
+    };
     for (const f of FIELDS[tab]) base[f.key as string] = (lead?.[f.key] as string) ?? "";
     return base;
   });
@@ -219,9 +225,9 @@ function LeadModal({
     setError(null);
     if (!form.client?.trim()) return setError("Client is required.");
     setSaving(true);
-    // Save responsiveness + website separately (best-effort) so a missing
+    // Save responsiveness + website + poc separately (best-effort) so a missing
     // column can't block the whole save before the ALTER is run.
-    const { responsiveness, website, ...fields } = form;
+    const { responsiveness, website, poc, ...fields } = form;
     const payload = { ...fields, tab } as Record<string, unknown>;
     let leadId = lead?.id ?? null;
     let saveError: string | null = null;
@@ -238,6 +244,9 @@ function LeadModal({
       }
       if ((website ?? "") !== (lead?.website ?? "")) {
         try { await pipelineLeadService.update(leadId, { website: website || null }); } catch { /* column may not exist yet */ }
+      }
+      if ((poc ?? "") !== (lead?.poc ?? "")) {
+        try { await pipelineLeadService.update(leadId, { poc: poc || null }); } catch { /* column may not exist yet */ }
       }
     }
     setSaving(false);
@@ -268,6 +277,19 @@ function LeadModal({
           <button onClick={onClose} className="text-white/50 hover:text-white" aria-label="Close">✕</button>
         </div>
         <form onSubmit={submit} className="flex flex-col gap-3">
+          <label className="text-[13px] text-white/70">
+            POC (point of contact)
+            <select
+              value={form.poc ?? ""}
+              onChange={(e) => setForm((p) => ({ ...p, poc: e.target.value }))}
+              className={`mt-1 ${inputCls}`}
+            >
+              <option value="">— Unassigned —</option>
+              {POC_OPTIONS.map((n) => (
+                <option key={n} value={n}>{n}</option>
+              ))}
+            </select>
+          </label>
           <div className="text-[13px] text-white/70">
             Responsiveness
             <div className="mt-1.5">
@@ -397,6 +419,11 @@ function LeadDetailModal({
               <span className="rounded-full border border-white/15 bg-black/40 px-2.5 py-0.5 text-[11px] uppercase tracking-wide text-white/60">
                 {lead.tab === "attended" ? "Attended" : "Unattended"}
               </span>
+              {lead.poc ? (
+                <span className="rounded-full border border-[#4b78ff]/40 bg-[#4b78ff]/15 px-2.5 py-0.5 text-[11px] font-medium text-[#9dbaff]">
+                  POC: {lead.poc}
+                </span>
+              ) : null}
               {badge ? (
                 <span className="rounded-full border border-[#4b78ff]/40 bg-[#4b78ff]/15 px-2.5 py-0.5 text-[11px] font-medium text-[#9dbaff]">
                   {badge}
@@ -481,6 +508,7 @@ function LeadDetailModal({
 
 const ATT_COLS: { key: keyof PipelineLead; label: string; w?: string }[] = [
   { key: "client", label: "Client" },
+  { key: "poc", label: "POC" },
   { key: "industry", label: "Industry" },
   { key: "description", label: "Description", w: "min-w-[220px]" },
   { key: "estimated_value", label: "Est. Value" },
@@ -492,6 +520,7 @@ const ATT_COLS: { key: keyof PipelineLead; label: string; w?: string }[] = [
 ];
 const UNATT_COLS: { key: keyof PipelineLead; label: string; w?: string }[] = [
   { key: "client", label: "Client" },
+  { key: "poc", label: "POC" },
   { key: "phone", label: "Contact" },
   { key: "business", label: "Business", w: "min-w-[200px]" },
   { key: "description", label: "Description", w: "min-w-[220px]" },
@@ -501,7 +530,7 @@ const UNATT_COLS: { key: keyof PipelineLead; label: string; w?: string }[] = [
 ];
 
 function exportCsv(rows: PipelineLead[], tab: PipelineTab) {
-  const cols = FIELDS[tab].map((f) => f.key as string);
+  const cols = ["poc", ...FIELDS[tab].map((f) => f.key as string), "responsiveness", "created_at"];
   const esc = (v: unknown) => {
     const s = v == null ? "" : String(v);
     return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
@@ -526,6 +555,7 @@ export default function PipelineDashboard() {
   const [range, setRange] = useState<"all" | "7" | "30" | "90">("all");
   const [fileFilter, setFileFilter] = useState<"all" | "missing" | "has">("all");
   const [ratingFilter, setRatingFilter] = useState<string>("all");
+  const [pocFilter, setPocFilter] = useState<string>("all");
   const [modal, setModal] = useState<{ open: boolean; lead: PipelineLead | null }>({ open: false, lead: null });
   const [detail, setDetail] = useState<PipelineLead | null>(null);
   const [filesModal, setFilesModal] = useState<PipelineLead | null>(null);
@@ -564,13 +594,16 @@ export default function PipelineDashboard() {
       })
       .filter((l) => (ratingFilter === "all" ? true : (l.responsiveness ?? "") === ratingFilter))
       .filter((l) =>
+        pocFilter === "all" ? true : pocFilter === "__none" ? !l.poc : (l.poc ?? "") === pocFilter,
+      )
+      .filter((l) =>
         !q
           ? true
           : `${l.client ?? ""} ${l.industry ?? ""} ${l.business ?? ""} ${l.description ?? ""} ${l.email ?? ""} ${l.phone ?? ""} ${l.current_stage ?? ""} ${l.status ?? ""}`
               .toLowerCase()
               .includes(q),
       );
-  }, [leads, tab, search, range, fileFilter, ratingFilter]);
+  }, [leads, tab, search, range, fileFilter, ratingFilter, pocFilter]);
 
   const stats = useMemo(() => {
     const att = leads.filter((l) => l.tab === "attended");
@@ -704,6 +737,18 @@ export default function PipelineDashboard() {
                 <option key={r.value} value={r.value}>{r.emoji} {r.short}</option>
               ))}
             </select>
+            <select
+              value={pocFilter}
+              onChange={(e) => setPocFilter(e.target.value)}
+              className="rounded-lg border border-white/15 bg-black/40 px-3 py-2 text-sm text-white focus:border-[#4b78ff] focus:outline-none"
+              title="Filter by POC"
+            >
+              <option value="all">All POC</option>
+              <option value="__none">Unassigned</option>
+              {POC_OPTIONS.map((n) => (
+                <option key={n} value={n}>{n}</option>
+              ))}
+            </select>
             <input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
@@ -810,6 +855,14 @@ export default function PipelineDashboard() {
                                 ✏️
                               </button>
                             </div>
+                          )
+                        ) : c.key === "poc" ? (
+                          l.poc ? (
+                            <span className="whitespace-nowrap rounded-full border border-[#4b78ff]/40 bg-[#4b78ff]/15 px-2 py-0.5 text-[12px] font-medium text-[#9dbaff]">
+                              {l.poc}
+                            </span>
+                          ) : (
+                            <span className="text-white/30">—</span>
                           )
                         ) : c.key === "created_at" ? (
                           <span className="whitespace-nowrap text-[13px] text-white/55" title={`Added ${formatDateTime(l.created_at)}`}>
