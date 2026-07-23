@@ -708,6 +708,14 @@ const App = () => {
                   </DashboardProtectedRoute>
                 }
               />
+              <Route
+                path="/dashboard/lead/:id"
+                element={
+                  <DashboardProtectedRoute>
+                    <PipelineDashboard />
+                  </DashboardProtectedRoute>
+                }
+              />
 
               <Route path="/admin/login" element={<AdminLogin />} />
               <Route

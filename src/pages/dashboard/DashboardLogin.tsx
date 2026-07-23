@@ -1,10 +1,12 @@
 import { useState, type FormEvent } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { pipelineAuth } from "@/services/pipelineAuth";
 
 export default function DashboardLogin() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = (location.state as { from?: { pathname?: string } } | null)?.from?.pathname || "/dashboard";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -16,7 +18,7 @@ export default function DashboardLogin() {
     setLoading(true);
     const res = await pipelineAuth.login(email, password);
     setLoading(false);
-    if (res.ok) navigate("/dashboard", { replace: true });
+    if (res.ok) navigate(from, { replace: true });
     else setError(res.error ?? "Login failed.");
   }
 

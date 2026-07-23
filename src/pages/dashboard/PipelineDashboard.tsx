@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState, type FormEvent } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { pipelineAuth } from "@/services/pipelineAuth";
 import {
@@ -406,6 +406,23 @@ function LeadDetailModal({
     onChanged();
   }
 
+  const [copied, setCopied] = useState(false);
+  async function copyLink() {
+    const url = `${window.location.origin}/dashboard/lead/${lead.id}`;
+    try {
+      await navigator.clipboard.writeText(url);
+    } catch {
+      const ta = document.createElement("textarea");
+      ta.value = url;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand("copy");
+      ta.remove();
+    }
+    setCopied(true);
+    window.setTimeout(() => setCopied(false), 2000);
+  }
+
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/70 p-4 backdrop-blur-sm" onClick={onClose}>
       <div
@@ -525,9 +542,19 @@ function LeadDetailModal({
         </div>
 
         {/* Footer */}
-        <div className="flex justify-end gap-2 border-t border-white/10 bg-black/20 px-6 py-4">
-          <button onClick={onClose} className="rounded-lg border border-white/15 px-4 py-2 text-sm text-white/80 hover:bg-white/5">Close</button>
-          <button onClick={onEdit} className="rounded-lg bg-[#4b78ff] px-4 py-2 text-sm font-semibold text-white hover:bg-[#3d63d8]">Edit lead</button>
+        <div className="flex items-center justify-between gap-2 border-t border-white/10 bg-black/20 px-6 py-4">
+          <button
+            onClick={copyLink}
+            className={`rounded-lg border px-3 py-2 text-[13px] font-medium transition-colors ${
+              copied ? "border-emerald-400/50 bg-emerald-400/10 text-emerald-300" : "border-white/15 text-white/75 hover:bg-white/5"
+            }`}
+          >
+            {copied ? "✓ Link copied" : "🔗 Copy link"}
+          </button>
+          <div className="flex gap-2">
+            <button onClick={onClose} className="rounded-lg border border-white/15 px-4 py-2 text-sm text-white/80 hover:bg-white/5">Close</button>
+            <button onClick={onEdit} className="rounded-lg bg-[#4b78ff] px-4 py-2 text-sm font-semibold text-white hover:bg-[#3d63d8]">Edit lead</button>
+          </div>
         </div>
       </div>
     </div>
@@ -575,6 +602,7 @@ function exportCsv(rows: PipelineLead[], tab: PipelineTab) {
 
 export default function PipelineDashboard() {
   const navigate = useNavigate();
+  const { id: routeLeadId } = useParams<{ id: string }>();
   const [tab, setTab] = useState<PipelineTab>("attended");
   const [leads, setLeads] = useState<PipelineLead[]>([]);
   const [loading, setLoading] = useState(true);
@@ -603,6 +631,14 @@ export default function PipelineDashboard() {
   };
 
   useEffect(() => { void load(); }, []);
+
+  // Open a lead directly from a shared link (/dashboard/lead/:id).
+  useEffect(() => {
+    if (routeLeadId && leads.length) {
+      const l = leads.find((x) => x.id === routeLeadId);
+      if (l) setDetail(l);
+    }
+  }, [routeLeadId, leads]);
 
   const rows = useMemo(() => {
     const q = search.trim().toLowerCase();
@@ -918,7 +954,7 @@ export default function PipelineDashboard() {
       {detail ? (
         <LeadDetailModal
           lead={detail}
-          onClose={() => setDetail(null)}
+          onClose={() => { setDetail(null); if (routeLeadId) navigate("/dashboard", { replace: true }); }}
           onEdit={() => { setModal({ open: true, lead: detail }); setDetail(null); }}
           onChanged={() => void load()}
         />
