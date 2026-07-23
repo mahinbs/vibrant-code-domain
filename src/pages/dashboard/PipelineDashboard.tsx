@@ -74,6 +74,25 @@ const FIELDS: Record<PipelineTab, { key: keyof PipelineLead; label: string; type
   ],
 };
 
+function formatDate(iso?: string): string {
+  if (!iso) return "—";
+  try {
+    return new Date(iso).toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
+  } catch {
+    return "—";
+  }
+}
+function formatDateTime(iso?: string): string {
+  if (!iso) return "—";
+  try {
+    return new Date(iso).toLocaleString("en-IN", {
+      day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit",
+    });
+  } catch {
+    return "—";
+  }
+}
+
 function parseValue(v: string | null): number {
   if (!v) return 0;
   const n = Number(String(v).replace(/[^\d.]/g, ""));
@@ -440,6 +459,14 @@ function LeadDetailModal({
           <div className="mt-5 border-t border-white/10 pt-5">
             <AttachmentsSection lead={lead} onChanged={onChanged} />
           </div>
+
+          {/* Timestamps */}
+          <div className="mt-5 flex flex-wrap gap-x-6 gap-y-1 border-t border-white/10 pt-4 text-[12px] text-white/40">
+            <span>🕒 Added {formatDateTime(lead.created_at)}</span>
+            {lead.updated_at && lead.updated_at !== lead.created_at ? (
+              <span>✏️ Last updated {formatDateTime(lead.updated_at)}</span>
+            ) : null}
+          </div>
         </div>
 
         {/* Footer */}
@@ -461,6 +488,7 @@ const ATT_COLS: { key: keyof PipelineLead; label: string; w?: string }[] = [
   { key: "next_step", label: "Next Step", w: "min-w-[240px]" },
   { key: "expected_closure", label: "Closure" },
   { key: "email", label: "Contact" },
+  { key: "created_at", label: "Added" },
 ];
 const UNATT_COLS: { key: keyof PipelineLead; label: string; w?: string }[] = [
   { key: "client", label: "Client" },
@@ -469,6 +497,7 @@ const UNATT_COLS: { key: keyof PipelineLead; label: string; w?: string }[] = [
   { key: "description", label: "Description", w: "min-w-[220px]" },
   { key: "email", label: "Email" },
   { key: "status", label: "Status", w: "min-w-[180px]" },
+  { key: "created_at", label: "Added" },
 ];
 
 function exportCsv(rows: PipelineLead[], tab: PipelineTab) {
@@ -782,6 +811,10 @@ export default function PipelineDashboard() {
                               </button>
                             </div>
                           )
+                        ) : c.key === "created_at" ? (
+                          <span className="whitespace-nowrap text-[13px] text-white/55" title={`Added ${formatDateTime(l.created_at)}`}>
+                            {formatDate(l.created_at)}
+                          </span>
                         ) : (
                           <span className="whitespace-pre-wrap break-words text-white/70">{(l[c.key] as string) || "—"}</span>
                         )}
