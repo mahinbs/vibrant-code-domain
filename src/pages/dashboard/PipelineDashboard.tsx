@@ -391,11 +391,18 @@ function LeadDetailModal({
   const badge = lead.tab === "attended" ? val(lead, "current_stage") : val(lead, "status");
   const initial = (lead.client || "?").trim().charAt(0).toUpperCase();
   const [rating, setRating] = useState<string>(lead.responsiveness ?? "");
+  const [poc, setPoc] = useState<string>(lead.poc ?? "");
   const rated = ratingOf(rating);
 
   async function setRate(v: string) {
     setRating(v);
     await pipelineLeadService.update(lead.id, { responsiveness: v });
+    onChanged();
+  }
+
+  async function setPocVal(v: string) {
+    setPoc(v);
+    try { await pipelineLeadService.update(lead.id, { poc: v || null }); } catch { /* column may be missing */ }
     onChanged();
   }
 
@@ -419,9 +426,9 @@ function LeadDetailModal({
               <span className="rounded-full border border-white/15 bg-black/40 px-2.5 py-0.5 text-[11px] uppercase tracking-wide text-white/60">
                 {lead.tab === "attended" ? "Attended" : "Unattended"}
               </span>
-              {lead.poc ? (
+              {poc ? (
                 <span className="rounded-full border border-[#4b78ff]/40 bg-[#4b78ff]/15 px-2.5 py-0.5 text-[11px] font-medium text-[#9dbaff]">
-                  POC: {lead.poc}
+                  POC: {poc}
                 </span>
               ) : null}
               {badge ? (
@@ -445,8 +452,29 @@ function LeadDetailModal({
         </div>
 
         <div className="max-h-[65vh] overflow-y-auto px-6 pb-6">
-          {/* Responsiveness */}
+          {/* POC */}
           <div className="border-t border-white/10 pt-5">
+            <p className="mb-2 text-[11px] uppercase tracking-wide text-white/40">POC (point of contact)</p>
+            <div className="flex flex-wrap gap-2">
+              {POC_OPTIONS.map((n) => (
+                <button
+                  key={n}
+                  type="button"
+                  onClick={() => setPocVal(poc === n ? "" : n)}
+                  className={`rounded-lg border px-3 py-1.5 text-[13px] font-medium transition-colors ${
+                    poc === n
+                      ? "border-[#4b78ff]/50 bg-[#4b78ff]/15 text-[#9dbaff]"
+                      : "border-white/15 text-white/60 hover:bg-white/5"
+                  }`}
+                >
+                  {n}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Responsiveness */}
+          <div className="mt-5 border-t border-white/10 pt-5">
             <p className="mb-2 text-[11px] uppercase tracking-wide text-white/40">Responsiveness</p>
             <RatingPicker value={rating} onChange={setRate} />
           </div>
