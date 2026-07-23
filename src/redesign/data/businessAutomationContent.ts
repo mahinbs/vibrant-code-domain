@@ -264,7 +264,7 @@ export const founderMediaStripCopy = {
   workTogetherLabel: "Let's work together",
   forbesInterviewLabel: "Forbes interview",
   /** Brown-suit founder portrait for the circular profile. */
-  portraitSrc: "/mahin-bs.jpg",
+  portraitSrc: "/mahin-profile.jpg",
   portraitAlt: "Mahin B S — Founder & Chairman, Boostmysites",
   magazinePublication: "Entrepreneur",
   magazineFeatureLabel: "Editorial",

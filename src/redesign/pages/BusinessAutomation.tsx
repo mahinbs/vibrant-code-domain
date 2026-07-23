@@ -141,7 +141,7 @@ export default function BusinessAutomation({
               {...(isHome
                 ? {
                     eyebrowLabel: "1:1 with the Founder & Chairman",
-                    photoSrc: "/mahinbsnew.jpeg",
+                    photoSrc: "/mahin-profile.jpg",
                     photoAlt: "Mahin B S — Founder & Chairman, Boostmysites",
                     badgeLabel: "Mahin B S · Founder & Chairman",
                   }
