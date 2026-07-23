@@ -99,6 +99,7 @@ const FintechDevelopmentCompanyPage = lazy(() => import("./pages/geo/FintechDeve
 const TradingAppDevelopmentPage = lazy(() => import("./pages/geo/TradingAppDevelopmentPage"));
 const PayinPayoutSoftwarePage = lazy(() => import("./pages/geo/PayinPayoutSoftwarePage"));
 const ForLlmPage = lazy(() => import("./pages/ForLlmPage"));
+const FounderProfile = lazy(() => import("./redesign/pages/FounderProfile"));
 const DashboardLogin = lazy(() => import("./pages/dashboard/DashboardLogin"));
 const PipelineDashboard = lazy(() => import("./pages/dashboard/PipelineDashboard"));
 const AdminLogin = lazy(() => import("./pages/admin/AdminLogin"));
@@ -693,6 +694,10 @@ const App = () => {
               <Route path="/new-homepage-preview" element={<NewHomepagePreview />} />
 
               {/* Admin routes */}
+              {/* Founder profile — Mahin B S. */}
+              <Route path="/founder" element={<RedesignShell><FounderProfile /></RedesignShell>} />
+              <Route path="/mahin-b-s" element={<Navigate to="/founder" replace />} />
+
               {/* Standalone Sales Pipeline dashboard (own login). */}
               <Route path="/dashboard/login" element={<DashboardLogin />} />
               <Route
