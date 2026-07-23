@@ -9,7 +9,8 @@ const Footer = lazy(() => import("../components/Footer").then((m) => ({ default:
 const LINKEDIN = "https://in.linkedin.com/in/mahin-b-s";
 const PORTRAIT = "/mahin-bs.jpg";
 const ENTREPRENEUR_COVER = "/mahinbsnew.jpeg";
-const TIMES_AWARD_IMG = "/awards/mahin-times-award.jpg"; // drop the proof image here
+const TIMES_AWARD_VIDEO = "/awards/mahin-times-award.mp4";
+const TIMES_AWARD_IMG = "/awards/mahin-times-award.jpg"; // poster frame
 
 const GRID_OVERLAY: CSSProperties = {
   backgroundImage:
@@ -36,24 +37,26 @@ function LinkedInIcon({ className }: { className?: string }) {
   );
 }
 
-/** Times award proof — shows the image if present, else an elegant emblem card. */
+/** Times Business Awards proof — plays the ceremony clip; emblem fallback if missing. */
 function TimesAwardMedia() {
   const [ok, setOk] = useState(true);
   if (ok) {
     return (
-      <img
-        src={TIMES_AWARD_IMG}
-        alt="Mahin B S — Times award recognition"
+      <video
+        src={TIMES_AWARD_VIDEO}
+        poster={TIMES_AWARD_IMG}
+        controls
+        playsInline
+        preload="metadata"
         onError={() => setOk(false)}
-        loading="lazy"
-        className="h-full w-full object-cover"
+        className="h-full w-full bg-black object-contain"
       />
     );
   }
   return (
     <div className="flex h-full w-full flex-col items-center justify-center gap-3 p-6 text-center">
       <span className="text-5xl">🏆</span>
-      <p className="text-[15px] font-medium text-white">Times Award</p>
+      <p className="text-[15px] font-medium text-white">Times Business Awards</p>
       <p className="max-w-[220px] text-[12px] leading-snug text-white/45">
         Recognised for entrepreneurship and business impact.
       </p>
@@ -214,12 +217,12 @@ export default function FounderProfile() {
               <div className="relative flex-1 overflow-hidden rounded-[18px] border border-white/12 p-3" style={CARD}>
                 <div aria-hidden className="pointer-events-none absolute inset-0 z-0 opacity-30" style={GRID_OVERLAY} />
                 <div className="relative z-[1] flex h-full flex-col">
-                  <div className="relative aspect-video w-full overflow-hidden rounded-[12px] border border-white/10 bg-[#0f1220]">
+                  <div className="relative aspect-[3/4] w-full overflow-hidden rounded-[12px] border border-white/10 bg-black">
                     <TimesAwardMedia />
                   </div>
-                  <p className="mt-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-purple">Award</p>
-                  <p className="mt-0.5 text-[15px] font-medium text-white">Times Award recognition</p>
-                  <p className="text-[13px] text-white/50">For entrepreneurship &amp; business impact</p>
+                  <p className="mt-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-purple">The Times Group · Award</p>
+                  <p className="mt-0.5 text-[15px] font-medium text-white">Times Business Awards</p>
+                  <p className="text-[13px] text-white/50">Recognised on stage for entrepreneurship &amp; impact</p>
                 </div>
               </div>
 
