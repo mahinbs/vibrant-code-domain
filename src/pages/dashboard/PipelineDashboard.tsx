@@ -580,7 +580,6 @@ export default function PipelineDashboard() {
     const q = search.trim().toLowerCase();
     const cutoff = range === "all" ? 0 : Date.now() - Number(range) * 86400000;
     return leads
-      .filter((l) => l.tab === tab)
       .filter((l) => {
         if (range === "all") return true;
         if (!l.created_at) return false;
@@ -663,8 +662,7 @@ export default function PipelineDashboard() {
         {/* Summary */}
         <div className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
           {[
-            { label: "Attended leads", value: stats.att },
-            { label: "Unattended leads", value: stats.unatt },
+            { label: "Total leads", value: stats.att + stats.unatt },
             { label: "Pipeline value", value: formatINR(stats.pipelineValue) },
           ].map((s) => (
             <div key={s.label} className="rounded-xl border border-white/12 bg-white/[0.03] p-4">
@@ -688,21 +686,8 @@ export default function PipelineDashboard() {
 
         {/* Controls */}
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-          <div className="inline-flex rounded-lg border border-white/12 bg-white/[0.03] p-1">
-            {TABS.map((t) => (
-              <button
-                key={t.key}
-                onClick={() => setTab(t.key)}
-                className={`rounded-md px-4 py-1.5 text-sm font-medium transition-colors ${
-                  tab === t.key ? "bg-[#4b78ff] text-white" : "text-white/60 hover:text-white"
-                }`}
-              >
-                {t.label}
-                <span className="ml-1.5 text-[12px] opacity-70">
-                  {t.key === "attended" ? stats.att : stats.unatt}
-                </span>
-              </button>
-            ))}
+          <div className="rounded-lg border border-white/12 bg-white/[0.03] px-4 py-1.5 text-sm font-medium text-white">
+            All leads <span className="ml-1 text-[12px] text-white/50">{rows.length}</span>
           </div>
           <div className="flex flex-wrap items-center gap-2">
             <select
@@ -868,6 +853,8 @@ export default function PipelineDashboard() {
                           <span className="whitespace-nowrap text-[13px] text-white/55" title={`Added ${formatDateTime(l.created_at)}`}>
                             {formatDate(l.created_at)}
                           </span>
+                        ) : c.key === "email" ? (
+                          <span className="whitespace-pre-wrap break-words text-white/70">{l.email || l.phone || "—"}</span>
                         ) : (
                           <span className="whitespace-pre-wrap break-words text-white/70">{(l[c.key] as string) || "—"}</span>
                         )}
