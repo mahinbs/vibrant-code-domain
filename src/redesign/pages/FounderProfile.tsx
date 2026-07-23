@@ -7,7 +7,7 @@ import { whatsappHref } from "../data/site";
 const Footer = lazy(() => import("../components/Footer").then((m) => ({ default: m.Footer })));
 
 const LINKEDIN = "https://in.linkedin.com/in/mahin-b-s";
-const PORTRAIT = "/mahin-bs.jpg";
+const PORTRAIT = "/mahin-profile.jpg";
 const ENTREPRENEUR_COVER = "/mahinbsnew.jpeg";
 const TIMES_AWARD_VIDEO = "/awards/mahin-times-award.mp4";
 const TIMES_AWARD_IMG = "/awards/mahin-times-award.jpg"; // poster frame
