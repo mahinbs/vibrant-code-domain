@@ -11,6 +11,8 @@ const PORTRAIT = "/mahin-bs.jpg";
 const ENTREPRENEUR_COVER = "/mahinbsnew.jpeg";
 const TIMES_AWARD_VIDEO = "/awards/mahin-times-award.mp4";
 const TIMES_AWARD_IMG = "/awards/mahin-times-award.jpg"; // poster frame
+const TIMES_ARTICLE =
+  "https://timesofindia.indiatimes.com/life-style/events/times-business-awards-north-2024-acknowledging-the-very-best-in-business/articleshow/109378158.cms";
 
 const GRID_OVERLAY: CSSProperties = {
   backgroundImage:
@@ -138,8 +140,9 @@ export default function FounderProfile() {
             <p className="mt-4 max-w-[620px] text-lg leading-relaxed text-white/70">
               Investor-entrepreneur and Founder &amp; Chairman of Boostmysites. Featured on the cover of
               <span className="text-white"> Entrepreneur&apos;s Startups</span> as &ldquo;The Growth Builder&rdquo;,
-              interviewed by <span className="text-white">Forbes</span>, and recognised for building AI
-              automation businesses. Under his leadership, Boostmysites has automated
+              interviewed by <span className="text-white">Forbes</span>, and honoured at the
+              <span className="text-white"> Times Business Awards (North 2024)</span>. Under his leadership,
+              Boostmysites has automated
               <span className="text-white"> 200+ businesses</span> — designing AI employees that run the
               repetitive work of modern companies so founders can focus on growth.
             </p>
@@ -221,8 +224,15 @@ export default function FounderProfile() {
                     <TimesAwardMedia />
                   </div>
                   <p className="mt-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-purple">The Times Group · Award</p>
-                  <p className="mt-0.5 text-[15px] font-medium text-white">Times Business Awards</p>
-                  <p className="text-[13px] text-white/50">Recognised on stage for entrepreneurship &amp; impact</p>
+                  <p className="mt-0.5 text-[15px] font-medium text-white">Times Business Awards, North 2024</p>
+                  <a
+                    href={TIMES_ARTICLE}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[13px] text-[#7aa2ff] hover:underline"
+                  >
+                    Featured in The Times of India ↗
+                  </a>
                 </div>
               </div>
 
