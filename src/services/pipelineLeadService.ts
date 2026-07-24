@@ -36,6 +36,8 @@ export type PipelineLead = {
   /** Scheduled meeting datetime (ISO / datetime-local string) + notes. */
   meeting_at: string | null;
   meeting_notes: string | null;
+  /** Who takes / scheduled the meeting (may differ from the lead's POC). */
+  meeting_owner: string | null;
   /** Manual responsiveness rating: 'hot' | 'warm' | 'cold' | 'useless' | null */
   responsiveness: string | null;
   attachments: PipelineAttachment[] | null;

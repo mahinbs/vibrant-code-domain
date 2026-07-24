@@ -271,6 +271,7 @@ function LeadModal({
       poc: (lead?.poc as string) ?? "",
       meeting_at: (lead?.meeting_at as string) ?? "",
       meeting_notes: (lead?.meeting_notes as string) ?? "",
+      meeting_owner: (lead?.meeting_owner as string) ?? "",
     };
     for (const f of FIELDS[tab]) base[f.key as string] = (lead?.[f.key] as string) ?? "";
     return base;
@@ -285,7 +286,7 @@ function LeadModal({
     setSaving(true);
     // Save responsiveness + website + poc + meeting separately (best-effort) so
     // a missing column can't block the whole save before the ALTER is run.
-    const { responsiveness, website, poc, meeting_at, meeting_notes, ...fields } = form;
+    const { responsiveness, website, poc, meeting_at, meeting_notes, meeting_owner, ...fields } = form;
     const payload = { ...fields, tab } as Record<string, unknown>;
     let leadId = lead?.id ?? null;
     let saveError: string | null = null;
@@ -306,11 +307,16 @@ function LeadModal({
       if ((poc ?? "") !== (lead?.poc ?? "")) {
         try { await pipelineLeadService.update(leadId, { poc: poc || null }); } catch { /* column may not exist yet */ }
       }
-      if ((meeting_at ?? "") !== (lead?.meeting_at ?? "") || (meeting_notes ?? "") !== (lead?.meeting_notes ?? "")) {
+      if (
+        (meeting_at ?? "") !== (lead?.meeting_at ?? "") ||
+        (meeting_notes ?? "") !== (lead?.meeting_notes ?? "") ||
+        (meeting_owner ?? "") !== (lead?.meeting_owner ?? "")
+      ) {
         try {
           await pipelineLeadService.update(leadId, {
             meeting_at: meeting_at || null,
             meeting_notes: meeting_notes || null,
+            meeting_owner: meeting_owner || null,
           });
         } catch { /* columns may not exist yet */ }
       }
@@ -376,15 +382,28 @@ function LeadModal({
               />
             </label>
             <label className="text-[13px] text-white/70">
-              Meeting notes
-              <input
-                value={form.meeting_notes ?? ""}
-                onChange={(e) => setForm((p) => ({ ...p, meeting_notes: e.target.value }))}
-                placeholder="Agenda, link, location…"
+              Meeting taken by
+              <select
+                value={form.meeting_owner ?? ""}
+                onChange={(e) => setForm((p) => ({ ...p, meeting_owner: e.target.value }))}
                 className={`mt-1 ${inputCls}`}
-              />
+              >
+                <option value="">— Select —</option>
+                {POC_OPTIONS.map((n) => (
+                  <option key={n} value={n}>{n}</option>
+                ))}
+              </select>
             </label>
           </div>
+          <label className="text-[13px] text-white/70">
+            Meeting notes
+            <input
+              value={form.meeting_notes ?? ""}
+              onChange={(e) => setForm((p) => ({ ...p, meeting_notes: e.target.value }))}
+              placeholder="Agenda, link, location…"
+              className={`mt-1 ${inputCls}`}
+            />
+          </label>
           {FIELDS[tab].map((f) => (
             <label key={f.key as string} className="text-[13px] text-white/70">
               {f.label}
@@ -622,7 +641,14 @@ function LeadDetailModal({
           {lead.meeting_at ? (
             <div className="mt-5 border-t border-white/10 pt-5">
               <p className="mb-1.5 text-[11px] uppercase tracking-wide text-white/40">📅 Meeting scheduled</p>
-              <p className="text-[15px] font-medium text-emerald-300">{formatMeeting(lead.meeting_at)}</p>
+              <p className="text-[15px] font-medium text-emerald-300">
+                {formatMeeting(lead.meeting_at)}
+                {lead.meeting_owner ? (
+                  <span className="ml-2 rounded-full border border-emerald-400/40 bg-emerald-400/10 px-2 py-0.5 text-[12px] font-medium">
+                    🎙 Taken by {lead.meeting_owner}
+                  </span>
+                ) : null}
+              </p>
               {lead.meeting_notes ? (
                 <p className="mt-1 text-[13px] text-white/60">{lead.meeting_notes}</p>
               ) : null}
@@ -671,6 +697,7 @@ function ScheduleMeetingModal({
   const [leadId, setLeadId] = useState<string>("");
   const [when, setWhen] = useState<string>("");
   const [notes, setNotes] = useState<string>("");
+  const [owner, setOwner] = useState<string>("");
   const [query, setQuery] = useState<string>("");
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -690,10 +717,12 @@ function ScheduleMeetingModal({
     setError(null);
     if (!leadId) return setError("Pick a lead first — meetings are always attached to an existing lead.");
     if (!when) return setError("Pick a date & time for the meeting.");
+    if (!owner) return setError("Pick who is taking the meeting.");
     setSaving(true);
     const { error: err } = await pipelineLeadService.update(leadId, {
       meeting_at: when,
       meeting_notes: notes.trim() || null,
+      meeting_owner: owner,
     });
     setSaving(false);
     if (err) {
@@ -743,15 +772,26 @@ function ScheduleMeetingModal({
               ) : null}
             </div>
           ) : null}
-          <label className="text-[13px] text-white/70">
-            Date &amp; time *
-            <input
-              type="datetime-local"
-              value={when}
-              onChange={(e) => setWhen(e.target.value)}
-              className={`mt-1 ${inputCls}`}
-            />
-          </label>
+          <div className="grid grid-cols-2 gap-3 max-sm:grid-cols-1">
+            <label className="text-[13px] text-white/70">
+              Date &amp; time *
+              <input
+                type="datetime-local"
+                value={when}
+                onChange={(e) => setWhen(e.target.value)}
+                className={`mt-1 ${inputCls}`}
+              />
+            </label>
+            <label className="text-[13px] text-white/70">
+              Meeting taken by *
+              <select value={owner} onChange={(e) => setOwner(e.target.value)} className={`mt-1 ${inputCls}`}>
+                <option value="">— Select —</option>
+                {POC_OPTIONS.map((n) => (
+                  <option key={n} value={n}>{n}</option>
+                ))}
+              </select>
+            </label>
+          </div>
           <label className="text-[13px] text-white/70">
             Notes
             <input
@@ -1093,6 +1133,7 @@ export default function PipelineDashboard() {
                 <tr className="bg-white/[0.04] text-left text-[12px] uppercase tracking-wide text-white/50">
                   <th className="px-3 py-3 font-medium">When</th>
                   <th className="px-3 py-3 font-medium">Client</th>
+                  <th className="px-3 py-3 font-medium">Taken by</th>
                   <th className="px-3 py-3 font-medium">POC</th>
                   <th className="px-3 py-3 font-medium min-w-[220px]">Notes</th>
                   <th className="px-3 py-3 font-medium">Contact</th>
@@ -1101,7 +1142,7 @@ export default function PipelineDashboard() {
               </thead>
               <tbody>
                 {meetings.length === 0 ? (
-                  <tr><td colSpan={6} className="px-3 py-10 text-center text-white/40">No meetings scheduled yet — click “+ Schedule meeting” and pick a lead.</td></tr>
+                  <tr><td colSpan={7} className="px-3 py-10 text-center text-white/40">No meetings scheduled yet — click “+ Schedule meeting” and pick a lead.</td></tr>
                 ) : (
                   meetings.map((l) => {
                     const past = meetingTime(l.meeting_at) < Date.now();
@@ -1118,6 +1159,11 @@ export default function PipelineDashboard() {
                           <button onClick={() => setDetail(l)} className="font-medium text-white hover:text-[#7aa2ff]">
                             {l.client || "—"}
                           </button>
+                        </td>
+                        <td className="px-3 py-3">
+                          {l.meeting_owner ? (
+                            <span className="whitespace-nowrap rounded-full border border-emerald-400/40 bg-emerald-400/10 px-2 py-0.5 text-[12px] font-medium text-emerald-300">🎙 {l.meeting_owner}</span>
+                          ) : <span className="text-white/30">—</span>}
                         </td>
                         <td className="px-3 py-3">
                           {l.poc ? (
