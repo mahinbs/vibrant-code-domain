@@ -143,6 +143,7 @@ function AttachmentsSection({
   const [atts, setAtts] = useState<PipelineAttachment[]>(lead.attachments ?? []);
   const [uploading, setUploading] = useState(false);
   const [err, setErr] = useState<string | null>(null);
+  const [uploader, setUploader] = useState<string>("");
   // Previews are open by default — collapse individually with "Hide".
   const [closedPreviews, setClosedPreviews] = useState<Set<string>>(new Set());
   const togglePreview = (path: string) =>
@@ -155,6 +156,10 @@ function AttachmentsSection({
 
   async function onFiles(files: FileList | null) {
     if (!files || files.length === 0) return;
+    if (!uploader) {
+      setErr("Select who is uploading (team member or AI) first.");
+      return;
+    }
     setErr(null);
     setUploading(true);
     let next = [...atts];
@@ -163,7 +168,7 @@ function AttachmentsSection({
         setErr(`${file.name} is over 15 MB.`);
         continue;
       }
-      const { attachment, error } = await pipelineLeadService.uploadAttachment(lead.id, file);
+      const { attachment, error } = await pipelineLeadService.uploadAttachment(lead.id, file, uploader);
       if (error) { setErr(error); break; }
       if (attachment) next = [...next, attachment];
     }
@@ -186,19 +191,33 @@ function AttachmentsSection({
 
   return (
     <div className="mt-1 rounded-lg border border-white/12 bg-black/30 p-3">
-      <div className="mb-2 flex items-center justify-between">
+      <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
         <p className="text-[13px] font-medium text-white/80">Attachments</p>
-        <label className="cursor-pointer rounded-md bg-[#4b78ff] px-3 py-1.5 text-[12px] font-semibold text-white hover:bg-[#3d63d8]">
-          {uploading ? "Uploading…" : "+ Upload file"}
-          <input
-            type="file"
-            multiple
-            accept="application/pdf,image/*"
-            className="hidden"
-            disabled={uploading}
-            onChange={(e) => onFiles(e.target.files)}
-          />
-        </label>
+        <div className="flex items-center gap-2">
+          <select
+            value={uploader}
+            onChange={(e) => { setUploader(e.target.value); if (err) setErr(null); }}
+            className="rounded-md border border-white/15 bg-black/40 px-2 py-1.5 text-[12px] text-white focus:border-[#4b78ff] focus:outline-none"
+            title="Who is uploading this file?"
+          >
+            <option value="">Uploaded by…</option>
+            {POC_OPTIONS.map((n) => (
+              <option key={n} value={n}>{n}</option>
+            ))}
+            <option value="AI">🤖 AI</option>
+          </select>
+          <label className="cursor-pointer rounded-md bg-[#4b78ff] px-3 py-1.5 text-[12px] font-semibold text-white hover:bg-[#3d63d8]">
+            {uploading ? "Uploading…" : "+ Upload file"}
+            <input
+              type="file"
+              multiple
+              accept="application/pdf,image/*"
+              className="hidden"
+              disabled={uploading}
+              onChange={(e) => onFiles(e.target.files)}
+            />
+          </label>
+        </div>
       </div>
       <p className="mb-2 text-[11px] text-white/40">Follow-up PDF, chat screenshot, or image · up to 15 MB each</p>
       {atts.length === 0 ? (
@@ -220,6 +239,17 @@ function AttachmentsSection({
                   >
                     {a.name}
                   </button>
+                  {a.uploaded_by ? (
+                    <span
+                      className={`whitespace-nowrap rounded-full border px-1.5 py-0.5 text-[10px] font-medium ${
+                        a.uploaded_by === "AI"
+                          ? "border-amber-400/50 bg-amber-400/15 text-amber-300"
+                          : "border-white/15 bg-white/5 text-white/55"
+                      }`}
+                    >
+                      {a.uploaded_by === "AI" ? "🤖 AI" : `by ${a.uploaded_by}`}
+                    </span>
+                  ) : null}
                   <span className="text-[11px] text-white/35">{formatSize(a.size)}</span>
                   {canPreview ? (
                     <button
@@ -240,6 +270,11 @@ function AttachmentsSection({
                   <a href={a.url} target="_blank" rel="noopener noreferrer" className="text-[12px] text-white/45 hover:text-white" title="Open in new tab">↗</a>
                   <button onClick={() => removeAtt(a)} className="text-[12px] text-red-300/80 hover:underline" type="button">Remove</button>
                 </div>
+                {a.uploaded_by === "AI" ? (
+                  <p className="border-t border-amber-400/20 bg-amber-400/10 px-2.5 py-1.5 text-[12px] text-amber-200">
+                    ⚠️ 🤖 PDF created by AI — please send it to the client with a follow-up message on WhatsApp.
+                  </p>
+                ) : null}
                 {isOpen ? (
                   <div className="border-t border-white/10 bg-black/40 p-2">
                     {a.type.startsWith("image/") ? (
@@ -1374,6 +1409,14 @@ export default function PipelineDashboard() {
                               <span title={ratingOf(l.responsiveness)!.label}>{ratingOf(l.responsiveness)!.emoji}</span>
                             ) : null}
                             <span className={ratingOf(l.responsiveness)?.text ?? "text-white"}>{l.client || "—"}</span>
+                            {(l.attachments ?? []).some((a) => a.uploaded_by === "AI") ? (
+                              <span
+                                className="rounded-full border border-amber-400/50 bg-amber-400/15 px-1.5 py-0.5 text-[10px] font-medium text-amber-300"
+                                title="PDF created by AI — please send it to the client with a follow-up message on WhatsApp"
+                              >
+                                🤖 AI PDF
+                              </span>
+                            ) : null}
                             {(l.attachments?.length ?? 0) > 0 ? (
                               <span className="rounded-full bg-white/10 px-1.5 py-0.5 text-[10px] text-white/60" title={`${l.attachments!.length} file(s)`}>
                                 📎 {l.attachments!.length}

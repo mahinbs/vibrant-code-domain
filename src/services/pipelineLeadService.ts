@@ -9,6 +9,8 @@ export type PipelineAttachment = {
   type: string;
   size: number;
   uploaded_at: string;
+  /** Who uploaded it — a team member name, or "AI" for agent-generated PDFs. */
+  uploaded_by?: string | null;
 };
 
 export type PipelineLead = {
@@ -90,6 +92,7 @@ export const pipelineLeadService = {
   async uploadAttachment(
     leadId: string,
     file: File,
+    uploadedBy?: string,
   ): Promise<{ attachment: PipelineAttachment | null; error: string | null }> {
     const path = `${leadId}/${Date.now()}-${sanitize(file.name)}`;
     const { error } = await storage().upload(path, file, {
@@ -111,6 +114,7 @@ export const pipelineLeadService = {
         type: file.type || "application/octet-stream",
         size: file.size,
         uploaded_at: new Date().toISOString(),
+        uploaded_by: uploadedBy || null,
       },
       error: null,
     };
