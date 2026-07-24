@@ -96,6 +96,22 @@ function formatDateTime(iso?: string): string {
   }
 }
 
+function formatMeeting(v?: string | null): string {
+  if (!v) return "";
+  try {
+    return new Date(v).toLocaleString("en-IN", {
+      weekday: "short", day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit",
+    });
+  } catch {
+    return v;
+  }
+}
+function meetingTime(v?: string | null): number {
+  if (!v) return 0;
+  const t = new Date(v).getTime();
+  return Number.isFinite(t) ? t : 0;
+}
+
 function parseValue(v: string | null): number {
   if (!v) return 0;
   const n = Number(String(v).replace(/[^\d.]/g, ""));
@@ -213,6 +229,8 @@ function LeadModal({
     const base: Record<string, string> = {
       responsiveness: (lead?.responsiveness as string) ?? "",
       poc: (lead?.poc as string) ?? "",
+      meeting_at: (lead?.meeting_at as string) ?? "",
+      meeting_notes: (lead?.meeting_notes as string) ?? "",
     };
     for (const f of FIELDS[tab]) base[f.key as string] = (lead?.[f.key] as string) ?? "";
     return base;
@@ -225,9 +243,9 @@ function LeadModal({
     setError(null);
     if (!form.client?.trim()) return setError("Client is required.");
     setSaving(true);
-    // Save responsiveness + website + poc separately (best-effort) so a missing
-    // column can't block the whole save before the ALTER is run.
-    const { responsiveness, website, poc, ...fields } = form;
+    // Save responsiveness + website + poc + meeting separately (best-effort) so
+    // a missing column can't block the whole save before the ALTER is run.
+    const { responsiveness, website, poc, meeting_at, meeting_notes, ...fields } = form;
     const payload = { ...fields, tab } as Record<string, unknown>;
     let leadId = lead?.id ?? null;
     let saveError: string | null = null;
@@ -247,6 +265,14 @@ function LeadModal({
       }
       if ((poc ?? "") !== (lead?.poc ?? "")) {
         try { await pipelineLeadService.update(leadId, { poc: poc || null }); } catch { /* column may not exist yet */ }
+      }
+      if ((meeting_at ?? "") !== (lead?.meeting_at ?? "") || (meeting_notes ?? "") !== (lead?.meeting_notes ?? "")) {
+        try {
+          await pipelineLeadService.update(leadId, {
+            meeting_at: meeting_at || null,
+            meeting_notes: meeting_notes || null,
+          });
+        } catch { /* columns may not exist yet */ }
       }
     }
     setSaving(false);
@@ -298,6 +324,26 @@ function LeadModal({
                 onChange={(v) => setForm((p) => ({ ...p, responsiveness: v }))}
               />
             </div>
+          </div>
+          <div className="grid grid-cols-2 gap-3 max-sm:grid-cols-1">
+            <label className="text-[13px] text-white/70">
+              📅 Meeting scheduled
+              <input
+                type="datetime-local"
+                value={form.meeting_at ?? ""}
+                onChange={(e) => setForm((p) => ({ ...p, meeting_at: e.target.value }))}
+                className={`mt-1 ${inputCls}`}
+              />
+            </label>
+            <label className="text-[13px] text-white/70">
+              Meeting notes
+              <input
+                value={form.meeting_notes ?? ""}
+                onChange={(e) => setForm((p) => ({ ...p, meeting_notes: e.target.value }))}
+                placeholder="Agenda, link, location…"
+                className={`mt-1 ${inputCls}`}
+              />
+            </label>
           </div>
           {FIELDS[tab].map((f) => (
             <label key={f.key as string} className="text-[13px] text-white/70">
@@ -532,6 +578,17 @@ function LeadDetailModal({
             <AttachmentsSection lead={lead} onChanged={onChanged} />
           </div>
 
+          {/* Meeting */}
+          {lead.meeting_at ? (
+            <div className="mt-5 border-t border-white/10 pt-5">
+              <p className="mb-1.5 text-[11px] uppercase tracking-wide text-white/40">📅 Meeting scheduled</p>
+              <p className="text-[15px] font-medium text-emerald-300">{formatMeeting(lead.meeting_at)}</p>
+              {lead.meeting_notes ? (
+                <p className="mt-1 text-[13px] text-white/60">{lead.meeting_notes}</p>
+              ) : null}
+            </div>
+          ) : null}
+
           {/* Timestamps */}
           <div className="mt-5 flex flex-wrap gap-x-6 gap-y-1 border-t border-white/10 pt-4 text-[12px] text-white/40">
             <span>🕒 Added {formatDateTime(lead.created_at)}</span>
@@ -612,6 +669,7 @@ export default function PipelineDashboard() {
   const [fileFilter, setFileFilter] = useState<"all" | "missing" | "has">("all");
   const [ratingFilter, setRatingFilter] = useState<string>("all");
   const [pocFilter, setPocFilter] = useState<string>("all");
+  const [view, setView] = useState<"leads" | "meetings">("leads");
   const [modal, setModal] = useState<{ open: boolean; lead: PipelineLead | null }>({ open: false, lead: null });
   const [detail, setDetail] = useState<PipelineLead | null>(null);
   const [filesModal, setFilesModal] = useState<PipelineLead | null>(null);
@@ -668,12 +726,22 @@ export default function PipelineDashboard() {
       );
   }, [leads, tab, search, range, fileFilter, ratingFilter, pocFilter]);
 
+  const meetings = useMemo(() => {
+    const q = search.trim().toLowerCase();
+    return leads
+      .filter((l) => l.meeting_at)
+      .filter((l) => (!q ? true : `${l.client ?? ""} ${l.poc ?? ""} ${l.meeting_notes ?? ""}`.toLowerCase().includes(q)))
+      .sort((a, b) => meetingTime(a.meeting_at) - meetingTime(b.meeting_at));
+  }, [leads, search]);
+
   const stats = useMemo(() => {
     const att = leads.filter((l) => l.tab === "attended");
     const unatt = leads.filter((l) => l.tab === "unattended");
     const pipelineValue = att.reduce((s, l) => s + parseValue(l.estimated_value), 0);
     const missingFiles = leads.filter((l) => (l.attachments?.length ?? 0) === 0).length;
-    return { att: att.length, unatt: unatt.length, pipelineValue, missingFiles };
+    const now = Date.now();
+    const upcomingMeetings = leads.filter((l) => l.meeting_at && meetingTime(l.meeting_at) >= now).length;
+    return { att: att.length, unatt: unatt.length, pipelineValue, missingFiles, upcomingMeetings };
   }, [leads]);
 
   const cols = tab === "attended" ? ATT_COLS : UNATT_COLS;
@@ -724,7 +792,7 @@ export default function PipelineDashboard() {
 
       <main className="mx-auto max-w-[1500px] px-5 py-6 md:px-8">
         {/* Summary */}
-        <div className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <div className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
           {[
             { label: "Total leads", value: stats.att + stats.unatt },
             { label: "Pipeline value", value: formatINR(stats.pipelineValue) },
@@ -734,6 +802,14 @@ export default function PipelineDashboard() {
               <p className="mt-1 text-2xl font-semibold text-white">{s.value}</p>
             </div>
           ))}
+          <button
+            onClick={() => setView("meetings")}
+            title="Upcoming meetings — click to view"
+            className="rounded-xl border border-white/12 bg-white/[0.03] p-4 text-left transition-colors hover:bg-white/[0.06]"
+          >
+            <p className="text-[12px] uppercase tracking-wide text-white/45">📅 Upcoming meetings</p>
+            <p className="mt-1 text-2xl font-semibold text-white">{stats.upcomingMeetings}</p>
+          </button>
           <button
             onClick={() => setFileFilter(fileFilter === "missing" ? "all" : "missing")}
             title="Leads with no PDF/image yet — click to filter"
@@ -750,10 +826,27 @@ export default function PipelineDashboard() {
 
         {/* Controls */}
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-          <div className="rounded-lg border border-white/12 bg-white/[0.03] px-4 py-1.5 text-sm font-medium text-white">
-            All leads <span className="ml-1 text-[12px] text-white/50">{rows.length}</span>
+          <div className="inline-flex rounded-lg border border-white/12 bg-white/[0.03] p-1">
+            <button
+              onClick={() => setView("leads")}
+              className={`rounded-md px-4 py-1.5 text-sm font-medium transition-colors ${
+                view === "leads" ? "bg-[#4b78ff] text-white" : "text-white/60 hover:text-white"
+              }`}
+            >
+              All leads <span className="ml-1 text-[12px] opacity-70">{rows.length}</span>
+            </button>
+            <button
+              onClick={() => setView("meetings")}
+              className={`rounded-md px-4 py-1.5 text-sm font-medium transition-colors ${
+                view === "meetings" ? "bg-[#4b78ff] text-white" : "text-white/60 hover:text-white"
+              }`}
+            >
+              📅 Meetings <span className="ml-1 text-[12px] opacity-70">{meetings.length}</span>
+            </button>
           </div>
           <div className="flex flex-wrap items-center gap-2">
+            {view === "leads" ? (
+            <>
             <select
               value={range}
               onChange={(e) => setRange(e.target.value as typeof range)}
@@ -798,6 +891,8 @@ export default function PipelineDashboard() {
                 <option key={n} value={n}>{n}</option>
               ))}
             </select>
+            </>
+            ) : null}
             <input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
@@ -822,7 +917,58 @@ export default function PipelineDashboard() {
           </div>
         ) : null}
 
-        {/* Table */}
+        {/* Meetings view */}
+        {view === "meetings" ? (
+          <div className="overflow-x-auto rounded-xl border border-white/12">
+            <table className="w-full border-collapse text-sm">
+              <thead>
+                <tr className="bg-white/[0.04] text-left text-[12px] uppercase tracking-wide text-white/50">
+                  <th className="px-3 py-3 font-medium">When</th>
+                  <th className="px-3 py-3 font-medium">Client</th>
+                  <th className="px-3 py-3 font-medium">POC</th>
+                  <th className="px-3 py-3 font-medium min-w-[220px]">Notes</th>
+                  <th className="px-3 py-3 font-medium">Contact</th>
+                  <th className="px-3 py-3 text-right font-medium">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {meetings.length === 0 ? (
+                  <tr><td colSpan={6} className="px-3 py-10 text-center text-white/40">No meetings scheduled yet — open a lead → Edit → set “📅 Meeting scheduled”.</td></tr>
+                ) : (
+                  meetings.map((l) => {
+                    const past = meetingTime(l.meeting_at) < Date.now();
+                    return (
+                      <tr key={l.id} className="border-t border-white/8 align-top hover:bg-white/[0.02]">
+                        <td className="px-3 py-3">
+                          <span className={`whitespace-nowrap rounded-full border px-2.5 py-1 text-[12px] font-medium ${
+                            past ? "border-white/15 bg-white/5 text-white/45" : "border-emerald-400/40 bg-emerald-400/10 text-emerald-300"
+                          }`}>
+                            {past ? "✓ " : "📅 "}{formatMeeting(l.meeting_at)}
+                          </span>
+                        </td>
+                        <td className="px-3 py-3">
+                          <button onClick={() => setDetail(l)} className="font-medium text-white hover:text-[#7aa2ff]">
+                            {l.client || "—"}
+                          </button>
+                        </td>
+                        <td className="px-3 py-3">
+                          {l.poc ? (
+                            <span className="whitespace-nowrap rounded-full border border-[#4b78ff]/40 bg-[#4b78ff]/15 px-2 py-0.5 text-[12px] font-medium text-[#9dbaff]">{l.poc}</span>
+                          ) : <span className="text-white/30">—</span>}
+                        </td>
+                        <td className="px-3 py-3 text-white/70">{l.meeting_notes || "—"}</td>
+                        <td className="px-3 py-3 text-white/70">{l.email || l.phone || "—"}</td>
+                        <td className="px-3 py-3 text-right">
+                          <button onClick={() => setModal({ open: true, lead: l })} className="text-[13px] text-[#7aa2ff] hover:underline">Edit</button>
+                        </td>
+                      </tr>
+                    );
+                  })
+                )}
+              </tbody>
+            </table>
+          </div>
+        ) : (
         <div className="overflow-x-auto rounded-xl border border-white/12">
           <table className="w-full border-collapse text-sm">
             <thead>
@@ -939,6 +1085,7 @@ export default function PipelineDashboard() {
             </tbody>
           </table>
         </div>
+        )}
       </main>
 
       {modal.open ? (

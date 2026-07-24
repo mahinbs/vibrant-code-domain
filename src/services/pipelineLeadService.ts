@@ -33,6 +33,9 @@ export type PipelineLead = {
   description: string | null;
   /** Point of contact (team member handling this lead). */
   poc: string | null;
+  /** Scheduled meeting datetime (ISO / datetime-local string) + notes. */
+  meeting_at: string | null;
+  meeting_notes: string | null;
   /** Manual responsiveness rating: 'hot' | 'warm' | 'cold' | 'useless' | null */
   responsiveness: string | null;
   attachments: PipelineAttachment[] | null;
