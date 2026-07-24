@@ -325,6 +325,7 @@ function LeadModal({
     e.preventDefault();
     setError(null);
     if (!form.client?.trim()) return setError("Client is required.");
+    if (!form.poc) return setError("POC is required — select who owns this lead.");
     setSaving(true);
     // Save responsiveness + website + poc + meeting separately (best-effort) so
     // a missing column can't block the whole save before the ALTER is run.
@@ -392,13 +393,13 @@ function LeadModal({
         </div>
         <form onSubmit={submit} className="flex flex-col gap-3">
           <label className="text-[13px] text-white/70">
-            POC (point of contact)
+            POC (point of contact) *
             <select
               value={form.poc ?? ""}
               onChange={(e) => setForm((p) => ({ ...p, poc: e.target.value }))}
               className={`mt-1 ${inputCls}`}
             >
-              <option value="">— Unassigned —</option>
+              <option value="">— Select POC —</option>
               {POC_OPTIONS.map((n) => (
                 <option key={n} value={n}>{n}</option>
               ))}
