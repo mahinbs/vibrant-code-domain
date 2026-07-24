@@ -9,6 +9,7 @@ import {
   type PipelineTab,
 } from "@/services/pipelineLeadService";
 import { syncDescriptionToSheet } from "@/services/pipelineSheetSync";
+import { PdfPreview } from "@/components/dashboard/PdfPreview";
 
 const TABS: { key: PipelineTab; label: string }[] = [
   { key: "attended", label: "Attended" },
@@ -237,11 +238,7 @@ function AttachmentsSection({
                     {a.type.startsWith("image/") ? (
                       <img src={a.url} alt={a.name} className="mx-auto max-h-[420px] w-auto max-w-full rounded-md object-contain" />
                     ) : (
-                      <iframe
-                        src={`${a.url}#toolbar=1&view=FitH`}
-                        title={a.name}
-                        className="h-[480px] w-full rounded-md border-0 bg-white"
-                      />
+                      <PdfPreview url={a.url} name={a.name} />
                     )}
                   </div>
                 ) : null}
