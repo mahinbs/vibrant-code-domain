@@ -230,6 +230,13 @@ function AttachmentsSection({
                       {isOpen ? "Hide" : "👁 Preview"}
                     </button>
                   ) : null}
+                  <a
+                    href={`${a.url}?download=${encodeURIComponent(a.name)}`}
+                    className="text-[12px] text-white/60 hover:text-white"
+                    title={`Download ${a.name}`}
+                  >
+                    ⬇ Download
+                  </a>
                   <a href={a.url} target="_blank" rel="noopener noreferrer" className="text-[12px] text-white/45 hover:text-white" title="Open in new tab">↗</a>
                   <button onClick={() => removeAtt(a)} className="text-[12px] text-red-300/80 hover:underline" type="button">Remove</button>
                 </div>
