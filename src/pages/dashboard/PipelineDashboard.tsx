@@ -821,6 +821,147 @@ function ScheduleMeetingModal({
   );
 }
 
+/** Daily team report — per-person activity computed from lead data. */
+function DailyReport({ leads }: { leads: PipelineLead[] }) {
+  const [win, setWin] = useState<"today" | "yesterday" | "7">("today");
+
+  const { rows, totals, label } = useMemo(() => {
+    const now = Date.now();
+    const midnight = new Date();
+    midnight.setHours(0, 0, 0, 0);
+    let start: number, end: number, label: string;
+    if (win === "today") { start = midnight.getTime(); end = now; label = "Today"; }
+    else if (win === "yesterday") { end = midnight.getTime(); start = end - 86400000; label = "Yesterday"; }
+    else { start = now - 7 * 86400000; end = now; label = "Last 7 days"; }
+    const inWin = (iso?: string | null) => {
+      if (!iso) return false;
+      const t = new Date(iso).getTime();
+      return Number.isFinite(t) && t >= start && t < end;
+    };
+
+    const rows = POC_OPTIONS.map((name) => {
+      const owned = leads.filter((l) => l.poc === name);
+      const updated = owned.filter((l) => inWin(l.updated_at)).length;
+      const added = owned.filter((l) => inWin(l.created_at)).length;
+      const meetingsTaken = leads.filter(
+        (l) => l.meeting_owner === name && l.meeting_at && inWin(l.meeting_at) && meetingTime(l.meeting_at) <= now,
+      ).length;
+      const meetingsUpcoming = leads.filter(
+        (l) => l.meeting_owner === name && meetingTime(l.meeting_at) > now,
+      ).length;
+      const hotTotal = owned.filter((l) => l.responsiveness === "hot").length;
+      const hotNew = owned.filter((l) => l.responsiveness === "hot" && inWin(l.updated_at)).length;
+      const filesUploaded = owned.filter(
+        (l) => (l.attachments ?? []).some((a) => inWin(a.uploaded_at)),
+      ).length;
+      const score = updated + added + meetingsTaken * 3 + hotNew * 2 + filesUploaded;
+      return { name, owned: owned.length, updated, added, meetingsTaken, meetingsUpcoming, hotTotal, hotNew, filesUploaded, score };
+    }).sort((a, b) => b.score - a.score);
+
+    const totals = {
+      updated: leads.filter((l) => inWin(l.updated_at)).length,
+      added: leads.filter((l) => inWin(l.created_at)).length,
+      meetingsConducted: leads.filter((l) => l.meeting_at && inWin(l.meeting_at) && meetingTime(l.meeting_at) <= now).length,
+      meetingsUpcoming: leads.filter((l) => meetingTime(l.meeting_at) > now).length,
+      hotNew: leads.filter((l) => l.responsiveness === "hot" && inWin(l.updated_at)).length,
+      hotTotal: leads.filter((l) => l.responsiveness === "hot").length,
+    };
+    return { rows, totals, label };
+  }, [leads, win]);
+
+  const top = rows[0]?.score > 0 ? rows[0] : null;
+
+  return (
+    <div>
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+        <h2 className="text-lg font-semibold text-white">📊 Team report · {label}</h2>
+        <div className="inline-flex rounded-lg border border-white/12 bg-white/[0.03] p-1">
+          {([["today", "Today"], ["yesterday", "Yesterday"], ["7", "Last 7 days"]] as const).map(([k, lbl]) => (
+            <button
+              key={k}
+              onClick={() => setWin(k)}
+              className={`rounded-md px-3 py-1.5 text-[13px] font-medium transition-colors ${
+                win === k ? "bg-[#4b78ff] text-white" : "text-white/60 hover:text-white"
+              }`}
+            >
+              {lbl}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Day totals */}
+      <div className="mb-4 grid grid-cols-2 gap-3 sm:grid-cols-5">
+        {[
+          { label: "Leads updated", value: totals.updated },
+          { label: "New leads added", value: totals.added },
+          { label: "Meetings conducted", value: totals.meetingsConducted },
+          { label: "Meetings upcoming", value: totals.meetingsUpcoming },
+          { label: "🔥 New hot leads", value: totals.hotNew },
+        ].map((s) => (
+          <div key={s.label} className="rounded-xl border border-white/12 bg-white/[0.03] p-4">
+            <p className="text-[11px] uppercase tracking-wide text-white/45">{s.label}</p>
+            <p className="mt-1 text-2xl font-semibold text-white">{s.value}</p>
+          </div>
+        ))}
+      </div>
+
+      {top ? (
+        <div className="mb-4 rounded-xl border border-emerald-400/30 bg-emerald-400/10 p-4">
+          <p className="text-[14px] text-emerald-200">
+            🏆 <span className="font-semibold">{top.name}</span> is leading {label.toLowerCase()} —{" "}
+            {top.updated} lead update{top.updated === 1 ? "" : "s"}, {top.meetingsTaken} meeting{top.meetingsTaken === 1 ? "" : "s"} taken,
+            {" "}{top.hotNew} new hot lead{top.hotNew === 1 ? "" : "s"}.
+          </p>
+        </div>
+      ) : (
+        <div className="mb-4 rounded-xl border border-white/12 bg-white/[0.03] p-4 text-[13px] text-white/50">
+          No activity recorded {label.toLowerCase()} yet.
+        </div>
+      )}
+
+      {/* Per-person table */}
+      <div className="overflow-x-auto rounded-xl border border-white/12">
+        <table className="w-full border-collapse text-sm">
+          <thead>
+            <tr className="bg-white/[0.04] text-left text-[12px] uppercase tracking-wide text-white/50">
+              <th className="px-3 py-3 font-medium">Rank</th>
+              <th className="px-3 py-3 font-medium">Team member</th>
+              <th className="px-3 py-3 font-medium">Leads owned</th>
+              <th className="px-3 py-3 font-medium">Updated</th>
+              <th className="px-3 py-3 font-medium">New leads</th>
+              <th className="px-3 py-3 font-medium">Meetings taken</th>
+              <th className="px-3 py-3 font-medium">Upcoming</th>
+              <th className="px-3 py-3 font-medium">🔥 Hot (new)</th>
+              <th className="px-3 py-3 font-medium">Files</th>
+              <th className="px-3 py-3 font-medium">Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((r, i) => (
+              <tr key={r.name} className={`border-t border-white/8 ${i === 0 && r.score > 0 ? "bg-emerald-400/[0.06]" : ""}`}>
+                <td className="px-3 py-3 text-white/50">{i === 0 && r.score > 0 ? "🏆" : `#${i + 1}`}</td>
+                <td className="px-3 py-3 font-medium text-white">{r.name}</td>
+                <td className="px-3 py-3 text-white/70">{r.owned}</td>
+                <td className="px-3 py-3 text-white/70">{r.updated}</td>
+                <td className="px-3 py-3 text-white/70">{r.added}</td>
+                <td className="px-3 py-3 text-white/70">{r.meetingsTaken}</td>
+                <td className="px-3 py-3 text-white/70">{r.meetingsUpcoming}</td>
+                <td className="px-3 py-3 text-white/70">{r.hotTotal}{r.hotNew ? <span className="text-orange-300"> (+{r.hotNew})</span> : ""}</td>
+                <td className="px-3 py-3 text-white/70">{r.filesUploaded}</td>
+                <td className="px-3 py-3 font-semibold text-white">{r.score}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p className="mt-2 text-[11px] text-white/35">
+        Score = lead updates + new leads + meetings taken ×3 + new hot leads ×2 + files uploaded. Unassigned-lead activity isn&apos;t attributed to anyone.
+      </p>
+    </div>
+  );
+}
+
 const ATT_COLS: { key: keyof PipelineLead; label: string; w?: string }[] = [
   { key: "client", label: "Client" },
   { key: "poc", label: "POC" },
@@ -872,7 +1013,7 @@ export default function PipelineDashboard() {
   const [fileFilter, setFileFilter] = useState<"all" | "missing" | "has">("all");
   const [ratingFilter, setRatingFilter] = useState<string>("all");
   const [pocFilter, setPocFilter] = useState<string>("all");
-  const [view, setView] = useState<"leads" | "meetings">("leads");
+  const [view, setView] = useState<"leads" | "meetings" | "report">("leads");
   const [scheduleOpen, setScheduleOpen] = useState(false);
   const [modal, setModal] = useState<{ open: boolean; lead: PipelineLead | null }>({ open: false, lead: null });
   const [detail, setDetail] = useState<PipelineLead | null>(null);
@@ -1047,6 +1188,14 @@ export default function PipelineDashboard() {
             >
               📅 Meetings <span className="ml-1 text-[12px] opacity-70">{meetings.length}</span>
             </button>
+            <button
+              onClick={() => setView("report")}
+              className={`rounded-md px-4 py-1.5 text-sm font-medium transition-colors ${
+                view === "report" ? "bg-[#4b78ff] text-white" : "text-white/60 hover:text-white"
+              }`}
+            >
+              📊 Report
+            </button>
           </div>
           <div className="flex flex-wrap items-center gap-2">
             {view === "leads" ? (
@@ -1097,12 +1246,14 @@ export default function PipelineDashboard() {
             </select>
             </>
             ) : null}
-            <input
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search…"
-              className="w-[200px] rounded-lg border border-white/15 bg-black/40 px-3 py-2 text-sm text-white placeholder:text-white/40 focus:border-[#4b78ff] focus:outline-none"
-            />
+            {view !== "report" ? (
+              <input
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Search…"
+                className="w-[200px] rounded-lg border border-white/15 bg-black/40 px-3 py-2 text-sm text-white placeholder:text-white/40 focus:border-[#4b78ff] focus:outline-none"
+              />
+            ) : null}
             {view === "leads" ? (
               <>
                 <button onClick={() => exportCsv(rows, tab)} className="rounded-lg border border-white/15 px-3 py-2 text-[13px] text-white/80 hover:bg-white/5">
@@ -1115,14 +1266,14 @@ export default function PipelineDashboard() {
                   + Add lead
                 </button>
               </>
-            ) : (
+            ) : view === "meetings" ? (
               <button
                 onClick={() => setScheduleOpen(true)}
                 className="rounded-lg bg-[#4b78ff] px-3 py-2 text-[13px] font-semibold text-white hover:bg-[#3d63d8]"
               >
                 + Schedule meeting
               </button>
-            )}
+            ) : null}
           </div>
         </div>
 
@@ -1133,6 +1284,8 @@ export default function PipelineDashboard() {
         ) : null}
 
         {/* Meetings view */}
+        {view === "report" ? <DailyReport leads={leads} /> : null}
+
         {view === "meetings" ? (
           <div className="overflow-x-auto rounded-xl border border-white/12">
             <table className="w-full border-collapse text-sm">
@@ -1189,7 +1342,7 @@ export default function PipelineDashboard() {
               </tbody>
             </table>
           </div>
-        ) : (
+        ) : view === "leads" ? (
         <div className="overflow-x-auto rounded-xl border border-white/12">
           <table className="w-full border-collapse text-sm">
             <thead>
@@ -1306,7 +1459,7 @@ export default function PipelineDashboard() {
             </tbody>
           </table>
         </div>
-        )}
+        ) : null}
       </main>
 
       {modal.open ? (
