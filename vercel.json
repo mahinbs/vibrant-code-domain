@@ -1,6 +1,16 @@
-
 {
   "rewrites": [
+    {
+      "source": "/dashboard/lead/:id",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": ".*(WhatsApp|facebookexternalhit|Facebot|Twitterbot|TelegramBot|LinkedInBot|Slackbot|Discordbot|SkypeUriPreview|Google-PageRenderer).*"
+        }
+      ],
+      "destination": "/api/lead-og?id=:id"
+    },
     {
       "source": "/for-llm",
       "destination": "/for-llm/index.html"

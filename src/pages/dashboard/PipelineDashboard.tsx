@@ -142,6 +142,7 @@ function AttachmentsSection({
   const [atts, setAtts] = useState<PipelineAttachment[]>(lead.attachments ?? []);
   const [uploading, setUploading] = useState(false);
   const [err, setErr] = useState<string | null>(null);
+  const [preview, setPreview] = useState<PipelineAttachment | null>(null);
 
   async function onFiles(files: FileList | null) {
     if (!files || files.length === 0) return;
@@ -195,16 +196,50 @@ function AttachmentsSection({
         <p className="text-[12px] text-white/35">No files yet.</p>
       ) : (
         <ul className="flex flex-col gap-1.5">
-          {atts.map((a) => (
-            <li key={a.path} className="flex items-center gap-2 rounded-md border border-white/10 bg-white/[0.03] px-2.5 py-1.5">
-              <span className="text-[13px]">{a.type.startsWith("image/") ? "🖼️" : "📄"}</span>
-              <a href={a.url} target="_blank" rel="noopener noreferrer" className="min-w-0 flex-1 truncate text-[12px] text-[#7aa2ff] hover:underline">
-                {a.name}
-              </a>
-              <span className="text-[11px] text-white/35">{formatSize(a.size)}</span>
-              <button onClick={() => removeAtt(a)} className="text-[12px] text-red-300/80 hover:underline" type="button">Remove</button>
-            </li>
-          ))}
+          {atts.map((a) => {
+            const isOpen = preview?.path === a.path;
+            const canPreview = a.type.startsWith("image/") || a.type === "application/pdf";
+            return (
+              <li key={a.path} className="rounded-md border border-white/10 bg-white/[0.03]">
+                <div className="flex items-center gap-2 px-2.5 py-1.5">
+                  <span className="text-[13px]">{a.type.startsWith("image/") ? "🖼️" : "📄"}</span>
+                  <button
+                    type="button"
+                    onClick={() => (canPreview ? setPreview(isOpen ? null : a) : window.open(a.url, "_blank"))}
+                    className="min-w-0 flex-1 truncate text-left text-[12px] text-[#7aa2ff] hover:underline"
+                    title={canPreview ? (isOpen ? "Hide preview" : "Preview here") : "Open"}
+                  >
+                    {a.name}
+                  </button>
+                  <span className="text-[11px] text-white/35">{formatSize(a.size)}</span>
+                  {canPreview ? (
+                    <button
+                      type="button"
+                      onClick={() => setPreview(isOpen ? null : a)}
+                      className="text-[12px] text-white/60 hover:text-white"
+                    >
+                      {isOpen ? "Hide" : "👁 Preview"}
+                    </button>
+                  ) : null}
+                  <a href={a.url} target="_blank" rel="noopener noreferrer" className="text-[12px] text-white/45 hover:text-white" title="Open in new tab">↗</a>
+                  <button onClick={() => removeAtt(a)} className="text-[12px] text-red-300/80 hover:underline" type="button">Remove</button>
+                </div>
+                {isOpen ? (
+                  <div className="border-t border-white/10 bg-black/40 p-2">
+                    {a.type.startsWith("image/") ? (
+                      <img src={a.url} alt={a.name} className="mx-auto max-h-[420px] w-auto max-w-full rounded-md object-contain" />
+                    ) : (
+                      <iframe
+                        src={`${a.url}#toolbar=1&view=FitH`}
+                        title={a.name}
+                        className="h-[480px] w-full rounded-md border-0 bg-white"
+                      />
+                    )}
+                  </div>
+                ) : null}
+              </li>
+            );
+          })}
         </ul>
       )}
       {err ? <p className="mt-2 text-[12px] text-red-300/90">{err}</p> : null}
