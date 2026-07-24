@@ -618,6 +618,122 @@ function LeadDetailModal({
   );
 }
 
+/** Schedule a meeting by picking an existing lead. */
+function ScheduleMeetingModal({
+  leads,
+  onClose,
+  onSaved,
+}: {
+  leads: PipelineLead[];
+  onClose: () => void;
+  onSaved: () => void;
+}) {
+  const [leadId, setLeadId] = useState<string>("");
+  const [when, setWhen] = useState<string>("");
+  const [notes, setNotes] = useState<string>("");
+  const [query, setQuery] = useState<string>("");
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const options = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    return leads
+      .filter((l) => (l.client ?? "").trim())
+      .filter((l) => (!q ? true : `${l.client ?? ""} ${l.industry ?? ""} ${l.poc ?? ""}`.toLowerCase().includes(q)))
+      .sort((a, b) => (a.client ?? "").localeCompare(b.client ?? ""));
+  }, [leads, query]);
+
+  const chosen = leads.find((l) => l.id === leadId) ?? null;
+
+  async function submit(e: FormEvent) {
+    e.preventDefault();
+    setError(null);
+    if (!leadId) return setError("Pick a lead first — meetings are always attached to an existing lead.");
+    if (!when) return setError("Pick a date & time for the meeting.");
+    setSaving(true);
+    const { error: err } = await pipelineLeadService.update(leadId, {
+      meeting_at: when,
+      meeting_notes: notes.trim() || null,
+    });
+    setSaving(false);
+    if (err) {
+      setError(/meeting_at|column/.test(err) ? "Meeting columns aren't set up yet — run the meetings SQL in Supabase." : err);
+      return;
+    }
+    onSaved();
+  }
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/70 p-4 backdrop-blur-sm">
+      <div className="my-8 w-full max-w-[520px] rounded-2xl border border-white/15 bg-[#0c1020] p-6">
+        <div className="mb-1 flex items-center justify-between">
+          <h2 className="text-lg font-semibold text-white">📅 Schedule meeting</h2>
+          <button onClick={onClose} className="text-white/50 hover:text-white" aria-label="Close">✕</button>
+        </div>
+        <p className="mb-4 text-[12px] text-white/45">
+          Pick one of your existing leads — if the client isn&apos;t in the leads list yet, add them there first.
+        </p>
+        <form onSubmit={submit} className="flex flex-col gap-3">
+          <label className="text-[13px] text-white/70">
+            Find lead
+            <input
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Type to filter leads…"
+              className={`mt-1 ${inputCls}`}
+            />
+          </label>
+          <label className="text-[13px] text-white/70">
+            Lead *
+            <select value={leadId} onChange={(e) => setLeadId(e.target.value)} className={`mt-1 ${inputCls}`}>
+              <option value="">— Select a lead ({options.length}) —</option>
+              {options.map((l) => (
+                <option key={l.id} value={l.id}>
+                  {l.client}{l.poc ? ` · POC ${l.poc}` : ""}{l.meeting_at ? " · has meeting" : ""}
+                </option>
+              ))}
+            </select>
+          </label>
+          {chosen ? (
+            <div className="rounded-lg border border-white/10 bg-black/30 px-3 py-2 text-[12px] text-white/55">
+              {chosen.industry || chosen.business || "—"}
+              {chosen.email || chosen.phone ? ` · ${chosen.email || chosen.phone}` : ""}
+              {chosen.meeting_at ? (
+                <span className="text-amber-300"> · already has a meeting on {formatMeeting(chosen.meeting_at)} (will be replaced)</span>
+              ) : null}
+            </div>
+          ) : null}
+          <label className="text-[13px] text-white/70">
+            Date &amp; time *
+            <input
+              type="datetime-local"
+              value={when}
+              onChange={(e) => setWhen(e.target.value)}
+              className={`mt-1 ${inputCls}`}
+            />
+          </label>
+          <label className="text-[13px] text-white/70">
+            Notes
+            <input
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+              placeholder="Agenda, meet link, location…"
+              className={`mt-1 ${inputCls}`}
+            />
+          </label>
+          {error ? <p className="text-[13px] text-red-300/90">{error}</p> : null}
+          <div className="mt-2 flex justify-end gap-2">
+            <button type="button" onClick={onClose} className="rounded-lg border border-white/15 px-4 py-2.5 text-sm text-white/80 hover:bg-white/5">Cancel</button>
+            <button type="submit" disabled={saving} className="rounded-lg bg-[#4b78ff] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#3d63d8] disabled:opacity-60">
+              {saving ? "Scheduling…" : "Schedule meeting"}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}
+
 const ATT_COLS: { key: keyof PipelineLead; label: string; w?: string }[] = [
   { key: "client", label: "Client" },
   { key: "poc", label: "POC" },
@@ -670,6 +786,7 @@ export default function PipelineDashboard() {
   const [ratingFilter, setRatingFilter] = useState<string>("all");
   const [pocFilter, setPocFilter] = useState<string>("all");
   const [view, setView] = useState<"leads" | "meetings">("leads");
+  const [scheduleOpen, setScheduleOpen] = useState(false);
   const [modal, setModal] = useState<{ open: boolean; lead: PipelineLead | null }>({ open: false, lead: null });
   const [detail, setDetail] = useState<PipelineLead | null>(null);
   const [filesModal, setFilesModal] = useState<PipelineLead | null>(null);
@@ -899,15 +1016,26 @@ export default function PipelineDashboard() {
               placeholder="Search…"
               className="w-[200px] rounded-lg border border-white/15 bg-black/40 px-3 py-2 text-sm text-white placeholder:text-white/40 focus:border-[#4b78ff] focus:outline-none"
             />
-            <button onClick={() => exportCsv(rows, tab)} className="rounded-lg border border-white/15 px-3 py-2 text-[13px] text-white/80 hover:bg-white/5">
-              Export CSV
-            </button>
-            <button
-              onClick={() => setModal({ open: true, lead: null })}
-              className="rounded-lg bg-[#4b78ff] px-3 py-2 text-[13px] font-semibold text-white hover:bg-[#3d63d8]"
-            >
-              + Add lead
-            </button>
+            {view === "leads" ? (
+              <>
+                <button onClick={() => exportCsv(rows, tab)} className="rounded-lg border border-white/15 px-3 py-2 text-[13px] text-white/80 hover:bg-white/5">
+                  Export CSV
+                </button>
+                <button
+                  onClick={() => setModal({ open: true, lead: null })}
+                  className="rounded-lg bg-[#4b78ff] px-3 py-2 text-[13px] font-semibold text-white hover:bg-[#3d63d8]"
+                >
+                  + Add lead
+                </button>
+              </>
+            ) : (
+              <button
+                onClick={() => setScheduleOpen(true)}
+                className="rounded-lg bg-[#4b78ff] px-3 py-2 text-[13px] font-semibold text-white hover:bg-[#3d63d8]"
+              >
+                + Schedule meeting
+              </button>
+            )}
           </div>
         </div>
 
@@ -933,7 +1061,7 @@ export default function PipelineDashboard() {
               </thead>
               <tbody>
                 {meetings.length === 0 ? (
-                  <tr><td colSpan={6} className="px-3 py-10 text-center text-white/40">No meetings scheduled yet — open a lead → Edit → set “📅 Meeting scheduled”.</td></tr>
+                  <tr><td colSpan={6} className="px-3 py-10 text-center text-white/40">No meetings scheduled yet — click “+ Schedule meeting” and pick a lead.</td></tr>
                 ) : (
                   meetings.map((l) => {
                     const past = meetingTime(l.meeting_at) < Date.now();
@@ -1095,6 +1223,14 @@ export default function PipelineDashboard() {
           onClose={() => setModal({ open: false, lead: null })}
           onSaved={() => { setModal({ open: false, lead: null }); void load(); }}
           onChanged={() => void load()}
+        />
+      ) : null}
+
+      {scheduleOpen ? (
+        <ScheduleMeetingModal
+          leads={leads}
+          onClose={() => setScheduleOpen(false)}
+          onSaved={() => { setScheduleOpen(false); void load(); }}
         />
       ) : null}
 
