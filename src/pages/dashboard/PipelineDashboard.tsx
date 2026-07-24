@@ -142,7 +142,15 @@ function AttachmentsSection({
   const [atts, setAtts] = useState<PipelineAttachment[]>(lead.attachments ?? []);
   const [uploading, setUploading] = useState(false);
   const [err, setErr] = useState<string | null>(null);
-  const [preview, setPreview] = useState<PipelineAttachment | null>(null);
+  // Previews are open by default — collapse individually with "Hide".
+  const [closedPreviews, setClosedPreviews] = useState<Set<string>>(new Set());
+  const togglePreview = (path: string) =>
+    setClosedPreviews((prev) => {
+      const next = new Set(prev);
+      if (next.has(path)) next.delete(path);
+      else next.add(path);
+      return next;
+    });
 
   async function onFiles(files: FileList | null) {
     if (!files || files.length === 0) return;
@@ -197,17 +205,17 @@ function AttachmentsSection({
       ) : (
         <ul className="flex flex-col gap-1.5">
           {atts.map((a) => {
-            const isOpen = preview?.path === a.path;
             const canPreview = a.type.startsWith("image/") || a.type === "application/pdf";
+            const isOpen = canPreview && !closedPreviews.has(a.path);
             return (
               <li key={a.path} className="rounded-md border border-white/10 bg-white/[0.03]">
                 <div className="flex items-center gap-2 px-2.5 py-1.5">
                   <span className="text-[13px]">{a.type.startsWith("image/") ? "🖼️" : "📄"}</span>
                   <button
                     type="button"
-                    onClick={() => (canPreview ? setPreview(isOpen ? null : a) : window.open(a.url, "_blank"))}
+                    onClick={() => (canPreview ? togglePreview(a.path) : window.open(a.url, "_blank"))}
                     className="min-w-0 flex-1 truncate text-left text-[12px] text-[#7aa2ff] hover:underline"
-                    title={canPreview ? (isOpen ? "Hide preview" : "Preview here") : "Open"}
+                    title={canPreview ? (isOpen ? "Hide preview" : "Show preview") : "Open"}
                   >
                     {a.name}
                   </button>
@@ -215,7 +223,7 @@ function AttachmentsSection({
                   {canPreview ? (
                     <button
                       type="button"
-                      onClick={() => setPreview(isOpen ? null : a)}
+                      onClick={() => togglePreview(a.path)}
                       className="text-[12px] text-white/60 hover:text-white"
                     >
                       {isOpen ? "Hide" : "👁 Preview"}
