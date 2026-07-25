@@ -205,6 +205,11 @@ function AgentCall({ agentId }: { agentId: string }) {
         @keyframes bmsFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
         @keyframes bmsSpin { to { transform: rotate(360deg) } }
         @keyframes bmsPulseRing { 0%{transform:scale(.8);opacity:.6} 80%,100%{transform:scale(1.9);opacity:0} }
+        @keyframes bmsCallGlow {
+          0%,100% { box-shadow: 0 0 22px rgba(16,220,150,.55), 0 0 60px rgba(16,220,150,.25), inset 0 0 12px rgba(255,255,255,.25); }
+          50%     { box-shadow: 0 0 34px rgba(16,220,150,.85), 0 0 90px rgba(16,220,150,.45), inset 0 0 16px rgba(255,255,255,.35); }
+        }
+        @keyframes bmsShimmer { to { background-position: 200% center; } }
       `}</style>
       <button
         onClick={connected ? end : start}
@@ -262,9 +267,23 @@ function AgentCall({ agentId }: { agentId: string }) {
         <button
           onClick={start}
           disabled={connecting}
-          className="rounded-xl bg-[#4b78ff] px-8 py-3.5 text-[15px] font-semibold text-white shadow-[0_8px_30px_rgba(75,120,255,0.4)] transition-transform hover:scale-[1.03] disabled:opacity-60"
+          className="group relative overflow-hidden rounded-full px-10 py-4 text-[15px] font-bold uppercase tracking-[0.12em] text-white transition-transform hover:scale-[1.04] disabled:opacity-60"
+          style={{
+            background: "linear-gradient(90deg, #059669, #10dc96, #34ffd0, #10dc96, #059669)",
+            backgroundSize: "200% auto",
+            border: "1px solid rgba(120,255,214,0.6)",
+            animation: connecting ? "none" : "bmsCallGlow 2s ease-in-out infinite, bmsShimmer 3.5s linear infinite",
+          }}
         >
-          {connecting ? "Connecting…" : "📞 Start a call"}
+          <span className="relative z-[1] flex items-center gap-2">
+            <span className="text-[18px]">📞</span>
+            {connecting ? "Connecting…" : "Start a call"}
+          </span>
+          {/* sheen sweep */}
+          <span
+            aria-hidden
+            className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/40 to-transparent transition-transform duration-700 group-hover:translate-x-full"
+          />
         </button>
       ) : (
         <button
