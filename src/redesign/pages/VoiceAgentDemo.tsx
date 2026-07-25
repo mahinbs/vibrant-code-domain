@@ -73,11 +73,54 @@ async function speakElevenLabs(text: string, apiKey: string): Promise<boolean> {
   }
 }
 
+/** Free, human-sounding neural voice via our /api/tts proxy (Microsoft neural
+ *  → Google TTS fallback). No API key, no login. */
+async function speakNeural(text: string, voice = "en-US-AriaNeural"): Promise<boolean> {
+  try {
+    const r = await fetch(`/api/tts?voice=${voice}&text=${encodeURIComponent(text)}`);
+    if (!r.ok) return false;
+    const blob = await r.blob();
+    if (!blob.size || !blob.type.includes("audio")) return false;
+    const url = URL.createObjectURL(blob);
+    await new Promise<void>((res) => {
+      const a = new Audio(url);
+      a.onended = () => res();
+      a.onerror = () => res();
+      void a.play().catch(() => res());
+    });
+    URL.revokeObjectURL(url);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/** Pick the most natural-sounding system voice available. */
+function pickBestVoice(): SpeechSynthesisVoice | null {
+  const voices = window.speechSynthesis?.getVoices?.() ?? [];
+  if (!voices.length) return null;
+  const rank = (v: SpeechSynthesisVoice): number => {
+    const n = v.name.toLowerCase();
+    if (!v.lang.toLowerCase().startsWith("en")) return -1;
+    if (n.includes("natural") || n.includes("neural")) return 100; // Edge neural voices
+    if (n.includes("premium") || n.includes("enhanced")) return 90; // iOS/macOS enhanced
+    if (n.includes("google uk english female")) return 80;
+    if (n.includes("google us english")) return 75;
+    if (n.includes("google")) return 70;
+    if (n.includes("samantha") || n.includes("karen") || n.includes("daniel") || n.includes("moira")) return 60;
+    return 10;
+  };
+  return voices.slice().sort((a, b) => rank(b) - rank(a))[0] ?? null;
+}
+
 function speakBrowser(text: string): Promise<void> {
   return new Promise((res) => {
     try {
       const u = new SpeechSynthesisUtterance(text);
-      u.rate = 1;
+      const best = pickBestVoice();
+      if (best) u.voice = best;
+      u.rate = 1.02;
+      u.pitch = 1;
       u.onend = () => res();
       u.onerror = () => res();
       window.speechSynthesis.speak(u);
@@ -116,13 +159,24 @@ export default function VoiceAgentDemo() {
     logRef.current?.scrollTo({ top: logRef.current.scrollHeight, behavior: "smooth" });
   }, [msgs, interim]);
 
+  // Warm up the system voice list (fallback) so it's ready if needed.
+  useEffect(() => {
+    if (agentId) return;
+    window.speechSynthesis?.getVoices?.();
+    const onVoices = () => window.speechSynthesis?.getVoices?.();
+    window.speechSynthesis?.addEventListener?.("voiceschanged", onVoices);
+    return () => window.speechSynthesis?.removeEventListener?.("voiceschanged", onVoices);
+  }, [agentId]);
+
   async function respond(userText: string) {
     const reply = demoBrain(userText, turnRef.current);
     turnRef.current += 1;
     setMsgs((m) => [...m, { role: "agent", text: reply }]);
     setSpeaking(true);
+    // Voice chain: ElevenLabs (if key) → free neural (Microsoft/Google) → best system voice.
     let ok = false;
     if (apiKey) ok = await speakElevenLabs(reply, apiKey);
+    if (!ok) ok = await speakNeural(reply);
     if (!ok) await speakBrowser(reply);
     setSpeaking(false);
   }
@@ -254,7 +308,7 @@ export default function VoiceAgentDemo() {
               ) : null}
               {!apiKey ? (
                 <p className="text-[11px] text-white/35">
-                  Using standard browser voice — add a free ElevenLabs key in ⚙️ Setup for a premium voice.
+                  Natural voice included — add a free ElevenLabs key in ⚙️ Setup for the most realistic voice.
                 </p>
               ) : (
                 <p className="text-[11px] text-white/35">Voice by ElevenLabs.</p>
