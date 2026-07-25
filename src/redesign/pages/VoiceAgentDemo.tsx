@@ -20,7 +20,7 @@ const DEFAULT_VOICE = "21m00Tcm4TlvDq8ikWAM"; // Rachel
 
 // Default public Boostmysites agent (published, auth disabled). Override via
 // env or the on-page connect bar (stored per-browser in localStorage).
-const DEFAULT_AGENT_ID = "agent_1101k21kp83yfy9vp5wts2b03pvt";
+const DEFAULT_AGENT_ID = "agent_9501kyc7wq2nfh7811r6td7kp9f8";
 const AGENT_ID_ENV =
   (import.meta.env.VITE_ELEVENLABS_AGENT_ID as string | undefined) || DEFAULT_AGENT_ID;
 
@@ -200,31 +200,54 @@ function AgentCall({ agentId }: { agentId: string }) {
       className="relative flex min-h-[420px] flex-col items-center justify-center gap-6 overflow-hidden rounded-2xl border border-white/12 p-8 text-center"
       style={{ background: "radial-gradient(60% 80% at 50% 20%, rgba(75,120,255,0.18), rgba(6,7,12,0) 70%)" }}
     >
-      {/* Orb */}
-      <div className="relative flex items-center justify-center">
+      {/* Animated Boostmysites logo orb */}
+      <style>{`
+        @keyframes bmsFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+        @keyframes bmsSpin { to { transform: rotate(360deg) } }
+        @keyframes bmsPulseRing { 0%{transform:scale(.8);opacity:.6} 80%,100%{transform:scale(1.9);opacity:0} }
+      `}</style>
+      <button
+        onClick={connected ? end : start}
+        disabled={connecting}
+        className="relative z-[1] flex size-48 items-center justify-center rounded-full disabled:opacity-70"
+        aria-label={connected ? "End call" : "Start a call"}
+        style={{ animation: "bmsFloat 4s ease-in-out infinite" }}
+      >
+        {/* Expanding pulse rings (faster + blue while speaking) */}
         {connected ? (
-          <span
-            className={`absolute rounded-full ${mode === "speaking" ? "bg-[#4b78ff]/30" : "bg-emerald-400/25"}`}
-            style={{ width: 200, height: 200, animation: "ping 1.6s cubic-bezier(0,0,0.2,1) infinite" }}
-          />
+          <>
+            <span
+              className={`absolute rounded-full ${mode === "speaking" ? "bg-[#4b78ff]/40" : "bg-emerald-400/30"}`}
+              style={{ width: 176, height: 176, animation: `bmsPulseRing ${mode === "speaking" ? "1.1s" : "1.8s"} ease-out infinite` }}
+            />
+            <span
+              className={`absolute rounded-full ${mode === "speaking" ? "bg-[#4b78ff]/30" : "bg-emerald-400/20"}`}
+              style={{ width: 176, height: 176, animation: `bmsPulseRing ${mode === "speaking" ? "1.1s" : "1.8s"} ease-out .5s infinite` }}
+            />
+          </>
         ) : null}
-        <button
-          onClick={connected ? end : start}
-          disabled={connecting}
-          className={`relative z-[1] flex size-36 items-center justify-center rounded-full text-5xl transition-all ${
-            connected
-              ? mode === "speaking"
-                ? "bg-[#4b78ff] shadow-[0_0_70px_rgba(75,120,255,0.6)]"
-                : "bg-emerald-500/90 shadow-[0_0_60px_rgba(16,185,129,0.5)]"
-              : connecting
-                ? "bg-[#4b78ff]/50"
-                : "bg-[#4b78ff] shadow-[0_0_60px_rgba(75,120,255,0.5)] hover:scale-105"
-          }`}
-          aria-label={connected ? "End call" : "Start a call"}
+        {/* Rotating gradient halo */}
+        <span
+          className="absolute rounded-full"
+          style={{
+            width: 192,
+            height: 192,
+            background: connected && mode === "speaking"
+              ? "conic-gradient(from 0deg, #4b78ff, #9dbaff, #4b78ff, #1e3a8a, #4b78ff)"
+              : "conic-gradient(from 0deg, #4b78ff, #7aa2ff, #22d3a5, #4b78ff)",
+            filter: "blur(14px)",
+            opacity: connected ? 0.85 : 0.5,
+            animation: `bmsSpin ${connected && mode === "speaking" ? "3s" : "8s"} linear infinite`,
+          }}
+        />
+        {/* Logo disc */}
+        <span
+          className="relative flex size-40 items-center justify-center rounded-full bg-white ring-1 ring-white/30"
+          style={{ boxShadow: connected ? "0 0 70px rgba(75,120,255,0.6)" : "0 0 45px rgba(75,120,255,0.4)" }}
         >
-          {connecting ? "…" : connected ? (mode === "speaking" ? "🔊" : "🎧") : "📞"}
-        </button>
-      </div>
+          <img src="/bms-logo.png" alt="Boostmysites" className="size-24 object-contain" />
+        </span>
+      </button>
 
       <div>
         <p className="text-[17px] font-medium text-white">
