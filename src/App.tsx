@@ -100,6 +100,7 @@ const TradingAppDevelopmentPage = lazy(() => import("./pages/geo/TradingAppDevel
 const PayinPayoutSoftwarePage = lazy(() => import("./pages/geo/PayinPayoutSoftwarePage"));
 const ForLlmPage = lazy(() => import("./pages/ForLlmPage"));
 const FounderProfile = lazy(() => import("./redesign/pages/FounderProfile"));
+const VoiceAgentDemo = lazy(() => import("./redesign/pages/VoiceAgentDemo"));
 const DashboardLogin = lazy(() => import("./pages/dashboard/DashboardLogin"));
 const PipelineDashboard = lazy(() => import("./pages/dashboard/PipelineDashboard"));
 const AdminLogin = lazy(() => import("./pages/admin/AdminLogin"));
@@ -694,6 +695,9 @@ const App = () => {
               <Route path="/new-homepage-preview" element={<NewHomepagePreview />} />
 
               {/* Admin routes */}
+              {/* AI voice agent demo (link-only, noindex). */}
+              <Route path="/voice-demo" element={<VoiceAgentDemo />} />
+
               {/* Founder profile — Mahin B S. */}
               <Route path="/founder" element={<RedesignShell><FounderProfile /></RedesignShell>} />
               <Route path="/mahin-b-s" element={<Navigate to="/founder" replace />} />
