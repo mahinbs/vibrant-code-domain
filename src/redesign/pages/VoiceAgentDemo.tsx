@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
+import { Conversation } from "@elevenlabs/client";
 
 /**
  * AI Voice Agent demo (link-only, noindex) — lets a client talk to an agent.
@@ -148,6 +149,114 @@ function speakBrowser(text: string): Promise<void> {
   });
 }
 
+/** Custom, centered "Start a call" UI using the ElevenLabs SDK (public agent). */
+function AgentCall({ agentId }: { agentId: string }) {
+  const [status, setStatus] = useState<"idle" | "connecting" | "connected">("idle");
+  const [mode, setMode] = useState<"listening" | "speaking">("listening");
+  const [error, setError] = useState<string | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const convRef = useRef<any>(null);
+
+  async function start() {
+    setError(null);
+    setStatus("connecting");
+    try {
+      await navigator.mediaDevices.getUserMedia({ audio: true });
+      const conv = await Conversation.startSession({
+        agentId,
+        connectionType: "webrtc",
+        onStatusChange: ({ status: s }) => {
+          if (s === "connected") setStatus("connected");
+          if (s === "disconnected") setStatus("idle");
+        },
+        onModeChange: ({ mode: m }) => setMode(m),
+        onError: (m) => { setError(m || "Something went wrong."); setStatus("idle"); },
+        onDisconnect: () => setStatus("idle"),
+      });
+      convRef.current = conv;
+    } catch (e) {
+      setError(
+        e instanceof Error && /permission|denied|NotAllowed/i.test(e.message)
+          ? "Microphone access is needed — please allow it and try again."
+          : "Couldn't start the call. Please try again.",
+      );
+      setStatus("idle");
+    }
+  }
+
+  async function end() {
+    try { await convRef.current?.endSession?.(); } catch { /* noop */ }
+    convRef.current = null;
+    setStatus("idle");
+  }
+
+  useEffect(() => () => { void convRef.current?.endSession?.(); }, []);
+
+  const connected = status === "connected";
+  const connecting = status === "connecting";
+
+  return (
+    <div
+      className="relative flex min-h-[420px] flex-col items-center justify-center gap-6 overflow-hidden rounded-2xl border border-white/12 p-8 text-center"
+      style={{ background: "radial-gradient(60% 80% at 50% 20%, rgba(75,120,255,0.18), rgba(6,7,12,0) 70%)" }}
+    >
+      {/* Orb */}
+      <div className="relative flex items-center justify-center">
+        {connected ? (
+          <span
+            className={`absolute rounded-full ${mode === "speaking" ? "bg-[#4b78ff]/30" : "bg-emerald-400/25"}`}
+            style={{ width: 200, height: 200, animation: "ping 1.6s cubic-bezier(0,0,0.2,1) infinite" }}
+          />
+        ) : null}
+        <button
+          onClick={connected ? end : start}
+          disabled={connecting}
+          className={`relative z-[1] flex size-36 items-center justify-center rounded-full text-5xl transition-all ${
+            connected
+              ? mode === "speaking"
+                ? "bg-[#4b78ff] shadow-[0_0_70px_rgba(75,120,255,0.6)]"
+                : "bg-emerald-500/90 shadow-[0_0_60px_rgba(16,185,129,0.5)]"
+              : connecting
+                ? "bg-[#4b78ff]/50"
+                : "bg-[#4b78ff] shadow-[0_0_60px_rgba(75,120,255,0.5)] hover:scale-105"
+          }`}
+          aria-label={connected ? "End call" : "Start a call"}
+        >
+          {connecting ? "…" : connected ? (mode === "speaking" ? "🔊" : "🎧") : "📞"}
+        </button>
+      </div>
+
+      <div>
+        <p className="text-[17px] font-medium text-white">
+          {connecting ? "Connecting…" : connected ? (mode === "speaking" ? "Agent is speaking…" : "Listening — go ahead") : "Talk to the Boostmysites AI Voice Agent"}
+        </p>
+        <p className="mt-1 text-[13px] text-white/50">
+          {connected ? "Speak naturally — it responds in real time." : "Tap to start, allow the microphone, and just talk."}
+        </p>
+      </div>
+
+      {!connected ? (
+        <button
+          onClick={start}
+          disabled={connecting}
+          className="rounded-xl bg-[#4b78ff] px-8 py-3.5 text-[15px] font-semibold text-white shadow-[0_8px_30px_rgba(75,120,255,0.4)] transition-transform hover:scale-[1.03] disabled:opacity-60"
+        >
+          {connecting ? "Connecting…" : "📞 Start a call"}
+        </button>
+      ) : (
+        <button
+          onClick={end}
+          className="rounded-xl border border-red-400/40 bg-red-500/15 px-8 py-3.5 text-[15px] font-semibold text-red-200 hover:bg-red-500/25"
+        >
+          ⏹ End call
+        </button>
+      )}
+
+      {error ? <p className="max-w-[360px] text-[13px] text-amber-300/90">{error}</p> : null}
+    </div>
+  );
+}
+
 export default function VoiceAgentDemo() {
   const [agentId, setAgentId] = useState<string>(() => localStorage.getItem(LS_AGENT) || AGENT_ID_ENV);
   const [apiKey, setApiKey] = useState<string>(() => localStorage.getItem(LS_KEY) || "");
@@ -163,17 +272,6 @@ export default function VoiceAgentDemo() {
   const turnRef = useRef(0);
   const convoRef = useRef(false);
   const logRef = useRef<HTMLDivElement | null>(null);
-
-  // Load the ElevenLabs widget script when an agent id is set.
-  useEffect(() => {
-    if (!agentId) return;
-    if (document.querySelector('script[data-el-convai]')) return;
-    const s = document.createElement("script");
-    s.src = "https://unpkg.com/@elevenlabs/convai-widget-embed";
-    s.async = true;
-    s.setAttribute("data-el-convai", "1");
-    document.body.appendChild(s);
-  }, [agentId]);
 
   useEffect(() => {
     logRef.current?.scrollTo({ top: logRef.current.scrollHeight, behavior: "smooth" });
@@ -311,32 +409,15 @@ export default function VoiceAgentDemo() {
             Talk to our <span className="impact-highlight">AI voice agent</span>
           </h1>
           <p className="mx-auto mt-3 max-w-[560px] text-[15px] text-white/60">
-            {agentId
-              ? "Tap “Start a call” in the bottom-right corner and just talk — the agent listens and answers in real time."
-              : "Tap once, then just talk — it greets you, listens hands-free, and answers out loud. Ask about our services, pricing, or a real example."}
+            Tap “Start a call”, allow your microphone, and just talk — the agent listens and answers in real time.
           </p>
         </div>
 
         {agentId ? (
-          /* Mode 1: real ElevenLabs conversational agent */
+          /* Mode 1: custom centered call UI (Boostmysites AI voice agent) */
           <div>
-            <div
-              className="relative flex min-h-[300px] flex-col items-center justify-center gap-4 overflow-hidden rounded-2xl border border-white/12 p-8 text-center"
-              style={{ background: "radial-gradient(60% 80% at 50% 0%, rgba(75,120,255,0.18), rgba(6,7,12,0) 70%)" }}
-            >
-              <div className="flex size-20 items-center justify-center rounded-full bg-[#4b78ff]/20 text-4xl ring-1 ring-white/10">🎙️</div>
-              <p className="max-w-[420px] text-[15px] text-white/70">
-                Your <span className="font-semibold text-white">Boostmysites AI Voice Agent</span> is ready.
-                Tap the <span className="font-semibold text-white">“Start a call”</span> button in the
-                bottom-right corner, allow the microphone, and start talking.
-              </p>
-              <span className="text-[12px] text-white/40">Real-time AI voice · Boostmysites</span>
-              {/* @ts-expect-error — custom element from the ElevenLabs embed script */}
-              <elevenlabs-convai agent-id={agentId}></elevenlabs-convai>
-            </div>
-            <p className="mt-3 text-center text-[12px] text-white/40">
-              Boostmysites AI Voice Agent
-            </p>
+            <AgentCall agentId={agentId} />
+            <p className="mt-3 text-center text-[12px] text-white/40">Boostmysites AI Voice Agent</p>
           </div>
         ) : (
           <>
