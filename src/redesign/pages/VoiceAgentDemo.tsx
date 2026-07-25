@@ -17,7 +17,11 @@ const LS_AGENT = "bms_el_agent_id";
 const LS_KEY = "bms_el_api_key";
 const DEFAULT_VOICE = "21m00Tcm4TlvDq8ikWAM"; // Rachel
 
-const AGENT_ID_ENV = (import.meta.env.VITE_ELEVENLABS_AGENT_ID as string | undefined) || "";
+// Default public Boostmysites agent (published, auth disabled). Override via
+// env or the on-page connect bar (stored per-browser in localStorage).
+const DEFAULT_AGENT_ID = "agent_1101k21kp83yfy9vp5wts2b03pvt";
+const AGENT_ID_ENV =
+  (import.meta.env.VITE_ELEVENLABS_AGENT_ID as string | undefined) || DEFAULT_AGENT_ID;
 
 type Msg = { role: "you" | "agent"; text: string };
 
@@ -145,7 +149,7 @@ function speakBrowser(text: string): Promise<void> {
 }
 
 export default function VoiceAgentDemo() {
-  const [agentId, setAgentId] = useState<string>(() => AGENT_ID_ENV || localStorage.getItem(LS_AGENT) || "");
+  const [agentId, setAgentId] = useState<string>(() => localStorage.getItem(LS_AGENT) || AGENT_ID_ENV);
   const [apiKey, setApiKey] = useState<string>(() => localStorage.getItem(LS_KEY) || "");
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [listening, setListening] = useState(false);
@@ -308,7 +312,7 @@ export default function VoiceAgentDemo() {
           </h1>
           <p className="mx-auto mt-3 max-w-[560px] text-[15px] text-white/60">
             {agentId
-              ? "Tap the widget below and start speaking — the agent listens and answers in real time."
+              ? "Tap “Start a call” in the bottom-right corner and just talk — the agent listens and answers in real time."
               : "Tap once, then just talk — it greets you, listens hands-free, and answers out loud. Ask about our services, pricing, or a real example."}
           </p>
         </div>
@@ -316,13 +320,23 @@ export default function VoiceAgentDemo() {
         {agentId ? (
           /* Mode 1: real ElevenLabs conversational agent */
           <div>
-            <div className="flex min-h-[420px] items-center justify-center rounded-2xl border border-white/12 bg-white/[0.02] p-6">
+            <div
+              className="relative flex min-h-[300px] flex-col items-center justify-center gap-4 overflow-hidden rounded-2xl border border-white/12 p-8 text-center"
+              style={{ background: "radial-gradient(60% 80% at 50% 0%, rgba(75,120,255,0.18), rgba(6,7,12,0) 70%)" }}
+            >
+              <div className="flex size-20 items-center justify-center rounded-full bg-[#4b78ff]/20 text-4xl ring-1 ring-white/10">🎙️</div>
+              <p className="max-w-[420px] text-[15px] text-white/70">
+                Your live AI voice agent is ready. Tap the{" "}
+                <span className="font-semibold text-white">“Start a call”</span> button in the
+                bottom-right corner, allow the microphone, and start talking.
+              </p>
+              <span className="text-[12px] text-white/40">Real-time voice · powered by ElevenLabs</span>
               {/* @ts-expect-error — custom element from the ElevenLabs embed script */}
               <elevenlabs-convai agent-id={agentId}></elevenlabs-convai>
             </div>
             <p className="mt-3 text-center text-[12px] text-white/40">
               Powered by your ElevenLabs agent{" "}
-              <code className="text-white/55">{agentId.slice(0, 10)}…</code> ·{" "}
+              <code className="text-white/55">{agentId.slice(0, 12)}…</code> ·{" "}
               <button onClick={() => setSettingsOpen(true)} className="text-[#7aa2ff] hover:underline">change</button>
             </p>
           </div>
