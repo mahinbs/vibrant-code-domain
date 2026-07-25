@@ -326,27 +326,25 @@ export default function VoiceAgentDemo() {
             >
               <div className="flex size-20 items-center justify-center rounded-full bg-[#4b78ff]/20 text-4xl ring-1 ring-white/10">🎙️</div>
               <p className="max-w-[420px] text-[15px] text-white/70">
-                Your live AI voice agent is ready. Tap the{" "}
-                <span className="font-semibold text-white">“Start a call”</span> button in the
+                Your <span className="font-semibold text-white">Boostmysites AI Voice Agent</span> is ready.
+                Tap the <span className="font-semibold text-white">“Start a call”</span> button in the
                 bottom-right corner, allow the microphone, and start talking.
               </p>
-              <span className="text-[12px] text-white/40">Real-time voice · powered by ElevenLabs</span>
+              <span className="text-[12px] text-white/40">Real-time AI voice · Boostmysites</span>
               {/* @ts-expect-error — custom element from the ElevenLabs embed script */}
               <elevenlabs-convai agent-id={agentId}></elevenlabs-convai>
             </div>
             <p className="mt-3 text-center text-[12px] text-white/40">
-              Powered by your ElevenLabs agent{" "}
-              <code className="text-white/55">{agentId.slice(0, 12)}…</code> ·{" "}
-              <button onClick={() => setSettingsOpen(true)} className="text-[#7aa2ff] hover:underline">change</button>
+              Boostmysites AI Voice Agent
             </p>
           </div>
         ) : (
           <>
           {/* Connect an ElevenLabs public agent for the real widget */}
           <div className="mb-5 rounded-2xl border border-[#4b78ff]/30 bg-[#4b78ff]/[0.06] p-5">
-            <p className="text-[14px] font-medium text-white">🎧 Connect your ElevenLabs agent</p>
+            <p className="text-[14px] font-medium text-white">🎧 Connect the Boostmysites AI voice agent</p>
             <p className="mt-1 text-[12px] text-white/55">
-              Create a <b>public agent</b> (auth disabled) at elevenlabs.io → Agents, then paste its Agent ID for the real ElevenLabs voice widget.
+              Paste the voice agent ID to load the live Boostmysites AI voice widget.
             </p>
             <form
               onSubmit={(e) => {
@@ -406,10 +404,10 @@ export default function VoiceAgentDemo() {
               ) : null}
               {!apiKey ? (
                 <p className="text-[11px] text-white/35">
-                  Natural voice included — add a free ElevenLabs key in ⚙️ Setup for the most realistic voice.
+                  Boostmysites AI voice — natural and clear.
                 </p>
               ) : (
-                <p className="text-[11px] text-white/35">Voice by ElevenLabs.</p>
+                <p className="text-[11px] text-white/35">Boostmysites AI voice.</p>
               )}
             </div>
 
@@ -468,22 +466,22 @@ function SettingsForm({
   return (
     <div className="my-8 w-full max-w-[520px] rounded-2xl border border-white/15 bg-[#0c1020] p-6">
       <div className="mb-3 flex items-center justify-between">
-        <h2 className="text-lg font-semibold text-white">⚙️ Demo setup</h2>
+        <h2 className="text-lg font-semibold text-white">⚙️ Admin setup</h2>
         <button onClick={onClose} className="text-white/50 hover:text-white" aria-label="Close">✕</button>
       </div>
       <div className="flex flex-col gap-4 text-[13px] text-white/70">
         <label>
-          ElevenLabs Agent ID <span className="text-white/40">(recommended — full conversational AI)</span>
+          Voice agent ID <span className="text-white/40">(full conversational AI)</span>
           <input value={agent} onChange={(e) => setAgent(e.target.value)} placeholder="agent_..." className={inputCls} />
           <p className="mt-1 text-[11px] text-white/40">
-            Free at elevenlabs.io → Agents → Create agent → set it Public → copy the Agent ID.
+            Internal: paste the published voice-agent ID to override the default.
           </p>
         </label>
         <label>
-          ElevenLabs API key <span className="text-white/40">(optional — premium voice for the built-in demo)</span>
+          Voice API key <span className="text-white/40">(optional — premium voice for the built-in demo)</span>
           <input value={key} onChange={(e) => setKey(e.target.value)} placeholder="sk_..." type="password" className={inputCls} />
           <p className="mt-1 text-[11px] text-white/40">
-            Stored only in this browser (localStorage). Free tier: ~10 min of speech per month.
+            Internal only. Stored in this browser (localStorage), never in the code.
           </p>
         </label>
         <div className="mt-1 flex justify-end gap-2">
