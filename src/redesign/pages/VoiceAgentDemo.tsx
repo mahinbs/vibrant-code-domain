@@ -270,12 +270,45 @@ export default function VoiceAgentDemo() {
 
         {agentId ? (
           /* Mode 1: real ElevenLabs conversational agent */
-          <div className="flex min-h-[380px] items-center justify-center rounded-2xl border border-white/12 bg-white/[0.02] p-6">
-            {/* @ts-expect-error — custom element from the ElevenLabs embed script */}
-            <elevenlabs-convai agent-id={agentId}></elevenlabs-convai>
+          <div>
+            <div className="flex min-h-[420px] items-center justify-center rounded-2xl border border-white/12 bg-white/[0.02] p-6">
+              {/* @ts-expect-error — custom element from the ElevenLabs embed script */}
+              <elevenlabs-convai agent-id={agentId}></elevenlabs-convai>
+            </div>
+            <p className="mt-3 text-center text-[12px] text-white/40">
+              Powered by your ElevenLabs agent{" "}
+              <code className="text-white/55">{agentId.slice(0, 10)}…</code> ·{" "}
+              <button onClick={() => setSettingsOpen(true)} className="text-[#7aa2ff] hover:underline">change</button>
+            </p>
           </div>
         ) : (
-          /* Mode 2: built-in demo */
+          <>
+          {/* Connect an ElevenLabs public agent for the real widget */}
+          <div className="mb-5 rounded-2xl border border-[#4b78ff]/30 bg-[#4b78ff]/[0.06] p-5">
+            <p className="text-[14px] font-medium text-white">🎧 Connect your ElevenLabs agent</p>
+            <p className="mt-1 text-[12px] text-white/55">
+              Create a <b>public agent</b> (auth disabled) at elevenlabs.io → Agents, then paste its Agent ID for the real ElevenLabs voice widget.
+            </p>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                const v = (new FormData(e.currentTarget).get("aid") as string || "").trim();
+                if (v) saveSettings(v, apiKey);
+              }}
+              className="mt-3 flex flex-wrap gap-2"
+            >
+              <input
+                name="aid"
+                placeholder="agent_xxxxxxxxxxxxxxxx"
+                className="min-w-[220px] flex-1 rounded-lg border border-white/15 bg-black/40 px-3 py-2 text-sm text-white placeholder:text-white/35 focus:border-[#4b78ff] focus:outline-none"
+              />
+              <button type="submit" className="rounded-lg bg-[#4b78ff] px-4 py-2 text-sm font-semibold text-white hover:bg-[#3d63d8]">
+                Load widget
+              </button>
+            </form>
+          </div>
+
+          {/* Mode 2: built-in demo (works with no setup) */}
           <div className="rounded-2xl border border-white/12 bg-white/[0.02] p-6">
             <div className="flex flex-col items-center gap-5">
               <button
@@ -330,6 +363,7 @@ export default function VoiceAgentDemo() {
               ))}
             </div>
           </div>
+          </>
         )}
 
         <p className="mt-6 text-center text-[12px] text-white/35">
