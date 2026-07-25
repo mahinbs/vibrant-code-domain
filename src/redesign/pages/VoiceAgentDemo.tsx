@@ -21,26 +21,40 @@ const AGENT_ID_ENV = (import.meta.env.VITE_ELEVENLABS_AGENT_ID as string | undef
 
 type Msg = { role: "you" | "agent"; text: string };
 
-/** Tiny scripted brain for the fallback demo — sounds like a BMS sales agent. */
+const GREETING =
+  "Hi there! I'm the Boostmysites AI voice agent. I can tell you how we automate businesses — ask me about our services, pricing, a real example, or how to get started.";
+
+/** Scripted brain for the built-in demo — sounds like a BMS sales agent. */
 function demoBrain(input: string, turn: number): string {
   const t = input.toLowerCase();
-  if (/\b(hi|hello|hey|good (morning|afternoon|evening))\b/.test(t))
-    return "Hi! I'm the Boostmysites AI voice agent. I can tell you how we automate businesses — ask me about services, pricing, or booking a free audit.";
-  if (/price|cost|charge|budget|fee/.test(t))
-    return "Pricing depends on how many workflows we automate. Most projects start after a free 30-minute audit, where we map your bottlenecks and give you an exact quote. Shall I tell you how the audit works?";
-  if (/audit|book|call|meeting|demo/.test(t))
-    return "Great — the free AI audit is a 30-minute call. We identify three things your team does manually that can be automated this month. You can book it right on boostmysites.com, or message us on WhatsApp.";
-  if (/service|automate|automation|what.*do|offer/.test(t))
+  if (/\b(hi|hello|hey|yo|good (morning|afternoon|evening)|how are you)\b/.test(t))
+    return "Hey! Great to have you. I help businesses replace repetitive work with AI. What would you like to automate — sales, support, operations, or finance?";
+  if (/price|cost|charge|budget|fee|how much|expensive/.test(t))
+    return "Pricing depends on how many workflows we automate for you. Most projects begin with a free thirty-minute audit, where we map your bottlenecks and give you an exact quote. Would you like to know how the audit works?";
+  if (/audit|book|call|meeting|demo|get started|sign up|onboard/.test(t))
+    return "Perfect. The free AI audit is a thirty-minute call where we find three things your team does manually that we can automate this month. You can book it on boostmysites.com, or just message us on WhatsApp. Shall I point you there?";
+  if (/service|automate|automation|what (can|do) you|offer|help me with|solution/.test(t))
     return "We build AI employees — lead follow-up, WhatsApp sales assistants, invoice and document processing, CRM updates, meeting scheduling, and daily business reports. Which of those sounds like your biggest time sink?";
   if (/whatsapp/.test(t))
-    return "Yes — WhatsApp automation is one of our most popular builds. Your assistant can answer product questions, qualify leads and book appointments twenty four seven. Want to hear a real example?";
-  if (/example|case study|client/.test(t))
-    return "One industrial client processed fifteen quotation requests a day, each taking an hour. Our agent now does each one in about two and a half minutes — a ninety five percent reduction in manual effort.";
-  if (/thank|bye|goodbye/.test(t))
-    return "Thanks for trying the demo! If you'd like this voice agent trained on your own business, book a free audit at boostmysites.com. Goodbye!";
-  if (turn === 0)
-    return "Welcome! I'm a demo of the AI voice agents Boostmysites builds. Ask me what we can automate, what it costs, or how to get started.";
-  return "Good question — in the full version I'd be trained on your business data and connected to your CRM. For this demo, try asking about our services, pricing, or a real case study.";
+    return "WhatsApp automation is one of our most popular builds. Your assistant can answer product questions, qualify leads, and book appointments twenty four seven, right inside WhatsApp. Want to hear a real example?";
+  if (/example|case study|client|proof|result|who.*use/.test(t))
+    return "Sure. One industrial client was processing fifteen quotation requests a day, each taking about an hour. Our agent now handles each one in roughly two and a half minutes — a ninety-five percent cut in manual effort. Want another example?";
+  if (/lead|follow.?up|crm|sales/.test(t))
+    return "For sales, we automate lead capture, instant follow-up, and CRM updates, so leads get a reply in minutes instead of days and nothing slips through. Would a WhatsApp sales assistant help your team?";
+  if (/support|customer|ticket|complaint|24|after hours/.test(t))
+    return "Our AI handles customer support around the clock — answering common questions, qualifying enquiries, and escalating the serious ones with full context. So your business is always responsive, even after hours.";
+  if (/invoice|document|accounting|finance|report|data/.test(t))
+    return "We automate document and invoice processing — extracting data, validating it, and posting clean entries — plus daily business reports. Month-end that took days can drop to hours. Is finance a pain point for you?";
+  if (/how (does it|it) work|integrate|setup|implement|time|long|weeks/.test(t))
+    return "We connect the tools you already use — no rip and replace — and go live in about thirty days. You stay in the loop while the AI handles the repetitive work. Want to book a free audit to scope it?";
+  if (/industry|business|manufactur|real estate|health|ecommerce|retail|do you work with/.test(t))
+    return "We work across industries — manufacturing, real estate, healthcare, e-commerce, education, and more. The playbook adapts to your workflows. What industry are you in?";
+  if (/human|real|are you (a )?(bot|ai|robot)|voice/.test(t))
+    return "Good question — yes, I'm an AI voice agent, a demo of what Boostmysites builds. In the full version I'd be trained on your business data and connected to your CRM, calendar, and WhatsApp.";
+  if (/thank|bye|goodbye|that.?s all|no more/.test(t))
+    return "Thanks for trying the demo! If you'd like an agent like this trained on your own business, book a free audit at boostmysites.com. Have a great day!";
+  if (turn === 0) return GREETING;
+  return "That's a great question. In production I'd be trained on your exact business and data. For this demo, try asking about our services, pricing, how it works, or a real case study.";
 }
 
 async function speakElevenLabs(text: string, apiKey: string): Promise<boolean> {
@@ -139,9 +153,11 @@ export default function VoiceAgentDemo() {
   const [msgs, setMsgs] = useState<Msg[]>([]);
   const [supportsSTT, setSupportsSTT] = useState(true);
   const [interim, setInterim] = useState("");
+  const [convo, setConvo] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const recRef = useRef<any>(null);
   const turnRef = useRef(0);
+  const convoRef = useRef(false);
   const logRef = useRef<HTMLDivElement | null>(null);
 
   // Load the ElevenLabs widget script when an agent id is set.
@@ -168,17 +184,43 @@ export default function VoiceAgentDemo() {
     return () => window.speechSynthesis?.removeEventListener?.("voiceschanged", onVoices);
   }, [agentId]);
 
-  async function respond(userText: string) {
-    const reply = demoBrain(userText, turnRef.current);
-    turnRef.current += 1;
-    setMsgs((m) => [...m, { role: "agent", text: reply }]);
+  async function agentSay(text: string) {
+    setMsgs((m) => [...m, { role: "agent", text }]);
     setSpeaking(true);
     // Voice chain: ElevenLabs (if key) → free neural (Microsoft/Google) → best system voice.
     let ok = false;
-    if (apiKey) ok = await speakElevenLabs(reply, apiKey);
-    if (!ok) ok = await speakNeural(reply);
-    if (!ok) await speakBrowser(reply);
+    if (apiKey) ok = await speakElevenLabs(text, apiKey);
+    if (!ok) ok = await speakNeural(text);
+    if (!ok) await speakBrowser(text);
     setSpeaking(false);
+  }
+
+  async function respond(userText: string) {
+    const reply = demoBrain(userText, turnRef.current);
+    turnRef.current += 1;
+    await agentSay(reply);
+    // Hands-free: keep the conversation going after the agent finishes.
+    if (convoRef.current) window.setTimeout(() => startListening(), 300);
+  }
+
+  async function startConversation() {
+    convoRef.current = true;
+    setConvo(true);
+    if (msgs.length === 0) {
+      turnRef.current = 1;
+      await agentSay(GREETING);
+    }
+    if (convoRef.current) startListening();
+  }
+
+  function stopConversation() {
+    convoRef.current = false;
+    setConvo(false);
+    try { recRef.current?.stop(); } catch { /* noop */ }
+    try { window.speechSynthesis.cancel(); } catch { /* noop */ }
+    setListening(false);
+    setSpeaking(false);
+    setInterim("");
   }
 
   function startListening() {
@@ -212,6 +254,9 @@ export default function VoiceAgentDemo() {
       if (text) {
         setMsgs((m) => [...m, { role: "you", text }]);
         void respond(text);
+      } else if (convoRef.current) {
+        // Silence while in conversation — keep listening.
+        window.setTimeout(() => { if (convoRef.current) startListening(); }, 400);
       }
     };
     rec.onerror = () => {
@@ -264,7 +309,7 @@ export default function VoiceAgentDemo() {
           <p className="mx-auto mt-3 max-w-[560px] text-[15px] text-white/60">
             {agentId
               ? "Tap the widget below and start speaking — the agent listens and answers in real time."
-              : "Tap the mic, ask about our services, pricing, or automation — the agent answers out loud."}
+              : "Tap once, then just talk — it greets you, listens hands-free, and answers out loud. Ask about our services, pricing, or a real example."}
           </p>
         </div>
 
@@ -312,28 +357,34 @@ export default function VoiceAgentDemo() {
           <div className="rounded-2xl border border-white/12 bg-white/[0.02] p-6">
             <div className="flex flex-col items-center gap-5">
               <button
-                onClick={listening ? stopListening : startListening}
-                disabled={speaking}
+                onClick={convo ? stopConversation : startConversation}
                 className={`relative flex size-28 items-center justify-center rounded-full text-4xl transition-all ${
-                  listening
-                    ? "bg-red-500/90 shadow-[0_0_60px_rgba(239,68,68,0.5)] animate-pulse"
-                    : speaking
-                      ? "bg-[#4b78ff]/40"
-                      : "bg-[#4b78ff] shadow-[0_0_50px_rgba(75,120,255,0.45)] hover:scale-105"
+                  convo
+                    ? listening
+                      ? "bg-red-500/90 shadow-[0_0_60px_rgba(239,68,68,0.5)] animate-pulse"
+                      : "bg-[#4b78ff]/70 shadow-[0_0_50px_rgba(75,120,255,0.45)]"
+                    : "bg-[#4b78ff] shadow-[0_0_50px_rgba(75,120,255,0.45)] hover:scale-105"
                 }`}
-                aria-label={listening ? "Stop listening" : "Start talking"}
+                aria-label={convo ? "End conversation" : "Start conversation"}
               >
-                {listening ? "⏹" : speaking ? "🔊" : "🎙️"}
+                {!convo ? "🎙️" : listening ? "🔴" : speaking ? "🔊" : "⏹"}
               </button>
-              <p className="text-[13px] text-white/50">
-                {listening
-                  ? interim
-                    ? `“${interim}”`
-                    : "Listening… speak now, tap to finish"
-                  : speaking
-                    ? "Agent is speaking…"
-                    : "Tap the mic and speak"}
+              <p className="min-h-[20px] text-[13px] text-white/50">
+                {!convo
+                  ? "Tap to start — then just talk, hands-free"
+                  : listening
+                    ? interim
+                      ? `“${interim}”`
+                      : "Listening… go ahead, speak"
+                    : speaking
+                      ? "Agent is speaking…"
+                      : "…"}
               </p>
+              {convo ? (
+                <button onClick={stopConversation} className="text-[12px] text-white/45 hover:text-white">
+                  ⏹ End conversation
+                </button>
+              ) : null}
               {!supportsSTT ? (
                 <p className="rounded-lg border border-amber-400/40 bg-amber-400/10 px-3 py-2 text-[13px] text-amber-200">
                   This browser doesn&apos;t support speech recognition — please use Chrome or Edge.
