@@ -63,9 +63,7 @@ export const pipelineLeadService = {
   async list(): Promise<{ data: PipelineLead[]; error: string | null }> {
     const { data, error } = await table()
       .select("*")
-      .order("tab", { ascending: true })
-      .order("sl_no", { ascending: true, nullsFirst: false })
-      .order("created_at", { ascending: true });
+      .order("created_at", { ascending: false, nullsFirst: false });
     if (error) return { data: [], error: error.message };
     return { data: (data ?? []) as PipelineLead[], error: null };
   },
