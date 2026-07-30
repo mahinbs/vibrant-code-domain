@@ -28,6 +28,20 @@ export const BMS_LEAD_SOURCES = new Set<string>([
   "free-ai-automation-course",
 ]);
 
+/** Fire-and-forget plain Telegram message (HTML). Used by the questionnaire etc. */
+export function sendTelegramMessage(text: string): void {
+  if (!BOT_TOKEN || !CHAT_ID || CHAT_ID === "__SET_CHAT_ID__") return;
+  try {
+    void fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ chat_id: CHAT_ID, text, parse_mode: "HTML", disable_web_page_preview: true }),
+    });
+  } catch {
+    /* never blocks submission */
+  }
+}
+
 export type TelegramLead = {
   leadType: string;
   name: string;
