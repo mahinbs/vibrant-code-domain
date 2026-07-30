@@ -101,6 +101,7 @@ const PayinPayoutSoftwarePage = lazy(() => import("./pages/geo/PayinPayoutSoftwa
 const ForLlmPage = lazy(() => import("./pages/ForLlmPage"));
 const FounderProfile = lazy(() => import("./redesign/pages/FounderProfile"));
 const VoiceAgentDemo = lazy(() => import("./redesign/pages/VoiceAgentDemo"));
+const Questionnaire = lazy(() => import("./redesign/pages/Questionnaire"));
 const DashboardLogin = lazy(() => import("./pages/dashboard/DashboardLogin"));
 const PipelineDashboard = lazy(() => import("./pages/dashboard/PipelineDashboard"));
 const AdminLogin = lazy(() => import("./pages/admin/AdminLogin"));
@@ -697,6 +698,9 @@ const App = () => {
               {/* Admin routes */}
               {/* AI voice agent demo (link-only, noindex). */}
               <Route path="/voice-demo" element={<VoiceAgentDemo />} />
+
+              {/* AI Automation Discovery questionnaire (link-only, noindex). */}
+              <Route path="/questionnaire" element={<Questionnaire />} />
 
               {/* Founder profile — Mahin B S. */}
               <Route path="/founder" element={<RedesignShell><FounderProfile /></RedesignShell>} />
