@@ -4,10 +4,10 @@ import { IoLogoWhatsapp } from "react-icons/io";
 const FloatingWhatsAppButton = () => {
   const [isHovered, setIsHovered] = useState(false);
 
-  // WhatsApp configuration
-  const whatsappNumber = "919790035747";
+  // WhatsApp support configuration
+  const whatsappNumber = "919632953355";
   const whatsappMessage =
-    "I would like to develop a software or app. I need to discuss with you more";
+    "Hi Boostmysites 👋 I'd like to contact support. My question is: ";
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
     whatsappMessage
   )}`;
@@ -21,7 +21,7 @@ const FloatingWhatsAppButton = () => {
         className="group relative flex items-center"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        aria-label="Chat with us on WhatsApp"
+        aria-label="Contact support on WhatsApp"
       >
         {/* Tooltip */}
         <div
@@ -29,7 +29,7 @@ const FloatingWhatsAppButton = () => {
             isHovered ? "opacity-100 translate-x-0" : "opacity-0 translate-x-2"
           }`}
         >
-          Chat with us
+          Contact support
           <div className="absolute top-1/2 right-0 transform translate-x-full -translate-y-1/2 w-0 h-0 border-l-4 border-l-gray-900 border-t-4 border-t-transparent border-b-4 border-b-transparent"></div>
         </div>
 
