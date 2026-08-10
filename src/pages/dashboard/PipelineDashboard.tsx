@@ -4,6 +4,7 @@ import { Helmet } from "react-helmet-async";
 import { pipelineAuth } from "@/services/pipelineAuth";
 import {
   pipelineLeadService,
+  type FollowupProof,
   type PipelineAttachment,
   type PipelineLead,
   type PipelineTab,
@@ -288,6 +289,115 @@ function AttachmentsSection({
             );
           })}
         </ul>
+      )}
+      {err ? <p className="mt-2 text-[12px] text-red-300/90">{err}</p> : null}
+    </div>
+  );
+}
+
+const MAX_FOLLOWUPS = 30;
+
+/** Numbered follow-up proof log (up to 30) — each entry is an attachment + note/owner/date. */
+function FollowupsSection({ lead, onChanged }: { lead: PipelineLead; onChanged?: () => void }) {
+  const [items, setItems] = useState<FollowupProof[]>(lead.followups ?? []);
+  const [note, setNote] = useState("");
+  const [by, setBy] = useState("");
+  const [uploading, setUploading] = useState(false);
+  const [err, setErr] = useState<string | null>(null);
+
+  async function addFollowup(files: FileList | null) {
+    if (!files || !files.length) return;
+    if (items.length >= MAX_FOLLOWUPS) { setErr(`Maximum ${MAX_FOLLOWUPS} follow-ups reached.`); return; }
+    const file = files[0];
+    if (file.size > 15 * 1024 * 1024) { setErr(`${file.name} is over 15 MB.`); return; }
+    setErr(null);
+    setUploading(true);
+    const { attachment, error } = await pipelineLeadService.uploadAttachment(lead.id, file, by || undefined);
+    if (error || !attachment) { setErr(error || "Upload failed."); setUploading(false); return; }
+    const entry: FollowupProof = {
+      n: items.length + 1,
+      note: note.trim() || null,
+      by: by || null,
+      at: new Date().toISOString(),
+      file: attachment,
+    };
+    const next = [...items, entry];
+    const { error: e2 } = await pipelineLeadService.update(lead.id, { followups: next });
+    setUploading(false);
+    if (e2) {
+      setErr(/followups|column/.test(e2) ? "Follow-ups aren't set up yet — run the SQL in Supabase." : e2);
+      return;
+    }
+    setItems(next);
+    setNote("");
+    onChanged?.();
+  }
+
+  async function removeFollowup(idx: number) {
+    const entry = items[idx];
+    await pipelineLeadService.removeAttachment(entry.file.path);
+    const next = items.filter((_, i) => i !== idx).map((x, i) => ({ ...x, n: i + 1 }));
+    const { error } = await pipelineLeadService.update(lead.id, { followups: next });
+    if (error) { setErr(error); return; }
+    setItems(next);
+    onChanged?.();
+  }
+
+  return (
+    <div className="rounded-lg border border-white/12 bg-black/30 p-3">
+      <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
+        <p className="text-[13px] font-medium text-white/80">
+          Follow-up proofs <span className="text-white/45">{items.length}/{MAX_FOLLOWUPS}</span>
+        </p>
+      </div>
+
+      {items.length === 0 ? (
+        <p className="mb-3 text-[12px] text-white/35">No follow-up proofs yet. Log each follow-up with its screenshot / PDF below.</p>
+      ) : (
+        <ol className="mb-3 flex flex-col gap-1.5">
+          {items.map((f, idx) => (
+            <li key={f.file.path} className="rounded-md border border-white/10 bg-white/[0.03] px-2.5 py-2">
+              <div className="flex items-center gap-2">
+                <span className="flex size-5 shrink-0 items-center justify-center rounded-full bg-[#4b78ff]/25 text-[11px] font-semibold text-[#9dbaff]">{f.n}</span>
+                <span className="text-[13px]">{f.file.type.startsWith("image/") ? "🖼️" : "📄"}</span>
+                <a href={f.file.url} target="_blank" rel="noopener noreferrer" className="min-w-0 flex-1 truncate text-[12px] text-[#7aa2ff] hover:underline">{f.file.name}</a>
+                {f.by ? <span className="rounded-full border border-white/15 bg-white/5 px-1.5 py-0.5 text-[10px] text-white/55">{f.by === "AI" ? "🤖 AI" : f.by}</span> : null}
+                <a href={`${f.file.url}?download=${encodeURIComponent(f.file.name)}`} className="text-[11px] text-white/50 hover:text-white" title="Download">⬇</a>
+                <button onClick={() => removeFollowup(idx)} className="text-[11px] text-red-300/80 hover:underline" type="button">Remove</button>
+              </div>
+              {(f.note || f.at) ? (
+                <p className="ml-7 mt-0.5 text-[11px] text-white/45">
+                  {f.at ? formatDateTime(f.at) : ""}{f.note ? ` · ${f.note}` : ""}
+                </p>
+              ) : null}
+            </li>
+          ))}
+        </ol>
+      )}
+
+      {items.length < MAX_FOLLOWUPS ? (
+        <div className="flex flex-col gap-2 border-t border-white/10 pt-2">
+          <div className="flex flex-wrap gap-2">
+            <input
+              value={note}
+              onChange={(e) => setNote(e.target.value)}
+              placeholder={`Follow-up #${items.length + 1} note (e.g. WhatsApp reminder sent)`}
+              className={`min-w-[160px] flex-1 ${inputCls}`}
+            />
+            <select value={by} onChange={(e) => setBy(e.target.value)} className={inputCls} style={{ maxWidth: 130 }} title="Done by">
+              <option value="">By…</option>
+              {POC_OPTIONS.map((n) => <option key={n} value={n}>{n}</option>)}
+              <option value="AI">🤖 AI</option>
+            </select>
+            <label className="cursor-pointer whitespace-nowrap rounded-md bg-[#4b78ff] px-3 py-2 text-[12px] font-semibold text-white hover:bg-[#3d63d8]">
+              {uploading ? "Uploading…" : "+ Add proof"}
+              <input type="file" accept="application/pdf,image/*" className="hidden" disabled={uploading} onChange={(e) => addFollowup(e.target.files)} />
+            </label>
+          </div>
+          <p className="text-[11px] text-white/35">Attach the screenshot / PDF of this follow-up · up to 15 MB</p>
+        </div>
+      ) : (
+        <p className="text-[12px] text-emerald-300/80">All {MAX_FOLLOWUPS} follow-up slots used.</p>
       )}
       {err ? <p className="mt-2 text-[12px] text-red-300/90">{err}</p> : null}
     </div>
@@ -678,6 +788,11 @@ function LeadDetailModal({
           {/* Attachments — always visible */}
           <div className="mt-5 border-t border-white/10 pt-5">
             <AttachmentsSection lead={lead} onChanged={onChanged} />
+          </div>
+
+          {/* Follow-up proof log (up to 30) */}
+          <div className="mt-5 border-t border-white/10 pt-5">
+            <FollowupsSection lead={lead} onChanged={onChanged} />
           </div>
 
           {/* Meeting */}
@@ -1416,6 +1531,11 @@ export default function PipelineDashboard() {
                                 title="PDF created by AI — please send it to the client with a follow-up message on WhatsApp"
                               >
                                 🤖 AI PDF
+                              </span>
+                            ) : null}
+                            {(l.followups?.length ?? 0) > 0 ? (
+                              <span className="rounded-full border border-[#4b78ff]/40 bg-[#4b78ff]/10 px-1.5 py-0.5 text-[10px] font-medium text-[#9dbaff]" title={`${l.followups!.length} follow-up proof(s)`}>
+                                🔁 {l.followups!.length}
                               </span>
                             ) : null}
                             {(l.attachments?.length ?? 0) > 0 ? (

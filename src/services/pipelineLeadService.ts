@@ -33,6 +33,8 @@ export type PipelineLead = {
   phone: string | null;
   website: string | null;
   description: string | null;
+  /** Up to 30 numbered follow-up proofs (attachment + note/date/owner). */
+  followups: FollowupProof[] | null;
   /** Point of contact (team member handling this lead). */
   poc: string | null;
   /** Scheduled meeting datetime (ISO / datetime-local string) + notes. */
@@ -43,6 +45,15 @@ export type PipelineLead = {
   /** Manual responsiveness rating: 'hot' | 'warm' | 'cold' | 'useless' | null */
   responsiveness: string | null;
   attachments: PipelineAttachment[] | null;
+};
+
+/** One numbered follow-up proof: an attachment + note/date/owner. */
+export type FollowupProof = {
+  n: number;
+  note: string | null;
+  by: string | null;
+  at: string;
+  file: PipelineAttachment;
 };
 
 export type PipelineLeadInput = Omit<PipelineLead, "id" | "created_at" | "updated_at">;
