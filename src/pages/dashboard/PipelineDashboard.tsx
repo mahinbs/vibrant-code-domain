@@ -349,6 +349,11 @@ function FollowupsSection({ lead, onChanged }: { lead: PipelineLead; onChanged?:
         <p className="text-[13px] font-medium text-white/80">
           Follow-up proofs <span className="text-white/45">{items.length}/{MAX_FOLLOWUPS}</span>
         </p>
+        {items.length === 0 ? (
+          <span className="rounded-full border border-red-400/45 bg-red-400/10 px-2 py-0.5 text-[11px] font-semibold text-red-300">⚠ Follow-up not started</span>
+        ) : (
+          <span className="rounded-full border border-emerald-400/40 bg-emerald-400/10 px-2 py-0.5 text-[11px] font-medium text-emerald-300">✓ {items.length} follow-up{items.length === 1 ? "" : "s"} sent</span>
+        )}
       </div>
 
       {items.length === 0 ? (
@@ -1534,10 +1539,17 @@ export default function PipelineDashboard() {
                               </span>
                             ) : null}
                             {(l.followups?.length ?? 0) > 0 ? (
-                              <span className="rounded-full border border-[#4b78ff]/40 bg-[#4b78ff]/10 px-1.5 py-0.5 text-[10px] font-medium text-[#9dbaff]" title={`${l.followups!.length} follow-up proof(s)`}>
-                                🔁 {l.followups!.length}
+                              <span className="rounded-full border border-[#4b78ff]/40 bg-[#4b78ff]/10 px-1.5 py-0.5 text-[10px] font-medium text-[#9dbaff]" title={`${l.followups!.length} follow-up proof(s) sent`}>
+                                🔁 {l.followups!.length} follow-up{l.followups!.length === 1 ? "" : "s"}
                               </span>
-                            ) : null}
+                            ) : (
+                              <span
+                                className="rounded-full border border-red-400/45 bg-red-400/10 px-1.5 py-0.5 text-[10px] font-semibold text-red-300"
+                                title="No follow-up logged yet — start following up with this lead"
+                              >
+                                ⚠ Follow-up not started
+                              </span>
+                            )}
                             {(l.attachments?.length ?? 0) > 0 ? (
                               <span className="rounded-full bg-white/10 px-1.5 py-0.5 text-[10px] text-white/60" title={`${l.attachments!.length} file(s)`}>
                                 📎 {l.attachments!.length}
