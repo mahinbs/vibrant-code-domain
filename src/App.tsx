@@ -725,6 +725,14 @@ const App = () => {
                   </DashboardProtectedRoute>
                 }
               />
+              <Route
+                path="/dashboard/invoice"
+                element={
+                  <DashboardProtectedRoute>
+                    <InvoiceGenerator />
+                  </DashboardProtectedRoute>
+                }
+              />
 
               <Route path="/admin/login" element={<AdminLogin />} />
               <Route

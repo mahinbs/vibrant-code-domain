@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 /**
  * GST invoice generator (India). Fully client-side — no backend.
@@ -139,6 +139,10 @@ const fieldCls =
 const labelCls = "mb-1 block text-[11px] font-medium uppercase tracking-wide text-slate-500";
 
 export default function InvoiceGenerator() {
+  const location = useLocation();
+  // Reachable from both the admin panel and the sales dashboard — go back to whichever.
+  const backTo = location.pathname.startsWith("/admin") ? "/admin" : "/dashboard";
+  const backLabel = backTo === "/admin" ? "← Admin" : "← Dashboard";
   const [company, setCompany] = useState<Company>(loadCompany);
   const [party, setParty] = useState<Party>(BLANK_PARTY);
   const [items, setItems] = useState<Item[]>([{ id: uid(), desc: "", hsn: "998314", qty: 1, rate: 0 }]);
@@ -235,7 +239,7 @@ export default function InvoiceGenerator() {
       <div className="no-print sticky top-0 z-20 border-b border-slate-200 bg-white/90 backdrop-blur">
         <div className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 py-3">
           <div className="flex items-center gap-3">
-            <Link to="/admin" className="rounded-md border border-slate-300 px-2.5 py-1.5 text-[13px] text-slate-600 hover:bg-slate-50">← Admin</Link>
+            <Link to={backTo} className="rounded-md border border-slate-300 px-2.5 py-1.5 text-[13px] text-slate-600 hover:bg-slate-50">{backLabel}</Link>
             <h1 className="text-[15px] font-semibold">GST Invoice Generator</h1>
           </div>
           <div className="flex items-center gap-2">
