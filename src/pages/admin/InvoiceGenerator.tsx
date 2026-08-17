@@ -235,7 +235,7 @@ export default function InvoiceGenerator() {
       <div className="no-print sticky top-0 z-20 border-b border-slate-200 bg-white/90 backdrop-blur">
         <div className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 py-3">
           <div className="flex items-center gap-3">
-            <Link to="/dashboard" className="rounded-md border border-slate-300 px-2.5 py-1.5 text-[13px] text-slate-600 hover:bg-slate-50">← Dashboard</Link>
+            <Link to="/admin" className="rounded-md border border-slate-300 px-2.5 py-1.5 text-[13px] text-slate-600 hover:bg-slate-50">← Admin</Link>
             <h1 className="text-[15px] font-semibold">GST Invoice Generator</h1>
           </div>
           <div className="flex items-center gap-2">

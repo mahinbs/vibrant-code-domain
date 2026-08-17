@@ -14,6 +14,7 @@ import {
   Menu,
   X,
   Mail,
+  Receipt,
 } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -44,6 +45,7 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
       href: "/admin/placement-applications",
       icon: GraduationCap,
     },
+    { name: "Invoice Generator", href: "/admin/invoice", icon: Receipt },
     { name: "Portfolio", href: "/admin/portfolio", icon: Briefcase },
     { name: "Case Studies", href: "/admin/case-studies", icon: FileText },
     { name: "Blogs", href: "/admin/blogs", icon: Users },

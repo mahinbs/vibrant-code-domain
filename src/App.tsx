@@ -104,9 +104,9 @@ const VoiceAgentDemo = lazy(() => import("./redesign/pages/VoiceAgentDemo"));
 const Questionnaire = lazy(() => import("./redesign/pages/Questionnaire"));
 const DashboardLogin = lazy(() => import("./pages/dashboard/DashboardLogin"));
 const PipelineDashboard = lazy(() => import("./pages/dashboard/PipelineDashboard"));
-const InvoiceGenerator = lazy(() => import("./pages/dashboard/InvoiceGenerator"));
 const AdminLogin = lazy(() => import("./pages/admin/AdminLogin"));
 const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
+const InvoiceGenerator = lazy(() => import("./pages/admin/InvoiceGenerator"));
 const CustomerInquiries = lazy(() => import("./pages/admin/CustomerInquiries"));
 const ReshabLeads = lazy(() => import("./pages/admin/ReshabLeads"));
 const TrialLeads = lazy(() => import("./pages/admin/TrialLeads"));
@@ -725,14 +725,6 @@ const App = () => {
                   </DashboardProtectedRoute>
                 }
               />
-              <Route
-                path="/dashboard/invoice"
-                element={
-                  <DashboardProtectedRoute>
-                    <InvoiceGenerator />
-                  </DashboardProtectedRoute>
-                }
-              />
 
               <Route path="/admin/login" element={<AdminLogin />} />
               <Route
@@ -740,6 +732,14 @@ const App = () => {
                 element={
                   <ProtectedRoute>
                     <AdminDashboard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/invoice"
+                element={
+                  <ProtectedRoute>
+                    <InvoiceGenerator />
                   </ProtectedRoute>
                 }
               />
