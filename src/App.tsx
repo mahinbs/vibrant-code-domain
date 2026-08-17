@@ -104,6 +104,7 @@ const VoiceAgentDemo = lazy(() => import("./redesign/pages/VoiceAgentDemo"));
 const Questionnaire = lazy(() => import("./redesign/pages/Questionnaire"));
 const DashboardLogin = lazy(() => import("./pages/dashboard/DashboardLogin"));
 const PipelineDashboard = lazy(() => import("./pages/dashboard/PipelineDashboard"));
+const InvoiceGenerator = lazy(() => import("./pages/dashboard/InvoiceGenerator"));
 const AdminLogin = lazy(() => import("./pages/admin/AdminLogin"));
 const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
 const CustomerInquiries = lazy(() => import("./pages/admin/CustomerInquiries"));
@@ -721,6 +722,14 @@ const App = () => {
                 element={
                   <DashboardProtectedRoute>
                     <PipelineDashboard />
+                  </DashboardProtectedRoute>
+                }
+              />
+              <Route
+                path="/dashboard/invoice"
+                element={
+                  <DashboardProtectedRoute>
+                    <InvoiceGenerator />
                   </DashboardProtectedRoute>
                 }
               />

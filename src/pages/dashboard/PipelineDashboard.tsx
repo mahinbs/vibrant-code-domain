@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState, type FormEvent } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { pipelineAuth } from "@/services/pipelineAuth";
 import {
@@ -1285,9 +1285,14 @@ export default function PipelineDashboard() {
             <img src="/bms-logo.png" alt="Boostmysites" className="size-8 rounded-lg bg-white p-1" />
             <h1 className="text-base font-semibold">Sales Pipeline</h1>
           </div>
-          <button onClick={logout} className="rounded-lg border border-white/15 px-3 py-1.5 text-[13px] text-white/80 hover:bg-white/5">
-            Log out
-          </button>
+          <div className="flex items-center gap-2">
+            <Link to="/dashboard/invoice" className="rounded-lg border border-white/15 px-3 py-1.5 text-[13px] text-white/80 hover:bg-white/5">
+              🧾 Invoice
+            </Link>
+            <button onClick={logout} className="rounded-lg border border-white/15 px-3 py-1.5 text-[13px] text-white/80 hover:bg-white/5">
+              Log out
+            </button>
+          </div>
         </div>
       </header>
 
