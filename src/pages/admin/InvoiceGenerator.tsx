@@ -398,119 +398,140 @@ export default function InvoiceGenerator() {
         </div>
 
         {/* ===== Printable invoice sheet ===== */}
-        <div className="invoice-sheet mx-auto w-full max-w-[820px] rounded-xl bg-white p-8 text-slate-900 shadow-lg print:shadow-none">
-          {/* Header */}
-          <div className="flex items-start justify-between gap-6 border-b border-slate-200 pb-5">
-            <div className="flex items-start gap-3">
-              <img src={company.logo} alt="Company logo" className="h-14 w-14 object-contain" />
-              <div>
-                <p className="text-[15px] font-bold leading-tight text-slate-900">{company.legalName}</p>
-                <p className="mt-1 whitespace-pre-line text-[12px] leading-snug text-slate-500">{company.address}</p>
-                <p className="mt-1 text-[12px] text-slate-500">{[company.email, company.phone, company.website].filter(Boolean).join("  •  ")}</p>
-                {company.gstin ? <p className="mt-1 text-[12px] font-medium text-slate-700">GSTIN: {company.gstin}</p> : null}
-              </div>
-            </div>
-            <div className="text-right">
-              <p className="text-[22px] font-bold uppercase tracking-wide text-[#2a3d8f]">Tax Invoice</p>
-              <p className="mt-1 text-[12px] text-slate-500">Invoice No.</p>
-              <p className="text-[13px] font-semibold">{invoiceNo}</p>
-            </div>
-          </div>
+        <div className="invoice-sheet mx-auto w-full max-w-[820px] overflow-hidden rounded-2xl bg-white text-slate-900 shadow-xl ring-1 ring-slate-200 print:shadow-none print:ring-0">
+          {/* Top accent band */}
+          <div className="h-1.5 w-full" style={{ background: "linear-gradient(90deg,#0f2350 0%,#20336b 55%,#c9a24b 100%)" }} />
 
-          {/* Meta row */}
-          <div className="grid grid-cols-2 gap-6 py-5 md:grid-cols-4">
-            <Meta label="Invoice date" value={fmtDate(invoiceDate)} />
-            <Meta label="Due date" value={dueDate ? fmtDate(dueDate) : "—"} />
-            <Meta label="Place of supply" value={placeOfSupply || "—"} />
-            <Meta label="Supply type" value={taxMode === "none" ? "Non-taxable" : isIntraState ? "Intra-state" : "Inter-state"} />
-          </div>
-
-          {/* Bill to */}
-          <div className="mb-5 rounded-lg bg-slate-50 p-4">
-            <p className="mb-1 text-[11px] font-semibold uppercase tracking-wide text-slate-400">Bill to</p>
-            <p className="text-[14px] font-semibold text-slate-900">{party.name || "—"}</p>
-            {party.address ? <p className="mt-0.5 whitespace-pre-line text-[12px] leading-snug text-slate-600">{party.address}</p> : null}
-            <p className="mt-1 text-[12px] text-slate-600">
-              {party.gstin ? <>GSTIN: <span className="font-medium">{party.gstin}</span>&nbsp;&nbsp;</> : null}
-              {party.stateName ? <>State: {party.stateName}{party.stateCode ? ` (${party.stateCode})` : ""}</> : null}
-            </p>
-            {(party.email || party.phone) ? <p className="mt-0.5 text-[12px] text-slate-500">{[party.email, party.phone].filter(Boolean).join("  •  ")}</p> : null}
-          </div>
-
-          {/* Items table */}
-          <table className="w-full border-collapse text-[12.5px]">
-            <thead>
-              <tr className="bg-[#2a3d8f] text-left text-white">
-                <th className="rounded-l-md px-3 py-2 font-semibold">#</th>
-                <th className="px-3 py-2 font-semibold">Description</th>
-                <th className="px-3 py-2 font-semibold">HSN/SAC</th>
-                <th className="px-3 py-2 text-right font-semibold">Qty</th>
-                <th className="px-3 py-2 text-right font-semibold">Rate</th>
-                <th className="rounded-r-md px-3 py-2 text-right font-semibold">Amount</th>
-              </tr>
-            </thead>
-            <tbody>
-              {items.map((it, i) => (
-                <tr key={it.id} className="border-b border-slate-100">
-                  <td className="px-3 py-2 text-slate-500">{i + 1}</td>
-                  <td className="px-3 py-2">{it.desc || "—"}</td>
-                  <td className="px-3 py-2 text-slate-600">{it.hsn}</td>
-                  <td className="px-3 py-2 text-right">{it.qty}</td>
-                  <td className="px-3 py-2 text-right">{fmtINR(it.rate)}</td>
-                  <td className="px-3 py-2 text-right font-medium">{fmtINR((it.qty || 0) * (it.rate || 0))}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-
-          {/* Totals */}
-          <div className="mt-5 flex flex-col gap-5 md:flex-row md:justify-between">
-            <div className="max-w-[320px] text-[12px] text-slate-600">
-              <p className="font-semibold text-slate-700">Amount in words</p>
-              <p className="mt-0.5 italic">{amountInWords(grandTotal)}</p>
-              {(company.bankName || company.bankAccount || company.upi) ? (
-                <div className="mt-4">
-                  <p className="font-semibold text-slate-700">Payment details</p>
-                  {company.bankName ? <p>Bank: {company.bankName}</p> : null}
-                  {company.bankAccount ? <p>A/c: {company.bankAccount}</p> : null}
-                  {company.bankIfsc ? <p>IFSC: {company.bankIfsc}</p> : null}
-                  {company.upi ? <p>UPI: {company.upi}</p> : null}
+          <div className="px-10 pt-8 pb-9">
+            {/* Header */}
+            <div className="flex items-start justify-between gap-6">
+              <div className="flex items-start gap-4">
+                <img src={company.logo} alt="Company logo" className="h-16 w-16 object-contain" />
+                <div>
+                  <p className="font-serif text-[17px] font-bold leading-tight tracking-tight text-[#0f2350]">{company.legalName}</p>
+                  <p className="mt-1.5 whitespace-pre-line text-[12px] font-medium leading-snug text-slate-600">{company.address}</p>
+                  <p className="mt-1 text-[12px] font-medium text-slate-600">{[company.email, company.phone, company.website].filter(Boolean).join("   •   ")}</p>
+                  {company.gstin ? <p className="mt-1.5 text-[12px] font-bold tracking-wide text-slate-800">GSTIN&nbsp;&nbsp;{company.gstin}</p> : null}
                 </div>
-              ) : null}
+              </div>
+              <div className="shrink-0 text-right">
+                <p className="font-serif text-[34px] font-bold uppercase leading-none tracking-[0.12em] text-[#0f2350]">Invoice</p>
+                <div className="mt-3 inline-block rounded-md border border-slate-200 bg-slate-50 px-3 py-1.5 text-left">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#c9a24b]">Invoice No.</p>
+                  <p className="text-[13px] font-bold text-slate-900">{invoiceNo}</p>
+                </div>
+              </div>
             </div>
-            <div className="w-full max-w-[300px] shrink-0 text-[13px]">
-              <Row label="Subtotal" value={fmtINR(subtotal)} />
-              {discount > 0 ? <Row label={`Discount (${discountPct}%)`} value={"− " + fmtINR(discount)} /> : null}
-              <Row label="Taxable value" value={fmtINR(taxable)} />
-              {taxMode !== "none" && isIntraState ? (
-                <>
-                  <Row label={`CGST (${gstRate / 2}%)`} value={fmtINR(cgst)} />
-                  <Row label={`SGST (${gstRate / 2}%)`} value={fmtINR(sgst)} />
-                </>
-              ) : null}
-              {taxMode !== "none" && !isIntraState ? <Row label={`IGST (${gstRate}%)`} value={fmtINR(igst)} /> : null}
-              {Math.abs(roundOff) > 0.001 ? <Row label="Round off" value={(roundOff >= 0 ? "+ " : "− ") + fmtINR(Math.abs(roundOff))} /> : null}
-              <div className="mt-1 flex items-center justify-between rounded-md bg-[#2a3d8f] px-3 py-2 text-white">
-                <span className="text-[13px] font-semibold">Total</span>
-                <span className="text-[15px] font-bold">{fmtINR(grandTotal)}</span>
+
+            <div className="mt-6 h-px w-full bg-slate-200" />
+
+            {/* Bill-to + meta */}
+            <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-[1.2fr_1fr]">
+              {/* Bill to */}
+              <div>
+                <p className="mb-2 text-[10.5px] font-bold uppercase tracking-[0.18em] text-[#c9a24b]">Billed To</p>
+                <p className="font-serif text-[16px] font-bold text-slate-900">{party.name || "—"}</p>
+                {party.address ? <p className="mt-1 whitespace-pre-line text-[12.5px] font-medium leading-snug text-slate-600">{party.address}</p> : null}
+                <p className="mt-1.5 text-[12.5px] font-semibold text-slate-700">
+                  {party.gstin ? <>GSTIN: <span className="font-bold">{party.gstin}</span></> : null}
+                  {party.gstin && party.stateName ? <span className="text-slate-300">&nbsp;&nbsp;|&nbsp;&nbsp;</span> : null}
+                  {party.stateName ? <>State: {party.stateName}{party.stateCode ? ` (${party.stateCode})` : ""}</> : null}
+                </p>
+                {(party.email || party.phone) ? <p className="mt-1 text-[12px] font-medium text-slate-500">{[party.email, party.phone].filter(Boolean).join("   •   ")}</p> : null}
+              </div>
+
+              {/* Meta */}
+              <div className="rounded-lg border border-slate-200 bg-slate-50/70 px-4 py-3">
+                <div className="grid grid-cols-2 gap-x-4 gap-y-2.5">
+                  <Meta label="Invoice date" value={fmtDate(invoiceDate)} />
+                  <Meta label="Due date" value={dueDate ? fmtDate(dueDate) : "—"} />
+                  <Meta label="Place of supply" value={placeOfSupply || "—"} />
+                  <Meta label="Supply type" value={taxMode === "none" ? "Non-taxable" : isIntraState ? "Intra-state" : "Inter-state"} />
+                </div>
+              </div>
+            </div>
+
+            {/* Items table */}
+            <table className="mt-7 w-full border-collapse text-[12.5px]">
+              <thead>
+                <tr className="text-left text-white" style={{ background: "#0f2350" }}>
+                  <th className="px-3 py-2.5 text-[11px] font-bold uppercase tracking-wider">#</th>
+                  <th className="px-3 py-2.5 text-[11px] font-bold uppercase tracking-wider">Description</th>
+                  <th className="px-3 py-2.5 text-[11px] font-bold uppercase tracking-wider">HSN/SAC</th>
+                  <th className="px-3 py-2.5 text-right text-[11px] font-bold uppercase tracking-wider">Qty</th>
+                  <th className="px-3 py-2.5 text-right text-[11px] font-bold uppercase tracking-wider">Rate</th>
+                  <th className="px-3 py-2.5 text-right text-[11px] font-bold uppercase tracking-wider">Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                {items.map((it, i) => (
+                  <tr key={it.id} className="border-b border-slate-200/80">
+                    <td className="px-3 py-2.5 font-semibold text-slate-400">{String(i + 1).padStart(2, "0")}</td>
+                    <td className="px-3 py-2.5 font-semibold text-slate-900">{it.desc || "—"}</td>
+                    <td className="px-3 py-2.5 font-medium text-slate-600">{it.hsn}</td>
+                    <td className="px-3 py-2.5 text-right font-semibold text-slate-800">{it.qty}</td>
+                    <td className="px-3 py-2.5 text-right font-semibold text-slate-800">{fmtINR(it.rate)}</td>
+                    <td className="px-3 py-2.5 text-right font-bold text-slate-900">{fmtINR((it.qty || 0) * (it.rate || 0))}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            {/* Totals */}
+            <div className="mt-6 flex flex-col gap-6 md:flex-row md:justify-between">
+              <div className="max-w-[330px]">
+                <p className="text-[10.5px] font-bold uppercase tracking-[0.16em] text-[#c9a24b]">Amount in words</p>
+                <p className="mt-1 font-serif text-[13px] font-semibold italic leading-snug text-slate-800">{amountInWords(grandTotal)}</p>
+                {(company.bankName || company.bankAccount || company.upi) ? (
+                  <div className="mt-4 rounded-lg border border-slate-200 bg-slate-50/70 px-3.5 py-3 text-[12px] text-slate-700">
+                    <p className="mb-1 text-[10.5px] font-bold uppercase tracking-[0.14em] text-[#c9a24b]">Payment details</p>
+                    {company.bankName ? <p className="font-medium"><span className="text-slate-500">Bank:</span> <span className="font-semibold text-slate-800">{company.bankName}</span></p> : null}
+                    {company.bankAccount ? <p className="font-medium"><span className="text-slate-500">A/c:</span> <span className="font-semibold text-slate-800">{company.bankAccount}</span></p> : null}
+                    {company.bankIfsc ? <p className="font-medium"><span className="text-slate-500">IFSC:</span> <span className="font-semibold text-slate-800">{company.bankIfsc}</span></p> : null}
+                    {company.upi ? <p className="font-medium"><span className="text-slate-500">UPI:</span> <span className="font-semibold text-slate-800">{company.upi}</span></p> : null}
+                  </div>
+                ) : null}
+              </div>
+              <div className="w-full max-w-[310px] shrink-0 text-[13px]">
+                <Row label="Subtotal" value={fmtINR(subtotal)} />
+                {discount > 0 ? <Row label={`Discount (${discountPct}%)`} value={"− " + fmtINR(discount)} /> : null}
+                <Row label="Taxable value" value={fmtINR(taxable)} />
+                {taxMode !== "none" && isIntraState ? (
+                  <>
+                    <Row label={`CGST (${gstRate / 2}%)`} value={fmtINR(cgst)} />
+                    <Row label={`SGST (${gstRate / 2}%)`} value={fmtINR(sgst)} />
+                  </>
+                ) : null}
+                {taxMode !== "none" && !isIntraState ? <Row label={`IGST (${gstRate}%)`} value={fmtINR(igst)} /> : null}
+                {Math.abs(roundOff) > 0.001 ? <Row label="Round off" value={(roundOff >= 0 ? "+ " : "− ") + fmtINR(Math.abs(roundOff))} /> : null}
+                <div className="mt-2 flex items-center justify-between rounded-lg px-4 py-3 text-white shadow-sm" style={{ background: "linear-gradient(90deg,#0f2350,#20336b)" }}>
+                  <span className="text-[12px] font-bold uppercase tracking-[0.14em]">Total Due</span>
+                  <span className="font-serif text-[19px] font-bold">{fmtINR(grandTotal)}</span>
+                </div>
+                <div className="mt-1 h-0.5 w-full rounded-full" style={{ background: "linear-gradient(90deg,transparent,#c9a24b)" }} />
+              </div>
+            </div>
+
+            {/* Footer */}
+            <div className="mt-8 flex items-end justify-between gap-6 border-t border-slate-200 pt-5">
+              <div className="max-w-[380px] text-[11.5px] leading-relaxed text-slate-600">
+                {notes ? <p className="mb-1.5"><span className="font-bold text-slate-800">Notes.</span> <span className="font-medium">{notes}</span></p> : null}
+                {terms ? <p><span className="font-bold text-slate-800">Terms.</span> <span className="font-medium">{terms}</span></p> : null}
+              </div>
+              <div className="shrink-0 text-center">
+                <div className="mb-1 h-10" />
+                <p className="w-48 border-t border-slate-400 pt-1.5 text-[11.5px] font-bold text-slate-800">Authorised Signatory</p>
+                <p className="text-[10.5px] font-medium text-slate-500">for {company.legalName}</p>
               </div>
             </div>
           </div>
 
-          {/* Footer */}
-          <div className="mt-6 flex items-end justify-between gap-6 border-t border-slate-200 pt-4">
-            <div className="max-w-[380px] text-[11.5px] text-slate-500">
-              {notes ? <p className="mb-1"><span className="font-semibold text-slate-600">Notes:</span> {notes}</p> : null}
-              {terms ? <p><span className="font-semibold text-slate-600">Terms:</span> {terms}</p> : null}
-            </div>
-            <div className="text-center">
-              <div className="mb-1 h-10" />
-              <p className="border-t border-slate-300 pt-1 text-[11.5px] text-slate-500">Authorised signatory</p>
-              <p className="text-[11px] text-slate-400">For {company.legalName.split(" ").slice(0, 3).join(" ")}…</p>
-            </div>
+          {/* Bottom band */}
+          <div className="flex items-center justify-center gap-2 border-t border-slate-100 bg-slate-50/80 py-3">
+            <span className="h-1 w-1 rounded-full bg-[#c9a24b]" />
+            <p className="text-[10.5px] font-semibold uppercase tracking-[0.18em] text-slate-500">Thank you for your business</p>
+            <span className="h-1 w-1 rounded-full bg-[#c9a24b]" />
           </div>
-
-          <p className="mt-5 text-center text-[10.5px] text-slate-400">This is a computer-generated invoice.</p>
         </div>
       </div>
     </div>
@@ -520,17 +541,17 @@ export default function InvoiceGenerator() {
 function Meta({ label, value }: { label: string; value: string }) {
   return (
     <div>
-      <p className="text-[11px] uppercase tracking-wide text-slate-400">{label}</p>
-      <p className="mt-0.5 text-[13px] font-medium text-slate-800">{value}</p>
+      <p className="text-[9.5px] font-bold uppercase tracking-[0.12em] text-slate-400">{label}</p>
+      <p className="mt-0.5 text-[13px] font-bold text-slate-900">{value}</p>
     </div>
   );
 }
 
 function Row({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex items-center justify-between py-1">
-      <span className="text-slate-500">{label}</span>
-      <span className="font-medium text-slate-800">{value}</span>
+    <div className="flex items-center justify-between py-1.5">
+      <span className="font-semibold text-slate-500">{label}</span>
+      <span className="font-bold text-slate-900">{value}</span>
     </div>
   );
 }
