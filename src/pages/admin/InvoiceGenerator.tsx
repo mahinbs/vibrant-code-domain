@@ -156,6 +156,7 @@ export default function InvoiceGenerator() {
   const [tdsRate, setTdsRate] = useState<number>(0);
   const [notes, setNotes] = useState<string>("Thank you for your business.");
   const [terms, setTerms] = useState<string>("Payment due within 7 days. Services rendered under SAC 998314 (IT & software services).");
+  const [showSeal, setShowSeal] = useState<boolean>(true);
   const [showSettings, setShowSettings] = useState<boolean>(!loadCompany().gstin);
   const [savedFlash, setSavedFlash] = useState<boolean>(false);
   const logoInputRef = useRef<HTMLInputElement>(null);
@@ -228,16 +229,26 @@ export default function InvoiceGenerator() {
   const setP = (patch: Partial<Party>) => setParty((p) => ({ ...p, ...patch }));
 
   return (
-    <div className="min-h-screen bg-slate-100 text-slate-900">
+    <div className="inv-root min-h-screen bg-slate-100 text-slate-900">
       {/* Print rules: hide everything except the invoice sheet. */}
       <style>{`
         @media print {
-          body { background: #fff !important; }
+          html, body { background: #fff !important; }
           .no-print { display: none !important; }
           .invoice-sheet { box-shadow: none !important; margin: 0 !important; border-radius: 0 !important; width: 100% !important; max-width: none !important; }
           /* Force navy/gold backgrounds to print so white text stays visible in the PDF. */
           .invoice-sheet, .invoice-sheet * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-          @page { size: A4; margin: 12mm; }
+          /* Keep the whole invoice on a single A4 page. */
+          .inv-root { min-height: 0 !important; background: #fff !important; }
+          .inv-container { padding: 0 !important; max-width: none !important; margin: 0 !important; }
+          .invoice-sheet { page-break-inside: avoid; break-inside: avoid; }
+          .invoice-body { padding: 20px 30px !important; }
+          .invoice-sheet .mt-8 { margin-top: 14px !important; }
+          .invoice-sheet .mt-7 { margin-top: 12px !important; }
+          .invoice-sheet .mt-6 { margin-top: 12px !important; }
+          .invoice-sheet .pt-5 { padding-top: 12px !important; }
+          .invoice-sheet table th, .invoice-sheet table td { padding-top: 6px !important; padding-bottom: 6px !important; }
+          @page { size: A4; margin: 10mm; }
         }
       `}</style>
 
@@ -259,7 +270,7 @@ export default function InvoiceGenerator() {
         </div>
       </div>
 
-      <div className="mx-auto max-w-5xl px-4 py-6">
+      <div className="inv-container mx-auto max-w-5xl px-4 py-6">
         {/* Company setup (persisted) */}
         {showSettings ? (
           <div className="no-print mb-6 rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
@@ -368,9 +379,15 @@ export default function InvoiceGenerator() {
                   <option value={10}>10% (194J prof.)</option>
                 </select>
               </div>
-              <div className="col-span-2 flex items-end text-[12px] text-slate-500">
-                {taxMode === "none" ? "No GST applied" : isIntraState ? "Intra-state → CGST + SGST" : "Inter-state → IGST"}
-                {tdsRate > 0 ? ` · TDS ${tdsRate}% deducted on taxable value` : ""}
+              <div className="col-span-2 flex flex-wrap items-center justify-between gap-2 text-[12px] text-slate-500">
+                <span>
+                  {taxMode === "none" ? "No GST applied" : isIntraState ? "Intra-state → CGST + SGST" : "Inter-state → IGST"}
+                  {tdsRate > 0 ? ` · TDS ${tdsRate}% deducted on taxable value` : ""}
+                </span>
+                <label className="flex cursor-pointer items-center gap-1.5 font-medium text-slate-600">
+                  <input type="checkbox" checked={showSeal} onChange={(e) => setShowSeal(e.target.checked)} className="h-3.5 w-3.5 accent-[#4b78ff]" />
+                  Show company seal
+                </label>
               </div>
             </div>
           </div>
@@ -419,7 +436,7 @@ export default function InvoiceGenerator() {
           {/* Top accent band */}
           <div className="h-1.5 w-full" style={{ background: "linear-gradient(90deg,#0f2350 0%,#20336b 55%,#c9a24b 100%)" }} />
 
-          <div className="px-10 pt-8 pb-9">
+          <div className="invoice-body px-10 pt-8 pb-9">
             {/* Header */}
             <div className="flex items-start justify-between gap-6">
               <div className="flex items-start gap-4">
@@ -548,8 +565,9 @@ export default function InvoiceGenerator() {
                 {notes ? <p className="mb-1.5"><span className="font-bold text-slate-800">Notes.</span> <span className="font-medium">{notes}</span></p> : null}
                 {terms ? <p><span className="font-bold text-slate-800">Terms.</span> <span className="font-medium">{terms}</span></p> : null}
               </div>
-              <div className="shrink-0 text-center">
-                <div className="mb-1 h-10" />
+              <div className="relative shrink-0 text-center">
+                {showSeal ? <SealStamp className="pointer-events-none absolute -top-[52px] left-1/2 -translate-x-1/2" /> : null}
+                <div className="mb-1 h-11" />
                 <p className="w-48 border-t border-slate-400 pt-1.5 text-[11.5px] font-bold text-slate-800">Authorised Signatory</p>
                 <p className="text-[10.5px] font-medium text-slate-500">for {company.legalName}</p>
               </div>
@@ -565,6 +583,34 @@ export default function InvoiceGenerator() {
         </div>
       </div>
     </div>
+  );
+}
+
+/** Round rubber-stamp "seal" placed over the signature line. Pure SVG, prints cleanly. */
+function SealStamp({ className = "" }: { className?: string }) {
+  const ink = "#1e3a8a";
+  return (
+    <svg viewBox="0 0 200 200" width="104" height="104" className={className} style={{ opacity: 0.82, transform: "rotate(-11deg)", transformOrigin: "center" }} aria-hidden="true">
+      <defs>
+        <path id="seal-top" d="M 100 100 m -74 0 a 74 74 0 1 1 148 0" />
+        <path id="seal-bottom" d="M 100 100 m -62 0 a 62 62 0 1 0 124 0" />
+      </defs>
+      <circle cx="100" cy="100" r="92" fill="none" stroke={ink} strokeWidth="3.5" />
+      <circle cx="100" cy="100" r="80" fill="none" stroke={ink} strokeWidth="1.5" />
+      <circle cx="100" cy="100" r="47" fill="none" stroke={ink} strokeWidth="1.5" />
+      <text fill={ink} style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "15px", fontWeight: 700, letterSpacing: "2.5px" }}>
+        <textPath href="#seal-top" startOffset="50%" textAnchor="middle">TRIPLE SEVEN BOOSTMYSITES</textPath>
+      </text>
+      <text fill={ink} style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "12.5px", fontWeight: 700, letterSpacing: "2px" }}>
+        <textPath href="#seal-bottom" startOffset="50%" textAnchor="middle">AI SOLUTIONS PVT LTD</textPath>
+      </text>
+      {/* stars flanking the bottom text */}
+      <text x="100" y="176" fill={ink} textAnchor="middle" style={{ fontSize: "12px" }}>★</text>
+      {/* center monogram */}
+      <text x="100" y="94" fill={ink} textAnchor="middle" style={{ fontFamily: "Georgia, serif", fontSize: "26px", fontWeight: 700, letterSpacing: "1px" }}>BMS</text>
+      <text x="100" y="112" fill={ink} textAnchor="middle" style={{ fontSize: "8.5px", fontWeight: 700, letterSpacing: "2px" }}>AUTHORISED</text>
+      <text x="100" y="122" fill={ink} textAnchor="middle" style={{ fontSize: "8.5px", fontWeight: 700, letterSpacing: "2px" }}>SIGNATORY</text>
+    </svg>
   );
 }
 
