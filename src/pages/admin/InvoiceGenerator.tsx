@@ -586,31 +586,18 @@ export default function InvoiceGenerator() {
   );
 }
 
-/** Round rubber-stamp "seal" placed over the signature line. Pure SVG, prints cleanly. */
+/** Round Boostmysites rubber-stamp seal placed over the signature line. */
 function SealStamp({ className = "" }: { className?: string }) {
-  const ink = "#1e3a8a";
   return (
-    <svg viewBox="0 0 200 200" width="104" height="104" className={className} style={{ opacity: 0.82, transform: "rotate(-11deg)", transformOrigin: "center" }} aria-hidden="true">
-      <defs>
-        <path id="seal-top" d="M 100 100 m -74 0 a 74 74 0 1 1 148 0" />
-        <path id="seal-bottom" d="M 100 100 m -62 0 a 62 62 0 1 0 124 0" />
-      </defs>
-      <circle cx="100" cy="100" r="92" fill="none" stroke={ink} strokeWidth="3.5" />
-      <circle cx="100" cy="100" r="80" fill="none" stroke={ink} strokeWidth="1.5" />
-      <circle cx="100" cy="100" r="47" fill="none" stroke={ink} strokeWidth="1.5" />
-      <text fill={ink} style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "15px", fontWeight: 700, letterSpacing: "2.5px" }}>
-        <textPath href="#seal-top" startOffset="50%" textAnchor="middle">TRIPLE SEVEN BOOSTMYSITES</textPath>
-      </text>
-      <text fill={ink} style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "12.5px", fontWeight: 700, letterSpacing: "2px" }}>
-        <textPath href="#seal-bottom" startOffset="50%" textAnchor="middle">AI SOLUTIONS PVT LTD</textPath>
-      </text>
-      {/* stars flanking the bottom text */}
-      <text x="100" y="176" fill={ink} textAnchor="middle" style={{ fontSize: "12px" }}>★</text>
-      {/* center monogram */}
-      <text x="100" y="94" fill={ink} textAnchor="middle" style={{ fontFamily: "Georgia, serif", fontSize: "26px", fontWeight: 700, letterSpacing: "1px" }}>BMS</text>
-      <text x="100" y="112" fill={ink} textAnchor="middle" style={{ fontSize: "8.5px", fontWeight: 700, letterSpacing: "2px" }}>AUTHORISED</text>
-      <text x="100" y="122" fill={ink} textAnchor="middle" style={{ fontSize: "8.5px", fontWeight: 700, letterSpacing: "2px" }}>SIGNATORY</text>
-    </svg>
+    <img
+      src="/bms-seal.png"
+      alt="Boostmysites authorised signatory seal"
+      width={104}
+      height={104}
+      className={className}
+      style={{ opacity: 0.9, transform: "rotate(-11deg)", transformOrigin: "center" }}
+      aria-hidden="true"
+    />
   );
 }
 
