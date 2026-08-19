@@ -153,6 +153,7 @@ export default function InvoiceGenerator() {
   const [gstRate, setGstRate] = useState<number>(18);
   const [taxMode, setTaxMode] = useState<"auto" | "intra" | "inter" | "none">("auto");
   const [discountPct, setDiscountPct] = useState<number>(0);
+  const [tdsRate, setTdsRate] = useState<number>(0);
   const [notes, setNotes] = useState<string>("Thank you for your business.");
   const [terms, setTerms] = useState<string>("Payment due within 7 days. Services rendered under SAC 998314 (IT & software services).");
   const [showSettings, setShowSettings] = useState<boolean>(!loadCompany().gstin);
@@ -185,6 +186,9 @@ export default function InvoiceGenerator() {
   const grandRaw = taxable + taxTotal;
   const grandTotal = useMemo(() => Math.round(grandRaw), [grandRaw]);
   const roundOff = grandTotal - grandRaw;
+  // TDS is deducted by the client on the taxable value (pre-GST), per Indian norms.
+  const tds = useMemo(() => (taxable * (tdsRate || 0)) / 100, [taxable, tdsRate]);
+  const netPayable = useMemo(() => Math.round(grandTotal - tds), [grandTotal, tds]);
 
   function saveCompany() {
     try {
@@ -231,6 +235,8 @@ export default function InvoiceGenerator() {
           body { background: #fff !important; }
           .no-print { display: none !important; }
           .invoice-sheet { box-shadow: none !important; margin: 0 !important; border-radius: 0 !important; width: 100% !important; max-width: none !important; }
+          /* Force navy/gold backgrounds to print so white text stays visible in the PDF. */
+          .invoice-sheet, .invoice-sheet * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
           @page { size: A4; margin: 12mm; }
         }
       `}</style>
@@ -352,8 +358,19 @@ export default function InvoiceGenerator() {
                 </select>
               </div>
               <div><label className={labelCls}>Discount %</label><input type="number" min={0} max={100} className={fieldCls} value={discountPct} onChange={(e) => setDiscountPct(Number(e.target.value))} /></div>
-              <div className="flex items-end text-[12px] text-slate-500">
+              <div>
+                <label className={labelCls}>TDS %</label>
+                <select className={fieldCls} value={tdsRate} onChange={(e) => setTdsRate(Number(e.target.value))} title="Tax deducted at source (on taxable value)">
+                  <option value={0}>No TDS</option>
+                  <option value={1}>1% (194C / 194Q)</option>
+                  <option value={2}>2% (194C / 194J-tech)</option>
+                  <option value={5}>5% (194J)</option>
+                  <option value={10}>10% (194J prof.)</option>
+                </select>
+              </div>
+              <div className="col-span-2 flex items-end text-[12px] text-slate-500">
                 {taxMode === "none" ? "No GST applied" : isIntraState ? "Intra-state → CGST + SGST" : "Inter-state → IGST"}
+                {tdsRate > 0 ? ` · TDS ${tdsRate}% deducted on taxable value` : ""}
               </div>
             </div>
           </div>
@@ -466,12 +483,12 @@ export default function InvoiceGenerator() {
               <tbody>
                 {items.map((it, i) => (
                   <tr key={it.id} className="border-b border-slate-200/80">
-                    <td className="px-3 py-2.5 font-semibold text-slate-400">{String(i + 1).padStart(2, "0")}</td>
-                    <td className="px-3 py-2.5 font-semibold text-slate-900">{it.desc || "—"}</td>
-                    <td className="px-3 py-2.5 font-medium text-slate-600">{it.hsn}</td>
-                    <td className="px-3 py-2.5 text-right font-semibold text-slate-800">{it.qty}</td>
-                    <td className="px-3 py-2.5 text-right font-semibold text-slate-800">{fmtINR(it.rate)}</td>
-                    <td className="px-3 py-2.5 text-right font-bold text-slate-900">{fmtINR((it.qty || 0) * (it.rate || 0))}</td>
+                    <td className="px-3 py-2.5 align-top font-semibold tabular-nums text-slate-400">{String(i + 1).padStart(2, "0")}</td>
+                    <td className="px-3 py-2.5 align-top font-semibold text-slate-900">{it.desc || "—"}</td>
+                    <td className="px-3 py-2.5 align-top font-medium tabular-nums text-slate-600">{it.hsn}</td>
+                    <td className="px-3 py-2.5 text-right align-top font-semibold tabular-nums text-slate-800">{it.qty}</td>
+                    <td className="whitespace-nowrap px-3 py-2.5 text-right align-top font-semibold tabular-nums text-slate-800">{fmtINR(it.rate)}</td>
+                    <td className="whitespace-nowrap px-3 py-2.5 text-right align-top font-bold tabular-nums text-slate-900">{fmtINR((it.qty || 0) * (it.rate || 0))}</td>
                   </tr>
                 ))}
               </tbody>
@@ -481,7 +498,7 @@ export default function InvoiceGenerator() {
             <div className="mt-6 flex flex-col gap-6 md:flex-row md:justify-between">
               <div className="max-w-[330px]">
                 <p className="text-[10.5px] font-bold uppercase tracking-[0.16em] text-[#c9a24b]">Amount in words</p>
-                <p className="mt-1 font-serif text-[13px] font-semibold italic leading-snug text-slate-800">{amountInWords(grandTotal)}</p>
+                <p className="mt-1 font-serif text-[13px] font-semibold italic leading-snug text-slate-800">{amountInWords(tdsRate > 0 ? netPayable : grandTotal)}</p>
                 {(company.bankName || company.bankAccount || company.upi) ? (
                   <div className="mt-4 rounded-lg border border-slate-200 bg-slate-50/70 px-3.5 py-3 text-[12px] text-slate-700">
                     <p className="mb-1 text-[10.5px] font-bold uppercase tracking-[0.14em] text-[#c9a24b]">Payment details</p>
@@ -492,23 +509,36 @@ export default function InvoiceGenerator() {
                   </div>
                 ) : null}
               </div>
-              <div className="w-full max-w-[310px] shrink-0 text-[13px]">
+              <div className="w-full max-w-[320px] shrink-0 text-[13px]">
                 <Row label="Subtotal" value={fmtINR(subtotal)} />
                 {discount > 0 ? <Row label={`Discount (${discountPct}%)`} value={"− " + fmtINR(discount)} /> : null}
                 <Row label="Taxable value" value={fmtINR(taxable)} />
                 {taxMode !== "none" && isIntraState ? (
                   <>
-                    <Row label={`CGST (${gstRate / 2}%)`} value={fmtINR(cgst)} />
-                    <Row label={`SGST (${gstRate / 2}%)`} value={fmtINR(sgst)} />
+                    <Row label={`CGST @ ${gstRate / 2}%`} value={fmtINR(cgst)} />
+                    <Row label={`SGST @ ${gstRate / 2}%`} value={fmtINR(sgst)} />
                   </>
                 ) : null}
-                {taxMode !== "none" && !isIntraState ? <Row label={`IGST (${gstRate}%)`} value={fmtINR(igst)} /> : null}
+                {taxMode !== "none" && !isIntraState ? <Row label={`IGST @ ${gstRate}%`} value={fmtINR(igst)} /> : null}
                 {Math.abs(roundOff) > 0.001 ? <Row label="Round off" value={(roundOff >= 0 ? "+ " : "− ") + fmtINR(Math.abs(roundOff))} /> : null}
-                <div className="mt-2 flex items-center justify-between rounded-lg px-4 py-3 text-white shadow-sm" style={{ background: "linear-gradient(90deg,#0f2350,#20336b)" }}>
-                  <span className="text-[12px] font-bold uppercase tracking-[0.14em]">Total Due</span>
-                  <span className="font-serif text-[19px] font-bold">{fmtINR(grandTotal)}</span>
+                {/* Invoice value (before any TDS the client deducts) */}
+                <div className="mt-1 flex items-center justify-between border-t border-slate-300 pt-2">
+                  <span className="text-[12.5px] font-bold text-slate-700">{tdsRate > 0 ? "Invoice total" : "Total"}</span>
+                  <span className="font-bold tabular-nums text-slate-900">{fmtINR(grandTotal)}</span>
+                </div>
+                {tdsRate > 0 ? (
+                  <div className="flex items-center justify-between py-1.5">
+                    <span className="font-semibold text-slate-500">Less: TDS @ {tdsRate}%</span>
+                    <span className="font-bold tabular-nums text-rose-600">− {fmtINR(tds)}</span>
+                  </div>
+                ) : null}
+                {/* Hero payable bar */}
+                <div className="mt-2 flex items-center justify-between gap-3 rounded-lg px-4 py-3 text-white shadow-sm" style={{ background: "linear-gradient(90deg,#0f2350,#20336b)" }}>
+                  <span className="shrink-0 text-[11px] font-bold uppercase leading-tight tracking-[0.12em] text-white/85">{tdsRate > 0 ? "Amount Payable" : "Total Due"}</span>
+                  <span className="whitespace-nowrap font-serif text-[20px] font-bold leading-none tabular-nums text-white">{fmtINR(tdsRate > 0 ? netPayable : grandTotal)}</span>
                 </div>
                 <div className="mt-1 h-0.5 w-full rounded-full" style={{ background: "linear-gradient(90deg,transparent,#c9a24b)" }} />
+                {tdsRate > 0 ? <p className="mt-1.5 text-right text-[10.5px] font-medium text-slate-500">Net of TDS ₹{tds.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} to be deducted by client</p> : null}
               </div>
             </div>
 
@@ -549,9 +579,9 @@ function Meta({ label, value }: { label: string; value: string }) {
 
 function Row({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex items-center justify-between py-1.5">
+    <div className="flex items-baseline justify-between gap-3 py-1.5">
       <span className="font-semibold text-slate-500">{label}</span>
-      <span className="font-bold text-slate-900">{value}</span>
+      <span className="whitespace-nowrap font-bold tabular-nums text-slate-900">{value}</span>
     </div>
   );
 }
