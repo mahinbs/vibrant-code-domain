@@ -592,10 +592,12 @@ function SealStamp({ className = "" }: { className?: string }) {
     <img
       src="/bms-seal.png"
       alt="Boostmysites authorised signatory seal"
-      width={104}
-      height={104}
+      width={118}
+      height={118}
       className={className}
-      style={{ opacity: 0.9, transform: "rotate(-11deg)", transformOrigin: "center" }}
+      // mix-blend-multiply drops the white background against the white sheet and
+      // lets the signature line show through the stamp.
+      style={{ transform: "rotate(-8deg)", transformOrigin: "center", mixBlendMode: "multiply" }}
       aria-hidden="true"
     />
   );
