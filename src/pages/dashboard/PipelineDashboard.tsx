@@ -536,7 +536,8 @@ function LeadModal({
                 type="datetime-local"
                 value={form.meeting_at ?? ""}
                 onChange={(e) => setForm((p) => ({ ...p, meeting_at: e.target.value }))}
-                className={`mt-1 ${inputCls}`}
+                onClick={(e) => e.currentTarget.showPicker?.()}
+                className={`mt-1 cursor-pointer [color-scheme:dark] ${inputCls}`}
               />
             </label>
             <label className="text-[13px] text-white/70">
@@ -942,7 +943,8 @@ function ScheduleMeetingModal({
                 type="datetime-local"
                 value={when}
                 onChange={(e) => setWhen(e.target.value)}
-                className={`mt-1 ${inputCls}`}
+                onClick={(e) => e.currentTarget.showPicker?.()}
+                className={`mt-1 cursor-pointer [color-scheme:dark] ${inputCls}`}
               />
             </label>
             <label className="text-[13px] text-white/70">
