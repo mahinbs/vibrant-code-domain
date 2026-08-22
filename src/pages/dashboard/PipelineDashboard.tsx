@@ -18,7 +18,7 @@ const TABS: { key: PipelineTab; label: string }[] = [
 ];
 
 /** Team members who can own a lead (point of contact). */
-const POC_OPTIONS = ["Kavya", "Viaan", "Darshan", "Mahin", "Supreeth"];
+const POC_OPTIONS = ["Kavya", "Viaan", "Darshan", "Mahin", "Supreeth", "Reshab"];
 
 /** Responsiveness rating — emoji + colour for visual triage of each lead. */
 type Rating = { value: string; emoji: string; label: string; short: string; text: string; chip: string };
