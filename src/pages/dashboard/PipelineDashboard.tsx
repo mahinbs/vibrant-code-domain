@@ -1399,6 +1399,15 @@ export default function PipelineDashboard() {
         <meta name="robots" content="noindex,nofollow" />
       </Helmet>
 
+      {/* Slim horizontal scrollers for long lead cells */}
+      <style>{`
+        .hscroll { scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.28) transparent; }
+        .hscroll::-webkit-scrollbar { height: 5px; }
+        .hscroll::-webkit-scrollbar-track { background: transparent; }
+        .hscroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.22); border-radius: 9999px; }
+        .hscroll:hover::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.4); }
+      `}</style>
+
       {/* Mobile sidebar backdrop */}
       {navOpen ? <div onClick={() => setNavOpen(false)} className="fixed inset-0 z-30 bg-black/60 lg:hidden" /> : null}
 
@@ -1708,7 +1717,7 @@ export default function PipelineDashboard() {
                     <td className="px-4 py-2.5"><PocCell name={l.poc} /></td>
                     {/* Industry */}
                     <td className="px-4 py-2.5">
-                      <span className="line-clamp-2 max-w-[180px] text-[12.5px] text-white/70" title={l.industry || l.business || ""}>{l.industry || l.business || "—"}</span>
+                      <div className="hscroll max-w-[190px] overflow-x-auto whitespace-nowrap pb-1 text-[12.5px] text-white/70" title={l.industry || l.business || ""}>{l.industry || l.business || "—"}</div>
                     </td>
                     {/* Stage */}
                     <td className="px-4 py-2.5">
@@ -1716,14 +1725,14 @@ export default function PipelineDashboard() {
                     </td>
                     {/* Next step */}
                     <td className="px-4 py-2.5">
-                      <span className="line-clamp-2 max-w-[190px] text-[12.5px] text-white/70" title={l.next_step || l.status || ""}>{l.next_step || l.status || "—"}</span>
+                      <div className="hscroll max-w-[200px] overflow-x-auto whitespace-nowrap pb-1 text-[12.5px] text-white/70" title={l.next_step || l.status || ""}>{l.next_step || l.status || "—"}</div>
                     </td>
                     {/* Est value */}
                     <td className="whitespace-nowrap px-4 py-2.5 font-semibold tabular-nums text-white">{l.estimated_value ? formatINR(parseValue(l.estimated_value)) : "—"}</td>
                     {/* Added */}
                     <td className="whitespace-nowrap px-4 py-2.5 text-[12.5px] text-white/55" title={`Added ${formatDateTime(l.created_at)}`}>{formatDate(l.created_at)}</td>
                     {/* Contact */}
-                    <td className="px-4 py-2.5"><span className="line-clamp-1 max-w-[160px] text-[12.5px] text-white/65" title={l.email || l.phone || ""}>{l.email || l.phone || "—"}</span></td>
+                    <td className="px-4 py-2.5"><div className="hscroll max-w-[170px] overflow-x-auto whitespace-nowrap pb-1 text-[12.5px] text-white/65" title={l.email || l.phone || ""}>{l.email || l.phone || "—"}</div></td>
                     {/* Actions */}
                     <td className="px-4 py-2.5 text-right">
                       <div className="inline-flex items-center gap-0.5">
