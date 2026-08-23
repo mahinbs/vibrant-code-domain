@@ -1159,6 +1159,95 @@ function exportCsv(rows: PipelineLead[], tab: PipelineTab) {
   URL.revokeObjectURL(a.href);
 }
 
+/* ---------- Redesign helpers ---------- */
+
+const POC_PALETTE = ["#4b78ff", "#7c5cff", "#00b8a9", "#f59e0b", "#ec4899", "#10b981", "#38bdf8", "#f43f5e"];
+function pocColor(name?: string | null): string {
+  if (!name) return "#64748b";
+  let h = 0;
+  for (let i = 0; i < name.length; i++) h = (h * 31 + name.charCodeAt(i)) >>> 0;
+  return POC_PALETTE[h % POC_PALETTE.length];
+}
+
+function PocCell({ name }: { name?: string | null }) {
+  if (!name) return <span className="text-white/30">—</span>;
+  const c = pocColor(name);
+  return (
+    <span className="inline-flex items-center gap-2">
+      <span className="flex size-6 shrink-0 items-center justify-center rounded-full text-[11px] font-bold text-white" style={{ backgroundColor: c }}>
+        {name[0].toUpperCase()}
+      </span>
+      <span className="text-[13px] font-medium text-white/85">{name}</span>
+    </span>
+  );
+}
+
+/** Colour a stage badge by matching keywords in the free-text stage. */
+function stageBadge(stage?: string | null): { cls: string; label: string } {
+  const s = (stage ?? "").toLowerCase();
+  const map: [RegExp, string][] = [
+    [/won|closed win|close won/, "border-emerald-400/40 bg-emerald-400/10 text-emerald-300"],
+    [/lost|dead|drop/, "border-red-400/40 bg-red-400/10 text-red-300"],
+    [/negotiat/, "border-orange-400/40 bg-orange-400/10 text-orange-300"],
+    [/propos|pricing|quote/, "border-violet-400/40 bg-violet-400/10 text-violet-300"],
+    [/qualif/, "border-cyan-400/40 bg-cyan-400/10 text-cyan-300"],
+    [/discov|new|contact|prospect/, "border-blue-400/40 bg-blue-400/10 text-blue-300"],
+  ];
+  const hit = map.find(([re]) => re.test(s));
+  return { cls: hit ? hit[1] : "border-white/15 bg-white/5 text-white/60", label: stage || "—" };
+}
+
+function NavItem({ icon, label, active, badge, onClick }: { icon: string; label: string; active?: boolean; badge?: string | number; onClick?: () => void }) {
+  return (
+    <button
+      onClick={onClick}
+      className={`flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-[13.5px] transition-colors ${
+        active ? "bg-[#4b78ff]/15 font-semibold text-white" : "text-white/60 hover:bg-white/5 hover:text-white"
+      }`}
+    >
+      <span className={`w-5 text-center text-[15px] ${active ? "" : "opacity-80"}`}>{icon}</span>
+      <span className="flex-1 truncate">{label}</span>
+      {badge != null ? (
+        <span className={`rounded-full px-1.5 py-0.5 text-[10px] font-semibold ${active ? "bg-[#4b78ff] text-white" : "bg-white/10 text-white/60"}`}>{badge}</span>
+      ) : null}
+      {active ? <span className="h-1.5 w-1.5 rounded-full bg-[#4b78ff]" /> : null}
+    </button>
+  );
+}
+
+function StatCard({ icon, tint, label, value, sub, subTone, onClick, active }: {
+  icon: string; tint: string; label: string; value: string | number; sub?: string; subTone?: string; onClick?: () => void; active?: boolean;
+}) {
+  const Comp = onClick ? "button" : "div";
+  return (
+    <Comp
+      onClick={onClick}
+      className={`flex items-start gap-4 rounded-2xl border p-4 text-left transition-colors ${
+        active ? "border-[#4b78ff]/50 bg-[#4b78ff]/10" : "border-white/10 bg-white/[0.03]"
+      } ${onClick ? "hover:border-white/20 hover:bg-white/[0.05]" : ""}`}
+    >
+      <span className="flex size-11 shrink-0 items-center justify-center rounded-xl text-[20px]" style={{ backgroundColor: tint }}>{icon}</span>
+      <div className="min-w-0">
+        <p className="text-[11px] font-semibold uppercase tracking-wider text-white/45">{label}</p>
+        <p className="mt-0.5 text-[22px] font-bold leading-tight text-white">{value}</p>
+        {sub ? <p className={`mt-0.5 text-[12px] font-medium ${subTone ?? "text-white/45"}`}>{sub}</p> : null}
+      </div>
+    </Comp>
+  );
+}
+
+function RailCard({ title, children, action }: { title: string; children: React.ReactNode; action?: React.ReactNode }) {
+  return (
+    <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+      <div className="mb-3 flex items-center justify-between">
+        <h3 className="text-[11px] font-bold uppercase tracking-wider text-white/50">{title}</h3>
+        {action}
+      </div>
+      {children}
+    </div>
+  );
+}
+
 export default function PipelineDashboard() {
   const navigate = useNavigate();
   const { id: routeLeadId } = useParams<{ id: string }>();
@@ -1176,8 +1265,7 @@ export default function PipelineDashboard() {
   const [modal, setModal] = useState<{ open: boolean; lead: PipelineLead | null }>({ open: false, lead: null });
   const [detail, setDetail] = useState<PipelineLead | null>(null);
   const [filesModal, setFilesModal] = useState<PipelineLead | null>(null);
-  const [descEdit, setDescEdit] = useState<{ id: string; value: string } | null>(null);
-  const [descSaving, setDescSaving] = useState(false);
+  const [navOpen, setNavOpen] = useState(false);
 
   const load = async () => {
     setLoading(true);
@@ -1247,19 +1335,50 @@ export default function PipelineDashboard() {
     return { att: att.length, unatt: unatt.length, pipelineValue, missingFiles, upcomingMeetings };
   }, [leads]);
 
-  const cols = tab === "attended" ? ATT_COLS : UNATT_COLS;
+  // Right-rail: stage distribution + conversion.
+  const overview = useMemo(() => {
+    const counts = new Map<string, number>();
+    let won = 0;
+    for (const l of leads) {
+      const s = (l.current_stage || "Unspecified").trim() || "Unspecified";
+      counts.set(s, (counts.get(s) ?? 0) + 1);
+      if (/won/i.test(l.current_stage ?? "") || /won/i.test(l.status ?? "")) won++;
+    }
+    const list = [...counts.entries()].sort((a, b) => b[1] - a[1]).slice(0, 6);
+    const max = list.reduce((m, [, n]) => Math.max(m, n), 1);
+    const conversion = leads.length ? Math.round((won / leads.length) * 1000) / 10 : 0;
+    return { list, max, conversion, won };
+  }, [leads]);
 
-  async function saveDesc(lead: PipelineLead) {
-    if (!descEdit) return;
-    const value = descEdit.value;
-    setDescSaving(true);
-    const { error } = await pipelineLeadService.update(lead.id, { description: value });
-    setDescSaving(false);
-    if (error) { window.alert(error); return; }
-    syncDescriptionToSheet({ tab: lead.tab, sl_no: lead.sl_no, client: lead.client, description: value });
-    setDescEdit(null);
-    void load();
-  }
+  const upcomingTasks = useMemo(() => {
+    const now = Date.now();
+    return leads
+      .filter((l) => l.meeting_at && meetingTime(l.meeting_at) >= now)
+      .sort((a, b) => meetingTime(a.meeting_at) - meetingTime(b.meeting_at))
+      .slice(0, 4);
+  }, [leads]);
+
+  const recentActivity = useMemo(() => {
+    return [...leads]
+      .filter((l) => l.updated_at || l.created_at)
+      .sort((a, b) => new Date(b.updated_at || b.created_at || 0).getTime() - new Date(a.updated_at || a.created_at || 0).getTime())
+      .slice(0, 4);
+  }, [leads]);
+
+  const quickStats = useMemo(() => {
+    const weekAgo = Date.now() - 7 * 86400000;
+    const now = Date.now();
+    const leadsThisWeek = leads.filter((l) => l.created_at && new Date(l.created_at).getTime() >= weekAgo).length;
+    const meetingsHeld = leads.filter((l) => l.meeting_at && meetingTime(l.meeting_at) <= now).length;
+    const filesTotal = leads.reduce((s, l) => s + (l.attachments?.length ?? 0), 0);
+    const followupsTotal = leads.reduce((s, l) => s + (l.followups?.length ?? 0), 0);
+    return { leadsThisWeek, meetingsHeld, filesTotal, followupsTotal };
+  }, [leads]);
+
+  const addedThisMonth = useMemo(() => {
+    const monthAgo = Date.now() - 30 * 86400000;
+    return leads.filter((l) => l.created_at && new Date(l.created_at).getTime() >= monthAgo).length;
+  }, [leads]);
 
   async function onDelete(lead: PipelineLead) {
     if (!window.confirm(`Delete ${lead.client ?? "this lead"}? This cannot be undone.`)) return;
@@ -1274,62 +1393,90 @@ export default function PipelineDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-[#07080d] text-white">
+    <div className="min-h-screen bg-[#070b14] text-white">
       <Helmet>
         <title>Sales Pipeline | Boostmysites</title>
         <meta name="robots" content="noindex,nofollow" />
       </Helmet>
 
-      {/* Top bar */}
-      <header className="sticky top-0 z-20 border-b border-white/10 bg-[#07080d]/90 backdrop-blur">
-        <div className="mx-auto flex max-w-[1500px] items-center justify-between gap-4 px-5 py-3 md:px-8">
-          <div className="flex items-center gap-3">
-            <img src="/bms-logo.png" alt="Boostmysites" className="size-8 rounded-lg bg-white p-1" />
-            <h1 className="text-base font-semibold">Sales Pipeline</h1>
-          </div>
-          <div className="flex items-center gap-2">
-            <Link to="/dashboard/invoice" className="rounded-lg border border-white/15 px-3 py-1.5 text-[13px] text-white/80 hover:bg-white/5">
-              🧾 Invoice
-            </Link>
-            <button onClick={logout} className="rounded-lg border border-white/15 px-3 py-1.5 text-[13px] text-white/80 hover:bg-white/5">
-              Log out
-            </button>
-          </div>
-        </div>
-      </header>
+      {/* Mobile sidebar backdrop */}
+      {navOpen ? <div onClick={() => setNavOpen(false)} className="fixed inset-0 z-30 bg-black/60 lg:hidden" /> : null}
 
-      <main className="mx-auto max-w-[1500px] px-5 py-6 md:px-8">
-        {/* Summary */}
-        <div className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
-          {[
-            { label: "Total leads", value: stats.att + stats.unatt },
-            { label: "Pipeline value", value: formatINR(stats.pipelineValue) },
-          ].map((s) => (
-            <div key={s.label} className="rounded-xl border border-white/12 bg-white/[0.03] p-4">
-              <p className="text-[12px] uppercase tracking-wide text-white/45">{s.label}</p>
-              <p className="mt-1 text-2xl font-semibold text-white">{s.value}</p>
+      <div className="flex">
+        {/* ===== Sidebar ===== */}
+        <aside
+          className={`fixed inset-y-0 left-0 z-40 flex w-[248px] flex-col border-r border-white/8 bg-[#0a0f1c] transition-transform lg:static lg:translate-x-0 ${
+            navOpen ? "translate-x-0" : "-translate-x-full"
+          }`}
+        >
+          <div className="flex items-center gap-2.5 px-5 py-4">
+            <img src="/bms-logo.png" alt="Boostmysites" className="size-8 rounded-lg bg-white p-1" />
+            <span className="text-[15px] font-bold tracking-tight">BOOSTMYSITES</span>
+          </div>
+
+          <nav className="flex-1 space-y-1 overflow-y-auto px-3 py-2">
+            <NavItem icon="🏠" label="Dashboard" active={view === "leads" && fileFilter !== "missing"} onClick={() => { setView("leads"); setFileFilter("all"); setPocFilter("all"); setNavOpen(false); }} />
+            <NavItem icon="👥" label="All Leads" badge={stats.att + stats.unatt} active={view === "leads" && fileFilter !== "missing"} onClick={() => { setView("leads"); setFileFilter("all"); setNavOpen(false); }} />
+            <NavItem icon="📅" label="Meetings" badge={meetings.length} active={view === "meetings"} onClick={() => { setView("meetings"); setNavOpen(false); }} />
+            <NavItem icon="📊" label="Reports" active={view === "report"} onClick={() => { setView("report"); setNavOpen(false); }} />
+            <NavItem icon="📁" label="Missing files" badge={stats.missingFiles} active={view === "leads" && fileFilter === "missing"} onClick={() => { setView("leads"); setFileFilter("missing"); setNavOpen(false); }} />
+            <Link to="/dashboard/invoice" onClick={() => setNavOpen(false)} className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-[13.5px] text-white/60 transition-colors hover:bg-white/5 hover:text-white">
+              <span className="w-5 text-center text-[15px] opacity-80">🧾</span>
+              <span className="flex-1">Invoice</span>
+            </Link>
+
+            <p className="px-3 pb-1 pt-4 text-[10px] font-bold uppercase tracking-wider text-white/35">Team · POC</p>
+            <NavItem icon="🌐" label="Everyone" active={pocFilter === "all"} onClick={() => { setView("leads"); setPocFilter("all"); setNavOpen(false); }} />
+            {POC_OPTIONS.map((n) => (
+              <button
+                key={n}
+                onClick={() => { setView("leads"); setPocFilter(n); setNavOpen(false); }}
+                className={`flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-[13.5px] transition-colors ${
+                  pocFilter === n ? "bg-white/8 font-semibold text-white" : "text-white/60 hover:bg-white/5 hover:text-white"
+                }`}
+              >
+                <span className="flex size-5 shrink-0 items-center justify-center rounded-full text-[10px] font-bold text-white" style={{ backgroundColor: pocColor(n) }}>{n[0]}</span>
+                <span className="flex-1 truncate">{n}</span>
+                <span className="text-[11px] text-white/40">{leads.filter((l) => l.poc === n).length}</span>
+              </button>
+            ))}
+          </nav>
+
+          <div className="m-3 rounded-xl border border-[#4b78ff]/25 bg-gradient-to-br from-[#4b78ff]/15 to-transparent p-4">
+            <p className="text-[13px] font-semibold text-white">Add a new lead</p>
+            <p className="mt-0.5 text-[11.5px] text-white/50">Capture a prospect in seconds.</p>
+            <button onClick={() => { setModal({ open: true, lead: null }); setNavOpen(false); }} className="mt-2.5 w-full rounded-lg bg-[#4b78ff] px-3 py-2 text-[12.5px] font-semibold text-white hover:bg-[#3d63d8]">+ Add Lead</button>
+          </div>
+        </aside>
+
+        {/* ===== Right of sidebar ===== */}
+        <div className="flex min-w-0 flex-1 flex-col">
+          {/* Top bar */}
+          <header className="sticky top-0 z-20 flex items-center justify-between gap-4 border-b border-white/8 bg-[#070b14]/90 px-4 py-3 backdrop-blur md:px-6 xl:px-8">
+            <div className="flex items-center gap-3">
+              <button onClick={() => setNavOpen(true)} className="rounded-lg border border-white/12 p-1.5 text-white/70 hover:bg-white/5 lg:hidden" aria-label="Menu">☰</button>
+              <h1 className="text-lg font-bold tracking-tight">Sales Pipeline</h1>
             </div>
-          ))}
-          <button
-            onClick={() => setView("meetings")}
-            title="Upcoming meetings — click to view"
-            className="rounded-xl border border-white/12 bg-white/[0.03] p-4 text-left transition-colors hover:bg-white/[0.06]"
-          >
-            <p className="text-[12px] uppercase tracking-wide text-white/45">📅 Upcoming meetings</p>
-            <p className="mt-1 text-2xl font-semibold text-white">{stats.upcomingMeetings}</p>
-          </button>
-          <button
-            onClick={() => setFileFilter(fileFilter === "missing" ? "all" : "missing")}
-            title="Leads with no PDF/image yet — click to filter"
-            className={`rounded-xl border p-4 text-left transition-colors ${
-              fileFilter === "missing"
-                ? "border-amber-400/60 bg-amber-400/15"
-                : "border-amber-400/25 bg-amber-400/[0.06] hover:bg-amber-400/10"
-            }`}
-          >
-            <p className="text-[12px] uppercase tracking-wide text-amber-300/80">⚠ Missing file</p>
-            <p className="mt-1 text-2xl font-semibold text-amber-200">{stats.missingFiles}</p>
-          </button>
+            <div className="flex items-center gap-2">
+              <button onClick={() => setModal({ open: true, lead: null })} className="rounded-lg bg-[#4b78ff] px-3.5 py-2 text-[13px] font-semibold text-white hover:bg-[#3d63d8]">+ Add Lead</button>
+              <Link to="/dashboard/invoice" className="hidden items-center gap-1.5 rounded-lg border border-white/12 px-3 py-2 text-[13px] text-white/80 hover:bg-white/5 sm:inline-flex">🧾 Invoice</Link>
+              <button onClick={() => setView("meetings")} title={`${stats.upcomingMeetings} upcoming meetings`} className="relative rounded-lg border border-white/12 p-2 text-white/70 hover:bg-white/5">
+                🔔
+                {stats.upcomingMeetings > 0 ? <span className="absolute -right-1 -top-1 flex size-4 items-center justify-center rounded-full bg-[#f43f5e] text-[9px] font-bold text-white">{stats.upcomingMeetings}</span> : null}
+              </button>
+              <button onClick={logout} title="Log out" className="flex size-9 items-center justify-center rounded-full bg-[#4b78ff] text-[13px] font-bold text-white hover:bg-[#3d63d8]">S</button>
+            </div>
+          </header>
+
+          <div className="flex flex-1 gap-5 px-4 py-5 md:px-6 xl:px-8">
+            {/* ===== Main column ===== */}
+            <main className="min-w-0 flex-1">
+        {/* Stat cards */}
+        <div className="mb-5 grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
+          <StatCard icon="👥" tint="rgba(75,120,255,0.15)" label="Total Leads" value={stats.att + stats.unatt} sub={`↑ ${addedThisMonth} added · last 30 days`} subTone="text-emerald-400" />
+          <StatCard icon="💰" tint="rgba(124,92,255,0.15)" label="Pipeline Value" value={formatINR(stats.pipelineValue)} sub="Attended leads" />
+          <StatCard icon="📅" tint="rgba(0,184,169,0.15)" label="Upcoming Meetings" value={stats.upcomingMeetings} sub="Click to view" onClick={() => setView("meetings")} active={view === "meetings"} />
+          <StatCard icon="📁" tint="rgba(245,158,11,0.15)" label="Missing Files" value={stats.missingFiles} sub="Requires attention" subTone="text-amber-400" onClick={() => { setView("leads"); setFileFilter(fileFilter === "missing" ? "all" : "missing"); }} active={view === "leads" && fileFilter === "missing"} />
         </div>
 
         {/* Controls */}
@@ -1506,144 +1653,182 @@ export default function PipelineDashboard() {
             </table>
           </div>
         ) : view === "leads" ? (
-        <div className="overflow-x-auto rounded-xl border border-white/12">
+        <div className="overflow-hidden rounded-2xl border border-white/8 bg-white/[0.02]">
+          <div className="overflow-x-auto">
           <table className="w-full border-collapse text-sm">
             <thead>
-              <tr className="bg-white/[0.04] text-left text-[12px] uppercase tracking-wide text-white/50">
-                <th className="px-3 py-3 font-medium">#</th>
-                {cols.map((c) => (
-                  <th key={c.key as string} className={`px-3 py-3 font-medium ${c.w ?? ""}`}>{c.label}</th>
-                ))}
-                <th className="px-3 py-3 text-right font-medium">Actions</th>
+              <tr className="border-b border-white/8 bg-white/[0.03] text-left text-[11px] uppercase tracking-wider text-white/45">
+                <th className="px-4 py-3 font-semibold">Client</th>
+                <th className="px-4 py-3 font-semibold">POC</th>
+                <th className="px-4 py-3 font-semibold">Industry</th>
+                <th className="px-4 py-3 font-semibold">Stage</th>
+                <th className="px-4 py-3 font-semibold">Next Step</th>
+                <th className="px-4 py-3 font-semibold">Est. Value</th>
+                <th className="px-4 py-3 font-semibold">Added</th>
+                <th className="px-4 py-3 font-semibold">Contact</th>
+                <th className="px-4 py-3 text-right font-semibold">Actions</th>
               </tr>
             </thead>
             <tbody>
               {loading ? (
-                <tr><td colSpan={cols.length + 2} className="px-3 py-10 text-center text-white/40">Loading…</td></tr>
+                <tr><td colSpan={9} className="px-4 py-12 text-center text-white/40">Loading…</td></tr>
               ) : rows.length === 0 ? (
-                <tr><td colSpan={cols.length + 2} className="px-3 py-10 text-center text-white/40">No leads yet.</td></tr>
+                <tr><td colSpan={9} className="px-4 py-12 text-center text-white/40">No leads match these filters.</td></tr>
               ) : (
-                rows.map((l, i) => (
-                  <tr key={l.id} className="border-t border-white/8 align-top hover:bg-white/[0.02]">
-                    <td className="px-3 py-3 text-white/40">{i + 1}</td>
-                    {cols.map((c) => (
-                      <td key={c.key as string} className={`px-3 py-3 text-white/85 ${c.w ?? ""}`}>
-                        {c.key === "client" ? (
-                          <button
-                            onClick={() => setDetail(l)}
-                            className="flex items-center gap-1.5 text-left font-medium hover:opacity-80"
-                          >
-                            {ratingOf(l.responsiveness) ? (
-                              <span title={ratingOf(l.responsiveness)!.label}>{ratingOf(l.responsiveness)!.emoji}</span>
-                            ) : null}
-                            <span className={ratingOf(l.responsiveness)?.text ?? "text-white"}>{l.client || "—"}</span>
-                            {(l.attachments ?? []).some((a) => a.uploaded_by === "AI") ? (
-                              <span
-                                className="rounded-full border border-amber-400/50 bg-amber-400/15 px-1.5 py-0.5 text-[10px] font-medium text-amber-300"
-                                title="PDF created by AI — please send it to the client with a follow-up message on WhatsApp"
-                              >
-                                🤖 AI PDF
-                              </span>
-                            ) : null}
-                            {(l.followups?.length ?? 0) > 0 ? (
-                              <span className="rounded-full border border-[#4b78ff]/40 bg-[#4b78ff]/10 px-1.5 py-0.5 text-[10px] font-medium text-[#9dbaff]" title={`${l.followups!.length} follow-up proof(s) sent`}>
-                                🔁 {l.followups!.length} follow-up{l.followups!.length === 1 ? "" : "s"}
-                              </span>
-                            ) : (
-                              <span
-                                className="rounded-full border border-red-400/45 bg-red-400/10 px-1.5 py-0.5 text-[10px] font-semibold text-red-300"
-                                title="No follow-up logged yet — start following up with this lead"
-                              >
-                                ⚠ Follow-up not started
-                              </span>
-                            )}
-                            {(l.attachments?.length ?? 0) > 0 ? (
-                              <span className="rounded-full bg-white/10 px-1.5 py-0.5 text-[10px] text-white/60" title={`${l.attachments!.length} file(s)`}>
-                                📎 {l.attachments!.length}
-                              </span>
-                            ) : (
-                              <span
-                                className="rounded-full border border-amber-400/40 bg-amber-400/10 px-1.5 py-0.5 text-[10px] font-medium text-amber-300"
-                                title="No PDF/image yet — create one and send it to the client"
-                              >
-                                ⚠ No file
-                              </span>
-                            )}
-                          </button>
-                        ) : c.key === "description" ? (
-                          descEdit?.id === l.id ? (
-                            <div className="flex flex-col gap-1.5">
-                              <textarea
-                                autoFocus
-                                rows={3}
-                                value={descEdit.value}
-                                onChange={(e) => setDescEdit({ id: l.id, value: e.target.value })}
-                                className={`resize-none ${inputCls}`}
-                              />
-                              <div className="flex gap-2">
-                                <button
-                                  onClick={() => saveDesc(l)}
-                                  disabled={descSaving}
-                                  className="rounded-md bg-[#4b78ff] px-2.5 py-1 text-[12px] font-semibold text-white hover:bg-[#3d63d8] disabled:opacity-60"
-                                >
-                                  {descSaving ? "Saving…" : "Save"}
-                                </button>
-                                <button
-                                  onClick={() => setDescEdit(null)}
-                                  className="rounded-md border border-white/15 px-2.5 py-1 text-[12px] text-white/70 hover:bg-white/5"
-                                >
-                                  Cancel
-                                </button>
-                              </div>
-                            </div>
+                rows.map((l) => {
+                  const badge = stageBadge(l.current_stage);
+                  const rating = ratingOf(l.responsiveness);
+                  const hasFile = (l.attachments?.length ?? 0) > 0;
+                  const nFollow = l.followups?.length ?? 0;
+                  return (
+                  <tr key={l.id} className="border-b border-white/[0.06] align-middle transition-colors hover:bg-white/[0.03]">
+                    {/* Client */}
+                    <td className="px-4 py-3">
+                      <button onClick={() => setDetail(l)} className="group text-left">
+                        <span className="flex items-center gap-1.5">
+                          {rating ? <span title={rating.label}>{rating.emoji}</span> : null}
+                          <span className={`font-semibold group-hover:text-[#9dbaff] ${rating?.text ?? "text-white"}`}>{l.client || "—"}</span>
+                        </span>
+                        <span className="mt-1 flex flex-wrap items-center gap-1">
+                          {(l.attachments ?? []).some((a) => a.uploaded_by === "AI") ? (
+                            <span className="rounded border border-amber-400/40 bg-amber-400/10 px-1 py-0.5 text-[9.5px] font-medium text-amber-300" title="AI-generated PDF — send it to the client">🤖 AI</span>
+                          ) : null}
+                          {nFollow > 0 ? (
+                            <span className="rounded border border-[#4b78ff]/40 bg-[#4b78ff]/10 px-1 py-0.5 text-[9.5px] font-medium text-[#9dbaff]" title={`${nFollow} follow-up proof(s)`}>🔁 {nFollow}</span>
                           ) : (
-                            <div className="flex items-start gap-1.5">
-                              <span className="min-w-0 flex-1 whitespace-pre-wrap break-words text-white/70">{l.description || "—"}</span>
-                              <button
-                                onClick={() => setDescEdit({ id: l.id, value: l.description ?? "" })}
-                                title="Edit description"
-                                className="shrink-0 rounded p-0.5 text-white/40 hover:text-[#7aa2ff]"
-                              >
-                                ✏️
-                              </button>
-                            </div>
-                          )
-                        ) : c.key === "poc" ? (
-                          l.poc ? (
-                            <span className="whitespace-nowrap rounded-full border border-[#4b78ff]/40 bg-[#4b78ff]/15 px-2 py-0.5 text-[12px] font-medium text-[#9dbaff]">
-                              {l.poc}
-                            </span>
+                            <span className="rounded border border-red-400/40 bg-red-400/10 px-1 py-0.5 text-[9.5px] font-semibold text-red-300" title="No follow-up logged yet">⚠ No follow-up</span>
+                          )}
+                          {hasFile ? (
+                            <span className="rounded bg-white/8 px-1 py-0.5 text-[9.5px] text-white/55" title={`${l.attachments!.length} file(s)`}>📎 {l.attachments!.length}</span>
                           ) : (
-                            <span className="text-white/30">—</span>
-                          )
-                        ) : c.key === "created_at" ? (
-                          <span className="whitespace-nowrap text-[13px] text-white/55" title={`Added ${formatDateTime(l.created_at)}`}>
-                            {formatDate(l.created_at)}
-                          </span>
-                        ) : c.key === "email" ? (
-                          <span className="whitespace-pre-wrap break-words text-white/70">{l.email || l.phone || "—"}</span>
-                        ) : (
-                          <span className="whitespace-pre-wrap break-words text-white/70">{(l[c.key] as string) || "—"}</span>
-                        )}
-                      </td>
-                    ))}
-                    <td className="px-3 py-3 text-right">
-                      <div className="inline-flex gap-2.5">
-                        <button onClick={() => setFilesModal(l)} className="text-[13px] text-white/70 hover:text-white">
-                          📎 Files{(l.attachments?.length ?? 0) > 0 ? ` (${l.attachments!.length})` : ""}
-                        </button>
-                        <button onClick={() => setModal({ open: true, lead: l })} className="text-[13px] text-[#7aa2ff] hover:underline">Edit</button>
-                        <button onClick={() => onDelete(l)} className="text-[13px] text-red-300/80 hover:underline">Delete</button>
+                            <span className="rounded border border-amber-400/40 bg-amber-400/10 px-1 py-0.5 text-[9.5px] font-medium text-amber-300" title="No file uploaded yet">⚠ No file</span>
+                          )}
+                        </span>
+                      </button>
+                    </td>
+                    {/* POC */}
+                    <td className="px-4 py-3"><PocCell name={l.poc} /></td>
+                    {/* Industry */}
+                    <td className="px-4 py-3 text-white/70">{l.industry || l.business || "—"}</td>
+                    {/* Stage */}
+                    <td className="px-4 py-3">
+                      <span className={`whitespace-nowrap rounded-md border px-2 py-1 text-[11px] font-semibold ${badge.cls}`}>{badge.label}</span>
+                    </td>
+                    {/* Next step */}
+                    <td className="max-w-[220px] px-4 py-3 text-white/70">{l.next_step || l.status || "—"}</td>
+                    {/* Est value */}
+                    <td className="whitespace-nowrap px-4 py-3 font-semibold tabular-nums text-white">{l.estimated_value ? formatINR(parseValue(l.estimated_value)) : "—"}</td>
+                    {/* Added */}
+                    <td className="whitespace-nowrap px-4 py-3 text-[12.5px] text-white/55" title={`Added ${formatDateTime(l.created_at)}`}>{formatDate(l.created_at)}</td>
+                    {/* Contact */}
+                    <td className="px-4 py-3 text-[12.5px] text-white/65">{l.email || l.phone || "—"}</td>
+                    {/* Actions */}
+                    <td className="px-4 py-3 text-right">
+                      <div className="inline-flex items-center gap-1">
+                        <button onClick={() => setDetail(l)} title="View" className="rounded-md p-1.5 text-white/55 hover:bg-white/8 hover:text-white">👁</button>
+                        <button onClick={() => setFilesModal(l)} title="Files" className="rounded-md p-1.5 text-white/55 hover:bg-white/8 hover:text-white">📎</button>
+                        <button onClick={() => setModal({ open: true, lead: l })} title="Edit" className="rounded-md p-1.5 text-white/55 hover:bg-white/8 hover:text-[#9dbaff]">✎</button>
+                        <button onClick={() => onDelete(l)} title="Delete" className="rounded-md p-1.5 text-white/55 hover:bg-white/8 hover:text-red-300">🗑</button>
                       </div>
                     </td>
                   </tr>
-                ))
+                  );
+                })
               )}
             </tbody>
           </table>
+          </div>
+          {!loading && rows.length > 0 ? (
+            <div className="flex items-center justify-between border-t border-white/8 px-4 py-3 text-[12.5px] text-white/45">
+              <span>Showing {rows.length} lead{rows.length === 1 ? "" : "s"}</span>
+              <button onClick={() => exportCsv(rows, tab)} className="rounded-lg border border-white/12 px-3 py-1.5 text-white/75 hover:bg-white/5">⬇ Export CSV</button>
+            </div>
+          ) : null}
         </div>
         ) : null}
-      </main>
+            </main>
+
+            {/* ===== Right rail ===== */}
+            <aside className="hidden w-[300px] shrink-0 space-y-4 xl:block">
+              <RailCard title="Pipeline Overview" action={<span className="text-[11px] font-semibold text-emerald-400">{overview.conversion}% conv.</span>}>
+                {overview.list.length === 0 ? (
+                  <p className="text-[12.5px] text-white/40">No leads yet.</p>
+                ) : (
+                  <div className="space-y-2.5">
+                    {overview.list.map(([stage, n]) => {
+                      const b = stageBadge(stage);
+                      return (
+                        <div key={stage}>
+                          <div className="mb-1 flex items-center justify-between text-[12px]">
+                            <span className="truncate text-white/70">{stage}</span>
+                            <span className="font-semibold text-white/90">{n}</span>
+                          </div>
+                          <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/8">
+                            <div className={`h-full rounded-full ${b.cls.split(" ").find((c) => c.startsWith("bg-")) ?? "bg-white/30"}`} style={{ width: `${Math.max(6, (n / overview.max) * 100)}%` }} />
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </RailCard>
+
+              <RailCard title="Upcoming Tasks" action={<button onClick={() => setView("meetings")} className="text-[11px] font-semibold text-[#7aa2ff] hover:underline">View all</button>}>
+                {upcomingTasks.length === 0 ? (
+                  <p className="text-[12.5px] text-white/40">No upcoming meetings.</p>
+                ) : (
+                  <ul className="space-y-3">
+                    {upcomingTasks.map((l) => (
+                      <li key={l.id} className="flex gap-2.5">
+                        <span className="mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-md bg-[#4b78ff]/15 text-[12px]">📅</span>
+                        <button onClick={() => setDetail(l)} className="min-w-0 text-left">
+                          <p className="truncate text-[13px] font-medium text-white/90 hover:text-[#9dbaff]">{l.client || "Meeting"}</p>
+                          <p className="text-[11.5px] text-white/45">{formatMeeting(l.meeting_at)}{l.meeting_owner ? ` · ${l.meeting_owner}` : ""}</p>
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </RailCard>
+
+              <RailCard title="Recent Activity">
+                {recentActivity.length === 0 ? (
+                  <p className="text-[12.5px] text-white/40">Nothing yet.</p>
+                ) : (
+                  <ul className="space-y-3">
+                    {recentActivity.map((l) => (
+                      <li key={l.id} className="flex gap-2.5">
+                        <span className="mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-full text-[10px] font-bold text-white" style={{ backgroundColor: pocColor(l.poc) }}>{(l.poc ?? "•")[0]}</span>
+                        <button onClick={() => setDetail(l)} className="min-w-0 text-left">
+                          <p className="text-[12.5px] leading-snug text-white/75"><span className="font-semibold text-white/90">{l.poc || "Someone"}</span> updated <span className="text-white/90">{l.client || "a lead"}</span></p>
+                          <p className="text-[11px] text-white/40">{formatDateTime(l.updated_at || l.created_at)}</p>
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </RailCard>
+
+              <RailCard title="Quick Stats">
+                <div className="grid grid-cols-2 gap-3">
+                  {[
+                    { icon: "✳️", label: "Leads / week", value: quickStats.leadsThisWeek },
+                    { icon: "📅", label: "Meetings held", value: quickStats.meetingsHeld },
+                    { icon: "📎", label: "Files", value: quickStats.filesTotal },
+                    { icon: "🔁", label: "Follow-ups", value: quickStats.followupsTotal },
+                  ].map((s) => (
+                    <div key={s.label} className="rounded-xl border border-white/8 bg-white/[0.02] p-3">
+                      <p className="text-[15px]">{s.icon}</p>
+                      <p className="mt-1 text-[19px] font-bold text-white">{s.value}</p>
+                      <p className="text-[11px] text-white/45">{s.label}</p>
+                    </div>
+                  ))}
+                </div>
+              </RailCard>
+            </aside>
+          </div>
+        </div>
+      </div>
 
       {modal.open ? (
         <LeadModal
