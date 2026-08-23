@@ -1683,48 +1683,50 @@ export default function PipelineDashboard() {
                   return (
                   <tr key={l.id} className="border-b border-white/[0.06] align-middle transition-colors hover:bg-white/[0.03]">
                     {/* Client */}
-                    <td className="px-4 py-3">
-                      <button onClick={() => setDetail(l)} className="group text-left">
-                        <span className="flex items-center gap-1.5">
-                          {rating ? <span title={rating.label}>{rating.emoji}</span> : null}
-                          <span className={`font-semibold group-hover:text-[#9dbaff] ${rating?.text ?? "text-white"}`}>{l.client || "—"}</span>
-                        </span>
-                        <span className="mt-1 flex flex-wrap items-center gap-1">
+                    <td className="px-4 py-2.5">
+                      <button onClick={() => setDetail(l)} className="group flex min-w-[190px] max-w-[230px] items-center gap-1.5 text-left">
+                        {rating ? <span className="shrink-0" title={rating.label}>{rating.emoji}</span> : null}
+                        <span className={`truncate font-semibold group-hover:text-[#9dbaff] ${rating?.text ?? "text-white"}`} title={l.client ?? ""}>{l.client || "—"}</span>
+                        <span className="ml-1 flex shrink-0 items-center gap-1">
                           {(l.attachments ?? []).some((a) => a.uploaded_by === "AI") ? (
-                            <span className="rounded border border-amber-400/40 bg-amber-400/10 px-1 py-0.5 text-[9.5px] font-medium text-amber-300" title="AI-generated PDF — send it to the client">🤖 AI</span>
+                            <span className="text-[11px]" title="AI-generated PDF — send it to the client">🤖</span>
                           ) : null}
                           {nFollow > 0 ? (
-                            <span className="rounded border border-[#4b78ff]/40 bg-[#4b78ff]/10 px-1 py-0.5 text-[9.5px] font-medium text-[#9dbaff]" title={`${nFollow} follow-up proof(s)`}>🔁 {nFollow}</span>
+                            <span className="text-[11px]" title={`${nFollow} follow-up proof(s)`}>🔁{nFollow}</span>
                           ) : (
-                            <span className="rounded border border-red-400/40 bg-red-400/10 px-1 py-0.5 text-[9.5px] font-semibold text-red-300" title="No follow-up logged yet">⚠ No follow-up</span>
+                            <span className="text-[11px] text-red-400" title="No follow-up logged yet">⚠</span>
                           )}
                           {hasFile ? (
-                            <span className="rounded bg-white/8 px-1 py-0.5 text-[9.5px] text-white/55" title={`${l.attachments!.length} file(s)`}>📎 {l.attachments!.length}</span>
+                            <span className="text-[11px] text-white/50" title={`${l.attachments!.length} file(s)`}>📎{l.attachments!.length}</span>
                           ) : (
-                            <span className="rounded border border-amber-400/40 bg-amber-400/10 px-1 py-0.5 text-[9.5px] font-medium text-amber-300" title="No file uploaded yet">⚠ No file</span>
+                            <span className="text-[11px] text-amber-400" title="No file uploaded yet">📄</span>
                           )}
                         </span>
                       </button>
                     </td>
                     {/* POC */}
-                    <td className="px-4 py-3"><PocCell name={l.poc} /></td>
+                    <td className="px-4 py-2.5"><PocCell name={l.poc} /></td>
                     {/* Industry */}
-                    <td className="px-4 py-3 text-white/70">{l.industry || l.business || "—"}</td>
+                    <td className="px-4 py-2.5">
+                      <span className="line-clamp-2 max-w-[180px] text-[12.5px] text-white/70" title={l.industry || l.business || ""}>{l.industry || l.business || "—"}</span>
+                    </td>
                     {/* Stage */}
-                    <td className="px-4 py-3">
-                      <span className={`whitespace-nowrap rounded-md border px-2 py-1 text-[11px] font-semibold ${badge.cls}`}>{badge.label}</span>
+                    <td className="px-4 py-2.5">
+                      <span className={`inline-block max-w-[140px] truncate rounded-md border px-2 py-1 text-[11px] font-semibold ${badge.cls}`} title={l.current_stage ?? ""}>{badge.label}</span>
                     </td>
                     {/* Next step */}
-                    <td className="max-w-[220px] px-4 py-3 text-white/70">{l.next_step || l.status || "—"}</td>
+                    <td className="px-4 py-2.5">
+                      <span className="line-clamp-2 max-w-[190px] text-[12.5px] text-white/70" title={l.next_step || l.status || ""}>{l.next_step || l.status || "—"}</span>
+                    </td>
                     {/* Est value */}
-                    <td className="whitespace-nowrap px-4 py-3 font-semibold tabular-nums text-white">{l.estimated_value ? formatINR(parseValue(l.estimated_value)) : "—"}</td>
+                    <td className="whitespace-nowrap px-4 py-2.5 font-semibold tabular-nums text-white">{l.estimated_value ? formatINR(parseValue(l.estimated_value)) : "—"}</td>
                     {/* Added */}
-                    <td className="whitespace-nowrap px-4 py-3 text-[12.5px] text-white/55" title={`Added ${formatDateTime(l.created_at)}`}>{formatDate(l.created_at)}</td>
+                    <td className="whitespace-nowrap px-4 py-2.5 text-[12.5px] text-white/55" title={`Added ${formatDateTime(l.created_at)}`}>{formatDate(l.created_at)}</td>
                     {/* Contact */}
-                    <td className="px-4 py-3 text-[12.5px] text-white/65">{l.email || l.phone || "—"}</td>
+                    <td className="px-4 py-2.5"><span className="line-clamp-1 max-w-[160px] text-[12.5px] text-white/65" title={l.email || l.phone || ""}>{l.email || l.phone || "—"}</span></td>
                     {/* Actions */}
-                    <td className="px-4 py-3 text-right">
-                      <div className="inline-flex items-center gap-1">
+                    <td className="px-4 py-2.5 text-right">
+                      <div className="inline-flex items-center gap-0.5">
                         <button onClick={() => setDetail(l)} title="View" className="rounded-md p-1.5 text-white/55 hover:bg-white/8 hover:text-white">👁</button>
                         <button onClick={() => setFilesModal(l)} title="Files" className="rounded-md p-1.5 text-white/55 hover:bg-white/8 hover:text-white">📎</button>
                         <button onClick={() => setModal({ open: true, lead: l })} title="Edit" className="rounded-md p-1.5 text-white/55 hover:bg-white/8 hover:text-[#9dbaff]">✎</button>
