@@ -1663,95 +1663,85 @@ export default function PipelineDashboard() {
           </div>
         ) : view === "leads" ? (
         <div className="overflow-hidden rounded-2xl border border-white/8 bg-white/[0.02]">
-          <div className="overflow-x-auto">
-          <table className="w-full border-collapse text-sm">
-            <thead>
-              <tr className="border-b border-white/8 bg-white/[0.03] text-left text-[11px] uppercase tracking-wider text-white/45">
-                <th className="px-4 py-3 font-semibold">Client</th>
-                <th className="px-4 py-3 font-semibold">POC</th>
-                <th className="px-4 py-3 font-semibold">Industry</th>
-                <th className="px-4 py-3 font-semibold">Stage</th>
-                <th className="px-4 py-3 font-semibold">Next Step</th>
-                <th className="px-4 py-3 font-semibold">Est. Value</th>
-                <th className="px-4 py-3 font-semibold">Added</th>
-                <th className="px-4 py-3 font-semibold">Contact</th>
-                <th className="px-4 py-3 text-right font-semibold">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {loading ? (
-                <tr><td colSpan={9} className="px-4 py-12 text-center text-white/40">Loading…</td></tr>
-              ) : rows.length === 0 ? (
-                <tr><td colSpan={9} className="px-4 py-12 text-center text-white/40">No leads match these filters.</td></tr>
-              ) : (
-                rows.map((l) => {
-                  const badge = stageBadge(l.current_stage);
-                  const rating = ratingOf(l.responsiveness);
-                  const hasFile = (l.attachments?.length ?? 0) > 0;
-                  const nFollow = l.followups?.length ?? 0;
-                  return (
-                  <tr key={l.id} className="border-b border-white/[0.06] align-middle transition-colors hover:bg-white/[0.03]">
-                    {/* Client */}
-                    <td className="px-4 py-2.5">
-                      <button onClick={() => setDetail(l)} className="group flex min-w-[190px] max-w-[230px] items-center gap-1.5 text-left">
-                        {rating ? <span className="shrink-0" title={rating.label}>{rating.emoji}</span> : null}
-                        <span className={`truncate font-semibold group-hover:text-[#9dbaff] ${rating?.text ?? "text-white"}`} title={l.client ?? ""}>{l.client || "—"}</span>
-                        <span className="ml-1 flex shrink-0 items-center gap-1">
-                          {(l.attachments ?? []).some((a) => a.uploaded_by === "AI") ? (
-                            <span className="text-[11px]" title="AI-generated PDF — send it to the client">🤖</span>
-                          ) : null}
-                          {nFollow > 0 ? (
-                            <span className="text-[11px]" title={`${nFollow} follow-up proof(s)`}>🔁{nFollow}</span>
-                          ) : (
-                            <span className="text-[11px] text-red-400" title="No follow-up logged yet">⚠</span>
-                          )}
-                          {hasFile ? (
-                            <span className="text-[11px] text-white/50" title={`${l.attachments!.length} file(s)`}>📎{l.attachments!.length}</span>
-                          ) : (
-                            <span className="text-[11px] text-amber-400" title="No file uploaded yet">📄</span>
-                          )}
-                        </span>
-                      </button>
-                    </td>
-                    {/* POC */}
-                    <td className="px-4 py-2.5"><PocCell name={l.poc} /></td>
-                    {/* Industry */}
-                    <td className="px-4 py-2.5">
-                      <div className="hscroll max-w-[190px] overflow-x-auto whitespace-nowrap pb-1 text-[12.5px] text-white/70" title={l.industry || l.business || ""}>{l.industry || l.business || "—"}</div>
-                    </td>
-                    {/* Stage */}
-                    <td className="px-4 py-2.5">
-                      <span className={`inline-block max-w-[140px] truncate rounded-md border px-2 py-1 text-[11px] font-semibold ${badge.cls}`} title={l.current_stage ?? ""}>{badge.label}</span>
-                    </td>
-                    {/* Next step */}
-                    <td className="px-4 py-2.5">
-                      <div className="hscroll max-w-[200px] overflow-x-auto whitespace-nowrap pb-1 text-[12.5px] text-white/70" title={l.next_step || l.status || ""}>{l.next_step || l.status || "—"}</div>
-                    </td>
-                    {/* Est value */}
-                    <td className="whitespace-nowrap px-4 py-2.5 font-semibold tabular-nums text-white">{l.estimated_value ? formatINR(parseValue(l.estimated_value)) : "—"}</td>
-                    {/* Added */}
-                    <td className="whitespace-nowrap px-4 py-2.5 text-[12.5px] text-white/55" title={`Added ${formatDateTime(l.created_at)}`}>{formatDate(l.created_at)}</td>
-                    {/* Contact */}
-                    <td className="px-4 py-2.5"><div className="hscroll max-w-[170px] overflow-x-auto whitespace-nowrap pb-1 text-[12.5px] text-white/65" title={l.email || l.phone || ""}>{l.email || l.phone || "—"}</div></td>
-                    {/* Actions */}
-                    <td className="px-4 py-2.5 text-right">
-                      <div className="inline-flex items-center gap-0.5">
-                        <button onClick={() => setDetail(l)} title="View" className="rounded-md p-1.5 text-white/55 hover:bg-white/8 hover:text-white">👁</button>
-                        <button onClick={() => setFilesModal(l)} title="Files" className="rounded-md p-1.5 text-white/55 hover:bg-white/8 hover:text-white">📎</button>
-                        <button onClick={() => setModal({ open: true, lead: l })} title="Edit" className="rounded-md p-1.5 text-white/55 hover:bg-white/8 hover:text-[#9dbaff]">✎</button>
-                        <button onClick={() => onDelete(l)} title="Delete" className="rounded-md p-1.5 text-white/55 hover:bg-white/8 hover:text-red-300">🗑</button>
-                      </div>
-                    </td>
-                  </tr>
-                  );
-                })
-              )}
-            </tbody>
-          </table>
+          {/* Header — Client pinned; each lead row below scrolls on its own */}
+          <div className="flex border-b border-white/8 bg-white/[0.04] text-[11px] font-semibold uppercase tracking-wider text-white/45">
+            <div className="sticky left-0 z-10 w-[240px] shrink-0 bg-[#11151f] px-4 py-3 shadow-[1px_0_0_rgba(255,255,255,0.06)]">Client</div>
+            <div className="w-[150px] shrink-0 px-4 py-3">POC</div>
+            <div className="w-[230px] shrink-0 px-4 py-3">Industry</div>
+            <div className="w-[150px] shrink-0 px-4 py-3">Stage</div>
+            <div className="w-[230px] shrink-0 px-4 py-3">Next Step</div>
+            <div className="w-[130px] shrink-0 px-4 py-3">Est. Value</div>
+            <div className="w-[120px] shrink-0 px-4 py-3">Added</div>
+            <div className="w-[200px] shrink-0 px-4 py-3">Contact</div>
+            <div className="w-[170px] shrink-0 px-4 py-3 text-right">Actions</div>
           </div>
+
+          {loading ? (
+            <div className="px-4 py-12 text-center text-white/40">Loading…</div>
+          ) : rows.length === 0 ? (
+            <div className="px-4 py-12 text-center text-white/40">No leads match these filters.</div>
+          ) : (
+            rows.map((l) => {
+              const badge = stageBadge(l.current_stage);
+              const rating = ratingOf(l.responsiveness);
+              const hasFile = (l.attachments?.length ?? 0) > 0;
+              const nFollow = l.followups?.length ?? 0;
+              const cell = "shrink-0 px-4 py-2.5 text-[12.5px]";
+              return (
+                <div key={l.id} className="hscroll group flex overflow-x-auto border-b border-white/[0.06]">
+                  {/* Client — pinned so you always know which lead you're scrolling */}
+                  <div className="sticky left-0 z-10 flex w-[240px] shrink-0 items-center bg-[#0a0e18] px-4 py-2.5 shadow-[1px_0_0_rgba(255,255,255,0.06)] group-hover:bg-[#0e131f]">
+                    <button onClick={() => setDetail(l)} className="flex min-w-0 items-center gap-1.5 text-left">
+                      {rating ? <span className="shrink-0" title={rating.label}>{rating.emoji}</span> : null}
+                      <span className={`truncate font-semibold hover:text-[#9dbaff] ${rating?.text ?? "text-white"}`} title={l.client ?? ""}>{l.client || "—"}</span>
+                      <span className="ml-1 flex shrink-0 items-center gap-1">
+                        {(l.attachments ?? []).some((a) => a.uploaded_by === "AI") ? (
+                          <span className="text-[11px]" title="AI-generated PDF — send it to the client">🤖</span>
+                        ) : null}
+                        {nFollow > 0 ? (
+                          <span className="text-[11px]" title={`${nFollow} follow-up proof(s)`}>🔁{nFollow}</span>
+                        ) : (
+                          <span className="text-[11px] text-red-400" title="No follow-up logged yet">⚠</span>
+                        )}
+                        {hasFile ? (
+                          <span className="text-[11px] text-white/50" title={`${l.attachments!.length} file(s)`}>📎{l.attachments!.length}</span>
+                        ) : (
+                          <span className="text-[11px] text-amber-400" title="No file uploaded yet">📄</span>
+                        )}
+                      </span>
+                    </button>
+                  </div>
+                  {/* POC */}
+                  <div className={`${cell} flex w-[150px] items-center`}><PocCell name={l.poc} /></div>
+                  {/* Industry */}
+                  <div className={`${cell} w-[230px] truncate text-white/70`} title={l.industry || l.business || ""}>{l.industry || l.business || "—"}</div>
+                  {/* Stage */}
+                  <div className={`${cell} w-[150px]`}>
+                    <span className={`inline-block max-w-full truncate rounded-md border px-2 py-1 text-[11px] font-semibold ${badge.cls}`} title={l.current_stage ?? ""}>{badge.label}</span>
+                  </div>
+                  {/* Next step */}
+                  <div className={`${cell} w-[230px] truncate text-white/70`} title={l.next_step || l.status || ""}>{l.next_step || l.status || "—"}</div>
+                  {/* Est value */}
+                  <div className={`${cell} w-[130px] whitespace-nowrap font-semibold tabular-nums text-white`}>{l.estimated_value ? formatINR(parseValue(l.estimated_value)) : "—"}</div>
+                  {/* Added */}
+                  <div className={`${cell} w-[120px] whitespace-nowrap text-white/55`} title={`Added ${formatDateTime(l.created_at)}`}>{formatDate(l.created_at)}</div>
+                  {/* Contact */}
+                  <div className={`${cell} w-[200px] truncate text-white/65`} title={l.email || l.phone || ""}>{l.email || l.phone || "—"}</div>
+                  {/* Actions */}
+                  <div className={`${cell} flex w-[170px] items-center justify-end gap-0.5`}>
+                    <button onClick={() => setDetail(l)} title="View" className="rounded-md p-1.5 text-white/55 hover:bg-white/8 hover:text-white">👁</button>
+                    <button onClick={() => setFilesModal(l)} title="Files" className="rounded-md p-1.5 text-white/55 hover:bg-white/8 hover:text-white">📎</button>
+                    <button onClick={() => setModal({ open: true, lead: l })} title="Edit" className="rounded-md p-1.5 text-white/55 hover:bg-white/8 hover:text-[#9dbaff]">✎</button>
+                    <button onClick={() => onDelete(l)} title="Delete" className="rounded-md p-1.5 text-white/55 hover:bg-white/8 hover:text-red-300">🗑</button>
+                  </div>
+                </div>
+              );
+            })
+          )}
+
           {!loading && rows.length > 0 ? (
             <div className="flex items-center justify-between border-t border-white/8 px-4 py-3 text-[12.5px] text-white/45">
-              <span>Showing {rows.length} lead{rows.length === 1 ? "" : "s"}</span>
+              <span>Showing {rows.length} lead{rows.length === 1 ? "" : "s"} · scroll a row → to see its details</span>
               <button onClick={() => exportCsv(rows, tab)} className="rounded-lg border border-white/12 px-3 py-1.5 text-white/75 hover:bg-white/5">⬇ Export CSV</button>
             </div>
           ) : null}
