@@ -1,4 +1,4 @@
-const SUPABASE_URL = "https://upxsbhsamorhvnfebvor.supabase.co";
+const SUPABASE_URL = "https://khxkorrvylcscyqfklxi.supabase.co";
 const ADMIN_UPLOAD_TOKEN = "admin-upload-token-2024";
 
 const MAX_FILE_SIZE = 10 * 1024 * 1024;

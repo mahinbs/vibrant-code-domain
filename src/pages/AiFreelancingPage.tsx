@@ -480,7 +480,7 @@ const AiFreelancingPage = () => {
                         autoPlay={isMuted}
                         loop={isMuted}
                         controls={isMobile}
-                        poster="https://upxsbhsamorhvnfebvor.supabase.co/storage/v1/object/public/demo-videos/video-poster.jpg"
+                        poster="https://khxkorrvylcscyqfklxi.supabase.co/storage/v1/object/public/demo-videos/video-poster.jpg"
                         onLoadedData={() => setIsVideoLoaded(true)}
                         onPlay={() => setIsVideoPlaying(true)}
                         onPause={() => setIsVideoPlaying(false)}
@@ -491,7 +491,7 @@ const AiFreelancingPage = () => {
                           setIsVideoLoaded(true);
                         }}
                       >
-                        <source src="https://upxsbhsamorhvnfebvor.supabase.co/storage/v1/object/public/demo-videos/Captions_DD38D9.MP4" type="video/mp4" />
+                        <source src="https://khxkorrvylcscyqfklxi.supabase.co/storage/v1/object/public/demo-videos/Captions_DD38D9.MP4" type="video/mp4" />
                         Your browser does not support the video tag.
                       </video>
                       
@@ -504,7 +504,7 @@ const AiFreelancingPage = () => {
                           <h3 className="text-xl font-semibold mb-2">Demo Video</h3>
                           <p className="text-sm text-muted-foreground mb-4">See your AI freelancing tools in action</p>
                           <Button 
-                            onClick={() => window.open('https://upxsbhsamorhvnfebvor.supabase.co/storage/v1/object/public/demo-videos/Captions_DD38D9.MP4', '_blank')}
+                            onClick={() => window.open('https://khxkorrvylcscyqfklxi.supabase.co/storage/v1/object/public/demo-videos/Captions_DD38D9.MP4', '_blank')}
                             variant="outline"
                             size="sm"
                             className="gap-2"

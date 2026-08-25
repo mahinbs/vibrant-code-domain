@@ -1,6 +1,6 @@
 import { supabase } from "@/integrations/supabase/client";
 
-const SUPABASE_URL = "https://upxsbhsamorhvnfebvor.supabase.co";
+const SUPABASE_URL = "https://khxkorrvylcscyqfklxi.supabase.co";
 const EDGE_TIMEOUT_MS = 60_000;
 
 async function invokeEdge<T>(name: string, body: Record<string, unknown>): Promise<T> {

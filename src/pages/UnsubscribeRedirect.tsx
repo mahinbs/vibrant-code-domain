@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 
-const SUPABASE_URL = "https://upxsbhsamorhvnfebvor.supabase.co";
+const SUPABASE_URL = "https://khxkorrvylcscyqfklxi.supabase.co";
 
 export default function UnsubscribeRedirect() {
   const [params] = useSearchParams();

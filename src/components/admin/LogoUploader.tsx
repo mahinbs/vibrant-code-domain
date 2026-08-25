@@ -37,7 +37,7 @@ const LogoUploader: React.FC<LogoUploaderProps> = ({ logos, onLogosChange, title
         const formData = new FormData();
         formData.append('file', file);
 
-        const response = await fetch('https://upxsbhsamorhvnfebvor.supabase.co/functions/v1/upload-webinar-logo', {
+        const response = await fetch('https://khxkorrvylcscyqfklxi.supabase.co/functions/v1/upload-webinar-logo', {
           method: 'POST',
           headers: {
             'x-admin-token': 'admin-upload-token-2024',

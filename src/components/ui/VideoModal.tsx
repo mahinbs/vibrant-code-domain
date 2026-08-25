@@ -8,7 +8,7 @@ interface VideoModalProps {
 }
 
 const VideoModal: React.FC<VideoModalProps> = ({ isOpen, onClose }) => {
-  const videoUrl = "https://upxsbhsamorhvnfebvor.supabase.co/storage/v1/object/public/demo-videos/Captions_DD38D9.MP4";
+  const videoUrl = "https://khxkorrvylcscyqfklxi.supabase.co/storage/v1/object/public/demo-videos/Captions_DD38D9.MP4";
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
