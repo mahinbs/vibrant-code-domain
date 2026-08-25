@@ -70,31 +70,58 @@ function sanitize(name: string): string {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const table = () => (supabase as any).from("pipeline_leads");
 
+/** Turn raw Supabase / fetch errors into a friendly, actionable message. */
+function friendlyError(raw?: string | null): string {
+  const m = (raw || "").trim() || "Something went wrong. Please try again.";
+  if (/load failed|failed to fetch|network\s?error|network request failed|typeerror/i.test(m)) {
+    return "Couldn't reach the server — check your internet connection and try again.";
+  }
+  return m;
+}
+
+const asMessage = (e: unknown): string => (e instanceof Error ? e.message : String(e));
+
 export const pipelineLeadService = {
   async list(): Promise<{ data: PipelineLead[]; error: string | null }> {
-    const { data, error } = await table()
-      .select("*")
-      .order("created_at", { ascending: false, nullsFirst: false });
-    if (error) return { data: [], error: error.message };
-    return { data: (data ?? []) as PipelineLead[], error: null };
+    try {
+      const { data, error } = await table()
+        .select("*")
+        .order("created_at", { ascending: false, nullsFirst: false });
+      if (error) return { data: [], error: friendlyError(error.message) };
+      return { data: (data ?? []) as PipelineLead[], error: null };
+    } catch (e) {
+      return { data: [], error: friendlyError(asMessage(e)) };
+    }
   },
 
   async create(input: Partial<PipelineLeadInput>): Promise<{ data: PipelineLead | null; error: string | null }> {
-    const { data, error } = await table().insert(input).select().single();
-    if (error) return { data: null, error: error.message };
-    return { data: data as PipelineLead, error: null };
+    try {
+      const { data, error } = await table().insert(input).select().single();
+      if (error) return { data: null, error: friendlyError(error.message) };
+      return { data: data as PipelineLead, error: null };
+    } catch (e) {
+      return { data: null, error: friendlyError(asMessage(e)) };
+    }
   },
 
   async update(id: string, patch: Partial<PipelineLeadInput>): Promise<{ error: string | null }> {
-    const { error } = await table()
-      .update({ ...patch, updated_at: new Date().toISOString() })
-      .eq("id", id);
-    return { error: error ? error.message : null };
+    try {
+      const { error } = await table()
+        .update({ ...patch, updated_at: new Date().toISOString() })
+        .eq("id", id);
+      return { error: error ? friendlyError(error.message) : null };
+    } catch (e) {
+      return { error: friendlyError(asMessage(e)) };
+    }
   },
 
   async remove(id: string): Promise<{ error: string | null }> {
-    const { error } = await table().delete().eq("id", id);
-    return { error: error ? error.message : null };
+    try {
+      const { error } = await table().delete().eq("id", id);
+      return { error: error ? friendlyError(error.message) : null };
+    } catch (e) {
+      return { error: friendlyError(asMessage(e)) };
+    }
   },
 
   /** Upload a follow-up PDF / image / screenshot for a lead. */

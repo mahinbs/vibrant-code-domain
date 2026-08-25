@@ -442,6 +442,7 @@ function LeadModal({
     if (!form.client?.trim()) return setError("Client is required.");
     if (!form.poc) return setError("POC is required — select who owns this lead.");
     setSaving(true);
+    try {
     // Save responsiveness + website + poc + meeting separately (best-effort) so
     // a missing column can't block the whole save before the ALTER is run.
     const { responsiveness, website, poc, meeting_at, meeting_notes, meeting_owner, ...fields } = form;
@@ -479,7 +480,6 @@ function LeadModal({
         } catch { /* columns may not exist yet */ }
       }
     }
-    setSaving(false);
     if (saveError) {
       setError(
         saveError.includes("pipeline_leads") || saveError.includes("relation")
@@ -488,13 +488,20 @@ function LeadModal({
       );
       return;
     }
-    syncDescriptionToSheet({
-      tab,
-      sl_no: lead?.sl_no ?? null,
-      client: form.client ?? null,
-      description: form.description ?? "",
-    });
+    try {
+      syncDescriptionToSheet({
+        tab,
+        sl_no: lead?.sl_no ?? null,
+        client: form.client ?? null,
+        description: form.description ?? "",
+      });
+    } catch { /* sheet sync is best-effort */ }
     onSaved();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Couldn't save — check your connection and try again.");
+    } finally {
+      setSaving(false);
+    }
   }
 
   return (
