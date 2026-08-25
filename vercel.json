@@ -3,6 +3,10 @@
     {
       "path": "/api/daily-report",
       "schedule": "30 14 * * *"
+    },
+    {
+      "path": "/api/keep-alive",
+      "schedule": "0 6 * * *"
     }
   ],
   "rewrites": [
