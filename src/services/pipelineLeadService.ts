@@ -37,6 +37,8 @@ export type PipelineLead = {
   pipeline_stage: PipelineStage | null;
   /** When the lead entered its current stage (for stuck-too-long alerts). */
   stage_at: string | null;
+  /** Full log of stage changes: when the lead entered each stage (and who moved it). */
+  stage_history: StageEvent[] | null;
   /** Up to 30 numbered follow-up proofs (attachment + note/date/owner). */
   followups: FollowupProof[] | null;
   /** Point of contact (team member handling this lead). */
@@ -65,6 +67,9 @@ export type FollowupProof = {
 /* ---------- Staged pipeline ---------- */
 
 export type PipelineStage = "lead" | "pre_call" | "call" | "meeting" | "post_meeting" | "sale" | "lost";
+
+/** One entry in a lead's stage log: it entered `stage` at `at` (ISO), moved by `by`. */
+export type StageEvent = { stage: PipelineStage; at: string; by?: string | null };
 
 export type StageDef = {
   value: PipelineStage;
@@ -190,6 +195,21 @@ export const pipelineLeadService = {
     } catch (e) {
       return { error: friendlyError(asMessage(e)) };
     }
+  },
+
+  /** Change a lead's pipeline stage: sets stage, stamps stage_at, appends to stage_history. */
+  async changeStage(
+    lead: Pick<PipelineLead, "id" | "stage_history">,
+    v: PipelineStage,
+    by?: string | null,
+  ): Promise<{ error: string | null }> {
+    const { error } = await pipelineLeadService.update(lead.id, { pipeline_stage: v });
+    if (error) return { error };
+    const now = new Date().toISOString();
+    const history: StageEvent[] = [...(lead.stage_history ?? []), { stage: v, at: now, by: by ?? null }];
+    // Best-effort: history/timestamp columns may not exist until their SQL is run.
+    try { await pipelineLeadService.update(lead.id, { stage_at: now, stage_history: history }); } catch { /* ignore */ }
+    return { error: null };
   },
 
   /** Upload a follow-up PDF / image / screenshot for a lead. */

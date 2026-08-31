@@ -675,6 +675,14 @@ function val(l: PipelineLead, k: keyof PipelineLead): string {
   return v == null ? "" : String(v).trim();
 }
 
+/** Fire the 🎉 Telegram ping when a lead is moved to Sale (from stepper or table dropdown). */
+function notifyStageChange(l: PipelineLead, v: PipelineStage) {
+  if (v !== "sale") return;
+  const value = l.estimated_value ? ` worth <b>₹${l.estimated_value}</b>` : "";
+  const poc = l.poc ? ` — closed by <b>${l.poc}</b>` : "";
+  sendTelegramMessage(`🎉 <b>SALE!</b> <b>${l.client ?? "A lead"}</b>${value} just moved to ✅ Sale${poc}.\n${window.location.origin}/dashboard/lead/${l.id}`);
+}
+
 /** Horizontal 6-step pipeline stepper with manual advance (skipping allowed) + Lost off-ramp. */
 function StageStepper({ lead, onChanged }: { lead: PipelineLead; onChanged: () => void }) {
   const [stage, setStage] = useState<PipelineStage>((lead.pipeline_stage as PipelineStage) ?? "lead");
@@ -690,23 +698,14 @@ function StageStepper({ lead, onChanged }: { lead: PipelineLead; onChanged: () =
     setStage(v);
     setSaving(true);
     setErr(null);
-    const { error } = await pipelineLeadService.update(lead.id, { pipeline_stage: v });
-    if (!error) {
-      // Track when the stage changed (best-effort; column may not exist yet).
-      try { await pipelineLeadService.update(lead.id, { stage_at: new Date().toISOString() }); } catch { /* ignore */ }
-    }
+    const { error } = await pipelineLeadService.changeStage(lead, v, lead.poc);
     setSaving(false);
     if (error) {
       setStage(prev);
       setErr(/pipeline_stage|column/i.test(error) ? "Stages aren't set up yet — run the pipeline_stage SQL in Supabase." : error);
       return;
     }
-    if (v === "sale") {
-      // 🎉 Celebrate in Telegram (fire-and-forget).
-      const value = lead.estimated_value ? ` worth <b>₹${lead.estimated_value}</b>` : "";
-      const poc = lead.poc ? ` — closed by <b>${lead.poc}</b>` : "";
-      sendTelegramMessage(`🎉 <b>SALE!</b> <b>${lead.client ?? "A lead"}</b>${value} just moved to ✅ Sale${poc}.\n${window.location.origin}/dashboard/lead/${lead.id}`);
-    }
+    notifyStageChange(lead, v);
     onChanged();
   }
 
@@ -724,11 +723,26 @@ function StageStepper({ lead, onChanged }: { lead: PipelineLead; onChanged: () =
             </span>
           ) : null; })()}
         </p>
-        {stage === "lost" ? (
-          <button onClick={() => moveTo("lead")} className="text-[11px] font-semibold text-[#7aa2ff] hover:underline">↩ Reopen as Lead</button>
-        ) : (
-          <button onClick={() => moveTo("lost")} className="text-[11px] font-semibold text-red-300/80 hover:text-red-300 hover:underline">✕ Mark Lost</button>
-        )}
+        <div className="flex items-center gap-2">
+          {/* Stage dropdown — quick jump to any stage */}
+          <select
+            value={stage}
+            disabled={saving}
+            onChange={(e) => moveTo(e.target.value as PipelineStage)}
+            className="rounded-md border border-white/15 bg-black/40 px-2 py-1 text-[12px] font-medium text-white focus:border-[#4b78ff] focus:outline-none [color-scheme:dark]"
+            title="Change stage"
+          >
+            {PIPELINE_STAGES.map((s) => (
+              <option key={s.value} value={s.value}>{s.icon} {s.label}</option>
+            ))}
+            <option value="lost">✕ Lost</option>
+          </select>
+          {stage === "lost" ? (
+            <button onClick={() => moveTo("lead")} className="text-[11px] font-semibold text-[#7aa2ff] hover:underline">↩ Reopen as Lead</button>
+          ) : (
+            <button onClick={() => moveTo("lost")} className="text-[11px] font-semibold text-red-300/80 hover:text-red-300 hover:underline">✕ Mark Lost</button>
+          )}
+        </div>
       </div>
 
       {stage === "lost" ? (
@@ -793,6 +807,32 @@ function StageStepper({ lead, onChanged }: { lead: PipelineLead; onChanged: () =
         </div>
       ) : null}
       {err ? <p className="mt-2 text-[12px] text-red-300/90">{err}</p> : null}
+
+      {/* Stage history — when the lead entered each stage */}
+      {(() => {
+        const hist = (lead.stage_history ?? []).slice();
+        if (!hist.length && lead.stage_at) hist.push({ stage: stage, at: lead.stage_at });
+        if (!hist.length) return null;
+        return (
+          <div className="mt-4 rounded-lg border border-white/10 bg-black/25 p-3">
+            <p className="mb-2 text-[10.5px] font-semibold uppercase tracking-wide text-white/40">📜 Stage history</p>
+            <ol className="flex flex-col gap-1.5">
+              {hist.slice().reverse().map((h, i) => {
+                const d = stageDef(h.stage);
+                return (
+                  <li key={`${h.stage}-${h.at}-${i}`} className="flex items-center gap-2 text-[12px]">
+                    <span className={`size-1.5 shrink-0 rounded-full ${d.dot}`} />
+                    <span className={`shrink-0 rounded-md border px-1.5 py-0.5 text-[11px] font-semibold ${d.chip}`}>{d.icon} {d.short}</span>
+                    <span className="text-white/55">{formatDateTime(h.at)}</span>
+                    {h.by ? <span className="text-white/35">· by {h.by}</span> : null}
+                    {i === 0 ? <span className="ml-auto text-[10px] font-semibold uppercase tracking-wide text-emerald-400/80">current</span> : null}
+                  </li>
+                );
+              })}
+            </ol>
+          </div>
+        );
+      })()}
     </div>
   );
 }
@@ -1845,7 +1885,7 @@ export default function PipelineDashboard() {
             <div className="sticky left-0 z-10 w-[240px] shrink-0 bg-[#11151f] px-4 py-3 shadow-[1px_0_0_rgba(255,255,255,0.06)]">Client</div>
             <div className="w-[150px] shrink-0 px-4 py-3">POC</div>
             <div className="w-[230px] shrink-0 px-4 py-3">Industry</div>
-            <div className="w-[150px] shrink-0 px-4 py-3">Stage</div>
+            <div className="w-[170px] shrink-0 px-4 py-3">Stage</div>
             <div className="w-[230px] shrink-0 px-4 py-3">Next Step</div>
             <div className="w-[130px] shrink-0 px-4 py-3">Est. Value</div>
             <div className="w-[120px] shrink-0 px-4 py-3">Added</div>
@@ -1897,19 +1937,31 @@ export default function PipelineDashboard() {
                   <div className={`${cell} flex w-[150px] items-center`}><PocCell name={l.poc} /></div>
                   {/* Industry */}
                   <div className={`${cell} w-[230px] truncate text-white/70`} title={l.industry || l.business || ""}>{l.industry || l.business || "—"}</div>
-                  {/* Stage */}
-                  <div className={`${cell} w-[150px]`}>
-                    <span
-                      className={`inline-flex max-w-full items-center gap-1 truncate rounded-md border px-2 py-1 text-[11px] font-semibold ${sd.chip}`}
+                  {/* Stage — dropdown for quick change */}
+                  <div className={`${cell} flex w-[170px] items-center gap-1`}>
+                    <select
+                      value={(l.pipeline_stage as string) ?? "lead"}
+                      onChange={async (e) => {
+                        const v = e.target.value as PipelineStage;
+                        const { error } = await pipelineLeadService.changeStage(l, v, l.poc);
+                        if (error) { window.alert(error); return; }
+                        notifyStageChange(l, v);
+                        void load();
+                      }}
+                      onClick={(e) => e.stopPropagation()}
+                      className={`max-w-[112px] cursor-pointer appearance-none truncate rounded-md border px-2 py-1 text-[11px] font-semibold focus:outline-none [color-scheme:dark] ${sd.chip}`}
+                      style={{ backgroundColor: "transparent" }}
                       title={`${sd.label}${sCounter ? ` · ${sCounter}` : ""}${l.current_stage ? ` · notes: ${l.current_stage}` : ""}`}
                     >
-                      {sd.icon} {sd.short}
-                      {sCounter ? <span className={`tabular-nums ${sUnder ? "text-amber-300" : ""}`}>· {sCounter}</span> : null}
-                      {sUnder ? "⚠" : null}
-                    </span>
+                      {PIPELINE_STAGES.map((s) => (
+                        <option key={s.value} value={s.value} className="bg-[#0c1020] text-white">{s.icon} {s.short}</option>
+                      ))}
+                      <option value="lost" className="bg-[#0c1020] text-white">✕ Lost</option>
+                    </select>
+                    {sCounter ? <span className={`text-[10px] font-semibold tabular-nums ${sUnder ? "text-amber-300" : "text-white/45"}`}>{sCounter}{sUnder ? "⚠" : ""}</span> : null}
                     {sAge.stuck ? (
-                      <span className="ml-1 inline-flex items-center rounded-md border border-red-400/45 bg-red-400/10 px-1.5 py-1 text-[10px] font-bold text-red-300" title={`Stuck in ${sd.short} for ${sAge.days} days — move it forward!`}>
-                        ⏰ {sAge.days}d
+                      <span className="inline-flex items-center rounded-md border border-red-400/45 bg-red-400/10 px-1 py-0.5 text-[10px] font-bold text-red-300" title={`Stuck in ${sd.short} for ${sAge.days} days — move it forward!`}>
+                        ⏰{sAge.days}d
                       </span>
                     ) : null}
                   </div>
