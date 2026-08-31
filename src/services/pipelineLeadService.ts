@@ -33,6 +33,8 @@ export type PipelineLead = {
   phone: string | null;
   website: string | null;
   description: string | null;
+  /** Staged pipeline position: lead → pre_call → call → meeting → post_meeting → sale (or lost). */
+  pipeline_stage: PipelineStage | null;
   /** Up to 30 numbered follow-up proofs (attachment + note/date/owner). */
   followups: FollowupProof[] | null;
   /** Point of contact (team member handling this lead). */
@@ -54,7 +56,53 @@ export type FollowupProof = {
   by: string | null;
   at: string;
   file: PipelineAttachment;
+  /** Which pipeline phase this follow-up belongs to (pre-call target 3, post-meeting target 7). */
+  phase?: "pre_call" | "post_meeting";
 };
+
+/* ---------- Staged pipeline ---------- */
+
+export type PipelineStage = "lead" | "pre_call" | "call" | "meeting" | "post_meeting" | "sale" | "lost";
+
+export type StageDef = {
+  value: PipelineStage;
+  label: string;
+  short: string;
+  icon: string;
+  /** Follow-up target while in this stage (pre_call: 3, post_meeting: 7). */
+  target?: number;
+  /** Chip classes for badges. */
+  chip: string;
+  /** Solid dot / bar colour. */
+  dot: string;
+};
+
+/** The ordered main path (lost is an off-ramp, not part of the path). */
+export const PIPELINE_STAGES: StageDef[] = [
+  { value: "lead", label: "Lead", short: "Lead", icon: "🟡", chip: "border-blue-400/40 bg-blue-400/10 text-blue-300", dot: "bg-blue-400" },
+  { value: "pre_call", label: "Follow-ups before call", short: "Pre-call", icon: "🔁", target: 3, chip: "border-cyan-400/40 bg-cyan-400/10 text-cyan-300", dot: "bg-cyan-400" },
+  { value: "call", label: "Call", short: "Call", icon: "📞", chip: "border-violet-400/40 bg-violet-400/10 text-violet-300", dot: "bg-violet-400" },
+  { value: "meeting", label: "Meeting", short: "Meeting", icon: "📅", chip: "border-orange-400/40 bg-orange-400/10 text-orange-300", dot: "bg-orange-400" },
+  { value: "post_meeting", label: "Follow-ups after meeting", short: "Post-meeting", icon: "🔂", target: 7, chip: "border-amber-400/40 bg-amber-400/10 text-amber-300", dot: "bg-amber-400" },
+  { value: "sale", label: "Sale", short: "Sale", icon: "✅", chip: "border-emerald-400/40 bg-emerald-400/10 text-emerald-300", dot: "bg-emerald-400" },
+];
+
+export const LOST_STAGE: StageDef = { value: "lost", label: "Lost", short: "Lost", icon: "✕", chip: "border-red-400/40 bg-red-400/10 text-red-300", dot: "bg-red-400" };
+
+export function stageDef(v?: string | null): StageDef {
+  if (v === "lost") return LOST_STAGE;
+  return PIPELINE_STAGES.find((s) => s.value === v) ?? PIPELINE_STAGES[0];
+}
+
+export function stageIndex(v?: string | null): number {
+  const i = PIPELINE_STAGES.findIndex((s) => s.value === v);
+  return i === -1 ? 0 : i;
+}
+
+/** Count follow-ups for one phase. Untagged legacy entries count toward pre_call. */
+export function followupCount(lead: Pick<PipelineLead, "followups">, phase: "pre_call" | "post_meeting"): number {
+  return (lead.followups ?? []).filter((f) => (f.phase ?? "pre_call") === phase).length;
+}
 
 export type PipelineLeadInput = Omit<PipelineLead, "id" | "created_at" | "updated_at">;
 

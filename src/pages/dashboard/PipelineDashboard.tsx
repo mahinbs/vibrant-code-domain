@@ -4,6 +4,12 @@ import { Helmet } from "react-helmet-async";
 import { pipelineAuth } from "@/services/pipelineAuth";
 import {
   pipelineLeadService,
+  PIPELINE_STAGES,
+  LOST_STAGE,
+  stageDef,
+  stageIndex,
+  followupCount,
+  type PipelineStage,
   type FollowupProof,
   type PipelineAttachment,
   type PipelineLead,
@@ -304,6 +310,12 @@ function FollowupsSection({ lead, onChanged }: { lead: PipelineLead; onChanged?:
   const [by, setBy] = useState("");
   const [uploading, setUploading] = useState(false);
   const [err, setErr] = useState<string | null>(null);
+  // New proofs are tagged by where the lead is in the pipeline:
+  // before the meeting stage → pre-call (target 3); meeting onwards → post-meeting (target 7).
+  const curPhase: "pre_call" | "post_meeting" =
+    stageIndex(lead.pipeline_stage) >= stageIndex("meeting") ? "post_meeting" : "pre_call";
+  const preCount = items.filter((f) => (f.phase ?? "pre_call") === "pre_call").length;
+  const postCount = items.filter((f) => f.phase === "post_meeting").length;
 
   async function addFollowup(files: FileList | null) {
     if (!files || !files.length) return;
@@ -320,6 +332,7 @@ function FollowupsSection({ lead, onChanged }: { lead: PipelineLead; onChanged?:
       by: by || null,
       at: new Date().toISOString(),
       file: attachment,
+      phase: curPhase,
     };
     const next = [...items, entry];
     const { error: e2 } = await pipelineLeadService.update(lead.id, { followups: next });
@@ -349,11 +362,17 @@ function FollowupsSection({ lead, onChanged }: { lead: PipelineLead; onChanged?:
         <p className="text-[13px] font-medium text-white/80">
           Follow-up proofs <span className="text-white/45">{items.length}/{MAX_FOLLOWUPS}</span>
         </p>
-        {items.length === 0 ? (
-          <span className="rounded-full border border-red-400/45 bg-red-400/10 px-2 py-0.5 text-[11px] font-semibold text-red-300">⚠ Follow-up not started</span>
-        ) : (
-          <span className="rounded-full border border-emerald-400/40 bg-emerald-400/10 px-2 py-0.5 text-[11px] font-medium text-emerald-300">✓ {items.length} follow-up{items.length === 1 ? "" : "s"} sent</span>
-        )}
+        <div className="flex flex-wrap items-center gap-1.5">
+          <span className={`rounded-full border px-2 py-0.5 text-[11px] font-medium tabular-nums ${preCount >= 3 ? "border-emerald-400/40 bg-emerald-400/10 text-emerald-300" : "border-cyan-400/40 bg-cyan-400/10 text-cyan-300"}`} title="Follow-ups before the call (target 3)">
+            🔁 Pre-call {preCount}/3
+          </span>
+          <span className={`rounded-full border px-2 py-0.5 text-[11px] font-medium tabular-nums ${postCount >= 7 ? "border-emerald-400/40 bg-emerald-400/10 text-emerald-300" : "border-amber-400/40 bg-amber-400/10 text-amber-300"}`} title="Follow-ups after the meeting (target 7)">
+            🔂 Post-meeting {postCount}/7
+          </span>
+          {items.length === 0 ? (
+            <span className="rounded-full border border-red-400/45 bg-red-400/10 px-2 py-0.5 text-[11px] font-semibold text-red-300">⚠ Not started</span>
+          ) : null}
+        </div>
       </div>
 
       {items.length === 0 ? (
@@ -366,6 +385,9 @@ function FollowupsSection({ lead, onChanged }: { lead: PipelineLead; onChanged?:
                 <span className="flex size-5 shrink-0 items-center justify-center rounded-full bg-[#4b78ff]/25 text-[11px] font-semibold text-[#9dbaff]">{f.n}</span>
                 <span className="text-[13px]">{f.file.type.startsWith("image/") ? "🖼️" : "📄"}</span>
                 <a href={f.file.url} target="_blank" rel="noopener noreferrer" className="min-w-0 flex-1 truncate text-[12px] text-[#7aa2ff] hover:underline">{f.file.name}</a>
+                <span className={`rounded-full border px-1.5 py-0.5 text-[10px] font-medium ${(f.phase ?? "pre_call") === "post_meeting" ? "border-amber-400/40 bg-amber-400/10 text-amber-300" : "border-cyan-400/40 bg-cyan-400/10 text-cyan-300"}`} title={(f.phase ?? "pre_call") === "post_meeting" ? "After-meeting follow-up" : "Before-call follow-up"}>
+                  {(f.phase ?? "pre_call") === "post_meeting" ? "🔂 post" : "🔁 pre"}
+                </span>
                 {f.by ? <span className="rounded-full border border-white/15 bg-white/5 px-1.5 py-0.5 text-[10px] text-white/55">{f.by === "AI" ? "🤖 AI" : f.by}</span> : null}
                 <a href={`${f.file.url}?download=${encodeURIComponent(f.file.name)}`} className="text-[11px] text-white/50 hover:text-white" title="Download">⬇</a>
                 <button onClick={() => removeFollowup(idx)} className="text-[11px] text-red-300/80 hover:underline" type="button">Remove</button>
@@ -399,7 +421,12 @@ function FollowupsSection({ lead, onChanged }: { lead: PipelineLead; onChanged?:
               <input type="file" accept="application/pdf,image/*" className="hidden" disabled={uploading} onChange={(e) => addFollowup(e.target.files)} />
             </label>
           </div>
-          <p className="text-[11px] text-white/35">Attach the screenshot / PDF of this follow-up · up to 15 MB</p>
+          <p className="text-[11px] text-white/35">
+            Attach the screenshot / PDF of this follow-up · up to 15 MB · counts toward{" "}
+            <span className={curPhase === "post_meeting" ? "font-semibold text-amber-300" : "font-semibold text-cyan-300"}>
+              {curPhase === "post_meeting" ? "🔂 post-meeting (7)" : "🔁 pre-call (3)"}
+            </span>
+          </p>
         </div>
       ) : (
         <p className="text-[12px] text-emerald-300/80">All {MAX_FOLLOWUPS} follow-up slots used.</p>
@@ -646,6 +673,111 @@ function val(l: PipelineLead, k: keyof PipelineLead): string {
   return v == null ? "" : String(v).trim();
 }
 
+/** Horizontal 6-step pipeline stepper with manual advance (skipping allowed) + Lost off-ramp. */
+function StageStepper({ lead, onChanged }: { lead: PipelineLead; onChanged: () => void }) {
+  const [stage, setStage] = useState<PipelineStage>((lead.pipeline_stage as PipelineStage) ?? "lead");
+  const [saving, setSaving] = useState(false);
+  const [err, setErr] = useState<string | null>(null);
+  const idx = stage === "lost" ? -1 : stageIndex(stage);
+  const preCount = followupCount(lead, "pre_call");
+  const postCount = followupCount(lead, "post_meeting");
+
+  async function moveTo(v: PipelineStage) {
+    if (saving || v === stage) return;
+    const prev = stage;
+    setStage(v);
+    setSaving(true);
+    setErr(null);
+    const { error } = await pipelineLeadService.update(lead.id, { pipeline_stage: v });
+    setSaving(false);
+    if (error) {
+      setStage(prev);
+      setErr(/pipeline_stage|column/i.test(error) ? "Stages aren't set up yet — run the pipeline_stage SQL in Supabase." : error);
+      return;
+    }
+    onChanged();
+  }
+
+  const counterFor = (v: PipelineStage) =>
+    v === "pre_call" ? `${preCount}/3` : v === "post_meeting" ? `${postCount}/7` : null;
+
+  return (
+    <div>
+      <div className="mb-2 flex items-center justify-between">
+        <p className="text-[11px] uppercase tracking-wide text-white/40">Pipeline stage</p>
+        {stage === "lost" ? (
+          <button onClick={() => moveTo("lead")} className="text-[11px] font-semibold text-[#7aa2ff] hover:underline">↩ Reopen as Lead</button>
+        ) : (
+          <button onClick={() => moveTo("lost")} className="text-[11px] font-semibold text-red-300/80 hover:text-red-300 hover:underline">✕ Mark Lost</button>
+        )}
+      </div>
+
+      {stage === "lost" ? (
+        <div className="rounded-lg border border-red-400/40 bg-red-400/10 px-3 py-2.5 text-[13px] font-semibold text-red-300">
+          ✕ This lead is marked Lost. Reopen it to continue the pipeline.
+        </div>
+      ) : (
+        <div className="flex items-start">
+          {PIPELINE_STAGES.map((s, i) => {
+            const done = i < idx;
+            const current = i === idx;
+            const counter = counterFor(s.value);
+            const underTarget = current && s.target != null && (s.value === "pre_call" ? preCount : postCount) < s.target;
+            return (
+              <div key={s.value} className="flex min-w-0 flex-1 flex-col items-center">
+                <div className="flex w-full items-center">
+                  <div className={`h-0.5 flex-1 ${i === 0 ? "opacity-0" : done || current ? s.dot : "bg-white/10"}`} />
+                  <button
+                    type="button"
+                    disabled={saving}
+                    onClick={() => moveTo(s.value)}
+                    title={`${s.label}${counter ? ` · ${counter}` : ""} — click to set stage`}
+                    className={`flex size-8 shrink-0 items-center justify-center rounded-full border text-[13px] transition-all ${
+                      done
+                        ? `border-transparent ${s.dot} text-white`
+                        : current
+                          ? `border-white/70 bg-white/10 ring-2 ring-white/25 ${underTarget ? "ring-amber-400/60" : ""}`
+                          : "border-white/15 bg-white/[0.03] text-white/40 hover:border-white/40 hover:text-white"
+                    }`}
+                  >
+                    {done ? "✓" : s.icon}
+                  </button>
+                  <div className={`h-0.5 flex-1 ${i === PIPELINE_STAGES.length - 1 ? "opacity-0" : done ? PIPELINE_STAGES[i + 1].dot : "bg-white/10"}`} />
+                </div>
+                <p className={`mt-1.5 px-0.5 text-center text-[10px] leading-tight ${current ? "font-bold text-white" : done ? "text-white/70" : "text-white/35"}`}>
+                  {s.short}
+                </p>
+                {counter ? (
+                  <p className={`text-[10px] font-semibold tabular-nums ${current && underTarget ? "text-amber-300" : "text-white/45"}`}>{counter}</p>
+                ) : null}
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {/* Stage-aware next action */}
+      {stage !== "lost" && stage !== "sale" ? (
+        <div className="mt-3 flex flex-wrap items-center gap-2">
+          {stage === "pre_call" && preCount < 3 ? (
+            <span className="text-[12px] text-amber-300/90">⚠ {3 - preCount} more follow-up{3 - preCount === 1 ? "" : "s"} before the call — attach proof below.</span>
+          ) : stage === "post_meeting" && postCount < 7 ? (
+            <span className="text-[12px] text-amber-300/90">⚠ {7 - postCount} more follow-up{7 - postCount === 1 ? "" : "s"} after the meeting — attach proof below.</span>
+          ) : null}
+          <button
+            onClick={() => moveTo(PIPELINE_STAGES[Math.min(idx + 1, PIPELINE_STAGES.length - 1)].value)}
+            disabled={saving}
+            className="ml-auto rounded-lg bg-[#4b78ff] px-3 py-1.5 text-[12px] font-semibold text-white hover:bg-[#3d63d8] disabled:opacity-60"
+          >
+            {saving ? "Saving…" : `${PIPELINE_STAGES[Math.min(idx + 1, PIPELINE_STAGES.length - 1)].icon} Mark ${PIPELINE_STAGES[Math.min(idx + 1, PIPELINE_STAGES.length - 1)].short} →`}
+          </button>
+        </div>
+      ) : null}
+      {err ? <p className="mt-2 text-[12px] text-red-300/90">{err}</p> : null}
+    </div>
+  );
+}
+
 function LeadDetailModal({
   lead,
   onClose,
@@ -740,8 +872,13 @@ function LeadDetailModal({
         </div>
 
         <div className="max-h-[65vh] overflow-y-auto px-6 pb-6">
-          {/* POC */}
+          {/* Pipeline stage stepper */}
           <div className="border-t border-white/10 pt-5">
+            <StageStepper lead={lead} onChanged={onChanged} />
+          </div>
+
+          {/* POC */}
+          <div className="mt-5 border-t border-white/10 pt-5">
             <p className="mb-2 text-[11px] uppercase tracking-wide text-white/40">POC (point of contact)</p>
             <div className="flex flex-wrap gap-2">
               {POC_OPTIONS.map((n) => (
@@ -1267,6 +1404,7 @@ export default function PipelineDashboard() {
   const [fileFilter, setFileFilter] = useState<"all" | "missing" | "has">("all");
   const [ratingFilter, setRatingFilter] = useState<string>("all");
   const [pocFilter, setPocFilter] = useState<string>("all");
+  const [stageFilter, setStageFilter] = useState<string>("all");
   const [view, setView] = useState<"leads" | "meetings" | "report">("leads");
   const [scheduleOpen, setScheduleOpen] = useState(false);
   const [modal, setModal] = useState<{ open: boolean; lead: PipelineLead | null }>({ open: false, lead: null });
@@ -1312,6 +1450,7 @@ export default function PipelineDashboard() {
         return true;
       })
       .filter((l) => (ratingFilter === "all" ? true : (l.responsiveness ?? "") === ratingFilter))
+      .filter((l) => (stageFilter === "all" ? true : (l.pipeline_stage ?? "lead") === stageFilter))
       .filter((l) =>
         pocFilter === "all" ? true : pocFilter === "__none" ? !l.poc : (l.poc ?? "") === pocFilter,
       )
@@ -1322,7 +1461,7 @@ export default function PipelineDashboard() {
               .toLowerCase()
               .includes(q),
       );
-  }, [leads, tab, search, range, fileFilter, ratingFilter, pocFilter]);
+  }, [leads, tab, search, range, fileFilter, ratingFilter, pocFilter, stageFilter]);
 
   const meetings = useMemo(() => {
     const q = search.trim().toLowerCase();
@@ -1342,19 +1481,19 @@ export default function PipelineDashboard() {
     return { att: att.length, unatt: unatt.length, pipelineValue, missingFiles, upcomingMeetings };
   }, [leads]);
 
-  // Right-rail: stage distribution + conversion.
+  // Right-rail: structured 6-stage funnel + conversion (+ lost).
   const overview = useMemo(() => {
     const counts = new Map<string, number>();
-    let won = 0;
     for (const l of leads) {
-      const s = (l.current_stage || "Unspecified").trim() || "Unspecified";
+      const s = (l.pipeline_stage as string) || "lead";
       counts.set(s, (counts.get(s) ?? 0) + 1);
-      if (/won/i.test(l.current_stage ?? "") || /won/i.test(l.status ?? "")) won++;
     }
-    const list = [...counts.entries()].sort((a, b) => b[1] - a[1]).slice(0, 6);
-    const max = list.reduce((m, [, n]) => Math.max(m, n), 1);
+    const list = PIPELINE_STAGES.map((s) => ({ def: s, n: counts.get(s.value) ?? 0 }));
+    const lost = counts.get("lost") ?? 0;
+    const won = counts.get("sale") ?? 0;
+    const max = list.reduce((m, x) => Math.max(m, x.n), 1);
     const conversion = leads.length ? Math.round((won / leads.length) * 1000) / 10 : 0;
-    return { list, max, conversion, won };
+    return { list, max, conversion, won, lost };
   }, [leads]);
 
   const upcomingTasks = useMemo(() => {
@@ -1548,6 +1687,18 @@ export default function PipelineDashboard() {
               <option value="has">Has file</option>
             </select>
             <select
+              value={stageFilter}
+              onChange={(e) => setStageFilter(e.target.value)}
+              className="rounded-lg border border-white/15 bg-black/40 px-3 py-2 text-sm text-white focus:border-[#4b78ff] focus:outline-none"
+              title="Filter by pipeline stage"
+            >
+              <option value="all">All stages</option>
+              {PIPELINE_STAGES.map((s) => (
+                <option key={s.value} value={s.value}>{s.icon} {s.short}</option>
+              ))}
+              <option value="lost">✕ Lost</option>
+            </select>
+            <select
               value={ratingFilter}
               onChange={(e) => setRatingFilter(e.target.value)}
               className="rounded-lg border border-white/15 bg-black/40 px-3 py-2 text-sm text-white focus:border-[#4b78ff] focus:outline-none"
@@ -1689,7 +1840,11 @@ export default function PipelineDashboard() {
             <div className="px-4 py-12 text-center text-white/40">No leads match these filters.</div>
           ) : (
             rows.map((l) => {
-              const badge = stageBadge(l.current_stage);
+              const sd = stageDef(l.pipeline_stage);
+              const spre = followupCount(l, "pre_call");
+              const spost = followupCount(l, "post_meeting");
+              const sCounter = sd.value === "pre_call" ? `${spre}/3` : sd.value === "post_meeting" ? `${spost}/7` : null;
+              const sUnder = (sd.value === "pre_call" && spre < 3) || (sd.value === "post_meeting" && spost < 7);
               const rating = ratingOf(l.responsiveness);
               const hasFile = (l.attachments?.length ?? 0) > 0;
               const nFollow = l.followups?.length ?? 0;
@@ -1724,7 +1879,14 @@ export default function PipelineDashboard() {
                   <div className={`${cell} w-[230px] truncate text-white/70`} title={l.industry || l.business || ""}>{l.industry || l.business || "—"}</div>
                   {/* Stage */}
                   <div className={`${cell} w-[150px]`}>
-                    <span className={`inline-block max-w-full truncate rounded-md border px-2 py-1 text-[11px] font-semibold ${badge.cls}`} title={l.current_stage ?? ""}>{badge.label}</span>
+                    <span
+                      className={`inline-flex max-w-full items-center gap-1 truncate rounded-md border px-2 py-1 text-[11px] font-semibold ${sd.chip}`}
+                      title={`${sd.label}${sCounter ? ` · ${sCounter}` : ""}${l.current_stage ? ` · notes: ${l.current_stage}` : ""}`}
+                    >
+                      {sd.icon} {sd.short}
+                      {sCounter ? <span className={`tabular-nums ${sUnder ? "text-amber-300" : ""}`}>· {sCounter}</span> : null}
+                      {sUnder ? "⚠" : null}
+                    </span>
                   </div>
                   {/* Next step */}
                   <div className={`${cell} w-[230px] truncate text-white/70`} title={l.next_step || l.status || ""}>{l.next_step || l.status || "—"}</div>
@@ -1759,24 +1921,35 @@ export default function PipelineDashboard() {
             {/* ===== Right rail ===== */}
             <aside className="hidden w-[300px] shrink-0 space-y-4 xl:block">
               <RailCard title="Pipeline Overview" action={<span className="text-[11px] font-semibold text-emerald-400">{overview.conversion}% conv.</span>}>
-                {overview.list.length === 0 ? (
+                {leads.length === 0 ? (
                   <p className="text-[12.5px] text-white/40">No leads yet.</p>
                 ) : (
                   <div className="space-y-2.5">
-                    {overview.list.map(([stage, n]) => {
-                      const b = stageBadge(stage);
-                      return (
-                        <div key={stage}>
-                          <div className="mb-1 flex items-center justify-between text-[12px]">
-                            <span className="truncate text-white/70">{stage}</span>
-                            <span className="font-semibold text-white/90">{n}</span>
-                          </div>
-                          <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/8">
-                            <div className={`h-full rounded-full ${b.cls.split(" ").find((c) => c.startsWith("bg-")) ?? "bg-white/30"}`} style={{ width: `${Math.max(6, (n / overview.max) * 100)}%` }} />
-                          </div>
+                    {overview.list.map(({ def, n }) => (
+                      <button
+                        key={def.value}
+                        onClick={() => { setView("leads"); setStageFilter(stageFilter === def.value ? "all" : def.value); }}
+                        className="block w-full text-left"
+                        title={`${def.label} — click to filter`}
+                      >
+                        <div className="mb-1 flex items-center justify-between text-[12px]">
+                          <span className={`truncate ${stageFilter === def.value ? "font-bold text-white" : "text-white/70"}`}>{def.icon} {def.short}</span>
+                          <span className="font-semibold tabular-nums text-white/90">{n}</span>
                         </div>
-                      );
-                    })}
+                        <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/8">
+                          <div className={`h-full rounded-full ${def.dot}`} style={{ width: `${Math.max(4, (n / overview.max) * 100)}%` }} />
+                        </div>
+                      </button>
+                    ))}
+                    {overview.lost > 0 ? (
+                      <button
+                        onClick={() => { setView("leads"); setStageFilter(stageFilter === "lost" ? "all" : "lost"); }}
+                        className="flex w-full items-center justify-between pt-1 text-[12px]"
+                      >
+                        <span className={stageFilter === "lost" ? "font-bold text-red-300" : "text-red-300/70"}>✕ Lost</span>
+                        <span className="font-semibold tabular-nums text-red-300/90">{overview.lost}</span>
+                      </button>
+                    ) : null}
                   </div>
                 )}
               </RailCard>
