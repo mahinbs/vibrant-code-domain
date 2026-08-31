@@ -11,6 +11,7 @@ import {
   followupCount,
   stageAge,
   type PipelineStage,
+  type StageEvent,
   type FollowupProof,
   type PipelineAttachment,
   type PipelineLead,
@@ -686,6 +687,8 @@ function notifyStageChange(l: PipelineLead, v: PipelineStage) {
 /** Horizontal 6-step pipeline stepper with manual advance (skipping allowed) + Lost off-ramp. */
 function StageStepper({ lead, onChanged }: { lead: PipelineLead; onChanged: () => void }) {
   const [stage, setStage] = useState<PipelineStage>((lead.pipeline_stage as PipelineStage) ?? "lead");
+  // Local copy of the history so consecutive moves + undo work without a reload.
+  const [history, setHistory] = useState<StageEvent[]>(lead.stage_history ?? []);
   const [saving, setSaving] = useState(false);
   const [err, setErr] = useState<string | null>(null);
   const idx = stage === "lost" ? -1 : stageIndex(stage);
@@ -695,17 +698,46 @@ function StageStepper({ lead, onChanged }: { lead: PipelineLead; onChanged: () =
   async function moveTo(v: PipelineStage) {
     if (saving || v === stage) return;
     const prev = stage;
+    const now = new Date().toISOString();
+    // If the log is empty (lead added before history existed), seed it with the
+    // stage we're leaving so the change is undoable.
+    const base: StageEvent[] = history.length
+      ? history
+      : [{ stage: prev, at: lead.stage_at ?? lead.created_at ?? now, by: null }];
+    const nextHist: StageEvent[] = [...base, { stage: v, at: now, by: lead.poc ?? null }];
     setStage(v);
     setSaving(true);
     setErr(null);
-    const { error } = await pipelineLeadService.changeStage(lead, v, lead.poc);
+    const { error } = await pipelineLeadService.update(lead.id, { pipeline_stage: v });
+    if (!error) {
+      try { await pipelineLeadService.update(lead.id, { stage_at: now, stage_history: nextHist }); } catch { /* columns may be missing */ }
+    }
     setSaving(false);
     if (error) {
       setStage(prev);
       setErr(/pipeline_stage|column/i.test(error) ? "Stages aren't set up yet — run the pipeline_stage SQL in Supabase." : error);
       return;
     }
+    setHistory(nextHist);
     notifyStageChange(lead, v);
+    onChanged();
+  }
+
+  /** Revert the last stage change: back to the previous history entry (with its original entry time). */
+  async function undo() {
+    if (saving || history.length < 2) return;
+    const target = history[history.length - 2];
+    const nextHist = history.slice(0, -1);
+    setSaving(true);
+    setErr(null);
+    const { error } = await pipelineLeadService.update(lead.id, { pipeline_stage: target.stage });
+    if (!error) {
+      try { await pipelineLeadService.update(lead.id, { stage_at: target.at, stage_history: nextHist }); } catch { /* ignore */ }
+    }
+    setSaving(false);
+    if (error) { setErr(error); return; }
+    setStage(target.stage);
+    setHistory(nextHist);
     onChanged();
   }
 
@@ -724,6 +756,17 @@ function StageStepper({ lead, onChanged }: { lead: PipelineLead; onChanged: () =
           ) : null; })()}
         </p>
         <div className="flex items-center gap-2">
+          {/* Undo the last stage change (reverts to the previous history entry) */}
+          {history.length >= 2 ? (
+            <button
+              onClick={undo}
+              disabled={saving}
+              title={`Undo — back to ${stageDef(history[history.length - 2].stage).label}`}
+              className="rounded-md border border-white/15 px-2 py-1 text-[11px] font-semibold text-white/70 hover:bg-white/5 hover:text-white disabled:opacity-50"
+            >
+              ↩ Undo
+            </button>
+          ) : null}
           {/* Stage dropdown — quick jump to any stage */}
           <select
             value={stage}
@@ -810,7 +853,7 @@ function StageStepper({ lead, onChanged }: { lead: PipelineLead; onChanged: () =
 
       {/* Stage history — when the lead entered each stage */}
       {(() => {
-        const hist = (lead.stage_history ?? []).slice();
+        const hist = history.slice();
         if (!hist.length && lead.stage_at) hist.push({ stage: stage, at: lead.stage_at });
         if (!hist.length) return null;
         return (

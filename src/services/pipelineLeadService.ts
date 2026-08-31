@@ -199,14 +199,18 @@ export const pipelineLeadService = {
 
   /** Change a lead's pipeline stage: sets stage, stamps stage_at, appends to stage_history. */
   async changeStage(
-    lead: Pick<PipelineLead, "id" | "stage_history">,
+    lead: Pick<PipelineLead, "id" | "stage_history" | "pipeline_stage" | "stage_at" | "created_at">,
     v: PipelineStage,
     by?: string | null,
   ): Promise<{ error: string | null }> {
     const { error } = await pipelineLeadService.update(lead.id, { pipeline_stage: v });
     if (error) return { error };
     const now = new Date().toISOString();
-    const history: StageEvent[] = [...(lead.stage_history ?? []), { stage: v, at: now, by: by ?? null }];
+    // Seed an empty log with the stage being left so the change is undoable.
+    const base: StageEvent[] = lead.stage_history?.length
+      ? lead.stage_history
+      : [{ stage: (lead.pipeline_stage as PipelineStage) ?? "lead", at: lead.stage_at ?? lead.created_at ?? now, by: null }];
+    const history: StageEvent[] = [...base, { stage: v, at: now, by: by ?? null }];
     // Best-effort: history/timestamp columns may not exist until their SQL is run.
     try { await pipelineLeadService.update(lead.id, { stage_at: now, stage_history: history }); } catch { /* ignore */ }
     return { error: null };
