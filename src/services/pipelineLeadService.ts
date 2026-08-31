@@ -35,6 +35,8 @@ export type PipelineLead = {
   description: string | null;
   /** Staged pipeline position: lead → pre_call → call → meeting → post_meeting → sale (or lost). */
   pipeline_stage: PipelineStage | null;
+  /** When the lead entered its current stage (for stuck-too-long alerts). */
+  stage_at: string | null;
   /** Up to 30 numbered follow-up proofs (attachment + note/date/owner). */
   followups: FollowupProof[] | null;
   /** Point of contact (team member handling this lead). */
@@ -102,6 +104,24 @@ export function stageIndex(v?: string | null): number {
 /** Count follow-ups for one phase. Untagged legacy entries count toward pre_call. */
 export function followupCount(lead: Pick<PipelineLead, "followups">, phase: "pre_call" | "post_meeting"): number {
   return (lead.followups ?? []).filter((f) => (f.phase ?? "pre_call") === phase).length;
+}
+
+/** Days a lead may sit in each stage before it counts as "stuck". */
+const STUCK_AFTER_DAYS: Partial<Record<PipelineStage, number>> = {
+  lead: 3,
+  pre_call: 5,
+  call: 3,
+  meeting: 5,
+  post_meeting: 10,
+};
+
+/** Whole days the lead has been in its current stage, and whether that's too long. */
+export function stageAge(lead: Pick<PipelineLead, "pipeline_stage" | "stage_at" | "updated_at" | "created_at">): { days: number; stuck: boolean } {
+  const since = lead.stage_at || lead.updated_at || lead.created_at;
+  if (!since) return { days: 0, stuck: false };
+  const days = Math.floor((Date.now() - new Date(since).getTime()) / 86400000);
+  const limit = STUCK_AFTER_DAYS[(lead.pipeline_stage as PipelineStage) ?? "lead"];
+  return { days, stuck: limit != null && days > limit };
 }
 
 export type PipelineLeadInput = Omit<PipelineLead, "id" | "created_at" | "updated_at">;

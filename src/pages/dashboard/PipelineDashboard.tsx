@@ -9,6 +9,7 @@ import {
   stageDef,
   stageIndex,
   followupCount,
+  stageAge,
   type PipelineStage,
   type FollowupProof,
   type PipelineAttachment,
@@ -16,6 +17,7 @@ import {
   type PipelineTab,
 } from "@/services/pipelineLeadService";
 import { syncDescriptionToSheet } from "@/services/pipelineSheetSync";
+import { sendTelegramMessage } from "@/redesign/lib/notifyTelegramLead";
 import { PdfPreview } from "@/components/dashboard/PdfPreview";
 
 const TABS: { key: PipelineTab; label: string }[] = [
@@ -689,11 +691,21 @@ function StageStepper({ lead, onChanged }: { lead: PipelineLead; onChanged: () =
     setSaving(true);
     setErr(null);
     const { error } = await pipelineLeadService.update(lead.id, { pipeline_stage: v });
+    if (!error) {
+      // Track when the stage changed (best-effort; column may not exist yet).
+      try { await pipelineLeadService.update(lead.id, { stage_at: new Date().toISOString() }); } catch { /* ignore */ }
+    }
     setSaving(false);
     if (error) {
       setStage(prev);
       setErr(/pipeline_stage|column/i.test(error) ? "Stages aren't set up yet — run the pipeline_stage SQL in Supabase." : error);
       return;
+    }
+    if (v === "sale") {
+      // 🎉 Celebrate in Telegram (fire-and-forget).
+      const value = lead.estimated_value ? ` worth <b>₹${lead.estimated_value}</b>` : "";
+      const poc = lead.poc ? ` — closed by <b>${lead.poc}</b>` : "";
+      sendTelegramMessage(`🎉 <b>SALE!</b> <b>${lead.client ?? "A lead"}</b>${value} just moved to ✅ Sale${poc}.\n${window.location.origin}/dashboard/lead/${lead.id}`);
     }
     onChanged();
   }
@@ -704,7 +716,14 @@ function StageStepper({ lead, onChanged }: { lead: PipelineLead; onChanged: () =
   return (
     <div>
       <div className="mb-2 flex items-center justify-between">
-        <p className="text-[11px] uppercase tracking-wide text-white/40">Pipeline stage</p>
+        <p className="text-[11px] uppercase tracking-wide text-white/40">
+          Pipeline stage
+          {(() => { const a = stageAge({ ...lead, pipeline_stage: stage }); return a.days > 0 ? (
+            <span className={`ml-2 normal-case tracking-normal ${a.stuck ? "font-bold text-red-300" : "text-white/35"}`}>
+              {a.stuck ? "⏰ stuck " : "· in stage "}{a.days}d
+            </span>
+          ) : null; })()}
+        </p>
         {stage === "lost" ? (
           <button onClick={() => moveTo("lead")} className="text-[11px] font-semibold text-[#7aa2ff] hover:underline">↩ Reopen as Lead</button>
         ) : (
@@ -1845,6 +1864,7 @@ export default function PipelineDashboard() {
               const spost = followupCount(l, "post_meeting");
               const sCounter = sd.value === "pre_call" ? `${spre}/3` : sd.value === "post_meeting" ? `${spost}/7` : null;
               const sUnder = (sd.value === "pre_call" && spre < 3) || (sd.value === "post_meeting" && spost < 7);
+              const sAge = stageAge(l);
               const rating = ratingOf(l.responsiveness);
               const hasFile = (l.attachments?.length ?? 0) > 0;
               const nFollow = l.followups?.length ?? 0;
@@ -1887,6 +1907,11 @@ export default function PipelineDashboard() {
                       {sCounter ? <span className={`tabular-nums ${sUnder ? "text-amber-300" : ""}`}>· {sCounter}</span> : null}
                       {sUnder ? "⚠" : null}
                     </span>
+                    {sAge.stuck ? (
+                      <span className="ml-1 inline-flex items-center rounded-md border border-red-400/45 bg-red-400/10 px-1.5 py-1 text-[10px] font-bold text-red-300" title={`Stuck in ${sd.short} for ${sAge.days} days — move it forward!`}>
+                        ⏰ {sAge.days}d
+                      </span>
+                    ) : null}
                   </div>
                   {/* Next step */}
                   <div className={`${cell} w-[230px] truncate text-white/70`} title={l.next_step || l.status || ""}>{l.next_step || l.status || "—"}</div>
