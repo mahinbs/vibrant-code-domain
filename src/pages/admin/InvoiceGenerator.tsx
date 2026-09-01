@@ -44,6 +44,7 @@ type Item = {
 
 const COMPANY_KEY = "bms_invoice_company_v1";
 const SEQ_KEY = "bms_invoice_seq_v1";
+const DRAFT_KEY = "bms_invoice_draft_v1";
 
 const DEFAULT_COMPANY: Company = {
   legalName: "Triple Seven Boostmysites AI Solutions Private Limited",
@@ -143,23 +144,50 @@ export default function InvoiceGenerator() {
   // Reachable from both the admin panel and the sales dashboard — go back to whichever.
   const backTo = location.pathname.startsWith("/admin") ? "/admin" : "/dashboard";
   const backLabel = backTo === "/admin" ? "← Admin" : "← Dashboard";
+  // Draft autosave: reloads (common on mobile) were silently wiping the
+  // bill-to fields — including the client GSTIN — before printing.
+  const draft = useMemo(() => {
+    try { return JSON.parse(localStorage.getItem(DRAFT_KEY) || "null") ?? {}; } catch { return {}; }
+  }, []);
   const [company, setCompany] = useState<Company>(loadCompany);
-  const [party, setParty] = useState<Party>(BLANK_PARTY);
-  const [items, setItems] = useState<Item[]>([{ id: uid(), desc: "", hsn: "998314", qty: 1, rate: 0 }]);
-  const [invoiceNo, setInvoiceNo] = useState<string>(nextInvoiceNo);
-  const [invoiceDate, setInvoiceDate] = useState<string>(todayISO);
-  const [dueDate, setDueDate] = useState<string>("");
-  const [placeOfSupply, setPlaceOfSupply] = useState<string>("");
-  const [gstRate, setGstRate] = useState<number>(18);
-  const [taxMode, setTaxMode] = useState<"auto" | "intra" | "inter" | "none">("auto");
-  const [discountPct, setDiscountPct] = useState<number>(0);
-  const [tdsRate, setTdsRate] = useState<number>(0);
-  const [notes, setNotes] = useState<string>("Thank you for your business.");
-  const [terms, setTerms] = useState<string>("Payment due within 7 days. Services rendered under SAC 998314 (IT & software services).");
+  const [party, setParty] = useState<Party>({ ...BLANK_PARTY, ...(draft.party ?? {}) });
+  const [items, setItems] = useState<Item[]>(draft.items?.length ? draft.items : [{ id: uid(), desc: "", hsn: "998314", qty: 1, rate: 0 }]);
+  const [invoiceNo, setInvoiceNo] = useState<string>(draft.invoiceNo || nextInvoiceNo());
+  const [invoiceDate, setInvoiceDate] = useState<string>(draft.invoiceDate || todayISO());
+  const [dueDate, setDueDate] = useState<string>(draft.dueDate || "");
+  const [placeOfSupply, setPlaceOfSupply] = useState<string>(draft.placeOfSupply || "");
+  const [gstRate, setGstRate] = useState<number>(draft.gstRate ?? 18);
+  const [taxMode, setTaxMode] = useState<"auto" | "intra" | "inter" | "none">(draft.taxMode ?? "auto");
+  const [discountPct, setDiscountPct] = useState<number>(draft.discountPct ?? 0);
+  const [tdsRate, setTdsRate] = useState<number>(draft.tdsRate ?? 0);
+  const [notes, setNotes] = useState<string>(draft.notes ?? "Thank you for your business.");
+  const [terms, setTerms] = useState<string>(draft.terms ?? "Payment due within 7 days. Services rendered under SAC 998314 (IT & software services).");
   const [showSeal, setShowSeal] = useState<boolean>(true);
   const [showSettings, setShowSettings] = useState<boolean>(!loadCompany().gstin);
   const [savedFlash, setSavedFlash] = useState<boolean>(false);
   const logoInputRef = useRef<HTMLInputElement>(null);
+
+  // Save the working draft on every change so nothing is lost on reload.
+  useEffect(() => {
+    try {
+      localStorage.setItem(DRAFT_KEY, JSON.stringify({ party, items, invoiceNo, invoiceDate, dueDate, placeOfSupply, gstRate, taxMode, discountPct, tdsRate, notes, terms }));
+    } catch { /* storage may be unavailable */ }
+  }, [party, items, invoiceNo, invoiceDate, dueDate, placeOfSupply, gstRate, taxMode, discountPct, tdsRate, notes, terms]);
+
+  function newInvoice() {
+    if (!window.confirm("Start a new invoice? This clears the current client, items, and details.")) return;
+    try { localStorage.removeItem(DRAFT_KEY); } catch { /* ignore */ }
+    setParty(BLANK_PARTY);
+    setItems([{ id: uid(), desc: "", hsn: "998314", qty: 1, rate: 0 }]);
+    setInvoiceNo(nextInvoiceNo());
+    setInvoiceDate(todayISO());
+    setDueDate("");
+    setPlaceOfSupply("");
+    setGstRate(18);
+    setTaxMode("auto");
+    setDiscountPct(0);
+    setTdsRate(0);
+  }
 
   useEffect(() => {
     if (!placeOfSupply && party.stateName) setPlaceOfSupply(`${party.stateName}${party.stateCode ? ` (${party.stateCode})` : ""}`);
@@ -260,6 +288,9 @@ export default function InvoiceGenerator() {
             <h1 className="text-[15px] font-semibold">GST Invoice Generator</h1>
           </div>
           <div className="flex items-center gap-2">
+            <button onClick={newInvoice} className="rounded-md border border-slate-300 px-3 py-1.5 text-[13px] text-slate-700 hover:bg-slate-50" title="Clear the form and start a fresh invoice">
+              🆕 New invoice
+            </button>
             <button onClick={() => setShowSettings((s) => !s)} className="rounded-md border border-slate-300 px-3 py-1.5 text-[13px] text-slate-700 hover:bg-slate-50">
               {showSettings ? "Hide company setup" : "Company setup"}
             </button>
@@ -466,10 +497,15 @@ export default function InvoiceGenerator() {
                 <p className="mb-2 text-[10.5px] font-bold uppercase tracking-[0.18em] text-[#c9a24b]">Billed To</p>
                 <p className="font-serif text-[16px] font-bold text-slate-900">{party.name || "—"}</p>
                 {party.address ? <p className="mt-1 whitespace-pre-line text-[12.5px] font-medium leading-snug text-slate-600">{party.address}</p> : null}
+                {/* GSTIN line always renders — a missing number shows as an obvious dash before printing. */}
                 <p className="mt-1.5 text-[12.5px] font-semibold text-slate-700">
-                  {party.gstin ? <>GSTIN: <span className="font-bold">{party.gstin}</span></> : null}
-                  {party.gstin && party.stateName ? <span className="text-slate-300">&nbsp;&nbsp;|&nbsp;&nbsp;</span> : null}
-                  {party.stateName ? <>State: {party.stateName}{party.stateCode ? ` (${party.stateCode})` : ""}</> : null}
+                  GSTIN: <span className="font-bold">{party.gstin || "—"}</span>
+                  {party.stateName ? (
+                    <>
+                      <span className="text-slate-300">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+                      State: {party.stateName}{party.stateCode ? ` (${party.stateCode})` : ""}
+                    </>
+                  ) : null}
                 </p>
                 {(party.email || party.phone) ? <p className="mt-1 text-[12px] font-medium text-slate-500">{[party.email, party.phone].filter(Boolean).join("   •   ")}</p> : null}
               </div>
