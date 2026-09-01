@@ -245,6 +245,11 @@ export default function InvoiceGenerator() {
   }
 
   function downloadPdf() {
+    // Guard: a missing client GSTIN is the #1 reported mistake — confirm before printing without it.
+    if (!party.gstin.trim()) {
+      const ok = window.confirm("Client GSTIN is empty — it will print as “GSTIN: —”.\n\nAdd it in the “Bill to (client)” box, or press OK to download without it.");
+      if (!ok) return;
+    }
     // Persist the invoice number for next time before printing.
     try {
       const seq = parseInt(localStorage.getItem(SEQ_KEY) || "0", 10) + 1;
@@ -363,7 +368,16 @@ export default function InvoiceGenerator() {
               <div><label className={labelCls}>Client / company name</label><input className={fieldCls} value={party.name} onChange={(e) => setP({ name: e.target.value })} /></div>
               <div><label className={labelCls}>Address</label><textarea className={fieldCls} rows={2} value={party.address} onChange={(e) => setP({ address: e.target.value })} /></div>
               <div className="grid grid-cols-2 gap-3">
-                <div><label className={labelCls}>GSTIN (optional)</label><input className={fieldCls} value={party.gstin} onChange={(e) => setP({ gstin: e.target.value.toUpperCase() })} /></div>
+                <div>
+                  <label className={labelCls}>Client GSTIN</label>
+                  <input
+                    className={`${fieldCls} ${!party.gstin ? "border-amber-400 bg-amber-50" : ""}`}
+                    value={party.gstin}
+                    placeholder="e.g. 37ABCDE1234F1Z5"
+                    onChange={(e) => setP({ gstin: e.target.value.toUpperCase() })}
+                  />
+                  {!party.gstin ? <p className="mt-1 text-[11px] font-medium text-amber-600">⚠ Empty — will print as “GSTIN: —”</p> : null}
+                </div>
                 <div className="grid grid-cols-2 gap-2">
                   <div><label className={labelCls}>State</label><input className={fieldCls} value={party.stateName} onChange={(e) => setP({ stateName: e.target.value })} /></div>
                   <div><label className={labelCls}>Code</label><input className={fieldCls} value={party.stateCode} placeholder="29" onChange={(e) => setP({ stateCode: e.target.value })} /></div>
