@@ -199,7 +199,7 @@ export function BusinessAutomationHero({
               )}
             </h1>
 
-            <p className="max-w-[760px] font-mono text-[15px] font-normal leading-[1.45] tracking-[0.04em] text-white/70 md:text-[17px]">
+            <p className="max-w-[760px] text-xl font-normal -tracking-[0.01em] leading-[1.4em] text-white/70 max-md:text-base">
               {content?.subcopy ?? (
                 <>
                   Right now your competitor is automating their{" "}

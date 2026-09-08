@@ -123,12 +123,12 @@ export function Nav({
             align === "right" ? "right-0" : "left-1/2 -translate-x-1/2",
           ].join(" ")}
         >
-          <div className="acq-nav-dropdown w-[250px] rounded-[12px] border border-white/15 bg-black p-1.5 shadow-[0_15px_40px_rgba(0,0,0,0.5)]">
+          <div className="acq-nav-dropdown min-w-[220px] rounded-[12px] border border-white/15 bg-black p-1 shadow-[0_15px_40px_rgba(0,0,0,0.5)]">
             {item.dropdown.map((option) => (
               <Link
                 key={option.href}
                 to={option.href}
-                className="block rounded-lg px-3 py-2.5 text-[13px] font-medium text-white/75 transition-colors hover:text-white"
+                className="block rounded-lg px-3 py-2 text-[13px] font-medium text-white/75 transition-colors hover:text-white"
               >
                 {option.label}
               </Link>

@@ -57,8 +57,6 @@ const NAV_LINKS: ReadonlyArray<NavLinkItem> = [
     dropdown: [
       { label: "AI Client Acquisition System", href: "/" },
       { label: "AI Automation", href: "/business-automation" },
-      { label: "SaaS Development", href: "/saas" },
-      { label: "Trading AI", href: "/trading-app-development" },
     ],
   },
   { label: "How it works", href: "#demo" },
@@ -463,18 +461,20 @@ function RotatingClause() {
   return (
     <>
       Tell it your goal in one sentence. It builds your{" "}
-      <span className="relative inline-grid align-baseline">
-        <span className="invisible col-start-1 row-start-1 font-medium" aria-hidden>
-          {longest}
+      <span className="inline whitespace-nowrap">
+        <span className="relative inline-grid align-baseline">
+          <span className="invisible col-start-1 row-start-1 font-medium" aria-hidden>
+            {longest}
+          </span>
+          <span
+            className="impact-highlight col-start-1 row-start-1 font-medium transition-opacity duration-300"
+            style={{ opacity: fade ? 1 : 0 }}
+          >
+            {HERO_ROTATING[index]}
+          </span>
         </span>
-        <span
-          className="impact-highlight col-start-1 row-start-1 font-medium transition-opacity duration-300"
-          style={{ opacity: fade ? 1 : 0 }}
-        >
-          {HERO_ROTATING[index]}
-        </span>
+        .
       </span>
-      .
       <br />
       Nothing spends until you approve.
     </>
@@ -524,7 +524,7 @@ function AiClientAcquisitionInner() {
                   that never clocks out.
                   <StackTypewriter />
                 </span>
-                <span className="impact-highlight mt-3 block text-[26px] leading-[1.08] sm:mt-4 sm:text-[28px] md:mt-5 md:text-[inherit]">
+                <span className="impact-highlight mt-[0.04em] block leading-[1.08]">
                   All running 24/7.
                 </span>
               </>
