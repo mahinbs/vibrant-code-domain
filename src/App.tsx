@@ -104,6 +104,8 @@ const AiClientAcquisition = lazy(
   () => import("./redesign/pages/AiClientAcquisition"),
 );
 const AcquisitionPay = lazy(() => import("./redesign/pages/AcquisitionPay"));
+const AcquisitionPaySuccess = lazy(() => import("./redesign/pages/AcquisitionPaySuccess"));
+const AcquisitionPayFailed = lazy(() => import("./redesign/pages/AcquisitionPayFailed"));
 const VoiceAgentDemo = lazy(() => import("./redesign/pages/VoiceAgentDemo"));
 const Questionnaire = lazy(() => import("./redesign/pages/Questionnaire"));
 const DashboardLogin = lazy(() => import("./pages/dashboard/DashboardLogin"));
@@ -725,6 +727,22 @@ const App = () => {
                 element={
                   <RedesignShell>
                     <AcquisitionPay />
+                  </RedesignShell>
+                }
+              />
+              <Route
+                path="/pay/success"
+                element={
+                  <RedesignShell>
+                    <AcquisitionPaySuccess />
+                  </RedesignShell>
+                }
+              />
+              <Route
+                path="/pay/failed"
+                element={
+                  <RedesignShell>
+                    <AcquisitionPayFailed />
                   </RedesignShell>
                 }
               />

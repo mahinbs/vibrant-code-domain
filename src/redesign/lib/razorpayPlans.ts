@@ -19,6 +19,14 @@ export type PayPlan = {
   badge?: string;
 };
 
+const SHARED_HIGHLIGHTS = [
+  "Full ad stack — Meta, Google, LinkedIn & more",
+  "8 AI agents plan, launch, optimize & follow up",
+  "WhatsApp + email follow-ups",
+  "Nothing spends until you approve",
+  "Plain-English weekly reporting",
+] as const;
+
 export const PAY_PLANS: readonly PayPlan[] = [
   {
     id: "monthly",
@@ -26,11 +34,7 @@ export const PAY_PLANS: readonly PayPlan[] = [
     period: "Billed monthly",
     baseInr: 33_333,
     blurb: "Full stack for one month. Pause anytime before the next cycle.",
-    highlights: [
-      "Ads + WhatsApp + LinkedIn + email",
-      "8 AI agents on your campaigns",
-      "Nothing spends until you approve",
-    ],
+    highlights: [...SHARED_HIGHLIGHTS],
   },
   {
     id: "yearly",
@@ -39,7 +43,7 @@ export const PAY_PLANS: readonly PayPlan[] = [
     baseInr: 99_999,
     blurb: "Best value — run the full acquisition stack for twelve months.",
     highlights: [
-      "Everything in monthly",
+      ...SHARED_HIGHLIGHTS,
       "Priority onboarding",
       "Save vs paying month-to-month",
     ],
@@ -72,6 +76,11 @@ export function getPlan(id: PayPlanId): PayPlan {
   const plan = PAY_PLANS.find((p) => p.id === id);
   if (!plan) throw new Error(`Unknown plan: ${id}`);
   return plan;
+}
+
+export function parsePayPlanId(value: string | null | undefined): PayPlanId | null {
+  if (value === "monthly" || value === "yearly") return value;
+  return null;
 }
 
 /** Public key only — never put Key Secret here. */

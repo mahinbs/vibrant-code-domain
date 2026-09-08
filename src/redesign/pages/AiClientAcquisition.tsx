@@ -20,6 +20,12 @@ import { ArrowRightIcon, StarIcon } from "../components/icons";
 import { useHashScroll } from "../lib/useHashScroll";
 import { whatsappHref } from "../data/site";
 import { businessAutomationPressItems } from "../data/businessAutomationContent";
+import {
+  formatInr,
+  gstAmountInr,
+  PAY_PLANS,
+  totalInr,
+} from "../lib/razorpayPlans";
 import type { ProcessStep } from "../data/process";
 import type { IconType } from "react-icons";
 import {
@@ -61,6 +67,7 @@ const NAV_LINKS: ReadonlyArray<NavLinkItem> = [
   },
   { label: "How it works", href: "#demo" },
   { label: "Features", href: "#features" },
+  { label: "Pricing", href: "#pricing" },
   { label: "Reviews", href: "#reviews" },
 ];
 
@@ -975,6 +982,85 @@ function AiClientAcquisitionInner() {
               </Reveal>
               <Reveal delay={0.06}>
                 <ReviewsMarquee />
+              </Reveal>
+            </section>
+          </SectionWithTopRule>
+
+          {/* ---------- Pricing ---------- */}
+          <SectionWithTopRule>
+            <section id="pricing" className="w-full max-w-[1920px] px-5 py-12 md:px-10 md:py-16">
+              <Reveal className="mx-auto max-w-[720px] text-center">
+                <p className="acq-eyebrow impact-highlight mx-auto inline-flex w-fit items-center rounded-full border border-purple/50 bg-black/60 px-3.5 py-2 text-[11px] font-medium uppercase tracking-[0.1em] backdrop-blur-[5px]">
+                  India · Simple pricing
+                </p>
+                <h2 className="mt-4 text-[32px] font-medium leading-[1.1] -tracking-[0.04em] text-white max-md:text-[30px] md:text-[44px]">
+                  Start the <span className="impact-highlight">acquisition stack</span>
+                </h2>
+                <p className="mt-3 font-mono text-[14px] tracking-[0.04em] text-white/60 md:text-[15px]">
+                  Prices exclusive of GST. Pay securely on Razorpay — choose a plan and checkout.
+                </p>
+              </Reveal>
+
+              <RevealStagger className="mx-auto mt-10 grid w-full max-w-[960px] gap-4 md:mt-12 md:grid-cols-2 md:gap-5">
+                {PAY_PLANS.map((p) => {
+                  const gst = gstAmountInr(p.baseInr);
+                  const total = totalInr(p.baseInr);
+                  const featured = p.id === "yearly";
+                  return (
+                    <RevealItem key={p.id}>
+                      <div
+                        className={[
+                          "relative flex h-full flex-col rounded-[16px] border p-5 md:p-6",
+                          featured
+                            ? "border-purple/60 bg-[rgba(72,118,255,0.10)]"
+                            : "border-white/12",
+                        ].join(" ")}
+                        style={featured ? undefined : { background: GLOSS }}
+                      >
+                        {p.badge ? (
+                          <span className="impact-highlight absolute right-4 top-4 font-mono text-[10px] font-semibold uppercase tracking-[0.14em]">
+                            {p.badge}
+                          </span>
+                        ) : null}
+                        <p className="font-mono text-[12px] font-semibold uppercase tracking-[0.12em] text-white/50">
+                          {p.label}
+                        </p>
+                        <p className="mt-2 text-[28px] font-medium tracking-[-0.02em] text-white md:text-[32px]">
+                          {formatInr(p.baseInr)}
+                          <span className="ml-2 text-[14px] font-normal text-white/45">+ GST</span>
+                        </p>
+                        <p className="mt-1 font-mono text-[12px] tracking-[0.04em] text-white/50">
+                          GST {formatInr(gst)} · Total {formatInr(total)}
+                        </p>
+                        <p className="mt-3 text-[14px] leading-relaxed text-white/65">{p.blurb}</p>
+                        <ul className="mt-4 flex flex-1 flex-col gap-2">
+                          {p.highlights.map((h) => (
+                            <li key={h} className="flex gap-2 text-[13px] text-white/55">
+                              <span className="impact-highlight shrink-0">—</span>
+                              {h}
+                            </li>
+                          ))}
+                        </ul>
+                        <a
+                          href={`/pay?plan=${p.id}`}
+                          className="btn-gloss relative mt-6 inline-flex w-full items-center justify-center gap-2 overflow-hidden rounded-[10px] border border-white/20 bg-purple/70 px-5 py-3.5 text-sm font-semibold text-white md:text-[15px]"
+                        >
+                          <span className="relative z-[2]">Pay {formatInr(total)}</span>
+                          <ArrowRightIcon className="relative z-[2] size-4 shrink-0 text-white" />
+                        </a>
+                      </div>
+                    </RevealItem>
+                  );
+                })}
+              </RevealStagger>
+
+              <Reveal delay={0.08} className="mx-auto mt-6 max-w-[640px] text-center md:mt-8">
+                <p className="text-[13px] text-white/45">
+                  Prefer a custom plan?{" "}
+                  <a href="#contact-form" className="text-white/75 underline-offset-2 hover:underline">
+                    Get my acquisition plan
+                  </a>
+                </p>
               </Reveal>
             </section>
           </SectionWithTopRule>

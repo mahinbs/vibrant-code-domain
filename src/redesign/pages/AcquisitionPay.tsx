@@ -1,6 +1,6 @@
 import { useMemo, useState, type FormEvent } from "react";
 import { Helmet } from "react-helmet-async";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { SiteBackground } from "../components/SiteBackground";
 import { Nav } from "../components/Nav";
 import { whatsappHref, site } from "../data/site";
@@ -9,10 +9,12 @@ import {
   getPlan,
   getRazorpayKeyId,
   gstAmountInr,
+  parsePayPlanId,
   PAY_PLANS,
   totalInr,
   type PayPlanId,
 } from "../lib/razorpayPlans";
+import { createRazorpayOrder, verifyRazorpayPayment } from "../lib/razorpayClient";
 
 const NAV_CTA = { label: "WhatsApp us", href: whatsappHref } as const;
 
@@ -31,7 +33,10 @@ type CheckoutForm = {
 
 declare global {
   interface Window {
-    Razorpay?: new (options: Record<string, unknown>) => { open: () => void };
+    Razorpay?: new (options: Record<string, unknown>) => {
+      open: () => void;
+      on: (event: string, handler: (response: Record<string, unknown>) => void) => void;
+    };
   }
 }
 
@@ -57,7 +62,10 @@ function loadRazorpayScript(): Promise<boolean> {
 }
 
 export default function AcquisitionPay() {
-  const [planId, setPlanId] = useState<PayPlanId>("yearly");
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const initialPlan = parsePayPlanId(searchParams.get("plan")) ?? "yearly";
+  const [planId, setPlanId] = useState<PayPlanId>(initialPlan);
   const [form, setForm] = useState<CheckoutForm>({
     name: "",
     email: "",
@@ -67,7 +75,6 @@ export default function AcquisitionPay() {
   });
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [notice, setNotice] = useState<string | null>(null);
 
   const plan = useMemo(() => getPlan(planId), [planId]);
   const gst = gstAmountInr(plan.baseInr);
@@ -80,48 +87,77 @@ export default function AcquisitionPay() {
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
     setError(null);
-    setNotice(null);
 
     if (!form.name.trim() || !form.email.trim() || !form.phone.trim()) {
       setError("Name, email, and phone are required.");
       return;
     }
 
-    if (!keyId) {
-      setNotice(
-        "Checkout UI is ready. Add VITE_RAZORPAY_KEY_ID (and server secrets) to enable live Razorpay. See the checklist below the form.",
-      );
-      return;
-    }
-
     setBusy(true);
     try {
-      // Placeholder: replace with Supabase edge function create-order.
-      // const order = await createRazorpayOrder({ planId, ...form });
+      const order = await createRazorpayOrder({
+        planId,
+        name: form.name.trim(),
+        email: form.email.trim(),
+        phone: form.phone.trim(),
+        company: form.company.trim() || undefined,
+        gstin: form.gstin.trim() || undefined,
+      });
+
+      const checkoutKey = order.keyId || keyId;
+      if (!checkoutKey) {
+        throw new Error("Razorpay Key ID is missing on the server.");
+      }
+
       const loaded = await loadRazorpayScript();
       if (!loaded || !window.Razorpay) {
         throw new Error("Could not load Razorpay Checkout.");
       }
 
-      setNotice(
-        "Razorpay key is set, but create-order / verify endpoints are still placeholders. Wire the edge functions next, then payments will open here.",
-      );
+      const rzp = new window.Razorpay({
+        key: checkoutKey,
+        amount: order.amount,
+        currency: order.currency,
+        name: site.brand,
+        description: `AI Client Acquisition — ${order.planLabel}`,
+        order_id: order.orderId,
+        prefill: {
+          name: form.name.trim(),
+          email: form.email.trim(),
+          contact: form.phone.trim(),
+        },
+        notes: {
+          plan_id: order.planId,
+        },
+        theme: { color: "#4e78ff" },
+        handler: async (response: Record<string, string>) => {
+          try {
+            const verified = await verifyRazorpayPayment({
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+            });
+            navigate(verified.redirect || "/pay/success");
+          } catch (verifyErr) {
+            console.error(verifyErr);
+            navigate(
+              `/pay/success?order_id=${encodeURIComponent(response.razorpay_order_id)}&payment_id=${encodeURIComponent(response.razorpay_payment_id)}`,
+            );
+          }
+        },
+        modal: {
+          ondismiss: () => setBusy(false),
+        },
+      });
 
-      // Example options once order API returns { id, amount, currency }:
-      // const rzp = new window.Razorpay({
-      //   key: keyId,
-      //   amount: order.amount,
-      //   currency: "INR",
-      //   name: site.brand,
-      //   description: `AI Client Acquisition — ${plan.label}`,
-      //   order_id: order.id,
-      //   prefill: { name: form.name, email: form.email, contact: form.phone },
-      //   handler: (response) => { verify + redirect /pay/success },
-      // });
-      // rzp.open();
+      rzp.on("payment.failed", () => {
+        setBusy(false);
+        navigate("/pay/failed");
+      });
+
+      rzp.open();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Payment could not start.");
-    } finally {
       setBusy(false);
     }
   }
@@ -161,8 +197,7 @@ export default function AcquisitionPay() {
         </div>
 
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:gap-10">
-          {/* Plans */}
-          <div className="flex flex-col gap-4 order-2 lg:order-1">
+          <div className="order-2 flex flex-col gap-4 lg:order-1">
             {PAY_PLANS.map((p) => {
               const selected = p.id === planId;
               const pGst = gstAmountInr(p.baseInr);
@@ -221,7 +256,6 @@ export default function AcquisitionPay() {
             })}
           </div>
 
-          {/* Checkout */}
           <div className="order-1 rounded-[16px] border border-white/12 bg-black/40 p-5 md:p-6 lg:sticky lg:top-24 lg:order-2 lg:self-start">
             <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-white/40">
               Checkout
@@ -321,11 +355,6 @@ export default function AcquisitionPay() {
                   {error}
                 </p>
               ) : null}
-              {notice ? (
-                <p className="rounded-[10px] border border-purple/40 bg-purple/10 px-3 py-2 text-[13px] text-white/80">
-                  {notice}
-                </p>
-              ) : null}
 
               <button
                 type="submit"
@@ -333,7 +362,7 @@ export default function AcquisitionPay() {
                 className="btn-gloss relative mt-1 inline-flex w-full items-center justify-center overflow-hidden rounded-[10px] border border-white/20 bg-purple/70 px-5 py-3.5 text-[15px] font-semibold text-white disabled:opacity-60"
               >
                 <span className="relative z-[2]">
-                  {busy ? "Starting checkout…" : `Pay ${formatInr(total)}`}
+                  {busy ? "Opening Razorpay…" : `Pay ${formatInr(total)}`}
                 </span>
               </button>
 
@@ -341,27 +370,6 @@ export default function AcquisitionPay() {
                 UPI · Cards · Netbanking · Razorpay
               </p>
             </form>
-
-            <div className="mt-6 rounded-[12px] border border-dashed border-white/15 bg-white/[0.02] p-4">
-              <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-white/40">
-                Placeholders — send these next
-              </p>
-              <ul className="mt-2 space-y-1.5 text-[12px] leading-snug text-white/50">
-                <li>
-                  <code className="text-white/70">VITE_RAZORPAY_KEY_ID</code> — public Key ID
-                </li>
-                <li>
-                  <code className="text-white/70">RAZORPAY_KEY_SECRET</code> — server only
-                </li>
-                <li>
-                  <code className="text-white/70">RAZORPAY_WEBHOOK_SECRET</code> — server only
-                </li>
-                <li>Company GSTIN + legal name (for invoice)</li>
-              </ul>
-              <p className="mt-2 text-[11px] text-white/35">
-                Key status: {keyId ? "public key detected" : "public key not set (using placeholder flow)"}
-              </p>
-            </div>
 
             <p className="mt-4 text-[12px] text-white/40">
               Questions?{" "}
