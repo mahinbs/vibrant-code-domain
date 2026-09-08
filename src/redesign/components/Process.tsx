@@ -34,7 +34,7 @@ export function Process({
       : "grid-cols-4 max-md:grid-cols-2 max-sm:grid-cols-1";
 
   const shellClass = embedded
-    ? "relative flex h-full min-w-0 w-full flex-col gap-4 overflow-hidden"
+    ? "relative flex h-full min-w-0 w-full flex-col gap-8 overflow-hidden md:gap-10"
     : [
         "relative flex w-full max-w-[1920px] flex-col gap-4 overflow-x-hidden px-5 md:px-10",
         tightSpacing ? "py-10 md:py-14" : "py-16 md:py-24",
@@ -42,10 +42,10 @@ export function Process({
 
   const content = (
     <>
-      <div className="relative z-[1] w-full overflow-visible">
+      <div className="relative z-[1] w-full overflow-visible pb-6 md:pb-10">
         <p
           aria-hidden
-          className="pointer-events-none absolute left-0 top-[40%] z-0 hidden w-full max-w-none -translate-y-1/2 select-none text-left font-bold uppercase leading-[0.88] tracking-[0.02em] opacity-[0.32] md:block"
+          className="acq-watermark pointer-events-none absolute left-0 top-0 z-0 hidden w-full max-w-none select-none text-left font-bold uppercase leading-[0.88] tracking-[0.02em] opacity-[0.32] md:block"
           style={{
             fontSize: "clamp(2.5rem, min(12vw, 11rem), 11rem)",
             backgroundImage:
@@ -76,8 +76,8 @@ export function Process({
           </h2>
           <p
             className={[
-              "text-white/60",
-              embedded ? "max-w-none text-base" : "max-w-[540px] text-lg max-md:text-base",
+              "font-mono tracking-[0.04em] text-white/60",
+              embedded ? "max-w-none text-[14px] md:text-[15px]" : "max-w-[540px] text-[15px] md:text-base",
             ].join(" ")}
           >
             {subtitle}
@@ -93,7 +93,7 @@ export function Process({
           <div
             key={step.number}
             className={[
-              "relative flex flex-col gap-4 rounded-[14px] border border-white/12",
+              "acq-process-card relative flex flex-col gap-4 rounded-[14px] border border-white/12",
               embedded ? "p-4 md:p-5" : "p-6",
             ].join(" ")}
             style={{

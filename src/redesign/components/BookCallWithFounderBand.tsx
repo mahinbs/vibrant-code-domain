@@ -57,7 +57,7 @@ export function BookCallWithFounderBand({
         aria-label="Book a call with the chief executive officer"
       >
         <div className="w-full">
-          <div className="relative min-h-[200px] overflow-visible rounded-[14px] border border-white/[0.06] bg-[linear-gradient(140deg,rgba(22,36,74,0.55)_0%,rgba(8,14,32,0.88)_55%,rgba(0,0,0,0.92)_100%)] md:min-h-[220px]">
+          <div className="acq-founder-thin relative min-h-[200px] overflow-visible rounded-[14px] border border-white/[0.06] bg-[linear-gradient(140deg,rgba(22,36,74,0.55)_0%,rgba(8,14,32,0.88)_55%,rgba(0,0,0,0.92)_100%)] md:min-h-[220px]">
             <div
               aria-hidden
               className="pointer-events-none absolute -left-16 bottom-0 z-0 h-[280px] w-[280px] rounded-full bg-[radial-gradient(circle_at_50%_50%,rgba(108,148,255,0.35),transparent_70%)] blur-[50px]"

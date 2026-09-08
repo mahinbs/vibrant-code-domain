@@ -7,7 +7,13 @@ import { LazyVideo } from "./LazyVideo";
 import { ArrowRightIcon, StarIcon, WhatsAppIcon } from "./icons";
 import { TrustedTicker } from "./TrustedTicker";
 
-function HeroVideo() {
+function HeroVideo({
+  src = "/videos/mockup-4.mp4",
+  poster = "/videos/mockup-4.jpg",
+}: {
+  src?: string;
+  poster?: string;
+}) {
   return (
     <div className="flex w-full min-w-0 xl:py-2">
       <div
@@ -21,8 +27,8 @@ function HeroVideo() {
       >
         <div className="min-h-0 flex-1 overflow-hidden rounded-[12px] border border-white/10">
           <LazyVideo
-            src="/videos/mockup-4.mp4"
-            poster="/videos/mockup-4.jpg"
+            src={src}
+            poster={poster}
             className="aspect-video size-full min-h-[220px] object-cover sm:min-h-[280px] xl:aspect-auto xl:min-h-[360px]"
           />
         </div>
@@ -42,6 +48,10 @@ export type BusinessAutomationHeroContent = {
   /** Tertiary link before WhatsApp (default landing only). */
   exploreCta?: { label: string; href: string };
   showTrustedTicker?: boolean;
+  /** Override the framed hero video (defaults to the automation mockup). */
+  video?: { src: string; poster: string };
+  /** Replace the star-rating trust row with custom value/label stats. */
+  trustStats?: ReadonlyArray<{ value: string; label: string }>;
 };
 
 export function BusinessAutomationHero({
@@ -103,7 +113,7 @@ export function BusinessAutomationHero({
       className="flex w-full items-center justify-center pt-2 max-md:pt-0"
     >
       <div
-        className="relative mx-auto flex h-auto min-w-0 max-w-[1920px] flex-1 flex-col justify-center gap-[60px] overflow-hidden rounded-[20px] border border-white/15 px-[100px] pb-[150px] pt-[120px] will-change-transform max-xl:pb-16 max-md:gap-8 max-md:px-5 max-md:pb-28 max-md:pt-10 xl:h-[820px]"
+        className="acq-hero-panel relative mx-auto flex h-auto min-w-0 max-w-[1920px] flex-1 flex-col justify-center gap-[60px] overflow-hidden rounded-[20px] border border-white/15 px-[100px] pb-[150px] pt-[120px] will-change-transform max-xl:pb-16 max-md:gap-8 max-md:px-5 max-md:pb-28 max-md:pt-10 xl:h-[820px]"
         style={{
           background:
             "radial-gradient(108% 100% at 100% 100.6%, var(--color-purple) 12.8%, rgb(8,16,40) 69.1%, #000 98.2%)",
@@ -111,7 +121,7 @@ export function BusinessAutomationHero({
       >
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 z-[2]"
+          className="acq-hero-panel-overlay pointer-events-none absolute inset-0 z-[2]"
           style={{
             background:
               "linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.67) 64.5%, #000 100%)",
@@ -121,12 +131,12 @@ export function BusinessAutomationHero({
           <>
             <div
               aria-hidden
-              className="pointer-events-none absolute inset-0 z-[1] bg-left-top bg-repeat opacity-80 bg-[length:400px_auto]"
+              className="acq-hero-stars pointer-events-none absolute inset-0 z-[1] bg-left-top bg-repeat opacity-80 bg-[length:400px_auto]"
               style={{ backgroundImage: "url(/textures/stars.svg)" }}
             />
             <div
               aria-hidden
-              className="pointer-events-none absolute inset-0 z-[3] bg-left-top bg-repeat opacity-60 mix-blend-overlay bg-[length:67px_auto]"
+              className="acq-hero-grid-tex pointer-events-none absolute inset-0 z-[3] bg-left-top bg-repeat opacity-60 mix-blend-overlay bg-[length:67px_auto]"
               style={{ backgroundImage: "url(/textures/grid.svg)" }}
             />
             <div
@@ -163,7 +173,7 @@ export function BusinessAutomationHero({
         <div className="relative z-[5] grid w-full grid-cols-1 items-center gap-8 xl:grid-cols-[minmax(0,1fr)_minmax(500px,52%)] xl:items-stretch xl:gap-10">
           {/* Copy: badge, headline, subcopy */}
           <div className="flex flex-col gap-5 max-xl:order-1 xl:col-start-1 xl:row-start-1">
-            <div className="inline-flex w-fit items-center gap-1.5 rounded-full border border-white/15 bg-black/60 px-3.5 py-2.5 shadow-[0_10px_20px_rgba(0,0,0,0.2)] backdrop-blur-[5px]">
+            <div className="acq-eyebrow inline-flex w-fit items-center gap-1.5 rounded-full border border-white/15 bg-black/60 px-3.5 py-2.5 shadow-[0_10px_20px_rgba(0,0,0,0.2)] backdrop-blur-[5px]">
               <span className="rounded-full bg-purple px-1.5 py-1 text-[8px] font-bold uppercase tracking-[0.05em]">
                 {content?.badgeTag ?? "NEW"}
               </span>
@@ -189,7 +199,7 @@ export function BusinessAutomationHero({
               )}
             </h1>
 
-            <p className="max-w-[760px] text-xl font-normal -tracking-[0.01em] leading-[1.4em] text-white/70 max-md:text-base">
+            <p className="max-w-[760px] font-mono text-[15px] font-normal leading-[1.45] tracking-[0.04em] text-white/70 md:text-[17px]">
               {content?.subcopy ?? (
                 <>
                   Right now your competitor is automating their{" "}
@@ -209,7 +219,7 @@ export function BusinessAutomationHero({
 
           {/* Video: order 2 on mobile, right column on desktop */}
           <div className="max-xl:order-2 xl:col-start-2 xl:row-span-2">
-            <HeroVideo />
+            <HeroVideo src={content?.video?.src} poster={content?.video?.poster} />
           </div>
 
           {/* CTAs + stats: order 3 on mobile, left column bottom on desktop */}
@@ -249,7 +259,7 @@ export function BusinessAutomationHero({
                     className={
                       scoreCtaHref
                         ? "inline-flex items-center justify-center gap-2 rounded-[10px] border border-white/15 bg-black/40 px-4 py-[15px] text-center text-[13px] font-medium text-white/90 backdrop-blur-[5px] transition-colors hover:bg-black/60 hover:text-white max-xl:w-full sm:text-sm xl:px-5"
-                        : "btn-gloss relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-[10px] border border-white/20 bg-purple/70 px-4 py-[15px] text-center text-[13px] font-medium text-white shadow-[inset_0_0_6px_3px_rgba(255,255,255,0.2)] max-xl:w-full sm:text-sm xl:inline-flex xl:px-5"
+                        : "btn-gloss relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-[10px] border border-white/20 bg-purple/70 px-4 py-[15px] text-center text-[13px] font-medium text-white shadow-[inset_0_0_6px_3px_rgba(255,255,255,0.2)] max-xl:col-span-2 max-xl:w-full sm:text-sm xl:inline-flex xl:px-5"
                     }
                   >
                     <span className="relative z-[2]">{primaryCta.label}</span>
@@ -261,7 +271,7 @@ export function BusinessAutomationHero({
                 {showExploreCta ? (
                   <a
                     href={exploreCta.href}
-                    className="inline-flex items-center justify-center gap-2 rounded-[10px] border border-white/15 bg-black/40 px-4 py-[15px] text-center text-[13px] font-medium text-white/90 backdrop-blur-[5px] transition-colors hover:bg-black/60 hover:text-white max-xl:w-full sm:text-sm xl:px-5"
+                    className="acq-ghost-btn inline-flex items-center justify-center gap-2 rounded-[10px] border border-white/15 bg-black/40 px-4 py-[15px] text-center text-[13px] font-medium text-white/90 backdrop-blur-[5px] transition-colors hover:bg-black/60 hover:text-white max-xl:w-full sm:text-sm xl:px-5"
                   >
                     {exploreCta.label}
                   </a>
@@ -272,8 +282,8 @@ export function BusinessAutomationHero({
                   rel="noopener"
                   className={
                     scoreCtaHref
-                      ? "inline-flex items-center justify-center gap-2 rounded-[10px] border border-white/15 bg-black/40 px-5 py-[15px] text-sm font-medium text-white/90 backdrop-blur-[5px] transition-colors hover:bg-black/60 hover:text-white max-xl:w-full xl:col-span-1"
-                      : "inline-flex items-center justify-center gap-2 rounded-[10px] border border-white/15 bg-black/40 px-5 py-[15px] text-sm font-medium text-white/90 backdrop-blur-[5px] transition-colors hover:bg-black/60 hover:text-white max-xl:col-span-2 max-xl:w-full xl:col-span-1"
+                      ? "acq-ghost-btn inline-flex items-center justify-center gap-2 rounded-[10px] border border-white/15 bg-black/40 px-5 py-[15px] text-sm font-medium text-white/90 backdrop-blur-[5px] transition-colors hover:bg-black/60 hover:text-white max-xl:w-full xl:col-span-1"
+                      : "acq-ghost-btn inline-flex items-center justify-center gap-2 rounded-[10px] border border-white/15 bg-black/40 px-5 py-[15px] text-sm font-medium text-white/90 backdrop-blur-[5px] transition-colors hover:bg-black/60 hover:text-white max-xl:w-full xl:col-span-1"
                   }
                 >
                   <WhatsAppIcon className="size-[16px] fill-white" />
@@ -288,23 +298,37 @@ export function BusinessAutomationHero({
             </div>
 
             <div className="flex flex-wrap items-center gap-x-8 gap-y-4 pt-1">
-              <div className="flex items-center gap-2">
-                <div className="flex items-center text-[#ffd166]">
-                  <StarIcon /><StarIcon /><StarIcon /><StarIcon /><StarIcon />
-                </div>
-                <span className="text-sm font-medium text-white">{trustBadges[0].value}</span>
-                <span className="text-sm text-white/60">{trustBadges[0].label}</span>
-              </div>
-              <div className="h-4 w-px bg-white/15 max-sm:hidden" />
-              <div className="text-sm">
-                <span className="font-medium text-white">200+</span>
-                <span className="text-white/60"> businesses automated</span>
-              </div>
-              <div className="h-4 w-px bg-white/15 max-sm:hidden" />
-              <div className="text-sm">
-                <span className="font-medium text-white">30 days</span>
-                <span className="text-white/60"> average deployment</span>
-              </div>
+              {content?.trustStats ? (
+                content.trustStats.map((stat, index) => (
+                  <div key={stat.label} className="contents">
+                    {index > 0 ? <div className="h-4 w-px bg-white/15 max-sm:hidden" /> : null}
+                    <div className="text-sm">
+                      <span className="font-medium text-white">{stat.value}</span>
+                      <span className="text-white/60"> {stat.label}</span>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <>
+                  <div className="flex items-center gap-2">
+                    <div className="flex items-center text-[#ffd166]">
+                      <StarIcon /><StarIcon /><StarIcon /><StarIcon /><StarIcon />
+                    </div>
+                    <span className="text-sm font-medium text-white">{trustBadges[0].value}</span>
+                    <span className="text-sm text-white/60">{trustBadges[0].label}</span>
+                  </div>
+                  <div className="h-4 w-px bg-white/15 max-sm:hidden" />
+                  <div className="text-sm">
+                    <span className="font-medium text-white">200+</span>
+                    <span className="text-white/60"> businesses automated</span>
+                  </div>
+                  <div className="h-4 w-px bg-white/15 max-sm:hidden" />
+                  <div className="text-sm">
+                    <span className="font-medium text-white">30 days</span>
+                    <span className="text-white/60"> average deployment</span>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>

@@ -3,6 +3,7 @@ export const NAV_PAGE_LABELS: Record<string, string> = {
   "/fintech-landing": "Fintech",
   "/healthcare-landing": "Healthcare",
   "/business-automation": "AI Automation",
+  "/previous-homepage": "Previous homepage",
   "/personal-automation": "Personal Automation",
 };
 

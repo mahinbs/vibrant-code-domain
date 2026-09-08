@@ -76,9 +76,11 @@ function PressLink({ item }: { item: PressItem }) {
 export function FounderTrustPress({
   items = [],
   separated = false,
+  marquee = false,
 }: {
   items?: PressItem[];
   separated?: boolean;
+  marquee?: boolean;
 }) {
   const pressItems = items.length > 0 ? items : [];
   const reel = [...pressItems, ...pressItems];
@@ -89,8 +91,7 @@ export function FounderTrustPress({
         Featured in
       </p>
 
-      {/* Mobile / tablet: auto-scrolling marquee (matches header ticker). */}
-      <div className="w-full overflow-hidden lg:hidden" style={MARQUEE_MASK}>
+      <div className={marquee ? "w-full overflow-hidden" : "w-full overflow-hidden lg:hidden"} style={MARQUEE_MASK}>
         <div className="flex h-[52px] items-center">
           <div className="flex animate-ticker items-center gap-10 whitespace-nowrap will-change-transform motion-reduce:animate-none">
             {reel.map((item, i) => (
@@ -100,20 +101,21 @@ export function FounderTrustPress({
         </div>
       </div>
 
-      {/* Desktop: centered wrap row. */}
-      <ul className="mx-0 hidden flex-wrap items-center justify-center gap-x-14 gap-y-6 px-0 pb-0 lg:flex">
-        {pressItems.map((item, index) => (
-          <li key={item.href} className="flex shrink-0 items-center">
-            {separated && index > 0 ? (
-              <span
-                aria-hidden
-                className="mx-7 hidden h-7 w-px shrink-0 bg-white/[0.1] lg:inline-block"
-              />
-            ) : null}
-            <PressLink item={item} />
-          </li>
-        ))}
-      </ul>
+      {marquee ? null : (
+        <ul className="mx-0 hidden flex-wrap items-center justify-center gap-x-14 gap-y-6 px-0 pb-0 lg:flex">
+          {pressItems.map((item, index) => (
+            <li key={item.href} className="flex shrink-0 items-center">
+              {separated && index > 0 ? (
+                <span
+                  aria-hidden
+                  className="mx-7 hidden h-7 w-px shrink-0 bg-white/[0.1] lg:inline-block"
+                />
+              ) : null}
+              <PressLink item={item} />
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }

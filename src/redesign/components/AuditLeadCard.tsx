@@ -39,7 +39,7 @@ export function AuditLeadCard({
   return (
     <div
       className={[
-        "relative flex w-full flex-col items-center overflow-hidden rounded-[16px] border border-white/15 bg-black",
+        "acq-audit-card relative flex w-full flex-col items-center overflow-hidden rounded-[16px] border border-white/15 bg-black",
         inDialog
           ? "gap-4 px-5 py-5 pr-11"
           : "gap-10 py-[80px] px-[80px] max-md:gap-10 max-md:p-8",
@@ -51,12 +51,12 @@ export function AuditLeadCard({
     >
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 z-[1] bg-[length:400px_auto] bg-repeat opacity-40"
+        className="acq-audit-stars pointer-events-none absolute inset-0 z-[1] bg-[length:400px_auto] bg-repeat opacity-40"
         style={{ backgroundImage: "url(/textures/stars.svg)" }}
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 z-[0] bg-black"
+        className="acq-audit-card-black pointer-events-none absolute inset-0 z-[0] bg-black"
       />
 
       <div
@@ -79,7 +79,7 @@ export function AuditLeadCard({
         ) : null}
 
         {eyebrow ? (
-          <p className="inline-flex items-center rounded-full border border-white/15 bg-black/60 px-3 py-1 text-[11px] font-medium uppercase tracking-[0.1em] text-purple">
+          <p className="acq-eyebrow impact-highlight inline-flex items-center rounded-full border border-purple/50 bg-black/60 px-3 py-1 text-[11px] font-medium uppercase tracking-[0.1em]">
             {eyebrow}
           </p>
         ) : null}
@@ -94,7 +94,7 @@ export function AuditLeadCard({
           {title}
         </h2>
         {!inDialog ? (
-          <p className="max-w-[460px] text-lg text-white/65 max-md:text-base">{subtitle}</p>
+          <p className="max-w-[460px] font-mono text-[14px] tracking-[0.04em] text-white/65 md:text-[15px]">{subtitle}</p>
         ) : null}
       </div>
 

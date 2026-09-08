@@ -67,13 +67,13 @@ export function MockupBand({
     return (
       <div id={id} className="flex h-full min-w-0 w-full flex-col gap-4">
         <div className="shrink-0">
-          <p className="mb-2 inline-flex w-fit items-center rounded-full border border-white/15 bg-black/60 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.1em] text-purple backdrop-blur-[5px]">
+          <p className="acq-eyebrow impact-highlight mb-2 inline-flex w-fit items-center rounded-full border border-purple/50 bg-black/60 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.1em] backdrop-blur-[5px]">
             {eyebrow}
           </p>
           <h2 className="text-[22px] font-medium -tracking-[0.04em] leading-[1.1em] text-white lg:text-[26px]">
             {title}
           </h2>
-          <p className="mt-2 text-[13px] leading-[1.5] text-white/65">{text}</p>
+          <p className="mt-2 font-mono text-[13px] leading-[1.5] tracking-[0.04em] text-white/65">{text}</p>
         </div>
         <div className="mt-auto shrink-0">
           <MockupVideo src={src} poster={poster} compact />
@@ -90,13 +90,13 @@ export function MockupBand({
       <div className="grid items-center gap-8 md:grid-cols-2 md:gap-12">
         {/* Copy */}
         <div className={reverse ? "md:order-2" : ""}>
-          <p className="mb-3 inline-flex w-fit items-center rounded-full border border-white/15 bg-black/60 px-3 py-1 text-[11px] font-medium uppercase tracking-[0.1em] text-purple backdrop-blur-[5px]">
+          <p className="acq-eyebrow impact-highlight mb-3 inline-flex w-fit items-center rounded-full border border-purple/50 bg-black/60 px-3 py-1 text-[11px] font-medium uppercase tracking-[0.1em] backdrop-blur-[5px]">
             {eyebrow}
           </p>
           <h2 className="text-[30px] font-medium -tracking-[0.04em] leading-[1.05em] text-white md:text-[40px]">
             {title}
           </h2>
-          <p className="mt-4 max-w-[460px] text-lg leading-[1.5] text-white/65 max-md:text-base">
+          <p className="mt-4 max-w-[460px] font-mono text-[14px] leading-[1.5] tracking-[0.04em] text-white/65 md:text-[15px]">
             {text}
           </p>
         </div>

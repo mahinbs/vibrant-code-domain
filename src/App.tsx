@@ -100,6 +100,10 @@ const TradingAppDevelopmentPage = lazy(() => import("./pages/geo/TradingAppDevel
 const PayinPayoutSoftwarePage = lazy(() => import("./pages/geo/PayinPayoutSoftwarePage"));
 const ForLlmPage = lazy(() => import("./pages/ForLlmPage"));
 const FounderProfile = lazy(() => import("./redesign/pages/FounderProfile"));
+const AiClientAcquisition = lazy(
+  () => import("./redesign/pages/AiClientAcquisition"),
+);
+const AcquisitionPay = lazy(() => import("./redesign/pages/AcquisitionPay"));
 const VoiceAgentDemo = lazy(() => import("./redesign/pages/VoiceAgentDemo"));
 const Questionnaire = lazy(() => import("./redesign/pages/Questionnaire"));
 const DashboardLogin = lazy(() => import("./pages/dashboard/DashboardLogin"));
@@ -193,13 +197,7 @@ const App = () => {
                 element={
                   useNewHomepageUi ? (
                     <RedesignShell>
-                      <BusinessAutomation
-                        whatsappHref={homeWhatsappHref}
-                        sourcePage="homepage"
-                        showCaseStudies
-                        showExamples
-                        showTeam
-                      />
+                      <AiClientAcquisition />
                     </RedesignShell>
                   ) : (
                     <>
@@ -207,6 +205,21 @@ const App = () => {
                       <Index />
                     </>
                   )
+                }
+              />
+              {/* Former redesign homepage (Business Automation) — preserved, not destroyed. */}
+              <Route
+                path="/previous-homepage"
+                element={
+                  <RedesignShell>
+                    <BusinessAutomation
+                      whatsappHref={homeWhatsappHref}
+                      sourcePage="previous-homepage"
+                      showCaseStudies
+                      showExamples
+                      showTeam
+                    />
+                  </RedesignShell>
                 }
               />
               <Route
@@ -702,6 +715,20 @@ const App = () => {
 
               {/* AI Automation Discovery questionnaire (link-only, noindex). */}
               <Route path="/questionnaire" element={<Questionnaire />} />
+
+              {/* AI Client Acquisition is now the homepage; keep old URL working. */}
+              <Route path="/acquisition-preview" element={<Navigate to="/" replace />} />
+
+              {/* India checkout for AI Client Acquisition (Razorpay) — noindex until live. */}
+              <Route
+                path="/pay"
+                element={
+                  <RedesignShell>
+                    <AcquisitionPay />
+                  </RedesignShell>
+                }
+              />
+              <Route path="/acquisition/pay" element={<Navigate to="/pay" replace />} />
 
               {/* Founder profile — Mahin B S. */}
               <Route path="/founder" element={<RedesignShell><FounderProfile /></RedesignShell>} />

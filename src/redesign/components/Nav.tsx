@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { getNavPageLabel } from "../data/navPageLabels";
 import {
@@ -9,7 +9,13 @@ import {
 } from "../data/site";
 import { WhatsAppIcon } from "./icons";
 
-export type NavLinkItem = { label: string; href: string };
+export type NavDropdownItem = { label: string; href: string };
+export type NavLinkItem = {
+  label: string;
+  href?: string;
+  /** When set, renders a dropdown (desktop hover panel / mobile grouped links) instead of a plain link. */
+  dropdown?: ReadonlyArray<NavDropdownItem>;
+};
 export type NavCta = { label: string; href: string };
 
 type NavProps = {
@@ -20,6 +26,8 @@ type NavProps = {
   onCtaClick?: () => void;
   /** Desktop: render CTA button outside the nav pill (business automation landing). */
   ctaOutsideNav?: boolean;
+  /** Optional control rendered before WhatsApp (e.g. light/dark toggle). */
+  trailing?: ReactNode;
 };
 
 export function Nav({
@@ -28,6 +36,7 @@ export function Nav({
   whatsappHref: whatsappHrefProp,
   onCtaClick,
   ctaOutsideNav = false,
+  trailing,
 }: NavProps) {
   const waHref = whatsappHrefProp ?? whatsappHref;
   const [open, setOpen] = useState(false);
@@ -70,6 +79,66 @@ export function Nav({
       </a>
     );
 
+  const plainLinks = links.filter((item) => !item.dropdown);
+  const dropdownLinks = links.filter((item) => item.dropdown);
+  /** When CTA sits outside the pill, park Services to its right so the menu has room. */
+  const servicesAfterCta = ctaOutsideNav && dropdownLinks.length > 0;
+  const inlineLinks = servicesAfterCta ? plainLinks : links;
+
+  const renderDropdown = (
+    item: NavLinkItem,
+    align: "center" | "right" = "center",
+    variant: "link" | "button" = "link",
+  ) => {
+    if (!item.dropdown) return null;
+    const isButton = variant === "button";
+    return (
+      <div key={item.label} className="group relative">
+        <button
+          type="button"
+          className={
+            isButton
+              ? "inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-lg border border-white/15 bg-black/85 px-4 py-2.5 text-[13px] font-medium text-white/85 shadow-[0_5px_20px_rgba(0,0,0,0.35)] backdrop-blur-[10px] transition-colors hover:border-white/25 hover:text-white"
+              : "flex items-center gap-1 whitespace-nowrap px-3 py-2 text-[13px] font-medium text-white/70 transition-colors hover:text-white"
+          }
+        >
+          {item.label}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="size-[13px] transition-transform group-hover:rotate-180"
+            aria-hidden
+          >
+            <polyline points="6 9 12 15 18 9" />
+          </svg>
+        </button>
+        <div
+          className={[
+            "invisible absolute top-full z-50 pt-2 opacity-0 transition-all duration-150 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100",
+            align === "right" ? "right-0" : "left-1/2 -translate-x-1/2",
+          ].join(" ")}
+        >
+          <div className="acq-nav-dropdown w-[250px] rounded-[12px] border border-white/15 bg-black p-1.5 shadow-[0_15px_40px_rgba(0,0,0,0.5)]">
+            {item.dropdown.map((option) => (
+              <Link
+                key={option.href}
+                to={option.href}
+                className="block rounded-lg px-3 py-2.5 text-[13px] font-medium text-white/75 transition-colors hover:text-white"
+              >
+                {option.label}
+              </Link>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <>
       {/* Sticky avoids iOS Safari's `position: fixed` re-anchoring bug when an
@@ -85,7 +154,7 @@ export function Nav({
         >
           <nav
             className={[
-              "flex items-center justify-between gap-2 p-2 bg-black/85 backdrop-blur-[10px] rounded-[14px] border border-white/15 shadow-[0_5px_20px_rgba(0,0,0,0.35)]",
+              "acq-nav-pill flex items-center justify-between gap-2 rounded-[14px] border border-white/15 bg-black/85 p-2 shadow-[0_5px_20px_rgba(0,0,0,0.35)] backdrop-blur-[10px]",
               ctaOutsideNav ? "w-full max-w-[calc(100vw-20px)] md:w-auto md:max-w-none md:shrink-0" : "w-[760px] max-w-[calc(100vw-20px)]",
             ].join(" ")}
           >
@@ -122,18 +191,23 @@ export function Nav({
           ) : null}
 
           <div className="flex items-center gap-0.5 max-md:hidden md:ml-auto">
-            {links.map(({ label, href }) => (
-              <a
-                key={label}
-                href={href}
-                className="px-3 py-2 rounded-full text-[13px] font-medium text-white/70 transition-colors hover:text-white hover:bg-white/5"
-              >
-                {label}
-              </a>
-            ))}
+            {inlineLinks.map(({ label, href, dropdown }) =>
+              dropdown ? (
+                renderDropdown({ label, href, dropdown }, "center")
+              ) : (
+                <a
+                  key={label}
+                  href={href}
+                  className="whitespace-nowrap px-3 py-2 text-[13px] font-medium text-white/70 transition-colors hover:text-white"
+                >
+                  {label}
+                </a>
+              ),
+            )}
           </div>
 
           <div className="flex items-center gap-1.5 shrink-0">
+            {trailing ? <div className="mr-0.5">{trailing}</div> : null}
             <a
               href={waHref}
               target="_blank"
@@ -193,6 +267,11 @@ export function Nav({
           {ctaOutsideNav
             ? renderCtaButton(`${ctaButtonClass} hidden shrink-0 whitespace-nowrap px-4 py-2.5 md:inline-flex`)
             : null}
+          {servicesAfterCta ? (
+            <div className="hidden shrink-0 items-center md:flex">
+              {dropdownLinks.map((item) => renderDropdown(item, "right", "button"))}
+            </div>
+          ) : null}
         </div>
       </div>
 
@@ -210,18 +289,37 @@ export function Nav({
           />
           <div className="absolute left-0 right-0 top-[calc(env(safe-area-inset-top,0px)+88px)] mx-3 rounded-[14px] border border-white/15 bg-black/85 p-3 shadow-[0_15px_40px_rgba(0,0,0,0.5)]">
             <div className="flex flex-col">
-              {links.map(({ label, href }) => (
-                <a
-                  key={label}
-                  href={href}
-                  onClick={() => setOpen(false)}
-                  className="rounded-lg px-3 py-3 text-[15px] font-medium text-white/85 hover:bg-white/5 hover:text-white"
-                >
-                  {label}
-                </a>
-              ))}
+              {links.map(({ label, href, dropdown }) =>
+                dropdown ? (
+                  <div key={label}>
+                    <p className="px-3 pb-1 pt-3 text-[11px] font-semibold uppercase tracking-[0.12em] text-white/40">
+                      {label}
+                    </p>
+                    {dropdown.map((item) => (
+                      <Link
+                        key={item.href}
+                        to={item.href}
+                        onClick={() => setOpen(false)}
+                        className="block rounded-lg px-3 py-3 pl-5 text-[15px] font-medium text-white/85 hover:bg-white/5 hover:text-white"
+                      >
+                        {item.label}
+                      </Link>
+                    ))}
+                  </div>
+                ) : (
+                  <a
+                    key={label}
+                    href={href}
+                    onClick={() => setOpen(false)}
+                    className="rounded-lg px-3 py-3 text-[15px] font-medium text-white/85 hover:bg-white/5 hover:text-white"
+                  >
+                    {label}
+                  </a>
+                ),
+              )}
             </div>
             <div className="mt-3 flex flex-col gap-2 border-t border-white/10 pt-3">
+              {trailing ? <div className="flex justify-center pb-1">{trailing}</div> : null}
               <a
                 href={waHref}
                 target="_blank"

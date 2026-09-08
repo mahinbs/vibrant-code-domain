@@ -78,6 +78,21 @@ const AUTOMATE_OPTIONS = [
   { value: "custom-software", label: "Something else" },
 ] as const;
 
+const ACQUISITION_NEED_OPTIONS = [
+  { value: "ad-campaigns", label: "Ad campaigns" },
+  { value: "whatsapp-followups", label: "WhatsApp follow-ups" },
+  { value: "linkedin-outreach", label: "LinkedIn outreach" },
+  { value: "email-sequences", label: "Email sequences" },
+  { value: "full-stack", label: "Full stack" },
+] as const;
+
+const ACQUISITION_STAGE_OPTIONS = [
+  { value: "no-ads", label: "No ads yet" },
+  { value: "running-myself", label: "Running ads myself" },
+  { value: "agency", label: "Agency or freelancer" },
+  { value: "mix", label: "Mix of ads and outreach" },
+] as const;
+
 /** Legacy build options kept for the fintech / healthcare landing pages. */
 const WHAT_BUILDING_ALL = [
   { value: "trading-platform", label: "Trading Platform" },
@@ -275,14 +290,22 @@ export function LeadForm({
   const [nationalNumber, setNationalNumber] = useState<string>("");
 
   const isAutomation = vertical === "none";
+  // Homepage is now AI Client Acquisition; keep legacy source id working too.
+  const isAcquisition =
+    sourcePage === "ai-client-acquisition" || sourcePage === "homepage";
 
   const whatBuildingOptions = useMemo(() => {
+    if (isAcquisition) return [...ACQUISITION_NEED_OPTIONS];
     if (vertical === "fintech") return [...WHAT_BUILDING_FINTECH];
     if (vertical === "healthcare") return [...WHAT_BUILDING_HEALTHCARE];
     return [...AUTOMATE_OPTIONS];
-  }, [vertical]);
+  }, [vertical, isAcquisition]);
 
-  const stageOptions = isAutomation ? AUTOMATION_STAGE_OPTIONS : PROJECT_STAGE_OPTIONS;
+  const stageOptions = isAcquisition
+    ? ACQUISITION_STAGE_OPTIONS
+    : isAutomation
+      ? AUTOMATION_STAGE_OPTIONS
+      : PROJECT_STAGE_OPTIONS;
   const scaleOptions = isAutomation ? TEAM_SIZE_OPTIONS : USER_SCALE_OPTIONS;
   const step2MultiOptions = isAutomation ? TIMESINK_OPTIONS : COMPLIANCE_OPTIONS;
   const challengeOptions = isAutomation ? AUTOMATION_CHALLENGE_OPTIONS : TECH_CHALLENGE_OPTIONS;
@@ -399,7 +422,13 @@ export function LeadForm({
     }
   }
 
-  const stepHeadline = isAutomation
+  const stepHeadline = isAcquisition
+    ? step === 1
+      ? "Tell us about your business"
+      : step === 2
+        ? "How you acquire clients"
+        : "Budget & next step"
+    : isAutomation
     ? step === 1
       ? "Tell us about your business"
       : step === 2
@@ -487,7 +516,13 @@ export function LeadForm({
           />
           <SelectFieldStr
             id="whatBuilding"
-            label={isAutomation ? "What do you want to automate? *" : "What are you building? *"}
+            label={
+              isAcquisition
+                ? "What do you need help with? *"
+                : isAutomation
+                  ? "What do you want to automate? *"
+                  : "What are you building? *"
+            }
             value={values.whatBuilding}
             onChange={onSelectChange("whatBuilding")}
             error={errors.whatBuilding}
@@ -497,7 +532,13 @@ export function LeadForm({
           />
           <SelectFieldStr
             id="projectStage"
-            label={isAutomation ? "Where are you today? *" : "Project stage *"}
+            label={
+              isAcquisition
+                ? "How do you get clients today? *"
+                : isAutomation
+                  ? "Where are you today? *"
+                  : "Project stage *"
+            }
             value={values.projectStage}
             onChange={onSelectChange("projectStage")}
             error={errors.projectStage}
@@ -566,7 +607,13 @@ export function LeadForm({
           ) : null}
           <SelectFieldStr
             id="budgetInr"
-            label={isAutomation ? "Automation budget (INR) *" : "Estimated budget (INR) *"}
+            label={
+              isAcquisition
+                ? "Monthly ad budget (INR) *"
+                : isAutomation
+                  ? "Automation budget (INR) *"
+                  : "Estimated budget (INR) *"
+            }
             value={values.budgetInr}
             onChange={onSelectChange("budgetInr")}
             error={errors.budgetInr}
@@ -622,7 +669,9 @@ export function LeadForm({
             <span className="relative z-[2]">
               {status === "submitting"
                 ? "Submitting..."
-                : isAutomation
+                : isAcquisition
+                  ? "Get my client acquisition plan"
+                  : isAutomation
                   ? "Get my free automation audit"
                   : "Request technical consultation"}
             </span>

@@ -17,9 +17,14 @@ const NOT_FOUND: RouteSeo = {
 /** Exact pathname → SEO (leading slash, no trailing slash except "/"). */
 const EXACT: Record<string, RouteSeo> = {
   "/": {
-    title: "Boostmysites - AI-Powered Software Solutions",
+    title: "Get more clients with AI · Boostmysites",
     description:
-      "Transform your business with Boostmysites' innovative AI-powered software solutions. Web development, mobile apps, SaaS, and digital marketing services.",
+      "Get more clients with AI. Plans, campaigns, LinkedIn outreach, email, and WhatsApp follow-ups. All running 24/7. Nothing spends until you approve.",
+  },
+  "/previous-homepage": {
+    title: "Previous homepage · Boostmysites",
+    description:
+      "Previous Boostmysites homepage — AI automation for modern businesses. Preserved for reference.",
   },
   "/portfolio": {
     title: "Portfolio | Boostmysites",
