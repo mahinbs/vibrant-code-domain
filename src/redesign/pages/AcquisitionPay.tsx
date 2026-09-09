@@ -331,18 +331,7 @@ export default function AcquisitionPay() {
         <p className="impact-highlight font-mono text-[12px] tracking-[0.04em] md:text-[13px]">{plan.period}</p>
       </div>
 
-      <ul className="mt-4 space-y-2.5 border-t border-purple/20 pt-4">
-        {plan.checkoutItems.map((item) => (
-          <li key={item} className="flex gap-2.5 text-[14px] text-white/75">
-            <span className="mt-0.5 flex size-4 shrink-0 items-center justify-center rounded-full bg-[#4e78ff]/20 text-[10px] font-bold text-[#7c97ff]">
-              ✓
-            </span>
-            {item}
-          </li>
-        ))}
-      </ul>
-
-      <dl className="mt-5 space-y-2 border-t border-purple/20 pt-4 font-mono text-[13px]">
+      <dl className="mt-4 space-y-2 border-t border-purple/20 pt-4 font-mono text-[13px]">
         <div className="flex justify-between gap-4 text-white/50">
           <dt>Base</dt>
           <dd className="text-white/85">{formatInr(plan.baseInr)}</dd>
@@ -356,6 +345,34 @@ export default function AcquisitionPay() {
           <dd className="impact-highlight">{formatInr(total)}</dd>
         </div>
       </dl>
+
+      <ul className="mt-4 hidden space-y-2.5 border-t border-purple/20 pt-4 lg:block">
+        {plan.checkoutItems.map((item) => (
+          <li key={item} className="flex gap-2.5 text-[14px] text-white/75">
+            <span className="mt-0.5 flex size-4 shrink-0 items-center justify-center rounded-full bg-[#4e78ff]/20 text-[10px] font-bold text-[#7c97ff]">
+              ✓
+            </span>
+            {item}
+          </li>
+        ))}
+      </ul>
+
+      <details className="mt-4 border-t border-purple/20 pt-3 lg:hidden">
+        <summary className="flex cursor-pointer list-none items-center justify-between gap-3 py-1 text-[14px] font-medium text-white [&::-webkit-details-marker]:hidden">
+          <span>What&apos;s included</span>
+          <span className="impact-highlight font-mono text-[12px]">{plan.checkoutItems.length} items ↓</span>
+        </summary>
+        <ul className="mt-3 space-y-2.5">
+          {plan.checkoutItems.map((item) => (
+            <li key={item} className="flex gap-2.5 text-[14px] text-white/75">
+              <span className="mt-0.5 flex size-4 shrink-0 items-center justify-center rounded-full bg-[#4e78ff]/20 text-[10px] font-bold text-[#7c97ff]">
+                ✓
+              </span>
+              {item}
+            </li>
+          ))}
+        </ul>
+      </details>
     </div>
   );
 
@@ -407,11 +424,11 @@ export default function AcquisitionPay() {
       style={{ color: "#18181b" }}
     >
       <p className="impact-highlight font-mono text-[11px] font-semibold uppercase tracking-[0.14em]">Complete your order</p>
-      <p className="mt-2 text-[15px] leading-relaxed text-[#52525b]">
+      <p className="mt-2 hidden text-[15px] leading-relaxed text-[#52525b] lg:block">
         Everything is ready. Complete the payment below to activate your service.
       </p>
 
-      <div className="mt-5 rounded-[14px] border border-[#4e78ff]/20 bg-[#f4f6ff] px-4 py-3.5">
+      <div className="mt-4 hidden rounded-[14px] border border-[#4e78ff]/20 bg-[#f4f6ff] px-4 py-3.5 lg:mt-5 lg:block">
         <p className="text-[12px] text-[#71717a]">Amount due</p>
         <p className="impact-highlight mt-0.5 text-[28px] font-semibold tracking-[-0.03em] md:text-[32px]">
           {formatInr(total)}
@@ -543,18 +560,18 @@ export default function AcquisitionPay() {
           ctaOutsideNav
         />
 
-        <main className="mx-auto w-full max-w-[1100px] px-5 pb-28 pt-4 md:px-10 md:pb-16 md:pt-8">
+        <main className="mx-auto w-full max-w-[1100px] px-5 pb-28 pt-3 md:px-10 md:pb-16 md:pt-8">
           <div className="max-w-[640px]">
             <p className="acq-eyebrow impact-highlight inline-flex w-fit items-center rounded-full border border-purple/50 bg-black/60 px-3.5 py-2 text-[11px] font-medium uppercase tracking-[0.1em] backdrop-blur-[5px]">
               India · Secure checkout
             </p>
-            <h1 className="mt-4 text-[30px] font-medium leading-[1.08] -tracking-[0.04em] text-white max-md:text-[28px] md:text-[40px]">
+            <h1 className="mt-3 text-[26px] font-medium leading-[1.08] -tracking-[0.04em] text-white md:mt-4 md:text-[40px]">
               Complete your <span className="impact-highlight">payment</span>
             </h1>
-            <p className="mt-3 font-mono text-[14px] leading-relaxed tracking-[0.04em] text-white/60 md:text-[15px]">
+            <p className="mt-3 hidden font-mono text-[14px] leading-relaxed tracking-[0.04em] text-white/60 md:block md:text-[15px]">
               You&apos;re one step away from getting started with {site.brand}.
             </p>
-            <p className="mt-4 flex flex-wrap gap-x-3 gap-y-1 font-mono text-[11px] font-medium uppercase tracking-[0.1em] text-white/55 md:text-[12px]">
+            <p className="mt-4 hidden flex-wrap gap-x-3 gap-y-1 font-mono text-[11px] font-medium uppercase tracking-[0.1em] text-white/55 md:flex md:text-[12px]">
               <span>Secure Payment</span>
               <span className="text-[#4e78ff]" aria-hidden>
                 ·
@@ -567,31 +584,28 @@ export default function AcquisitionPay() {
             </p>
           </div>
 
-          <div className="mt-8 lg:hidden">{paymentCard}</div>
-
-          <div className="mt-8 grid gap-6 lg:mt-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:items-start lg:gap-10">
-            <div className="flex flex-col gap-5">
-              {orderSummary}
-              {trustBlock}
-              {nextSteps}
-              <p className="text-[12px] text-white/40">
-                Questions?{" "}
-                <a
-                  href={whatsappHref}
-                  className="impact-highlight underline-offset-2 hover:underline"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  WhatsApp {site.brand}
-                </a>
-                {" · "}
-                <Link to="/" className="impact-highlight underline-offset-2 hover:underline">
-                  Back to product
-                </Link>
-              </p>
+          <div className="mt-5 grid grid-cols-1 gap-5 lg:mt-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:items-start lg:gap-10">
+            <div className="order-1">{orderSummary}</div>
+            <div className="order-2 lg:col-start-2 lg:row-span-4 lg:row-start-1 lg:sticky lg:top-24 lg:self-start">
+              {paymentCard}
             </div>
-
-            <div className="hidden lg:sticky lg:top-24 lg:block lg:self-start">{paymentCard}</div>
+            <div className="order-3 lg:col-start-1">{trustBlock}</div>
+            <div className="order-4 lg:col-start-1">{nextSteps}</div>
+            <p className="order-5 text-[12px] text-white/40 lg:col-start-1">
+              Questions?{" "}
+              <a
+                href={whatsappHref}
+                className="impact-highlight underline-offset-2 hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                WhatsApp {site.brand}
+              </a>
+              {" · "}
+              <Link to="/" className="impact-highlight underline-offset-2 hover:underline">
+                Back to product
+              </Link>
+            </p>
           </div>
         </main>
 
