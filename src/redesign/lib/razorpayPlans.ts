@@ -23,7 +23,7 @@ export type PayPlan = {
 };
 
 const SHARED_HIGHLIGHTS = [
-  "Full ad stack — Meta, Google, LinkedIn & more",
+  "Full ad stack: Meta, Google, LinkedIn & more",
   "8 AI agents plan, launch, optimize & follow up",
   "WhatsApp + email follow-ups",
   "Nothing spends until you approve",
@@ -31,13 +31,17 @@ const SHARED_HIGHLIGHTS = [
 ] as const;
 
 const SHARED_CHECKOUT_ITEMS = [
-  "AI advertising team — Meta, Google, LinkedIn, TikTok & more",
-  "Companion automation engine — watch every step",
+  "AI advertising team: Meta, Google, LinkedIn, TikTok & more",
+  "Companion automation engine to watch every step",
   "Rejection defense and one-click rescue",
   "Ad audit + live CTR, spend and cost-per-lead",
   "Payment & tracking watchdog",
   "AI email marketing sequences",
   "Done-with-you launch with our team",
+  "AI campaign generation on 5+ platforms",
+  "Dedicated human agent",
+  "WhatsApp automation",
+  "AI LinkedIn outreach module",
 ] as const;
 
 export const PAY_PLANS: readonly PayPlan[] = [
@@ -55,13 +59,17 @@ export const PAY_PLANS: readonly PayPlan[] = [
     label: "1 year",
     period: "Billed once a year",
     baseInr: 99_999,
-    blurb: "Best value — run the full acquisition stack for twelve months.",
+    blurb: "Best value: run the full acquisition stack for twelve months.",
     highlights: [
       ...SHARED_HIGHLIGHTS,
       "Priority onboarding",
       "Save vs paying month-to-month",
     ],
-    checkoutItems: [...SHARED_CHECKOUT_ITEMS, "Priority onboarding"],
+    checkoutItems: [
+      ...SHARED_CHECKOUT_ITEMS,
+      "Priority onboarding",
+      "Custom marketing plan generation",
+    ],
     badge: "Best value",
   },
 ] as const;

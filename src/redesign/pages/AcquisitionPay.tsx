@@ -2,6 +2,7 @@ import { useMemo, useRef, useState, type FormEvent, type ReactNode } from "react
 import { Helmet } from "react-helmet-async";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { SiteBackground } from "../components/SiteBackground";
+import { Nav, type NavLinkItem } from "../components/Nav";
 import { whatsappHref, site } from "../data/site";
 import {
   formatInr,
@@ -37,6 +38,22 @@ const NEXT_STEPS = [
   "Account setup",
   "Campaign launch",
 ] as const;
+
+const NAV_LINKS: ReadonlyArray<NavLinkItem> = [
+  {
+    label: "Services",
+    dropdown: [
+      { label: "AI Client Acquisition System", href: "/" },
+      { label: "AI Automation", href: "/business-automation" },
+    ],
+  },
+  { label: "How it works", href: "/#demo" },
+  { label: "Features", href: "/#features" },
+  { label: "Pricing", href: "/#pricing" },
+  { label: "Reviews", href: "/#reviews" },
+];
+
+const NAV_CTA = { label: "Get my acquisition plan", href: "/#contact-form" } as const;
 
 type CheckoutForm = {
   name: string;
@@ -215,7 +232,7 @@ export default function AcquisitionPay() {
         amount: order.amount,
         currency: order.currency,
         name: site.brand,
-        description: `AI Client Acquisition — ${order.planLabel}`,
+        description: `AI Client Acquisition ${order.planLabel}`,
         order_id: order.orderId,
         prefill: {
           name: form.name.trim(),
@@ -263,11 +280,11 @@ export default function AcquisitionPay() {
   }
 
   const orderSummary = (
-    <div className="rounded-[18px] border border-white/12 p-5 md:p-6" style={{ background: GLOSS }}>
+    <div className="rounded-[18px] border border-purple/35 p-5 md:p-6" style={{ background: GLOSS }}>
       <div className="flex items-center justify-between gap-3">
-        <p className="text-[12px] font-semibold uppercase tracking-[0.12em] text-white/45">Your Order</p>
+        <p className="impact-highlight font-mono text-[11px] font-semibold uppercase tracking-[0.14em]">Your Order</p>
         {plan.badge ? (
-          <span className="rounded-full bg-[#4e78ff]/15 px-2.5 py-1 text-[11px] font-semibold text-[#7c97ff]">
+          <span className="impact-highlight font-mono text-[10px] font-semibold uppercase tracking-[0.14em]">
             {plan.badge}
           </span>
         ) : null}
@@ -282,25 +299,39 @@ export default function AcquisitionPay() {
               type="button"
               onClick={() => setPlanId(p.id)}
               className={[
-                "rounded-[10px] px-3 py-2.5 text-[13px] font-medium transition-colors",
-                selected ? "bg-white/10 text-white" : "text-white/45 hover:text-white/75",
+                "rounded-[10px] px-3 py-3 text-center transition-colors",
+                selected
+                  ? "pay-plan-selected text-white"
+                  : "border border-transparent text-white/45 hover:text-white/75",
               ].join(" ")}
             >
-              {p.label}
-              <span className="mt-0.5 block text-[11px] font-normal text-white/40">
-                {formatInr(totalInr(p.baseInr))}
+              <span className="block text-[11px] font-medium uppercase tracking-[0.08em]">{p.label}</span>
+              <span
+                className={[
+                  "mt-1.5 block text-[20px] font-semibold leading-none tracking-[-0.03em] md:text-[22px]",
+                  selected ? "text-white" : "text-white/55",
+                ].join(" ")}
+              >
+                {formatInr(p.baseInr)}
+                <span className="ml-1 text-[11px] font-normal tracking-normal text-white/45">+ GST</span>
               </span>
             </button>
           );
         })}
       </div>
 
-      <h2 className="mt-5 text-[18px] font-semibold tracking-[-0.02em] text-white">
-        AI Client Acquisition — {plan.label}
+      <h2 className="mt-5 text-[18px] font-medium -tracking-[0.02em] text-white">
+        AI Client Acquisition · {plan.label}
       </h2>
-      <p className="mt-1 text-[13px] text-white/50">{plan.period}</p>
+      <div className="mt-1 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+        <p className="text-[28px] font-semibold tracking-[-0.03em] text-white md:text-[32px]">
+          {formatInr(plan.baseInr)}
+          <span className="ml-2 text-[13px] font-normal text-white/45">+ GST</span>
+        </p>
+        <p className="impact-highlight font-mono text-[12px] tracking-[0.04em] md:text-[13px]">{plan.period}</p>
+      </div>
 
-      <ul className="mt-4 space-y-2.5 border-t border-white/[0.08] pt-4">
+      <ul className="mt-4 space-y-2.5 border-t border-purple/20 pt-4">
         {plan.checkoutItems.map((item) => (
           <li key={item} className="flex gap-2.5 text-[14px] text-white/75">
             <span className="mt-0.5 flex size-4 shrink-0 items-center justify-center rounded-full bg-[#4e78ff]/20 text-[10px] font-bold text-[#7c97ff]">
@@ -311,7 +342,7 @@ export default function AcquisitionPay() {
         ))}
       </ul>
 
-      <dl className="mt-5 space-y-2 border-t border-white/[0.08] pt-4 text-[13px]">
+      <dl className="mt-5 space-y-2 border-t border-purple/20 pt-4 font-mono text-[13px]">
         <div className="flex justify-between gap-4 text-white/50">
           <dt>Base</dt>
           <dd className="text-white/85">{formatInr(plan.baseInr)}</dd>
@@ -320,17 +351,19 @@ export default function AcquisitionPay() {
           <dt>GST (18%)</dt>
           <dd className="text-white/85">{formatInr(gst)}</dd>
         </div>
-        <div className="flex justify-between gap-4 text-[15px] font-semibold text-white">
+        <div className="flex justify-between gap-4 text-[14px] font-semibold text-white">
           <dt>Total today</dt>
-          <dd>{formatInr(total)}</dd>
+          <dd className="impact-highlight">{formatInr(total)}</dd>
         </div>
       </dl>
     </div>
   );
 
   const trustBlock = (
-    <div className="rounded-[18px] border border-white/12 p-5 md:p-6" style={{ background: GLOSS }}>
-      <h3 className="text-[16px] font-semibold tracking-[-0.02em] text-white">You&apos;re in safe hands</h3>
+    <div className="rounded-[18px] border border-purple/25 p-5 md:p-6" style={{ background: GLOSS }}>
+      <h3 className="text-[16px] font-semibold tracking-[-0.02em] text-white">
+        You&apos;re in <span className="impact-highlight">safe hands</span>
+      </h3>
       <ul className="mt-4 space-y-2.5">
         {TRUST_ITEMS.map((item) => (
           <li key={item} className="flex gap-2.5 text-[14px] text-white/75">
@@ -345,17 +378,19 @@ export default function AcquisitionPay() {
   );
 
   const nextSteps = (
-    <div className="rounded-[18px] border border-white/12 p-5 md:p-6" style={{ background: GLOSS }}>
-      <h3 className="text-[16px] font-semibold tracking-[-0.02em] text-white">What happens next?</h3>
+    <div className="rounded-[18px] border border-purple/25 p-5 md:p-6" style={{ background: GLOSS }}>
+      <h3 className="text-[16px] font-semibold tracking-[-0.02em] text-white">
+        What happens <span className="impact-highlight">next</span>?
+      </h3>
       <ol className="mt-4 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-2 sm:gap-y-2">
         {NEXT_STEPS.map((step, i) => (
           <li key={step} className="flex items-center gap-2 text-[13px] text-white/75">
-            <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-white/10 text-[11px] font-semibold text-white">
+            <span className="flex size-6 shrink-0 items-center justify-center rounded-full border border-purple/40 bg-purple/20 text-[11px] font-semibold text-[#7c97ff]">
               {i + 1}
             </span>
             {step}
             {i < NEXT_STEPS.length - 1 ? (
-              <span className="hidden text-white/25 sm:inline" aria-hidden>
+              <span className="hidden text-[#4e78ff]/60 sm:inline" aria-hidden>
                 →
               </span>
             ) : null}
@@ -368,20 +403,20 @@ export default function AcquisitionPay() {
   const paymentCard = (
     <div
       id="pay-card"
-      className="rounded-[18px] border border-white/10 bg-white p-5 shadow-[0_20px_50px_rgba(0,0,0,0.35)] md:p-6"
+      className="rounded-[18px] border border-[#4e78ff]/25 bg-white p-5 shadow-[0_20px_50px_rgba(78,120,255,0.18)] md:p-6"
       style={{ color: "#18181b" }}
     >
-      <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#71717a]">Complete your order</p>
+      <p className="impact-highlight font-mono text-[11px] font-semibold uppercase tracking-[0.14em]">Complete your order</p>
       <p className="mt-2 text-[15px] leading-relaxed text-[#52525b]">
         Everything is ready. Complete the payment below to activate your service.
       </p>
 
-      <div className="mt-5 rounded-[14px] border border-black/[0.08] bg-[#f4f4f5] px-4 py-3.5">
+      <div className="mt-5 rounded-[14px] border border-[#4e78ff]/20 bg-[#f4f6ff] px-4 py-3.5">
         <p className="text-[12px] text-[#71717a]">Amount due</p>
-        <p className="mt-0.5 text-[28px] font-semibold tracking-[-0.03em] text-[#18181b] md:text-[32px]">
+        <p className="impact-highlight mt-0.5 text-[28px] font-semibold tracking-[-0.03em] md:text-[32px]">
           {formatInr(total)}
         </p>
-        <p className="mt-1 text-[13px] text-[#52525b]">For: AI Client Acquisition — {plan.label}</p>
+        <p className="mt-1 text-[13px] text-[#52525b]">For: AI Client Acquisition · {plan.label}</p>
       </div>
 
       <form ref={formRef} className="mt-5 flex flex-col gap-3.5" onSubmit={onSubmit}>
@@ -465,9 +500,11 @@ export default function AcquisitionPay() {
         <button
           type="submit"
           disabled={busy}
-          className="mt-1 inline-flex w-full items-center justify-center gap-2 rounded-[12px] bg-[#4e78ff] px-5 py-3.5 text-[15px] font-semibold text-white transition-opacity hover:opacity-95 disabled:opacity-60"
+          className="btn-gloss relative mt-1 inline-flex w-full items-center justify-center gap-2 overflow-hidden rounded-[12px] border border-white/20 bg-purple/80 px-5 py-3.5 text-[15px] font-semibold text-white disabled:opacity-60"
         >
-          {busy ? "Opening Razorpay…" : `Pay ${formatInr(total)} Securely →`}
+          <span className="relative z-[2]">
+            {busy ? "Opening Razorpay…" : `Pay ${formatInr(total)} Securely →`}
+          </span>
         </button>
 
         <p className="text-center text-[12px] leading-relaxed text-[#52525b]">
@@ -476,7 +513,7 @@ export default function AcquisitionPay() {
           You&apos;ll receive confirmation and onboarding instructions immediately after successful payment.
         </p>
 
-        <p className="text-center text-[11px] font-medium uppercase tracking-[0.1em] text-[#a1a1aa]">
+        <p className="text-center text-[11px] font-medium uppercase tracking-[0.1em] text-[#4e78ff]">
           Secure checkout · Razorpay
         </p>
 
@@ -499,38 +536,31 @@ export default function AcquisitionPay() {
       <SiteBackground />
 
       <div className="relative z-10 min-h-screen text-white">
-        <header className="border-b border-white/10 bg-black/40 backdrop-blur-sm">
-          <div className="mx-auto flex h-14 w-full max-w-[1100px] items-center justify-between px-5 md:h-16 md:px-10">
-            <Link to="/" className="flex items-center gap-2" aria-label={`${site.brand} home`}>
-              <img src="/bms-logo.png" alt="" className="h-7 w-7 object-contain" />
-              <span className="text-[15px] font-semibold tracking-[-0.02em] text-white">{site.brand}</span>
-            </Link>
-            <a
-              href={whatsappHref}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[13px] font-medium text-white/70 underline-offset-2 hover:text-white hover:underline"
-            >
-              WhatsApp us
-            </a>
-          </div>
-        </header>
+        <Nav
+          links={NAV_LINKS}
+          cta={NAV_CTA}
+          whatsappHref={whatsappHref}
+          ctaOutsideNav
+        />
 
-        <main className="mx-auto w-full max-w-[1100px] px-5 pb-28 pt-8 md:px-10 md:pb-16 md:pt-12">
+        <main className="mx-auto w-full max-w-[1100px] px-5 pb-28 pt-4 md:px-10 md:pb-16 md:pt-8">
           <div className="max-w-[640px]">
-            <h1 className="text-[30px] font-semibold leading-[1.1] tracking-[-0.04em] text-white max-md:text-[28px] md:text-[40px]">
-              Complete Your Payment
+            <p className="acq-eyebrow impact-highlight inline-flex w-fit items-center rounded-full border border-purple/50 bg-black/60 px-3.5 py-2 text-[11px] font-medium uppercase tracking-[0.1em] backdrop-blur-[5px]">
+              India · Secure checkout
+            </p>
+            <h1 className="mt-4 text-[30px] font-medium leading-[1.08] -tracking-[0.04em] text-white max-md:text-[28px] md:text-[40px]">
+              Complete your <span className="impact-highlight">payment</span>
             </h1>
-            <p className="mt-3 text-[15px] leading-relaxed text-white/60 md:text-[16px]">
+            <p className="mt-3 font-mono text-[14px] leading-relaxed tracking-[0.04em] text-white/60 md:text-[15px]">
               You&apos;re one step away from getting started with {site.brand}.
             </p>
-            <p className="mt-4 flex flex-wrap gap-x-3 gap-y-1 text-[12px] font-medium text-white/50 md:text-[13px]">
+            <p className="mt-4 flex flex-wrap gap-x-3 gap-y-1 font-mono text-[11px] font-medium uppercase tracking-[0.1em] text-white/55 md:text-[12px]">
               <span>Secure Payment</span>
-              <span className="text-white/25" aria-hidden>
+              <span className="text-[#4e78ff]" aria-hidden>
                 ·
               </span>
               <span>Instant Confirmation</span>
-              <span className="text-white/25" aria-hidden>
+              <span className="text-[#4e78ff]" aria-hidden>
                 ·
               </span>
               <span>Dedicated Support</span>
@@ -548,28 +578,28 @@ export default function AcquisitionPay() {
                 Questions?{" "}
                 <a
                   href={whatsappHref}
-                  className="text-white/70 underline-offset-2 hover:underline"
+                  className="impact-highlight underline-offset-2 hover:underline"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   WhatsApp {site.brand}
                 </a>
                 {" · "}
-                <Link to="/" className="text-white/70 underline-offset-2 hover:underline">
+                <Link to="/" className="impact-highlight underline-offset-2 hover:underline">
                   Back to product
                 </Link>
               </p>
             </div>
 
-            <div className="hidden lg:sticky lg:top-8 lg:block lg:self-start">{paymentCard}</div>
+            <div className="hidden lg:sticky lg:top-24 lg:block lg:self-start">{paymentCard}</div>
           </div>
         </main>
 
-        <div className="fixed inset-x-0 bottom-0 z-40 border-t border-white/10 bg-black/80 px-4 py-3 backdrop-blur-md lg:hidden">
+        <div className="fixed inset-x-0 bottom-0 z-40 border-t border-purple/25 bg-black/80 px-4 py-3 backdrop-blur-md lg:hidden">
           <div className="mx-auto flex max-w-[1100px] items-center gap-3">
             <div className="min-w-0 flex-1">
               <p className="truncate text-[12px] text-white/50">Total today</p>
-              <p className="text-[17px] font-semibold tracking-[-0.02em] text-white">{formatInr(total)}</p>
+              <p className="impact-highlight text-[17px] font-semibold tracking-[-0.02em]">{formatInr(total)}</p>
             </div>
             <button
               type="button"
@@ -578,9 +608,9 @@ export default function AcquisitionPay() {
                 scrollToPayForm();
                 formRef.current?.requestSubmit();
               }}
-              className="shrink-0 rounded-[12px] bg-[#4e78ff] px-4 py-3 text-[14px] font-semibold text-white disabled:opacity-60"
+              className="btn-gloss relative shrink-0 overflow-hidden rounded-[12px] border border-white/20 bg-purple/80 px-4 py-3 text-[14px] font-semibold text-white disabled:opacity-60"
             >
-              {busy ? "Opening…" : "Pay Securely →"}
+              <span className="relative z-[2]">{busy ? "Opening…" : "Pay Securely →"}</span>
             </button>
           </div>
         </div>
