@@ -1,6 +1,7 @@
 import { useMemo, useRef, useState, type FormEvent, type ReactNode } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { SiteBackground } from "../components/SiteBackground";
 import { whatsappHref, site } from "../data/site";
 import {
   formatInr,
@@ -15,9 +16,12 @@ import {
 import { createRazorpayOrder, verifyRazorpayPayment } from "../lib/razorpayClient";
 
 const fieldClass =
-  "w-full rounded-[12px] border border-white/15 bg-white/5 px-3.5 py-2.5 text-[14px] text-white outline-none transition-colors placeholder:text-white/35 focus:border-[#4e78ff]";
+  "w-full rounded-[12px] border border-black/10 bg-[#f4f4f5] px-3.5 py-2.5 text-[14px] text-[#18181b] outline-none transition-colors placeholder:text-[#a1a1aa] focus:border-[#4e78ff]";
 
-const labelClass = "mb-1.5 block text-[12px] font-medium text-white/55";
+const labelClass = "mb-1.5 block text-[12px] font-medium text-[#52525b]";
+
+const GLOSS =
+  "linear-gradient(180deg, rgba(255,255,255,0.04) 0%, rgba(0,0,0,0.5) 100%)";
 
 const TRUST_ITEMS = [
   "499+ businesses served",
@@ -259,17 +263,17 @@ export default function AcquisitionPay() {
   }
 
   const orderSummary = (
-    <div className="rounded-[18px] border border-black/[0.06] bg-white p-5 shadow-[0_8px_30px_rgba(15,23,42,0.04)] md:p-6">
+    <div className="rounded-[18px] border border-white/12 p-5 md:p-6" style={{ background: GLOSS }}>
       <div className="flex items-center justify-between gap-3">
-        <p className="text-[12px] font-semibold uppercase tracking-[0.12em] text-zinc-400">Your Order</p>
+        <p className="text-[12px] font-semibold uppercase tracking-[0.12em] text-white/45">Your Order</p>
         {plan.badge ? (
-          <span className="rounded-full bg-[#4e78ff]/10 px-2.5 py-1 text-[11px] font-semibold text-[#4e78ff]">
+          <span className="rounded-full bg-[#4e78ff]/15 px-2.5 py-1 text-[11px] font-semibold text-[#7c97ff]">
             {plan.badge}
           </span>
         ) : null}
       </div>
 
-      <div className="mt-4 grid grid-cols-2 gap-1 rounded-[12px] bg-zinc-100 p-1">
+      <div className="mt-4 grid grid-cols-2 gap-1 rounded-[12px] bg-black/40 p-1">
         {PAY_PLANS.map((p) => {
           const selected = p.id === planId;
           return (
@@ -279,25 +283,27 @@ export default function AcquisitionPay() {
               onClick={() => setPlanId(p.id)}
               className={[
                 "rounded-[10px] px-3 py-2.5 text-[13px] font-medium transition-colors",
-                selected ? "bg-white text-zinc-900 shadow-sm" : "text-zinc-500 hover:text-zinc-800",
+                selected ? "bg-white/10 text-white" : "text-white/45 hover:text-white/75",
               ].join(" ")}
             >
               {p.label}
-              <span className="mt-0.5 block text-[11px] font-normal text-zinc-400">{formatInr(totalInr(p.baseInr))}</span>
+              <span className="mt-0.5 block text-[11px] font-normal text-white/40">
+                {formatInr(totalInr(p.baseInr))}
+              </span>
             </button>
           );
         })}
       </div>
 
-      <h2 className="mt-5 text-[18px] font-semibold tracking-[-0.02em] text-zinc-900">
+      <h2 className="mt-5 text-[18px] font-semibold tracking-[-0.02em] text-white">
         AI Client Acquisition — {plan.label}
       </h2>
-      <p className="mt-1 text-[13px] text-zinc-500">{plan.period}</p>
+      <p className="mt-1 text-[13px] text-white/50">{plan.period}</p>
 
-      <ul className="mt-4 space-y-2.5 border-t border-zinc-100 pt-4">
+      <ul className="mt-4 space-y-2.5 border-t border-white/[0.08] pt-4">
         {plan.checkoutItems.map((item) => (
-          <li key={item} className="flex gap-2.5 text-[14px] text-zinc-600">
-            <span className="mt-0.5 flex size-4 shrink-0 items-center justify-center rounded-full bg-[#4e78ff]/10 text-[10px] font-bold text-[#4e78ff]">
+          <li key={item} className="flex gap-2.5 text-[14px] text-white/75">
+            <span className="mt-0.5 flex size-4 shrink-0 items-center justify-center rounded-full bg-[#4e78ff]/20 text-[10px] font-bold text-[#7c97ff]">
               ✓
             </span>
             {item}
@@ -305,16 +311,16 @@ export default function AcquisitionPay() {
         ))}
       </ul>
 
-      <dl className="mt-5 space-y-2 border-t border-zinc-100 pt-4 text-[13px]">
-        <div className="flex justify-between gap-4 text-zinc-500">
+      <dl className="mt-5 space-y-2 border-t border-white/[0.08] pt-4 text-[13px]">
+        <div className="flex justify-between gap-4 text-white/50">
           <dt>Base</dt>
-          <dd className="text-zinc-800">{formatInr(plan.baseInr)}</dd>
+          <dd className="text-white/85">{formatInr(plan.baseInr)}</dd>
         </div>
-        <div className="flex justify-between gap-4 text-zinc-500">
+        <div className="flex justify-between gap-4 text-white/50">
           <dt>GST (18%)</dt>
-          <dd className="text-zinc-800">{formatInr(gst)}</dd>
+          <dd className="text-white/85">{formatInr(gst)}</dd>
         </div>
-        <div className="flex justify-between gap-4 text-[15px] font-semibold text-zinc-900">
+        <div className="flex justify-between gap-4 text-[15px] font-semibold text-white">
           <dt>Total today</dt>
           <dd>{formatInr(total)}</dd>
         </div>
@@ -323,12 +329,12 @@ export default function AcquisitionPay() {
   );
 
   const trustBlock = (
-    <div className="rounded-[18px] border border-black/[0.06] bg-white p-5 shadow-[0_8px_30px_rgba(15,23,42,0.04)] md:p-6">
-      <h3 className="text-[16px] font-semibold tracking-[-0.02em] text-zinc-900">You&apos;re in safe hands</h3>
+    <div className="rounded-[18px] border border-white/12 p-5 md:p-6" style={{ background: GLOSS }}>
+      <h3 className="text-[16px] font-semibold tracking-[-0.02em] text-white">You&apos;re in safe hands</h3>
       <ul className="mt-4 space-y-2.5">
         {TRUST_ITEMS.map((item) => (
-          <li key={item} className="flex gap-2.5 text-[14px] text-zinc-600">
-            <span className="mt-0.5 shrink-0 text-[#4e78ff]" aria-hidden>
+          <li key={item} className="flex gap-2.5 text-[14px] text-white/75">
+            <span className="mt-0.5 shrink-0 text-[#7c97ff]" aria-hidden>
               ✓
             </span>
             {item}
@@ -339,17 +345,17 @@ export default function AcquisitionPay() {
   );
 
   const nextSteps = (
-    <div className="rounded-[18px] border border-black/[0.06] bg-white p-5 shadow-[0_8px_30px_rgba(15,23,42,0.04)] md:p-6">
-      <h3 className="text-[16px] font-semibold tracking-[-0.02em] text-zinc-900">What happens next?</h3>
+    <div className="rounded-[18px] border border-white/12 p-5 md:p-6" style={{ background: GLOSS }}>
+      <h3 className="text-[16px] font-semibold tracking-[-0.02em] text-white">What happens next?</h3>
       <ol className="mt-4 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-2 sm:gap-y-2">
         {NEXT_STEPS.map((step, i) => (
-          <li key={step} className="flex items-center gap-2 text-[13px] text-zinc-600">
-            <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-zinc-100 text-[11px] font-semibold text-zinc-700">
+          <li key={step} className="flex items-center gap-2 text-[13px] text-white/75">
+            <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-white/10 text-[11px] font-semibold text-white">
               {i + 1}
             </span>
             {step}
             {i < NEXT_STEPS.length - 1 ? (
-              <span className="hidden text-zinc-300 sm:inline" aria-hidden>
+              <span className="hidden text-white/25 sm:inline" aria-hidden>
                 →
               </span>
             ) : null}
@@ -362,22 +368,20 @@ export default function AcquisitionPay() {
   const paymentCard = (
     <div
       id="pay-card"
-      className="rounded-[18px] p-5 text-white shadow-[0_20px_50px_rgba(11,18,32,0.35)] md:p-6"
-      style={{ background: "linear-gradient(165deg, #121a2b 0%, #0b1220 55%, #0a101c 100%)" }}
+      className="rounded-[18px] border border-white/10 bg-white p-5 shadow-[0_20px_50px_rgba(0,0,0,0.35)] md:p-6"
+      style={{ color: "#18181b" }}
     >
-      <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-white/40">Complete your order</p>
-      <p className="mt-2 text-[15px] leading-relaxed text-white/65">
+      <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#71717a]">Complete your order</p>
+      <p className="mt-2 text-[15px] leading-relaxed text-[#52525b]">
         Everything is ready. Complete the payment below to activate your service.
       </p>
 
-      <div className="mt-5 rounded-[14px] border border-white/10 bg-white/[0.04] px-4 py-3.5">
-        <p className="text-[12px] text-white/45">Amount due</p>
-        <p className="mt-0.5 text-[28px] font-semibold tracking-[-0.03em] text-white md:text-[32px]">
+      <div className="mt-5 rounded-[14px] border border-black/[0.08] bg-[#f4f4f5] px-4 py-3.5">
+        <p className="text-[12px] text-[#71717a]">Amount due</p>
+        <p className="mt-0.5 text-[28px] font-semibold tracking-[-0.03em] text-[#18181b] md:text-[32px]">
           {formatInr(total)}
         </p>
-        <p className="mt-1 text-[13px] text-white/55">
-          For: AI Client Acquisition — {plan.label}
-        </p>
+        <p className="mt-1 text-[13px] text-[#52525b]">For: AI Client Acquisition — {plan.label}</p>
       </div>
 
       <form ref={formRef} className="mt-5 flex flex-col gap-3.5" onSubmit={onSubmit}>
@@ -453,7 +457,7 @@ export default function AcquisitionPay() {
         </div>
 
         {error ? (
-          <p className="rounded-[12px] border border-red-400/40 bg-red-400/10 px-3 py-2 text-[13px] text-red-300">
+          <p className="rounded-[12px] border border-red-400/40 bg-red-50 px-3 py-2 text-[13px] text-red-600">
             {error}
           </p>
         ) : null}
@@ -466,13 +470,13 @@ export default function AcquisitionPay() {
           {busy ? "Opening Razorpay…" : `Pay ${formatInr(total)} Securely →`}
         </button>
 
-        <p className="text-center text-[12px] leading-relaxed text-white/45">
+        <p className="text-center text-[12px] leading-relaxed text-[#52525b]">
           Your payment information is encrypted and securely processed.
           <br />
           You&apos;ll receive confirmation and onboarding instructions immediately after successful payment.
         </p>
 
-        <p className="text-center text-[11px] font-medium uppercase tracking-[0.1em] text-white/35">
+        <p className="text-center text-[11px] font-medium uppercase tracking-[0.1em] text-[#a1a1aa]">
           Secure checkout · Razorpay
         </p>
 
@@ -492,18 +496,20 @@ export default function AcquisitionPay() {
         <meta name="robots" content="noindex,nofollow" />
       </Helmet>
 
-      <div className="min-h-screen bg-[#f7f7f5] text-zinc-900">
-        <header className="border-b border-black/[0.06] bg-[#f7f7f5]/90 backdrop-blur-sm">
+      <SiteBackground />
+
+      <div className="relative z-10 min-h-screen text-white">
+        <header className="border-b border-white/10 bg-black/40 backdrop-blur-sm">
           <div className="mx-auto flex h-14 w-full max-w-[1100px] items-center justify-between px-5 md:h-16 md:px-10">
             <Link to="/" className="flex items-center gap-2" aria-label={`${site.brand} home`}>
               <img src="/bms-logo.png" alt="" className="h-7 w-7 object-contain" />
-              <span className="text-[15px] font-semibold tracking-[-0.02em] text-zinc-900">{site.brand}</span>
+              <span className="text-[15px] font-semibold tracking-[-0.02em] text-white">{site.brand}</span>
             </Link>
             <a
               href={whatsappHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[13px] font-medium text-zinc-600 underline-offset-2 hover:text-zinc-900 hover:underline"
+              className="text-[13px] font-medium text-white/70 underline-offset-2 hover:text-white hover:underline"
             >
               WhatsApp us
             </a>
@@ -512,26 +518,25 @@ export default function AcquisitionPay() {
 
         <main className="mx-auto w-full max-w-[1100px] px-5 pb-28 pt-8 md:px-10 md:pb-16 md:pt-12">
           <div className="max-w-[640px]">
-            <h1 className="text-[30px] font-semibold leading-[1.1] tracking-[-0.04em] text-zinc-900 max-md:text-[28px] md:text-[40px]">
+            <h1 className="text-[30px] font-semibold leading-[1.1] tracking-[-0.04em] text-white max-md:text-[28px] md:text-[40px]">
               Complete Your Payment
             </h1>
-            <p className="mt-3 text-[15px] leading-relaxed text-zinc-500 md:text-[16px]">
+            <p className="mt-3 text-[15px] leading-relaxed text-white/60 md:text-[16px]">
               You&apos;re one step away from getting started with {site.brand}.
             </p>
-            <p className="mt-4 flex flex-wrap gap-x-3 gap-y-1 text-[12px] font-medium text-zinc-500 md:text-[13px]">
+            <p className="mt-4 flex flex-wrap gap-x-3 gap-y-1 text-[12px] font-medium text-white/50 md:text-[13px]">
               <span>Secure Payment</span>
-              <span className="text-zinc-300" aria-hidden>
+              <span className="text-white/25" aria-hidden>
                 ·
               </span>
               <span>Instant Confirmation</span>
-              <span className="text-zinc-300" aria-hidden>
+              <span className="text-white/25" aria-hidden>
                 ·
               </span>
               <span>Dedicated Support</span>
             </p>
           </div>
 
-          {/* Mobile: payment first */}
           <div className="mt-8 lg:hidden">{paymentCard}</div>
 
           <div className="mt-8 grid gap-6 lg:mt-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:items-start lg:gap-10">
@@ -539,18 +544,18 @@ export default function AcquisitionPay() {
               {orderSummary}
               {trustBlock}
               {nextSteps}
-              <p className="text-[12px] text-zinc-400">
+              <p className="text-[12px] text-white/40">
                 Questions?{" "}
                 <a
                   href={whatsappHref}
-                  className="text-zinc-600 underline-offset-2 hover:underline"
+                  className="text-white/70 underline-offset-2 hover:underline"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   WhatsApp {site.brand}
                 </a>
                 {" · "}
-                <Link to="/" className="text-zinc-600 underline-offset-2 hover:underline">
+                <Link to="/" className="text-white/70 underline-offset-2 hover:underline">
                   Back to product
                 </Link>
               </p>
@@ -560,12 +565,11 @@ export default function AcquisitionPay() {
           </div>
         </main>
 
-        {/* Mobile sticky CTA */}
-        <div className="fixed inset-x-0 bottom-0 z-40 border-t border-black/[0.08] bg-white/95 px-4 py-3 backdrop-blur-md lg:hidden">
+        <div className="fixed inset-x-0 bottom-0 z-40 border-t border-white/10 bg-black/80 px-4 py-3 backdrop-blur-md lg:hidden">
           <div className="mx-auto flex max-w-[1100px] items-center gap-3">
             <div className="min-w-0 flex-1">
-              <p className="truncate text-[12px] text-zinc-500">Total today</p>
-              <p className="text-[17px] font-semibold tracking-[-0.02em] text-zinc-900">{formatInr(total)}</p>
+              <p className="truncate text-[12px] text-white/50">Total today</p>
+              <p className="text-[17px] font-semibold tracking-[-0.02em] text-white">{formatInr(total)}</p>
             </div>
             <button
               type="button"

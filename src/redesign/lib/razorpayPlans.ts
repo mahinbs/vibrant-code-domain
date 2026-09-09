@@ -31,11 +31,13 @@ const SHARED_HIGHLIGHTS = [
 ] as const;
 
 const SHARED_CHECKOUT_ITEMS = [
-  "Dedicated onboarding",
-  "Campaign setup",
-  "Technical support",
-  "Account manager",
-  "Weekly reporting",
+  "AI advertising team — Meta, Google, LinkedIn, TikTok & more",
+  "Companion automation engine — watch every step",
+  "Rejection defense and one-click rescue",
+  "Ad audit + live CTR, spend and cost-per-lead",
+  "Payment & tracking watchdog",
+  "AI email marketing sequences",
+  "Done-with-you launch with our team",
 ] as const;
 
 export const PAY_PLANS: readonly PayPlan[] = [
