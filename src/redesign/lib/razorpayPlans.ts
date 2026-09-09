@@ -15,7 +15,10 @@ export type PayPlan = {
   /** Base price in INR rupees (before GST). */
   baseInr: number;
   blurb: string;
+  /** Marketing bullets for homepage pricing. */
   highlights: readonly string[];
+  /** Transactional deliverables shown on /pay order summary. */
+  checkoutItems: readonly string[];
   badge?: string;
 };
 
@@ -27,6 +30,14 @@ const SHARED_HIGHLIGHTS = [
   "Plain-English weekly reporting",
 ] as const;
 
+const SHARED_CHECKOUT_ITEMS = [
+  "Dedicated onboarding",
+  "Campaign setup",
+  "Technical support",
+  "Account manager",
+  "Weekly reporting",
+] as const;
+
 export const PAY_PLANS: readonly PayPlan[] = [
   {
     id: "monthly",
@@ -35,6 +46,7 @@ export const PAY_PLANS: readonly PayPlan[] = [
     baseInr: 33_333,
     blurb: "Full stack for one month. Pause anytime before the next cycle.",
     highlights: [...SHARED_HIGHLIGHTS],
+    checkoutItems: [...SHARED_CHECKOUT_ITEMS],
   },
   {
     id: "yearly",
@@ -47,6 +59,7 @@ export const PAY_PLANS: readonly PayPlan[] = [
       "Priority onboarding",
       "Save vs paying month-to-month",
     ],
+    checkoutItems: [...SHARED_CHECKOUT_ITEMS, "Priority onboarding"],
     badge: "Best value",
   },
 ] as const;

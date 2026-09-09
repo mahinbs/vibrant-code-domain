@@ -434,7 +434,7 @@ function StackTypewriter() {
   }, [reduced, phrase]);
 
   return (
-    <span className="relative mt-2 block font-mono text-[14px] font-normal leading-snug tracking-[0.04em] text-white/70 sm:text-[15px] md:mt-2.5 md:text-[20px] md:leading-none md:tracking-[0.06em]">
+    <span className="relative mt-2 block md:mt-2.5">
       <span className="invisible max-md:hidden" aria-hidden>
         {phrase}
       </span>
@@ -525,7 +525,7 @@ function AiClientAcquisitionInner() {
               <>
                 Get <span className="impact-highlight">more clients</span> with{" "}
                 <span className="impact-highlight">AI</span>.
-                <span className="mt-3 block border-l-2 border-purple/60 pl-3 font-mono text-[14px] font-normal leading-[1.3] tracking-[0.04em] text-white/70 sm:mt-4 sm:pl-4 sm:text-[15px] md:mt-5 md:pl-6 md:text-[20px] md:leading-[1.25] md:tracking-[0.06em]">
+                <span className="mt-3 block border-l-2 border-purple/60 pl-3 font-mono !text-[14px] font-normal !leading-[1.3] tracking-[0.04em] text-white/70 sm:mt-4 sm:pl-4 sm:!text-[15px] md:mt-5 md:pl-6 md:!text-[20px] md:!leading-[1.25] md:tracking-[0.06em]">
                   Your client acquisition stack
                   <br />
                   that never clocks out.
