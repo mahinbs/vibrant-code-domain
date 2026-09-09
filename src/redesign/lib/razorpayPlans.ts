@@ -31,7 +31,7 @@ const SHARED_HIGHLIGHTS = [
 ] as const;
 
 const SHARED_CHECKOUT_ITEMS = [
-  "AI advertising team: Meta, Google, LinkedIn, TikTok & more",
+  "AI advertising: Meta, Google, LinkedIn, TikTok & more",
   "Companion automation engine to watch every step",
   "Rejection defense and one-click rescue",
   "Ad audit + live CTR, spend and cost-per-lead",
@@ -58,7 +58,7 @@ export const PAY_PLANS: readonly PayPlan[] = [
     id: "yearly",
     label: "1 year",
     period: "Billed once a year",
-    baseInr: 99_999,
+    baseInr: 89_999,
     blurb: "Best value: run the full acquisition stack for twelve months.",
     highlights: [
       ...SHARED_HIGHLIGHTS,

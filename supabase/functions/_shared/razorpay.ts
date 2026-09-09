@@ -19,7 +19,7 @@ export type PlanId = "monthly" | "yearly";
 
 const PLANS: Record<PlanId, { label: string; baseInr: number }> = {
   monthly: { label: "1 month", baseInr: 33_333 },
-  yearly: { label: "1 year", baseInr: 99_999 },
+  yearly: { label: "1 year", baseInr: 89_999 },
 };
 
 export function getPlan(planId: string) {
