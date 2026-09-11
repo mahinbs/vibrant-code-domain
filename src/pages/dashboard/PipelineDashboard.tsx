@@ -27,7 +27,15 @@ const TABS: { key: PipelineTab; label: string }[] = [
 ];
 
 /** Team members who can own a lead (point of contact). */
-const POC_OPTIONS = ["Kavya", "Viaan", "Darshan", "Mahin", "Supreeth", "Reshab", "Sawan"];
+/** Sales team structure: main salesmen own deals, sub salesmen support them. */
+const POC_GROUPS: { label: string; names: string[] }[] = [
+  { label: "Main salesman", names: ["Reshab", "Mahin", "Darshan"] },
+  { label: "Sub salesman", names: ["Rishad", "Sawan"] },
+  { label: "Other", names: ["Kavya", "Viaan", "Supreeth"] },
+];
+const POC_OPTIONS = POC_GROUPS.flatMap((g) => g.names);
+const pocGroupLabel = (name?: string | null): string | null =>
+  POC_GROUPS.find((g) => g.names.includes(name ?? ""))?.label ?? null;
 
 /** Responsiveness rating — emoji + colour for visual triage of each lead. */
 type Rating = { value: string; emoji: string; label: string; short: string; text: string; chip: string };
@@ -211,8 +219,10 @@ function AttachmentsSection({
             title="Who is uploading this file?"
           >
             <option value="">Uploaded by…</option>
-            {POC_OPTIONS.map((n) => (
-              <option key={n} value={n}>{n}</option>
+            {POC_GROUPS.map((g) => (
+              <optgroup key={g.label} label={g.label}>
+                {g.names.map((n) => <option key={n} value={n}>{n}</option>)}
+              </optgroup>
             ))}
             <option value="AI">🤖 AI</option>
           </select>
@@ -416,7 +426,11 @@ function FollowupsSection({ lead, onChanged }: { lead: PipelineLead; onChanged?:
             />
             <select value={by} onChange={(e) => setBy(e.target.value)} className={inputCls} style={{ maxWidth: 130 }} title="Done by">
               <option value="">By…</option>
-              {POC_OPTIONS.map((n) => <option key={n} value={n}>{n}</option>)}
+              {POC_GROUPS.map((g) => (
+                <optgroup key={g.label} label={g.label}>
+                  {g.names.map((n) => <option key={n} value={n}>{n}</option>)}
+                </optgroup>
+              ))}
               <option value="AI">🤖 AI</option>
             </select>
             <label className="cursor-pointer whitespace-nowrap rounded-md bg-[#4b78ff] px-3 py-2 text-[12px] font-semibold text-white hover:bg-[#3d63d8]">
@@ -552,8 +566,10 @@ function LeadModal({
               className={`mt-1 ${inputCls}`}
             >
               <option value="">— Select POC —</option>
-              {POC_OPTIONS.map((n) => (
-                <option key={n} value={n}>{n}</option>
+              {POC_GROUPS.map((g) => (
+                <optgroup key={g.label} label={g.label}>
+                  {g.names.map((n) => <option key={n} value={n}>{n}</option>)}
+                </optgroup>
               ))}
             </select>
           </label>
@@ -585,8 +601,10 @@ function LeadModal({
                 className={`mt-1 ${inputCls}`}
               >
                 <option value="">— Select —</option>
-                {POC_OPTIONS.map((n) => (
-                  <option key={n} value={n}>{n}</option>
+                {POC_GROUPS.map((g) => (
+                  <optgroup key={g.label} label={g.label}>
+                    {g.names.map((n) => <option key={n} value={n}>{n}</option>)}
+                  </optgroup>
                 ))}
               </select>
             </label>
@@ -979,23 +997,28 @@ function LeadDetailModal({
             <StageStepper lead={lead} onChanged={onChanged} />
           </div>
 
-          {/* POC */}
+          {/* POC — grouped into main / sub salesmen */}
           <div className="mt-5 border-t border-white/10 pt-5">
             <p className="mb-2 text-[11px] uppercase tracking-wide text-white/40">POC (point of contact)</p>
-            <div className="flex flex-wrap gap-2">
-              {POC_OPTIONS.map((n) => (
-                <button
-                  key={n}
-                  type="button"
-                  onClick={() => setPocVal(poc === n ? "" : n)}
-                  className={`rounded-lg border px-3 py-1.5 text-[13px] font-medium transition-colors ${
-                    poc === n
-                      ? "border-[#4b78ff]/50 bg-[#4b78ff]/15 text-[#9dbaff]"
-                      : "border-white/15 text-white/60 hover:bg-white/5"
-                  }`}
-                >
-                  {n}
-                </button>
+            <div className="flex flex-col gap-2.5">
+              {POC_GROUPS.map((g) => (
+                <div key={g.label} className="flex flex-wrap items-center gap-2">
+                  <span className="w-[92px] shrink-0 text-[10px] font-bold uppercase tracking-wide text-white/35">{g.label}</span>
+                  {g.names.map((n) => (
+                    <button
+                      key={n}
+                      type="button"
+                      onClick={() => setPocVal(poc === n ? "" : n)}
+                      className={`rounded-lg border px-3 py-1.5 text-[13px] font-medium transition-colors ${
+                        poc === n
+                          ? "border-[#4b78ff]/50 bg-[#4b78ff]/15 text-[#9dbaff]"
+                          : "border-white/15 text-white/60 hover:bg-white/5"
+                      }`}
+                    >
+                      {n}
+                    </button>
+                  ))}
+                </div>
               ))}
             </div>
           </div>
@@ -1197,8 +1220,10 @@ function ScheduleMeetingModal({
               Meeting taken by *
               <select value={owner} onChange={(e) => setOwner(e.target.value)} className={`mt-1 ${inputCls}`}>
                 <option value="">— Select —</option>
-                {POC_OPTIONS.map((n) => (
-                  <option key={n} value={n}>{n}</option>
+                {POC_GROUPS.map((g) => (
+                  <optgroup key={g.label} label={g.label}>
+                    {g.names.map((n) => <option key={n} value={n}>{n}</option>)}
+                  </optgroup>
                 ))}
               </select>
             </label>
@@ -1345,7 +1370,10 @@ function DailyReport({ leads }: { leads: PipelineLead[] }) {
             {rows.map((r, i) => (
               <tr key={r.name} className={`border-t border-white/8 ${i === 0 && r.score > 0 ? "bg-emerald-400/[0.06]" : ""}`}>
                 <td className="px-3 py-3 text-white/50">{i === 0 && r.score > 0 ? "🏆" : `#${i + 1}`}</td>
-                <td className="px-3 py-3 font-medium text-white">{r.name}</td>
+                <td className="px-3 py-3 font-medium text-white">
+                  {r.name}
+                  {pocGroupLabel(r.name) ? <span className="ml-1.5 rounded border border-white/12 bg-white/5 px-1 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-white/45">{pocGroupLabel(r.name)?.replace(" salesman", "")}</span> : null}
+                </td>
                 <td className="px-3 py-3 text-white/70">{r.owned}</td>
                 <td className="px-3 py-3 text-white/70">{r.updated}</td>
                 <td className="px-3 py-3 text-white/70">{r.added}</td>
@@ -1684,18 +1712,23 @@ export default function PipelineDashboard() {
 
             <p className="px-3 pb-1 pt-4 text-[10px] font-bold uppercase tracking-wider text-white/35">Team · POC</p>
             <NavItem icon="🌐" label="Everyone" active={pocFilter === "all"} onClick={() => { setView("leads"); setPocFilter("all"); setNavOpen(false); }} />
-            {POC_OPTIONS.map((n) => (
-              <button
-                key={n}
-                onClick={() => { setView("leads"); setPocFilter(n); setNavOpen(false); }}
-                className={`flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-[13.5px] transition-colors ${
-                  pocFilter === n ? "bg-white/8 font-semibold text-white" : "text-white/60 hover:bg-white/5 hover:text-white"
-                }`}
-              >
-                <span className="flex size-5 shrink-0 items-center justify-center rounded-full text-[10px] font-bold text-white" style={{ backgroundColor: pocColor(n) }}>{n[0]}</span>
-                <span className="flex-1 truncate">{n}</span>
-                <span className="text-[11px] text-white/40">{leads.filter((l) => l.poc === n).length}</span>
-              </button>
+            {POC_GROUPS.map((g) => (
+              <div key={g.label}>
+                <p className="px-3 pb-0.5 pt-2 text-[9.5px] font-bold uppercase tracking-wider text-[#7aa2ff]/60">{g.label}</p>
+                {g.names.map((n) => (
+                  <button
+                    key={n}
+                    onClick={() => { setView("leads"); setPocFilter(n); setNavOpen(false); }}
+                    className={`flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-[13.5px] transition-colors ${
+                      pocFilter === n ? "bg-white/8 font-semibold text-white" : "text-white/60 hover:bg-white/5 hover:text-white"
+                    }`}
+                  >
+                    <span className="flex size-5 shrink-0 items-center justify-center rounded-full text-[10px] font-bold text-white" style={{ backgroundColor: pocColor(n) }}>{n[0]}</span>
+                    <span className="flex-1 truncate">{n}</span>
+                    <span className="text-[11px] text-white/40">{leads.filter((l) => l.poc === n).length}</span>
+                  </button>
+                ))}
+              </div>
             ))}
           </nav>
 
@@ -1819,8 +1852,10 @@ export default function PipelineDashboard() {
             >
               <option value="all">All POC</option>
               <option value="__none">Unassigned</option>
-              {POC_OPTIONS.map((n) => (
-                <option key={n} value={n}>{n}</option>
+              {POC_GROUPS.map((g) => (
+                <optgroup key={g.label} label={g.label}>
+                  {g.names.map((n) => <option key={n} value={n}>{n}</option>)}
+                </optgroup>
               ))}
             </select>
             </>
