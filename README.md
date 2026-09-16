@@ -3,7 +3,7 @@
 A modern, responsive web application built with React, TypeScript, and Tailwind  CSS, showcasing digital services including mobile app development, web applications, AI solutions, and more.
 
 ## Project info
-
+ 
 **URL**: https://lovable.dev/projects/e131830c-60b5-43b1-997a-e8d892c5764e   
 
 ## Recent Updates 
