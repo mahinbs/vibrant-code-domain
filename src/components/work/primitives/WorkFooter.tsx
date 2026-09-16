@@ -27,6 +27,7 @@ const sections = [
     links: [
       { label: "Privacy", href: "/privacy-policy" },
       { label: "Terms", href: "/terms-and-conditions" },
+      { label: "Refunds", href: "/refund-policy" },
     ],
   },
 ];

@@ -162,9 +162,14 @@ const EXACT: Record<string, RouteSeo> = {
       "Boostmysites privacy policy: how we collect, use, and protect your information when you use our website and services.",
   },
   "/terms-and-conditions": {
-    title: "Terms & Conditions | Boostmysites",
+    title: "Terms and Conditions | Boostmysites",
     description:
-      "Terms and conditions for using Boostmysites websites and services. Please read before engaging with our offerings.",
+      "Terms and conditions for BOOSTMYSITES software, setup, and support, including the refund policy for Service fees.",
+  },
+  "/refund-policy": {
+    title: "Refund Policy | Boostmysites",
+    description:
+      "BOOSTMYSITES refund policy. Service fees are refundable only if we do not provide the Service you paid for. Ad spend is never refunded.",
   },
   "/index.php/aie-termsconditions": {
     title: "Terms & Conditions | Boostmysites",

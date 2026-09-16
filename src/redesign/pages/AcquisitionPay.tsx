@@ -525,7 +525,15 @@ export default function AcquisitionPay() {
         </button>
 
         <p className="text-center text-[12px] leading-relaxed text-[#52525b]">
-          Your payment information is encrypted and securely processed.
+          By paying you agree to our{" "}
+          <Link to="/terms-and-conditions" className="text-[#4e78ff] underline-offset-2 hover:underline">
+            Terms and conditions
+          </Link>{" "}
+          and{" "}
+          <Link to="/refund-policy" className="text-[#4e78ff] underline-offset-2 hover:underline">
+            Refund policy
+          </Link>
+          . Your payment information is encrypted and securely processed.
           <br />
           You&apos;ll receive confirmation and onboarding instructions immediately after successful payment.
         </p>

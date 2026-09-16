@@ -49,7 +49,9 @@ const ChatbotDevelopmentPage = lazy(
 const ReviewsPage = lazy(() => import("./pages/ReviewsPage"));
 const ThankYouPage = lazy(() => import("./redesign/pages/ThankYou"));
 const PrivacyPolicyPage = lazy(() => import("./pages/PrivacyPolicyPage"));
-const TermsAndConditions = lazy(() => import("./pages/TermsAndConditions"));
+const TermsAndConditions = lazy(() => import("./redesign/pages/TermsAndConditions"));
+const RefundPolicy = lazy(() => import("./redesign/pages/RefundPolicy"));
+const AieTermsAndConditions = lazy(() => import("./pages/TermsAndConditions"));
 const PlacementProgramsPage = lazy(
   () => import("./pages/PlacementProgramsPage")
 );
@@ -491,10 +493,17 @@ const App = () => {
               <Route
                 path="/terms-and-conditions"
                 element={
-                  <>
-                    <FloatingWhatsAppButton />
+                  <RedesignShell>
                     <TermsAndConditions />
-                  </>
+                  </RedesignShell>
+                }
+              />
+              <Route
+                path="/refund-policy"
+                element={
+                  <RedesignShell>
+                    <RefundPolicy />
+                  </RedesignShell>
                 }
               />
               <Route
@@ -502,7 +511,7 @@ const App = () => {
                 element={
                   <>
                     <FloatingWhatsAppButton />
-                    <TermsAndConditions />
+                    <AieTermsAndConditions />
                   </>
                 }
               />
