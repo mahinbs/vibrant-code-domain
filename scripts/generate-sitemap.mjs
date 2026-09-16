@@ -42,6 +42,8 @@ const STATIC_ROUTES = [
   "/thank-you",
   "/privacy-policy",
   "/terms-and-conditions",
+  "/refund-policy",
+  "/user-data-deletion",
   "/index.php/aie-termsconditions",
   "/partnership",
   "/placement-programs",

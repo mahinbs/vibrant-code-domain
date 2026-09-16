@@ -70,6 +70,7 @@ export const footerColumns: FooterColumn[] = [
       { label: "Privacy policy", href: "/privacy-policy" },
       { label: "Terms and conditions", href: "/terms-and-conditions" },
       { label: "Refund policy", href: "/refund-policy" },
+      { label: "User data deletion", href: "/user-data-deletion" },
     ],
   },
 ];

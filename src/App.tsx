@@ -51,6 +51,7 @@ const ThankYouPage = lazy(() => import("./redesign/pages/ThankYou"));
 const PrivacyPolicyPage = lazy(() => import("./pages/PrivacyPolicyPage"));
 const TermsAndConditions = lazy(() => import("./redesign/pages/TermsAndConditions"));
 const RefundPolicy = lazy(() => import("./redesign/pages/RefundPolicy"));
+const UserDataDeletion = lazy(() => import("./redesign/pages/UserDataDeletion"));
 const AieTermsAndConditions = lazy(() => import("./pages/TermsAndConditions"));
 const PlacementProgramsPage = lazy(
   () => import("./pages/PlacementProgramsPage")
@@ -503,6 +504,14 @@ const App = () => {
                 element={
                   <RedesignShell>
                     <RefundPolicy />
+                  </RedesignShell>
+                }
+              />
+              <Route
+                path="/user-data-deletion"
+                element={
+                  <RedesignShell>
+                    <UserDataDeletion />
                   </RedesignShell>
                 }
               />

@@ -1,5 +1,6 @@
 
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
@@ -189,7 +190,7 @@ const PrivacyPolicyPage = () => {
               <ul className="list-disc list-inside mb-4 space-y-2 ml-4">
                 <li><strong>Access:</strong> Request a copy of the personal information we hold about you</li>
                 <li><strong>Correction:</strong> Request correction of inaccurate or incomplete information</li>
-                <li><strong>Deletion:</strong> Request deletion of your personal information</li>
+                <li><strong>Deletion:</strong> Request deletion of your personal information. Full instructions are on our <Link to="/user-data-deletion" className="text-cyan-400 hover:underline">User data deletion</Link> page. Email <a href="mailto:boostmysitescom@gmail.com?subject=User%20data%20deletion%20request" className="text-cyan-400 hover:underline">boostmysitescom@gmail.com</a>.</li>
                 <li><strong>Portability:</strong> Request transfer of your data to another service</li>
                 <li><strong>Objection:</strong> Object to processing of your personal information</li>
                 <li><strong>Restriction:</strong> Request restriction of processing in certain circumstances</li>

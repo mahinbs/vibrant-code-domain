@@ -24,6 +24,7 @@ const legalLinks = [
   { label: "Privacy", href: "/privacy-policy" },
   { label: "Terms", href: "/terms-and-conditions" },
   { label: "Refunds", href: "/refund-policy" },
+  { label: "Data deletion", href: "/user-data-deletion" },
 ] as const;
 
 export function Footer({ whatsappHref: whatsappHrefProp }: { whatsappHref?: string } = {}) {

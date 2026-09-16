@@ -171,6 +171,11 @@ const EXACT: Record<string, RouteSeo> = {
     description:
       "BOOSTMYSITES refund policy. Service fees are refundable only if we do not provide the Service you paid for. Ad spend is never refunded.",
   },
+  "/user-data-deletion": {
+    title: "User Data Deletion | Boostmysites",
+    description:
+      "How to request deletion of your BOOSTMYSITES and Meta Platform Data. Email boostmysitescom@gmail.com.",
+  },
   "/index.php/aie-termsconditions": {
     title: "Terms & Conditions | Boostmysites",
     description:
