@@ -21,9 +21,6 @@ export default function RefundPolicy() {
         </>
       }
     >
-      <p className="font-mono text-[12px] uppercase tracking-[0.08em] text-white/45">
-        Effective date: 16 September 2026
-      </p>
       <LegalP>
         Website:{" "}
         <a className="impact-highlight underline-offset-2 hover:underline" href="https://www.boostmysites.in">

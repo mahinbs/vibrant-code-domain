@@ -21,9 +21,6 @@ export default function TermsAndConditions() {
         </>
       }
     >
-      <p className="font-mono text-[12px] uppercase tracking-[0.08em] text-white/45">
-        Effective date: 16 September 2026
-      </p>
       <LegalP>
         Website:{" "}
         <a className="impact-highlight underline-offset-2 hover:underline" href="https://www.boostmysites.in">
@@ -357,8 +354,8 @@ export default function TermsAndConditions() {
       <LegalH2>14. Changes</LegalH2>
       <LegalP>
         We may update these Terms. The version on this page (or the version we publish at
-        www.boostmysites.in) applies from the effective date stated. Continued paid use after a
-        change is acceptance of the new Terms for future periods.
+        www.boostmysites.in) applies when posted. Continued paid use after a change is acceptance
+        of the new Terms for future periods.
       </LegalP>
 
       <LegalH2>15. Governing law</LegalH2>
