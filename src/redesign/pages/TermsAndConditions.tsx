@@ -135,7 +135,62 @@ export default function TermsAndConditions() {
         A refund is available <strong className="text-white">only if we do not provide the Service you paid for.</strong>
       </LegalP>
 
-      <LegalH3>5.1 What &quot;we do not provide the Service&quot; means</LegalH3>
+      <LegalH3>5.1 Eligibility and review</LegalH3>
+      <LegalP>
+        At BOOSTMYSITES, we want our customers to feel confident when purchasing our services.
+        Accordingly, eligible customers may request a refund subject to the terms, conditions, and
+        assessment process outlined below.
+      </LegalP>
+      <LegalP>
+        A refund may be considered where the customer can demonstrate that the agreed service or
+        deliverables have not been provided substantially in accordance with the scope,
+        requirements, or commitments agreed upon at the time of purchase.
+      </LegalP>
+      <LegalP>
+        Refund requests must be submitted within the applicable refund period and must include
+        sufficient details regarding the reason for the request. Upon receiving a request,
+        BOOSTMYSITES may review the relevant account, communications, project status, deliverables,
+        work completed, and other circumstances necessary to determine whether the request
+        satisfies the requirements of this policy.
+      </LegalP>
+      <LegalP>
+        Where a customer has already received, accessed, approved, or substantially benefited from
+        part of the service, any refund granted may be adjusted to reflect the portion of the
+        service already delivered, work performed, resources committed, or costs incurred on the
+        customer&apos;s behalf.
+      </LegalP>
+      <LegalP>
+        Refunds are therefore subject to eligibility and review and are not automatically issued
+        solely because a request has been submitted. Approval will depend on the specific
+        circumstances of each request and the extent to which the applicable refund conditions have
+        been satisfied.
+      </LegalP>
+      <LegalP>
+        Refund eligibility may also be affected where delays, incomplete results, or other issues
+        arise from the customer&apos;s failure to provide required information, access, approvals,
+        materials, cooperation, or timely responses.
+      </LegalP>
+      <LegalP>
+        For services involving third-party platforms, advertising budgets, external services,
+        software licenses, transaction fees, or other costs incurred specifically for the customer,
+        such amounts may be taken into consideration when determining the applicable refund amount.
+      </LegalP>
+      <LegalP>
+        If a refund is approved, BOOSTMYSITES will confirm the approved amount and applicable
+        refund method with the customer. Depending on the circumstances, the approved refund may
+        represent the full amount paid or an appropriate portion of the payment.
+      </LegalP>
+      <LegalP>
+        This policy does not affect any mandatory rights or protections that may apply to customers
+        under applicable consumer protection laws.
+      </LegalP>
+      <LegalP>
+        By purchasing a service from BOOSTMYSITES, the customer acknowledges and agrees that
+        refunds are available subject to the eligibility requirements and review process described
+        in this policy.
+      </LegalP>
+
+      <LegalH3>5.2 What &quot;we do not provide the Service&quot; means</LegalH3>
       <LegalP>
         We will refund the Service fee (or the unused portion we reasonably determine){" "}
         <strong className="text-white">only</strong> where all of the following are true:
@@ -161,7 +216,7 @@ export default function TermsAndConditions() {
       />
       <LegalP>If we later provide the Service, any refund obligation ends.</LegalP>
 
-      <LegalH3>5.2 What is not a refund</LegalH3>
+      <LegalH3>5.3 What is not a refund</LegalH3>
       <LegalP>
         No refund (full or partial) for any of the following. These are{" "}
         <strong className="text-white">not</strong> &quot;we did not provide the Service&quot;:
@@ -185,7 +240,7 @@ export default function TermsAndConditions() {
         ]}
       />
 
-      <LegalH3>5.3 How a valid refund is paid</LegalH3>
+      <LegalH3>5.4 How a valid refund is paid</LegalH3>
       <LegalP>
         If we agree that we did not provide the Service, we refund to the original payment method
         where the processor allows it, within a reasonable time after we confirm. We may deduct
@@ -210,7 +265,7 @@ export default function TermsAndConditions() {
           </>,
           <>
             <strong className="text-white">Annual / setup / one-time:</strong> no pro-rata refund after we have
-            granted access or started implementation, except under section 5.1.
+            granted access or started implementation, except under section 5.
           </>,
         ]}
       />
@@ -322,12 +377,14 @@ export default function TermsAndConditions() {
 
       <LegalH2>Summary of refunds</LegalH2>
       <LegalP>
-        This paragraph is a convenience summary only and does not replace section 5. Service fees
-        are refundable solely where BOOSTMYSITES fails to provide the Service purchased, as defined
-        in section 5. Once access has been granted or implementation has commenced, no refund is
-        due. Unsatisfactory advertising performance, lead volume, or return on ad spend is not
-        grounds for a refund. Advertising spend paid to third-party platforms is never refunded by
-        BOOSTMYSITES.
+        This paragraph is a convenience summary only and does not replace section 5. Eligible
+        customers may request a refund where the agreed Service has not been provided substantially
+        in accordance with the scope agreed at purchase. Requests are reviewed and are not issued
+        automatically. Where part of the Service has already been delivered, any refund granted may
+        be adjusted for work performed, resources committed, or third-party costs incurred on the
+        customer&apos;s behalf. Unsatisfactory advertising performance, lead volume, or return on
+        ad spend is not grounds for a refund. Advertising spend paid to third-party platforms is
+        never refunded by BOOSTMYSITES.
       </LegalP>
     </LegalPageShell>
   );
