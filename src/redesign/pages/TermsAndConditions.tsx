@@ -320,12 +320,13 @@ export default function TermsAndConditions() {
         proposal <strong className="text-white">expressly</strong> states a different refund clause.
       </LegalP>
 
-      <LegalH2>Short refund summary</LegalH2>
+      <LegalH2>Summary of refunds</LegalH2>
       <LegalP>
-        This summary does not replace section 5. Pay us, we give you the software/setup we sold. If
-        we <strong className="text-white">don&apos;t</strong> give you that Service, you can get the fee back. If we{" "}
-        <strong className="text-white">did</strong> give you access or started the work, or ads simply didn&apos;t
-        perform, there is <strong className="text-white">no refund</strong>. Ad spend is never refunded by
+        This paragraph is a convenience summary only and does not replace section 5. Service fees
+        are refundable solely where BOOSTMYSITES fails to provide the Service purchased, as defined
+        in section 5. Once access has been granted or implementation has commenced, no refund is
+        due. Unsatisfactory advertising performance, lead volume, or return on ad spend is not
+        grounds for a refund. Advertising spend paid to third-party platforms is never refunded by
         BOOSTMYSITES.
       </LegalP>
     </LegalPageShell>

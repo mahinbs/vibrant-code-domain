@@ -119,12 +119,13 @@ export default function RefundPolicy() {
         breach of the Terms. We may suspend the account and recover our costs.
       </LegalP>
 
-      <LegalH3>Short summary</LegalH3>
+      <LegalH2>Summary</LegalH2>
       <LegalP>
-        Pay us, we give you the software/setup we sold. If we{" "}
-        <strong className="text-white">don&apos;t</strong> give you that Service, you can get the fee back. If we{" "}
-        <strong className="text-white">did</strong> give you access or started the work, or ads simply didn&apos;t
-        perform, there is <strong className="text-white">no refund</strong>. Ad spend is never refunded by
+        This paragraph is a convenience summary only and does not replace the refund rules above.
+        Service fees are refundable solely where BOOSTMYSITES fails to provide the Service
+        purchased. Once access has been granted or implementation has commenced, no refund is due.
+        Unsatisfactory advertising performance, lead volume, or return on ad spend is not grounds
+        for a refund. Advertising spend paid to third-party platforms is never refunded by
         BOOSTMYSITES.
       </LegalP>
     </LegalPageShell>
