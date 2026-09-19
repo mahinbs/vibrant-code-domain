@@ -428,7 +428,7 @@ export default function AcquisitionPay() {
   const paymentCard = (
     <div
       id="pay-card"
-      className="rounded-[18px] border border-white/20 bg-[#3366ff] p-5 text-white shadow-[0_20px_50px_rgba(51,102,255,0.35)] md:p-6"
+      className="rounded-[18px] border border-white/15 bg-purple/60 p-5 text-white shadow-[inset_0_0_6px_3px_rgba(255,255,255,0.18)] md:p-6"
     >
       <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-white">Complete your order</p>
       <p className="mt-2 hidden text-[15px] leading-relaxed text-white/80 lg:block">
@@ -524,7 +524,7 @@ export default function AcquisitionPay() {
         <button
           type="submit"
           disabled={busy}
-          className="relative mt-1 inline-flex w-full items-center justify-center gap-2 overflow-hidden rounded-[12px] border border-white/80 bg-white px-5 py-3.5 text-[15px] font-semibold text-[#3366ff] disabled:opacity-60"
+          className="relative mt-1 inline-flex w-full items-center justify-center gap-2 overflow-hidden rounded-[12px] border border-white/80 bg-white px-5 py-3.5 text-[15px] font-semibold text-purple disabled:opacity-60"
         >
           <span className="relative z-[2]">
             {busy ? "Opening Razorpay…" : `Pay ${formatInr(total)} Securely →`}

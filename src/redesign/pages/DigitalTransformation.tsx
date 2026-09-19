@@ -247,9 +247,9 @@ function CtaLink({
   );
 }
 
-function CheckList({ items }: { items: ReadonlyArray<string> }) {
+function CheckList({ items, end }: { items: ReadonlyArray<string>; end?: boolean }) {
   return (
-    <ul className="mt-4 space-y-2">
+    <ul className={end ? "mt-4 inline-flex flex-col items-end space-y-2" : "mt-4 space-y-2"}>
       {items.map((item) => (
         <li key={item} className="flex gap-2.5 text-[15px] leading-relaxed text-white/70">
           <span className="impact-highlight mt-[2px] shrink-0">✓</span>
@@ -605,10 +605,10 @@ export default function DigitalTransformation() {
 
         <section id="package" className="w-full px-5 py-8 md:px-10 md:py-10">
           <div className="relative mx-auto grid w-full max-w-[1400px] items-end overflow-hidden rounded-[20px] border border-purple/60 bg-[rgba(72,118,255,0.10)] p-5 md:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] md:gap-8 md:p-8 md:pl-0 md:pb-0">
-            <div className="relative z-10 md:order-2 md:pb-8">
+            <div className="relative z-10 md:order-2 md:flex md:flex-col md:items-end md:pb-8 md:text-right">
               <Eyebrow>The ₹39,999 section</Eyebrow>
               <h2 className="mt-3 max-w-[34rem] text-[28px] font-medium leading-[1.12] -tracking-[0.04em] text-white md:text-[36px]">
-                Imagine Getting All of This.
+                Imagine Getting All of This for
               </h2>
               <p className="impact-highlight mt-5 text-[32px] font-medium tracking-[-0.03em] md:text-[44px]">
                 ₹39,999
@@ -616,7 +616,7 @@ export default function DigitalTransformation() {
               <p className="mt-1 text-[16px] font-medium text-white">
                 Your Digital Business Transformation Package
               </p>
-              <CheckList items={PACKAGE_ITEMS} />
+              <CheckList items={PACKAGE_ITEMS} end />
               <div className="mt-5">
                 <CtaLink href={PAY_HREF}>Build My Digital Business</CtaLink>
               </div>
