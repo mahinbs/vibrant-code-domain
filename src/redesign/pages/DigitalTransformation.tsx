@@ -260,6 +260,35 @@ function CheckList({ items, end }: { items: ReadonlyArray<string>; end?: boolean
   );
 }
 
+function ExpandableCheckList({
+  items,
+  label,
+}: {
+  items: ReadonlyArray<string>;
+  label: string;
+}) {
+  return (
+    <>
+      <details className="group mt-4 md:hidden">
+        <summary className="flex cursor-pointer list-none items-center justify-between gap-3 rounded-[10px] border border-white/12 bg-white/[0.04] px-3.5 py-2.5 font-mono text-[12px] uppercase tracking-[0.08em] text-white/70 [&::-webkit-details-marker]:hidden">
+          <span>{label}</span>
+          <span
+            aria-hidden
+            className="text-[11px] text-white/50 transition-transform duration-200 group-open:rotate-180"
+          >
+            ↓
+          </span>
+        </summary>
+        <CheckList items={items} />
+      </details>
+      <div className="hidden md:block">
+        <p className="mt-4 font-mono text-[12px] uppercase tracking-[0.08em] text-white/45">{label}</p>
+        <CheckList items={items} />
+      </div>
+    </>
+  );
+}
+
 function BulletList({ items }: { items: ReadonlyArray<string> }) {
   return (
     <ul className="mt-4 list-disc space-y-2 pl-5 text-[15px] leading-relaxed text-white/70">
@@ -487,7 +516,7 @@ export default function DigitalTransformation() {
                 src="/brand/digital-transformation/watermark-website.png"
                 alt=""
                 aria-hidden
-                className="pointer-events-none absolute bottom-[-18%] right-[-14%] z-0 w-[115%] max-w-none opacity-30"
+                className="pointer-events-none absolute bottom-0 right-0 z-0 h-[52%] w-auto max-w-[90%] object-contain object-right-bottom opacity-30 md:bottom-[-18%] md:right-[-14%] md:h-auto md:w-[115%] md:max-w-none md:object-none"
               />
               <div className="relative z-10">
                 <p className="impact-highlight font-mono text-[12px] font-semibold uppercase tracking-[0.12em]">01</p>
@@ -498,8 +527,7 @@ export default function DigitalTransformation() {
                 <p className="mt-3 text-[15px] leading-relaxed text-white/70">
                   We’ll build or completely revamp your website around your actual business, your customers and your goals.
                 </p>
-                <p className="mt-4 font-mono text-[12px] uppercase tracking-[0.08em] text-white/45">What’s included:</p>
-                <CheckList items={WEBSITE_ITEMS} />
+                <ExpandableCheckList items={WEBSITE_ITEMS} label="What’s included" />
                 <p className="mt-5 text-[15px] leading-relaxed text-white/70">
                   Not just a prettier website.
                 </p>
@@ -514,7 +542,7 @@ export default function DigitalTransformation() {
                 src="/brand/digital-transformation/watermark-app.png"
                 alt=""
                 aria-hidden
-                className="pointer-events-none absolute bottom-[-6%] right-[-4%] z-0 w-[76%] max-w-none opacity-30"
+                className="pointer-events-none absolute bottom-0 right-0 z-0 h-[52%] w-auto max-w-[90%] object-contain object-right-bottom opacity-30 md:bottom-[-6%] md:right-[-4%] md:h-auto md:w-[76%] md:max-w-none md:object-none"
               />
               <div className="relative z-10">
                 <p className="impact-highlight font-mono text-[12px] font-semibold uppercase tracking-[0.12em]">02</p>
@@ -528,10 +556,7 @@ export default function DigitalTransformation() {
                 <p className="mt-3 text-[15px] leading-relaxed text-white/70">
                   We’ll build an application specifically around your business model.
                 </p>
-                <p className="mt-4 text-[15px] leading-relaxed text-white/70">
-                  Depending on your business, it could help customers:
-                </p>
-                <CheckList items={APP_ITEMS} />
+                <ExpandableCheckList items={APP_ITEMS} label="What the app can do" />
                 <p className="mt-5 text-[15px] font-medium text-white">
                   Your business decides what the app does.
                 </p>
@@ -546,7 +571,7 @@ export default function DigitalTransformation() {
                 src="/brand/digital-transformation/watermark-crm.png"
                 alt=""
                 aria-hidden
-                className="pointer-events-none absolute bottom-[-6%] right-[-4%] z-0 w-[76%] max-w-none opacity-30"
+                className="pointer-events-none absolute bottom-0 right-0 z-0 h-[52%] w-auto max-w-[90%] object-contain object-right-bottom opacity-30 md:bottom-[-6%] md:right-[-4%] md:h-auto md:w-[76%] md:max-w-none md:object-none"
               />
               <div className="relative z-10">
                 <p className="impact-highlight font-mono text-[12px] font-semibold uppercase tracking-[0.12em]">03</p>
@@ -557,10 +582,7 @@ export default function DigitalTransformation() {
                 <p className="mt-3 text-[15px] leading-relaxed text-white/70">
                   Your CRM becomes the central place to manage your customer journey.
                 </p>
-                <p className="mt-4 text-[15px] leading-relaxed text-white/70">
-                  You’ll be able to:
-                </p>
-                <CheckList items={CRM_ITEMS} />
+                <ExpandableCheckList items={CRM_ITEMS} label="What you’ll be able to do" />
                 <p className="mt-5 text-[15px] font-medium text-white">
                   Every lead has a place. Every customer has a journey.
                 </p>
@@ -572,7 +594,7 @@ export default function DigitalTransformation() {
                 src="/brand/digital-transformation/watermark-whatsapp.png"
                 alt=""
                 aria-hidden
-                className="pointer-events-none absolute bottom-[-14%] right-[-10%] z-0 w-[108%] max-w-none opacity-30"
+                className="pointer-events-none absolute bottom-0 right-0 z-0 h-[52%] w-auto max-w-[90%] object-contain object-right-bottom opacity-30 md:bottom-[-14%] md:right-[-10%] md:h-auto md:w-[108%] md:max-w-none md:object-none"
               />
               <div className="relative z-10">
                 <p className="impact-highlight font-mono text-[12px] font-semibold uppercase tracking-[0.12em]">04</p>
@@ -586,10 +608,7 @@ export default function DigitalTransformation() {
                 <p className="mt-3 text-[15px] leading-relaxed text-white/70">
                   Let’s make your business ready for them.
                 </p>
-                <p className="mt-4 text-[15px] leading-relaxed text-white/70">
-                  Automate repetitive conversations and follow-ups such as:
-                </p>
-                <CheckList items={WHATSAPP_ITEMS} />
+                <ExpandableCheckList items={WHATSAPP_ITEMS} label="What we automate" />
                 <p className="mt-5 text-[15px] leading-relaxed text-white/70">
                   Your team spends less time repeating the same conversations.
                 </p>
