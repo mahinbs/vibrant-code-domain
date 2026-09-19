@@ -249,7 +249,7 @@ function CtaLink({
 
 function CheckList({ items, end }: { items: ReadonlyArray<string>; end?: boolean }) {
   return (
-    <ul className={end ? "mt-4 inline-flex flex-col items-end space-y-2" : "mt-4 space-y-2"}>
+    <ul className={end ? "mt-4 space-y-2 md:inline-flex md:flex-col md:items-end" : "mt-4 space-y-2"}>
       {items.map((item) => (
         <li key={item} className="flex gap-2.5 text-[15px] leading-relaxed text-white/70">
           <span className="impact-highlight mt-[2px] shrink-0">✓</span>
@@ -379,8 +379,8 @@ export default function DigitalTransformation() {
               }}
             />
 
-            <div className="relative z-[5] grid w-full grid-cols-1 items-center gap-8 xl:grid-cols-[minmax(0,0.68fr)_minmax(780px,1.2fr)] xl:gap-6">
-              <div className="flex flex-col items-start">
+            <div className="relative z-[5] grid w-full grid-cols-1 items-center gap-8 xl:grid-cols-[minmax(0,0.68fr)_minmax(780px,1.2fr)] xl:grid-rows-[auto_auto] xl:gap-6">
+              <div className="flex flex-col items-start xl:col-start-1 xl:row-start-1">
                 <div className="acq-eyebrow inline-flex w-fit items-center gap-1.5 rounded-full border border-white/15 bg-black/60 px-3.5 py-2.5 backdrop-blur-[5px]">
                   <span className="rounded-full bg-purple px-1.5 py-1 text-[8px] font-bold uppercase tracking-[0.05em]">
                     NEW
@@ -395,26 +395,14 @@ export default function DigitalTransformation() {
                   <span className="impact-highlight">Should Too.</span>
                 </h1>
                 <p className="mt-5 max-w-[52ch] border-l-2 border-purple/60 pl-3 font-mono !text-[14px] font-normal !leading-[1.3] tracking-[0.04em] text-white/70 sm:mt-6 sm:pl-4 sm:!text-[15px] md:mt-7 md:pl-6 md:!text-[20px] md:!leading-[1.25] md:tracking-[0.06em]">
-                  Get a modern website, a business-specific app, a dedicated CRM, and WhatsApp automation built around the way your business actually works.
+                  <span className="impact-highlight">Get a modern website, a business-specific app, a dedicated CRM, and WhatsApp automation</span> built around the way your business actually works.
                   <br />
                   <br />
                   Everything you need to look more professional, serve customers better, and build a business that is ready for what’s next.
                 </p>
-                <p className="impact-highlight mt-7 text-[32px] font-medium tracking-[-0.03em] md:text-[44px]">
-                  All for ₹39,999
-                </p>
-                <div className="mt-6 flex flex-wrap gap-3">
-                  <CtaLink href={PAY_HREF}>Transform My Business</CtaLink>
-                  <CtaLink href="#offer" secondary>
-                    See the offer
-                  </CtaLink>
-                </div>
-                <p className="mt-4 text-[14px] leading-relaxed text-white/50">
-                  Built specifically for your business. Not another generic template or off-the-shelf system.
-                </p>
               </div>
 
-              <div className="grid w-full grid-cols-2 gap-3 md:gap-4">
+              <div className="grid w-full grid-cols-2 gap-3 md:gap-4 xl:col-start-2 xl:row-span-2 xl:row-start-1">
                 {HERO_SYSTEMS.map((card) => (
                   <div
                     key={card.label}
@@ -437,6 +425,21 @@ export default function DigitalTransformation() {
                     />
                   </div>
                 ))}
+              </div>
+
+              <div className="flex flex-col items-start xl:col-start-1 xl:row-start-2">
+                <p className="impact-highlight text-[32px] font-medium tracking-[-0.03em] md:text-[44px]">
+                  All for ₹39,999
+                </p>
+                <div className="mt-6 flex flex-wrap gap-3">
+                  <CtaLink href={PAY_HREF}>Transform My Business</CtaLink>
+                  <CtaLink href="#offer" secondary>
+                    See the offer
+                  </CtaLink>
+                </div>
+                <p className="mt-4 text-[14px] leading-relaxed text-white/50">
+                  Built specifically for your business. Not another generic template or off-the-shelf system.
+                </p>
               </div>
             </div>
           </div>
@@ -623,8 +626,13 @@ export default function DigitalTransformation() {
         <SectionDivider />
 
         <section id="package" className="w-full px-5 py-8 md:px-10 md:py-10">
-          <div className="relative mx-auto grid w-full max-w-[1400px] items-end overflow-hidden rounded-[20px] border border-purple/60 bg-[rgba(72,118,255,0.10)] p-5 md:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] md:gap-8 md:p-8 md:pl-0 md:pb-0">
-            <div className="relative z-10 md:order-2 md:flex md:flex-col md:items-end md:pb-8 md:text-right">
+          <div className="relative mx-auto grid w-full max-w-[1400px] overflow-hidden rounded-[20px] border border-purple/60 bg-[rgba(72,118,255,0.10)] px-0 pb-6 pt-0 md:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] md:items-end md:gap-8 md:p-8 md:pl-0 md:pb-0">
+            <img
+              src="/brand/digital-transformation/package.png"
+              alt="All four solutions for ₹39,999: website, app, CRM, and WhatsApp automation"
+              className="pointer-events-none w-full object-contain object-bottom md:max-h-[480px] md:w-[90%] md:justify-self-start md:self-end"
+            />
+            <div className="relative z-10 px-5 pt-5 md:flex md:flex-col md:items-end md:px-0 md:pb-8 md:pt-0 md:text-right">
               <Eyebrow>The ₹39,999 section</Eyebrow>
               <h2 className="mt-3 max-w-[34rem] text-[28px] font-medium leading-[1.12] -tracking-[0.04em] text-white md:text-[36px]">
                 Imagine Getting All of This for
@@ -641,11 +649,6 @@ export default function DigitalTransformation() {
               </div>
               <p className="mt-3 text-[14px] text-white/50">Limited implementation slots available.</p>
             </div>
-            <img
-              src="/brand/digital-transformation/package.png"
-              alt="All four solutions for ₹39,999: website, app, CRM, and WhatsApp automation"
-              className="pointer-events-none mt-4 w-[90%] justify-self-center object-contain object-bottom max-md:mx-auto md:order-1 md:mt-0 md:max-h-[480px] md:w-[90%] md:justify-self-start md:self-end"
-            />
           </div>
         </section>
 
@@ -760,8 +763,8 @@ export default function DigitalTransformation() {
         <SectionDivider />
 
         <section className="w-full px-5 py-12 md:px-10 md:py-16">
-          <div className="mx-auto grid w-full max-w-[1400px] items-stretch gap-8 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:gap-14">
-            <div>
+          <div className="mx-auto grid w-full max-w-[1400px] items-stretch gap-8 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:grid-rows-[auto_auto] lg:gap-14">
+            <div className="lg:col-start-1 lg:row-start-1">
               <SectionHead
                 eyebrow="The next step"
                 watermark="NEXT"
@@ -777,7 +780,14 @@ export default function DigitalTransformation() {
               <p className="mt-5 text-[16px] leading-relaxed text-white/70 md:text-[17px]">
                 Get a modern website, business-specific app, dedicated CRM and WhatsApp automation.
               </p>
-              <p className="impact-highlight mt-6 text-[36px] font-medium tracking-[-0.03em] md:text-[48px]">
+            </div>
+            <img
+              src="/brand/digital-transformation/next-step.png"
+              alt="Switching from manual operations to a connected website, app, CRM, and WhatsApp system"
+              className="w-full max-w-none justify-self-center self-center object-contain drop-shadow-[0_16px_32px_rgba(51,102,255,0.35)] lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:w-[110%]"
+            />
+            <div className="lg:col-start-1 lg:row-start-2">
+              <p className="impact-highlight text-[36px] font-medium tracking-[-0.03em] md:text-[48px]">
                 ₹39,999
               </p>
               <div className="mt-6 flex flex-wrap gap-3">
@@ -790,11 +800,6 @@ export default function DigitalTransformation() {
                 Tell us about your business. We’ll tell you what we can build.
               </p>
             </div>
-            <img
-              src="/brand/digital-transformation/next-step.png"
-              alt="Switching from manual operations to a connected website, app, CRM, and WhatsApp system"
-              className="w-[110%] max-w-none justify-self-center self-center object-contain drop-shadow-[0_16px_32px_rgba(51,102,255,0.35)]"
-            />
           </div>
         </section>
 
