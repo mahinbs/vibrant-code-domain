@@ -46,10 +46,10 @@ const GLOSS =
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 const HERO_SYSTEMS = [
-  { label: "Website", imageSrc: "/brand/digital-transformation/website.png" },
-  { label: "Business app", imageSrc: "/brand/digital-transformation/business-app.png" },
-  { label: "CRM", imageSrc: "/brand/digital-transformation/crm.png" },
-  { label: "WhatsApp", imageSrc: "/brand/digital-transformation/whatsapp.png" },
+  { label: "Website", imageSrc: "/brand/digital-transformation/website.webp" },
+  { label: "Business app", imageSrc: "/brand/digital-transformation/business-app.webp" },
+  { label: "CRM", imageSrc: "/brand/digital-transformation/crm.webp" },
+  { label: "WhatsApp", imageSrc: "/brand/digital-transformation/whatsapp.webp" },
 ] as const;
 
 const WEBSITE_ITEMS = [
@@ -121,25 +121,25 @@ const STEPS = [
     n: "01",
     title: "Tell Us About Your Business",
     body: "Tell us what you do, who you serve and where you want to go.",
-    iconSrc: "/brand/digital-transformation/step-1.png",
+    iconSrc: "/brand/digital-transformation/step-1.webp",
   },
   {
     n: "02",
     title: "We Design the Digital Experience",
     body: "We determine how your website, app, CRM and automation should work around your business.",
-    iconSrc: "/brand/digital-transformation/step-2.png?v=2",
+    iconSrc: "/brand/digital-transformation/step-2.webp",
   },
   {
     n: "03",
     title: "We Build It",
     body: "Our team develops the systems and connects them together.",
-    iconSrc: "/brand/digital-transformation/step-3.png",
+    iconSrc: "/brand/digital-transformation/step-3.webp",
   },
   {
     n: "04",
     title: "You Go Live",
     body: "You get a digital foundation that is ready to support your customers and your growth.",
-    iconSrc: "/brand/digital-transformation/step-4.png",
+    iconSrc: "/brand/digital-transformation/step-4.webp",
   },
 ] as const;
 
@@ -337,6 +337,7 @@ export default function DigitalTransformation() {
           name="description"
           content="Get a modern website, a business-specific app, a dedicated CRM, and WhatsApp automation. All for ₹39,999."
         />
+        <link rel="preload" as="image" href="/brand/digital-transformation/website.webp" type="image/webp" />
       </Helmet>
       <SiteBackground />
       <Nav links={NAV_LINKS} cta={NAV_CTA} whatsappHref={whatsappHref} ctaOutsideNav />
@@ -403,7 +404,7 @@ export default function DigitalTransformation() {
               </div>
 
               <div className="grid w-full grid-cols-2 gap-3 md:gap-4 xl:col-start-2 xl:row-span-2 xl:row-start-1">
-                {HERO_SYSTEMS.map((card) => (
+                {HERO_SYSTEMS.map((card, index) => (
                   <div
                     key={card.label}
                     className="relative aspect-[3/2] overflow-hidden rounded-[18px] border border-[rgba(120,168,255,0.28)] p-1 md:p-1.5"
@@ -421,6 +422,11 @@ export default function DigitalTransformation() {
                     <img
                       src={card.imageSrc}
                       alt={card.label}
+                      width={1200}
+                      height={800}
+                      decoding="async"
+                      fetchPriority={index === 0 ? "high" : "low"}
+                      loading={index < 2 ? "eager" : "lazy"}
                       className="relative z-[1] h-full w-full scale-[1.08] object-cover"
                     />
                   </div>
@@ -484,8 +490,12 @@ export default function DigitalTransformation() {
             </div>
             <div className="relative min-h-0 overflow-hidden rounded-[20px] max-lg:aspect-[4/5] lg:w-[46%] lg:min-h-0">
               <img
-                src="/brand/digital-transformation/problem.png"
+                src="/brand/digital-transformation/problem.webp"
                 alt="A business owner facing scattered tools: outdated website, WhatsApp leads, no CRM, and too many manual tasks"
+                width={880}
+                height={1100}
+                loading="lazy"
+                decoding="async"
                 className="absolute inset-0 h-full w-full object-cover object-center"
               />
             </div>
@@ -516,9 +526,11 @@ export default function DigitalTransformation() {
           <div className="mx-auto mt-10 grid w-full max-w-[1400px] gap-4 md:grid-cols-2">
             <article className="acq-gloss relative overflow-hidden rounded-[16px] border border-white/12 p-5 transition-colors hover:border-purple/50 md:p-6" style={{ background: GLOSS }}>
               <img
-                src="/brand/digital-transformation/watermark-website.png"
+                src="/brand/digital-transformation/watermark-website.webp"
                 alt=""
                 aria-hidden
+                loading="lazy"
+                decoding="async"
                 className="pointer-events-none absolute bottom-0 right-0 z-0 h-[52%] w-auto max-w-[90%] object-contain object-right-bottom opacity-30 md:bottom-[-18%] md:right-[-14%] md:h-auto md:w-[115%] md:max-w-none md:object-none"
               />
               <div className="relative z-10">
@@ -542,9 +554,11 @@ export default function DigitalTransformation() {
 
             <article className="acq-gloss relative overflow-hidden rounded-[16px] border border-white/12 p-5 transition-colors hover:border-purple/50 md:p-6" style={{ background: GLOSS }}>
               <img
-                src="/brand/digital-transformation/watermark-app.png"
+                src="/brand/digital-transformation/watermark-app.webp"
                 alt=""
                 aria-hidden
+                loading="lazy"
+                decoding="async"
                 className="pointer-events-none absolute bottom-0 right-0 z-0 h-[52%] w-auto max-w-[90%] object-contain object-right-bottom opacity-30 md:bottom-[-6%] md:right-[-4%] md:h-auto md:w-[76%] md:max-w-none md:object-none"
               />
               <div className="relative z-10">
@@ -571,9 +585,11 @@ export default function DigitalTransformation() {
 
             <article className="acq-gloss relative overflow-hidden rounded-[16px] border border-white/12 p-5 transition-colors hover:border-purple/50 md:p-6" style={{ background: GLOSS }}>
               <img
-                src="/brand/digital-transformation/watermark-crm.png"
+                src="/brand/digital-transformation/watermark-crm.webp"
                 alt=""
                 aria-hidden
+                loading="lazy"
+                decoding="async"
                 className="pointer-events-none absolute bottom-0 right-0 z-0 h-[52%] w-auto max-w-[90%] object-contain object-right-bottom opacity-30 md:bottom-[-6%] md:right-[-4%] md:h-auto md:w-[76%] md:max-w-none md:object-none"
               />
               <div className="relative z-10">
@@ -594,9 +610,11 @@ export default function DigitalTransformation() {
 
             <article className="acq-gloss relative overflow-hidden rounded-[16px] border border-white/12 p-5 transition-colors hover:border-purple/50 md:p-6" style={{ background: GLOSS }}>
               <img
-                src="/brand/digital-transformation/watermark-whatsapp.png"
+                src="/brand/digital-transformation/watermark-whatsapp.webp"
                 alt=""
                 aria-hidden
+                loading="lazy"
+                decoding="async"
                 className="pointer-events-none absolute bottom-0 right-0 z-0 h-[52%] w-auto max-w-[90%] object-contain object-right-bottom opacity-30 md:bottom-[-14%] md:right-[-10%] md:h-auto md:w-[108%] md:max-w-none md:object-none"
               />
               <div className="relative z-10">
@@ -628,8 +646,12 @@ export default function DigitalTransformation() {
         <section id="package" className="w-full px-5 py-8 md:px-10 md:py-10">
           <div className="relative mx-auto grid w-full max-w-[1400px] overflow-hidden rounded-[20px] border border-purple/60 bg-[rgba(72,118,255,0.10)] px-0 pb-6 pt-0 md:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] md:items-end md:gap-8 md:p-8 md:pl-0 md:pb-0">
             <img
-              src="/brand/digital-transformation/package.png"
+              src="/brand/digital-transformation/package.webp"
               alt="All four solutions for ₹39,999: website, app, CRM, and WhatsApp automation"
+              width={1200}
+              height={1004}
+              loading="lazy"
+              decoding="async"
               className="pointer-events-none w-full object-contain object-bottom md:max-h-[480px] md:w-[90%] md:justify-self-start md:self-end"
             />
             <div className="relative z-10 px-5 pt-5 md:flex md:flex-col md:items-end md:px-0 md:pb-8 md:pt-0 md:text-right">
@@ -747,6 +769,10 @@ export default function DigitalTransformation() {
                       src={step.iconSrc}
                       alt=""
                       aria-hidden
+                      width={512}
+                      height={512}
+                      loading="lazy"
+                      decoding="async"
                       className="h-full w-full overflow-visible object-contain object-center drop-shadow-[0_16px_32px_rgba(51,102,255,0.35)]"
                     />
                   </div>
@@ -782,8 +808,12 @@ export default function DigitalTransformation() {
               </p>
             </div>
             <img
-              src="/brand/digital-transformation/next-step.png"
+              src="/brand/digital-transformation/next-step.webp"
               alt="Switching from manual operations to a connected website, app, CRM, and WhatsApp system"
+              width={1200}
+              height={830}
+              loading="lazy"
+              decoding="async"
               className="w-full max-w-none justify-self-center self-center object-contain drop-shadow-[0_16px_32px_rgba(51,102,255,0.35)] lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:w-[110%]"
             />
             <div className="lg:col-start-1 lg:row-start-2">
