@@ -21,6 +21,11 @@ const EXACT: Record<string, RouteSeo> = {
     description:
       "Get more clients with AI. Plans, campaigns, LinkedIn outreach, email, and WhatsApp follow-ups. All running 24/7. Nothing spends until you approve.",
   },
+  "/digital-transformation": {
+    title: "Digital Business Transformation | Boostmysites",
+    description:
+      "Get a modern website, a business-specific app, a dedicated CRM, and WhatsApp automation. All for ₹39,999.",
+  },
   "/previous-homepage": {
     title: "Previous homepage · Boostmysites",
     description:
@@ -159,7 +164,7 @@ const EXACT: Record<string, RouteSeo> = {
   "/privacy-policy": {
     title: "Privacy Policy | Boostmysites",
     description:
-      "Boostmysites privacy policy: how we collect, use, and protect your information when you use our website and services.",
+      "BOOSTMYSITES privacy policy: how we collect, use, share, and delete personal data, including Meta Platform Data.",
   },
   "/terms-and-conditions": {
     title: "Terms and Conditions | Boostmysites",

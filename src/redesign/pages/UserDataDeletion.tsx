@@ -30,15 +30,15 @@ export default function UserDataDeletion() {
     >
       <LegalP>
         Website:{" "}
-        <a className="impact-highlight underline-offset-2 hover:underline" href="https://www.boostmysites.in">
-          https://www.boostmysites.in
+        <a className="impact-highlight underline-offset-2 hover:underline" href="https://www.boostmysites.com">
+          https://www.boostmysites.com
         </a>
         <br />
         Contact:{" "}
         <a className="impact-highlight underline-offset-2 hover:underline" href={whatsappHref} target="_blank" rel="noopener noreferrer">
           WhatsApp +91 96329 53355
         </a>{" "}
-        · www.boostmysites.in
+        · www.boostmysites.com
       </LegalP>
       <LegalP>
         This page tells you how to ask BOOSTMYSITES to delete personal data we hold about you,

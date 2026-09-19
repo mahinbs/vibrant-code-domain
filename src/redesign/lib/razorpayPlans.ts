@@ -6,11 +6,12 @@
 
 export const GST_RATE = 0.18;
 
-export type PayPlanId = "monthly" | "yearly";
+export type PayPlanId = "monthly" | "yearly" | "digital";
 
 export type PayPlan = {
   id: PayPlanId;
   label: string;
+  productName: string;
   period: string;
   /** Base price in INR rupees (before GST). */
   baseInr: number;
@@ -44,10 +45,13 @@ const SHARED_CHECKOUT_ITEMS = [
   "AI LinkedIn outreach module",
 ] as const;
 
+const ACQUISITION_NAME = "AI Client Acquisition System";
+
 export const PAY_PLANS: readonly PayPlan[] = [
   {
     id: "monthly",
     label: "1 month",
+    productName: ACQUISITION_NAME,
     period: "Billed monthly",
     baseInr: 33_333,
     blurb: "Full stack for one month. Pause anytime before the next cycle.",
@@ -57,6 +61,7 @@ export const PAY_PLANS: readonly PayPlan[] = [
   {
     id: "yearly",
     label: "1 year",
+    productName: ACQUISITION_NAME,
     period: "Billed once a year",
     baseInr: 89_999,
     blurb: "Best value: run the full acquisition stack for twelve months.",
@@ -73,6 +78,29 @@ export const PAY_PLANS: readonly PayPlan[] = [
     badge: "Best value",
   },
 ] as const;
+
+export const DIGITAL_PLAN: PayPlan = {
+  id: "digital",
+  label: "Package",
+  productName: "Digital Business Transformation",
+  period: "One-time package",
+  baseInr: 39_999,
+  blurb: "Website, business app, CRM, and WhatsApp automation in one build.",
+  highlights: [
+    "Website",
+    "App",
+    "CRM",
+    "WhatsApp automation",
+  ],
+  checkoutItems: [
+    "Website",
+    "App",
+    "CRM",
+    "WhatsApp automation",
+  ],
+};
+
+const ALL_PLANS: readonly PayPlan[] = [...PAY_PLANS, DIGITAL_PLAN];
 
 export function gstAmountInr(baseInr: number, rate = GST_RATE): number {
   return Math.round(baseInr * rate);
@@ -96,13 +124,13 @@ export function formatInr(amount: number): string {
 }
 
 export function getPlan(id: PayPlanId): PayPlan {
-  const plan = PAY_PLANS.find((p) => p.id === id);
+  const plan = ALL_PLANS.find((p) => p.id === id);
   if (!plan) throw new Error(`Unknown plan: ${id}`);
   return plan;
 }
 
 export function parsePayPlanId(value: string | null | undefined): PayPlanId | null {
-  if (value === "monthly" || value === "yearly") return value;
+  if (value === "monthly" || value === "yearly" || value === "digital") return value;
   return null;
 }
 

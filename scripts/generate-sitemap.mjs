@@ -40,6 +40,7 @@ const STATIC_ROUTES = [
   "/ai-automation",
   "/reviews",
   "/thank-you",
+  "/digital-transformation",
   "/privacy-policy",
   "/terms-and-conditions",
   "/refund-policy",

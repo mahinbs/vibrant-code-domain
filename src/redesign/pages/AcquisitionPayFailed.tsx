@@ -1,10 +1,14 @@
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { SiteBackground } from "../components/SiteBackground";
 import { Nav } from "../components/Nav";
 import { whatsappHref } from "../data/site";
+import { parsePayPlanId } from "../lib/razorpayPlans";
 
 export default function AcquisitionPayFailed() {
+  const [params] = useSearchParams();
+  const plan = parsePayPlanId(params.get("plan"));
+  const retryHref = plan ? `/pay?plan=${plan}` : "/pay";
   return (
     <>
       <Helmet>
@@ -14,7 +18,7 @@ export default function AcquisitionPayFailed() {
       <SiteBackground />
       <Nav
         links={[{ label: "Home", href: "/" }]}
-        cta={{ label: "Try again", href: "/pay" }}
+        cta={{ label: "Try again", href: retryHref }}
         whatsappHref={whatsappHref}
       />
       <main className="relative z-10 mx-auto flex w-full max-w-[640px] flex-col px-5 py-16 md:py-24">
@@ -29,7 +33,7 @@ export default function AcquisitionPayFailed() {
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
           <Link
-            to="/pay"
+            to={retryHref}
             className="btn-gloss relative inline-flex items-center justify-center overflow-hidden rounded-[10px] border border-white/20 bg-purple/70 px-5 py-3 text-[14px] font-semibold text-white"
           >
             <span className="relative z-[2]">Try again</span>

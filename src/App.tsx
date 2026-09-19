@@ -48,7 +48,7 @@ const ChatbotDevelopmentPage = lazy(
 );
 const ReviewsPage = lazy(() => import("./pages/ReviewsPage"));
 const ThankYouPage = lazy(() => import("./redesign/pages/ThankYou"));
-const PrivacyPolicyPage = lazy(() => import("./pages/PrivacyPolicyPage"));
+const PrivacyPolicy = lazy(() => import("./redesign/pages/PrivacyPolicy"));
 const TermsAndConditions = lazy(() => import("./redesign/pages/TermsAndConditions"));
 const RefundPolicy = lazy(() => import("./redesign/pages/RefundPolicy"));
 const UserDataDeletion = lazy(() => import("./redesign/pages/UserDataDeletion"));
@@ -105,6 +105,9 @@ const ForLlmPage = lazy(() => import("./pages/ForLlmPage"));
 const FounderProfile = lazy(() => import("./redesign/pages/FounderProfile"));
 const AiClientAcquisition = lazy(
   () => import("./redesign/pages/AiClientAcquisition"),
+);
+const DigitalTransformation = lazy(
+  () => import("./redesign/pages/DigitalTransformation"),
 );
 const AcquisitionPay = lazy(() => import("./redesign/pages/AcquisitionPay"));
 const AcquisitionPaySuccess = lazy(() => import("./redesign/pages/AcquisitionPaySuccess"));
@@ -485,10 +488,9 @@ const App = () => {
               <Route
                 path="/privacy-policy"
                 element={
-                  <>
-                    <FloatingWhatsAppButton />
-                    <PrivacyPolicyPage />
-                  </>
+                  <RedesignShell>
+                    <PrivacyPolicy />
+                  </RedesignShell>
                 }
               />
               <Route
@@ -678,6 +680,14 @@ const App = () => {
                 element={
                   <RedesignShell>
                     <ReshabBusinessAutomation />
+                  </RedesignShell>
+                }
+              />
+              <Route
+                path="/digital-transformation"
+                element={
+                  <RedesignShell>
+                    <DigitalTransformation />
                   </RedesignShell>
                 }
               />

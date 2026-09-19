@@ -63,6 +63,7 @@ const NAV_LINKS: ReadonlyArray<NavLinkItem> = [
     dropdown: [
       { label: "AI Client Acquisition System", href: "/" },
       { label: "AI Automation", href: "/business-automation" },
+      { label: "Digital Transformation", href: "/digital-transformation" },
     ],
   },
   { label: "How it works", href: "#demo" },
@@ -1109,7 +1110,7 @@ function DemoVideoPlayer() {
         <span className="size-2.5 rounded-full bg-[#febc2e]" />
         <span className="size-2.5 rounded-full bg-[#28c840]" />
         <span className="ml-3 flex-1 truncate rounded-md border border-white/[0.06] bg-white/[0.04] px-3 py-1 font-mono text-[11px] text-white/45">
-          boostmysites.in
+          boostmysites.com
         </span>
       </div>
 

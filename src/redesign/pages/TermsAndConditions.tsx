@@ -23,15 +23,15 @@ export default function TermsAndConditions() {
     >
       <LegalP>
         Website:{" "}
-        <a className="impact-highlight underline-offset-2 hover:underline" href="https://www.boostmysites.in">
-          https://www.boostmysites.in
+        <a className="impact-highlight underline-offset-2 hover:underline" href="https://www.boostmysites.com">
+          https://www.boostmysites.com
         </a>
         <br />
         Contact:{" "}
         <a className="impact-highlight underline-offset-2 hover:underline" href={whatsappHref} target="_blank" rel="noopener noreferrer">
           WhatsApp +91 96329 53355
         </a>{" "}
-        · www.boostmysites.in
+        · www.boostmysites.com
       </LegalP>
 
       <LegalP>
@@ -48,7 +48,11 @@ export default function TermsAndConditions() {
         <Link to="/refund-policy" className="impact-highlight underline-offset-2 hover:underline">
           Refund policy
         </Link>{" "}
-        page.
+        page. Our{" "}
+        <Link to="/privacy-policy" className="impact-highlight underline-offset-2 hover:underline">
+          Privacy policy
+        </Link>{" "}
+        explains how we collect and use personal data.
       </LegalP>
 
       <LegalH2>1. Who we are and what you are buying</LegalH2>
@@ -354,7 +358,7 @@ export default function TermsAndConditions() {
       <LegalH2>14. Changes</LegalH2>
       <LegalP>
         We may update these Terms. The version on this page (or the version we publish at
-        www.boostmysites.in) applies when posted. Continued paid use after a change is acceptance
+        www.boostmysites.com) applies when posted. Continued paid use after a change is acceptance
         of the new Terms for future periods.
       </LegalP>
 

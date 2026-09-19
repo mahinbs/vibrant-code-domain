@@ -3,11 +3,15 @@ import { Helmet } from "react-helmet-async";
 import { SiteBackground } from "../components/SiteBackground";
 import { Nav } from "../components/Nav";
 import { whatsappHref, site } from "../data/site";
+import { parsePayPlanId, getPlan } from "../lib/razorpayPlans";
 
 export default function AcquisitionPaySuccess() {
   const [params] = useSearchParams();
   const paymentId = params.get("payment_id");
   const orderId = params.get("order_id");
+  const plan = parsePayPlanId(params.get("plan"));
+  const productName = plan ? getPlan(plan).productName : "your order";
+  const productHome = plan === "digital" ? "/digital-transformation" : "/";
 
   return (
     <>
@@ -29,8 +33,8 @@ export default function AcquisitionPaySuccess() {
           You’re in. We’ll start setup shortly.
         </h1>
         <p className="mt-3 text-[15px] leading-relaxed text-white/60">
-          Thanks for paying for the AI Client Acquisition System. Our team will reach out on WhatsApp
-          / email within 24 hours to connect your accounts. A GST tax invoice has been emailed to the
+          Thanks for paying for {productName}. Our team will reach out on WhatsApp
+          / email within 24 hours to start. A GST tax invoice has been emailed to the
           address you used at checkout.
         </p>
         {(paymentId || orderId) && (
@@ -51,7 +55,7 @@ export default function AcquisitionPaySuccess() {
         )}
         <div className="mt-8 flex flex-wrap gap-3">
           <Link
-            to="/"
+            to={productHome}
             className="btn-gloss relative inline-flex items-center justify-center overflow-hidden rounded-[10px] border border-white/20 bg-purple/70 px-5 py-3 text-[14px] font-semibold text-white"
           >
             <span className="relative z-[2]">Back to homepage</span>

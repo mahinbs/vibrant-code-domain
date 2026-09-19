@@ -51,7 +51,7 @@ serve(async (req) => {
           plan_id: plan.id,
           email,
           phone,
-          product: "ai-client-acquisition",
+          product: plan.id === "digital" ? "digital-transformation" : "ai-client-acquisition",
         },
       }),
     });

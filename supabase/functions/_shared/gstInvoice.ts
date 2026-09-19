@@ -124,12 +124,14 @@ export function buildGstInvoice(input: {
   seller: InvoiceSeller;
   buyer: InvoiceBuyer;
   planLabel: string;
+  productName?: string;
   baseInr: number;
   invoiceDate?: string;
 }): BuiltInvoice {
   const invoiceDate = input.invoiceDate ?? todayISO();
+  const productName = input.productName ?? "AI Client Acquisition System";
   const line: InvoiceLine = {
-    description: `AI Client Acquisition System — ${input.planLabel}`,
+    description: `${productName} — ${input.planLabel}`,
     sac: SAC_CODE,
     qty: 1,
     rateInr: input.baseInr,

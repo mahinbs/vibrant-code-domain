@@ -15,26 +15,32 @@ export function jsonResponse(body: unknown, status = 200) {
 
 export const GST_RATE = 0.18;
 
-export type PlanId = "monthly" | "yearly";
+export type PlanId = "monthly" | "yearly" | "digital";
 
-const PLANS: Record<PlanId, { label: string; baseInr: number }> = {
-  monthly: { label: "1 month", baseInr: 33_333 },
-  yearly: { label: "1 year", baseInr: 89_999 },
+const PLANS: Record<PlanId, { label: string; product: string; baseInr: number }> = {
+  monthly: { label: "1 month", product: "AI Client Acquisition System", baseInr: 33_333 },
+  yearly: { label: "1 year", product: "AI Client Acquisition System", baseInr: 89_999 },
+  digital: { label: "Package", product: "Digital Business Transformation", baseInr: 39_999 },
 };
 
 export function getPlan(planId: string) {
-  if (planId !== "monthly" && planId !== "yearly") return null;
+  if (planId !== "monthly" && planId !== "yearly" && planId !== "digital") return null;
   const plan = PLANS[planId];
   const gstInr = Math.round(plan.baseInr * GST_RATE);
   const totalInr = plan.baseInr + gstInr;
   return {
     id: planId as PlanId,
     label: plan.label,
+    product: plan.product,
     baseInr: plan.baseInr,
     gstInr,
     totalInr,
     amountPaise: totalInr * 100,
   };
+}
+
+export function planProductName(planId: string) {
+  return getPlan(planId)?.product ?? "Boostmysites";
 }
 
 export function razorpayAuthHeader() {

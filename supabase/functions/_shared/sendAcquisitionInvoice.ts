@@ -1,4 +1,5 @@
 import type { SupabaseClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
+import { getPlan, planProductName } from "./razorpay.ts";
 import { buildGstInvoice, getSeller } from "./gstInvoice.ts";
 import { sendBillingEmail } from "./billingResend.ts";
 
@@ -69,7 +70,9 @@ export async function maybeSendGstInvoice(
     }
   }
 
-  const planLabel = payment.plan_id === "yearly" ? "1 year" : "1 month";
+  const resolved = getPlan(payment.plan_id);
+  const planLabel = resolved?.label ?? payment.plan_id;
+  const productName = planProductName(payment.plan_id);
   const built = buildGstInvoice({
     invoiceNumber,
     seller,
@@ -82,6 +85,7 @@ export async function maybeSendGstInvoice(
       stateCode: null,
     },
     planLabel,
+    productName,
     baseInr: payment.base_inr,
   });
 
@@ -89,7 +93,7 @@ export async function maybeSendGstInvoice(
     to: payment.email,
     subject: `Tax Invoice ${invoiceNumber} — Boostmysites`,
     html: built.html,
-    text: `Tax Invoice ${invoiceNumber} for AI Client Acquisition System (${planLabel}). Total ${built.total}.`,
+    text: `Tax Invoice ${invoiceNumber} for ${productName} (${planLabel}). Total ${built.total}.`,
   });
 
   const { error: markErr } = await supabase

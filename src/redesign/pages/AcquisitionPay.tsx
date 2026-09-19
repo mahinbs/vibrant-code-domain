@@ -17,9 +17,9 @@ import {
 import { createRazorpayOrder, verifyRazorpayPayment } from "../lib/razorpayClient";
 
 const fieldClass =
-  "w-full rounded-[12px] border border-black/10 bg-[#f4f4f5] px-3.5 py-2.5 text-[14px] text-[#18181b] outline-none transition-colors placeholder:text-[#a1a1aa] focus:border-[#4e78ff]";
+  "w-full rounded-[12px] border border-white/25 bg-white/15 px-3.5 py-2.5 text-[14px] text-white outline-none transition-colors placeholder:text-white/50 focus:border-white focus:bg-white/20";
 
-const labelClass = "mb-1.5 block text-[12px] font-medium text-[#52525b]";
+const labelClass = "mb-1.5 block text-[12px] font-medium text-white/80";
 
 const GLOSS =
   "linear-gradient(180deg, rgba(255,255,255,0.04) 0%, rgba(0,0,0,0.5) 100%)";
@@ -45,6 +45,7 @@ const NAV_LINKS: ReadonlyArray<NavLinkItem> = [
     dropdown: [
       { label: "AI Client Acquisition System", href: "/" },
       { label: "AI Automation", href: "/business-automation" },
+      { label: "Digital Transformation", href: "/digital-transformation" },
     ],
   },
   { label: "How it works", href: "/#demo" },
@@ -193,6 +194,11 @@ export default function AcquisitionPay() {
   const gst = gstAmountInr(plan.baseInr);
   const total = totalInr(plan.baseInr);
   const keyId = getRazorpayKeyId();
+  const isDigital = planId === "digital";
+  const productHome = isDigital ? "/digital-transformation" : "/";
+  const nextStepsItems = isDigital
+    ? (["Payment confirmation", "Onboarding call", "Build kickoff", "Go live"] as const)
+    : NEXT_STEPS;
 
   const setField = (key: keyof CheckoutForm) => (value: string) =>
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -232,7 +238,7 @@ export default function AcquisitionPay() {
         amount: order.amount,
         currency: order.currency,
         name: site.brand,
-        description: `AI Client Acquisition ${order.planLabel}`,
+        description: `${plan.productName} · ${order.planLabel}`,
         order_id: order.orderId,
         prefill: {
           name: form.name.trim(),
@@ -254,7 +260,7 @@ export default function AcquisitionPay() {
           } catch (verifyErr) {
             console.error(verifyErr);
             navigate(
-              `/pay/success?order_id=${encodeURIComponent(response.razorpay_order_id)}&payment_id=${encodeURIComponent(response.razorpay_payment_id)}`,
+              `/pay/success?order_id=${encodeURIComponent(response.razorpay_order_id)}&payment_id=${encodeURIComponent(response.razorpay_payment_id)}&plan=${encodeURIComponent(planId)}`,
             );
           }
         },
@@ -265,7 +271,7 @@ export default function AcquisitionPay() {
 
       rzp.on("payment.failed", () => {
         setBusy(false);
-        navigate("/pay/failed");
+        navigate(`/pay/failed?plan=${encodeURIComponent(planId)}`);
       });
 
       rzp.open();
@@ -290,6 +296,7 @@ export default function AcquisitionPay() {
         ) : null}
       </div>
 
+      {!isDigital ? (
       <div className="mt-4 grid grid-cols-2 gap-1 rounded-[12px] bg-black/40 p-1">
         {PAY_PLANS.map((p) => {
           const selected = p.id === planId;
@@ -319,9 +326,10 @@ export default function AcquisitionPay() {
           );
         })}
       </div>
+      ) : null}
 
       <h2 className="mt-5 text-[18px] font-medium -tracking-[0.02em] text-white">
-        AI Client Acquisition · {plan.label}
+        {plan.productName} · {plan.label}
       </h2>
       <div className="mt-1 flex flex-wrap items-baseline gap-x-3 gap-y-1">
         <p className="text-[28px] font-semibold tracking-[-0.03em] text-white md:text-[32px]">
@@ -400,13 +408,13 @@ export default function AcquisitionPay() {
         What happens <span className="impact-highlight">next</span>?
       </h3>
       <ol className="mt-4 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-2 sm:gap-y-2">
-        {NEXT_STEPS.map((step, i) => (
+        {nextStepsItems.map((step, i) => (
           <li key={step} className="flex items-center gap-2 text-[13px] text-white/75">
             <span className="flex size-6 shrink-0 items-center justify-center rounded-full border border-purple/40 bg-purple/20 text-[11px] font-semibold text-[#7c97ff]">
               {i + 1}
             </span>
             {step}
-            {i < NEXT_STEPS.length - 1 ? (
+            {i < nextStepsItems.length - 1 ? (
               <span className="hidden text-[#4e78ff]/60 sm:inline" aria-hidden>
                 →
               </span>
@@ -420,20 +428,19 @@ export default function AcquisitionPay() {
   const paymentCard = (
     <div
       id="pay-card"
-      className="rounded-[18px] border border-[#4e78ff]/25 bg-white p-5 shadow-[0_20px_50px_rgba(78,120,255,0.18)] md:p-6"
-      style={{ color: "#18181b" }}
+      className="rounded-[18px] border border-white/20 bg-[#3366ff] p-5 text-white shadow-[0_20px_50px_rgba(51,102,255,0.35)] md:p-6"
     >
-      <p className="impact-highlight font-mono text-[11px] font-semibold uppercase tracking-[0.14em]">Complete your order</p>
-      <p className="mt-2 hidden text-[15px] leading-relaxed text-[#52525b] lg:block">
+      <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-white">Complete your order</p>
+      <p className="mt-2 hidden text-[15px] leading-relaxed text-white/80 lg:block">
         Everything is ready. Complete the payment below to activate your service.
       </p>
 
-      <div className="mt-4 hidden rounded-[14px] border border-[#4e78ff]/20 bg-[#f4f6ff] px-4 py-3.5 lg:mt-5 lg:block">
-        <p className="text-[12px] text-[#71717a]">Amount due</p>
-        <p className="impact-highlight mt-0.5 text-[28px] font-semibold tracking-[-0.03em] md:text-[32px]">
+      <div className="mt-4 hidden rounded-[14px] border border-white/20 bg-white/15 px-4 py-3.5 lg:mt-5 lg:block">
+        <p className="text-[12px] text-white/70">Amount due</p>
+        <p className="mt-0.5 text-[28px] font-semibold tracking-[-0.03em] text-white md:text-[32px]">
           {formatInr(total)}
         </p>
-        <p className="mt-1 text-[13px] text-[#52525b]">For: AI Client Acquisition · {plan.label}</p>
+        <p className="mt-1 text-[13px] text-white/80">For: {plan.productName} · {plan.label}</p>
       </div>
 
       <form ref={formRef} className="mt-5 flex flex-col gap-3.5" onSubmit={onSubmit}>
@@ -509,7 +516,7 @@ export default function AcquisitionPay() {
         </div>
 
         {error ? (
-          <p className="rounded-[12px] border border-red-400/40 bg-red-50 px-3 py-2 text-[13px] text-red-600">
+          <p className="rounded-[12px] border border-white/30 bg-black/20 px-3 py-2 text-[13px] text-white">
             {error}
           </p>
         ) : null}
@@ -517,20 +524,20 @@ export default function AcquisitionPay() {
         <button
           type="submit"
           disabled={busy}
-          className="btn-gloss relative mt-1 inline-flex w-full items-center justify-center gap-2 overflow-hidden rounded-[12px] border border-white/20 bg-purple/80 px-5 py-3.5 text-[15px] font-semibold text-white disabled:opacity-60"
+          className="relative mt-1 inline-flex w-full items-center justify-center gap-2 overflow-hidden rounded-[12px] border border-white/80 bg-white px-5 py-3.5 text-[15px] font-semibold text-[#3366ff] disabled:opacity-60"
         >
           <span className="relative z-[2]">
             {busy ? "Opening Razorpay…" : `Pay ${formatInr(total)} Securely →`}
           </span>
         </button>
 
-        <p className="text-center text-[12px] leading-relaxed text-[#52525b]">
+        <p className="text-center text-[12px] leading-relaxed text-white/80">
           By paying you agree to our{" "}
-          <Link to="/terms-and-conditions" className="text-[#4e78ff] underline-offset-2 hover:underline">
+          <Link to="/terms-and-conditions" className="text-white underline underline-offset-2 hover:text-white">
             Terms and conditions
           </Link>{" "}
           and{" "}
-          <Link to="/refund-policy" className="text-[#4e78ff] underline-offset-2 hover:underline">
+          <Link to="/refund-policy" className="text-white underline underline-offset-2 hover:text-white">
             Refund policy
           </Link>
           . Your payment information is encrypted and securely processed.
@@ -538,7 +545,7 @@ export default function AcquisitionPay() {
           You&apos;ll receive confirmation and onboarding instructions immediately after successful payment.
         </p>
 
-        <p className="text-center text-[11px] font-medium uppercase tracking-[0.1em] text-[#4e78ff]">
+        <p className="text-center text-[11px] font-medium uppercase tracking-[0.1em] text-white">
           Secure checkout · Razorpay
         </p>
 
@@ -550,10 +557,10 @@ export default function AcquisitionPay() {
   return (
     <>
       <Helmet>
-        <title>Pay · AI Client Acquisition System · Boostmysites</title>
+        <title>Pay · {plan.productName} · Boostmysites</title>
         <meta
           name="description"
-          content="Complete your payment for the AI Client Acquisition System. Secure checkout via Razorpay."
+          content={`Complete your payment for ${plan.productName}. Secure checkout via Razorpay.`}
         />
         <meta name="robots" content="noindex,nofollow" />
       </Helmet>
@@ -610,7 +617,7 @@ export default function AcquisitionPay() {
                 WhatsApp {site.brand}
               </a>
               {" · "}
-              <Link to="/" className="impact-highlight underline-offset-2 hover:underline">
+              <Link to={productHome} className="impact-highlight underline-offset-2 hover:underline">
                 Back to product
               </Link>
             </p>

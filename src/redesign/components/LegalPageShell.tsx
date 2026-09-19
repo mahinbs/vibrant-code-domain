@@ -11,6 +11,7 @@ const NAV_LINKS: ReadonlyArray<NavLinkItem> = [
     dropdown: [
       { label: "AI Client Acquisition System", href: "/" },
       { label: "AI Automation", href: "/business-automation" },
+      { label: "Digital Transformation", href: "/digital-transformation" },
     ],
   },
   { label: "How it works", href: "/#demo" },

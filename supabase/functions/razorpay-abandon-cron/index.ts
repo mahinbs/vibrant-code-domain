@@ -2,7 +2,9 @@ import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import {
   corsHeaders,
   createSupabaseAdmin,
+  getPlan,
   jsonResponse,
+  planProductName,
 } from "../_shared/razorpay.ts";
 import { sendBillingEmail, siteOrigin } from "../_shared/billingResend.ts";
 
@@ -37,15 +39,17 @@ serve(async (req) => {
     let sent = 0;
 
     for (const row of rows ?? []) {
-      const planLabel = row.plan_id === "yearly" ? "1 year" : "1 month";
+      const resolved = getPlan(row.plan_id);
+      const planLabel = resolved?.label ?? row.plan_id;
+      const productName = planProductName(row.plan_id);
       const payUrl = `${origin}/pay?plan=${row.plan_id}`;
       const html = `<!DOCTYPE html>
 <html><body style="font-family:Arial,Helvetica,sans-serif;color:#111;padding:24px;background:#f4f4f5;">
   <div style="max-width:520px;margin:0 auto;background:#fff;border:1px solid #e4e4e7;padding:28px;">
     <p style="margin:0 0 8px;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:#71717a;">Checkout reminder</p>
-    <h1 style="margin:0 0 12px;font-size:20px;">Hi ${escapeHtml(row.name)}, your acquisition stack is waiting</h1>
+    <h1 style="margin:0 0 12px;font-size:20px;">Hi ${escapeHtml(row.name)}, your checkout is waiting</h1>
     <p style="margin:0 0 16px;font-size:14px;line-height:1.5;color:#3f3f46;">
-      You started checkout for the <strong>AI Client Acquisition System (${escapeHtml(planLabel)})</strong>
+      You started checkout for <strong>${escapeHtml(productName)} (${escapeHtml(planLabel)})</strong>
       — ₹${Number(row.base_inr).toLocaleString("en-IN")} + GST
       (total ₹${Number(row.total_inr).toLocaleString("en-IN")}) — but payment wasn’t completed.
     </p>
@@ -65,7 +69,7 @@ serve(async (req) => {
           to: row.email,
           subject: "Your acquisition stack checkout is waiting",
           html,
-          text: `Hi ${row.name}, finish your AI Client Acquisition (${planLabel}) payment: ${payUrl}`,
+          text: `Hi ${row.name}, finish your ${productName} (${planLabel}) payment: ${payUrl}`,
         });
 
         await supabase
