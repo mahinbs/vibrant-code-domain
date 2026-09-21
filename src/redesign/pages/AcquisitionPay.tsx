@@ -5,7 +5,9 @@ import { SiteBackground } from "../components/SiteBackground";
 import { Nav, type NavLinkItem } from "../components/Nav";
 import { whatsappHref, site } from "../data/site";
 import {
+  DIGITAL_USD,
   formatInr,
+  formatUsd,
   getPlan,
   getRazorpayKeyId,
   gstAmountInr,
@@ -15,6 +17,8 @@ import {
   type PayPlanId,
 } from "../lib/razorpayPlans";
 import { createRazorpayOrder, verifyRazorpayPayment } from "../lib/razorpayClient";
+import { createStripeCheckout } from "../lib/stripeClient";
+import { useCheckoutRegion } from "../lib/checkoutRegion";
 
 const fieldClass =
   "w-full rounded-[12px] border border-white/25 bg-white/15 px-3.5 py-2.5 text-[14px] text-white outline-none transition-colors placeholder:text-white/50 focus:border-white focus:bg-white/20";
@@ -94,8 +98,37 @@ function loadRazorpayScript(): Promise<boolean> {
   });
 }
 
-function PaymentMethods() {
-  const methods: { label: string; node: ReactNode }[] = [
+function CardMark({ label, fill = "#52525b", size = "8" }: { label: string; fill?: string; size?: string }) {
+  return (
+    <svg viewBox="0 0 40 24" className="h-5 w-10" aria-hidden>
+      <rect width="40" height="24" rx="4" fill="#f4f4f5" />
+      <text x="20" y="15.5" textAnchor="middle" fontSize={size} fontWeight="700" fill={fill} fontFamily="system-ui,sans-serif">
+        {label}
+      </text>
+    </svg>
+  );
+}
+
+function PaymentMethods({ variant }: { variant: "razorpay" | "stripe" }) {
+  const methods: { label: string; node: ReactNode }[] =
+    variant === "stripe"
+      ? [
+          { label: "Visa", node: <CardMark label="VISA" fill="#1a1f71" size="9" /> },
+          {
+            label: "Mastercard",
+            node: (
+              <svg viewBox="0 0 40 24" className="h-5 w-10" aria-hidden>
+                <rect width="40" height="24" rx="4" fill="#f4f4f5" />
+                <circle cx="16" cy="12" r="6" fill="#eb001b" />
+                <circle cx="24" cy="12" r="6" fill="#f79e1b" opacity="0.9" />
+              </svg>
+            ),
+          },
+          { label: "American Express", node: <CardMark label="AMEX" fill="#2e77bc" size="7" /> },
+          { label: "Apple Pay", node: <CardMark label="Apple" fill="#111" size="7" /> },
+          { label: "Google Pay", node: <CardMark label="GPay" fill="#1a73e8" size="7" /> },
+        ]
+      : [
     {
       label: "UPI / GPay",
       node: (
@@ -107,17 +140,7 @@ function PaymentMethods() {
         </svg>
       ),
     },
-    {
-      label: "Visa",
-      node: (
-        <svg viewBox="0 0 40 24" className="h-5 w-10" aria-hidden>
-          <rect width="40" height="24" rx="4" fill="#f4f4f5" />
-          <text x="20" y="15.5" textAnchor="middle" fontSize="9" fontWeight="700" fill="#1a1f71" fontFamily="system-ui,sans-serif">
-            VISA
-          </text>
-        </svg>
-      ),
-    },
+    { label: "Visa", node: <CardMark label="VISA" fill="#1a1f71" size="9" /> },
     {
       label: "Mastercard",
       node: (
@@ -189,16 +212,29 @@ export default function AcquisitionPay() {
   });
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { isIndia } = useCheckoutRegion();
 
   const plan = useMemo(() => getPlan(planId), [planId]);
   const gst = gstAmountInr(plan.baseInr);
   const total = totalInr(plan.baseInr);
   const keyId = getRazorpayKeyId();
   const isDigital = planId === "digital";
+  const useStripe = isDigital && !isIndia;
+  const displayTotal = useStripe ? formatUsd(DIGITAL_USD) : formatInr(total);
+  const processorName = useStripe ? "Stripe" : "Razorpay";
   const productHome = isDigital ? "/digital-transformation" : "/";
   const nextStepsItems = isDigital
     ? (["Payment confirmation", "Onboarding call", "Build kickoff", "Go live"] as const)
     : NEXT_STEPS;
+  const trustItems = useStripe
+    ? ([
+        "499+ businesses served",
+        "Dedicated onboarding team",
+        "Secure online payment via Stripe",
+        "Receipt emailed after payment",
+        "Support available after purchase",
+      ] as const)
+    : TRUST_ITEMS;
 
   const setField = (key: keyof CheckoutForm) => (value: string) =>
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -214,6 +250,18 @@ export default function AcquisitionPay() {
 
     setBusy(true);
     try {
+      if (useStripe) {
+        const session = await createStripeCheckout({
+          planId: "digital",
+          name: form.name.trim(),
+          email: form.email.trim(),
+          phone: form.phone.trim(),
+          company: form.company.trim() || undefined,
+        });
+        window.location.assign(session.url);
+        return;
+      }
+
       const order = await createRazorpayOrder({
         planId,
         name: form.name.trim(),
@@ -333,25 +381,34 @@ export default function AcquisitionPay() {
       </h2>
       <div className="mt-1 flex flex-wrap items-baseline gap-x-3 gap-y-1">
         <p className="text-[28px] font-semibold tracking-[-0.03em] text-white md:text-[32px]">
-          {formatInr(plan.baseInr)}
-          <span className="ml-2 text-[13px] font-normal text-white/45">+ GST</span>
+          {useStripe ? formatUsd(DIGITAL_USD) : formatInr(plan.baseInr)}
+          {useStripe ? null : <span className="ml-2 text-[13px] font-normal text-white/45">+ GST</span>}
         </p>
         <p className="impact-highlight font-mono text-[12px] tracking-[0.04em] md:text-[13px]">{plan.period}</p>
       </div>
 
       <dl className="mt-4 space-y-2 border-t border-purple/20 pt-4 font-mono text-[13px]">
-        <div className="flex justify-between gap-4 text-white/50">
-          <dt>Base</dt>
-          <dd className="text-white/85">{formatInr(plan.baseInr)}</dd>
-        </div>
-        <div className="flex justify-between gap-4 text-white/50">
-          <dt>GST (18%)</dt>
-          <dd className="text-white/85">{formatInr(gst)}</dd>
-        </div>
-        <div className="flex justify-between gap-4 text-[14px] font-semibold text-white">
-          <dt>Total today</dt>
-          <dd className="impact-highlight">{formatInr(total)}</dd>
-        </div>
+        {useStripe ? (
+          <div className="flex justify-between gap-4 text-[14px] font-semibold text-white">
+            <dt>Total today</dt>
+            <dd className="impact-highlight">{formatUsd(DIGITAL_USD)}</dd>
+          </div>
+        ) : (
+          <>
+            <div className="flex justify-between gap-4 text-white/50">
+              <dt>Base</dt>
+              <dd className="text-white/85">{formatInr(plan.baseInr)}</dd>
+            </div>
+            <div className="flex justify-between gap-4 text-white/50">
+              <dt>GST (18%)</dt>
+              <dd className="text-white/85">{formatInr(gst)}</dd>
+            </div>
+            <div className="flex justify-between gap-4 text-[14px] font-semibold text-white">
+              <dt>Total today</dt>
+              <dd className="impact-highlight">{formatInr(total)}</dd>
+            </div>
+          </>
+        )}
       </dl>
 
       <ul className="mt-4 hidden space-y-2.5 border-t border-purple/20 pt-4 lg:block">
@@ -390,7 +447,7 @@ export default function AcquisitionPay() {
         You&apos;re in <span className="impact-highlight">safe hands</span>
       </h3>
       <ul className="mt-4 space-y-2.5">
-        {TRUST_ITEMS.map((item) => (
+        {trustItems.map((item) => (
           <li key={item} className="flex gap-2.5 text-[14px] text-white/75">
             <span className="mt-0.5 shrink-0 text-[#7c97ff]" aria-hidden>
               ✓
@@ -438,7 +495,7 @@ export default function AcquisitionPay() {
       <div className="mt-4 hidden rounded-[14px] border border-white/20 bg-white/15 px-4 py-3.5 lg:mt-5 lg:block">
         <p className="text-[12px] text-white/70">Amount due</p>
         <p className="mt-0.5 text-[28px] font-semibold tracking-[-0.03em] text-white md:text-[32px]">
-          {formatInr(total)}
+          {displayTotal}
         </p>
         <p className="mt-1 text-[13px] text-white/80">For: {plan.productName} · {plan.label}</p>
       </div>
@@ -483,7 +540,7 @@ export default function AcquisitionPay() {
             className={fieldClass}
             value={form.phone}
             onChange={(e) => setField("phone")(e.target.value)}
-            placeholder="98765 43210"
+            placeholder={useStripe ? "+1 555 123 4567" : "98765 43210"}
             autoComplete="tel"
             required
           />
@@ -501,6 +558,7 @@ export default function AcquisitionPay() {
             autoComplete="organization"
           />
         </div>
+        {useStripe ? null : (
         <div>
           <label className={labelClass} htmlFor="pay-gstin">
             GSTIN (optional)
@@ -514,6 +572,7 @@ export default function AcquisitionPay() {
             autoComplete="off"
           />
         </div>
+        )}
 
         {error ? (
           <p className="rounded-[12px] border border-white/30 bg-black/20 px-3 py-2 text-[13px] text-white">
@@ -527,7 +586,7 @@ export default function AcquisitionPay() {
           className="relative mt-1 inline-flex w-full items-center justify-center gap-2 overflow-hidden rounded-[12px] border border-white/80 bg-white px-5 py-3.5 text-[15px] font-semibold text-purple disabled:opacity-60"
         >
           <span className="relative z-[2]">
-            {busy ? "Opening Razorpay…" : `Pay ${formatInr(total)} Securely →`}
+            {busy ? `Opening ${processorName}…` : `Pay ${displayTotal} Securely →`}
           </span>
         </button>
 
@@ -546,10 +605,10 @@ export default function AcquisitionPay() {
         </p>
 
         <p className="text-center text-[11px] font-medium uppercase tracking-[0.1em] text-white">
-          Secure checkout · Razorpay
+          Secure checkout · {processorName}
         </p>
 
-        <PaymentMethods />
+        <PaymentMethods variant={useStripe ? "stripe" : "razorpay"} />
       </form>
     </div>
   );
@@ -560,7 +619,7 @@ export default function AcquisitionPay() {
         <title>Pay · {plan.productName} · Boostmysites</title>
         <meta
           name="description"
-          content={`Complete your payment for ${plan.productName}. Secure checkout via Razorpay.`}
+          content={`Complete your payment for ${plan.productName}. Secure checkout via ${processorName}.`}
         />
         <meta name="robots" content="noindex,nofollow" />
       </Helmet>
@@ -578,7 +637,7 @@ export default function AcquisitionPay() {
         <main className="mx-auto w-full max-w-[1100px] px-5 pb-28 pt-3 md:px-10 md:pb-16 md:pt-8">
           <div className="max-w-[640px]">
             <p className="acq-eyebrow impact-highlight inline-flex w-fit items-center rounded-full border border-purple/50 bg-black/60 px-3.5 py-2 text-[11px] font-medium uppercase tracking-[0.1em] backdrop-blur-[5px]">
-              India · Secure checkout
+              {useStripe ? "International" : "India"} · Secure checkout
             </p>
             <h1 className="mt-3 text-[26px] font-medium leading-[1.08] -tracking-[0.04em] text-white md:mt-4 md:text-[40px]">
               Complete your <span className="impact-highlight">payment</span>
@@ -628,7 +687,7 @@ export default function AcquisitionPay() {
           <div className="mx-auto flex max-w-[1100px] items-center gap-3">
             <div className="min-w-0 flex-1">
               <p className="truncate text-[12px] text-white/50">Total today</p>
-              <p className="impact-highlight text-[17px] font-semibold tracking-[-0.02em]">{formatInr(total)}</p>
+              <p className="impact-highlight text-[17px] font-semibold tracking-[-0.02em]">{displayTotal}</p>
             </div>
             <button
               type="button"

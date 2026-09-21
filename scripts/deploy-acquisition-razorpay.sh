@@ -47,5 +47,22 @@ npx supabase functions deploy razorpay-verify --project-ref "$PROJECT_REF"
 npx supabase functions deploy razorpay-webhook --project-ref "$PROJECT_REF"
 npx supabase functions deploy razorpay-abandon-cron --project-ref "$PROJECT_REF"
 
+if [[ -n "${STRIPE_SECRET_KEY:-}" ]]; then
+  STRIPE_SECRETS=("STRIPE_SECRET_KEY=$STRIPE_SECRET_KEY")
+  if [[ -n "${STRIPE_PRODUCT_ID:-}" ]]; then
+    STRIPE_SECRETS+=("STRIPE_PRODUCT_ID=$STRIPE_PRODUCT_ID")
+  fi
+  if [[ -n "${STRIPE_PRICE_ID:-}" ]]; then
+    STRIPE_SECRETS+=("STRIPE_PRICE_ID=$STRIPE_PRICE_ID")
+  fi
+  if [[ -n "${STRIPE_WEBHOOK_SECRET:-}" ]]; then
+    STRIPE_SECRETS+=("STRIPE_WEBHOOK_SECRET=$STRIPE_WEBHOOK_SECRET")
+  fi
+  npx supabase secrets set --project-ref "$PROJECT_REF" "${STRIPE_SECRETS[@]}"
+  npx supabase functions deploy stripe-create-checkout --project-ref "$PROJECT_REF"
+  npx supabase functions deploy stripe-webhook --project-ref "$PROJECT_REF"
+  echo "Stripe webhook: https://${PROJECT_REF}.supabase.co/functions/v1/stripe-webhook"
+fi
+
 echo "Done. Also set VITE_RAZORPAY_KEY_ID=$RAZORPAY_KEY_ID in Vercel."
 echo "Webhook: https://${PROJECT_REF}.supabase.co/functions/v1/razorpay-webhook"

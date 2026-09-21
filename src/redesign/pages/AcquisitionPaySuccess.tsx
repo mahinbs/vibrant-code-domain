@@ -9,9 +9,11 @@ export default function AcquisitionPaySuccess() {
   const [params] = useSearchParams();
   const paymentId = params.get("payment_id");
   const orderId = params.get("order_id");
+  const sessionId = params.get("session_id");
   const plan = parsePayPlanId(params.get("plan"));
   const productName = plan ? getPlan(plan).productName : "your order";
   const productHome = plan === "digital" ? "/digital-transformation" : "/";
+  const isStripe = Boolean(sessionId);
 
   return (
     <>
@@ -34,10 +36,12 @@ export default function AcquisitionPaySuccess() {
         </h1>
         <p className="mt-3 text-[15px] leading-relaxed text-white/60">
           Thanks for paying for {productName}. Our team will reach out on WhatsApp
-          / email within 24 hours to start. A GST tax invoice has been emailed to the
-          address you used at checkout.
+          / email within 24 hours to start.{" "}
+          {isStripe
+            ? "A payment receipt has been emailed to the address you used at checkout."
+            : "A GST tax invoice has been emailed to the address you used at checkout."}
         </p>
-        {(paymentId || orderId) && (
+        {(paymentId || orderId || sessionId) && (
           <dl className="mt-6 space-y-2 rounded-[12px] border border-white/12 bg-black/40 p-4 font-mono text-[12px] text-white/55">
             {paymentId ? (
               <div className="flex justify-between gap-4">
@@ -49,6 +53,12 @@ export default function AcquisitionPaySuccess() {
               <div className="flex justify-between gap-4">
                 <dt>Order ID</dt>
                 <dd className="text-white/80">{orderId}</dd>
+              </div>
+            ) : null}
+            {sessionId ? (
+              <div className="flex justify-between gap-4">
+                <dt>Checkout ID</dt>
+                <dd className="break-all text-white/80">{sessionId}</dd>
               </div>
             ) : null}
           </dl>

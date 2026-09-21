@@ -123,6 +123,17 @@ export function formatInr(amount: number): string {
   }).format(amount);
 }
 
+/** International Digital Transformation price (Stripe). */
+export const DIGITAL_USD = 399;
+
+export function formatUsd(amount: number): string {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: 0,
+  }).format(amount);
+}
+
 export function getPlan(id: PayPlanId): PayPlan {
   const plan = ALL_PLANS.find((p) => p.id === id);
   if (!plan) throw new Error(`Unknown plan: ${id}`);

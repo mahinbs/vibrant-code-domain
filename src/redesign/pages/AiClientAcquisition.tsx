@@ -91,6 +91,12 @@ const ACQUISITION_METRICS = [
   { value: "2.6x", label: "ROI improvement" },
 ] as const;
 
+const RAAS_PILLARS = [
+  { label: "Outcome first", body: "Paid for results, not software seats." },
+  { label: "Full stack", body: "Ads, WhatsApp, LinkedIn, and email in one loop." },
+  { label: "Always on", body: "Plan, launch, optimize, and follow up 24/7." },
+] as const;
+
 const AD_CAMPAIGN_PLATFORMS: ReadonlyArray<{
   name: string;
   Icon: IconType;
@@ -554,9 +560,63 @@ function AiClientAcquisitionInner() {
           metrics={ACQUISITION_METRICS}
         />
 
+        <SectionWithTopRule showDivider={false}>
+          <section
+            id="raas"
+            className="relative flex w-full max-w-[1920px] flex-col overflow-x-hidden px-5 py-10 md:px-10 md:py-12"
+          >
+            <Reveal className="relative z-[1] w-full overflow-visible">
+              <div className="relative z-[2] flex w-full items-end justify-between gap-6 pt-1 lg:gap-10">
+                <div className="flex min-w-0 max-w-[720px] flex-col items-start gap-4 text-left">
+                  <p className="acq-eyebrow impact-highlight inline-flex w-fit items-center rounded-full border border-purple/50 bg-black/60 px-3.5 py-2 text-[11px] font-medium uppercase tracking-[0.1em] backdrop-blur-[5px]">
+                    Result as a Service
+                  </p>
+                  <h2 className="text-left text-[32px] font-medium leading-[1.1] -tracking-[0.04em] text-white max-md:text-[30px] md:text-[44px]">
+                    We are a <span className="impact-highlight">RaaS</span> company.
+                  </h2>
+                  <p className="max-w-[54ch] font-mono text-[14px] leading-relaxed tracking-[0.04em] text-white/60 md:text-[15px]">
+                    Result as a Service. You do not buy another tool. You get clients, follow-ups, and a system that keeps running.
+                  </p>
+                </div>
+                <p
+                  aria-hidden
+                  className="acq-watermark pointer-events-none hidden min-w-0 flex-1 select-none self-end overflow-hidden whitespace-nowrap text-right font-bold uppercase leading-[0.82] tracking-[0.02em] opacity-[0.55] lg:block"
+                  style={{
+                    fontSize: "clamp(2.75rem, 5.5vw, 6.75rem)",
+                    backgroundImage:
+                      "linear-gradient(180deg, rgb(196,214,255) 0%, rgb(88,132,255) 48%, rgb(48,82,196) 100%)",
+                    WebkitBackgroundClip: "text",
+                    backgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    color: "transparent",
+                  }}
+                >
+                  RAAS
+                </p>
+              </div>
+            </Reveal>
+
+            <RevealStagger className="relative z-[1] mx-auto mt-8 grid w-full max-w-[1400px] grid-cols-1 gap-4 sm:grid-cols-3">
+              {RAAS_PILLARS.map((item) => (
+                <RevealItem key={item.label}>
+                  <div
+                    className="h-full rounded-[16px] border border-white/12 px-5 py-4 md:px-6 md:py-5"
+                    style={{ background: GLOSS }}
+                  >
+                    <p className="impact-highlight font-mono text-[12px] font-semibold uppercase tracking-[0.1em]">
+                      {item.label}
+                    </p>
+                    <p className="mt-2 text-[14px] leading-relaxed text-white/70">{item.body}</p>
+                  </div>
+                </RevealItem>
+              ))}
+            </RevealStagger>
+          </section>
+        </SectionWithTopRule>
+
         <Suspense fallback={<div className="h-[60vh] w-full" aria-hidden="true" />}>
           {/* ---------- Features: full acquisition stack ---------- */}
-          <SectionWithTopRule showDivider={false}>
+          <SectionWithTopRule>
             <section
               id="features"
               className="relative flex w-full max-w-[1920px] flex-col overflow-x-hidden px-5 py-12 md:px-10 md:py-16"

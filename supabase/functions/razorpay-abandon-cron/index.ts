@@ -23,7 +23,7 @@ serve(async (req) => {
 
     const { data: rows, error } = await supabase
       .from("acquisition_payments")
-      .select("id, name, email, plan_id, base_inr, gst_inr, total_inr, abandon_email_count")
+      .select("id, name, email, plan_id, base_inr, gst_inr, total_inr, abandon_email_count, currency, amount_usd")
       .eq("status", "pending")
       .lt("created_at", cutoff)
       .lt("abandon_email_count", 1)
@@ -43,6 +43,10 @@ serve(async (req) => {
       const planLabel = resolved?.label ?? row.plan_id;
       const productName = planProductName(row.plan_id);
       const payUrl = `${origin}/pay?plan=${row.plan_id}`;
+      const amountLine =
+        String(row.currency ?? "INR").toUpperCase() === "USD"
+          ? `$${Number(row.amount_usd ?? 399).toLocaleString("en-US")}`
+          : `₹${Number(row.base_inr).toLocaleString("en-IN")} + GST (total ₹${Number(row.total_inr).toLocaleString("en-IN")})`;
       const html = `<!DOCTYPE html>
 <html><body style="font-family:Arial,Helvetica,sans-serif;color:#111;padding:24px;background:#f4f4f5;">
   <div style="max-width:520px;margin:0 auto;background:#fff;border:1px solid #e4e4e7;padding:28px;">
@@ -50,8 +54,7 @@ serve(async (req) => {
     <h1 style="margin:0 0 12px;font-size:20px;">Hi ${escapeHtml(row.name)}, your checkout is waiting</h1>
     <p style="margin:0 0 16px;font-size:14px;line-height:1.5;color:#3f3f46;">
       You started checkout for <strong>${escapeHtml(productName)} (${escapeHtml(planLabel)})</strong>
-      — ₹${Number(row.base_inr).toLocaleString("en-IN")} + GST
-      (total ₹${Number(row.total_inr).toLocaleString("en-IN")}) — but payment wasn’t completed.
+      — ${amountLine} — but payment wasn’t completed.
     </p>
     <p style="margin:0 0 20px;">
       <a href="${payUrl}" style="display:inline-block;background:#4e78ff;color:#fff;text-decoration:none;padding:12px 18px;border-radius:8px;font-weight:600;font-size:14px;">

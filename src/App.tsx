@@ -774,6 +774,7 @@ const App = () => {
                   </RedesignShell>
                 }
               />
+              <Route path="/pay/digital-usd" element={<Navigate to="/pay?plan=digital&pay=stripe" replace />} />
               <Route path="/acquisition/pay" element={<Navigate to="/pay" replace />} />
 
               {/* Founder profile — Mahin B S. */}

@@ -3,7 +3,7 @@ import { createClient, type SupabaseClient } from "https://esm.sh/@supabase/supa
 export const corsHeaders: Record<string, string> = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers":
-    "authorization, x-client-info, apikey, content-type, x-razorpay-signature",
+    "authorization, x-client-info, apikey, content-type, x-razorpay-signature, stripe-signature",
 };
 
 export function jsonResponse(body: unknown, status = 200) {

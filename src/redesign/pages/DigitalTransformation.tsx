@@ -11,15 +11,21 @@ import { ArrowRightIcon } from "../components/icons";
 import { site } from "../data/site";
 import { businessAutomationPressItems } from "../data/businessAutomationContent";
 import { useHashScroll } from "../lib/useHashScroll";
+import { useCheckoutRegion } from "../lib/checkoutRegion";
+import { DIGITAL_USD, formatUsd } from "../lib/razorpayPlans";
 
 const CTA = lazy(() => import("../components/CTA").then((m) => ({ default: m.CTA })));
 const Footer = lazy(() => import("../components/Footer").then((m) => ({ default: m.Footer })));
 
 const SOURCE_PAGE = "digital-transformation";
 
-const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent(
-  "Hello BMS, I want the Digital Business Transformation package for ₹39,999.",
-)}`;
+const PRICE_INR_LABEL = "₹39,999";
+
+function digitalWhatsappHref(priceLabel: string) {
+  return `https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent(
+    `Hello BMS, I want the Digital Business Transformation package for ${priceLabel}.`,
+  )}`;
+}
 
 const NAV_LINKS: ReadonlyArray<NavLinkItem> = [
   {
@@ -42,6 +48,9 @@ const NAV_CTA = { label: "Transform My Business", href: PAY_HREF } as const;
 
 const GLOSS =
   "linear-gradient(180deg, rgba(255,255,255,0.04) 0%, rgba(0,0,0,0.5) 100%)";
+
+const OFFER_WATERMARK_CLASS =
+  "pointer-events-none absolute bottom-0 right-0 z-0 h-[52%] w-auto max-w-[90%] object-contain object-right-bottom opacity-30 md:inset-0 md:h-full md:w-full md:max-w-none";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -150,12 +159,14 @@ const STACK_ROLES = [
   { k: "WhatsApp", v: "Keeps conversations moving." },
 ] as const;
 
-const METRICS = [
-  { value: "₹39,999", label: "Complete package" },
-  { value: "4", label: "Systems included" },
-  { value: "1 team", label: "Builds every piece" },
-  { value: "Go live", label: "Ready for customers" },
-] as const;
+function packageMetrics(priceLabel: string) {
+  return [
+    { value: priceLabel, label: "Complete package" },
+    { value: "4", label: "Systems included" },
+    { value: "1 team", label: "Builds every piece" },
+    { value: "Go live", label: "Ready for customers" },
+  ] as const;
+}
 
 function Reveal({
   children,
@@ -328,6 +339,9 @@ function SectionHead({
 
 export default function DigitalTransformation() {
   useHashScroll();
+  const { isIndia } = useCheckoutRegion();
+  const priceLabel = isIndia ? PRICE_INR_LABEL : formatUsd(DIGITAL_USD);
+  const whatsappHref = digitalWhatsappHref(priceLabel);
 
   return (
     <>
@@ -335,7 +349,7 @@ export default function DigitalTransformation() {
         <title>Digital Business Transformation | Boostmysites</title>
         <meta
           name="description"
-          content="Get a modern website, a business-specific app, a dedicated CRM, and WhatsApp automation. All for ₹39,999."
+          content={`Get a modern website, a business-specific app, a dedicated CRM, and WhatsApp automation. All for ${priceLabel}.`}
         />
         <link rel="preload" as="image" href="/brand/digital-transformation/website.webp" type="image/webp" />
       </Helmet>
@@ -435,7 +449,7 @@ export default function DigitalTransformation() {
 
               <div className="flex flex-col items-start xl:col-start-1 xl:row-start-2">
                 <p className="impact-highlight text-[32px] font-medium tracking-[-0.03em] md:text-[44px]">
-                  All for ₹39,999
+                  All for {priceLabel}
                 </p>
                 <div className="mt-6 flex flex-wrap gap-3">
                   <CtaLink href={PAY_HREF}>Transform My Business</CtaLink>
@@ -453,7 +467,7 @@ export default function DigitalTransformation() {
 
         <FeaturedInTrustBand
           pressItems={[...businessAutomationPressItems]}
-          metrics={METRICS}
+          metrics={packageMetrics(priceLabel)}
         />
 
         <SectionDivider />
@@ -531,7 +545,7 @@ export default function DigitalTransformation() {
                 aria-hidden
                 loading="lazy"
                 decoding="async"
-                className="pointer-events-none absolute bottom-0 right-0 z-0 h-[52%] w-auto max-w-[90%] object-contain object-right-bottom opacity-30 md:bottom-[-18%] md:right-[-14%] md:h-auto md:w-[115%] md:max-w-none md:object-none"
+                className={OFFER_WATERMARK_CLASS}
               />
               <div className="relative z-10">
                 <p className="impact-highlight font-mono text-[12px] font-semibold uppercase tracking-[0.12em]">01</p>
@@ -559,7 +573,7 @@ export default function DigitalTransformation() {
                 aria-hidden
                 loading="lazy"
                 decoding="async"
-                className="pointer-events-none absolute bottom-0 right-0 z-0 h-[52%] w-auto max-w-[90%] object-contain object-right-bottom opacity-30 md:bottom-[-6%] md:right-[-4%] md:h-auto md:w-[76%] md:max-w-none md:object-none"
+                className={OFFER_WATERMARK_CLASS}
               />
               <div className="relative z-10">
                 <p className="impact-highlight font-mono text-[12px] font-semibold uppercase tracking-[0.12em]">02</p>
@@ -590,7 +604,7 @@ export default function DigitalTransformation() {
                 aria-hidden
                 loading="lazy"
                 decoding="async"
-                className="pointer-events-none absolute bottom-0 right-0 z-0 h-[52%] w-auto max-w-[90%] object-contain object-right-bottom opacity-30 md:bottom-[-6%] md:right-[-4%] md:h-auto md:w-[76%] md:max-w-none md:object-none"
+                className={OFFER_WATERMARK_CLASS}
               />
               <div className="relative z-10">
                 <p className="impact-highlight font-mono text-[12px] font-semibold uppercase tracking-[0.12em]">03</p>
@@ -615,7 +629,7 @@ export default function DigitalTransformation() {
                 aria-hidden
                 loading="lazy"
                 decoding="async"
-                className="pointer-events-none absolute bottom-0 right-0 z-0 h-[52%] w-auto max-w-[90%] object-contain object-right-bottom opacity-30 md:bottom-[-14%] md:right-[-10%] md:h-auto md:w-[108%] md:max-w-none md:object-none"
+                className={OFFER_WATERMARK_CLASS}
               />
               <div className="relative z-10">
                 <p className="impact-highlight font-mono text-[12px] font-semibold uppercase tracking-[0.12em]">04</p>
@@ -647,7 +661,7 @@ export default function DigitalTransformation() {
           <div className="relative mx-auto grid w-full max-w-[1400px] overflow-hidden rounded-[20px] border border-purple/60 bg-[rgba(72,118,255,0.10)] px-0 pb-6 pt-0 md:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] md:items-end md:gap-8 md:p-8 md:pl-0 md:pb-0">
             <img
               src="/brand/digital-transformation/package.webp"
-              alt="All four solutions for ₹39,999: website, app, CRM, and WhatsApp automation"
+              alt={`All four solutions for ${priceLabel}: website, app, CRM, and WhatsApp automation`}
               width={1200}
               height={1004}
               loading="lazy"
@@ -655,12 +669,12 @@ export default function DigitalTransformation() {
               className="pointer-events-none w-full object-contain object-bottom md:max-h-[480px] md:w-[90%] md:justify-self-start md:self-end"
             />
             <div className="relative z-10 px-5 pt-5 md:flex md:flex-col md:items-end md:px-0 md:pb-8 md:pt-0 md:text-right">
-              <Eyebrow>The ₹39,999 section</Eyebrow>
+              <Eyebrow>The {priceLabel} section</Eyebrow>
               <h2 className="mt-3 max-w-[34rem] text-[28px] font-medium leading-[1.12] -tracking-[0.04em] text-white md:text-[36px]">
                 Imagine Getting All of This for
               </h2>
               <p className="impact-highlight mt-5 text-[32px] font-medium tracking-[-0.03em] md:text-[44px]">
-                ₹39,999
+                {priceLabel}
               </p>
               <p className="mt-1 text-[16px] font-medium text-white">
                 Your Digital Business Transformation Package
@@ -818,7 +832,7 @@ export default function DigitalTransformation() {
             />
             <div className="lg:col-start-1 lg:row-start-2">
               <p className="impact-highlight text-[36px] font-medium tracking-[-0.03em] md:text-[48px]">
-                ₹39,999
+                {priceLabel}
               </p>
               <div className="mt-6 flex flex-wrap gap-3">
                 <CtaLink href={PAY_HREF}>Start My Digital Transformation</CtaLink>
@@ -837,7 +851,7 @@ export default function DigitalTransformation() {
           <CTA
             eyebrow="Digital Business Transformation"
             title="Tell us about your business."
-            subtitle="We’ll tell you what we can build. Website, app, CRM, and WhatsApp automation for ₹39,999."
+            subtitle={`We’ll tell you what we can build. Website, app, CRM, and WhatsApp automation for ${priceLabel}.`}
             leadFormProps={{ sourcePage: SOURCE_PAGE }}
             whatsappHref={whatsappHref}
           />
