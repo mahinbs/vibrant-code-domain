@@ -15,8 +15,12 @@ function isPreviewHost(): boolean {
   return typeof window !== "undefined" && /(^|\.)lovable\.app$/i.test(window.location.hostname);
 }
 
+const DEFAULT_CAPI_ENDPOINT =
+  "https://khxkorrvylcscyqfklxi.supabase.co/functions/v1/meta-capi";
+
 function capiEndpoint(): string | undefined {
-  return import.meta.env.VITE_META_CAPI_ENDPOINT as string | undefined;
+  const fromEnv = import.meta.env.VITE_META_CAPI_ENDPOINT as string | undefined;
+  return fromEnv?.trim() || DEFAULT_CAPI_ENDPOINT;
 }
 
 function supabaseAnonKey(): string | undefined {

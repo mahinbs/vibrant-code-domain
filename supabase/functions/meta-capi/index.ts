@@ -38,6 +38,23 @@ function normalizePhone(phone: string): string {
   return phone.replace(/\D/g, "");
 }
 
+function capiDestinations(): Array<{ pixelId: string; accessToken: string }> {
+  const pairs: Array<[string | undefined, string | undefined]> = [
+    [Deno.env.get("META_PIXEL_ID"), Deno.env.get("META_CAPI_ACCESS_TOKEN")],
+    [Deno.env.get("META_PIXEL_ID_2"), Deno.env.get("META_CAPI_ACCESS_TOKEN_2")],
+  ];
+  const seen = new Set<string>();
+  const out: Array<{ pixelId: string; accessToken: string }> = [];
+  for (const [pixelId, accessToken] of pairs) {
+    const id = pixelId?.trim();
+    const token = accessToken?.trim();
+    if (!id || !token || seen.has(id)) continue;
+    seen.add(id);
+    out.push({ pixelId: id, accessToken: token });
+  }
+  return out;
+}
+
 function clientIp(req: Request): string | undefined {
   const forwarded = req.headers.get("x-forwarded-for");
   if (forwarded) {
@@ -59,11 +76,10 @@ serve(async (req) => {
     });
   }
 
-  const pixelId = Deno.env.get("META_PIXEL_ID");
-  const accessToken = Deno.env.get("META_CAPI_ACCESS_TOKEN");
+  const destinations = capiDestinations();
 
-  if (!pixelId || !accessToken) {
-    console.error("[meta-capi] Missing META_PIXEL_ID or META_CAPI_ACCESS_TOKEN");
+  if (destinations.length === 0) {
+    console.error("[meta-capi] Missing META_PIXEL_ID / META_CAPI_ACCESS_TOKEN");
     return new Response(JSON.stringify({ ok: false, error: "Server not configured" }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -135,7 +151,6 @@ serve(async (req) => {
 
     const graphBody: Record<string, unknown> = {
       data: [eventPayload],
-      access_token: accessToken,
     };
 
     const testEventCode = Deno.env.get("META_TEST_EVENT_CODE");
@@ -143,19 +158,27 @@ serve(async (req) => {
       graphBody.test_event_code = testEventCode.trim();
     }
 
-    const graphRes = await fetch(
-      `https://graph.facebook.com/${GRAPH_API_VERSION}/${pixelId}/events`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(graphBody),
-      },
+    const results = await Promise.all(
+      destinations.map(async ({ pixelId, accessToken }) => {
+        const graphRes = await fetch(
+          `https://graph.facebook.com/${GRAPH_API_VERSION}/${pixelId}/events`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ ...graphBody, access_token: accessToken }),
+          },
+        );
+        const graphJson = await graphRes.json();
+        return { pixelId, ok: graphRes.ok, graphJson };
+      }),
     );
 
-    const graphJson = await graphRes.json();
+    const failures = results.filter((r) => !r.ok);
+    for (const fail of failures) {
+      console.error("[meta-capi] Graph API error:", fail.pixelId, fail.graphJson);
+    }
 
-    if (!graphRes.ok) {
-      console.error("[meta-capi] Graph API error:", graphJson);
+    if (failures.length === results.length) {
       return new Response(
         JSON.stringify({ ok: false, error: "Meta API rejected event" }),
         {
@@ -169,9 +192,15 @@ serve(async (req) => {
       console.log(`[meta-capi] ${eventName} sent (source: ${body.source_page}, id: ${eventId})`);
     }
 
-    return new Response(JSON.stringify({ ok: true, meta: graphJson }), {
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-    });
+    return new Response(
+      JSON.stringify({
+        ok: true,
+        meta: results.map((r) => ({ pixel_id: r.pixelId, ok: r.ok, meta: r.graphJson })),
+      }),
+      {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      },
+    );
   } catch (err) {
     const message = err instanceof Error ? err.message : "Unknown error";
     console.error("[meta-capi]", message);
