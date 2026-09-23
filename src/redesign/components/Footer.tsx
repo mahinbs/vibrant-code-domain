@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { BRAND } from "@/lib/seo/brand";
 import { site, whatsappHref } from "../data/site";
 import { InstagramIcon, LinkedInIcon, XIcon, YouTubeIcon } from "./icons";
 
@@ -16,14 +17,15 @@ const navLinks = [
   { label: "Home", href: "/" },
   { label: "About", href: "/about" },
   { label: "Work", href: "/work" },
-  { label: "Reviews", href: "/reviews" },
   { label: "Contact", href: "/contact" },
+  { label: "Log in", href: site.productUrl, external: true },
 ] as const;
 
 const legalLinks = [
   { label: "Privacy", href: "/privacy-policy" },
   { label: "Terms", href: "/terms-and-conditions" },
   { label: "Refunds", href: "/refund-policy" },
+  { label: "Grievance", href: "/legal/contact" },
   { label: "Data deletion", href: "/user-data-deletion" },
 ] as const;
 
@@ -38,7 +40,7 @@ export function Footer({ whatsappHref: whatsappHrefProp }: { whatsappHref?: stri
             <span className="flex size-7 items-center justify-center rounded-[7px] bg-white p-0.5">
               <img
                 src="/bms-logo.png"
-                alt=""
+                alt="Boostmysites logo"
                 className="size-full object-contain"
                 loading="lazy"
               />
@@ -52,11 +54,23 @@ export function Footer({ whatsappHref: whatsappHrefProp }: { whatsappHref?: stri
             aria-label="Footer"
             className="flex flex-wrap items-center gap-x-4 gap-y-1"
           >
-            {navLinks.map((item) => (
-              <Link key={item.href} to={item.href} className={linkClass}>
-                {item.label}
-              </Link>
-            ))}
+            {navLinks.map((item) =>
+              "external" in item && item.external ? (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={linkClass}
+                >
+                  {item.label}
+                </a>
+              ) : (
+                <Link key={item.href} to={item.href} className={linkClass}>
+                  {item.label}
+                </Link>
+              ),
+            )}
           </nav>
         </div>
 
@@ -94,11 +108,13 @@ export function Footer({ whatsappHref: whatsappHrefProp }: { whatsappHref?: stri
           </div>
         </div>
 
-        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-[11px] text-white/35">
-            © {new Date().getFullYear()} {site.brand}
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+          <p className="max-w-[42ch] text-[11px] leading-relaxed text-white/35">
+            © {new Date().getFullYear()} {BRAND.legalName}
+            <br />
+            {BRAND.registeredAddressLine}
           </p>
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3">
             {legalLinks.map((item) => (
               <Link key={item.href} to={item.href} className="text-[11px] text-white/35 transition-colors hover:text-white/70">
                 {item.label}

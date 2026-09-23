@@ -15,6 +15,8 @@ export type NavLinkItem = {
   href?: string;
   /** When set, renders a dropdown (desktop hover panel / mobile grouped links) instead of a plain link. */
   dropdown?: ReadonlyArray<NavDropdownItem>;
+  /** External URL (product login on .in). Opens in a new tab. */
+  external?: boolean;
 };
 export type NavCta = { label: string; href: string };
 
@@ -191,13 +193,14 @@ export function Nav({
           ) : null}
 
           <div className="flex items-center gap-0.5 max-md:hidden md:ml-auto">
-            {inlineLinks.map(({ label, href, dropdown }) =>
+            {inlineLinks.map(({ label, href, dropdown, external }) =>
               dropdown ? (
                 renderDropdown({ label, href, dropdown }, "center")
               ) : (
                 <a
                   key={label}
                   href={href}
+                  {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                   className="whitespace-nowrap px-3 py-2 text-[13px] font-medium text-white/70 transition-colors hover:text-white"
                 >
                   {label}
@@ -289,7 +292,7 @@ export function Nav({
           />
           <div className="absolute left-0 right-0 top-[calc(env(safe-area-inset-top,0px)+88px)] mx-3 rounded-[14px] border border-white/15 bg-black/85 p-3 shadow-[0_15px_40px_rgba(0,0,0,0.5)]">
             <div className="flex flex-col">
-              {links.map(({ label, href, dropdown }) =>
+              {links.map(({ label, href, dropdown, external }) =>
                 dropdown ? (
                   <div key={label}>
                     <p className="px-3 pb-1 pt-3 text-[11px] font-semibold uppercase tracking-[0.12em] text-white/40">
@@ -311,6 +314,7 @@ export function Nav({
                     key={label}
                     href={href}
                     onClick={() => setOpen(false)}
+                    {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                     className="rounded-lg px-3 py-3 text-[15px] font-medium text-white/85 hover:bg-white/5 hover:text-white"
                   >
                     {label}

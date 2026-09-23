@@ -1,5 +1,13 @@
 import { useState, type FormEvent } from "react";
 import { COUNTRIES } from "../LeadForm";
+import {
+  CONSENT_REQUIRED_MESSAGE,
+  bothConsentsGiven,
+  contactConsentSnapshot,
+  emptyContactConsent,
+  type ContactConsentState,
+} from "../../lib/contactConsent";
+import { ContactConsent } from "../ContactConsent";
 
 export type GateContact = {
   name: string;
@@ -8,6 +16,9 @@ export type GateContact = {
   website: string;
   /** Full phone with dial code, e.g. "+91 9632953355". */
   phone: string;
+  consent_whatsapp?: boolean;
+  consent_voice?: boolean;
+  consent_at?: string;
 };
 
 type GateFormProps = {
@@ -43,6 +54,8 @@ export function GateForm({ onUnlock }: GateFormProps) {
   const [countryCode, setCountryCode] = useState(DEFAULT_COUNTRY);
   const [nationalNumber, setNationalNumber] = useState("");
   const [errors, setErrors] = useState<Errors>({});
+  const [consent, setConsent] = useState<ContactConsentState>(emptyContactConsent);
+  const [consentError, setConsentError] = useState<string | null>(null);
 
   const clearError = (key: keyof GateContact) => {
     if (errors[key]) setErrors((prev) => ({ ...prev, [key]: undefined }));
@@ -63,7 +76,17 @@ export function GateForm({ onUnlock }: GateFormProps) {
       setErrors(next);
       return;
     }
-    onUnlock(contact);
+    if (!bothConsentsGiven(consent)) {
+      setConsentError(CONSENT_REQUIRED_MESSAGE);
+      return;
+    }
+    const snapshot = contactConsentSnapshot(consent);
+    onUnlock({
+      ...contact,
+      consent_whatsapp: snapshot?.consent_whatsapp,
+      consent_voice: snapshot?.consent_voice,
+      consent_at: snapshot?.consent_at,
+    });
   }
 
   const inputClass = (hasError: boolean) =>
@@ -199,9 +222,20 @@ export function GateForm({ onUnlock }: GateFormProps) {
         ) : null}
       </div>
 
+      <ContactConsent
+        value={consent}
+        onChange={(nextConsent) => {
+          setConsent(nextConsent);
+          if (consentError) setConsentError(null);
+        }}
+        error={consentError ?? undefined}
+        idPrefix="gate-consent"
+      />
+
       <button
         type="submit"
-        className="btn-gloss relative mt-1 inline-flex items-center justify-center gap-2 overflow-hidden rounded-[10px] border border-white/20 bg-purple/70 px-5 py-[15px] text-sm font-medium text-white shadow-[inset_0_0_6px_3px_rgba(255,255,255,0.2)]"
+        disabled={!bothConsentsGiven(consent)}
+        className="btn-gloss relative mt-1 inline-flex items-center justify-center gap-2 overflow-hidden rounded-[10px] border border-white/20 bg-purple/70 px-5 py-[15px] text-sm font-medium text-white shadow-[inset_0_0_6px_3px_rgba(255,255,255,0.2)] disabled:opacity-60"
       >
         <span className="relative z-[2]">Unlock my automation report →</span>
       </button>

@@ -12,6 +12,8 @@
 export const BRAND = {
   /** Canonical, unambiguous brand name. Used in JSON-LD `name`. */
   name: 'BoostMySites',
+  /** MCA registered legal name. Use this as the contracting party. */
+  legalName: 'Triple-Seven BoostMySites AI Solutions Private Limited',
   /** Legal / display alternates. Some older copy still uses `Boostmysites`. */
   alternateNames: ['Boostmysites', 'Boost My Sites'],
   /** Primary production origin (no trailing slash). */
@@ -24,8 +26,20 @@ export const BRAND = {
   foundingYear: 2017,
   /** Country code for Organization address. */
   country: 'IN',
-  /** Primary support email. */
-  email: 'ceo@boostmysites.com',
+  /** Primary public contact email (Grievance Officer / chairman). */
+  email: 'chairman@boostmysites.com',
+  /** Public phone, E.164 display. */
+  phone: '+91 96329 53355',
+  /** MCA registered office, single line. */
+  registeredAddressLine:
+    '#137, 3rd Main Cross, Dollars Colony, 4th Phase JP Nagar, Bengaluru, Karnataka 560076',
+  registeredAddress: {
+    streetAddress: '#137, 3rd Main Cross, Dollars Colony, 4th Phase JP Nagar',
+    addressLocality: 'Bengaluru',
+    addressRegion: 'Karnataka',
+    postalCode: '560076',
+    addressCountry: 'IN',
+  },
   /**
    * The canonical entity one-liner. Use this verbatim wherever a one-line
    * description of BoostMySites is required (footer, OG description fallback,
@@ -54,6 +68,7 @@ export const organizationJsonLd = (): Record<string, unknown> => ({
   '@type': 'Organization',
   '@id': `${BRAND.siteUrl}/#organization`,
   name: BRAND.name,
+  legalName: BRAND.legalName,
   alternateName: BRAND.alternateNames,
   url: BRAND.siteUrl,
   logo: BRAND.logoUrl,
@@ -61,9 +76,14 @@ export const organizationJsonLd = (): Record<string, unknown> => ({
   description: BRAND.oneLiner,
   foundingDate: String(BRAND.foundingYear),
   email: BRAND.email,
+  telephone: BRAND.phone,
   address: {
     '@type': 'PostalAddress',
-    addressCountry: BRAND.country,
+    streetAddress: BRAND.registeredAddress.streetAddress,
+    addressLocality: BRAND.registeredAddress.addressLocality,
+    addressRegion: BRAND.registeredAddress.addressRegion,
+    postalCode: BRAND.registeredAddress.postalCode,
+    addressCountry: BRAND.registeredAddress.addressCountry,
   },
   sameAs: BRAND.sameAs,
 });

@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { BRAND } from "@/lib/seo/brand";
 import {
   LegalH2,
   LegalOl,
@@ -13,14 +14,14 @@ const DELETION_EMAIL = "boostmysitescom@gmail.com";
 const deletionMailto = `mailto:${DELETION_EMAIL}?subject=${encodeURIComponent(
   "User data deletion request",
 )}&body=${encodeURIComponent(
-  "Please delete my personal data held by BOOSTMYSITES.\n\nFull name:\nEmail used with your app or website:\nFacebook or Meta user ID (if known):\nAny other details:\n",
+  `Please delete my personal data held by ${BRAND.legalName} (Boostmysites).\n\nFull name:\nEmail used with your app or website:\nFacebook or Meta user ID (if known):\nAny other details:\n`,
 )}`;
 
 export default function UserDataDeletion() {
   return (
     <LegalPageShell
       title="User Data Deletion | Boostmysites"
-      description="How to request deletion of your BOOSTMYSITES and Meta Platform Data. Email boostmysitescom@gmail.com."
+      description="How to request deletion of your Boostmysites and Meta Platform Data from Triple-Seven BoostMySites AI Solutions Private Limited."
       eyebrow="Legal"
       heading={
         <>
@@ -29,20 +30,23 @@ export default function UserDataDeletion() {
       }
     >
       <LegalP>
+        {BRAND.legalName}
+        <br />
         Website:{" "}
-        <a className="impact-highlight underline-offset-2 hover:underline" href="https://www.boostmysites.com">
-          https://www.boostmysites.com
+        <a className="impact-highlight underline-offset-2 hover:underline" href={BRAND.siteUrl}>
+          {BRAND.siteUrl}
         </a>
+        <br />
+        Registered office: {BRAND.registeredAddressLine}
         <br />
         Contact:{" "}
         <a className="impact-highlight underline-offset-2 hover:underline" href={whatsappHref} target="_blank" rel="noopener noreferrer">
-          WhatsApp +91 96329 53355
-        </a>{" "}
-        · www.boostmysites.com
+          WhatsApp {BRAND.phone}
+        </a>
       </LegalP>
       <LegalP>
-        This page tells you how to ask BOOSTMYSITES to delete personal data we hold about you,
-        including data received from Meta, Facebook, Instagram, or WhatsApp when you use our apps
+        This page tells you how to ask {BRAND.legalName} to delete personal data we hold about you,
+        including data received from Meta, Facebook, Instagram, or WhatsApp when you use Boostmysites apps
         or connect those accounts. It is the data deletion instructions URL for our Meta apps.
       </LegalP>
       <LegalP>
@@ -66,7 +70,7 @@ export default function UserDataDeletion() {
         items={[
           "the subject line \"User data deletion request\";",
           "your full name;",
-          "the email address you used with BOOSTMYSITES, our website, or the Meta app;",
+          "the email address you used with Boostmysites, our website, or the Meta app;",
           "your Facebook or Meta user ID, if you know it;",
           "a short description of the data or account you want deleted.",
         ]}

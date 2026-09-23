@@ -50,6 +50,9 @@ export type StrategyCallLeadInput = {
   sourcePage: string;
   /** Optional free-text: what the lead wants to automate. */
   requirement?: string;
+  consent_whatsapp?: boolean;
+  consent_voice?: boolean;
+  consent_at?: string;
 };
 
 function buildPayloadRecord(
@@ -71,6 +74,9 @@ function buildPayloadRecord(
   if (input.serviceModal) {
     p.service_modal = input.serviceModal;
   }
+  if (input.consent_whatsapp) p.consent_whatsapp = true;
+  if (input.consent_voice) p.consent_voice = true;
+  if (input.consent_at) p.consent_at = input.consent_at;
   return p;
 }
 
@@ -216,6 +222,9 @@ export type AutomationScoreLeadInput = {
   website: string;
   sourcePage: string;
   survey: AutomationScoreSurveyPayload;
+  consent_whatsapp?: boolean;
+  consent_voice?: boolean;
+  consent_at?: string;
 };
 
 const AUTOMATION_TEAM_SIZE_SCORE: Record<string, number> = {
@@ -248,6 +257,9 @@ export async function submitAutomationScoreLead(
     ...input.survey,
     website: input.website.trim() || null,
   };
+  if (input.consent_whatsapp) payload.consent_whatsapp = true;
+  if (input.consent_voice) payload.consent_voice = true;
+  if (input.consent_at) payload.consent_at = input.consent_at;
 
   let supabaseError: { message?: string; code?: string } | null = null;
 
@@ -341,6 +353,9 @@ export async function submitAutomationScoreLead(
 export async function submitStrategyCallLead(input: StrategyCallLeadInput): Promise<LeadResult> {
   const requirement = input.requirement?.trim() || null;
   const payload: Record<string, unknown> = { quick_form: "strategy_call", requirement };
+  if (input.consent_whatsapp) payload.consent_whatsapp = true;
+  if (input.consent_voice) payload.consent_voice = true;
+  if (input.consent_at) payload.consent_at = input.consent_at;
 
   let supabaseError: { message?: string; code?: string } | null = null;
 

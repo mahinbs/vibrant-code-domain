@@ -11,6 +11,13 @@ import StickyButton from '@/components/ui/StickyButton';
 import IconCard from '@/components/ui/IconCard';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import { ContactConsent } from "@/redesign/components/ContactConsent";
+import {
+  CONSENT_REQUIRED_MESSAGE,
+  bothConsentsGiven,
+  emptyContactConsent,
+  type ContactConsentState,
+} from "@/redesign/lib/contactConsent";
 
 interface WebinarEvent {
   id: string;
@@ -59,6 +66,7 @@ const WebinarPage = () => {
     email: '',
     whatsapp_number: ''
   });
+  const [consent, setConsent] = useState<ContactConsentState>(emptyContactConsent);
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
   
   const heroRef = useParallax<HTMLDivElement>({ speed: 0.5 });
@@ -287,6 +295,11 @@ const WebinarPage = () => {
     
     if (!/^[6-9]\d{9}$/.test(cleanedWhatsApp)) {
       toast({ title: "Error", description: "Please enter a valid Indian mobile number starting with 6, 7, 8, or 9", variant: "destructive" });
+      return false;
+    }
+
+    if (!bothConsentsGiven(consent)) {
+      toast({ title: "Error", description: CONSENT_REQUIRED_MESSAGE, variant: "destructive" });
       return false;
     }
     
@@ -1043,11 +1056,17 @@ const WebinarPage = () => {
                 </p>
               </div>
 
+              <ContactConsent
+                value={consent}
+                onChange={setConsent}
+                idPrefix="webinar-consent"
+              />
+
               <Button 
                 type="submit" 
                 className="w-full bg-orange-500 hover:bg-orange-600 border-0 text-white font-bold text-lg shadow-xl transform transition-all duration-300 hover:scale-105 hover:shadow-2xl" 
                 size="lg"
-                disabled={isSubmitting}
+                disabled={isSubmitting || !bothConsentsGiven(consent)}
               >
                 {isSubmitting ? (
                   <div className="flex items-center justify-center gap-2">
@@ -1061,7 +1080,7 @@ const WebinarPage = () => {
             </form>
 
             <div className="mt-6 text-center text-xs text-white/70">
-              {webinar?.privacy_note || 'By registering, you agree to receive webinar updates via email and WhatsApp'}
+              Opt out of WhatsApp by replying STOP. Privacy details are on the Privacy page.
             </div>
           </div>
         </div>

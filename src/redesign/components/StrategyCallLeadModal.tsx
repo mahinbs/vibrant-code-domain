@@ -12,6 +12,14 @@ import { trackMetaConversion } from "@/lib/analytics/metaConversion";
 import { isMetaConversionSourcePage } from "@/lib/analytics/metaScope";
 import { saveLeadThankYouReturnPath } from "../lib/leadThankYou";
 import { submitStrategyCallLead } from "../lib/submitLead";
+import {
+  CONSENT_REQUIRED_MESSAGE,
+  bothConsentsGiven,
+  contactConsentSnapshot,
+  emptyContactConsent,
+  type ContactConsentState,
+} from "../lib/contactConsent";
+import { ContactConsent } from "./ContactConsent";
 
 export type StrategyCallLeadModalProps = {
   open: boolean;
@@ -35,12 +43,16 @@ export function StrategyCallLeadModal({ open, onOpenChange, sourcePage }: Strate
   const [whatsapp, setWhatsapp] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [consent, setConsent] = useState<ContactConsentState>(emptyContactConsent);
+  const [consentError, setConsentError] = useState<string | null>(null);
 
   const reset = () => {
     setName("");
     setEmail("");
     setWhatsapp("");
     setError(null);
+    setConsent(emptyContactConsent());
+    setConsentError(null);
     setSubmitting(false);
   };
 
@@ -59,8 +71,21 @@ export function StrategyCallLeadModal({ open, onOpenChange, sourcePage }: Strate
       setError("Please fill in name, WhatsApp number, and email.");
       return;
     }
+    if (!bothConsentsGiven(consent)) {
+      setConsentError(CONSENT_REQUIRED_MESSAGE);
+      return;
+    }
+    const snapshot = contactConsentSnapshot(consent);
     setSubmitting(true);
-    const res = await submitStrategyCallLead({ name: n, email: em, phone: wa, sourcePage });
+    const res = await submitStrategyCallLead({
+      name: n,
+      email: em,
+      phone: wa,
+      sourcePage,
+      consent_whatsapp: snapshot?.consent_whatsapp,
+      consent_voice: snapshot?.consent_voice,
+      consent_at: snapshot?.consent_at,
+    });
     setSubmitting(false);
     if (!res.ok) {
       setError(res.error ?? "Something went wrong. Please try again.");
@@ -148,11 +173,22 @@ export function StrategyCallLeadModal({ open, onOpenChange, sourcePage }: Strate
                   />
                 </div>
 
+                <ContactConsent
+                  value={consent}
+                  onChange={(next) => {
+                    setConsent(next);
+                    if (consentError) setConsentError(null);
+                  }}
+                  error={consentError ?? undefined}
+                  compact
+                  idPrefix="strategy-consent"
+                />
+
                 {error ? <p className="text-[12px] text-red-300/90">{error}</p> : null}
 
                 <button
                   type="submit"
-                  disabled={submitting}
+                  disabled={submitting || !bothConsentsGiven(consent)}
                   className="btn-gloss relative mt-1 inline-flex w-full items-center justify-center gap-2 overflow-hidden rounded-[10px] border border-white/20 bg-purple/70 px-5 py-[15px] text-sm font-medium text-white shadow-[inset_0_0_6px_3px_rgba(255,255,255,0.2)] transition-opacity disabled:opacity-60"
                 >
                   <span className="relative z-[2]">{submitting ? "Sending…" : "Send request"}</span>

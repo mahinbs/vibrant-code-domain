@@ -7,6 +7,13 @@ import { Link } from "react-router-dom";
 import SignatureCanvas from "react-signature-canvas";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import { ContactConsent } from "@/redesign/components/ContactConsent";
+import {
+  CONSENT_REQUIRED_MESSAGE,
+  bothConsentsGiven,
+  emptyContactConsent,
+  type ContactConsentState,
+} from "@/redesign/lib/contactConsent";
 
 interface SignUpFormData {
   name: string;
@@ -32,12 +39,18 @@ const SignUpForm = () => {
   const [image, setImage] = useState<string | null>(null);
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
+  const [consent, setConsent] = useState<ContactConsentState>(emptyContactConsent);
 
   const onSubmit = async (data: SignUpFormData) => {
     if (loading) return;
     setLoading(true);
     if (!data.signature) {
       alert("Please provide a signature");
+      setLoading(false);
+      return;
+    }
+    if (!bothConsentsGiven(consent)) {
+      alert(CONSENT_REQUIRED_MESSAGE);
       setLoading(false);
       return;
     }
@@ -272,9 +285,15 @@ const SignUpForm = () => {
                   </span>
                 )}
 
+                <ContactConsent
+                  value={consent}
+                  onChange={setConsent}
+                  idPrefix="signup-consent"
+                />
+
                 <div className="text-center pt-4">
                   <button
-                    disabled={loading}
+                    disabled={loading || !bothConsentsGiven(consent)}
                     type="submit"
                     className={`${
                       loading

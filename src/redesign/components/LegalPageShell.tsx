@@ -3,7 +3,7 @@ import { Helmet } from "react-helmet-async";
 import { SiteBackground } from "./SiteBackground";
 import { Nav, type NavLinkItem } from "./Nav";
 import { Footer } from "./Footer";
-import { whatsappHref } from "../data/site";
+import { site, whatsappHref } from "../data/site";
 
 const NAV_LINKS: ReadonlyArray<NavLinkItem> = [
   {
@@ -17,7 +17,7 @@ const NAV_LINKS: ReadonlyArray<NavLinkItem> = [
   { label: "How it works", href: "/#demo" },
   { label: "Features", href: "/#features" },
   { label: "Pricing", href: "/#pricing" },
-  { label: "Reviews", href: "/#reviews" },
+  { label: "Log in", href: site.productUrl, external: true },
 ];
 
 const NAV_CTA = { label: "Get my acquisition plan", href: "/#contact-form" } as const;

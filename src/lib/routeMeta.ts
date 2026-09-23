@@ -1,6 +1,6 @@
 import { matchPath } from "react-router-dom";
 
-export type RouteSeo = { title: string; description: string };
+export type RouteSeo = { title: string; description: string; robots?: string };
 
 const DEFAULT: RouteSeo = {
   title: "Boostmysites - AI-Powered Software Solutions",
@@ -90,21 +90,25 @@ const EXACT: Record<string, RouteSeo> = {
     title: "Game Development | Boostmysites",
     description:
       "Game and interactive experiences—prototyping through launch. Boostmysites supports gameplay systems, live ops, and cross-platform delivery.",
+    robots: "noindex, follow",
   },
   "/ar-vr-development": {
     title: "AR/VR Development | Boostmysites",
     description:
       "Immersive AR and VR applications for training, retail, and brand experiences. Boostmysites builds performant 3D and spatial products.",
+    robots: "noindex, follow",
   },
   "/blockchain-development": {
     title: "Blockchain Development | Boostmysites",
     description:
       "Web3 and blockchain solutions where they make sense—wallets, smart contracts, and integrations. Boostmysites focuses on security and usability.",
+    robots: "noindex, follow",
   },
   "/iot-development": {
     title: "IoT Development | Boostmysites",
     description:
       "Connected devices, firmware-adjacent software, and cloud pipelines. Boostmysites builds reliable IoT products from edge to dashboard.",
+    robots: "noindex, follow",
   },
   "/data-analytics": {
     title: "Data & Analytics | Boostmysites",
@@ -151,10 +155,10 @@ const EXACT: Record<string, RouteSeo> = {
     description:
       "Automate your personal workflow — inbox, calendar, notes, finances and follow-ups — and get hours back every week.",
   },
-  "/reviews": {
-    title: "Client Reviews | Boostmysites",
+  "/legal/contact": {
+    title: "Grievance Officer | Boostmysites",
     description:
-      "What clients say about working with Boostmysites—delivery, communication, and outcomes across web, mobile, and AI engagements.",
+      "Contact the Grievance Officer for Triple-Seven BoostMySites AI Solutions Private Limited. Complaints acknowledged in 2 business days and resolved within 14 business working days.",
   },
   "/thank-you": {
     title: "Thank You | Boostmysites",
@@ -164,22 +168,22 @@ const EXACT: Record<string, RouteSeo> = {
   "/privacy-policy": {
     title: "Privacy Policy | Boostmysites",
     description:
-      "BOOSTMYSITES privacy policy: how we collect, use, share, and delete personal data, including Meta Platform Data.",
+      "Privacy policy for Triple-Seven BoostMySites AI Solutions Private Limited under the Digital Personal Data Protection Act, 2023, including WhatsApp and AI calling.",
   },
   "/terms-and-conditions": {
     title: "Terms and Conditions | Boostmysites",
     description:
-      "Terms and conditions for BOOSTMYSITES software, setup, and support, including the refund policy for Service fees.",
+      "Terms and conditions for prepaid AI Growth Credits from Triple-Seven BoostMySites AI Solutions Private Limited, including the refund policy.",
   },
   "/refund-policy": {
     title: "Refund Policy | Boostmysites",
     description:
-      "BOOSTMYSITES refund policy. Service fees are refundable only if we do not provide the Service you paid for. Ad spend is never refunded.",
+      "Refund policy for unused AI Growth Credits. Ad spend on Meta, Google, and other platforms is never refunded.",
   },
   "/user-data-deletion": {
     title: "User Data Deletion | Boostmysites",
     description:
-      "How to request deletion of your BOOSTMYSITES and Meta Platform Data. Email boostmysitescom@gmail.com.",
+      "How to request deletion of your Boostmysites and Meta Platform Data from Triple-Seven BoostMySites AI Solutions Private Limited.",
   },
   "/index.php/aie-termsconditions": {
     title: "Terms & Conditions | Boostmysites",
@@ -190,16 +194,19 @@ const EXACT: Record<string, RouteSeo> = {
     title: "Job Placement Programs | Boostmysites",
     description:
       "Become job-ready in 7 months with industry-focused tech training, real-world projects, one-on-one mentorship, and dedicated placement assistance.",
+    robots: "noindex, follow",
   },
   "/ai-freelancing": {
     title: "AI Freelancing | Boostmysites",
     description:
       "Opportunities and programs for AI-skilled freelancers collaborating with Boostmysites on real client and product work.",
+    robots: "noindex, follow",
   },
   "/ai-freelancing/thank-you": {
     title: "Thank You | AI Freelancing | Boostmysites",
     description:
       "Your AI freelancing submission was received. Boostmysites will follow up with next steps if there is a fit.",
+    robots: "noindex, follow",
   },
   "/ai-calling": {
     title: "AI Calling Solutions | Boostmysites",
@@ -220,6 +227,7 @@ const EXACT: Record<string, RouteSeo> = {
     title: "AI Stock Prediction | Boostmysites",
     description:
       "AI-driven market intelligence and prediction experiences—explore how Boostmysites applies ML to financial and data products.",
+    robots: "noindex, follow",
   },
   "/fintech-founder": {
     title: "Fintech Founder | Boostmysites",

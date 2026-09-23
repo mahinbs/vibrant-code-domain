@@ -63,11 +63,6 @@ const Header = memo(() => {
       section: "blogs",
     },
     {
-      name: "Reviews",
-      href: "/reviews",
-      section: "reviews",
-    },
-    {
       name: "About",
       href: "/about",
       section: "about",
@@ -124,11 +119,6 @@ const Header = memo(() => {
           location.pathname === "/blogs" ||
           location.pathname.startsWith("/blog/")
         );
-      }
-
-      // Handle Reviews page
-      if (item.name === "Reviews") {
-        return location.pathname === "/reviews";
       }
 
       // Handle About page

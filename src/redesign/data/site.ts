@@ -13,6 +13,8 @@ export const site = {
   },
   portfolioUrl: "https://www.boostmysites.com/portfolio",
   appIdeasUrl: "https://www.boostmysites.com/app-ideas",
+  /** Product / software lives on .in. Homepage login CTA. */
+  productUrl: "https://boostmysites.in",
 } as const;
 
 export const navLinks = [

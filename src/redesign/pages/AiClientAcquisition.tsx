@@ -16,9 +16,9 @@ import { BusinessAutomationHero } from "../components/BusinessAutomationHero";
 import { FeaturedInTrustBand } from "../components/FeaturedInTrustBand";
 import { Process } from "../components/Process";
 import { MockupBand } from "../components/MockupBand";
-import { ArrowRightIcon, StarIcon } from "../components/icons";
+import { ArrowRightIcon } from "../components/icons";
 import { useHashScroll } from "../lib/useHashScroll";
-import { whatsappHref } from "../data/site";
+import { site, whatsappHref } from "../data/site";
 import { businessAutomationPressItems } from "../data/businessAutomationContent";
 import {
   formatInr,
@@ -69,7 +69,7 @@ const NAV_LINKS: ReadonlyArray<NavLinkItem> = [
   { label: "How it works", href: "#demo" },
   { label: "Features", href: "#features" },
   { label: "Pricing", href: "#pricing" },
-  { label: "Reviews", href: "#reviews" },
+  { label: "Log in", href: site.productUrl, external: true },
 ];
 
 const NAV_CTA = { label: "Get my acquisition plan", href: "#contact-form" } as const;
@@ -83,13 +83,6 @@ const HERO_ROTATING = [
   "lead follow-ups on WhatsApp",
   "plain-English weekly report",
 ];
-
-const ACQUISITION_METRICS = [
-  { value: "12,540+", label: "Leads generated" },
-  { value: "3,218+", label: "Campaigns launched" },
-  { value: "48%", label: "Avg. conversion uplift" },
-  { value: "2.6x", label: "ROI improvement" },
-] as const;
 
 const RAAS_PILLARS = [
   { label: "First in the world", body: "The first Result as a Service built for client acquisition." },
@@ -291,49 +284,6 @@ const MONTH: ReadonlyArray<{ when: string; what: string; youDo: string; youGet: 
   },
 ];
 
-const REVIEWS = [
-  {
-    img: "/brand/reviews/r1.jpg",
-    name: "Ramesh Iyer",
-    role: "Founder, Iyer Coaching Academy · Chennai",
-    quote:
-      "We asked for 200 leads a month on WhatsApp. Now 8 to 10 parent enquiries come in every single day.",
-    rating: 5,
-  },
-  {
-    img: "/brand/reviews/r2.jpg",
-    name: "Sneha Kulkarni",
-    role: "Director, LittleSteps Preschool · Pune",
-    quote:
-      "Admission season used to be stressful. The AI filled both our demo classes in under two weeks.",
-    rating: 4.5,
-  },
-  {
-    img: "/brand/reviews/r3.jpg",
-    name: "Dr. Suresh Menon",
-    role: "Chairman, Menon Institute of Technology",
-    quote:
-      "Cost per lead dropped 40%. It runs Meta and Google better than the agency we paid for years.",
-    rating: 5,
-  },
-  {
-    img: "/brand/reviews/r4.jpg",
-    name: "Ananya Gupta",
-    role: "Founder, UpSkill Academy (EdTech)",
-    quote:
-      "I typed one line, 'fill my webinar', and it built campaigns on three platforms. 900+ registrations.",
-    rating: 5,
-  },
-  {
-    img: "/brand/reviews/r5.jpg",
-    name: "Vikram Reddy",
-    role: "MD, GreenNest Interiors · Hyderabad",
-    quote:
-      "The approval-first flow gives me total control. Qualified leads land straight in my CRM.",
-    rating: 4.5,
-  },
-] as const;
-
 /* ----------------------------- helpers ----------------------------- */
 
 function SectionWithTopRule({
@@ -532,13 +482,17 @@ function AiClientAcquisitionInner() {
               <>
                 Get <span className="impact-highlight">more clients</span> with{" "}
                 <span className="impact-highlight">AI</span>.
+              </>
+            ),
+            headlineExtra: (
+              <>
                 <span className="mt-3 block border-l-2 border-purple/60 pl-3 font-mono !text-[14px] font-normal !leading-[1.3] tracking-[0.04em] text-white/70 sm:mt-4 sm:pl-4 sm:!text-[15px] md:mt-5 md:pl-6 md:!text-[20px] md:!leading-[1.25] md:tracking-[0.06em]">
                   Your client acquisition stack
                   <br />
                   that never clocks out.
                   <StackTypewriter />
                 </span>
-                <span className="impact-highlight mt-[0.04em] block leading-[1.08]">
+                <span className="impact-highlight mt-[0.04em] block text-[40px] font-medium leading-[1.08] -tracking-[0.05em] md:text-[64px]">
                   All running 24/7.
                 </span>
               </>
@@ -555,10 +509,7 @@ function AiClientAcquisitionInner() {
           }}
         />
 
-        <FeaturedInTrustBand
-          pressItems={[...businessAutomationPressItems]}
-          metrics={ACQUISITION_METRICS}
-        />
+        <FeaturedInTrustBand pressItems={[...businessAutomationPressItems]} />
 
         <SectionWithTopRule showDivider={false}>
           <section
@@ -614,8 +565,7 @@ function AiClientAcquisitionInner() {
 
                   <img
                     src="/brand/raas.webp"
-                    alt=""
-                    aria-hidden
+                    alt="Presenter pointing to RAAS, Result as a Service"
                     width={1600}
                     height={791}
                     loading="lazy"
@@ -680,8 +630,11 @@ function AiClientAcquisitionInner() {
                     >
                       <img
                         src={f.iconSrc}
-                        alt=""
-                        aria-hidden
+                        alt={`${f.title} icon`}
+                        width={96}
+                        height={96}
+                        loading="lazy"
+                        decoding="async"
                         className="pointer-events-none absolute -left-3 -top-7 z-10 h-[68px] w-[68px] object-contain object-center drop-shadow-[0_12px_28px_rgba(51,102,255,0.5)] sm:-left-4 sm:-top-9 sm:h-[84px] sm:w-[84px] md:-left-6 md:-top-11 md:h-[96px] md:w-[96px]"
                       />
                       <p className="impact-highlight font-mono text-[13px] font-bold uppercase leading-tight tracking-[0.08em] sm:text-[15px] sm:tracking-[0.1em] md:text-[16px]">
@@ -765,8 +718,11 @@ function AiClientAcquisitionInner() {
                       <div className="mb-3 flex h-[140px] items-center justify-center sm:mb-4 sm:h-[168px] md:h-[196px]">
                         <img
                           src={a.iconSrc}
-                          alt=""
-                          aria-hidden
+                          alt={`${a.name} icon`}
+                          width={196}
+                          height={196}
+                          loading="lazy"
+                          decoding="async"
                           className="h-full w-full object-contain object-center drop-shadow-[0_16px_32px_rgba(0,0,0,0.45)]"
                         />
                       </div>
@@ -1045,23 +1001,6 @@ function AiClientAcquisitionInner() {
             </section>
           </SectionWithTopRule>
 
-          {/* ---------- Reviews ---------- */}
-          <SectionWithTopRule>
-            <section id="reviews" className="w-full max-w-[1920px] px-5 py-12 md:px-10 md:py-16">
-              <Reveal className="mx-auto max-w-[720px] text-center">
-                <h2 className="text-[32px] font-medium leading-[1.1] -tracking-[0.04em] text-white max-md:text-[30px] md:text-[44px]">
-                  Loved by <span className="impact-highlight">business owners</span>
-                </h2>
-                <p className="mt-3 font-mono text-[14px] tracking-[0.04em] text-white/60 md:text-[15px]">
-                  Real outcomes from owners who told the AI what they needed.
-                </p>
-              </Reveal>
-              <Reveal delay={0.06}>
-                <ReviewsMarquee />
-              </Reveal>
-            </section>
-          </SectionWithTopRule>
-
           {/* ---------- Pricing ---------- */}
           <SectionWithTopRule>
             <section id="pricing" className="w-full max-w-[1920px] px-5 py-12 md:px-10 md:py-16">
@@ -1132,6 +1071,16 @@ function AiClientAcquisitionInner() {
 
               <Reveal delay={0.08} className="mx-auto mt-6 max-w-[640px] text-center md:mt-8">
                 <p className="text-[13px] text-white/45">
+                  Already a customer?{" "}
+                  <a
+                    href={site.productUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-white/75 underline-offset-2 hover:underline"
+                  >
+                    Log in to the product
+                  </a>
+                  {" · "}
                   Prefer a custom plan?{" "}
                   <a href="#contact-form" className="text-white/75 underline-offset-2 hover:underline">
                     Get my acquisition plan
@@ -1207,7 +1156,7 @@ function DemoVideoPlayer() {
         >
           <img
             src="/demo/demo-poster.jpg"
-            alt="BOOSTMYSITES demo video"
+            alt="Boostmysites client acquisition demo video"
             className="aspect-video w-full object-cover"
           />
           <span className="absolute inset-0 grid place-items-center bg-black/35 transition group-hover:bg-black/25">
@@ -1223,74 +1172,3 @@ function DemoVideoPlayer() {
   );
 }
 
-function ReviewsMarquee() {
-  const cards = [...REVIEWS, ...REVIEWS];
-  return (
-    <div
-      className="relative mt-8 overflow-hidden md:mt-10"
-      style={{
-        maskImage: "linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent)",
-        WebkitMaskImage: "linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent)",
-      }}
-    >
-      <div className="flex w-max animate-ticker gap-4" style={{ animationDuration: "45s" }}>
-        {cards.map((r, i) => (
-          <div
-            key={`${r.name}-${i}`}
-            className="w-[min(300px,82vw)] shrink-0 rounded-[16px] border border-white/12 p-4 acq-gloss sm:w-[340px] sm:p-5"
-            style={{ background: GLOSS }}
-          >
-            <div className="flex items-center gap-3">
-              <img
-                src={r.img}
-                alt={r.name}
-                loading="lazy"
-                className="h-12 w-12 rounded-full border border-white/15 object-cover"
-              />
-              <div className="min-w-0">
-                <p className="impact-highlight truncate text-[13px] font-bold">{r.name}</p>
-                <p className="truncate text-[10.5px] text-white/50">{r.role}</p>
-              </div>
-              <ReviewStars rating={r.rating} id={`review-star-${i}`} />
-            </div>
-            <p className="mt-3 text-[13px] leading-relaxed text-white/80">
-              &ldquo;{r.quote}&rdquo;
-            </p>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-const STAR_PATH =
-  "M8 1.2l1.94 4.36 4.76.45-3.6 3.16 1.06 4.66L8 11.4l-4.16 2.43 1.06-4.66L1.3 6.01l4.76-.45z";
-
-function ReviewStars({ rating, id }: { rating: number; id: string }) {
-  const full = Math.floor(rating);
-  const half = rating % 1 >= 0.5;
-  const empty = 5 - full - (half ? 1 : 0);
-  const halfId = `${id}-half`;
-
-  return (
-    <span className="ml-auto flex items-center gap-0.5" aria-label={`${rating} out of 5 stars`}>
-      {Array.from({ length: full }, (_, i) => (
-        <StarIcon key={`f-${i}`} className="size-3.5 fill-[#7c97ff]" />
-      ))}
-      {half ? (
-        <svg key="half" viewBox="0 0 16 16" className="size-3.5" aria-hidden>
-          <defs>
-            <linearGradient id={halfId} x1="0" x2="1" y1="0" y2="0">
-              <stop offset="50%" stopColor="#7c97ff" />
-              <stop offset="50%" stopColor="rgba(255,255,255,0.85)" />
-            </linearGradient>
-          </defs>
-          <path d={STAR_PATH} fill={`url(#${halfId})`} />
-        </svg>
-      ) : null}
-      {Array.from({ length: empty }, (_, i) => (
-        <StarIcon key={`e-${i}`} className="size-3.5 fill-white/35" />
-      ))}
-    </span>
-  );
-}

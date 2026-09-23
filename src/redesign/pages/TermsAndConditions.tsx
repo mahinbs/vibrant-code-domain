@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { BRAND } from "@/lib/seo/brand";
 import {
   LegalH2,
   LegalH3,
@@ -13,7 +14,7 @@ export default function TermsAndConditions() {
   return (
     <LegalPageShell
       title="Terms and Conditions | Boostmysites"
-      description="Terms and Conditions for BOOSTMYSITES software, setup, and support. Includes the refund policy for Service fees."
+      description="Terms and conditions for prepaid AI Growth Credits from Triple-Seven BoostMySites AI Solutions Private Limited, including the refund policy."
       eyebrow="Legal"
       heading={
         <>
@@ -22,26 +23,32 @@ export default function TermsAndConditions() {
       }
     >
       <LegalP>
+        {BRAND.legalName} (&quot;we&quot;, &quot;us&quot;)
+        <br />
+        Product: Boostmysites
+        <br />
         Website:{" "}
-        <a className="impact-highlight underline-offset-2 hover:underline" href="https://www.boostmysites.com">
-          https://www.boostmysites.com
+        <a className="impact-highlight underline-offset-2 hover:underline" href={BRAND.siteUrl}>
+          {BRAND.siteUrl}
         </a>
+        <br />
+        Registered office: {BRAND.registeredAddressLine}
         <br />
         Contact:{" "}
         <a className="impact-highlight underline-offset-2 hover:underline" href={whatsappHref} target="_blank" rel="noopener noreferrer">
-          WhatsApp +91 96329 53355
-        </a>{" "}
-        · www.boostmysites.com
+          WhatsApp {BRAND.phone}
+        </a>
       </LegalP>
 
       <LegalP>
-        These Terms and Conditions (&quot;Terms&quot;) govern access to and use of BOOSTMYSITES
-        software, the Companion app, the Operator dashboard, related websites, and any
-        implementation, onboarding, or support we provide (together, the &quot;Service&quot;).
+        These Terms and Conditions (&quot;Terms&quot;) govern access to and use of Boostmysites
+        software, prepaid AI Growth Credits, the Companion app, the Operator dashboard, related
+        websites, and any implementation, onboarding, or support we provide (together, the
+        &quot;Service&quot;).
       </LegalP>
       <LegalP>
-        By paying a fee, creating an account, signing a proposal, or using the Service, you agree
-        to these Terms. If you do not agree, do not buy or use the Service.
+        By paying a fee, loading credits, creating an account, signing a proposal, or using the
+        Service, you agree to these Terms. If you do not agree, do not buy or use the Service.
       </LegalP>
       <LegalP>
         The refund rules in section 5 also appear on our{" "}
@@ -52,23 +59,38 @@ export default function TermsAndConditions() {
         <Link to="/privacy-policy" className="impact-highlight underline-offset-2 hover:underline">
           Privacy policy
         </Link>{" "}
-        explains how we collect and use personal data.
+        explains how we collect and use personal data. Complaints go to our{" "}
+        <Link to="/legal/contact" className="impact-highlight underline-offset-2 hover:underline">
+          Grievance Officer
+        </Link>
+        .
       </LegalP>
 
       <LegalH2>1. Who we are and what you are buying</LegalH2>
       <LegalP>
-        BOOSTMYSITES (&quot;we&quot;, &quot;us&quot;) provides <strong className="text-white">software and professional setup</strong> to
-        help you plan, stage, and operate advertising and related automations (including ads,
-        WhatsApp, email, CRM connections, and similar tools).
+        You buy <strong className="text-white">prepaid AI Growth Credits</strong> from {BRAND.legalName}.
+        Credits are a stored value you load in advance. We draw them down for agreed work
+        (campaign setup, monitoring, outreach, and related automation).
       </LegalP>
       <LegalP>
-        <strong className="text-white">You are buying access to tools and our work to set them up.</strong> You are not
-        buying leads, sales, ad results, or a guaranteed return on ad spend.
+        Credits are not cash, not a security, and not a guarantee of leads, sales, or ROAS.
+      </LegalP>
+      <LegalP>
+        Monthly and annual prices shown on this website are a way to load prepaid AI Growth Credits
+        for that period. They are not a software-seat licence and not a guarantee of leads, sales,
+        or ROAS.
       </LegalP>
       <LegalP>
         Ad spend on Meta, Google, and other platforms is{" "}
         <strong className="text-white">your money, paid to those platforms</strong>, under those platforms&apos; own
         terms. We do not collect or refund that spend.
+      </LegalP>
+      <LegalP>
+        Unused credits follow the refund rules on our{" "}
+        <Link to="/refund-policy" className="impact-highlight underline-offset-2 hover:underline">
+          Refund policy
+        </Link>
+        .
       </LegalP>
 
       <LegalH2>2. Accounts and access</LegalH2>
@@ -89,7 +111,7 @@ export default function TermsAndConditions() {
       <LegalP>The Service only works if you do your part. You must, when asked:</LegalP>
       <LegalUl
         items={[
-          "install and keep open the BOOSTMYSITES Companion on a suitable computer, where the Service requires it;",
+          "install and keep open the Boostmysites Companion on a suitable computer, where the Service requires it;",
           "sign in to your own ad, WhatsApp, email, CRM, and similar accounts (we do not take your passwords);",
           "provide a website, offer, market, budget, and other facts we need to configure the Service;",
           "approve campaigns, spend, and other actions we put in front of you;",
@@ -112,12 +134,12 @@ export default function TermsAndConditions() {
 
       <LegalH2>4. Fees</LegalH2>
       <LegalP>
-        Fees for the Service (plans, setup, implementation, access) are as quoted on our site,
+        Fees for the Service (prepaid AI Growth Credits, plans, setup, implementation, access) are as quoted on our site,
         invoice, checkout, or written proposal, plus taxes (including GST where applicable).
       </LegalP>
       <LegalP>
-        Payment is due as stated at checkout or on the invoice. Annual plans are typically charged
-        as a period fee. Monthly plans renew until cancelled.
+        Payment is due as stated at checkout or on the invoice. A monthly or annual price loads
+        credits for that period. Monthly plans renew until cancelled.
       </LegalP>
       <LegalP>
         <strong className="text-white">Unpaid fees may result in suspension.</strong> Suspension for non-payment is not
@@ -130,15 +152,17 @@ export default function TermsAndConditions() {
 
       <LegalH2>5. Refund policy</LegalH2>
       <LegalP>
-        <strong className="text-white">Default rule: fees are non-refundable.</strong>
+        <strong className="text-white">Default rule: fees are non-refundable except for unused credits as set out below.</strong>
       </LegalP>
       <LegalP>
-        A refund is available <strong className="text-white">only if we do not provide the Service you paid for.</strong>
+        A refund of unused AI Growth Credits (or the unused portion we reasonably determine) is available{" "}
+        <strong className="text-white">only if we do not provide the Service you paid for.</strong>
+        Ad spend is never refunded. The Grievance Officer SLA is separate from refunds.
       </LegalP>
 
       <LegalH3>5.1 Eligibility and review</LegalH3>
       <LegalP>
-        At BOOSTMYSITES, we want our customers to feel confident when purchasing our services.
+        At {BRAND.legalName}, we want our customers to feel confident when purchasing our services.
         Accordingly, eligible customers may request a refund subject to the terms, conditions, and
         assessment process outlined below.
       </LegalP>
@@ -150,7 +174,7 @@ export default function TermsAndConditions() {
       <LegalP>
         Refund requests must be submitted within the applicable refund period and must include
         sufficient details regarding the reason for the request. Upon receiving a request,
-        BOOSTMYSITES may review the relevant account, communications, project status, deliverables,
+        {BRAND.legalName} may review the relevant account, communications, project status, deliverables,
         work completed, and other circumstances necessary to determine whether the request
         satisfies the requirements of this policy.
       </LegalP>
@@ -173,11 +197,11 @@ export default function TermsAndConditions() {
       </LegalP>
       <LegalP>
         For services involving third-party platforms, advertising budgets, external services,
-        software licenses, transaction fees, or other costs incurred specifically for the customer,
+        platform fees, transaction fees, or other costs incurred specifically for the customer,
         such amounts may be taken into consideration when determining the applicable refund amount.
       </LegalP>
       <LegalP>
-        If a refund is approved, BOOSTMYSITES will confirm the approved amount and applicable
+        If a refund is approved, {BRAND.legalName} will confirm the approved amount and applicable
         refund method with the customer. Depending on the circumstances, the approved refund may
         represent the full amount paid or an appropriate portion of the payment.
       </LegalP>
@@ -186,7 +210,7 @@ export default function TermsAndConditions() {
         under applicable consumer protection laws.
       </LegalP>
       <LegalP>
-        By purchasing a service from BOOSTMYSITES, the customer acknowledges and agrees that
+        By purchasing a service from {BRAND.legalName}, the customer acknowledges and agrees that
         refunds are available subject to the eligibility requirements and review process described
         in this policy.
       </LegalP>
@@ -198,7 +222,7 @@ export default function TermsAndConditions() {
       </LegalP>
       <LegalOl
         items={[
-          "You paid us for a defined Service (plan, setup, or implementation).",
+          "You paid us for prepaid AI Growth Credits or a defined Service (plan, setup, or implementation).",
           <>
             After payment, <strong className="text-white">we failed to make that Service available</strong>. For
             example we did not grant account access, did not commence agreed implementation, or did
@@ -313,6 +337,26 @@ export default function TermsAndConditions() {
         claim to host your full chat history.
       </LegalP>
       <LegalP>
+        How we process WhatsApp messages and voice or AI-assisted calls, including when AI calling
+        is used and those calls may be transcribed, is set out in our{" "}
+        <Link to="/privacy-policy" className="impact-highlight underline-offset-2 hover:underline">
+          Privacy policy
+        </Link>
+        . Consent for those contacts is collected on the form you submit.
+      </LegalP>
+      <LegalP>
+        You may opt out of WhatsApp messages by replying STOP, or by emailing{" "}
+        <a
+          className="impact-highlight underline-offset-2 hover:underline"
+          href="mailto:boostmysitescom@gmail.com"
+        >
+          boostmysitescom@gmail.com
+        </a>
+        . You may opt out of further marketing or AI sales calls by emailing that address with
+        your number, or by asking on the call. Transactional or service messages already in
+        progress may still send where the law allows.
+      </LegalP>
+      <LegalP>
         Each party will keep the other&apos;s non-public business information confidential, except
         where disclosure is required by law or needed to provide the Service (including
         subprocessors such as payment and hosting).
@@ -379,13 +423,22 @@ export default function TermsAndConditions() {
       <LegalH2>Summary of refunds</LegalH2>
       <LegalP>
         This paragraph is a convenience summary only and does not replace section 5. Eligible
-        customers may request a refund where the agreed Service has not been provided substantially
+        customers may request a refund of unused AI Growth Credits where the agreed Service has not been provided substantially
         in accordance with the scope agreed at purchase. Requests are reviewed and are not issued
         automatically. Where part of the Service has already been delivered, any refund granted may
         be adjusted for work performed, resources committed, or third-party costs incurred on the
         customer&apos;s behalf. Unsatisfactory advertising performance, lead volume, or return on
         ad spend is not grounds for a refund. Advertising spend paid to third-party platforms is
-        never refunded by BOOSTMYSITES.
+        never refunded by {BRAND.legalName}.
+      </LegalP>
+      <LegalH2>Complaints</LegalH2>
+      <LegalP>
+        Complaints about this website, AI Growth Credits, a payment, or your data should go to our{" "}
+        <Link to="/legal/contact" className="impact-highlight underline-offset-2 hover:underline">
+          Grievance Officer
+        </Link>
+        . We acknowledge complaints within 2 business days and aim to resolve them within 14
+        business working days of acknowledgement. That clock is separate from refunds.
       </LegalP>
     </LegalPageShell>
   );

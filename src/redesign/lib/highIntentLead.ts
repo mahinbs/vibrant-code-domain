@@ -25,4 +25,7 @@ export type HighIntentLeadSubmitInput = {
   sourcePage: string;
   /** When opened from homepage Services modal — stored inside payload JSON */
   serviceModal?: { id: string; title: string };
+  consent_whatsapp?: boolean;
+  consent_voice?: boolean;
+  consent_at?: string;
 } & HighIntentLeadPayload;

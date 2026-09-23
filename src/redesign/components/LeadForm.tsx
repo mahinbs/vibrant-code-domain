@@ -6,6 +6,14 @@ import { isMetaConversionSourcePage } from "@/lib/analytics/metaScope";
 import { saveLeadThankYouReturnPath } from "../lib/leadThankYou";
 import { submitLead, type HighIntentLeadSubmitInput } from "../lib/submitLead";
 import type { HighIntentLeadPayload } from "../lib/highIntentLead";
+import {
+  CONSENT_REQUIRED_MESSAGE,
+  bothConsentsGiven,
+  contactConsentSnapshot,
+  emptyContactConsent,
+  type ContactConsentState,
+} from "../lib/contactConsent";
+import { ContactConsent } from "./ContactConsent";
 
 export type LeadVertical = "none" | "fintech" | "healthcare";
 
@@ -288,6 +296,8 @@ export function LeadForm({
   const [serverError, setServerError] = useState<string | null>(null);
   const [countryCode, setCountryCode] = useState<string>(DEFAULT_COUNTRY);
   const [nationalNumber, setNationalNumber] = useState<string>("");
+  const [consent, setConsent] = useState<ContactConsentState>(emptyContactConsent);
+  const [consentError, setConsentError] = useState<string | null>(null);
 
   const isAutomation = vertical === "none";
   // Homepage is now AI Client Acquisition; keep legacy source id working too.
@@ -381,6 +391,11 @@ export function LeadForm({
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (!validateCurrentStep()) return;
+    if (!bothConsentsGiven(consent)) {
+      setConsentError(CONSENT_REQUIRED_MESSAGE);
+      return;
+    }
+    const snapshot = contactConsentSnapshot(consent);
     setStatus("submitting");
     setServerError(null);
     const input: HighIntentLeadSubmitInput = {
@@ -400,6 +415,9 @@ export function LeadForm({
       company: values.company,
       website: values.website,
       serviceModal,
+      consent_whatsapp: snapshot?.consent_whatsapp,
+      consent_voice: snapshot?.consent_voice,
+      consent_at: snapshot?.consent_at,
     };
     const res = await submitLead(input);
     if (res.ok) {
@@ -642,6 +660,19 @@ export function LeadForm({
 
       {serverError ? <p className={compact ? "text-[11px] text-red-300/90" : "text-[13px] text-red-300/90"}>{serverError}</p> : null}
 
+      {step === 3 ? (
+        <ContactConsent
+          value={consent}
+          onChange={(next) => {
+            setConsent(next);
+            if (consentError) setConsentError(null);
+          }}
+          error={consentError ?? undefined}
+          compact={compact}
+          idPrefix="lead-consent"
+        />
+      ) : null}
+
       <div className={compact ? "flex items-center gap-2" : "mt-1 flex items-center gap-2"}>
         {step > 1 ? (
           <button
@@ -663,7 +694,7 @@ export function LeadForm({
         ) : (
           <button
             type="submit"
-            disabled={status === "submitting"}
+            disabled={status === "submitting" || !bothConsentsGiven(consent)}
             className={compact ? "btn-gloss relative inline-flex flex-1 items-center justify-center gap-2 overflow-hidden rounded-[10px] border border-white/20 bg-purple/70 px-4 py-2.5 text-[13px] font-medium text-white shadow-[inset_0_0_6px_3px_rgba(255,255,255,0.2)] transition-opacity disabled:opacity-60" : "btn-gloss relative inline-flex flex-1 items-center justify-center gap-2 overflow-hidden rounded-[10px] border border-white/20 bg-purple/70 px-5 py-[15px] text-sm font-medium text-white shadow-[inset_0_0_6px_3px_rgba(255,255,255,0.2)] transition-opacity disabled:opacity-60"}
           >
             <span className="relative z-[2]">

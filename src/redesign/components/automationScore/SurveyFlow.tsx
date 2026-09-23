@@ -277,6 +277,9 @@ export function SurveyFlow({
       company: contact.company,
       website: contact.website,
       sourcePage,
+      consent_whatsapp: contact.consent_whatsapp,
+      consent_voice: contact.consent_voice,
+      consent_at: contact.consent_at,
       survey: {
         industry: state.industryId,
         industryLabel: industry.label,

@@ -4,6 +4,14 @@ import { Helmet } from "react-helmet-async";
 import { SiteBackground } from "../components/SiteBackground";
 import { CheckIcon, ArrowRightIcon } from "../components/icons";
 import { submitStrategyCallLead } from "../lib/submitLead";
+import {
+  CONSENT_REQUIRED_MESSAGE,
+  bothConsentsGiven,
+  contactConsentSnapshot,
+  emptyContactConsent,
+  type ContactConsentState,
+} from "../lib/contactConsent";
+import { ContactConsent } from "../components/ContactConsent";
 
 /** Branded keywords we nudge visitors to search on Google. */
 const KEYWORDS = [
@@ -30,6 +38,8 @@ export default function FreeAutomationCourse() {
   const [form, setForm] = useState({ name: "", email: "", phone: "" });
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [error, setError] = useState<string | null>(null);
+  const [consent, setConsent] = useState<ContactConsentState>(emptyContactConsent);
+  const [consentError, setConsentError] = useState<string | null>(null);
   const [searchedCount, setSearchedCount] = useState(0);
 
   // Keyword popup state
@@ -87,13 +97,18 @@ export default function FreeAutomationCourse() {
     if (!form.name.trim()) return setError("Please enter your name.");
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) return setError("Enter a valid email.");
     if (form.phone.replace(/\D/g, "").length < 7) return setError("Enter a valid WhatsApp number.");
+    if (!bothConsentsGiven(consent)) return setConsentError(CONSENT_REQUIRED_MESSAGE);
 
+    const snapshot = contactConsentSnapshot(consent);
     setStatus("submitting");
     const res = await submitStrategyCallLead({
       name: form.name,
       email: form.email,
       phone: form.phone,
       sourcePage: "free-ai-automation-course",
+      consent_whatsapp: snapshot?.consent_whatsapp,
+      consent_voice: snapshot?.consent_voice,
+      consent_at: snapshot?.consent_at,
     });
     if (res.ok) {
       setStatus("success");
@@ -230,10 +245,19 @@ export default function FreeAutomationCourse() {
                     autoComplete="tel"
                     className="w-full rounded-lg border border-white/15 bg-black/40 p-3.5 text-sm text-white placeholder:text-white/40 focus:border-white/40 focus:outline-none"
                   />
+                  <ContactConsent
+                    value={consent}
+                    onChange={(next) => {
+                      setConsent(next);
+                      if (consentError) setConsentError(null);
+                    }}
+                    error={consentError ?? undefined}
+                    idPrefix="course-consent"
+                  />
                   {error ? <p className="text-[13px] text-red-300/90">{error}</p> : null}
                   <button
                     type="submit"
-                    disabled={status === "submitting"}
+                    disabled={status === "submitting" || !bothConsentsGiven(consent)}
                     className="btn-gloss relative mt-1 inline-flex items-center justify-center gap-2 overflow-hidden rounded-[10px] border border-white/20 bg-purple/80 px-5 py-3.5 text-sm font-semibold text-white shadow-[inset_0_0_6px_3px_rgba(255,255,255,0.2)] disabled:opacity-60"
                   >
                     <span className="relative z-[2]">

@@ -4,7 +4,7 @@ import { TrustMetricsRow, type TrustMetric } from "./TrustMetricsRow";
 
 type FeaturedInTrustBandProps = {
   pressItems: PressItem[];
-  metrics: readonly TrustMetric[];
+  metrics?: readonly TrustMetric[];
   marquee?: boolean;
 };
 
@@ -15,7 +15,7 @@ export function FeaturedInTrustBand({ pressItems, metrics, marquee = false }: Fe
       aria-label="Trust and credibility"
     >
       <FounderTrustPress items={pressItems} separated={!marquee} marquee={marquee} />
-      <TrustMetricsRow items={metrics} />
+      {metrics && metrics.length > 0 ? <TrustMetricsRow items={metrics} /> : null}
     </section>
   );
 }

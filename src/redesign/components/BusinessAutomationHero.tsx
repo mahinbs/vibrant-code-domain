@@ -41,6 +41,8 @@ export type BusinessAutomationHeroContent = {
   badgeTag?: string;
   badgeLabel?: string;
   headline?: ReactNode;
+  /** Supporting lines rendered after the h1 (not part of the heading). */
+  headlineExtra?: ReactNode;
   /** Static subcopy — disables the rotating hero items when set. */
   subcopy?: ReactNode;
   /** Secondary CTA when score CTA is the purple primary (e.g. watch videos). */
@@ -182,22 +184,25 @@ export function BusinessAutomationHero({
               </span>
             </div>
 
-            <h1
-              id="hero-heading"
-              className="max-w-[860px] font-sans text-[40px] font-medium leading-[0.98em] -tracking-[0.05em] text-white md:text-[64px]"
-            >
-              {content?.headline ?? (
-                <>
-                  Businesses that don&apos;t
-                  <br />
-                  <span className="impact-highlight">automate</span>
-                  <br />
-                  <span className="text-white/65">don&apos;t just fall behind.</span>
-                  <br />
-                  They <span className="impact-highlight">disappear</span>.
-                </>
-              )}
-            </h1>
+            <div>
+              <h1
+                id="hero-heading"
+                className="max-w-[860px] font-sans text-[40px] font-medium leading-[0.98em] -tracking-[0.05em] text-white md:text-[64px]"
+              >
+                {content?.headline ?? (
+                  <>
+                    Businesses that don&apos;t
+                    <br />
+                    <span className="impact-highlight">automate</span>
+                    <br />
+                    <span className="text-white/65">don&apos;t just fall behind.</span>
+                    <br />
+                    They <span className="impact-highlight">disappear</span>.
+                  </>
+                )}
+              </h1>
+              {content?.headlineExtra ? <div className="max-w-[860px]">{content.headlineExtra}</div> : null}
+            </div>
 
             <p className="max-w-[760px] text-xl font-normal -tracking-[0.01em] leading-[1.4em] text-white/70 max-md:text-base">
               {content?.subcopy ?? (

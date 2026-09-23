@@ -47,8 +47,8 @@ const SEQ_KEY = "bms_invoice_seq_v1";
 const DRAFT_KEY = "bms_invoice_draft_v1";
 
 const DEFAULT_COMPANY: Company = {
-  legalName: "Triple Seven Boostmysites AI Solutions Private Limited",
-  address: "Bengaluru, Karnataka, India",
+  legalName: "Triple-Seven BoostMySites AI Solutions Private Limited",
+  address: "#137, 3rd Main Cross, Dollars Colony, 4th Phase JP Nagar, Bengaluru, Karnataka 560076",
   gstin: "",
   stateName: "Karnataka",
   stateCode: "29",

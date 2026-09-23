@@ -5,12 +5,13 @@ import { getRouteMeta } from "@/lib/routeMeta";
 /** Default document title and meta description per route; pages may override with their own <Helmet>. */
 const RouteMeta = () => {
   const { pathname } = useLocation();
-  const { title, description } = getRouteMeta(pathname);
+  const { title, description, robots } = getRouteMeta(pathname);
 
   return (
     <Helmet>
       <title>{title}</title>
       <meta name="description" content={description} />
+      {robots ? <meta name="robots" content={robots} /> : null}
     </Helmet>
   );
 };

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
+import { BRAND } from "@/lib/seo/brand";
 import {
   LegalH2,
-  LegalH3,
   LegalOl,
   LegalP,
   LegalPageShell,
@@ -13,7 +13,7 @@ export default function RefundPolicy() {
   return (
     <LegalPageShell
       title="Refund Policy | Boostmysites"
-      description="BOOSTMYSITES refund policy. Eligible customers may request a refund subject to review. Ad spend is never refunded."
+      description="Refund policy for unused AI Growth Credits. Ad spend on Meta, Google, and other platforms is never refunded."
       eyebrow="Legal"
       heading={
         <>
@@ -22,30 +22,40 @@ export default function RefundPolicy() {
       }
     >
       <LegalP>
+        {BRAND.legalName} (&quot;we&quot;, &quot;us&quot;)
+        <br />
+        Product: Boostmysites
+        <br />
         Website:{" "}
-        <a className="impact-highlight underline-offset-2 hover:underline" href="https://www.boostmysites.com">
-          https://www.boostmysites.com
+        <a className="impact-highlight underline-offset-2 hover:underline" href={BRAND.siteUrl}>
+          {BRAND.siteUrl}
         </a>
+        <br />
+        Registered office: {BRAND.registeredAddressLine}
         <br />
         Contact:{" "}
         <a className="impact-highlight underline-offset-2 hover:underline" href={whatsappHref} target="_blank" rel="noopener noreferrer">
-          WhatsApp +91 96329 53355
-        </a>{" "}
-        · www.boostmysites.com
+          WhatsApp {BRAND.phone}
+        </a>
       </LegalP>
       <LegalP>
-        This page is the refund policy for BOOSTMYSITES Service fees (plans, setup,
-        implementation, and access). It is part of our{" "}
+        This page is the refund policy for prepaid AI Growth Credits and related Service fees
+        (plans, setup, implementation, and access). It is part of our{" "}
         <Link to="/terms-and-conditions" className="impact-highlight underline-offset-2 hover:underline">
           Terms and conditions
         </Link>
         . Ad spend on Meta, Google, and other platforms is your money paid to those platforms. We
-        do not collect or refund that spend.
+        do not collect or refund that spend. The{" "}
+        <Link to="/legal/contact" className="impact-highlight underline-offset-2 hover:underline">
+          Grievance Officer
+        </Link>{" "}
+        SLA (acknowledge in 2 business days, resolve within 14 business working days) is separate
+        from refunds.
       </LegalP>
 
       <LegalH2>Eligibility and review</LegalH2>
       <LegalP>
-        At BOOSTMYSITES, we want our customers to feel confident when purchasing our services.
+        At {BRAND.legalName}, we want our customers to feel confident when purchasing our services.
         Accordingly, eligible customers may request a refund subject to the terms, conditions, and
         assessment process outlined below.
       </LegalP>
@@ -57,7 +67,7 @@ export default function RefundPolicy() {
       <LegalP>
         Refund requests must be submitted within the applicable refund period and must include
         sufficient details regarding the reason for the request. Upon receiving a request,
-        BOOSTMYSITES may review the relevant account, communications, project status, deliverables,
+        {BRAND.legalName} may review the relevant account, communications, project status, deliverables,
         work completed, and other circumstances necessary to determine whether the request
         satisfies the requirements of this policy.
       </LegalP>
@@ -80,11 +90,11 @@ export default function RefundPolicy() {
       </LegalP>
       <LegalP>
         For services involving third-party platforms, advertising budgets, external services,
-        software licenses, transaction fees, or other costs incurred specifically for the customer,
+        platform fees, transaction fees, or other costs incurred specifically for the customer,
         such amounts may be taken into consideration when determining the applicable refund amount.
       </LegalP>
       <LegalP>
-        If a refund is approved, BOOSTMYSITES will confirm the approved amount and applicable
+        If a refund is approved, {BRAND.legalName} will confirm the approved amount and applicable
         refund method with the customer. Depending on the circumstances, the approved refund may
         represent the full amount paid or an appropriate portion of the payment.
       </LegalP>
@@ -93,17 +103,19 @@ export default function RefundPolicy() {
         under applicable consumer protection laws.
       </LegalP>
       <LegalP>
-        By purchasing a service from BOOSTMYSITES, the customer acknowledges and agrees that
+        By purchasing a service from {BRAND.legalName}, the customer acknowledges and agrees that
         refunds are available subject to the eligibility requirements and review process described
         in this policy.
       </LegalP>
 
       <LegalH2>Default rule</LegalH2>
       <LegalP>
-        <strong className="text-white">Fees are non-refundable.</strong>
+        <strong className="text-white">Fees are non-refundable except for unused AI Growth Credits as set out below.</strong>
       </LegalP>
       <LegalP>
-        A refund is available <strong className="text-white">only if we do not provide the Service you paid for.</strong>
+        A refund of unused credits (or the unused portion we reasonably determine) is available{" "}
+        <strong className="text-white">only if we do not provide the Service you paid for.</strong>
+        Ad spend is never refunded.
       </LegalP>
 
       <LegalH2>What &quot;we do not provide the Service&quot; means</LegalH2>
@@ -113,7 +125,7 @@ export default function RefundPolicy() {
       </LegalP>
       <LegalOl
         items={[
-          "You paid us for a defined Service (plan, setup, or implementation).",
+          "You paid us for prepaid AI Growth Credits or a defined Service (plan, setup, or implementation).",
           <>
             After payment, <strong className="text-white">we failed to make that Service available</strong>. For
             example we did not grant account access, did not commence agreed implementation, or did
@@ -174,13 +186,20 @@ export default function RefundPolicy() {
       <LegalH2>Summary</LegalH2>
       <LegalP>
         This paragraph is a convenience summary only and does not replace the refund rules above.
-        Eligible customers may request a refund where the agreed Service has not been provided
-        substantially in accordance with the scope agreed at purchase. Requests are reviewed and
+        Eligible customers may request a refund of unused AI Growth Credits where the agreed Service has not been
+        provided substantially in accordance with the scope agreed at purchase. Requests are reviewed and
         are not issued automatically. Where part of the Service has already been delivered, any
         refund granted may be adjusted for work performed, resources committed, or third-party
         costs incurred on the customer&apos;s behalf. Unsatisfactory advertising performance, lead
         volume, or return on ad spend is not grounds for a refund. Advertising spend paid to
-        third-party platforms is never refunded by BOOSTMYSITES.
+        third-party platforms is never refunded by {BRAND.legalName}.
+      </LegalP>
+      <LegalP>
+        Complaints that are not refund requests should go to our{" "}
+        <Link to="/legal/contact" className="impact-highlight underline-offset-2 hover:underline">
+          Grievance Officer
+        </Link>
+        .
       </LegalP>
     </LegalPageShell>
   );

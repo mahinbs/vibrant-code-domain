@@ -1,4 +1,5 @@
 import { memo, useEffect, useMemo, useRef } from "react";
+import { Helmet } from "react-helmet-async";
 import fintechIsometricHtml from "../assets/fintech_isometric_build.html?raw";
 
 const SCRIPT_REGEX = /<script>([\s\S]*?)<\/script>/i;
@@ -92,10 +93,19 @@ export const FintechIsometricBuild = memo(function FintechIsometricBuild() {
   }, []);
 
   return (
+    <>
+      <Helmet>
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.26.0/dist/tabler-icons.min.css"
+          crossOrigin="anonymous"
+        />
+      </Helmet>
     <div
       ref={rootRef}
       className="w-full"
       dangerouslySetInnerHTML={{ __html: markup }}
     />
+    </>
   );
 });

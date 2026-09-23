@@ -46,12 +46,12 @@ const CloudComputingPage = lazy(() => import("./pages/CloudComputingPage"));
 const ChatbotDevelopmentPage = lazy(
   () => import("./pages/ChatbotDevelopmentPage")
 );
-const ReviewsPage = lazy(() => import("./pages/ReviewsPage"));
 const ThankYouPage = lazy(() => import("./redesign/pages/ThankYou"));
 const PrivacyPolicy = lazy(() => import("./redesign/pages/PrivacyPolicy"));
 const TermsAndConditions = lazy(() => import("./redesign/pages/TermsAndConditions"));
 const RefundPolicy = lazy(() => import("./redesign/pages/RefundPolicy"));
 const UserDataDeletion = lazy(() => import("./redesign/pages/UserDataDeletion"));
+const GrievanceOfficer = lazy(() => import("./redesign/pages/GrievanceOfficer"));
 const AieTermsAndConditions = lazy(() => import("./pages/TermsAndConditions"));
 const PlacementProgramsPage = lazy(
   () => import("./pages/PlacementProgramsPage")
@@ -468,15 +468,7 @@ const App = () => {
                 path="/ai-automation"
                 element={<Navigate to="/business-automation" replace />}
               />
-              <Route
-                path="/reviews"
-                element={
-                  <>
-                    <FloatingWhatsAppButton />
-                    <ReviewsPage />
-                  </>
-                }
-              />
+              <Route path="/reviews" element={<Navigate to="/" replace />} />
               <Route
                 path="/thank-you"
                 element={
@@ -514,6 +506,14 @@ const App = () => {
                 element={
                   <RedesignShell>
                     <UserDataDeletion />
+                  </RedesignShell>
+                }
+              />
+              <Route
+                path="/legal/contact"
+                element={
+                  <RedesignShell>
+                    <GrievanceOfficer />
                   </RedesignShell>
                 }
               />

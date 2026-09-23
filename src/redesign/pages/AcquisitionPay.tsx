@@ -55,7 +55,7 @@ const NAV_LINKS: ReadonlyArray<NavLinkItem> = [
   { label: "How it works", href: "/#demo" },
   { label: "Features", href: "/#features" },
   { label: "Pricing", href: "/#pricing" },
-  { label: "Reviews", href: "/#reviews" },
+  { label: "Log in", href: site.productUrl, external: true },
 ];
 
 const NAV_CTA = { label: "Get my acquisition plan", href: "/#contact-form" } as const;

@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import { Helmet } from "react-helmet-async";
 import fintechHealthcareSectionHtml from "../assets/fintech_healthcare_section.html?raw";
 
 /**
@@ -17,6 +18,14 @@ export function FintechHealthcareSection() {
     );
 
   return (
+    <>
+      <Helmet>
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.26.0/dist/tabler-icons.min.css"
+          crossOrigin="anonymous"
+        />
+      </Helmet>
     <section
       className="expertise-embed-band relative flex w-full max-w-[1920px] flex-col gap-4 overflow-x-hidden px-5 pt-[55px] pb-[15px] md:px-10"
       style={
@@ -36,5 +45,6 @@ export function FintechHealthcareSection() {
       }
       dangerouslySetInnerHTML={{ __html: sectionHtml }}
     />
+    </>
   );
 }

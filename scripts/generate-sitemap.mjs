@@ -30,33 +30,26 @@ const STATIC_ROUTES = [
   "/ux-ui-design",
   "/saas",
   "/ai-development",
-  "/game-development",
-  "/ar-vr-development",
-  "/blockchain-development",
-  "/iot-development",
   "/data-analytics",
   "/cloud-computing",
   "/chatbot-development",
   "/ai-automation",
-  "/reviews",
+  "/business-automation",
   "/thank-you",
   "/digital-transformation",
   "/privacy-policy",
   "/terms-and-conditions",
   "/refund-policy",
   "/user-data-deletion",
+  "/legal/contact",
   "/index.php/aie-termsconditions",
   "/partnership",
-  "/placement-programs",
-  "/ai-freelancing",
-  "/ai-freelancing/thank-you",
   "/ai-calling",
   "/app-ideas-lab",
   "/app-ideas",
   "/signup",
   "/build-your-tech-company",
   "/startup-launch",
-  "/ai-stock-prediction",
   "/fintech-founder",
   "/fintech-landing",
   "/founder-partnership",
@@ -74,6 +67,18 @@ const STATIC_ROUTES = [
   "/for-llm.txt",
   "/llms.txt",
 ];
+
+const EXCLUDED_ROUTES = new Set([
+  "/reviews",
+  "/ai-stock-prediction",
+  "/blockchain-development",
+  "/game-development",
+  "/ar-vr-development",
+  "/iot-development",
+  "/placement-programs",
+  "/ai-freelancing",
+  "/ai-freelancing/thank-you",
+]);
 
 const DYNAMIC_PREFIXES = ["/blog/", "/case-study/", "/work/"];
 
@@ -203,6 +208,7 @@ function keepOnlyConcreteRoutes(routes) {
     if (!route) return false;
     if (route.includes(":")) return false;
     if (route === "*" || route.startsWith("/admin")) return false;
+    if (EXCLUDED_ROUTES.has(route)) return false;
     return true;
   });
 }
