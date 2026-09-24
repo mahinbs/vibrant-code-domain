@@ -14,7 +14,8 @@ export const site = {
   portfolioUrl: "https://www.boostmysites.in/portfolio",
   appIdeasUrl: "https://www.boostmysites.in/app-ideas",
   /** Product / software lives on .in. Homepage login CTA. */
-  productUrl: "https://boostmysites.in",
+  /** Product (AI ads app) sign-in — proxied under the main domain via vercel.json. */
+  productUrl: "https://www.boostmysites.in/app",
 } as const;
 
 export const navLinks = [
