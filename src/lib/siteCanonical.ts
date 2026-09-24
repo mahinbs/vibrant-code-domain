@@ -6,7 +6,7 @@ export const CANONICAL_ORIGIN = (
   (import.meta.env.VITE_CANONICAL_ORIGIN as string | undefined)?.replace(
     /\/+$/,
     "",
-  ) || "https://www.boostmysites.in"
+  ) || "https://www.boostmysites.com"
 );
 
 /** Build absolute canonical URL for a client pathname (React Router). */

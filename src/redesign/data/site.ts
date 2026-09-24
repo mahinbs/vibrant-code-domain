@@ -11,10 +11,9 @@ export const site = {
     youtube: "https://www.youtube.com/@boostmysites",
     linkedin: "https://www.linkedin.com/company/boostmysites/",
   },
-  portfolioUrl: "https://www.boostmysites.in/portfolio",
-  appIdeasUrl: "https://www.boostmysites.in/app-ideas",
-  /** Product / software lives on .in. Homepage login CTA. */
-  /** Product (AI ads app) sign-in — proxied under the main domain via vercel.json. */
+  portfolioUrl: "https://www.boostmysites.com/portfolio",
+  appIdeasUrl: "https://www.boostmysites.com/app-ideas",
+  /** The product (AI ads app) lives on boostmysites.in — all logins go there. */
   productUrl: "https://www.boostmysites.in/app",
 } as const;
 

@@ -1,6 +1,6 @@
-# LLM index: https://www.boostmysites.in/llms.txt
-# Structured facts: https://www.boostmysites.in/for-llm
-# Plain-text facts: https://www.boostmysites.in/for-llm.txt
+# LLM index: https://www.boostmysites.com/llms.txt
+# Structured facts: https://www.boostmysites.com/for-llm
+# Plain-text facts: https://www.boostmysites.com/for-llm.txt
 
 # Search engines
 User-agent: Googlebot
@@ -88,4 +88,4 @@ Disallow: /signup
 Disallow: /thank-you
 Disallow: /ai-freelancing-thank-you
 
-Sitemap: https://www.boostmysites.in/sitemap.xml
+Sitemap: https://www.boostmysites.com/sitemap.xml

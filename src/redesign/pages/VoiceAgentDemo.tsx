@@ -37,7 +37,7 @@ function demoBrain(input: string, turn: number): string {
   if (/price|cost|charge|budget|fee|how much|expensive/.test(t))
     return "Pricing depends on how many workflows we automate for you. Most projects begin with a free thirty-minute audit, where we map your bottlenecks and give you an exact quote. Would you like to know how the audit works?";
   if (/audit|book|call|meeting|demo|get started|sign up|onboard/.test(t))
-    return "Perfect. The free AI audit is a thirty-minute call where we find three things your team does manually that we can automate this month. You can book it on boostmysites.in, or just message us on WhatsApp. Shall I point you there?";
+    return "Perfect. The free AI audit is a thirty-minute call where we find three things your team does manually that we can automate this month. You can book it on boostmysites.com, or just message us on WhatsApp. Shall I point you there?";
   if (/service|automate|automation|what (can|do) you|offer|help me with|solution/.test(t))
     return "We build AI employees — lead follow-up, WhatsApp sales assistants, invoice and document processing, CRM updates, meeting scheduling, and daily business reports. Which of those sounds like your biggest time sink?";
   if (/whatsapp/.test(t))
@@ -57,7 +57,7 @@ function demoBrain(input: string, turn: number): string {
   if (/human|real|are you (a )?(bot|ai|robot)|voice/.test(t))
     return "Good question — yes, I'm an AI voice agent, a demo of what Boostmysites builds. In the full version I'd be trained on your business data and connected to your CRM, calendar, and WhatsApp.";
   if (/thank|bye|goodbye|that.?s all|no more/.test(t))
-    return "Thanks for trying the demo! If you'd like an agent like this trained on your own business, book a free audit at boostmysites.in. Have a great day!";
+    return "Thanks for trying the demo! If you'd like an agent like this trained on your own business, book a free audit at boostmysites.com. Have a great day!";
   if (turn === 0) return GREETING;
   return "That's a great question. In production I'd be trained on your exact business and data. For this demo, try asking about our services, pricing, how it works, or a real case study.";
 }

@@ -74,7 +74,7 @@ const AppIdeasLabPage = () => {
   return (
     <>
       <Helmet>
-        <title>App Idea Lab | Innovation Showroom | boostmysites.in</title>
+        <title>App Idea Lab | Innovation Showroom | boostmysites.com</title>
         <meta
           name="description"
           content="Explore Boostmysites' Idea Lab - where we prototype the future. Discover our next generation of AI-powered solutions and cutting-edge innovations."
@@ -761,7 +761,7 @@ const AppIdeasLabPage = () => {
               </h3>
               <p className="text-sm text-gray-400 leading-relaxed">
                 The ideas presented here are prototypes and proof-of-concepts
-                developed by the boostmysites.in team. They are presented for
+                developed by the boostmysites.com team. They are presented for
                 illustrative purposes and are subject to availability,
                 customization, and final development scope upon engagement.
               </p>
