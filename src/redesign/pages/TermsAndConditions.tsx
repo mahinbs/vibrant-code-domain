@@ -402,7 +402,7 @@ export default function TermsAndConditions() {
       <LegalH2>14. Changes</LegalH2>
       <LegalP>
         We may update these Terms. The version on this page (or the version we publish at
-        www.boostmysites.com) applies when posted. Continued paid use after a change is acceptance
+        www.boostmysites.in) applies when posted. Continued paid use after a change is acceptance
         of the new Terms for future periods.
       </LegalP>
 

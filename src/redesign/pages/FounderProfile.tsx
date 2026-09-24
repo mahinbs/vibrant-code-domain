@@ -86,7 +86,7 @@ export default function FounderProfile() {
           name="description"
           content="Mahin B S is the Founder & Chairman of Boostmysites — featured on the cover of Entrepreneur's Startups, interviewed by Forbes, and recognised for building AI automation businesses."
         />
-        <link rel="canonical" href="https://www.boostmysites.com/founder" />
+        <link rel="canonical" href="https://www.boostmysites.in/founder" />
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
@@ -94,9 +94,9 @@ export default function FounderProfile() {
             name: "Mahin B S",
             jobTitle: "Founder & Chairman",
             worksFor: { "@type": "Organization", name: "Boostmysites" },
-            url: "https://www.boostmysites.com/founder",
+            url: "https://www.boostmysites.in/founder",
             sameAs: [LINKEDIN],
-            image: `https://www.boostmysites.com${PORTRAIT}`,
+            image: `https://www.boostmysites.in${PORTRAIT}`,
           })}
         </script>
       </Helmet>

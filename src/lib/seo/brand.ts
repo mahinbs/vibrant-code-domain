@@ -17,11 +17,11 @@ export const BRAND = {
   /** Legal / display alternates. Some older copy still uses `Boostmysites`. */
   alternateNames: ['Boostmysites', 'Boost My Sites'],
   /** Primary production origin (no trailing slash). */
-  siteUrl: 'https://www.boostmysites.com',
+  siteUrl: 'https://www.boostmysites.in',
   /** Logo used in JSON-LD + OG fallback. */
-  logoUrl: 'https://www.boostmysites.com/logo.png',
+  logoUrl: 'https://www.boostmysites.in/logo.png',
   /** Default OG image used when a page does not provide its own. */
-  defaultOgImage: 'https://www.boostmysites.com/favicon.png',
+  defaultOgImage: 'https://www.boostmysites.in/favicon.png',
   /** Year founded — used for Organization schema. */
   foundingYear: 2017,
   /** Country code for Organization address. */

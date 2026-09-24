@@ -87,7 +87,7 @@ const ForLlmPage = () => (
               <li>
                 <span className="text-gray-500">Website:</span>{' '}
                 <a className="text-cyan-400 hover:text-cyan-300" href={BRAND.siteUrl}>
-                  www.boostmysites.com
+                  www.boostmysites.in
                 </a>
               </li>
               <li>

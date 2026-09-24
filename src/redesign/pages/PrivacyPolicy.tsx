@@ -43,7 +43,7 @@ export default function PrivacyPolicy() {
       </LegalP>
       <LegalP>
         This is the privacy policy for {BRAND.legalName}. It explains how we
-        collect, use, share, and protect personal information when you visit www.boostmysites.com,
+        collect, use, share, and protect personal information when you visit www.boostmysites.in,
         buy or use prepaid AI Growth Credits, use Boostmysites software, the Companion app, the
         Operator dashboard, related websites, implementation or support, or connect a Meta product
         (Facebook, Instagram, or WhatsApp) to our apps.
@@ -59,7 +59,7 @@ export default function PrivacyPolicy() {
 
       <LegalH2>1. Law and roles</LegalH2>
       <LegalP>
-        {BRAND.legalName} is the Data Fiduciary for personal data collected on www.boostmysites.com
+        {BRAND.legalName} is the Data Fiduciary for personal data collected on www.boostmysites.in
         and on related forms, under the Digital Personal Data Protection Act, 2023.
       </LegalP>
       <LegalP>
@@ -245,7 +245,7 @@ export default function PrivacyPolicy() {
       <LegalH2>14. Changes</LegalH2>
       <LegalP>
         We may update this privacy policy. The version on this page (or the version we publish at
-        www.boostmysites.com) applies when posted. Continued use of the Service after a change is
+        www.boostmysites.in) applies when posted. Continued use of the Service after a change is
         acceptance of the updated policy for future use.
       </LegalP>
 
@@ -287,8 +287,8 @@ export default function PrivacyPolicy() {
         </a>
         <br />
         Website:{" "}
-        <a className="impact-highlight underline-offset-2 hover:underline" href="https://www.boostmysites.com">
-          https://www.boostmysites.com
+        <a className="impact-highlight underline-offset-2 hover:underline" href="https://www.boostmysites.in">
+          https://www.boostmysites.in
         </a>
       </LegalP>
       <LegalP>

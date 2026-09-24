@@ -1,5 +1,9 @@
 const MAIN_NEW_UI_HOSTS = new Set([
+  // .in is the primary public domain now; .com keeps serving the same UI.
+  "www.boostmysites.in",
+  "boostmysites.in",
   "www.boostmysites.com",
+  "boostmysites.com",
   "localhost",
   "127.0.0.1",
   "::1",

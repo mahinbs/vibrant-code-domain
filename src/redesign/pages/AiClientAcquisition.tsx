@@ -1134,7 +1134,7 @@ function DemoVideoPlayer() {
         <span className="size-2.5 rounded-full bg-[#febc2e]" />
         <span className="size-2.5 rounded-full bg-[#28c840]" />
         <span className="ml-3 flex-1 truncate rounded-md border border-white/[0.06] bg-white/[0.04] px-3 py-1 font-mono text-[11px] text-white/45">
-          boostmysites.com
+          boostmysites.in
         </span>
       </div>
 

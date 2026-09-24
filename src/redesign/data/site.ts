@@ -11,8 +11,8 @@ export const site = {
     youtube: "https://www.youtube.com/@boostmysites",
     linkedin: "https://www.linkedin.com/company/boostmysites/",
   },
-  portfolioUrl: "https://www.boostmysites.com/portfolio",
-  appIdeasUrl: "https://www.boostmysites.com/app-ideas",
+  portfolioUrl: "https://www.boostmysites.in/portfolio",
+  appIdeasUrl: "https://www.boostmysites.in/app-ideas",
   /** Product / software lives on .in. Homepage login CTA. */
   productUrl: "https://boostmysites.in",
 } as const;
