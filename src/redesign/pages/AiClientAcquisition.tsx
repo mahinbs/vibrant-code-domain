@@ -58,6 +58,7 @@ const NAV_LINKS: ReadonlyArray<NavLinkItem> = [
       { label: "AI Client Acquisition System", href: "/" },
       { label: "AI Automation", href: "/business-automation" },
       { label: "Digital Transformation", href: "/digital-transformation" },
+      { label: "AI Calling Agent — Live Demo", href: "/voice-demo" },
     ],
   },
   { label: "How it works", href: "#demo" },

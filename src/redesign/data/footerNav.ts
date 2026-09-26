@@ -44,6 +44,7 @@ export const footerColumns: FooterColumn[] = [
       { label: "Our work", href: "/#work" },
       { label: "Get a free audit", href: "/#contact-form" },
       { label: "Digital transformation", href: "/digital-transformation" },
+      { label: "AI calling agent — live demo", href: "/voice-demo" },
     ],
   },
   {
