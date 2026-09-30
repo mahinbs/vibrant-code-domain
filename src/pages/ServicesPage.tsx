@@ -120,7 +120,7 @@ const ServicesPage = () => {
       startingPrice: "$12,000",
       timeline: "8-12 weeks",
       color: "green",
-      route: "/ai-automation",
+      route: "/business-automation",
       popular: true
     },
     {
@@ -168,7 +168,7 @@ const ServicesPage = () => {
       startingPrice: "$4,000",
       timeline: "3-8 weeks",
       color: "pink",
-      route: "/uxui-design"
+      route: "/ux-ui-design"
     },
     {
       id: "data-analytics",

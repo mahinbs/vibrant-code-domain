@@ -100,28 +100,28 @@ const AD_CAMPAIGN_PLATFORMS: ReadonlyArray<{
 
 const FEATURES = [
   {
-    iconSrc: "/brand/stack/ad-campaign.png",
+    iconSrc: "/brand/stack/ad-campaign.webp",
     title: "Ad campaigns",
     desc: "Plan, create, and optimize across Meta, Google, LinkedIn Ads, TikTok, YouTube, Snapchat, and ChatGPT. Paused until you approve.",
     platforms: AD_CAMPAIGN_PLATFORMS,
   },
   {
-    iconSrc: "/brand/stack/whatsapp.png",
+    iconSrc: "/brand/stack/whatsapp.webp",
     title: "WhatsApp automation",
     desc: "Instant reply, qualify, and follow up so every lead gets a response before they go cold.",
   },
   {
-    iconSrc: "/brand/stack/linkedin.png",
+    iconSrc: "/brand/stack/linkedin.webp",
     title: "LinkedIn outreach",
     desc: "Targeted outreach that opens more qualified conversations with the people you actually want to sell to.",
   },
   {
-    iconSrc: "/brand/stack/mail.png",
+    iconSrc: "/brand/stack/mail.webp",
     title: "Email marketing",
     desc: "Sequences that nurture the pipeline and convert interest into booked calls and closed deals.",
   },
   {
-    iconSrc: "/brand/stack/always-on.png",
+    iconSrc: "/brand/stack/always-on.webp",
     title: "Always on",
     desc: "The whole stack runs around the clock so acquisition does not pause when your team clocks out.",
   },

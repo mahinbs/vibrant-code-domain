@@ -203,7 +203,7 @@ const Contact = () => {
       id="contact"
       className="py-20 bg-gradient-to-b from-gray-900 to-black relative overflow-hidden"
       style={{
-        backgroundImage: `url('/lovable-uploads/d0fa4f38-5951-4a69-9df8-13d4faa03aaa.png')`,
+        backgroundImage: `url('/lovable-uploads/d0fa4f38-5951-4a69-9df8-13d4faa03aaa.webp')`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",

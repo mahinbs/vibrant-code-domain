@@ -51,7 +51,7 @@ const About = memo(() => {
         ref={parallaxRef}
         className="absolute inset-0 bg-cover bg-center bg-no-repeat gpu-accelerate"
         style={{
-          backgroundImage: `url('/lovable-uploads/d0fa4f38-5951-4a69-9df8-13d4faa03aaa.png')`,
+          backgroundImage: `url('/lovable-uploads/d0fa4f38-5951-4a69-9df8-13d4faa03aaa.webp')`,
           transform: 'translate3d(0, 0, 0)',
           willChange: 'auto'
         }}

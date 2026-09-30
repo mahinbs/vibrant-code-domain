@@ -124,6 +124,7 @@ async function renderOne(browser, base, route) {
     await page.goto(base + route, { waitUntil: "load", timeout: PAGE_TIMEOUT });
     await page.waitForFunction(() => {
       const root = document.getElementById("root");
+      if (root && /oops! page not found/i.test(root.innerText)) return true; // a dead link: answer now, not after the time limit
       return root && root.innerText.trim().length > 200 && document.head.querySelector('meta[name="description"][data-rh]');
     }, { timeout: PAGE_TIMEOUT });
     await page.waitForNetworkIdle({ idleTime: 500, timeout: 6000 }).catch(() => {});
@@ -135,11 +136,13 @@ async function renderOne(browser, base, route) {
     const links = await page.evaluate(() => [...document.querySelectorAll("a[href]")].map((a) => a.getAttribute("href")).filter((h) => h && h.startsWith("/") && !h.startsWith("//")));
     const html = await snapshot(page, route);
     const title = await page.title();
-    if (/not found/i.test(title) || /page not found/i.test(html.slice(0, 5000))) return { route, skipped: "renders the not-found page" };
+    if (/not found/i.test(title) || /oops! page not found/i.test(html)) return { route, skipped: "renders the not-found page" };
     const out = route === "/" ? path.join(DIST, "index.html") : path.join(DIST, route, "index.html");
     await fs.mkdir(path.dirname(out), { recursive: true });
     await fs.writeFile(out, html);
-    return { route, bytes: html.length, title, links };
+    // A page that asks not to be indexed is still pre-rendered, but is left out of the sitemap.
+    const noindex = /noindex/i.test((html.match(/<meta[^>]+name="robots"[^>]*>/i) || [""])[0]);
+    return { route, bytes: html.length, title, links, noindex };
   } catch (e) {
     return { route, skipped: String(e.message || e).split("\n")[0].slice(0, 120) };
   } finally { await page.close().catch(() => {}); }
@@ -150,11 +153,11 @@ async function renderOne(browser, base, route) {
  * the static files the old sitemap listed (for-llm, llms.txt). A redirect or a not-found page can
  * no longer be listed.
  */
-async function writeSitemap(rendered) {
+async function writeSitemap(rendered, noindex = []) {
   let xml = "";
   try { xml = await fs.readFile(path.join(DIST, "sitemap.xml"), "utf8"); } catch { /* none */ }
   const keep = [...xml.matchAll(/<loc>\s*([^<]+?)\s*<\/loc>/g)].map((m) => m[1]).filter((u) => {
-    try { const p = new URL(u).pathname; return /\.(txt|xml)$/.test(p) || existsSync(path.join(DIST, p.replace(/\/+$/, ""), "index.html")) && SKIP.test(p) === false && !rendered.includes(p.replace(/\/+$/, "") || "/"); } catch { return false; }
+    try { const p = new URL(u).pathname; return /\.(txt|xml)$/.test(p) || existsSync(path.join(DIST, p.replace(/\/+$/, ""), "index.html")) && SKIP.test(p) === false && ![...rendered, ...noindex].includes(p.replace(/\/+$/, "") || "/"); } catch { return false; }
   });
   const today = new Date().toISOString().slice(0, 10);
   const urls = [...new Set([...rendered.map((r) => SITE + (r === "/" ? "/" : r)), ...keep])];
@@ -194,7 +197,7 @@ async function main() {
       const r = await renderOne(browser, base, queue.shift());
       active--;
       results.push(r);
-      log(r.skipped ? `skip ${r.route}: ${r.skipped}` : `ok   ${r.route} (${Math.round(r.bytes / 1024)} KB) — ${r.title}`);
+      log(r.skipped ? `skip ${r.route}: ${r.skipped}` : `ok   ${r.route} (${Math.round(r.bytes / 1024)} KB${r.noindex ? ", noindex — not in sitemap" : ""}) — ${r.title}`);
       for (const href of r.links ?? []) {
         const p = decodeURIComponent(href.split(/[?#]/)[0]).replace(/\/+$/, "") || "/";
         if (seen.size >= MAX || seen.has(p) || SKIP.test(p) || existsSync(path.join(DIST, p, "index.html")) || /\.[a-z0-9]{2,4}$/i.test(p)) continue;
@@ -209,7 +212,7 @@ async function main() {
     log(again.skipped ? `skip ${r.route} (second try): ${again.skipped}` : `ok   ${r.route} (second try) — ${again.title}`);
     Object.assign(r, again, again.skipped ? {} : { skipped: undefined });
   }
-  await writeSitemap(results.filter((r) => !r.skipped).map((r) => r.route));
+  await writeSitemap(results.filter((r) => !r.skipped && !r.noindex).map((r) => r.route), results.filter((r) => r.noindex).map((r) => r.route));
   await browser.close().catch(() => {});
   server.close();
   const ok = results.filter((r) => !r.skipped).length;
