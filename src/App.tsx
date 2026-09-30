@@ -1,4 +1,4 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -169,6 +169,12 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
 
+/** Mounts once the first route has really rendered: the pre-rendered placeholder is not reused after that. */
+const PrerenderConsumed = () => {
+  useEffect(() => { window.__PRERENDERED_HTML__ = undefined; }, []);
+  return null;
+};
+
 const App = () => {
   const hostname =
     typeof window !== "undefined" ? window.location.hostname : "";
@@ -178,7 +184,13 @@ const App = () => {
   const useNewFintechLanding = shouldUseRedesignIndustryLanding(hostname);
   const useNewHealthcareLanding = useNewFintechLanding;
 
-  const routeFallback = (
+  // On a pre-rendered page's first load the placeholder is the pre-rendered page itself (see
+  // main.tsx), so nothing changes on screen while the route's code loads; after that, the usual
+  // dark block.
+  const prerendered = typeof window !== "undefined" ? window.__PRERENDERED_HTML__ : undefined;
+  const routeFallback = prerendered ? (
+    <div style={{ display: "contents" }} dangerouslySetInnerHTML={{ __html: prerendered }} />
+  ) : (
     <div className="min-h-[40vh] w-full bg-black" aria-hidden="true" />
   );
 
@@ -199,6 +211,7 @@ const App = () => {
             <CanonicalLink />
             <RouteMeta />
             <Suspense fallback={routeFallback}>
+              <PrerenderConsumed />
               <Routes>
               <Route
                 path="/"

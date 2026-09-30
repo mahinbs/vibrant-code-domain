@@ -11,11 +11,15 @@ const OUTPUT_PATH = path.join(PUBLIC_DIR, "sitemap.xml");
 const SITE_URL = (process.env.SITE_URL || "https://www.boostmysites.com").replace(/\/+$/, "");
 const TODAY = new Date().toISOString().slice(0, 10);
 
+// The same project the site itself reads (src/integrations/supabase/client.ts) — the old project
+// this used to name no longer exists, and every build silently dropped the blog and portfolio.
+const CLIENT_SRC = await fs.readFile(path.join(ROOT_DIR, "src/integrations/supabase/client.ts"), "utf8").catch(() => "");
 const SUPABASE_URL =
-  process.env.SUPABASE_URL || "https://upxsbhsamorhvnfebvor.supabase.co";
+  process.env.SUPABASE_URL || CLIENT_SRC.match(/SUPABASE_URL\s*=\s*"([^"]+)"/)?.[1] || "https://khxkorrvylcscyqfklxi.supabase.co";
 const SUPABASE_ANON_KEY =
   process.env.SUPABASE_ANON_KEY ||
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVweHNiaHNhbW9yaHZuZmVidm9yIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4OTIyODQsImV4cCI6MjA2NDQ2ODI4NH0.dQGmD8Zo5-PoJj5INy2xM1eUotayKMiGsf5EEkMrB1U";
+  CLIENT_SRC.match(/SUPABASE_PUBLISHABLE_KEY\s*=\s*"([^"]+)"/)?.[1] ||
+  "";
 
 const STATIC_ROUTES = [
   "/",
@@ -67,6 +71,11 @@ const STATIC_ROUTES = [
   "/for-llm.txt",
   "/llms.txt",
 ];
+
+// Routes the app only redirects (<Route path="…" element={<Navigate …/>} />) are not pages: listing
+// them made Google see copies of the page they send people to.
+const APP_SRC = await fs.readFile(path.join(ROOT_DIR, "src/App.tsx"), "utf8").catch(() => "");
+const REDIRECTS = new Set([...APP_SRC.matchAll(/path="([^"]+)"\s+element=\{<Navigate\b/g)].map((m) => m[1]));
 
 const EXCLUDED_ROUTES = new Set([
   "/reviews",
@@ -209,6 +218,7 @@ function keepOnlyConcreteRoutes(routes) {
     if (route.includes(":")) return false;
     if (route === "*" || route.startsWith("/admin")) return false;
     if (EXCLUDED_ROUTES.has(route)) return false;
+    if (REDIRECTS.has(route)) return false;
     return true;
   });
 }

@@ -4,75 +4,74 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- dataLayer before GTM/gtag so the container always finds it (SPA + crawlers). -->
-    <script>window.dataLayer = window.dataLayer || [];</script>
-    <script type="text/javascript">
-      (function(c,l,a,r,i,t,y){
-          c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-          t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-          y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-      })(window, document, "clarity", "script", "wpv9phmclr");
-    </script>
-    
-    <!-- Inter Font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Ads/Analytics injection (disabled on lovable preview domains) -->
+    <!--
+      Tracking. Every pixel's queue (dataLayer/gtag, clarity, fbq, twq) exists from the first line,
+      so no PageView or conversion is lost — but the tracking scripts themselves download only after
+      the page has loaded (or at the visitor's first tap, whichever comes first), so they no longer
+      compete with the page for a phone's CPU. Nothing tracking-related runs while the site is being
+      pre-rendered (window.__PRERENDER__), so a build never counts as a visit.
+    -->
     <script>
-      (function() {
-        const host = location.hostname;
-        const isLovablePreview = /(^|\.)lovable\.app$/i.test(host);
-        if (isLovablePreview) {
-          console.warn('Ads/Analytics disabled on Lovable preview domain:', host);
-          return;
+      window.dataLayer = window.dataLayer || [];
+      (function () {
+        if (window.__PRERENDER__) return;
+        var host = location.hostname;
+        if (/(^|\.)lovable\.app$/i.test(host)) { console.warn('Ads/Analytics disabled on Lovable preview domain:', host); return; }
+
+        var pending = [];
+        function later(src) { pending.push(src); }
+        var loaded = false;
+        function loadAll() {
+          if (loaded) return; loaded = true;
+          pending.forEach(function (src) { var t = document.createElement('script'); t.async = true; t.src = src; document.head.appendChild(t); });
         }
+        window.addEventListener('load', function () { setTimeout(loadAll, 1200); });
+        ['pointerdown', 'keydown', 'scroll', 'touchstart'].forEach(function (ev) { window.addEventListener(ev, loadAll, { once: true, passive: true }); });
 
-        // Load gtag.js for Google Ads/Analytics (AW-10794572231)
-        const gtagScript = document.createElement('script');
-        gtagScript.async = true;
-        gtagScript.src = 'https://www.googletagmanager.com/gtag/js?id=AW-10794572231';
-        document.head.appendChild(gtagScript);
+        // Microsoft Clarity
+        window.clarity = window.clarity || function () { (window.clarity.q = window.clarity.q || []).push(arguments); };
+        later('https://www.clarity.ms/tag/wpv9phmclr');
 
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){ window.dataLayer.push(arguments); }
+        // Google Ads / Analytics (gtag)
+        function gtag() { window.dataLayer.push(arguments); }
         window.gtag = window.gtag || gtag;
         gtag('js', new Date());
         gtag('config', 'AW-10794572231');
         gtag('config', 'AW-18249809652');
         gtag('config', 'AW-18294430151');
         gtag('config', 'G-6RG271FTBN');
+        later('https://www.googletagmanager.com/gtag/js?id=AW-10794572231');
 
         // Google Tag Manager (GTM-PVFCC7LB)
-        (function(w,d,s,l,i){
-          w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});
-          var f=d.getElementsByTagName(s)[0], j=d.createElement(s), dl=l!='dataLayer'?'&l='+l:'';
-          j.async=true; j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
-          f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer','GTM-PVFCC7LB');
+        window.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+        later('https://www.googletagmanager.com/gtm.js?id=GTM-PVFCC7LB');
 
         // Meta Pixel — base code site-wide (SPA: extra PageViews from React on route changes)
-        !function(f,b,e,v,n,t,s)
-        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-        n.queue=[];t=b.createElement(e);t.async=!0;
-        t.src=v;s=b.getElementsByTagName(e)[0];
-        s.parentNode.insertBefore(t,s)}(window, document,'script',
-        'https://connect.facebook.net/en_US/fbevents.js');
+        if (!window.fbq) {
+          var n = window.fbq = function () { n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments); };
+          if (!window._fbq) window._fbq = n;
+          n.push = n; n.loaded = true; n.version = '2.0'; n.queue = [];
+          later('https://connect.facebook.net/en_US/fbevents.js');
+        }
         fbq('init', '903780897993326');
         fbq('init', '1111374821412453');
         fbq('track', 'PageView');
 
         // X (Twitter) conversion tracking — base pixel (site visits, all pages)
-        !function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);
-        },s.version='1.1',s.queue=[],u=t.createElement(n),u.async=!0,u.src='https://static.ads-twitter.com/uwt.js',
-        a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))}(window,document,'script');
-        twq('config','oqroz');
-
+        if (!window.twq) {
+          var q = window.twq = function () { q.exe ? q.exe.apply(q, arguments) : q.queue.push(arguments); };
+          q.version = '1.1'; q.queue = [];
+          later('https://static.ads-twitter.com/uwt.js');
+        }
+        twq('config', 'oqroz');
       })();
     </script>
+
+    <!-- Inter: loaded without blocking the first paint (font-display: swap) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"></noscript>
 
     <title>Boostmysites - AI-Powered Software Solutions</title>
     <meta name="description" content="Transform your business with Boostmysites' innovative AI-powered software solutions. Web development, mobile apps, SaaS, and digital marketing services." />
