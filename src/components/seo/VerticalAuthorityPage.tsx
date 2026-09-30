@@ -1,10 +1,11 @@
-import { ReactNode } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import JsonLd from '@/components/seo/JsonLd';
 import { BRAND } from '@/lib/seo/brand';
+import { getCombinedBlogs } from '@/services/blogDataService';
 
 export interface ComparisonRow {
   provider: string;
@@ -88,6 +89,23 @@ const VerticalAuthorityPage = ({
   children,
 }: VerticalAuthorityPageProps) => {
   const canonical = `${BRAND.siteUrl}/${slug}`;
+
+  // Only link posts that exist, by their titles — a slug with no post sent readers back to /blogs.
+  const [relatedBlogs, setRelatedBlogs] = useState<{ slug: string; title: string }[]>([]);
+  useEffect(() => {
+    if (relatedBlogSlugs.length === 0) return;
+    let live = true;
+    getCombinedBlogs()
+      .then((all) => {
+        if (!live) return;
+        setRelatedBlogs(relatedBlogSlugs.flatMap((s) => {
+          const post = all.find((b) => b.slug === s);
+          return post ? [{ slug: s, title: post.title }] : [];
+        }));
+      })
+      .catch(() => {});
+    return () => { live = false; };
+  }, [relatedBlogSlugs.join('|')]);
 
   const serviceJsonLd: Record<string, unknown> = {
     '@context': 'https://schema.org',
@@ -263,7 +281,7 @@ const VerticalAuthorityPage = ({
             </section>
           )}
 
-          {(relatedBlogSlugs.length > 0 || relatedVerticals.length > 0) && (
+          {(relatedBlogs.length > 0 || relatedVerticals.length > 0) && (
             <section className="grid gap-6 md:grid-cols-2">
               {relatedVerticals.length > 0 && (
                 <div className="space-y-2">
@@ -279,14 +297,14 @@ const VerticalAuthorityPage = ({
                   </ul>
                 </div>
               )}
-              {relatedBlogSlugs.length > 0 && (
+              {relatedBlogs.length > 0 && (
                 <div className="space-y-2">
                   <h2 className="text-xl font-semibold">Recommended reading</h2>
                   <ul className="space-y-1">
-                    {relatedBlogSlugs.map((s) => (
-                      <li key={s}>
-                        <Link to={`/blog/${s}`} className="text-cyan-300 hover:text-cyan-200 underline">
-                          /blog/{s}
+                    {relatedBlogs.map((b) => (
+                      <li key={b.slug}>
+                        <Link to={`/blog/${b.slug}`} className="text-cyan-300 hover:text-cyan-200 underline">
+                          {b.title}
                         </Link>
                       </li>
                     ))}
