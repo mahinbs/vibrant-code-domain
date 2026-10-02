@@ -36,6 +36,8 @@
         function gtag() { window.dataLayer.push(arguments); }
         window.gtag = window.gtag || gtag;
         gtag('js', new Date());
+        // The click an ad brought is carried to www.boostmysites.in, where people sign up.
+        gtag('set', 'linker', { domains: ['boostmysites.com', 'boostmysites.in'] });
         gtag('config', 'AW-10794572231');
         gtag('config', 'AW-18249809652');
         gtag('config', 'AW-18294430151');
