@@ -1,16 +1,7 @@
 /** Google Ads conversion tracking — routed by lead source page. */
 
-import { BMS_LEAD_SOURCES } from "@/redesign/lib/notifyTelegramLead";
-
 const BMS_GOOGLE_ADS_ID = "AW-18249809652";
 const RESHAB_GOOGLE_ADS_ID = "AW-18294430151";
-
-/** Reshab-owned landings (/business-automation, automation score funnel). */
-const RESHAB_LEAD_SOURCES = new Set<string>([
-  "business-automation",
-  "automation-score",
-  "automation-case-studies",
-]);
 
 /** Default label from Google Ads conversion action "Submit lead form (1)". */
 export const RESHAB_LEAD_CONVERSION_SEND_TO =
@@ -64,19 +55,20 @@ export function trackReshabLeadConversionPageLoad(dedupKey: string): void {
   fireConversion(reshabSendTo());
 }
 
-function adsConfigForSource(sourcePage: string): { adsId: string; label: string } | null {
-  const page = (sourcePage || "").trim();
-  if (BMS_LEAD_SOURCES.has(page)) {
-    return { adsId: BMS_GOOGLE_ADS_ID, label: BMS_CONVERSION_LABEL };
-  }
-  // Reshab conversions fire on dedicated page-load URLs, not on submit.
-  if (RESHAB_LEAD_SOURCES.has(page)) {
-    return null;
-  }
-  return null;
+/**
+ * Every lead form on the site reports to the BMS Google Ads account.
+ *
+ * It used to report only from the homepage and the free-course page. A visitor who came from a
+ * BMS ad and sent the form on /contact, a service page or an industry page was never counted, and
+ * the account showed 0 conversions on 3,384 clicks. Google credits a conversion only to a visitor
+ * who arrived on that account's own ad click, so reporting a lead that came from somewhere else
+ * costs nothing and credits nobody. Reshab's account keeps its own page-load conversions.
+ */
+function adsConfigForSource(_sourcePage: string): { adsId: string; label: string } | null {
+  return { adsId: BMS_GOOGLE_ADS_ID, label: BMS_CONVERSION_LABEL };
 }
 
-/** Fires after a successful lead submit on homepage (BMS) forms only. */
+/** Fires after a successful lead submit on any form of the site. */
 export function trackGoogleAdsLeadConversion(sourcePage: string): void {
   if (typeof window === "undefined") return;
   const gtag = (window as unknown as { gtag?: GtagFn }).gtag;
