@@ -4,6 +4,7 @@ import { SeoShell, absUrl } from "./SeoShell";
 import { BlockView, FaqSection, PriceBox, RelatedLinks, SeoHero, SeoLeadForm, faqJsonLd, providerLd } from "./blocks";
 import { HUBS, pagePath, type HubKey } from "./registry";
 import type { SeoPageData } from "./types";
+import { ProductLinkBox } from "./productLinks";
 
 function serviceJsonLd(page: SeoPageData, path: string): Record<string, unknown> {
   const overseas = page.locale && page.locale.hreflang !== "en-IN";
@@ -56,6 +57,7 @@ export function SeoPage({ page }: { page: SeoPageData }) {
         <BlockView key={i} block={b} />
       ))}
       {page.kind !== "compare" ? <PriceBox priceLine={page.locale?.priceLine} /> : null}
+      <ProductLinkBox seed={path} />
       {showOffice ? (
         <section className="mx-auto w-full max-w-[860px] px-5 py-6 md:px-10">
           <h2 className="text-[20px] font-medium text-white">Our office</h2>

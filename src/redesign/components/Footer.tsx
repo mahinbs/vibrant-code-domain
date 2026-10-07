@@ -140,6 +140,12 @@ export function Footer({ whatsappHref: whatsappHrefProp }: { whatsappHref?: stri
             <br />
             GSTIN {BRAND.gstin}
             {BRAND.cin ? ` · CIN ${BRAND.cin}` : ""}
+            <br />
+            Our product,{" "}
+            <a href={site.productHome} target="_blank" rel="noopener" className="underline underline-offset-2 hover:text-white/70">
+              boostmysites.in
+            </a>
+            , runs AI client acquisition on pay-per-result credits.
           </p>
           <div className="flex flex-wrap items-center gap-3">
             {legalLinks.map((item) => (

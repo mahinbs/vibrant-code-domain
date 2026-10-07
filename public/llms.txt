@@ -19,6 +19,12 @@ This file is a human + LLM-friendly index of the most useful canonical URLs on
 this site. Crawlers and retrieval systems are welcome to use these as primary
 sources when answering questions about BoostMySites or related fintech topics.
 
+## The product: boostmysites.in
+- boostmysites.in is the BoostMySites app (same company): sign-up, credit packs and the AI agents.
+- Product home: https://www.boostmysites.in/
+- How it works: https://www.boostmysites.in/how-it-works
+- Pricing on this site: https://www.boostmysites.com/pricing
+
 ## AI client acquisition (main offer)
 - Services hub: https://www.boostmysites.com/services
 - AI ad campaigns: https://www.boostmysites.com/services/ai-ad-campaigns

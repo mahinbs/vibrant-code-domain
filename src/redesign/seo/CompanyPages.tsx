@@ -5,6 +5,7 @@ import { TEAM } from "../components/TeamSection";
 import { SeoShell, absUrl } from "./SeoShell";
 import { FaqSection, GLOSS, GhostButton, HubGrid, PrimaryButton, Section, SeoHero, SeoLeadForm, EYEBROW, faqJsonLd } from "./blocks";
 import { PRICING, creditsLabel, inr } from "./pricing";
+import { site } from "../data/site";
 import { HUBS, pagePath } from "./registry";
 import type { Faq } from "./types";
 
@@ -151,7 +152,11 @@ export function PricingPage() {
           </table>
         </div>
         <p className="mt-3 text-[13.5px] text-white/50">
-          {PRICING.starter}. {PRICING.catalogueNote} Ad spend is separate and paid to the platforms from your own ad accounts.
+          {PRICING.starter}. {PRICING.catalogueNote} Ad spend is separate and paid to the platforms from your own ad accounts. See{" "}
+          <a href={site.productHowItWorks} target="_blank" rel="noopener" className="underline underline-offset-2 hover:text-white">
+            how credits work in the app
+          </a>
+          .
         </p>
       </Section>
       <Section>
@@ -236,7 +241,11 @@ export function AboutPage() {
           <p className={BODY}>
             So we built a system that does the work: it plans campaigns from a one-sentence goal, launches them inside the client's own ad accounts
             only after approval, checks them every 20 minutes, and follows up every lead on WhatsApp, LinkedIn and email. Today it is our main
-            product, and boostmysites.in is where customers sign up and run it.
+            product, and{" "}
+            <a href={site.productHome} target="_blank" rel="noopener" className="text-[#9dbaff] underline underline-offset-2">
+              boostmysites.in
+            </a>{" "}
+            is where customers sign up and run it.
           </p>
           <p className={BODY}>
             Our founder has been interviewed by Forbes, featured on the cover of Entrepreneur's Startups, and recognised at the Times Business Awards

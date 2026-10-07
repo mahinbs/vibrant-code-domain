@@ -6,6 +6,7 @@ import { trackMetaConversion } from "@/lib/analytics/metaConversion";
 import { SeoShell, absUrl } from "./SeoShell";
 import { FaqSection, GLOSS, HubGrid, RelatedLinks, Section, SeoHero, faqJsonLd } from "./blocks";
 import type { Faq } from "./types";
+import { ToolProductCta } from "./productLinks";
 
 /* ------------------------------- helpers ------------------------------- */
 
@@ -469,6 +470,8 @@ type ToolDef = {
   how: string[];
   faqs: Faq[];
   related: { label: string; href: string }[];
+  /** "Run this for real" call to action linking the product on boostmysites.in. */
+  product: { label: string; body: string };
   Tool: () => JSX.Element;
 };
 
@@ -497,6 +500,10 @@ export const TOOLS: ToolDef[] = [
       { label: "Pricing", href: "/pricing" },
       { label: "Lead response calculator", href: "/tools/lead-response-calculator" },
     ],
+    product: {
+      label: "Launch this plan on boostmysites.in",
+      body: "Happy with the budget? In the app, you type your goal and the AI builds the campaigns across Meta, Google and LinkedIn, staged paused until you approve.",
+    },
     Tool: AdBudgetTool,
   },
   {
@@ -523,6 +530,10 @@ export const TOOLS: ToolDef[] = [
       { label: "Leads and CRM", href: "/services/leads-crm" },
       { label: "WhatsApp link generator", href: "/tools/whatsapp-link-generator" },
     ],
+    product: {
+      label: "Answer every lead automatically",
+      body: "Stop losing leads to slow replies. The WhatsApp agent on boostmysites.in answers in seconds, day and night, on your own number. 10 credits per conversation.",
+    },
     Tool: LeadResponseTool,
   },
   {
@@ -549,6 +560,10 @@ export const TOOLS: ToolDef[] = [
       { label: "Lead response calculator", href: "/tools/lead-response-calculator" },
       { label: "Ad copy generator", href: "/tools/ad-copy-generator" },
     ],
+    product: {
+      label: "Set up a WhatsApp agent",
+      body: "Every chat this link starts can be answered by an AI agent trained on your prices, services and hours, then saved to your CRM. Set it up on boostmysites.in.",
+    },
     Tool: WhatsAppLinkTool,
   },
   {
@@ -575,6 +590,10 @@ export const TOOLS: ToolDef[] = [
       { label: "Ad budget calculator", href: "/tools/ad-budget-calculator" },
       { label: "WhatsApp link generator", href: "/tools/whatsapp-link-generator" },
     ],
+    product: {
+      label: "Test this copy for real",
+      body: "On boostmysites.in, AI writes the variations, launches them in your own ad accounts after you approve, and moves budget to the ones that bring leads.",
+    },
     Tool: AdCopyTool,
   },
 ];
@@ -603,6 +622,7 @@ export function ToolPage({ tool }: { tool: ToolDef }) {
       <SeoHero eyebrow="Free tool" h1={tool.h1} intro={tool.intro} actions={<></>} />
       <Section>
         <Tool />
+        <ToolProductCta label={tool.product.label} body={tool.product.body} />
       </Section>
       <Section narrow>
         <h2 className="text-[26px] font-medium leading-[1.15] text-white md:text-[32px]">How it works</h2>

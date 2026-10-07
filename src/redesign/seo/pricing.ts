@@ -10,7 +10,8 @@ export const PRICING = {
   starter: "2,500 credits cost ₹899 + GST in India or $9.99 elsewhere",
   creditsNote:
     "You buy credits once and they only move when something is done: a lead found, an invite sent, a conversation handled, a campaign built. A quiet week costs nothing, and credits never expire. Ad spend is separate and paid to the platforms from your own ad accounts.",
-  signupUrl: site.productUrl,
+  /** Sign-up / buy-credits buttons go to the indexable product homepage (it has the sign-up CTA). */
+  signupUrl: site.productHome,
   /** India packs, prices before 18% GST. */
   packsINR: [
     { credits: 2500, price: 899 },

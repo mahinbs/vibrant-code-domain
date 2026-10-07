@@ -85,6 +85,8 @@ export const footerColumns: FooterColumn[] = [
       { label: "Careers", href: "/careers" },
       { label: "Contact", href: "/contact" },
       { label: "Software development", href: "/services#software" },
+      { label: "The app: boostmysites.in", href: "https://www.boostmysites.in/", external: true },
+      { label: "How the app works", href: "https://www.boostmysites.in/how-it-works", external: true },
       { label: "Log in", href: "https://www.boostmysites.in/app", external: true },
     ],
   },

@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { SeoShell, absUrl } from "./SeoShell";
 import { HubGrid, PriceBox, Section, SeoHero, SeoLeadForm, EYEBROW } from "./blocks";
 import { HUBS, pagePath, type HubKey } from "./registry";
+import { ProductLinkBox } from "./productLinks";
 
 type HubCopy = {
   title: string;
@@ -120,6 +121,7 @@ export function HubPage({ hub }: { hub: HubKey }) {
         </Section>
       ) : null}
       {hub !== "compare" ? <PriceBox /> : null}
+      <ProductLinkBox seed={h.path} />
       <SeoLeadForm path={h.path} />
     </SeoShell>
   );

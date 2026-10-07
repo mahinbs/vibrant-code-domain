@@ -4,6 +4,7 @@ import { useMemo, useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import { ProductLinkBox } from '@/redesign/seo/productLinks';
 import BlogPostHeader from '@/components/blog/BlogPostHeader';
 import BlogPostContent from '@/components/blog/BlogPostContent';
 import BlogPostSidebar from '@/components/blog/BlogPostSidebar';
@@ -193,6 +194,7 @@ const BlogPostPage = () => {
               <BlogPostSidebar post={post} />
             </div>
           </div>
+          <ProductLinkBox seed={`/blog/${post.slug}`} />
           <RelatedPosts relatedPosts={relatedPosts} />
         </div>
       </article>

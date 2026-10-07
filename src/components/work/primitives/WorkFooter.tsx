@@ -69,6 +69,12 @@ export function WorkFooter() {
         </div>
         <div className="flex items-center justify-between border-t border-white/10 pt-6 text-xs text-white/50 max-md:flex-col max-md:gap-3">
           <span>© {new Date().getFullYear()} Boostmysites. All rights reserved.</span>
+          <span>
+            Our product:{" "}
+            <a href="https://www.boostmysites.in/" target="_blank" rel="noopener" className="underline underline-offset-2">
+              boostmysites.in
+            </a>
+          </span>
           <span>Custom software & AI</span>
         </div>
       </div>

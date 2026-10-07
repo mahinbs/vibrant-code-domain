@@ -18,6 +18,7 @@ import { RedesignShell } from "./redesign/RedesignShell";
 import { whatsappHref as homeWhatsappHref } from "./redesign/data/site";
 import JsonLd from "./components/seo/JsonLd";
 import { organizationJsonLd, websiteJsonLd } from "./lib/seo/brand";
+import { productJsonLd } from "./redesign/seo/productSchema";
 import { shouldUseNewUiForRoute, shouldUseRedesignIndustryLanding } from "./lib/domainRouting";
 
 const Index = lazy(() => import("./pages/Index"));
@@ -213,6 +214,7 @@ const App = () => {
           <Sonner />
           {/* Sitewide entity schema. Renders nothing visible — just JSON-LD for crawlers/LLMs. */}
           <JsonLd data={organizationJsonLd()} id="organization" />
+          <JsonLd data={productJsonLd()} id="product" />
           <JsonLd data={websiteJsonLd()} id="website" />
           <BrowserRouter>
             <ScrollToTop />

@@ -74,7 +74,14 @@ const Footer = () => {
             AI agents, intelligent chatbots, data analytics, and business process automation
             for startups and enterprises.
           </p>
-          <p>© 2025 Boostmysites. All rights reserved. Built with passion for innovation.</p>
+          <p className="max-w-3xl mx-auto mb-3 text-sm leading-relaxed">
+            Our product,{" "}
+            <a href="https://www.boostmysites.in/" target="_blank" rel="noopener" className="underline underline-offset-2 hover:text-white">
+              boostmysites.in
+            </a>
+            , runs AI client acquisition (ads, WhatsApp, calls, LinkedIn and email) on pay-per-result credits.
+          </p>
+          <p>© {new Date().getFullYear()} Boostmysites. All rights reserved. Built with passion for innovation.</p>
         </div>
       </div>
     </footer>

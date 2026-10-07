@@ -60,6 +60,8 @@ export const BRAND = {
     'https://www.instagram.com/boostmysites/',
     'https://x.com/boostmysites',
     'https://www.youtube.com/@boostmysites',
+    // The product site (same company): sign-up, credits and the app.
+    'https://www.boostmysites.in/',
   ],
 } as const;
 

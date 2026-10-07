@@ -15,6 +15,9 @@ export const site = {
   appIdeasUrl: "https://www.boostmysites.com/app-ideas",
   /** The product (AI ads app) lives on boostmysites.in — all logins go there. */
   productUrl: "https://www.boostmysites.in/app",
+  /** Indexable product pages on boostmysites.in — link these (not /app, which robots.txt blocks) so links pass value. */
+  productHome: "https://www.boostmysites.in/",
+  productHowItWorks: "https://www.boostmysites.in/how-it-works",
 } as const;
 
 export const navLinks = [
