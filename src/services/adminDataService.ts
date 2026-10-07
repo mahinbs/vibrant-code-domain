@@ -49,6 +49,11 @@ export const adminDataService = {
     return await supabaseDataService.getBlogs();
   },
 
+  /** Admin only: includes unpublished drafts. Never use on public pages. */
+  getAllBlogs: async (): Promise<BlogPost[]> => {
+    return await supabaseDataService.getAllBlogs();
+  },
+
   saveBlog: async (blog: AdminBlogPost): Promise<BlogPost> => {
     console.log('AdminDataService - Saving blog:', blog);
     return await supabaseDataService.saveBlog(blog as DatabaseBlogPost);

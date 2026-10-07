@@ -13,7 +13,7 @@ const META_CAPI_PAGE_PATHS = new Set([
 ]);
 
 export function isMetaConversionSourcePage(sourcePage: string): boolean {
-  return META_CONVERSION_SOURCE_PAGES.has(sourcePage);
+  return META_CONVERSION_SOURCE_PAGES.has(sourcePage) || sourcePage.startsWith("seo:") || sourcePage.startsWith("tool:");
 }
 
 export function isMetaCapiPagePath(pathname: string): boolean {

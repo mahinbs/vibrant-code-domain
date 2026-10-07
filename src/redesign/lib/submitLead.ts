@@ -1,11 +1,12 @@
 import { supabase } from "@/integrations/supabase/client";
 import type { HighIntentLeadPayload, HighIntentLeadSubmitInput } from "./highIntentLead";
 import { scoreAndTier, tierFromScore } from "./scoreLead";
-import { BMS_LEAD_SOURCES, notifyTelegramLead } from "./notifyTelegramLead";
+import { isBmsLeadSource, notifyTelegramLead } from "./notifyTelegramLead";
+import { getAttribution } from "@/lib/attribution";
 import { trackGoogleAdsLeadConversion } from "@/lib/analytics/googleAds";
 
 function leadTableFor(sourcePage: string): "bms_leads" | "reshab_leads" {
-  return BMS_LEAD_SOURCES.has((sourcePage || "").trim()) ? "bms_leads" : "reshab_leads";
+  return isBmsLeadSource(sourcePage) ? "bms_leads" : "reshab_leads";
 }
 
 /**
@@ -20,6 +21,11 @@ async function insertLeadRow(
   // reshab_leads / bms_leads aren't in the generated Database types.
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const client = supabase as any;
+  const attribution = getAttribution();
+  if (attribution) {
+    const base = row.payload && typeof row.payload === "object" ? (row.payload as Record<string, unknown>) : {};
+    row = { ...row, payload: { ...base, attribution } };
+  }
   const { error } = await client.from(table).insert(row);
   if (error && table === "bms_leads") {
     const fb = await client.from("reshab_leads").insert(row);

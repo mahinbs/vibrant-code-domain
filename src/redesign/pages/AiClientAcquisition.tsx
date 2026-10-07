@@ -14,6 +14,8 @@ import { SectionDivider } from "../components/SectionDivider";
 import { FloatingWhatsAppButton } from "../components/FloatingWhatsAppButton";
 import { BusinessAutomationHero } from "../components/BusinessAutomationHero";
 import { FeaturedInTrustBand } from "../components/FeaturedInTrustBand";
+import { HomeSeoSections } from "../seo/HomeSeoSections";
+import { SITE_NAV_CTA, SITE_NAV_LINKS } from "../data/siteNav";
 import { Process } from "../components/Process";
 import { MockupBand } from "../components/MockupBand";
 import { ArrowRightIcon } from "../components/icons";
@@ -51,22 +53,9 @@ const EASE = [0.22, 1, 0.36, 1] as const;
 
 /* ------------------------------ nav ------------------------------ */
 
-const NAV_LINKS: ReadonlyArray<NavLinkItem> = [
-  {
-    label: "Services",
-    dropdown: [
-      { label: "AI Client Acquisition System", href: "/" },
-      { label: "AI Automation", href: "/business-automation" },
-      { label: "Digital Transformation", href: "/digital-transformation" },
-      { label: "AI Calling Agent — Live Demo", href: "/voice-demo" },
-    ],
-  },
-  { label: "How it works", href: "#demo" },
-  { label: "Features", href: "#features" },
-  { label: "Log in", href: site.productUrl, external: true },
-];
-
-const NAV_CTA = { label: "Get my acquisition plan", href: "#contact-form" } as const;
+/** Site-wide nav (SEO plan): every hub is one click from the homepage. */
+const NAV_LINKS = SITE_NAV_LINKS;
+const NAV_CTA = { ...SITE_NAV_CTA, href: "#contact-form" };
 
 /* ---------------------------- content ---------------------------- */
 
@@ -79,7 +68,7 @@ const HERO_ROTATING = [
 ];
 
 const RAAS_PILLARS = [
-  { label: "First in the world", body: "The first Result as a Service built for client acquisition." },
+  { label: "Built for results", body: "Result as a Service, built for client acquisition." },
   { label: "Pay for results", body: "You pay for outcomes, not software seats." },
   { label: "Credit based", body: "Load credits. The system spends them only on work that gets you clients." },
 ] as const;
@@ -513,7 +502,7 @@ function AiClientAcquisitionInner() {
             <div className="relative z-10 mx-auto w-full max-w-[1400px] pb-3 lg:pb-0">
               <Reveal className="flex min-w-0 flex-col items-start gap-3 text-left">
                 <p className="acq-eyebrow impact-highlight inline-flex w-fit items-center rounded-full border border-purple/50 bg-black/60 px-3.5 py-2 text-[11px] font-medium uppercase tracking-[0.1em] backdrop-blur-[5px]">
-                  First in the world
+                  Built for results
                 </p>
 
                 <div className="relative w-full">
@@ -522,7 +511,7 @@ function AiClientAcquisitionInner() {
                       We are a <span className="impact-highlight">RaaS</span> company.
                     </h2>
                     <p className="max-w-[46ch] font-mono text-[14px] leading-relaxed tracking-[0.04em] text-white/60 md:text-[15px]">
-                      RaaS is Result as a Service. The first of its kind in the world. You do not buy another tool. You pay for results, on a credit-based system.
+                      RaaS is Result as a Service. You do not buy another tool. You pay for results, on a credit-based system.
                     </p>
                   </div>
 
@@ -994,6 +983,9 @@ function AiClientAcquisitionInner() {
               </Reveal>
             </section>
           </SectionWithTopRule>
+
+          {/* ---------- SEO plan: stack, industries, pricing, comparison, FAQ, blog ---------- */}
+          <HomeSeoSections />
 
           {/* ---------- Final CTA ---------- */}
           <SectionWithTopRule>

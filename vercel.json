@@ -9,6 +9,18 @@
       "schedule": "0 6 * * *"
     }
   ],
+  "redirects": [
+    {
+      "source": "/ai-calling",
+      "destination": "/services/ai-calling",
+      "permanent": true
+    },
+    {
+      "source": "/partnership",
+      "destination": "/partners",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/dashboard/lead/:id",

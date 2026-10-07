@@ -28,6 +28,12 @@ export const BMS_LEAD_SOURCES = new Set<string>([
   "free-ai-automation-course",
 ]);
 
+/** BMS-owned lead sources: the fixed set above plus every SEO page ("seo:/path") and free tool ("tool:name"). */
+export function isBmsLeadSource(sourcePage: string | null | undefined): boolean {
+  const s = (sourcePage || "").trim();
+  return BMS_LEAD_SOURCES.has(s) || s.startsWith("seo:") || s.startsWith("tool:");
+}
+
 /** Fire-and-forget plain Telegram message (HTML). Used by the questionnaire etc. */
 export function sendTelegramMessage(text: string): void {
   if (!BOT_TOKEN || !CHAT_ID || CHAT_ID === "__SET_CHAT_ID__") return;
@@ -108,7 +114,7 @@ export function notifyTelegramLead(lead: TelegramLead): void {
   if (!BOT_TOKEN || !CHAT_ID || CHAT_ID === "__SET_CHAT_ID__") return;
   // Alert only for Boostmysites-owned pages (www.boostmysites.com forms),
   // not for /business-automation or other team-owned landings.
-  if (!BMS_LEAD_SOURCES.has((lead.sourcePage || "").trim())) return;
+  if (!isBmsLeadSource(lead.sourcePage)) return;
 
   const body = JSON.stringify({
     chat_id: CHAT_ID,

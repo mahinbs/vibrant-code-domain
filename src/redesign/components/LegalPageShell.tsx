@@ -1,26 +1,13 @@
 import type { ReactNode } from "react";
 import { Helmet } from "react-helmet-async";
 import { SiteBackground } from "./SiteBackground";
-import { Nav, type NavLinkItem } from "./Nav";
+import { Nav } from "./Nav";
 import { Footer } from "./Footer";
-import { site, whatsappHref } from "../data/site";
+import { whatsappHref } from "../data/site";
+import { SITE_NAV_CTA, SITE_NAV_LINKS } from "../data/siteNav";
 
-const NAV_LINKS: ReadonlyArray<NavLinkItem> = [
-  {
-    label: "Services",
-    dropdown: [
-      { label: "AI Client Acquisition System", href: "/" },
-      { label: "AI Automation", href: "/business-automation" },
-      { label: "Digital Transformation", href: "/digital-transformation" },
-    ],
-  },
-  { label: "How it works", href: "/#demo" },
-  { label: "Features", href: "/#features" },
-  { label: "Pricing", href: "/#pricing" },
-  { label: "Log in", href: site.productUrl, external: true },
-];
-
-const NAV_CTA = { label: "Get my acquisition plan", href: "/#contact-form" } as const;
+const NAV_LINKS = SITE_NAV_LINKS;
+const NAV_CTA = SITE_NAV_CTA;
 
 type LegalPageShellProps = {
   title: string;

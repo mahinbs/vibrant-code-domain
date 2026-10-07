@@ -46,7 +46,7 @@ const BlogForm = () => {
       const loadBlog = async () => {
         try {
           setLoading(true);
-          const blogs = await adminDataService.getBlogs();
+          const blogs = await adminDataService.getAllBlogs();
           const blog = blogs.find(b => b.id === id);
           if (blog) {
             setFormData({

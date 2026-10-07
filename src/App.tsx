@@ -26,10 +26,8 @@ const CaseStudy = lazy(() => import("./pages/CaseStudy"));
 const WorkPage = lazy(() => import("./pages/WorkPage"));
 const WorkCaseStudyPage = lazy(() => import("./pages/WorkCaseStudyPage"));
 const ContactPage = lazy(() => import("./pages/ContactPage"));
-const AboutPage = lazy(() => import("./pages/AboutPage"));
 const BlogsPage = lazy(() => import("./pages/BlogsPage"));
 const BlogPostPage = lazy(() => import("./pages/BlogPostPage"));
-const ServicesPage = lazy(() => import("./pages/ServicesPage"));
 const WebAppsPage = lazy(() => import("./pages/WebAppsPage"));
 const MobileAppsPage = lazy(() => import("./pages/MobileAppsPage"));
 const UxuiDesignPage = lazy(() => import("./pages/UxuiDesignPage"));
@@ -60,7 +58,6 @@ const AiFreelancingPage = lazy(() => import("./pages/AiFreelancingPage"));
 const AiFreelancingThankYouPage = lazy(
   () => import("./pages/AiFreelancingThankYouPage")
 );
-const AiCallingPage = lazy(() => import("./pages/AiCallingPage"));
 const SalespersonServicePage = lazy(
   () => import("./pages/SalespersonServicePage")
 );
@@ -103,6 +100,20 @@ const TradingAppDevelopmentPage = lazy(() => import("./pages/geo/TradingAppDevel
 const PayinPayoutSoftwarePage = lazy(() => import("./pages/geo/PayinPayoutSoftwarePage"));
 const ForLlmPage = lazy(() => import("./pages/ForLlmPage"));
 const FounderProfile = lazy(() => import("./redesign/pages/FounderProfile"));
+// SEO site plan: hubs, data-driven service/industry/location/comparison pages, company pages, free tools.
+const SeoHubPage = lazy(() => import("./redesign/seo/HubPage"));
+const SeoPageRoute = lazy(() => import("./redesign/seo/SeoPage"));
+const company = () => import("./redesign/seo/CompanyPages");
+const SeoPricingPage = lazy(() => company().then((m) => ({ default: m.PricingPage })));
+const SeoAboutPage = lazy(() => company().then((m) => ({ default: m.AboutPage })));
+const SeoSecurityPage = lazy(() => company().then((m) => ({ default: m.SecurityPage })));
+const SeoPartnersPage = lazy(() => company().then((m) => ({ default: m.PartnersPage })));
+const SeoCareersPage = lazy(() => company().then((m) => ({ default: m.CareersPage })));
+const SeoProofHubPage = lazy(() => company().then((m) => ({ default: m.ProofHubPage })));
+const SeoAuthorRoute = lazy(() => company().then((m) => ({ default: m.AuthorRoute })));
+const tools = () => import("./redesign/seo/ToolPages");
+const ToolsHubPage = lazy(() => tools().then((m) => ({ default: m.ToolsHubPage })));
+const ToolRoute = lazy(() => tools().then((m) => ({ default: m.ToolRoute })));
 const AiClientAcquisition = lazy(
   () => import("./redesign/pages/AiClientAcquisition"),
 );
@@ -296,15 +307,24 @@ const App = () => {
                   </>
                 }
               /> */}
-              <Route
-                path="/about"
-                element={
-                  <>
-                    <FloatingWhatsAppButton />
-                    <AboutPage />
-                  </>
-                }
-              />
+              {/* SEO site plan routes */}
+              <Route path="/services" element={<RedesignShell><SeoHubPage hub="service" /></RedesignShell>} />
+              <Route path="/services/:slug" element={<RedesignShell><SeoPageRoute hub="service" /></RedesignShell>} />
+              <Route path="/industries" element={<RedesignShell><SeoHubPage hub="industry" /></RedesignShell>} />
+              <Route path="/industries/:slug" element={<RedesignShell><SeoPageRoute hub="industry" /></RedesignShell>} />
+              <Route path="/locations" element={<RedesignShell><SeoHubPage hub="location" /></RedesignShell>} />
+              <Route path="/locations/:slug" element={<RedesignShell><SeoPageRoute hub="location" /></RedesignShell>} />
+              <Route path="/compare" element={<RedesignShell><SeoHubPage hub="compare" /></RedesignShell>} />
+              <Route path="/compare/:slug" element={<RedesignShell><SeoPageRoute hub="compare" /></RedesignShell>} />
+              <Route path="/pricing" element={<RedesignShell><SeoPricingPage /></RedesignShell>} />
+              <Route path="/about" element={<RedesignShell><SeoAboutPage /></RedesignShell>} />
+              <Route path="/security" element={<RedesignShell><SeoSecurityPage /></RedesignShell>} />
+              <Route path="/partners" element={<RedesignShell><SeoPartnersPage /></RedesignShell>} />
+              <Route path="/careers" element={<RedesignShell><SeoCareersPage /></RedesignShell>} />
+              <Route path="/case-studies" element={<RedesignShell><SeoProofHubPage /></RedesignShell>} />
+              <Route path="/authors/:slug" element={<RedesignShell><SeoAuthorRoute /></RedesignShell>} />
+              <Route path="/tools" element={<RedesignShell><ToolsHubPage /></RedesignShell>} />
+              <Route path="/tools/:slug" element={<RedesignShell><ToolRoute /></RedesignShell>} />
               <Route
                 path="/blogs"
                 element={
@@ -320,15 +340,6 @@ const App = () => {
                   <>
                     <FloatingWhatsAppButton />
                     <BlogPostPage />
-                  </>
-                }
-              />
-              <Route
-                path="/services"
-                element={
-                  <>
-                    <FloatingWhatsAppButton />
-                    <ServicesPage />
                   </>
                 }
               />
@@ -539,7 +550,7 @@ const App = () => {
                   </>
                 }
               />
-              <Route path="/partnership" element={<Navigate to="/" replace />} />
+              <Route path="/partnership" element={<Navigate to="/partners" replace />} />
               <Route
                 path="/placement-programs"
                 element={<PlacementProgramsPage />}
@@ -562,15 +573,7 @@ const App = () => {
                   </>
                 }
               />
-              <Route
-                path="/ai-calling"
-                element={
-                  <>
-                    <FloatingWhatsAppButton />
-                    <AiCallingPage />
-                  </>
-                }
-              />
+              <Route path="/ai-calling" element={<Navigate to="/services/ai-calling" replace />} />
               <Route
                 path="/salesperson/:id"
                 element={

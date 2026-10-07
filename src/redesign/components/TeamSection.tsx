@@ -2,14 +2,14 @@ import type { CSSProperties } from "react";
 
 /** Leadership team — real people behind Boostmysites, with LinkedIn links. */
 
-type Member = {
+export type Member = {
   name: string;
   role: string;
   photo: string;
   linkedin: string;
 };
 
-const TEAM: Member[] = [
+export const TEAM: Member[] = [
   {
     name: "Mahin B S",
     role: "Founder & Chairman",

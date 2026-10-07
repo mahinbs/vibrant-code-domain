@@ -82,6 +82,8 @@ export const transformDbBlogToBlogPost = (dbBlog: any): BlogPost => {
 
   return {
     ...baseBlog,
-    slug
+    slug,
+    isPublished: dbBlog.is_published !== false,
+    metaDescription: dbBlog.meta_description || undefined
   };
 };

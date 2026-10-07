@@ -39,7 +39,6 @@ const STATIC_ROUTES = [
   "/chatbot-development",
   "/ai-automation",
   "/business-automation",
-  "/thank-you",
   "/digital-transformation",
   "/privacy-policy",
   "/terms-and-conditions",
@@ -47,11 +46,8 @@ const STATIC_ROUTES = [
   "/user-data-deletion",
   "/legal/contact",
   "/index.php/aie-termsconditions",
-  "/partnership",
-  "/ai-calling",
   "/app-ideas-lab",
   "/app-ideas",
-  "/signup",
   "/build-your-tech-company",
   "/startup-launch",
   "/fintech-founder",
@@ -70,6 +66,18 @@ const STATIC_ROUTES = [
   "/for-llm",
   "/for-llm.txt",
   "/llms.txt",
+  // SEO site plan: hubs and company pages
+  "/industries",
+  "/locations",
+  "/compare",
+  "/pricing",
+  "/security",
+  "/partners",
+  "/careers",
+  "/case-studies",
+  "/tools",
+  "/authors/kavya-shree-r",
+  "/authors/mahin-b-s",
 ];
 
 // Routes the app only redirects (<Route path="…" element={<Navigate …/>} />) are not pages: listing
@@ -109,6 +117,12 @@ async function readStaticSlugRoutes() {
     { file: "src/data/blogs.ts", prefix: "/blog/" },
     { file: "src/data/projects.ts", prefix: "/case-study/" },
     { file: "src/data/workMock.ts", prefix: "/work/" },
+    // Data-driven SEO pages (src/redesign/seo/registry.ts maps each file to its hub)
+    { file: "src/redesign/seo/content/services.ts", prefix: "/services/" },
+    { file: "src/redesign/seo/content/industries.ts", prefix: "/industries/" },
+    { file: "src/redesign/seo/content/locations.ts", prefix: "/locations/" },
+    { file: "src/redesign/seo/content/comparisons.ts", prefix: "/compare/" },
+    { file: "src/redesign/seo/ToolPages.tsx", prefix: "/tools/" },
   ];
 
   const routes = [];
@@ -137,7 +151,7 @@ async function readSupabaseSlugRoutes() {
 
   try {
     const blogResponse = await fetch(
-      `${SUPABASE_URL}/rest/v1/blogs?select=id,slug`,
+      `${SUPABASE_URL}/rest/v1/blogs?select=id,slug&is_published=eq.true`,
       { headers },
     );
     if (blogResponse.ok) {
@@ -179,6 +193,8 @@ async function readSupabaseSlugRoutes() {
 function inferPriority(route) {
   if (route === "/") return "1.0";
   if (route === "/portfolio" || route === "/work" || route === "/services") return "0.9";
+  if (["/industries", "/locations", "/pricing", "/tools", "/about", "/contact"].includes(route)) return "0.9";
+  if (/^\/(services|industries|locations|compare|tools)\//.test(route)) return "0.8";
   if (
     route === "/fintech-development-company" ||
     route === "/trading-app-development" ||

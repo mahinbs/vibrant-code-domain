@@ -21,7 +21,14 @@ const MARQUEE_MASK: CSSProperties = {
   WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%)",
 };
 
+/**
+ * Disabled (SEO plan trust fixes): the "500+ teams" line and the logo reel were
+ * not backed by real client data. Re-enable only with real, permissioned logos.
+ */
+const SHOW_TICKER = false;
+
 export function TrustedTicker() {
+  if (!SHOW_TICKER) return null;
   const reel = [...logos, ...logos];
 
   return (

@@ -16,14 +16,13 @@ const buildSlug = (blog: DatabaseBlogPost): string => {
 };
 
 export const blogService = {
-  getBlogs: async (): Promise<BlogPost[]> => {
+  /** Public read path: published posts only. Pass includeDrafts for the admin list. */
+  getBlogs: async (opts: { includeDrafts?: boolean } = {}): Promise<BlogPost[]> => {
     console.log('BlogService - Getting blogs from database...');
     try {
-      const { data, error } = await supabase
-        .from('blogs')
-        .select('*')
-        .eq('is_published', true)
-        .order('published_date', { ascending: false });
+      let query = supabase.from('blogs').select('*');
+      if (!opts.includeDrafts) query = query.eq('is_published', true);
+      const { data, error } = await query.order('published_date', { ascending: false });
 
       if (error) {
         console.error('BlogService - Error retrieving blogs:', error);

@@ -212,28 +212,17 @@ export const businessAutomationMetrics = [
 
 /** Press wordmarks shown under the founder credibility band. */
 export const businessAutomationPressItems = [
+  // Only items that link to the actual piece (SEO plan trust fixes).
   {
     publication: "Forbes",
-    href: "https://www.forbes.com/",
+    href: "https://www.youtube.com/watch?v=z8QmKfoBCWY",
     yearLabel: "Interview",
     isPartnerContent: false,
   },
   {
-    publication: "Entrepreneur",
-    href: "https://www.entrepreneur.com/",
-    yearLabel: "Editorial",
-    isPartnerContent: false,
-  },
-  {
     publication: "Times of India",
-    href: "https://timesofindia.indiatimes.com/",
-    yearLabel: "Award",
-    isPartnerContent: false,
-  },
-  {
-    publication: "Business Insider",
-    href: "https://www.businessinsider.com/",
-    yearLabel: "Editorial",
+    href: "https://timesofindia.indiatimes.com/life-style/events/times-business-awards-north-2024-acknowledging-the-very-best-in-business/articleshow/109378158.cms",
+    yearLabel: "Award 2024",
     isPartnerContent: false,
   },
   {

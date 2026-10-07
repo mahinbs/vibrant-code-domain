@@ -2,10 +2,13 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
+import { captureAttribution } from './lib/attribution';
 
 declare global {
   interface Window { __PRERENDERED_HTML__?: string }
 }
+
+captureAttribution();
 
 const container = document.getElementById('root');
 

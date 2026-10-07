@@ -16,7 +16,8 @@ export const supabaseDataService = {
   deleteProject: projectService.deleteProject,
 
   // Blogs
-  getBlogs: blogService.getBlogs,
+  getBlogs: () => blogService.getBlogs(),
+  getAllBlogs: () => blogService.getBlogs({ includeDrafts: true }),
   saveBlog: blogService.saveBlog,
   deleteBlog: blogService.deleteBlog,
 

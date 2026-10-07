@@ -48,7 +48,7 @@ const BlogList = () => {
   const loadBlogs = async () => {
     try {
       setLoading(true);
-      const data = await adminDataService.getBlogs();
+      const data = await adminDataService.getAllBlogs();
 
       // Use the real API data
       setBlogs(data);
@@ -231,6 +231,9 @@ const BlogList = () => {
                     return (
                       <tr key={blog.id} className="border-b border-gray-700 hover:bg-gray-700/50">
                         <td className="px-4 py-4 text-sm font-medium text-white">
+                          {blog.isPublished === false ? (
+                            <span className="mr-2 rounded bg-amber-500/20 px-1.5 py-0.5 text-[11px] font-semibold uppercase text-amber-300">Draft</span>
+                          ) : null}
                           {blog.title}
                         </td>
                         <td className="px-4 py-4 text-sm text-gray-300">

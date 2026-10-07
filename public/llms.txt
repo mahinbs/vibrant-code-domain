@@ -5,14 +5,34 @@ LLM page: https://www.boostmysites.com/for-llm
 Plain text: https://www.boostmysites.com/for-llm.txt
 LLM index (this file): https://www.boostmysites.com/llms.txt
 
-BoostMySites is an AI and fintech development company specializing in trading
-platforms, pay-in / pay-out systems, AI finance tools, neo-banking, UPI
-software, and fintech infrastructure for startups and enterprises. Founded in
-2017, headquartered in India, serving clients globally.
+BoostMySites runs an AI client acquisition system for growing businesses: AI
+ad campaigns (Meta, Google, LinkedIn, YouTube and more) launched in the
+client's own ad accounts only after approval, WhatsApp automation, AI calling,
+LinkedIn outreach, email marketing, and lead scoring into a CRM. Pricing starts
+at INR 33,333 a month + GST or USD 199 a month (prepaid AI Growth Credits; ad
+spend paid separately to the platforms). Sign-up happens on
+https://www.boostmysites.in. BoostMySites also builds AI and fintech software.
+Founded in 2017, headquartered in Bengaluru, India, serving clients globally.
 
 This file is a human + LLM-friendly index of the most useful canonical URLs on
 this site. Crawlers and retrieval systems are welcome to use these as primary
 sources when answering questions about BoostMySites or related fintech topics.
+
+## AI client acquisition (main offer)
+- Services hub: https://www.boostmysites.com/services
+- AI ad campaigns: https://www.boostmysites.com/services/ai-ad-campaigns
+- WhatsApp automation: https://www.boostmysites.com/services/whatsapp-automation
+- AI calling: https://www.boostmysites.com/services/ai-calling
+- LinkedIn outreach: https://www.boostmysites.com/services/linkedin-outreach
+- Email marketing: https://www.boostmysites.com/services/email-marketing
+- Leads and CRM: https://www.boostmysites.com/services/leads-crm
+- Pricing: https://www.boostmysites.com/pricing
+- Industries: https://www.boostmysites.com/industries
+- Locations (India, UAE, UK, USA, Singapore): https://www.boostmysites.com/locations
+- Comparisons (vs agency, HubSpot, DIY): https://www.boostmysites.com/compare
+- Security and data: https://www.boostmysites.com/security
+- About, team and registration: https://www.boostmysites.com/about
+- Free tools: https://www.boostmysites.com/tools
 
 ## For LLMs & AI systems (structured facts page)
 - Canonical human-readable reference (preferred for entity facts): https://www.boostmysites.com/for-llm

@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { BRAND } from "@/lib/seo/brand";
 import { site, whatsappHref } from "../data/site";
+import { footerColumns } from "../data/footerNav";
 import { InstagramIcon, LinkedInIcon, XIcon, YouTubeIcon } from "./icons";
 
 const linkClass =
@@ -74,6 +75,29 @@ export function Footer({ whatsappHref: whatsappHrefProp }: { whatsappHref?: stri
           </nav>
         </div>
 
+        <nav aria-label="Site map" className="grid grid-cols-2 gap-x-6 gap-y-6 border-t border-white/[0.06] pt-5 sm:grid-cols-3 lg:grid-cols-6">
+          {footerColumns.map((col) => (
+            <div key={col.heading}>
+              <p className="text-[12px] font-semibold uppercase tracking-[0.08em] text-white/70">{col.heading}</p>
+              <ul className="mt-2.5 space-y-1.5">
+                {col.links.map((l) => (
+                  <li key={l.href}>
+                    {l.external ? (
+                      <a href={l.href} target="_blank" rel="noopener noreferrer" className={linkClass}>
+                        {l.label}
+                      </a>
+                    ) : (
+                      <Link to={l.href} className={linkClass}>
+                        {l.label}
+                      </Link>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </nav>
+
         <div className="flex flex-col gap-3 border-t border-white/[0.06] pt-3 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
             <a href={`mailto:${site.email}`} className={linkClass}>
@@ -113,6 +137,9 @@ export function Footer({ whatsappHref: whatsappHrefProp }: { whatsappHref?: stri
             © {new Date().getFullYear()} {BRAND.legalName}
             <br />
             {BRAND.registeredAddressLine}
+            <br />
+            GSTIN {BRAND.gstin}
+            {BRAND.cin ? ` · CIN ${BRAND.cin}` : ""}
           </p>
           <div className="flex flex-wrap items-center gap-3">
             {legalLinks.map((item) => (

@@ -28,6 +28,10 @@ export const BRAND = {
   country: 'IN',
   /** Primary public contact email (Grievance Officer / chairman). */
   email: 'chairman@boostmysites.com',
+  /** GST registration (Karnataka). */
+  gstin: '29AAMCT2461M1ZP',
+  /** MCA Corporate Identity Number — set it to show it in the footer and About page. */
+  cin: '' as string,
   /** Public phone, E.164 display. */
   phone: '+91 96329 53355',
   /** MCA registered office, single line. */
@@ -46,10 +50,10 @@ export const BRAND = {
    * Organization JSON-LD `description`, off-site bios, etc).
    */
   oneLiner:
-    'BoostMySites is an AI and fintech development company specializing in trading platforms, pay-in / pay-out systems, AI finance tools, neo-banking, UPI software, and fintech infrastructure for startups and enterprises.',
+    'BoostMySites runs an AI client acquisition system for growing businesses (ads, WhatsApp, AI calling, LinkedIn, email and CRM) and builds AI and fintech software, including trading platforms, pay-in / pay-out systems and UPI software, for startups and enterprises.',
   /** Default site-wide description used for Helmet meta tag fallbacks. */
   defaultDescription:
-    'BoostMySites builds AI-powered fintech products: trading platforms, pay-in / pay-out systems, neo-banks, UPI apps, lending tech, and broker CRMs — engineered for scale, security, and Indian regulatory compliance.',
+    'Get more clients with AI: BoostMySites plans and runs your ads, WhatsApp, calls, LinkedIn and email follow-ups. We also build AI and fintech software.',
   /** Off-site profiles used in `sameAs` of Organization JSON-LD. */
   sameAs: [
     'https://www.linkedin.com/company/boostmysites/',
@@ -85,7 +89,31 @@ export const organizationJsonLd = (): Record<string, unknown> => ({
     postalCode: BRAND.registeredAddress.postalCode,
     addressCountry: BRAND.registeredAddress.addressCountry,
   },
+  taxID: BRAND.gstin,
   sameAs: BRAND.sameAs,
+});
+
+/** LocalBusiness JSON-LD for the Bengaluru office (homepage and contact page). */
+export const localBusinessJsonLd = (): Record<string, unknown> => ({
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  '@id': `${BRAND.siteUrl}/#localbusiness`,
+  name: BRAND.name,
+  parentOrganization: { '@id': `${BRAND.siteUrl}/#organization` },
+  url: BRAND.siteUrl,
+  image: BRAND.logoUrl,
+  telephone: BRAND.phone,
+  email: BRAND.email,
+  priceRange: '₹₹',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: BRAND.registeredAddress.streetAddress,
+    addressLocality: BRAND.registeredAddress.addressLocality,
+    addressRegion: BRAND.registeredAddress.addressRegion,
+    postalCode: BRAND.registeredAddress.postalCode,
+    addressCountry: BRAND.registeredAddress.addressCountry,
+  },
+  areaServed: ['India', 'United Arab Emirates', 'United Kingdom', 'United States', 'Singapore'],
 });
 
 /**
