@@ -153,7 +153,7 @@ export const industryPages: SeoPageData[] = [
       },
       {
         q: "How much ad budget do we need for a project launch?",
-        a: "There is no fixed number. The plan is built from your goal and the budget you set, and our ad budget calculator can help you think through a starting number. Ad spend goes from you directly to the platforms, separate from our AI Growth Credits.",
+        a: "There is no fixed number. The plan is built from your goal and the budget you set, and our ad budget calculator can help you think through a starting number. Ad spend goes from you directly to the platforms, separate from the credits you buy from us.",
       },
       {
         q: "What happens to a lead who says they will buy in a year?",

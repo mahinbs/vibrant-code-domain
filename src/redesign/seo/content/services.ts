@@ -158,7 +158,7 @@ export const servicePages: SeoPageData[] = [
       },
       {
         q: "Who pays for the ad spend?",
-        a: "You pay the platforms directly through your own billing. Our plans load prepaid AI Growth Credits, which are drawn down for the work we agree on, such as planning, building and managing campaigns. Ad spend is separate and goes straight from you to Meta, Google or the other platform.",
+        a: "You pay the platforms directly through your own billing. You buy credits from us, and they are used only when something is done, such as building a campaign (150 credits) or writing a full growth plan (125 credits). Ad spend is separate and goes straight from you to Meta, Google or the other platform.",
       },
       {
         q: "Can the AI spend my money without asking?",
@@ -941,7 +941,7 @@ export const servicePages: SeoPageData[] = [
       },
       {
         q: "How do I pay for this?",
-        a: "Plans load prepaid AI Growth Credits, which are drawn down for the work we agree on. They are not a guarantee of leads, sales or returns. The current price is shown on this page, and you can message us on WhatsApp at +91 96329 53355 with questions.",
+        a: "You buy credits, with no retainer or subscription: 2,500 credits cost ₹899 + GST in India or $9.99 elsewhere, and each action uses a published number of credits. Credits are not a guarantee of leads, sales or returns. See the pricing page for every pack, and you can message us on WhatsApp at +91 96329 53355 with questions.",
       },
     ],
     related: [

@@ -490,7 +490,7 @@ export const TOOLS: ToolDef[] = [
     faqs: [
       { q: "How much should a small business spend on ads?", a: "Work backwards from the clients you need: clients ÷ close rate × cost per lead. Spending less than that usually means too few leads to judge what works." },
       { q: "What is a normal cost per lead?", a: "It varies a lot by industry, city, platform and offer. Use your own past numbers where you can, and re-run the calculator after the first few weeks of real data." },
-      { q: "Is ad spend included in your plan?", a: "No. Ad spend is paid directly to the platforms from your own ad accounts. Our plan covers the system that plans, runs and follows up the campaigns." },
+      { q: "Is ad spend included in your price?", a: "No. Ad spend is paid directly to the platforms from your own ad accounts. You buy credits from us for what the system does, such as building a campaign or following up a lead." },
     ],
     related: [
       { label: "AI ad campaigns", href: "/services/ai-ad-campaigns" },

@@ -4,7 +4,7 @@ import { BRAND } from "@/lib/seo/brand";
 import { TEAM } from "../components/TeamSection";
 import { SeoShell, absUrl } from "./SeoShell";
 import { FaqSection, GLOSS, GhostButton, HubGrid, PrimaryButton, Section, SeoHero, SeoLeadForm, EYEBROW, faqJsonLd } from "./blocks";
-import { PRICING } from "./pricing";
+import { PRICING, creditsLabel, inr } from "./pricing";
 import { HUBS, pagePath } from "./registry";
 import type { Faq } from "./types";
 
@@ -23,98 +23,141 @@ function Card({ children }: { children: React.ReactNode }) {
 
 const PRICING_FAQS: Faq[] = [
   {
-    q: "What are AI Growth Credits?",
-    a: "Prepaid credits you load through a monthly or yearly plan. We draw them down for the work we agree with you: planning, launching and optimising campaigns and running follow-ups. Credits are not cash and are not a guarantee of leads, sales or return on ad spend.",
+    q: "Is there a monthly fee or subscription?",
+    a: "No. There is no retainer and no subscription. You buy a credit pack once, and credits only move when something is done: a lead found, an invite sent, a conversation handled, a campaign built. A quiet week costs nothing.",
   },
   {
-    q: "Is ad spend included in the price?",
-    a: "No. Your ad spend is paid directly to Meta, Google and the other platforms from your own ad accounts, under your own billing. Our plan covers the system and the work, not the media budget.",
+    q: "Do credits expire?",
+    a: "No. Credits never expire. Every credit used appears in your credit history with the reason it moved.",
   },
   {
-    q: "Can I pause or stop?",
-    a: "You can pause every campaign in one click at any time. Monthly plans renew until cancelled; you can stop before the next cycle. Unused credits follow the refund rules in our Terms.",
+    q: "Is ad spend included?",
+    a: "No. Your ad spend is paid directly to Meta, Google and the other platforms from your own ad accounts, under your own billing. Credits pay for what our system and agents do.",
   },
   {
-    q: "Where do I pay?",
-    a: "Sign-up and payment happen on boostmysites.in, the product. Indian businesses pay in rupees and receive a GST invoice; businesses outside India pay in US dollars.",
+    q: "Can I top up automatically?",
+    a: "Yes, if you want to. Optional auto top-up buys a pack when your balance runs low, by UPI Autopay or card, with a ceiling you set. You can cancel it at any time.",
+  },
+  {
+    q: "Where do I buy credits?",
+    a: "On boostmysites.in, our product site. Businesses in India pay in rupees by Razorpay and get a GST invoice with GST shown separately; businesses outside India pay in US dollars.",
   },
   {
     q: "Do you guarantee leads?",
-    a: "No one honest can. We guarantee the process: a plan you approve before anything spends, campaigns run in your own accounts, a 20-minute optimisation loop and a plain-English weekly report on what worked and what is wasting money.",
+    a: "No one honest can. We commit to the process: campaigns staged paused until you approve, run in your own accounts, checked every 20 minutes, with every credit and every change on record.",
   },
 ];
 
 export function PricingPage() {
   const [currency, setCurrency] = useState<"INR" | "USD">("INR");
-  const plans = PRICING.plans[currency];
   const offers = {
     "@context": "https://schema.org",
     "@type": "Product",
-    name: "BoostMySites AI client acquisition system",
+    name: "BoostMySites credits",
     brand: { "@type": "Brand", name: "BoostMySites" },
     description: PRICING.creditsNote,
     offers: [
-      { "@type": "Offer", name: "Monthly (India)", price: "33333", priceCurrency: "INR", url: absUrl("/pricing") },
-      { "@type": "Offer", name: "Yearly (India)", price: "89999", priceCurrency: "INR", url: absUrl("/pricing") },
-      { "@type": "Offer", name: "Monthly (international)", price: "199", priceCurrency: "USD", url: absUrl("/pricing") },
-      { "@type": "Offer", name: "Yearly (international)", price: "999", priceCurrency: "USD", url: absUrl("/pricing") },
+      ...PRICING.packsINR.map((p) => ({
+        "@type": "Offer",
+        name: `${creditsLabel(p.credits)} credits (India)`,
+        price: String(p.price),
+        priceCurrency: "INR",
+        url: absUrl("/pricing"),
+      })),
+      { "@type": "Offer", name: "2,500 credits (international)", price: "9.99", priceCurrency: "USD", url: absUrl("/pricing") },
     ],
   };
   return (
     <SeoShell
-      title="Pricing | AI client acquisition | BoostMySites"
-      description="From ₹33,333 a month + GST or US$199 a month. Plans load prepaid AI Growth Credits; ad spend stays in your own ad accounts."
+      title="Pricing: pay per result with credits | BoostMySites"
+      description="No retainer, no subscription. 2,500 credits cost ₹899 + GST or $9.99, used only when something is done. Credits never expire."
       path="/pricing"
       crumbs={[{ label: "Pricing", href: "/pricing" }]}
       jsonLd={[offers, faqJsonLd(PRICING_FAQS)]}
     >
       <SeoHero
         eyebrow="Pricing"
-        h1="Simple pricing for the whole acquisition stack"
-        intro="One plan covers ads, WhatsApp, calls, LinkedIn, email and your CRM. Plans load prepaid AI Growth Credits. Your ad spend stays in your own ad accounts."
-        actions={<PrimaryButton href={PRICING.signupUrl}>Start on boostmysites.in</PrimaryButton>}
+        h1="No retainer. No subscription. Pay for what gets done."
+        intro="An agency charges a monthly fee whether or not anything happened. Here you buy credits once, and they only move when a result does. A quiet week costs nothing, and credits never expire."
+        actions={<PrimaryButton href={PRICING.signupUrl}>Start with 2,500 credits</PrimaryButton>}
       />
       <Section>
-        <div role="tablist" aria-label="Currency" className="inline-flex rounded-full border border-white/15 bg-black/50 p-1">
-          {(["INR", "USD"] as const).map((c) => (
-            <button
-              key={c}
-              role="tab"
-              aria-selected={currency === c}
-              onClick={() => setCurrency(c)}
-              className={`rounded-full px-5 py-2 text-[14px] font-medium ${currency === c ? "bg-purple/70 text-white" : "text-white/60 hover:text-white"}`}
-            >
-              {c === "INR" ? "₹ India" : "$ International"}
-            </button>
-          ))}
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <h2 className="text-[24px] font-medium text-white md:text-[30px]">Credit packs</h2>
+          <div role="tablist" aria-label="Currency" className="inline-flex rounded-full border border-white/15 bg-black/50 p-1">
+            {(["INR", "USD"] as const).map((c) => (
+              <button
+                key={c}
+                role="tab"
+                aria-selected={currency === c}
+                onClick={() => setCurrency(c)}
+                className={`rounded-full px-5 py-2 text-[14px] font-medium ${currency === c ? "bg-purple/70 text-white" : "text-white/60 hover:text-white"}`}
+              >
+                {c === "INR" ? "₹ India" : "$ International"}
+              </button>
+            ))}
+          </div>
         </div>
-        <div className="mt-6 grid gap-4 md:grid-cols-2">
-          {plans.map((p) => (
-            <div
-              key={p.id}
-              className={`relative flex flex-col rounded-[16px] border p-6 md:p-7 ${"badge" in p ? "border-purple/60 bg-[rgba(72,118,255,0.10)]" : "border-white/12"}`}
-              style={"badge" in p ? undefined : { background: GLOSS }}
-            >
-              {"badge" in p ? (
-                <span className="impact-highlight absolute right-5 top-5 font-mono text-[10.5px] font-semibold uppercase tracking-[0.14em]">{p.badge}</span>
-              ) : null}
-              <h2 className="font-mono text-[12px] font-semibold uppercase tracking-[0.12em] text-white/55">{p.name}</h2>
-              <p className="mt-2 text-[34px] font-medium tracking-[-0.02em] text-white">
-                {p.price} <span className="text-[15px] font-normal text-white/50">{p.unit}</span>
-              </p>
-              <p className="mt-2 text-[14.5px] leading-relaxed text-white/65">{p.blurb}</p>
-              <div className="mt-6">
-                <PrimaryButton href={PRICING.signupUrl}>Choose {p.name.toLowerCase()} on boostmysites.in</PrimaryButton>
-              </div>
+        {currency === "INR" ? (
+          <>
+            <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {PRICING.packsINR.map((p) => {
+                const popular = "popular" in p && p.popular;
+                return (
+                  <div
+                    key={p.credits}
+                    className={`flex flex-col rounded-[16px] border p-6 ${popular ? "border-purple/60 bg-[rgba(72,118,255,0.10)]" : "border-white/12"}`}
+                    style={popular ? undefined : { background: GLOSS }}
+                  >
+                    {popular ? <span className="impact-highlight mb-2 font-mono text-[10.5px] font-semibold uppercase tracking-[0.14em]">Most popular</span> : null}
+                    <p className="text-[26px] font-medium text-white">
+                      {creditsLabel(p.credits)} <span className="text-[15px] font-normal text-white/55">credits</span>
+                    </p>
+                    <p className="mt-1 text-[20px] text-white">
+                      {inr(p.price)} <span className="text-[14px] text-white/50">+ GST</span>
+                    </p>
+                    <p className="mt-1 text-[13px] text-white/45">₹{((p.price / p.credits) * 1000).toFixed(2)} per 1,000 credits</p>
+                  </div>
+                );
+              })}
             </div>
-          ))}
+            <p className="mt-4 text-[13.5px] text-white/50">Billed in India by Razorpay. GST at 18% is added and shown separately on your invoice.</p>
+          </>
+        ) : (
+          <div className="mt-6 max-w-[520px] rounded-[16px] border border-white/12 p-6" style={{ background: GLOSS }}>
+            <p className="text-[26px] font-medium text-white">
+              2,500 <span className="text-[15px] font-normal text-white/55">credits</span>
+            </p>
+            <p className="mt-1 text-[20px] text-white">$9.99</p>
+            <p className="mt-3 text-[14px] leading-relaxed text-white/60">The starter pack for businesses outside India, billed in US dollars. Larger packs are shown when you buy on boostmysites.in.</p>
+          </div>
+        )}
+        <div className="mt-6">
+          <PrimaryButton href={PRICING.signupUrl}>Buy credits on boostmysites.in</PrimaryButton>
         </div>
-        <p className="mt-4 text-[13.5px] text-white/50">{PRICING.creditsNote}</p>
+      </Section>
+      <Section>
+        <h2 className="text-[24px] font-medium text-white md:text-[30px]">What a result costs</h2>
+        <div className="mt-6 overflow-hidden rounded-[16px] border border-white/12" style={{ background: GLOSS }}>
+          <table className="w-full text-left text-[15px]">
+            <tbody>
+              {PRICING.actionCosts.map((a) => (
+                <tr key={a.action} className="border-b border-white/[0.06] last:border-0">
+                  <th scope="row" className="p-4 font-normal text-white/75">{a.action}</th>
+                  <td className="p-4 text-right font-medium text-white">{a.credits} credits</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p className="mt-3 text-[13.5px] text-white/50">
+          {PRICING.starter}. {PRICING.catalogueNote} Ad spend is separate and paid to the platforms from your own ad accounts.
+        </p>
       </Section>
       <Section>
         <div className="grid gap-4 md:grid-cols-2">
           <Card>
-            <h2 className="text-[20px] font-medium text-white">Every plan includes</h2>
+            <h2 className="text-[20px] font-medium text-white">What you get</h2>
             <ul className="mt-4 space-y-2.5">
               {PRICING.included.map((i) => (
                 <li key={i} className="flex gap-2 text-[14.5px] text-white/70">
@@ -125,7 +168,7 @@ export function PricingPage() {
             </ul>
           </Card>
           <Card>
-            <h2 className="text-[20px] font-medium text-white">What support includes</h2>
+            <h2 className="text-[20px] font-medium text-white">The human layer</h2>
             <ul className="mt-4 space-y-2.5">
               {PRICING.support.map((i) => (
                 <li key={i} className="flex gap-2 text-[14.5px] text-white/70">
@@ -135,14 +178,14 @@ export function PricingPage() {
               ))}
             </ul>
             <p className="mt-5 text-[13.5px] text-white/50">
-              Refunds of unused credits follow our <Link to="/refund-policy" className="underline underline-offset-2">refund policy</Link> and{" "}
+              See our <Link to="/refund-policy" className="underline underline-offset-2">refund policy</Link> and{" "}
               <Link to="/terms-and-conditions" className="underline underline-offset-2">terms</Link>.
             </p>
           </Card>
         </div>
       </Section>
       <FaqSection faqs={PRICING_FAQS} heading="Pricing questions" />
-      <SeoLeadForm path="/pricing" title="Not sure which plan fits?" subtitle="Tell us your goal and budget. We'll show you the plan and what it would cost before you pay anything." />
+      <SeoLeadForm path="/pricing" title="Not sure how many credits you need?" subtitle="Tell us your goal. We'll show you the campaign plan and roughly how many credits it would use before you buy anything." />
     </SeoShell>
   );
 }

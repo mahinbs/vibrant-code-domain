@@ -21,13 +21,14 @@ function serviceJsonLd(page: SeoPageData, path: string): Record<string, unknown>
       : {}),
     offers: {
       "@type": "Offer",
+      name: "2,500 credits",
       priceCurrency: overseas ? "USD" : "INR",
-      price: overseas ? "199" : "33333",
+      price: overseas ? "9.99" : "899",
       priceSpecification: {
         "@type": "UnitPriceSpecification",
-        price: overseas ? "199" : "33333",
+        price: overseas ? "9.99" : "899",
         priceCurrency: overseas ? "USD" : "INR",
-        unitText: "MONTH",
+        referenceQuantity: { "@type": "QuantitativeValue", value: 2500, unitText: "credits" },
         valueAddedTaxIncluded: false,
       },
       url: absUrl("/pricing"),

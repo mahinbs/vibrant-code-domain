@@ -24,7 +24,7 @@ export const HOME_FAQS: Faq[] = [
   },
   {
     q: "How much does it cost?",
-    a: `${PRICING.teaser}. Plans load prepaid AI Growth Credits. Your ad spend is separate and paid directly to the platforms from your own ad accounts.`,
+    a: `There is no retainer or subscription. ${PRICING.starter}, and credits are used only when something is done, for example 12 credits for a qualified lead or 10 for a WhatsApp conversation handled. Credits never expire. Your ad spend is separate and paid directly to the platforms from your own ad accounts.`,
   },
   {
     q: "Will anything spend money without my approval?",
@@ -48,7 +48,7 @@ export const HOME_FAQS: Faq[] = [
   },
   {
     q: "How is this different from hiring an agency?",
-    a: "An agency assigns people who check your campaigns a few times a week. Here AI agents check them 72 times a day, follow up leads automatically, and everything runs in accounts you own.",
+    a: "An agency assigns people who check your campaigns a few times a week. Here AI agents check them 72 times a day, follow up leads automatically, and everything runs in accounts you own. And there is no retainer: you pay in credits only when something is done.",
   },
   {
     q: "Where do I sign up?",
@@ -57,6 +57,7 @@ export const HOME_FAQS: Faq[] = [
 ];
 
 const COMPARE_ROWS: [string, string, string, string][] = [
+  ["How you pay", "Credits per result, no retainer", "A monthly retainer", "Your own time"],
   ["Who runs the campaigns", "AI agents, with your approval", "An account manager", "You"],
   ["How often campaigns are checked", "Every 20 minutes", "A few times a week", "When you find time"],
   ["Lead follow-up", "Automatic on WhatsApp, LinkedIn, email and calls", "Usually your job", "Your job"],

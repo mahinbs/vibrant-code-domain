@@ -133,7 +133,7 @@ export const locationPages: SeoPageData[] = [
         kind: "prose",
         heading: "Billing for UAE clients",
         paragraphs: [
-          "Plans for clients outside India are billed in US dollars, starting from US$199 a month. Your plan loads prepaid AI Growth Credits, which pay for the agents, automation and calling that run your campaigns. Ad spend is separate: it goes straight from your card to Meta, Google, LinkedIn or whichever platform shows the ad, inside your own ad account.",
+          "You buy credits in US dollars, with no retainer or subscription: 2,500 credits cost $9.99, and they are used only when the agents do something, such as finding a lead, handling a WhatsApp conversation, making a call or building a campaign. Ad spend is separate: it goes straight from your card to Meta, Google, LinkedIn or whichever platform shows the ad, inside your own ad account.",
           "That split matters. You can see every bit of media spend in each platform's own billing, and we never sit in the middle of it. Our invoice comes from Triple-Seven BoostMySites AI Solutions Private Limited, a company registered in India; your accountant can advise how a foreign service invoice is treated in your books.",
         ],
       },
@@ -166,7 +166,7 @@ export const locationPages: SeoPageData[] = [
       },
       {
         q: "What currency do I pay in?",
-        a: "Our plan is billed in US dollars, from US$199 a month. Ad spend is charged by the platforms directly to your own card in your own ad account.",
+        a: "Credits are billed in US dollars: 2,500 credits cost $9.99, with no subscription. Ad spend is charged by the platforms directly to your own card in your own ad account.",
       },
       {
         q: "Can you guarantee a number of leads?",
@@ -183,7 +183,7 @@ export const locationPages: SeoPageData[] = [
     locale: {
       hreflang: "en-AE",
       areaServed: "United Arab Emirates",
-      priceLine: "From US$199 a month, billed in USD",
+      priceLine: "2,500 credits for $9.99. No retainer, no subscription",
     },
   },
 
@@ -312,7 +312,7 @@ export const locationPages: SeoPageData[] = [
         kind: "prose",
         heading: "Billing for UK clients",
         paragraphs: [
-          "We bill UK clients in US dollars, from US$199 a month, not in pounds sterling, so your card provider may apply its own exchange rate. The plan loads prepaid AI Growth Credits that cover the agents, automation and AI calling. Ad spend is separate and goes straight to Google, LinkedIn or Meta from your own ad account, in whatever currency that account uses.",
+          "UK clients buy credits in US dollars, not pounds sterling, so your card provider may apply its own exchange rate. 2,500 credits cost $9.99, there is no retainer or subscription, and credits are used only when the agents do something for you. Ad spend is separate and goes straight to Google, LinkedIn or Meta from your own ad account, in whatever currency that account uses.",
           "Our invoice comes from Triple-Seven BoostMySites AI Solutions Private Limited, an Indian company. Your accountant will know how to treat an overseas service invoice for VAT.",
         ],
       },
@@ -337,7 +337,7 @@ export const locationPages: SeoPageData[] = [
       },
       {
         q: "Can you bill us in pounds?",
-        a: "No. Plans for UK clients are billed in US dollars, from US$199 a month. Your ad spend is billed separately by Google, LinkedIn or Meta in your own ad account.",
+        a: "No. Credits are billed in US dollars: 2,500 credits cost $9.99. Your ad spend is billed separately by Google, LinkedIn or Meta in your own ad account.",
       },
       {
         q: "Do you handle B2B lead generation on LinkedIn?",
@@ -362,7 +362,7 @@ export const locationPages: SeoPageData[] = [
     locale: {
       hreflang: "en-GB",
       areaServed: "United Kingdom",
-      priceLine: "From US$199 a month, billed in USD",
+      priceLine: "2,500 credits for $9.99. No retainer, no subscription",
     },
   },
 
@@ -491,7 +491,7 @@ export const locationPages: SeoPageData[] = [
         kind: "prose",
         heading: "Billing for US clients",
         paragraphs: [
-          "Plans are billed in US dollars, from US$199 a month. Each plan loads prepaid AI Growth Credits, which cover the agents, automation and AI calling that run your campaigns. Ad spend is separate and is billed by Google, Meta, LinkedIn and the other platforms directly to your card, in your own ad accounts.",
+          "You buy credits in US dollars, with no retainer or subscription: 2,500 credits cost $9.99, and they are used only when the agents do something, such as finding a lead, handling a WhatsApp conversation, making a call or building a campaign. Ad spend is separate and is billed by Google, Meta, LinkedIn and the other platforms directly to your card, in your own ad accounts.",
           "Our invoice comes from Triple-Seven BoostMySites AI Solutions Private Limited, a company registered in India. There is no markup on your media spend because it never passes through us.",
         ],
       },
@@ -527,8 +527,8 @@ export const locationPages: SeoPageData[] = [
         a: "We set it up to call leads who came through your own forms and ads and asked to be contacted. US calling rules are strict, so we recommend your counsel reviews your consent wording, and you approve every script.",
       },
       {
-        q: "Is ad spend included in the plan price?",
-        a: "No. The plan, from US$199 a month, loads AI Growth Credits for the agents and automation. Ad spend is paid directly to the platforms from your own ad accounts.",
+        q: "Is ad spend included in the price of credits?",
+        a: "No. Credits (2,500 for $9.99) pay for what the agents do, such as leads found, conversations handled and campaigns built. Ad spend is paid directly to the platforms from your own ad accounts.",
       },
     ],
     related: [
@@ -542,7 +542,7 @@ export const locationPages: SeoPageData[] = [
     locale: {
       hreflang: "en-US",
       areaServed: "United States",
-      priceLine: "From US$199 a month, billed in USD",
+      priceLine: "2,500 credits for $9.99. No retainer, no subscription",
     },
   },
 
@@ -675,7 +675,7 @@ export const locationPages: SeoPageData[] = [
         kind: "prose",
         heading: "Billing for Singapore clients",
         paragraphs: [
-          "Plans for Singapore clients are billed in US dollars, from US$199 a month, rather than Singapore dollars. Each plan loads prepaid AI Growth Credits for the agents, automation and calling. Ad spend is separate and goes directly to Google, Meta, LinkedIn and the other platforms from your own ad accounts.",
+          "Singapore clients buy credits in US dollars rather than Singapore dollars. 2,500 credits cost $9.99, with no retainer or subscription, and they are used only when the agents do something for you. Ad spend is separate and goes directly to Google, Meta, LinkedIn and the other platforms from your own ad accounts.",
           "Our invoice is issued by Triple-Seven BoostMySites AI Solutions Private Limited in India. Your accountant can advise on how an overseas service invoice is treated for your company.",
         ],
       },
@@ -700,7 +700,7 @@ export const locationPages: SeoPageData[] = [
       },
       {
         q: "Can you bill in Singapore dollars?",
-        a: "No. Plans are billed in US dollars, from US$199 a month. Ad spend is billed separately by each platform in your own ad account.",
+        a: "No. Credits are billed in US dollars: 2,500 credits cost $9.99. Ad spend is billed separately by each platform in your own ad account.",
       },
       {
         q: "Can campaigns also cover Malaysia or Indonesia?",
@@ -725,7 +725,7 @@ export const locationPages: SeoPageData[] = [
     locale: {
       hreflang: "en-SG",
       areaServed: "Singapore",
-      priceLine: "From US$199 a month, billed in USD",
+      priceLine: "2,500 credits for $9.99. No retainer, no subscription",
     },
   },
 
@@ -740,7 +740,7 @@ export const locationPages: SeoPageData[] = [
       "AI-run ads and WhatsApp follow-up for Bengaluru businesses, from our office in JP Nagar. GST invoice included.",
     metaTitle: "Digital Marketing Agency Bengaluru | BoostMySites",
     metaDescription:
-      "Bengaluru digital marketing agency run by AI agents: Google, Meta and LinkedIn ads with WhatsApp follow-up. Office in JP Nagar. From ₹33,333/month + GST.",
+      "Bengaluru digital marketing agency run by AI agents: Google, Meta and LinkedIn ads with WhatsApp follow-up. Office in JP Nagar. Credits from ₹899 + GST.",
     primaryPhrase: "digital marketing agency Bengaluru",
     eyebrow: "Bengaluru · Karnataka",
     h1: "A digital marketing agency in Bengaluru, run by AI agents",
@@ -847,8 +847,8 @@ export const locationPages: SeoPageData[] = [
         kind: "prose",
         heading: "Billing and GST",
         paragraphs: [
-          "Plans start from ₹33,333 a month plus GST. You receive a GST invoice from Triple-Seven BoostMySites AI Solutions Private Limited, our Bengaluru company. If your business is GST-registered, your accountant can confirm whether you can claim input tax credit on it.",
-          "The plan loads prepaid AI Growth Credits that pay for the agents, automation and AI calling. Ad spend is separate: you pay Google, Meta and the other platforms directly from your own ad accounts, and they invoice you for it.",
+          "Credits start at ₹899 + GST for 2,500, with no retainer or subscription. You receive a GST invoice from Triple-Seven BoostMySites AI Solutions Private Limited, our Bengaluru company. If your business is GST-registered, your accountant can confirm whether you can claim input tax credit on it.",
+          "Credits are used only when the agents do something, such as finding a lead, handling a conversation or building a campaign, and they never expire. Ad spend is separate: you pay Google, Meta and the other platforms directly from your own ad accounts, and they invoice you for it.",
         ],
       },
       {
@@ -872,7 +872,7 @@ export const locationPages: SeoPageData[] = [
       },
       {
         q: "Do you work with startups?",
-        a: "Yes. The system is built for businesses that need leads without hiring a full marketing team. Plans start from ₹33,333 a month plus GST, and ad spend is whatever you choose to give the platforms.",
+        a: "Yes. The system is built for businesses that need leads without hiring a full marketing team. There is no retainer: credits start at ₹899 + GST for 2,500, and ad spend is whatever you choose to give the platforms.",
       },
       {
         q: "Can ads be in Kannada?",
@@ -880,7 +880,7 @@ export const locationPages: SeoPageData[] = [
       },
       {
         q: "Is GST included in the price?",
-        a: "No. Plans are from ₹33,333 a month plus GST, and you receive a GST invoice. Ad spend is billed separately by the platforms.",
+        a: "No. You buy credits (2,500 for ₹899 + GST) and receive a GST invoice. Ad spend is billed separately by the platforms.",
       },
       {
         q: "Do you guarantee leads?",
@@ -898,7 +898,7 @@ export const locationPages: SeoPageData[] = [
     locale: {
       hreflang: "en-IN",
       areaServed: "Bengaluru, Karnataka, India",
-      priceLine: "From ₹33,333 a month + GST",
+      priceLine: "2,500 credits for ₹899 + GST. No retainer, no subscription",
       officeAddress:
         "#137, 3rd Main Cross, Dollars Colony, 4th Phase JP Nagar, Bengaluru, Karnataka 560076",
     },
@@ -915,7 +915,7 @@ export const locationPages: SeoPageData[] = [
       "AI-run campaigns for Mumbai's finance, property and consumer brands, targeted by suburb and followed up on WhatsApp.",
     metaTitle: "Digital Marketing Agency Mumbai | BoostMySites",
     metaDescription:
-      "AI-run digital marketing for Mumbai businesses: Google, Meta and LinkedIn ads targeted by suburb, WhatsApp follow-up, GST invoice. From ₹33,333/month.",
+      "AI-run digital marketing for Mumbai businesses: Google, Meta and LinkedIn ads targeted by suburb, WhatsApp follow-up, GST invoice, no retainer.",
     primaryPhrase: "digital marketing agency Mumbai",
     eyebrow: "Mumbai · Maharashtra",
     h1: "An AI-powered digital marketing agency for Mumbai businesses",
@@ -1024,8 +1024,8 @@ export const locationPages: SeoPageData[] = [
         kind: "prose",
         heading: "Billing and GST for Mumbai clients",
         paragraphs: [
-          "Plans start from ₹33,333 a month plus GST, invoiced with a proper GST invoice from Triple-Seven BoostMySites AI Solutions Private Limited. Your accountant can confirm how the input credit applies to your business.",
-          "The plan loads prepaid AI Growth Credits for the agents, automation and calling. Ad spend is paid directly to Meta, Google, LinkedIn and others from your own ad accounts, and those platforms bill you for it themselves.",
+          "Credits start at ₹899 + GST for 2,500, with no retainer or subscription, invoiced with a proper GST invoice from Triple-Seven BoostMySites AI Solutions Private Limited. Your accountant can confirm how the input credit applies to your business.",
+          "Credits are used only when the agents do something for you, and they never expire. Ad spend is paid directly to Meta, Google, LinkedIn and others from your own ad accounts, and those platforms bill you for it themselves.",
         ],
       },
       {
@@ -1061,7 +1061,7 @@ export const locationPages: SeoPageData[] = [
       },
       {
         q: "How is billing handled?",
-        a: "Plans are from ₹33,333 a month plus GST, with a GST invoice. Ad spend is separate and paid directly to the platforms from your own ad accounts.",
+        a: "Credits start at ₹899 + GST for 2,500, with a GST invoice and no retainer. Ad spend is separate and paid directly to the platforms from your own ad accounts.",
       },
     ],
     related: [
@@ -1075,7 +1075,7 @@ export const locationPages: SeoPageData[] = [
     locale: {
       hreflang: "en-IN",
       areaServed: "Mumbai, Maharashtra, India",
-      priceLine: "From ₹33,333 a month + GST",
+      priceLine: "2,500 credits for ₹899 + GST. No retainer, no subscription",
     },
   },
 
@@ -1090,7 +1090,7 @@ export const locationPages: SeoPageData[] = [
       "City-by-city campaigns across Delhi, Gurugram, Noida, Ghaziabad and Faridabad, with Hindi copy where it helps.",
     metaTitle: "Digital Marketing Agency Delhi NCR | BoostMySites",
     metaDescription:
-      "AI-driven digital marketing across Delhi NCR: campaigns split by city, Hindi and English ads, WhatsApp follow-up. From ₹33,333/month + GST.",
+      "AI-driven digital marketing across Delhi NCR: campaigns split by city, Hindi and English ads, WhatsApp follow-up. Credits from ₹899 + GST.",
     primaryPhrase: "digital marketing agency Delhi NCR",
     eyebrow: "Delhi NCR",
     h1: "An AI-driven digital marketing agency for Delhi NCR",
@@ -1199,8 +1199,8 @@ export const locationPages: SeoPageData[] = [
         kind: "prose",
         heading: "Billing and GST for NCR clients",
         paragraphs: [
-          "Plans start from ₹33,333 a month plus GST, and you receive a GST invoice from Triple-Seven BoostMySites AI Solutions Private Limited. Ask your accountant how input credit applies to your registration.",
-          "Your plan loads prepaid AI Growth Credits for the agents, automation and calling. Ad spend is separate and goes directly to the platforms from your own ad accounts — useful for institutes that want media spend visible line by line during admission season.",
+          "Credits start at ₹899 + GST for 2,500, with no retainer or subscription, and you receive a GST invoice from Triple-Seven BoostMySites AI Solutions Private Limited. Ask your accountant how input credit applies to your registration.",
+          "Credits are used only when the agents do something for you, and a quiet week costs nothing. Ad spend is separate and goes directly to the platforms from your own ad accounts — useful for institutes that want media spend visible line by line during admission season.",
         ],
       },
       {
@@ -1236,7 +1236,7 @@ export const locationPages: SeoPageData[] = [
       },
       {
         q: "Is GST extra?",
-        a: "Yes. Plans are from ₹33,333 a month plus GST, with a GST invoice. Ad spend is billed separately by the platforms.",
+        a: "Yes. You buy credits (2,500 for ₹899 + GST) and receive a GST invoice. Ad spend is billed separately by the platforms.",
       },
     ],
     related: [
@@ -1250,7 +1250,7 @@ export const locationPages: SeoPageData[] = [
     locale: {
       hreflang: "en-IN",
       areaServed: "Delhi NCR, India",
-      priceLine: "From ₹33,333 a month + GST",
+      priceLine: "2,500 credits for ₹899 + GST. No retainer, no subscription",
     },
   },
 
@@ -1265,7 +1265,7 @@ export const locationPages: SeoPageData[] = [
       "AI-run campaigns for Hyderabad's tech, healthcare, education and property businesses, with Telugu copy if you want it.",
     metaTitle: "Digital Marketing Agency Hyderabad | BoostMySites",
     metaDescription:
-      "AI-led digital marketing for Hyderabad: Google, Meta and LinkedIn campaigns, Telugu or English copy, WhatsApp follow-up. From ₹33,333/month + GST.",
+      "AI-led digital marketing for Hyderabad: Google, Meta and LinkedIn campaigns, Telugu or English copy, WhatsApp follow-up. Credits from ₹899 + GST.",
     primaryPhrase: "digital marketing agency Hyderabad",
     eyebrow: "Hyderabad · Telangana",
     h1: "An AI-led digital marketing agency for Hyderabad businesses",
@@ -1374,8 +1374,8 @@ export const locationPages: SeoPageData[] = [
         kind: "prose",
         heading: "Billing and GST for Hyderabad clients",
         paragraphs: [
-          "Plans start from ₹33,333 a month plus GST, invoiced with a GST invoice from Triple-Seven BoostMySites AI Solutions Private Limited. Your accountant can tell you how input credit applies to your business.",
-          "Each plan loads prepaid AI Growth Credits for the agents, automation and calling. Ad spend is separate and paid directly to Google, Meta, LinkedIn and the rest from your own ad accounts.",
+          "Credits start at ₹899 + GST for 2,500, with no retainer or subscription, invoiced with a GST invoice from Triple-Seven BoostMySites AI Solutions Private Limited. Your accountant can tell you how input credit applies to your business.",
+          "Credits are used only when the agents do something for you, and they never expire. Ad spend is separate and paid directly to Google, Meta, LinkedIn and the rest from your own ad accounts.",
         ],
       },
       {
@@ -1411,7 +1411,7 @@ export const locationPages: SeoPageData[] = [
       },
       {
         q: "What does it cost?",
-        a: "Plans start from ₹33,333 a month plus GST, with a GST invoice. Ad spend is separate and paid directly to the platforms. We don't guarantee leads or sales.",
+        a: "Credits start at ₹899 + GST for 2,500, with a GST invoice and no retainer. Ad spend is separate and paid directly to the platforms. We don't guarantee leads or sales.",
       },
     ],
     related: [
@@ -1425,7 +1425,7 @@ export const locationPages: SeoPageData[] = [
     locale: {
       hreflang: "en-IN",
       areaServed: "Hyderabad, Telangana, India",
-      priceLine: "From ₹33,333 a month + GST",
+      priceLine: "2,500 credits for ₹899 + GST. No retainer, no subscription",
     },
   },
 ];

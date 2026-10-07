@@ -34,7 +34,7 @@ export const comparisonPages: SeoPageData[] = [
           [
             "Cost model",
             "A monthly retainer, sometimes plus a percentage of ad spend. The retainer is due whether campaigns perform or not.",
-            "From ₹33,333 a month + GST or US$199 a month, loaded as prepaid AI Growth Credits. Ad spend is separate and paid directly to the platforms. No guarantee of leads or sales.",
+            "No retainer: credits used only when something is done (2,500 credits cost ₹899 + GST or $9.99). Ad spend is separate and paid directly to the platforms. No guarantee of leads or sales.",
           ],
           [
             "Speed to launch",
@@ -138,11 +138,11 @@ export const comparisonPages: SeoPageData[] = [
     faqs: [
       {
         q: "Is BoostMySites a marketing agency?",
-        a: "Not in the traditional sense. The day-to-day work is done by AI agents, with our team in Bengaluru setting things up and supporting you. Plans are monthly and load prepaid AI Growth Credits rather than paying for hours of staff time.",
+        a: "Not in the traditional sense. The day-to-day work is done by AI agents, with our team in Bengaluru setting things up and supporting you. There is no retainer: you buy credits that are used only when the system does something, rather than paying for hours of staff time.",
       },
       {
         q: "Is it cheaper than an agency?",
-        a: "It can be, but compare like with like. Our plans start from ₹33,333 a month plus GST or US$199 a month, and ad spend is separate. Add up an agency's retainer plus any fee on ad spend, and compare total cost against what each option actually does for you.",
+        a: "It can be, but compare like with like. There is no retainer: 2,500 credits cost ₹899 + GST (or $9.99), each action has a published credit cost, and ad spend is separate. Add up an agency's retainer plus any fee on ad spend, and compare total cost against what each option actually does for you.",
       },
       {
         q: "Will I lose the human contact an agency gives me?",
@@ -200,7 +200,7 @@ export const comparisonPages: SeoPageData[] = [
           [
             "Cost model",
             "A software subscription priced by HubSpot by product and tier. Check HubSpot's current pricing.",
-            "From ₹33,333 a month + GST or US$199 a month, loaded as prepaid AI Growth Credits. Ad spend is separate and paid to the platforms.",
+            "Credits, not a subscription: 2,500 credits cost ₹899 + GST or $9.99, used only when something is done. Ad spend is separate and paid to the platforms.",
           ],
           [
             "Speed to launch",
@@ -283,7 +283,7 @@ export const comparisonPages: SeoPageData[] = [
       },
       {
         q: "Which one is cheaper?",
-        a: "It depends on which HubSpot products and tiers you would need and the cost of the people who run them, so check HubSpot's current pricing on their site. Our plans start from ₹33,333 a month plus GST or US$199 a month, with ad spend paid separately to the platforms.",
+        a: "It depends on which HubSpot products and tiers you would need and the cost of the people who run them, so check HubSpot's current pricing on their site. We sell credits rather than a subscription: 2,500 credits cost ₹899 + GST or $9.99, with ad spend paid separately to the platforms.",
       },
       {
         q: "Do I need marketing skills to use BoostMySites?",
@@ -330,7 +330,7 @@ export const comparisonPages: SeoPageData[] = [
           [
             "Cost model",
             "Ad spend plus your own time. No fees on top.",
-            "From ₹33,333 a month + GST or US$199 a month in prepaid AI Growth Credits, plus ad spend paid directly to the platforms.",
+            "Credits used per action (2,500 credits cost ₹899 + GST or $9.99), plus ad spend paid directly to the platforms.",
           ],
           [
             "Speed to launch",
@@ -384,7 +384,7 @@ export const comparisonPages: SeoPageData[] = [
         kind: "prose",
         heading: "When BoostMySites makes more sense",
         paragraphs: [
-          "The balance tips once ads matter to your revenue and your time matters more than the plan fee. If you are advertising on more than one platform, losing leads because nobody replied quickly, or spending evenings in ad managers instead of with customers, handing the routine work to AI agents gives you those hours back.",
+          "The balance tips once ads matter to your revenue and your time matters more than the cost of credits. If you are advertising on more than one platform, losing leads because nobody replied quickly, or spending evenings in ad managers instead of with customers, handing the routine work to AI agents gives you those hours back.",
           "It also makes sense if you have tried it yourself and can't tell what's working. The weekly report explains in plain English what ran, what it cost, what changed and why, so you keep learning without doing every click.",
         ],
       },

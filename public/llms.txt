@@ -8,9 +8,10 @@ LLM index (this file): https://www.boostmysites.com/llms.txt
 BoostMySites runs an AI client acquisition system for growing businesses: AI
 ad campaigns (Meta, Google, LinkedIn, YouTube and more) launched in the
 client's own ad accounts only after approval, WhatsApp automation, AI calling,
-LinkedIn outreach, email marketing, and lead scoring into a CRM. Pricing starts
-at INR 33,333 a month + GST or USD 199 a month (prepaid AI Growth Credits; ad
-spend paid separately to the platforms). Sign-up happens on
+LinkedIn outreach, email marketing, and lead scoring into a CRM. Pricing is
+pay-per-result credits, with no retainer or subscription: 2,500 credits cost
+INR 899 + GST in India or USD 9.99 elsewhere, credits never expire, and ad
+spend is paid separately to the platforms. Sign-up happens on
 https://www.boostmysites.in. BoostMySites also builds AI and fintech software.
 Founded in 2017, headquartered in Bengaluru, India, serving clients globally.
 

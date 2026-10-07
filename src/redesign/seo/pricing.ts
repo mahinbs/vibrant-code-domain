@@ -1,50 +1,39 @@
 import { site } from "../data/site";
 
 /**
- * Every price shown on boostmysites.com comes from here. Checkout and credit
- * packs live on boostmysites.in (the product); this site only informs.
+ * Every price shown on boostmysites.com comes from here. The product
+ * (boostmysites.in) sells credit packs only — no retainer, no subscription.
+ * Keep in sync with the packs on boostmysites.in/app (Billing → Buy credits).
  */
 export const PRICING = {
-  teaser: "From ₹33,333 a month + GST, or US$199 a month",
+  teaser: "Credits from ₹899 + GST or $9.99. No retainer, no subscription",
+  starter: "2,500 credits cost ₹899 + GST in India or $9.99 elsewhere",
   creditsNote:
-    "Every plan loads prepaid AI Growth Credits that are drawn down for agreed work. Ad spend is separate: you pay the platforms directly from your own ad accounts.",
+    "You buy credits once and they only move when something is done: a lead found, an invite sent, a conversation handled, a campaign built. A quiet week costs nothing, and credits never expire. Ad spend is separate and paid to the platforms from your own ad accounts.",
   signupUrl: site.productUrl,
-  plans: {
-    INR: [
-      {
-        id: "monthly",
-        name: "Monthly",
-        price: "₹33,333",
-        unit: "a month + GST",
-        blurb: "The full acquisition stack, month to month. Pause before the next cycle.",
-      },
-      {
-        id: "yearly",
-        name: "Yearly",
-        price: "₹89,999",
-        unit: "a year + GST",
-        blurb: "Twelve months of the full stack for less than three months of the monthly plan.",
-        badge: "Best value",
-      },
-    ],
-    USD: [
-      {
-        id: "monthly",
-        name: "Monthly",
-        price: "US$199",
-        unit: "a month",
-        blurb: "The full acquisition stack, billed monthly in USD.",
-      },
-      {
-        id: "yearly",
-        name: "Yearly",
-        price: "US$999",
-        unit: "a year",
-        blurb: "Twelve months of the full stack, billed once in USD.",
-        badge: "Best value",
-      },
-    ],
-  },
+  /** India packs, prices before 18% GST. */
+  packsINR: [
+    { credits: 2500, price: 899 },
+    { credits: 5000, price: 1699 },
+    { credits: 10000, price: 2999 },
+    { credits: 25000, price: 6999, popular: true },
+    { credits: 100000, price: 24999 },
+    { credits: 250000, price: 54999 },
+  ],
+  /** Outside India: the starter pack price published on boostmysites.in; larger packs are shown at checkout. */
+  usdStarter: { credits: 2500, price: 9.99 },
+  /** "What a result costs" — the public catalogue on boostmysites.in. */
+  actionCosts: [
+    { action: "A qualified lead found for you", credits: 12 },
+    { action: "A LinkedIn invite, personalised", credits: 7 },
+    { action: "A WhatsApp conversation handled", credits: 10 },
+    { action: "An email delivered", credits: 1 },
+    { action: "An AI voice call made", credits: 60 },
+    { action: "A campaign built in your ad account", credits: 150 },
+    { action: "A full AI growth plan", credits: 125 },
+    { action: "A lead synced to your CRM", credits: 2 },
+  ],
+  catalogueNote: "Prices are the current catalogue and can change; your credit history always shows what each action cost you.",
   included: [
     "Ad campaigns on Meta, Google, LinkedIn, TikTok, YouTube, Snapchat and ChatGPT ads",
     "Eight AI agents that plan, launch, optimise and follow up",
@@ -55,8 +44,14 @@ export const PRICING = {
     "A plain-English report every week",
   ],
   support: [
-    "Onboarding: we scan your website, connect your ad accounts and CRM, and run the pre-flight check — you sign in to your own accounts",
-    "An ad-health baseline and fix list in the first days",
+    "A named growth manager on our team owns your account, and you can reach them",
+    "They help connect your Meta and Google ad accounts, pixel, WhatsApp and calling number",
+    "Short on time? They can build and launch campaigns for you. Nothing spends until you approve",
+    "When an ad is rejected or a payment fails, our team gets the alert and helps you fix it",
+    "Optional auto top-up when you run low, by UPI Autopay or card, with a ceiling you set",
     "Support on WhatsApp: +91 96329 53355",
   ],
 } as const;
+
+export const inr = (n: number) => `₹${n.toLocaleString("en-IN")}`;
+export const creditsLabel = (n: number) => n.toLocaleString("en-IN");
