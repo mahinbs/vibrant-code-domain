@@ -3413,57 +3413,6 @@ body:has(.cc-root) {
   margin-top: 30px;
 }
 
-/* ---------- Budget checkbox ---------- */
-
-.cc-budget {
-  position: relative;
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  padding: 14px 16px;
-  border: 1px solid rgba(74, 222, 128, 0.35);
-  border-radius: 14px;
-  background: rgba(34, 197, 94, 0.06);
-  font-size: 15px;
-  line-height: 1.45;
-  color: #fff;
-  cursor: pointer;
-}
-
-.cc-budget.is-invalid {
-  border-color: rgba(255, 110, 110, 0.7);
-}
-
-.cc-budget input {
-  position: absolute;
-  width: 20px;
-  height: 20px;
-  margin: 0;
-  opacity: 0;
-  cursor: pointer;
-}
-
-.cc-budget input:checked + .cc-check {
-  border-color: #22c55e;
-  background: #22c55e;
-  color: #04220f;
-}
-
-.cc-budget input:focus-visible + .cc-check {
-  box-shadow: 0 0 0 4px rgba(74, 222, 128, 0.35);
-}
-
-.cc-budget strong {
-  color: #4ade80;
-}
-
-.cc-budget small {
-  display: block;
-  margin-top: 3px;
-  font-size: 12.5px;
-  color: rgba(214, 224, 255, 0.62);
-}
-
 /* ---------- Comparison table: our column stands out as a raised card ---------- */
 
 .cc-compare-wrap {
@@ -3621,5 +3570,442 @@ body:has(.cc-root) {
   .cc-journey.is-compact li:not(:last-child)::after {
     left: calc(50% + 17px);
     right: calc(-50% + 17px);
+  }
+}
+
+/* ---------- Form v2: two steps, qualifying questions first ---------- */
+
+.cc-step-head {
+  display: grid;
+  gap: 10px;
+  outline: none;
+  scroll-margin-top: 80px;
+}
+
+.cc-step-meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.cc-step-meta span {
+  font-family: var(--cc-mono);
+  font-size: 11.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(214, 224, 255, 0.65);
+}
+
+.cc-step-meta strong {
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.cc-step-head:focus-visible .cc-step-meta strong {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.cc-step-bar {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.cc-step-bar i {
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(150, 175, 255, 0.18);
+  transition: background-color 0.3s ease;
+}
+
+.cc-step-bar i.is-on {
+  background: linear-gradient(90deg, #0a5cff, #4d8bff);
+  box-shadow: 0 0 12px rgba(77, 139, 255, 0.6);
+}
+
+/* One question block */
+.cc-q {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.cc-q-legend {
+  padding: 0;
+  font-size: 15.5px;
+  font-weight: 600;
+  line-height: 1.35;
+  color: #fff;
+}
+
+.cc-q-hint {
+  margin: -2px 0 0;
+  font-size: 12.5px;
+  color: rgba(214, 224, 255, 0.6);
+}
+
+.cc-q-hint.is-top {
+  margin-top: -6px;
+}
+
+.cc-choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.cc-choices.is-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.cc-choice {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 44px;
+  padding: 10px 14px;
+  border: 1px solid rgba(150, 175, 255, 0.24);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.3;
+  color: rgba(240, 244, 255, 0.9);
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+}
+
+.cc-choices.is-chips .cc-choice {
+  border-radius: 999px;
+}
+
+.cc-choice:hover {
+  border-color: rgba(150, 175, 255, 0.5);
+}
+
+.cc-choice input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.cc-choice-mark {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid rgba(170, 195, 255, 0.5);
+  border-radius: 999px;
+  color: transparent;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.cc-choice.is-on {
+  border-color: #4d8bff;
+  background: rgba(10, 92, 255, 0.2);
+  color: #fff;
+  box-shadow: inset 0 0 0 1px rgba(77, 139, 255, 0.45);
+}
+
+.cc-choice.is-on .cc-choice-mark {
+  border-color: #0a5cff;
+  background: #0a5cff;
+  color: #fff;
+}
+
+.cc-choice:has(input:focus-visible) {
+  box-shadow: 0 0 0 3px rgba(77, 139, 255, 0.45);
+}
+
+.cc-q.is-invalid .cc-choice {
+  border-color: rgba(255, 110, 110, 0.55);
+}
+
+/* Budget dropdown */
+.cc-select-field {
+  position: relative;
+  display: block;
+}
+
+.cc-select-field select {
+  width: 100%;
+  height: 52px;
+  padding: 0 44px 0 16px;
+  border: 1px solid rgba(150, 175, 255, 0.24);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.045);
+  color: #fff;
+  font: 500 15.5px/1.2 "Inter", system-ui, sans-serif;
+  appearance: none;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cc-select-field select:invalid,
+.cc-select-field select:has(option[value=""]:checked) {
+  color: rgba(200, 212, 255, 0.55);
+}
+
+.cc-select-field select option {
+  background: #0b1638;
+  color: #fff;
+}
+
+.cc-select-field select:focus {
+  outline: none;
+  border-color: #4d8bff;
+  box-shadow: 0 0 0 4px rgba(77, 139, 255, 0.22);
+}
+
+.cc-select-field svg {
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  transform: translateY(-50%);
+  color: rgba(214, 224, 255, 0.75);
+  pointer-events: none;
+}
+
+.cc-q.is-invalid .cc-select-field select {
+  border-color: rgba(255, 110, 110, 0.75);
+}
+
+/* Back + submit on step 2 */
+.cc-step-actions {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.cc-step-actions .cc-form-submit {
+  margin-top: 0;
+}
+
+/* ---------- Confirmation popup ---------- */
+
+.cc-confirm {
+  text-align: center;
+}
+
+.cc-confirm .cc-form-title {
+  padding-right: 0;
+}
+
+.cc-confirm-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 72px;
+  height: 72px;
+  margin: 6px auto 16px;
+  border-radius: 999px;
+  background: rgba(37, 211, 102, 0.15);
+  color: #3ee07f;
+  box-shadow: 0 0 0 10px rgba(37, 211, 102, 0.06);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .cc-confirm-icon {
+    animation: cc-pop 0.5s 0.1s cubic-bezier(0.3, 1.6, 0.5, 1) both;
+  }
+}
+
+.cc-confirm .cc-form-sub {
+  max-width: 440px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cc-confirm .cc-modal-journey {
+  text-align: center;
+}
+
+.cc-confirm-done {
+  width: 100%;
+  margin-top: 10px;
+}
+
+@media (max-width: 560px) {
+  .cc-choices.is-cards {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .cc-step-actions {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .cc-step-actions .cc-btn.is-ghost {
+    order: 2;
+  }
+}
+
+/* ---------- Form v2 spacing pass: numbered question blocks, aligned grids ---------- */
+
+/* Step 1 questions: one rhythm. Each block is separated by a hairline and equal padding. */
+.cc-form .cc-q {
+  display: block;
+  padding: 22px 0 0;
+  border-top: 1px solid rgba(150, 175, 255, 0.12);
+}
+
+.cc-form .cc-step-head + .cc-q {
+  padding-top: 6px;
+  border-top: 0;
+}
+
+/* A fieldset legend ignores grid gaps; floating it makes it lay out like a normal block. */
+.cc-form .cc-q > legend.cc-q-legend {
+  float: left;
+  width: 100%;
+}
+
+.cc-form .cc-q-legend {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 14px;
+  font-size: 15.5px;
+  font-weight: 600;
+  line-height: 1.35;
+  color: #fff;
+}
+
+.cc-q-num {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  background: rgba(10, 92, 255, 0.2);
+  box-shadow: inset 0 0 0 1px rgba(110, 160, 255, 0.5);
+  font-family: var(--cc-mono);
+  font-size: 12px;
+  font-weight: 600;
+  color: #cfe0ff;
+}
+
+.cc-form .cc-q-hint,
+.cc-form .cc-choices,
+.cc-form .cc-select-field {
+  clear: both;
+}
+
+.cc-form .cc-q-hint {
+  margin: 0;
+  padding-left: 34px;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: rgba(214, 224, 255, 0.6);
+}
+
+.cc-form .cc-q-hint.is-top {
+  margin: -8px 0 12px;
+}
+
+.cc-form .cc-select-field + .cc-q-hint {
+  margin-top: 8px;
+  padding-left: 2px;
+}
+
+.cc-form .cc-q .cc-field-error {
+  margin-top: 8px;
+}
+
+/* Options in an aligned grid instead of ragged wrapping. */
+.cc-form .cc-choices {
+  display: grid;
+  gap: 8px;
+}
+
+.cc-form .cc-choices.cols-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.cc-form .cc-choices.cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.cc-form .cc-choice {
+  display: flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 11px 14px;
+  border-radius: 12px;
+}
+
+.cc-choice-mark.is-box {
+  border-radius: 5px;
+}
+
+/* Ruled out by an earlier answer: visible, but clearly not available. */
+.cc-form .cc-choice.is-disabled {
+  opacity: 0.34;
+  cursor: not-allowed;
+  border-style: dashed;
+}
+
+.cc-form .cc-choice.is-disabled input {
+  cursor: not-allowed;
+}
+
+.cc-form .cc-choice.is-disabled:hover {
+  border-color: rgba(150, 175, 255, 0.24);
+}
+
+.cc-q-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  margin: 10px 0 0;
+  padding: 9px 12px;
+  border-radius: 10px;
+  background: rgba(10, 92, 255, 0.12);
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: #bcd3ff;
+}
+
+.cc-q-note svg {
+  flex: none;
+  margin-top: 2px;
+}
+
+/* Continue / Back+submit sit a clear step below the last question. */
+.cc-form .cc-q + .cc-form-submit,
+.cc-form .cc-step-actions {
+  margin-top: 10px;
+}
+
+.cc-form .cc-step-head {
+  padding-bottom: 6px;
+}
+
+@media (max-width: 640px) {
+  .cc-form .cc-choices.cols-3 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .cc-form .cc-choice {
+    min-height: 46px;
+  }
+}
+
+@media (max-width: 400px) {
+  .cc-form .cc-choices.cols-2 {
+    grid-template-columns: minmax(0, 1fr);
   }
 }

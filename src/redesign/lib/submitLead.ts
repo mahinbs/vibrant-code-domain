@@ -63,6 +63,11 @@ export type StrategyCallLeadInput = {
   company?: string;
   /** Extra page-specific fields merged into `payload` (e.g. goal, CTA clicked). */
   extra?: Record<string, unknown>;
+  /** Optional qualification result; defaults to 0 / "low" like before. */
+  leadScore?: number;
+  leadTier?: string;
+  /** Extra labelled lines for the Telegram alert (e.g. budget, sales team). */
+  notifyFields?: Record<string, string>;
 };
 
 function buildPayloadRecord(
@@ -364,10 +369,12 @@ export async function submitStrategyCallLead(input: StrategyCallLeadInput): Prom
   const requirement = input.requirement?.trim() || null;
   const payload: Record<string, unknown> = { ...input.extra, quick_form: "strategy_call", requirement };
   const company = input.company?.trim() || null;
-  const telegramFields =
-    requirement || company
-      ? { ...(company ? { company } : {}), ...(requirement ? { requirement } : {}) }
-      : undefined;
+  const telegramEntries = {
+    ...(company ? { company } : {}),
+    ...(requirement ? { requirement } : {}),
+    ...(input.notifyFields ?? {}),
+  };
+  const telegramFields = Object.keys(telegramEntries).length ? telegramEntries : undefined;
   if (input.consent_whatsapp) payload.consent_whatsapp = true;
   if (input.consent_voice) payload.consent_voice = true;
   if (input.consent_at) payload.consent_at = input.consent_at;
@@ -378,8 +385,8 @@ export async function submitStrategyCallLead(input: StrategyCallLeadInput): Prom
     const { error } = await insertLeadRow(input.sourcePage, {
       source_page: input.sourcePage.trim(),
       submission_type: RESHAB_SUBMISSION_STRATEGY_CALL,
-      lead_score: 0,
-      lead_tier: "low",
+      lead_score: input.leadScore ?? 0,
+      lead_tier: input.leadTier ?? "low",
       name: input.name.trim(),
       email: input.email.trim(),
       phone: input.phone.trim() || null,
@@ -413,8 +420,8 @@ export async function submitStrategyCallLead(input: StrategyCallLeadInput): Prom
         body: JSON.stringify({
           ...input,
           submission_type: RESHAB_SUBMISSION_STRATEGY_CALL,
-          lead_score: 0,
-          lead_tier: "low",
+          lead_score: input.leadScore ?? 0,
+          lead_tier: input.leadTier ?? "low",
           payload,
         }),
       });

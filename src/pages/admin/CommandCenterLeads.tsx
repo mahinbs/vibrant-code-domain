@@ -21,6 +21,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ArrowLeft, Download, ExternalLink, RefreshCw, Search } from "lucide-react";
+import { GOALS, MARKETING_TODAY, RUNS_ADS, SALES_TEAM } from "@/redesign/components/command-center/ccBudget";
 
 /** Leads from the /command-center landing page (stored in `bms_leads`). */
 const SOURCE_PAGE = "command-center";
@@ -75,6 +76,42 @@ function adSource(p: Payload): string {
 
 const sourceKey = (p: Payload) => adSource(p).split(" / ")[0];
 
+const answer = (list: readonly { key: string; label: string }[], key: unknown) =>
+  typeof key === "string" && key ? (list.find((o) => o.key === key)?.label ?? key) : "—";
+
+function goalsText(p: Payload): string {
+  return Array.isArray(p.goals) && p.goals.length ? p.goals.map((g) => answer(GOALS, g)).join(", ") : "—";
+}
+
+/** v2 forms store a budget tier; v1 forms only had a "ready to spend the minimum" checkbox. */
+function budgetText(p: Payload): string {
+  if (str(p.daily_budget_label)) return str(p.daily_budget_label);
+  if (p.ad_budget_ok === true) return `≥ ${str(p.ad_budget_min_per_day) || "minimum"} a day (old form)`;
+  return "—";
+}
+
+/** Only v2 leads are scored; older rows carry the default "low" tier. */
+function tierOf(row: BmsLeadRow): "hot" | "warm" | "cold" | null {
+  const t = row.lead_tier;
+  return t === "hot" || t === "warm" || t === "cold" ? t : null;
+}
+
+function TierBadge({ row }: { row: BmsLeadRow }) {
+  const t = tierOf(row);
+  if (!t) return <span className="text-gray-600">—</span>;
+  const cls =
+    t === "hot"
+      ? "border-rose-400/50 bg-rose-950/70 text-rose-200"
+      : t === "warm"
+        ? "border-amber-400/50 bg-amber-950/70 text-amber-200"
+        : "border-slate-400/40 bg-slate-800/70 text-slate-300";
+  return (
+    <Badge variant="outline" className={cls}>
+      {t === "hot" ? "Hot" : t === "warm" ? "Warm" : "Cold"} · {row.lead_score}
+    </Badge>
+  );
+}
+
 function waLink(phone: string | null) {
   const digits = (phone ?? "").replace(/\D/g, "");
   return digits ? `https://wa.me/${digits}` : null;
@@ -94,6 +131,14 @@ function exportCsv(rows: BmsLeadRow[]) {
     "phone",
     "goal",
     "cta",
+    "lead_tier",
+    "lead_score",
+    "runs_ads",
+    "daily_budget",
+    "goals",
+    "marketing_today",
+    "sales_team",
+    "note",
     "utm_source",
     "utm_medium",
     "utm_campaign",
@@ -120,6 +165,14 @@ function exportCsv(rows: BmsLeadRow[]) {
         r.phone,
         p.requirement,
         p.cta,
+        tierOf(r) ?? "",
+        tierOf(r) ? r.lead_score : "",
+        answer(RUNS_ADS, p.runs_ads),
+        budgetText(p),
+        goalsText(p),
+        answer(MARKETING_TODAY, p.marketing_today),
+        answer(SALES_TEAM, p.sales_team),
+        p.note,
         p.utm_source,
         p.utm_medium,
         p.utm_campaign,
@@ -155,6 +208,7 @@ const CommandCenterLeads = () => {
   const [loadError, setLoadError] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   const [ctaFilter, setCtaFilter] = useState("all");
+  const [tierFilter, setTierFilter] = useState("all");
   const [sourceFilter, setSourceFilter] = useState("all");
 
   const load = async () => {
@@ -184,6 +238,7 @@ const CommandCenterLeads = () => {
     return leads.filter((r) => {
       const p = payloadOf(r);
       if (ctaFilter !== "all" && str(p.cta) !== ctaFilter) return false;
+      if (tierFilter !== "all" && (tierOf(r) ?? "none") !== tierFilter) return false;
       if (sourceFilter !== "all" && sourceKey(p) !== sourceFilter) return false;
       if (q) {
         const hay = `${r.name} ${r.email} ${r.phone ?? ""} ${r.company ?? ""} ${str(p.requirement)}`.toLowerCase();
@@ -191,7 +246,7 @@ const CommandCenterLeads = () => {
       }
       return true;
     });
-  }, [leads, search, ctaFilter, sourceFilter]);
+  }, [leads, search, ctaFilter, sourceFilter, tierFilter]);
 
   const stats = useMemo(() => {
     const now = Date.now();
@@ -200,7 +255,7 @@ const CommandCenterLeads = () => {
       total: leads.length,
       today: leads.filter((l) => new Date(l.created_at).toDateString() === today).length,
       week: leads.filter((l) => now - new Date(l.created_at).getTime() < 7 * 864e5).length,
-      withGoal: leads.filter((l) => str(payloadOf(l).requirement)).length,
+      hot: leads.filter((l) => tierOf(l) === "hot").length,
     };
   }, [leads]);
 
@@ -252,6 +307,18 @@ const CommandCenterLeads = () => {
                 className="w-[240px] rounded-md border border-gray-700 bg-black/40 py-2 pl-9 pr-3 text-sm text-gray-200 placeholder:text-gray-500 focus:border-cyan-500/60 focus:outline-none"
               />
             </div>
+            <Select value={tierFilter} onValueChange={setTierFilter}>
+              <SelectTrigger className="w-[140px] border-gray-700 bg-black/40 text-gray-200">
+                <SelectValue placeholder="Tier" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All tiers</SelectItem>
+                <SelectItem value="hot">Hot</SelectItem>
+                <SelectItem value="warm">Warm</SelectItem>
+                <SelectItem value="cold">Cold</SelectItem>
+                <SelectItem value="none">Not scored (old form)</SelectItem>
+              </SelectContent>
+            </Select>
             <Select value={ctaFilter} onValueChange={setCtaFilter}>
               <SelectTrigger className="w-[190px] border-gray-700 bg-black/40 text-gray-200">
                 <SelectValue placeholder="CTA" />
@@ -309,7 +376,7 @@ const CommandCenterLeads = () => {
             { label: "Total leads", value: stats.total, accent: "text-white" },
             { label: "Today", value: stats.today, accent: "text-cyan-400" },
             { label: "Last 7 days", value: stats.week, accent: "text-emerald-400" },
-            { label: "Shared a goal", value: stats.withGoal, accent: "text-amber-400" },
+            { label: "Hot leads", value: stats.hot, accent: "text-rose-400" },
           ].map((s) => (
             <div key={s.label} className="rounded-lg border border-white/10 bg-white/5 p-4">
               <div className={`text-2xl font-bold ${s.accent}`}>{s.value}</div>
@@ -337,15 +404,18 @@ const CommandCenterLeads = () => {
               Showing {filtered.length} of {leads.length} leads
             </p>
             <div className="overflow-x-auto rounded-lg border border-white/10">
-              <table className="w-full min-w-[1120px] text-left text-sm text-gray-300">
+              <table className="w-full min-w-[1320px] text-left text-sm text-gray-300">
                 <thead className="border-b border-white/10 bg-black/40 text-xs uppercase tracking-wide text-gray-500">
                   <tr>
                     <th className="px-4 py-3">Date</th>
+                    <th className="px-4 py-3">Tier</th>
                     <th className="px-4 py-3">Name</th>
                     <th className="px-4 py-3">Business</th>
-                    <th className="px-4 py-3">Email</th>
                     <th className="px-4 py-3">WhatsApp</th>
-                    <th className="px-4 py-3">Goal</th>
+                    <th className="px-4 py-3">Daily budget</th>
+                    <th className="px-4 py-3">Runs ads</th>
+                    <th className="px-4 py-3">Sales team</th>
+                    <th className="px-4 py-3">Goals</th>
                     <th className="px-4 py-3">CTA</th>
                     <th className="px-4 py-3">Ad source</th>
                     <th className="px-4 py-3">Details</th>
@@ -361,17 +431,11 @@ const CommandCenterLeads = () => {
                         <td className="whitespace-nowrap px-4 py-3 text-gray-400">
                           {new Date(row.created_at).toLocaleString()}
                         </td>
+                        <td className="whitespace-nowrap px-4 py-3">
+                          <TierBadge row={row} />
+                        </td>
                         <td className="px-4 py-3 font-medium text-white">{row.name}</td>
                         <td className="px-4 py-3">{row.company ?? "—"}</td>
-                        <td className="px-4 py-3">
-                          {row.email ? (
-                            <a href={`mailto:${row.email}`} className="text-cyan-400 hover:underline">
-                              {row.email}
-                            </a>
-                          ) : (
-                            "—"
-                          )}
-                        </td>
                         <td className="whitespace-nowrap px-4 py-3">
                           {wa ? (
                             <a href={wa} target="_blank" rel="noopener noreferrer" className="text-emerald-400 hover:underline">
@@ -381,8 +445,11 @@ const CommandCenterLeads = () => {
                             "—"
                           )}
                         </td>
-                        <td className="max-w-[280px] px-4 py-3" title={goal}>
-                          <span className="line-clamp-2">{goal || "—"}</span>
+                        <td className="whitespace-nowrap px-4 py-3">{budgetText(p)}</td>
+                        <td className="whitespace-nowrap px-4 py-3">{answer(RUNS_ADS, p.runs_ads)}</td>
+                        <td className="whitespace-nowrap px-4 py-3">{answer(SALES_TEAM, p.sales_team)}</td>
+                        <td className="max-w-[260px] px-4 py-3" title={goalsText(p) !== "—" ? goalsText(p) : goal}>
+                          <span className="line-clamp-2">{goalsText(p) !== "—" ? goalsText(p) : goal || "—"}</span>
                         </td>
                         <td className="px-4 py-3">
                           <Badge variant="outline" className="border-blue-400/40 bg-blue-950/60 text-blue-200">
@@ -410,15 +477,25 @@ const CommandCenterLeads = () => {
                                 <dd>{row.email || "—"}</dd>
                                 <dt className="text-gray-500">WhatsApp</dt>
                                 <dd>{row.phone ?? "—"}</dd>
-                                <dt className="text-gray-500">Goal</dt>
+                                <dt className="text-gray-500">Tier</dt>
+                                <dd>
+                                  <TierBadge row={row} />
+                                </dd>
+                                <dt className="text-gray-500">Runs ads</dt>
+                                <dd>{answer(RUNS_ADS, p.runs_ads)}</dd>
+                                <dt className="text-gray-500">Goals</dt>
+                                <dd>{goalsText(p)}</dd>
+                                <dt className="text-gray-500">Marketing today</dt>
+                                <dd>{answer(MARKETING_TODAY, p.marketing_today)}</dd>
+                                <dt className="text-gray-500">Sales team</dt>
+                                <dd>{answer(SALES_TEAM, p.sales_team)}</dd>
+                                <dt className="text-gray-500">Note</dt>
                                 <dd className="whitespace-pre-wrap">{goal || "—"}</dd>
                                 <dt className="text-gray-500">CTA clicked</dt>
                                 <dd>{ctaLabel(str(p.cta))}</dd>
-                                <dt className="text-gray-500">Ad budget</dt>
+                                <dt className="text-gray-500">Daily ad budget</dt>
                                 <dd>
-                                  {p.ad_budget_ok === true
-                                    ? `Ready to spend ${str(p.ad_budget_min_per_day) || "the minimum"}+ a day`
-                                    : "—"}
+                                  {budgetText(p)}
                                   {str(p.country) ? ` · viewing from ${str(p.country)}` : ""}
                                 </dd>
                                 <dt className="text-gray-500">Ad source</dt>

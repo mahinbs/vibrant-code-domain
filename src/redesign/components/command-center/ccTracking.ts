@@ -5,7 +5,13 @@
 
 type GtagFn = (cmd: "event", name: string, params?: Record<string, unknown>) => void;
 
-export type CcEvent = "cc_cta_click" | "cc_form_open" | "cc_form_start" | "cc_form_submit" | "cc_whatsapp_click";
+export type CcEvent =
+  | "cc_cta_click"
+  | "cc_form_open"
+  | "cc_form_start"
+  | "cc_form_step"
+  | "cc_form_submit"
+  | "cc_whatsapp_click";
 
 export function ccTrack(event: CcEvent, data: Record<string, string | number | undefined> = {}): void {
   if (typeof window === "undefined") return;
