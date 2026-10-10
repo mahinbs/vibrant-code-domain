@@ -1,6 +1,4 @@
 import {
-  lazy,
-  Suspense,
   useEffect,
   useRef,
   type CSSProperties,
@@ -21,7 +19,6 @@ import {
   CcDemo,
   CcFinal,
   CcGoalBand,
-  CcHow,
   CcRaas,
   CcStickyNav,
   CcUseCases,
@@ -33,16 +30,17 @@ import {
   CcCompare,
   CcFaq,
   CcRunModes,
+  CcTrio,
 } from "../components/command-center/CcProductSections";
 import { CcConversion, CcOfferRibbon } from "../components/command-center/CcConversion";
 import { useCcReveal } from "../components/command-center/ccReveal";
 import { CcPress } from "../components/command-center/CcPress";
+import { CcFooter } from "../components/command-center/CcFooter";
 import {
   CcLeadProvider,
   useLeadCta,
 } from "../components/command-center/CcLeadForm";
 import {
-  CC_WHATSAPP_NUMBER,
   capabilityGoals,
   ccFeatures,
   commandCenterAlsoIncluded,
@@ -59,9 +57,6 @@ const FONT_HREF =
 const RULER_RINGS = [57, 127, 207, 262, 787];
 const RULER_TICKS = [92, 167, 235, 300, 340, 420, 500, 580, 660, 740];
 
-const Footer = lazy(() =>
-  import("../components/Footer").then((m) => ({ default: m.Footer })),
-);
 
 /**
  * Horizontal compression per headline line so each one ends where it does in the
@@ -252,24 +247,20 @@ export default function CommandCenterLanding() {
         <CcGoalBand onWatchDemo={watchDemo} />
         <CcDemo videoRef={demoRef} />
         <CcBuilder />
-        <CcFeatureSection feature={ccFeatures[0]} tone="light" />
+        <CcCompare tone="light" />
         <CcFeatureSection feature={ccFeatures[1]} tone="dark" flip />
+        <CcFeatureSection feature={ccFeatures[0]} tone="light" />
+        <CcTrio />
         <CcRunModes />
         <CcChannels />
         <CcFeatureSection feature={ccFeatures[2]} tone="light" />
         <CcUseCases />
-        <CcHow />
-        <CcCompare />
         <CcRaas />
         <CcContact />
         <CcFaq />
         <CcFinal />
         <CcConversion />
-        <div className="cc-footer">
-          <Suspense fallback={null}>
-            <Footer whatsappHref={`https://wa.me/${CC_WHATSAPP_NUMBER}`} />
-          </Suspense>
-        </div>
+        <CcFooter />
       </CcLeadProvider>
     </main>
   );

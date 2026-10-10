@@ -286,7 +286,7 @@ export type CcFeature = {
 export const ccFeatures: CcFeature[] = [
   {
     id: "linkedin",
-    number: "09",
+    number: "11",
     badge: "LinkedIn automation",
     heading: "Your LinkedIn, *on autopilot.*",
     body: "Hours of searching, copy-pasted invites and forgotten follow-ups, done for you. You describe who you want in plain words; the AI does the busywork and hands you the conversations.",
@@ -324,7 +324,7 @@ export const ccFeatures: CcFeature[] = [
   },
   {
     id: "team",
-    number: "13",
+    number: "15",
     badge: "The human layer",
     heading: "AI does the work. *A real person* makes sure it works.",
     body: "You started your business to serve customers, not to learn ad accounts, pixels and API keys. Every paying account gets a growth manager on our team: one named person who knows your business and is on your side.",
@@ -377,7 +377,7 @@ export const ccRaas = {
 export type CcUseCase = { icon: LucideIcon; title: string; who: string; goals: string[] };
 
 export const ccUseCases = {
-  number: "14",
+  number: "16",
   badge: "Who it's for",
   heading: "Built for *every business* that wants more customers.",
   sub: "Clinic, coaching centre, store, SaaS or solo consultant: pick an outcome and the AI plans budget, platforms, targeting and copy around it.",
@@ -523,27 +523,11 @@ export type CcChannel = {
 };
 
 export const ccChannels = {
-  number: "12",
+  number: "14",
   badge: "Every channel, one dashboard",
   heading: "Ads are only *the start.*",
-  sub: "Email, calls, social, SEO and your CRM run from the same dashboard, on the same credits.",
+  sub: "Social media, SEO and reporting run from the same dashboard, on the same credits.",
   items: [
-    {
-      icon: Mail,
-      title: "Email marketing",
-      logos: ["brevo", "sendgrid", "resend"],
-      body: "An AI email plan: who to email, which sequences to run, and a 4-week calendar.",
-      points: ["Sent from your own address", "Upload up to 2,000 contacts", "Nothing sends until you press Send"],
-      goal: "Set up email marketing for my business",
-    },
-    {
-      icon: PhoneCall,
-      title: "AI calling",
-      logos: ["twilio"],
-      body: "A voice agent that calls your leads in the voice you choose and says exactly what you teach it.",
-      points: ["AI writes the script", "Booking, reminder and feedback calls", "Answers incoming calls too"],
-      goal: "Call my leads with AI",
-    },
     {
       icon: Megaphone,
       title: "Social media",
@@ -561,14 +545,6 @@ export const ccChannels = {
       goal: "Grow my website traffic with SEO",
     },
     {
-      icon: Inbox,
-      title: "Leads & CRM",
-      logos: ["hubspot", "meta", "whatsapp", "zapier"],
-      body: "Every lead in one list, read by AI into hot, warm and cold, with the next step for each.",
-      points: ["Score 0–100 on every lead", "Website, Meta, Google, WhatsApp, calls, LinkedIn", "Syncs with HubSpot"],
-      goal: "Organise and follow up all my leads",
-    },
-    {
       icon: Gauge,
       title: "Reports & health",
       logos: ["telegram"],
@@ -580,8 +556,74 @@ export const ccChannels = {
   footnote: "Works in 11 languages. Agencies get separate client workspaces and a marketer portal.",
 };
 
+export type CcTrioItem = {
+  icon: LucideIcon;
+  badge: string;
+  title: string;
+  body: string;
+  points: string[];
+  note: string;
+  logos: LogoKey[];
+  cta: { label: string; goal: string };
+};
+
+/** AI calling, email marketing and the built-in CRM: one row, three columns. */
+export const ccTrio = {
+  number: "12",
+  badge: "Calls, email and CRM",
+  heading: "Every lead called, emailed and *tracked in one place.*",
+  sub: "Three more channels in the same dashboard, on the same credits, switched on by our team during onboarding.",
+  items: [
+    {
+      icon: PhoneCall,
+      badge: "AI calling",
+      title: "A voice agent that calls your leads",
+      body: "It calls in the voice you choose and says exactly what you teach it, then books the meeting.",
+      points: [
+        "AI writes the call script for you",
+        "Appointment booking, payment reminders and feedback calls",
+        "Answers incoming calls too",
+        "Get a number from us, or connect your own Twilio number",
+      ],
+      note: "60 credits per call",
+      logos: ["twilio"],
+      cta: { label: "Book an AI calling demo", goal: "Call my leads with AI" },
+    },
+    {
+      icon: Mail,
+      badge: "Email marketing",
+      title: "Sequences written for your business",
+      body: "An AI email plan: who to email, which sequences to run, and a 4-week calendar with realistic targets.",
+      points: [
+        "Ready-made sequences, written in your voice",
+        "Sent from your own address",
+        "Upload up to 2,000 contacts from a CSV",
+        "Nothing sends until you press Send",
+      ],
+      note: "40 credits per sequence · 1 credit per email",
+      logos: ["brevo", "sendgrid", "resend"],
+      cta: { label: "Book an email demo", goal: "Set up email marketing for my business" },
+    },
+    {
+      icon: Inbox,
+      badge: "Built-in lead CRM",
+      title: "Every lead in one list, read by AI",
+      body: "Leads sorted into hot, warm and cold, each with a 0–100 score, a next step and a follow-up reminder.",
+      points: [
+        "Website forms, Meta and Google lead forms, WhatsApp, calls and LinkedIn",
+        "One line of code captures every form on your website",
+        "Stages from New to Won, duplicates merged",
+        "Syncs with HubSpot",
+      ],
+      note: "2 credits per lead record",
+      logos: ["hubspot", "meta", "whatsapp"],
+      cta: { label: "Book a CRM demo", goal: "Organise and follow up all my leads" },
+    },
+  ] as CcTrioItem[],
+};
+
 export const ccRunModes = {
-  number: "11",
+  number: "13",
   badge: "Runs on your laptop, or ours",
   heading: "A real browser does the work. *You choose where it runs.*",
   sub: "The AI works the way a media buyer would: in a real Chrome window, signed in as you, inside your own accounts. You can watch every step.",
@@ -624,7 +666,7 @@ export const ccRunModes = {
 };
 
 export const ccCompare = {
-  number: "16",
+  number: "09",
   badge: "Why not an agency?",
   heading: "Agency results, *without the agency retainer.*",
   cols: ["BOOSTMYSITES", "Typical agency", "Doing it yourself"],

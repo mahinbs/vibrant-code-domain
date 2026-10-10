@@ -454,6 +454,45 @@ export function CcDemo({
           </li>
         ))}
       </ul>
+      <ol className="cc-steps">
+        {ccHow.steps.map(({ icon: Icon, title, body }, i) => (
+          <li key={title} className="cc-panel">
+            <div className="cc-step-top">
+              <span className="cc-icon-tile is-lg" aria-hidden="true">
+                <Icon size={22} strokeWidth={1.9} />
+              </span>
+              <span className="cc-step-num">0{i + 1}</span>
+            </div>
+            <h3 className="cc-h3">{title}</h3>
+            <p className="cc-body">{body}</p>
+          </li>
+        ))}
+      </ol>
+      <dl className="cc-stats">
+        {ccHow.stats.map(({ icon: Icon, value, label }) => (
+          <div key={label}>
+            <Icon size={20} aria-hidden="true" />
+            <dt>{value}</dt>
+            <dd>{label}</dd>
+          </div>
+        ))}
+      </dl>
+      <div className="cc-platforms">
+        <span className="cc-eyebrow">{ccIntegrations.label}</span>
+        <ul>
+          {PLATFORMS.map((p) => (
+            <li key={p.name}>
+              {p.icon}
+              {p.name}
+            </li>
+          ))}
+          <li className="is-tail">
+            <SiHubspot color="#FF7A59" />
+            {ccIntegrations.tail}
+          </li>
+        </ul>
+      </div>
+      <p className="cc-platforms-note">{ccIntegrations.plans}</p>
     </Section>
   );
 }
@@ -647,70 +686,6 @@ export function CcUseCases() {
           </button>
         </div>
       </form>
-    </Section>
-  );
-}
-
-/* ---------- How it works (light) ---------- */
-
-export function CcHow() {
-  return (
-    <Section id="how" tone="light">
-      <SecHead
-        number={ccHow.number}
-        badge={ccHow.badge}
-        heading={ccHow.heading}
-        sub={ccHow.sub}
-        center
-      />
-      <div className="cc-frame-16x9">
-        <Corners />
-        <InViewVideo
-          src={ccHow.video}
-          poster={ccHow.poster}
-          label={ccHow.overlay}
-        />
-        <span className="cc-frame-tag">{ccHow.overlay}</span>
-      </div>
-      <ol className="cc-steps">
-        {ccHow.steps.map(({ icon: Icon, title, body }, i) => (
-          <li key={title} className="cc-panel">
-            <div className="cc-step-top">
-              <span className="cc-icon-tile is-lg" aria-hidden="true">
-                <Icon size={22} strokeWidth={1.9} />
-              </span>
-              <span className="cc-step-num">0{i + 1}</span>
-            </div>
-            <h3 className="cc-h3">{title}</h3>
-            <p className="cc-body">{body}</p>
-          </li>
-        ))}
-      </ol>
-      <dl className="cc-stats">
-        {ccHow.stats.map(({ icon: Icon, value, label }) => (
-          <div key={label}>
-            <Icon size={20} aria-hidden="true" />
-            <dt>{value}</dt>
-            <dd>{label}</dd>
-          </div>
-        ))}
-      </dl>
-      <div className="cc-platforms">
-        <span className="cc-eyebrow">{ccIntegrations.label}</span>
-        <ul>
-          {PLATFORMS.map((p) => (
-            <li key={p.name}>
-              {p.icon}
-              {p.name}
-            </li>
-          ))}
-          <li className="is-tail">
-            <SiHubspot color="#FF7A59" />
-            {ccIntegrations.tail}
-          </li>
-        </ul>
-      </div>
-      <p className="cc-platforms-note">{ccIntegrations.plans}</p>
     </Section>
   );
 }

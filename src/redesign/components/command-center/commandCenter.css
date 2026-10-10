@@ -3181,10 +3181,12 @@ body:has(.cc-root) {
   color: #5a5e66;
 }
 
+/* Centred row that adapts to however many publications the shared list has. */
 .cc-press-list {
-  display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;
   margin: 26px 0 0;
   padding: 0;
   list-style: none;
@@ -3192,7 +3194,10 @@ body:has(.cc-root) {
 
 .cc-press-list li {
   display: flex;
+  flex: 0 1 260px;
   justify-content: center;
+  align-items: center;
+  padding: 4px 0;
   border-left: 1px solid #d6d7d6;
 }
 
@@ -3255,6 +3260,7 @@ body:has(.cc-root) {
 }
 
 .cc-press-meta {
+  white-space: nowrap;
   font-family: var(--cc-mono);
   font-size: 10px;
   letter-spacing: 0.14em;
@@ -3262,28 +3268,32 @@ body:has(.cc-root) {
   color: #7a7e86;
 }
 
-@media (max-width: 1080px) {
+@media (max-width: 760px) {
   .cc-press-list {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    row-gap: 22px;
+    row-gap: 18px;
   }
 
-  .cc-press-list li:nth-child(4) {
+  /* Two per row on phones, centred, with no stray dividers at row starts. */
+  .cc-press-list li {
+    flex: 0 0 50%;
+    max-width: 50%;
+    min-width: 0;
     border-left: 0;
   }
-}
 
-@media (max-width: 560px) {
-  .cc-press-list {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .cc-press-list a {
+    padding: 8px 6px;
   }
 
-  .cc-press-list li:nth-child(4) {
+  /* Labels may wrap on phones so the two-per-row grid holds. */
+  .cc-press-meta {
+    white-space: normal;
+    text-align: center;
+    letter-spacing: 0.1em;
+  }
+
+  .cc-press-list li:nth-child(even) {
     border-left: 1px solid #d6d7d6;
-  }
-
-  .cc-press-list li:nth-child(odd) {
-    border-left: 0;
   }
 }
 
@@ -4054,4 +4064,325 @@ body:has(.cc-root) {
   letter-spacing: normal;
   text-transform: none;
   color: rgba(226, 233, 255, 0.8);
+}
+
+/* ---------- Calls, email and CRM: three cards in one row ---------- */
+
+.cc-trio {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  max-width: var(--cc-media);
+  margin: 56px auto 0;
+}
+
+.cc-trio-card {
+  display: flex;
+  flex-direction: column;
+  padding: clamp(22px, 2.4vw, 30px);
+  border: 1px solid var(--t-panel-line);
+  border-radius: 20px;
+  background:
+    radial-gradient(120% 60% at 100% 0%, rgba(10, 92, 255, 0.14), transparent 60%),
+    var(--t-panel);
+  transition: border-color 0.25s ease, transform 0.25s ease;
+}
+
+.cc-trio-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(120, 160, 255, 0.55);
+}
+
+.cc-trio-badge {
+  margin-top: 22px;
+  font-family: var(--cc-mono);
+  font-size: 11.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #8fb3ff;
+}
+
+.cc-trio-card .cc-h3 {
+  margin-top: 8px;
+}
+
+.cc-trio-card .cc-checks {
+  margin-top: 18px;
+}
+
+.cc-trio-card .cc-note {
+  margin-top: 18px;
+}
+
+.cc-trio-cta {
+  margin-top: auto;
+  padding-top: 20px;
+}
+
+.cc-trio-cta .cc-btn {
+  width: 100%;
+}
+
+@media (max-width: 1000px) {
+  .cc-trio {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 640px;
+  }
+}
+
+/* ---------- How it works, now inside the demo section ---------- */
+
+#demo .cc-steps {
+  margin-top: 40px;
+}
+
+#demo .cc-stats {
+  margin-top: 40px;
+}
+
+/* ---------- Comparison table on a light band ---------- */
+
+.cc-sec.is-light .cc-compare th,
+.cc-sec.is-light .cc-compare td {
+  border-top-color: #e3e6ec;
+  color: #41454f;
+}
+
+.cc-sec.is-light .cc-compare thead th {
+  color: #6a6f7a;
+}
+
+.cc-sec.is-light .cc-compare tbody th {
+  color: #0b0d12;
+}
+
+.cc-sec.is-light .cc-compare tbody tr:hover > :not(.is-us) {
+  background: #f6f7f9;
+}
+
+/* Our column stays a deep-blue raised card, which stands out even more on white. */
+.cc-sec.is-light .cc-compare .is-us {
+  background: linear-gradient(180deg, #0b2a7a, #0a2266);
+  color: #fff;
+  border-top-color: rgba(160, 190, 255, 0.18);
+}
+
+.cc-sec.is-light .cc-compare thead th.is-us {
+  background: linear-gradient(180deg, #0d38a8, #0b2a7a);
+}
+
+.cc-sec.is-light .cc-compare thead .is-us .cc-compare-brand {
+  color: #fff;
+}
+
+.cc-sec.is-light .cc-compare td.is-ok .cc-compare-tone {
+  background: #eef0f4;
+  color: #6a6f7a;
+}
+
+.cc-sec.is-light .cc-compare td.is-bad .cc-compare-tone {
+  background: #fdecec;
+  color: #dc2626;
+}
+
+.cc-sec.is-light .cc-compare td.is-mixed .cc-compare-tone {
+  background: #fdf3dc;
+  color: #b45309;
+}
+
+.cc-sec.is-light .cc-compare-wrap {
+  background: transparent;
+}
+
+/* ---------- Compact landing-page footer ---------- */
+
+.cc-foot {
+  padding: 28px 0 24px;
+  border-top: 1px solid rgba(130, 160, 255, 0.14);
+  background: var(--cc-navy);
+  color: rgba(214, 224, 255, 0.62);
+  font-size: 13px;
+}
+
+.cc-foot a {
+  color: rgba(214, 224, 255, 0.62);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.cc-foot a:hover {
+  color: #fff;
+}
+
+.cc-foot a:focus-visible {
+  outline: 2px solid #4d8bff;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.cc-foot-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 28px;
+}
+
+.cc-foot-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-weight: 900;
+  font-size: 16px;
+  letter-spacing: -0.02em;
+}
+
+.cc-foot a.cc-foot-brand {
+  color: #fff;
+}
+
+.cc-foot-brand img {
+  width: 28px;
+  height: auto;
+}
+
+.cc-foot-brand em {
+  font-style: normal;
+  color: #4d8bff;
+}
+
+.cc-foot-contact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 20px;
+  margin-left: auto;
+}
+
+.cc-foot-social {
+  display: flex;
+  gap: 4px;
+}
+
+.cc-foot-social a {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+}
+
+.cc-foot-social a:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.cc-foot-icon {
+  width: 14px;
+  height: 14px;
+  fill: currentColor;
+}
+
+.cc-foot-links {
+  display: grid;
+  gap: 10px;
+  margin-top: 20px;
+  padding: 16px 0;
+  border-top: 1px solid rgba(130, 160, 255, 0.1);
+  border-bottom: 1px solid rgba(130, 160, 255, 0.1);
+}
+
+.cc-foot-links > div {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 14px;
+}
+
+.cc-foot-label {
+  flex: none;
+  width: 84px;
+  font-family: var(--cc-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(214, 224, 255, 0.45);
+}
+
+.cc-foot-links ul,
+.cc-foot-legal ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cc-foot-legal {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 10px 24px;
+  margin-top: 14px;
+  font-size: 11.5px;
+  line-height: 1.6;
+  color: rgba(214, 224, 255, 0.4);
+}
+
+.cc-foot-legal p {
+  margin: 0;
+}
+
+.cc-foot-legal a {
+  color: rgba(214, 224, 255, 0.45);
+}
+
+@media (max-width: 760px) {
+  .cc-foot {
+    padding: 22px 0 88px; /* room for the sticky mobile bar */
+    font-size: 12.5px;
+  }
+
+  /* Brand and socials share the first row; contact details wrap on one line below. */
+  .cc-foot-top {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 10px 12px;
+  }
+
+  .cc-foot-contact {
+    grid-column: 1 / -1;
+    order: 3;
+    margin-left: 0;
+    gap: 4px 14px;
+  }
+
+  .cc-foot-social {
+    order: 2;
+  }
+
+  .cc-foot-links {
+    gap: 8px;
+    margin-top: 14px;
+    padding: 12px 0;
+  }
+
+  .cc-foot-links > div {
+    gap: 3px 12px;
+  }
+
+  .cc-foot-label {
+    width: auto;
+    font-size: 10px;
+  }
+
+  .cc-foot-links ul,
+  .cc-foot-legal ul {
+    gap: 3px 12px;
+  }
+
+  .cc-foot-legal {
+    margin-top: 12px;
+    font-size: 11px;
+    line-height: 1.5;
+  }
 }

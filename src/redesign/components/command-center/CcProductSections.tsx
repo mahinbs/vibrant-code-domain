@@ -17,6 +17,7 @@ import {
   ccCompare,
   ccFaq,
   ccRunModes,
+  ccTrio,
   commandCenterHeader,
 } from "../../data/commandCenterContent";
 
@@ -132,6 +133,45 @@ export function CcChannels() {
   );
 }
 
+/* ---------- AI calling, email marketing and CRM: one row (dark) ---------- */
+
+export function CcTrio() {
+  return (
+    <Section id="calls-email-crm" tone="dark">
+      <SecHead number={ccTrio.number} badge={ccTrio.badge} heading={ccTrio.heading} sub={ccTrio.sub} center />
+      <div className="cc-trio">
+        {ccTrio.items.map(({ icon: Icon, badge, title, body, points, note, logos, cta }) => (
+          <article key={badge} className="cc-trio-card">
+            <div className="cc-channel-top">
+              <span className="cc-icon-tile is-lg" aria-hidden="true">
+                <Icon size={22} strokeWidth={1.9} />
+              </span>
+              <LogoRow logos={logos} size="sm" />
+            </div>
+            <span className="cc-trio-badge">{badge}</span>
+            <h3 className="cc-h3">{title}</h3>
+            <p className="cc-channel-body">{body}</p>
+            <ul className="cc-checks">
+              {points.map((pt) => (
+                <li key={pt}>
+                  <Check size={15} strokeWidth={2.6} aria-hidden="true" />
+                  {pt}
+                </li>
+              ))}
+            </ul>
+            <p className="cc-note">{note}</p>
+            <div className="cc-trio-cta">
+              <Btn lead={{ goal: cta.goal, source: `trio-${badge.toLowerCase().replace(/[^a-z]+/g, "-")}` }}>
+                {cta.label}
+              </Btn>
+            </div>
+          </article>
+        ))}
+      </div>
+    </Section>
+  );
+}
+
 /* ---------- Companion vs Cloud Desktop (light) ---------- */
 
 export function CcRunModes() {
@@ -198,9 +238,9 @@ const TONE_ICON = {
   ok: <Check size={15} strokeWidth={2.8} aria-label="Fine" />,
 };
 
-export function CcCompare() {
+export function CcCompare({ tone = "dark" }: { tone?: "light" | "dark" }) {
   return (
-    <Section id="compare" tone="dark">
+    <Section id="compare" tone={tone}>
       <SecHead number={ccCompare.number} badge={ccCompare.badge} heading={ccCompare.heading} center />
       <div className="cc-compare-wrap">
         <table className="cc-compare">
