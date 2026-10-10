@@ -192,10 +192,28 @@ export function CcInlineLeadForm() {
  * The form: step 1 qualifies, step 2 collects contact details
  * ------------------------------------------------------------------------- */
 
-type ErrorKey = "runsAds" | "budget" | "goals" | "marketing" | "sales" | "name" | "email" | "phone" | "consent" | "form";
+type ErrorKey =
+  | "runsAds"
+  | "budget"
+  | "goals"
+  | "marketing"
+  | "sales"
+  | "name"
+  | "company"
+  | "email"
+  | "website"
+  | "phone"
+  | "consent"
+  | "form";
 type Errors = Partial<Record<ErrorKey, string>>;
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+/** A domain or URL: sharmaclinic.com, www.x.in/page, https://x.co … */
+const WEBSITE_RE = /^(https?:\/\/)?([a-z0-9-]+\.)+[a-z]{2,}(:\d+)?(\/\S*)?$/i;
+const normaliseWebsite = (v: string) => {
+  const t = v.trim();
+  return /^https?:\/\//i.test(t) ? t : `https://${t}`;
+};
 const labelOf = (list: readonly { key: string; label: string }[], key: string) =>
   list.find((o) => o.key === key)?.label ?? key;
 
@@ -233,7 +251,8 @@ function CcLeadForm({
   });
   const [marketing, setMarketing] = useState<MarketingKey | "">("");
   const [sales, setSales] = useState<SalesKey | "">("");
-  const [form, setForm] = useState({ name: "", company: "", email: "", note: goal ?? "" });
+  const [form, setForm] = useState({ name: "", company: "", email: "", website: "", note: goal ?? "" });
+  const [noWebsite, setNoWebsite] = useState(false);
   const [number, setNumber] = useState("");
   const [consent, setConsent] = useState(emptyContactConsent);
   const [errors, setErrors] = useState<Errors>({});
@@ -332,7 +351,8 @@ function CcLeadForm({
     setGoals([]);
     setMarketing("");
     setSales("");
-    setForm({ name: "", company: "", email: "", note: "" });
+    setForm({ name: "", company: "", email: "", website: "", note: "" });
+    setNoWebsite(false);
     setNumber("");
     setConsent(emptyContactConsent());
     setErrors({});
@@ -347,7 +367,13 @@ function CcLeadForm({
     const next: Errors = {};
     if (!form.name.trim()) next.name = "Please enter your name.";
     if (number.replace(/\D/g, "").length < 7) next.phone = "Enter a valid WhatsApp number.";
-    if (form.email.trim() && !EMAIL_RE.test(form.email.trim())) next.email = "Check this email, or leave it blank.";
+    if (!form.company.trim()) next.company = "Please enter your business name.";
+    if (!form.email.trim()) next.email = "Please enter your email.";
+    else if (!EMAIL_RE.test(form.email.trim())) next.email = "Check this email address.";
+    if (!noWebsite) {
+      if (!form.website.trim()) next.website = "Enter your website, or tick “I don't have a website yet”.";
+      else if (!WEBSITE_RE.test(form.website.trim())) next.website = "Check this website address, e.g. yourbusiness.com";
+    }
     if (!bothConsentsGiven(consent)) next.consent = CONSENT_REQUIRED_MESSAGE;
     setErrors(next);
     if (Object.keys(next).length) return;
@@ -360,7 +386,6 @@ function CcLeadForm({
     setStatus("submitting");
     const res = await submitStrategyCallLead({
       name: form.name,
-      // Email is optional here; the table column is NOT NULL, so blank is stored as "".
       email: form.email.trim(),
       phone,
       company: form.company,
@@ -384,6 +409,8 @@ function CcLeadForm({
         goals,
         marketing_today: marketing,
         sales_team: sales,
+        website: noWebsite ? null : normaliseWebsite(form.website),
+        has_website: !noWebsite,
         note: form.note.trim() || null,
         ...readAttribution(),
       },
@@ -394,6 +421,7 @@ function CcLeadForm({
         goals: goalLabels.join(", "),
         marketing_today: labelOf(MARKETING_TODAY, marketing),
         sales_team: labelOf(SALES_TEAM, sales),
+        website: noWebsite ? "No website yet" : normaliseWebsite(form.website),
       },
     });
     setStatus("idle");
@@ -412,7 +440,8 @@ function CcLeadForm({
       waText: `Hi Boostmysites, I just booked a free demo and want to claim the 2,500 credits for $1 offer.
 
 Name: ${form.name}
-Business: ${form.company.trim() || "-"}
+Business: ${form.company.trim()}
+Website: ${noWebsite ? "No website yet" : normaliseWebsite(form.website)}
 Daily ad budget: ${budgetLabel}
 Goals: ${goalLabels.join(", ")}`,
     });
@@ -580,17 +609,21 @@ Goals: ${goalLabels.join(", ")}`,
             </Field>
           </div>
           <div className="cc-form-row">
-            <Field id={id("company")} label="Business name" optional>
+            <Field id={id("company")} label="Business name" error={errors.company}>
               <input
                 id={id("company")}
                 value={form.company}
-                onChange={(e) => setForm((p) => ({ ...p, company: e.target.value }))}
+                onChange={(e) => {
+                  setForm((p) => ({ ...p, company: e.target.value }));
+                  clear("company");
+                }}
                 autoComplete="organization"
                 placeholder="Sharma Dental Clinic"
+                aria-invalid={!!errors.company}
                 maxLength={120}
               />
             </Field>
-            <Field id={id("email")} label="Email" optional error={errors.email}>
+            <Field id={id("email")} label="Work email" error={errors.email}>
               <input
                 id={id("email")}
                 type="email"
@@ -606,6 +639,37 @@ Goals: ${goalLabels.join(", ")}`,
               />
             </Field>
           </div>
+          <Field id={id("website")} label="Website" error={errors.website}>
+            <input
+              id={id("website")}
+              type="url"
+              inputMode="url"
+              value={noWebsite ? "" : form.website}
+              onChange={(e) => {
+                setForm((p) => ({ ...p, website: e.target.value }));
+                clear("website");
+              }}
+              autoComplete="url"
+              placeholder={noWebsite ? "No website yet" : "yourbusiness.com"}
+              aria-invalid={!!errors.website}
+              disabled={noWebsite}
+              maxLength={200}
+            />
+            <label className="cc-inline-check">
+              <input
+                type="checkbox"
+                checked={noWebsite}
+                onChange={(e) => {
+                  setNoWebsite(e.target.checked);
+                  clear("website");
+                }}
+              />
+              <span className="cc-check" aria-hidden="true">
+                <Check size={13} strokeWidth={3.2} />
+              </span>
+              <span>I don&apos;t have a website yet</span>
+            </label>
+          </Field>
           <Field id={id("note")} label="Anything else we should know?" optional>
             <textarea
               id={id("note")}

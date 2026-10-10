@@ -79,6 +79,14 @@ const sourceKey = (p: Payload) => adSource(p).split(" / ")[0];
 const answer = (list: readonly { key: string; label: string }[], key: unknown) =>
   typeof key === "string" && key ? (list.find((o) => o.key === key)?.label ?? key) : "—";
 
+/** v2 forms ask for a website (or "no website yet"); older rows have none. */
+function websiteOf(p: Payload): { href: string | null; text: string } {
+  const w = str(p.website);
+  if (w) return { href: w, text: w.replace(/^https?:\/\//, "").replace(/\/$/, "") };
+  if (p.has_website === false) return { href: null, text: "No website yet" };
+  return { href: null, text: "—" };
+}
+
 function goalsText(p: Payload): string {
   return Array.isArray(p.goals) && p.goals.length ? p.goals.map((g) => answer(GOALS, g)).join(", ") : "—";
 }
@@ -127,6 +135,7 @@ function exportCsv(rows: BmsLeadRow[]) {
     "created_at",
     "name",
     "company",
+    "website",
     "email",
     "phone",
     "goal",
@@ -161,6 +170,7 @@ function exportCsv(rows: BmsLeadRow[]) {
         r.created_at,
         r.name,
         r.company,
+        websiteOf(p).text,
         r.email,
         r.phone,
         p.requirement,
@@ -404,13 +414,14 @@ const CommandCenterLeads = () => {
               Showing {filtered.length} of {leads.length} leads
             </p>
             <div className="overflow-x-auto rounded-lg border border-white/10">
-              <table className="w-full min-w-[1320px] text-left text-sm text-gray-300">
+              <table className="w-full min-w-[1460px] text-left text-sm text-gray-300">
                 <thead className="border-b border-white/10 bg-black/40 text-xs uppercase tracking-wide text-gray-500">
                   <tr>
                     <th className="px-4 py-3">Date</th>
                     <th className="px-4 py-3">Tier</th>
                     <th className="px-4 py-3">Name</th>
                     <th className="px-4 py-3">Business</th>
+                    <th className="px-4 py-3">Website</th>
                     <th className="px-4 py-3">WhatsApp</th>
                     <th className="px-4 py-3">Daily budget</th>
                     <th className="px-4 py-3">Runs ads</th>
@@ -436,6 +447,20 @@ const CommandCenterLeads = () => {
                         </td>
                         <td className="px-4 py-3 font-medium text-white">{row.name}</td>
                         <td className="px-4 py-3">{row.company ?? "—"}</td>
+                        <td className="max-w-[200px] truncate px-4 py-3">
+                          {websiteOf(p).href ? (
+                            <a
+                              href={websiteOf(p).href ?? undefined}
+                              target="_blank"
+                              rel="noopener noreferrer nofollow"
+                              className="text-cyan-400 hover:underline"
+                            >
+                              {websiteOf(p).text}
+                            </a>
+                          ) : (
+                            <span className="text-gray-500">{websiteOf(p).text}</span>
+                          )}
+                        </td>
                         <td className="whitespace-nowrap px-4 py-3">
                           {wa ? (
                             <a href={wa} target="_blank" rel="noopener noreferrer" className="text-emerald-400 hover:underline">
@@ -473,6 +498,8 @@ const CommandCenterLeads = () => {
                                 <dd>{new Date(row.created_at).toLocaleString()}</dd>
                                 <dt className="text-gray-500">Business</dt>
                                 <dd>{row.company ?? "—"}</dd>
+                                <dt className="text-gray-500">Website</dt>
+                                <dd className="break-all">{websiteOf(p).text}</dd>
                                 <dt className="text-gray-500">Email</dt>
                                 <dd>{row.email || "—"}</dd>
                                 <dt className="text-gray-500">WhatsApp</dt>
