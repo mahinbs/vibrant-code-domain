@@ -22,8 +22,13 @@ export const BRAND = {
   logoUrl: 'https://www.boostmysites.com/logo.png',
   /** Default OG image used when a page does not provide its own. */
   defaultOgImage: 'https://www.boostmysites.com/favicon.png',
-  /** Year founded — used for Organization schema. */
+  /** Year operations started. MCA incorporation is 2025. */
   foundingYear: 2017,
+  incorporatedYear: 2025,
+  /** Single public story. Use this everywhere a founding year is mentioned. */
+  foundingStory:
+    "Operating since 2017. Incorporated in 2025 as Triple-Seven BoostMySites AI Solutions Private Limited.",
+  foundingStoryShort: "Operating since 2017. Pvt Ltd 2025.",
   /** Country code for Organization address. */
   country: 'IN',
   /** Primary public contact email (Grievance Officer / chairman). */
@@ -58,8 +63,8 @@ export const BRAND = {
   sameAs: [
     'https://www.linkedin.com/company/boostmysites/',
     'https://www.instagram.com/boostmysites/',
-    'https://x.com/boostmysites',
-    'https://www.youtube.com/@boostmysites',
+    'https://x.com/boostmysitescom',
+    'https://www.youtube.com/@boostmysites8847',
     // The product site (same company): sign-up, credits and the app.
     'https://www.boostmysites.in/',
   ],

@@ -6,7 +6,7 @@ export const statistics: Statistic[] = [
   { icon: Target, label: 'Successful Projects', value: '1,500+', color: 'cyan' },
   { icon: Users, label: 'Expert Team Members', value: '230+', color: 'blue' },
   { icon: Globe, label: 'Cities Worldwide', value: '56+', color: 'purple' },
-  { icon: TrendingUp, label: 'Years of Innovation', value: '7+', color: 'pink' }
+  { icon: TrendingUp, label: 'Operating since', value: '2017', color: 'pink' }
 ];
 
 export const expertise: ExpertiseItem[] = [

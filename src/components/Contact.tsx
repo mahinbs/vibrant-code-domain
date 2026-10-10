@@ -366,10 +366,10 @@ const Contact = () => {
                   </div>
                   <div>
                     <p className="text-white font-medium">
-                      7+ Years of Innovation
+                      Operating since 2017
                     </p>
                     <p className="text-gray-400 text-sm">
-                      Since 2017, trusted globally
+                      Pvt Ltd 2025
                     </p>
                   </div>
                 </div>

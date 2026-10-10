@@ -15,6 +15,7 @@ import {
   X,
   Mail,
   Receipt,
+  Target,
 } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -38,6 +39,7 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
       icon: MessageSquare,
     },
     { name: "Reshab leads", href: "/admin/reshab-leads", icon: Sparkles },
+    { name: "Command Center leads", href: "/admin/command-center-leads", icon: Target },
     { name: "Email Marketing", href: "/admin/email-marketing", icon: Mail },
     { name: "Trial Leads", href: "/admin/trial-leads", icon: UserCheck },
     {

@@ -25,7 +25,7 @@ const CARD: CSSProperties = {
 };
 
 const STATS = [
-  { value: "8+", label: "Years building AI products" },
+  { value: "2017", label: "Operating since" },
   { value: "200+", label: "Businesses automated" },
   { value: "30 days", label: "Average deployment" },
   { value: "60%", label: "Average time saved" },

@@ -86,6 +86,7 @@ const FreeAutomationCourse = lazy(
   () => import("./redesign/pages/FreeAutomationCourse"),
 );
 const LandingCopy = lazy(() => import("./redesign/pages/LandingCopy"));
+const CommandCenterLanding = lazy(() => import("./redesign/pages/CommandCenterLanding"));
 const BusinessAutomation = lazy(() => import("./redesign/pages/BusinessAutomation"));
 const ReshabBusinessAutomation = lazy(() => import("./redesign/pages/ReshabBusinessAutomation"));
 const AutomationScore = lazy(() => import("./redesign/pages/AutomationScore"));
@@ -133,6 +134,7 @@ const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
 const InvoiceGenerator = lazy(() => import("./pages/admin/InvoiceGenerator"));
 const CustomerInquiries = lazy(() => import("./pages/admin/CustomerInquiries"));
 const ReshabLeads = lazy(() => import("./pages/admin/ReshabLeads"));
+const CommandCenterLeads = lazy(() => import("./pages/admin/CommandCenterLeads"));
 const TrialLeads = lazy(() => import("./pages/admin/TrialLeads"));
 const PlacementProgramApplications = lazy(
   () => import("./pages/admin/PlacementProgramApplications")
@@ -690,6 +692,8 @@ const App = () => {
               />
               {/* Unlisted, link-only copy of the main automation landing page. */}
               <Route path="/lp" element={<LandingCopy />} />
+              {/* Unlisted, link-only "AI Marketing Command Center" poster landing (noindex). */}
+              <Route path="/command-center" element={<CommandCenterLanding />} />
               {/* Personal-automation landing removed — send old links home. */}
               <Route path="/personal-automation" element={<Navigate to="/" replace />} />
               {/* Business AI automation landing (ads / dedicated conversion page). */}
@@ -856,6 +860,14 @@ const App = () => {
                 element={
                   <ProtectedRoute>
                     <ReshabLeads />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/command-center-leads"
+                element={
+                  <ProtectedRoute>
+                    <CommandCenterLeads />
                   </ProtectedRoute>
                 }
               />

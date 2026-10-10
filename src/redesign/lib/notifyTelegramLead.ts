@@ -26,6 +26,7 @@ const CHAT_ID =
 export const BMS_LEAD_SOURCES = new Set<string>([
   "homepage",
   "free-ai-automation-course",
+  "command-center",
 ]);
 
 /** BMS-owned lead sources: the fixed set above plus every SEO page ("seo:/path") and free tool ("tool:name"). */

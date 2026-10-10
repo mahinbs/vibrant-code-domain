@@ -16,26 +16,16 @@ import { BusinessAutomationHero } from "../components/BusinessAutomationHero";
 import { FeaturedInTrustBand } from "../components/FeaturedInTrustBand";
 import { HomeSeoSections } from "../seo/HomeSeoSections";
 import { SITE_NAV_CTA, SITE_NAV_LINKS } from "../data/siteNav";
-import { Process } from "../components/Process";
-import { MockupBand } from "../components/MockupBand";
 import { ArrowRightIcon } from "../components/icons";
 import { useHashScroll } from "../lib/useHashScroll";
 import { site, whatsappHref } from "../data/site";
 import { businessAutomationPressItems } from "../data/businessAutomationContent";
 import type { ProcessStep } from "../data/process";
-import type { IconType } from "react-icons";
-import {
-  SiGoogle,
-  SiLinkedin,
-  SiMeta,
-  SiOpenai,
-  SiSnapchat,
-  SiTiktok,
-  SiYoutube,
-} from "react-icons/si";
 
 const CTA = lazy(() => import("../components/CTA").then((m) => ({ default: m.CTA })));
 const Footer = lazy(() => import("../components/Footer").then((m) => ({ default: m.Footer })));
+const Process = lazy(() => import("../components/Process").then((m) => ({ default: m.Process })));
+const MockupBand = lazy(() => import("../components/MockupBand").then((m) => ({ default: m.MockupBand })));
 
 /**
  * AI Client Acquisition System — current homepage (`/`).
@@ -73,18 +63,14 @@ const RAAS_PILLARS = [
   { label: "Credit based", body: "Load credits. The system spends them only on work that gets you clients." },
 ] as const;
 
-const AD_CAMPAIGN_PLATFORMS: ReadonlyArray<{
-  name: string;
-  Icon: IconType;
-  color: string;
-}> = [
-  { name: "Meta", Icon: SiMeta, color: "#0081FB" },
-  { name: "Google", Icon: SiGoogle, color: "#4285F4" },
-  { name: "Snapchat", Icon: SiSnapchat, color: "#FFFC00" },
-  { name: "TikTok", Icon: SiTiktok, color: "#69C9D0" },
-  { name: "ChatGPT", Icon: SiOpenai, color: "#FFFFFF" },
-  { name: "LinkedIn", Icon: SiLinkedin, color: "#0A66C2" },
-  { name: "YouTube", Icon: SiYoutube, color: "#FF0000" },
+const AD_CAMPAIGN_PLATFORMS: ReadonlyArray<{ name: string; color: string }> = [
+  { name: "Meta", color: "#0081FB" },
+  { name: "Google", color: "#4285F4" },
+  { name: "Snapchat", color: "#FFFC00" },
+  { name: "TikTok", color: "#69C9D0" },
+  { name: "ChatGPT", color: "#FFFFFF" },
+  { name: "LinkedIn", color: "#0A66C2" },
+  { name: "YouTube", color: "#FF0000" },
 ];
 
 const FEATURES = [
@@ -631,13 +617,11 @@ function AiClientAcquisitionInner() {
                         >
                           {f.platforms.map((p) => (
                             <li key={p.name} title={p.name}>
-                              <span className="inline-flex size-7 items-center justify-center rounded-[7px] border border-white/10 bg-white/[0.05]">
-                                <p.Icon
-                                  aria-hidden
-                                  className="size-3.5"
-                                  style={{ color: p.color }}
-                                />
-                                <span className="sr-only">{p.name}</span>
+                              <span
+                                className="inline-flex h-7 items-center justify-center rounded-[7px] border border-white/10 bg-white/[0.05] px-1.5 font-mono text-[9px] font-semibold uppercase tracking-[0.04em]"
+                                style={{ color: p.color }}
+                              >
+                                {p.name}
                               </span>
                             </li>
                           ))}
@@ -1054,6 +1038,10 @@ function DemoVideoPlayer() {
           <img
             src="/demo/demo-poster.jpg"
             alt="Boostmysites client acquisition demo video"
+            width={1920}
+            height={1080}
+            loading="lazy"
+            decoding="async"
             className="aspect-video w-full object-cover"
           />
           <span className="absolute inset-0 grid place-items-center bg-black/35 transition group-hover:bg-black/25">

@@ -7,8 +7,8 @@ export const site = {
   whatsappMessage: "Hello BMS, I am looking to develop a project.",
   socials: {
     instagram: "https://www.instagram.com/boostmysites/",
-    twitter: "https://x.com/boostmysites",
-    youtube: "https://www.youtube.com/@boostmysites",
+    twitter: "https://x.com/boostmysitescom",
+    youtube: "https://www.youtube.com/@boostmysites8847",
     linkedin: "https://www.linkedin.com/company/boostmysites/",
   },
   portfolioUrl: "https://www.boostmysites.com/portfolio",

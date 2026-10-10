@@ -216,7 +216,7 @@ export const businessAutomationSteps = [
 ] as const;
 
 export const businessAutomationMetrics = [
-  { end: 8, suffix: "+", label: "Years Building AI Products" },
+  { end: 9, suffix: "", label: "Years operating (since 2017)" },
   { end: 200, suffix: "+", label: "Businesses Automated" },
   { end: 30, suffix: " Days", label: "Average Deployment" },
   { end: 60, suffix: "%", label: "Average Time Saved" },
@@ -312,7 +312,7 @@ export const reshabAuditCallCopy = {
 
 /** Static stats for the homepage-style Stats grid on the business landing. */
 export const businessLandingStats = [
-  { value: "8+", label: "Years Building AI Products" },
+  { value: "2017", label: "Operating since" },
   { value: "200+", label: "Businesses Automated" },
   { value: "30 days", label: "Average Deployment" },
   { value: "60%", label: "Average Time Saved" },

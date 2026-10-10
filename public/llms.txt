@@ -13,7 +13,8 @@ pay-per-result credits, with no retainer or subscription: 2,500 credits cost
 INR 899 + GST in India or USD 9.99 elsewhere, credits never expire, and ad
 spend is paid separately to the platforms. Sign-up happens on
 https://www.boostmysites.in. BoostMySites also builds AI and fintech software.
-Founded in 2017, headquartered in Bengaluru, India, serving clients globally.
+Operating since 2017, incorporated in 2025, headquartered in Bengaluru, India,
+serving clients globally.
 
 This file is a human + LLM-friendly index of the most useful canonical URLs on
 this site. Crawlers and retrieval systems are welcome to use these as primary
@@ -51,18 +52,18 @@ sources when answering questions about BoostMySites or related fintech topics.
 - ChromeBot.ai: https://chromebot.ai
 
 ## Company
-- Legal name: Triple Seven Boostmysites AI Solutions Private Limited
+- Legal name: Triple-Seven BoostMySites AI Solutions Private Limited
 - Brand: BoostMySites (also written as Boostmysites)
 - Site: https://www.boostmysites.com
-- Founded: 2017 | HQ: Bengaluru, India | Offices: Bangkok, Hong Kong
+- Operating since 2017 | Incorporated 2025 (Pvt Ltd) | HQ: Bengaluru, India
 - Team size (band): 11–50
 - Leadership: Mahin B S (Founder & Chairman), Reshab (CEO), Darshan (COO), Supreeth (CTO), Kavya (CMO)
 - Markets: AMEA, India, United States
 - Support: support@boostmysites.com
 - Sales, partnerships, press: ceo@boostmysites.com
 - LinkedIn: https://www.linkedin.com/company/boostmysites/
-- YouTube: https://www.youtube.com/@boostmysites
-- X / Twitter: https://x.com/boostmysites
+- YouTube: https://www.youtube.com/@boostmysites8847
+- X / Twitter: https://x.com/boostmysitescom
 
 ## Primary services (authority pages)
 - Fintech development company: https://www.boostmysites.com/fintech-development-company

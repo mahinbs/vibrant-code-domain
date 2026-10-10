@@ -136,6 +136,8 @@ export function Footer({ whatsappHref: whatsappHrefProp }: { whatsappHref?: stri
           <p className="max-w-[42ch] text-[11px] leading-relaxed text-white/35">
             © {new Date().getFullYear()} {BRAND.legalName}
             <br />
+            {BRAND.foundingStoryShort}
+            <br />
             {BRAND.registeredAddressLine}
             <br />
             GSTIN {BRAND.gstin}

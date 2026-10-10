@@ -1,5 +1,6 @@
 
 import { memo } from 'react';
+import { BRAND } from '@/lib/seo/brand';
 
 interface AboutHeaderProps {
   isVisible: boolean;
@@ -12,7 +13,7 @@ const AboutHeader = memo(({ isVisible }: AboutHeaderProps) => {
         About <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Boostmysites</span>
       </h2>
       <p className="text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
-        Founded in <span className="text-cyan-400 font-semibold">2017</span>, Boostmysites is a global software and AI solutions company on a mission to help businesses scale with powerful digital products.
+        {BRAND.foundingStory} We help businesses get clients with AI.
       </p>
     </div>
   );

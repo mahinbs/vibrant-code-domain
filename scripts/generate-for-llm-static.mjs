@@ -35,8 +35,8 @@ function organizationJsonLd() {
     sameAs: [
       "https://www.linkedin.com/company/boostmysites/",
       "https://www.instagram.com/boostmysites/",
-      "https://x.com/boostmysites",
-      "https://www.youtube.com/@boostmysites",
+      "https://x.com/boostmysitescom",
+      "https://www.youtube.com/@boostmysites8847",
     ],
   };
 }

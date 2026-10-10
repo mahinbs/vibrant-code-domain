@@ -59,6 +59,10 @@ export type StrategyCallLeadInput = {
   consent_whatsapp?: boolean;
   consent_voice?: boolean;
   consent_at?: string;
+  /** Optional business name, stored in `company`. */
+  company?: string;
+  /** Extra page-specific fields merged into `payload` (e.g. goal, CTA clicked). */
+  extra?: Record<string, unknown>;
 };
 
 function buildPayloadRecord(
@@ -358,7 +362,12 @@ export async function submitAutomationScoreLead(
  */
 export async function submitStrategyCallLead(input: StrategyCallLeadInput): Promise<LeadResult> {
   const requirement = input.requirement?.trim() || null;
-  const payload: Record<string, unknown> = { quick_form: "strategy_call", requirement };
+  const payload: Record<string, unknown> = { ...input.extra, quick_form: "strategy_call", requirement };
+  const company = input.company?.trim() || null;
+  const telegramFields =
+    requirement || company
+      ? { ...(company ? { company } : {}), ...(requirement ? { requirement } : {}) }
+      : undefined;
   if (input.consent_whatsapp) payload.consent_whatsapp = true;
   if (input.consent_voice) payload.consent_voice = true;
   if (input.consent_at) payload.consent_at = input.consent_at;
@@ -374,7 +383,7 @@ export async function submitStrategyCallLead(input: StrategyCallLeadInput): Prom
       name: input.name.trim(),
       email: input.email.trim(),
       phone: input.phone.trim() || null,
-      company: null,
+      company,
       payload,
     });
 
@@ -386,7 +395,7 @@ export async function submitStrategyCallLead(input: StrategyCallLeadInput): Prom
         email: input.email,
         phone: input.phone,
         sourcePage: input.sourcePage,
-        fields: requirement ? { requirement } : undefined,
+        fields: telegramFields,
       });
       return { ok: true, via: "supabase" };
     }
@@ -423,7 +432,7 @@ export async function submitStrategyCallLead(input: StrategyCallLeadInput): Prom
         email: input.email,
         phone: input.phone,
         sourcePage: input.sourcePage,
-        fields: requirement ? { requirement } : undefined,
+        fields: telegramFields,
       });
       return { ok: true, via: "endpoint" };
     } catch (err) {

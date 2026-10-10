@@ -21,6 +21,11 @@ const EXACT: Record<string, RouteSeo> = {
     description:
       "Get more clients with AI. Plans, campaigns, LinkedIn outreach, email, and WhatsApp follow-ups. All running 24/7. Nothing spends until you approve.",
   },
+  "/command-center": {
+    title: "AI Marketing Command Center · Boostmysites",
+    description:
+      "Everything you need to acquire clients. Six core AI capabilities: prospecting, outreach, email, conversations, voice, and advertising. Credit-based, no upfront payment.",
+  },
   "/digital-transformation": {
     title: "Digital Business Transformation | Boostmysites",
     description:
